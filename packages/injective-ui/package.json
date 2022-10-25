@@ -1,0 +1,69 @@
+{
+  "name": "@injectivelabs/injective-ui",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Thomas Lee <thomas@injectiveprotocol.com>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    },
+    "./lib/fonts/inter.css": "./lib/css/fonts/inter.css",
+    "./lib/fonts/nasalization.css": "./lib/css/fonts/nasalization.css",
+    "./lib/fonts/proxima-nova.css": "./lib/css/fonts/proxima-nova.css",
+    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs",
+    "./lib/tailwind.css": "./lib/css/tailwind.css"
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "clean-up": "rm -rf dist",
+    "prepack": "yarn test:coverage && yarn clean-up && nuxt-module-build && husky install",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "test": "vitest --segfault-retry=3",
+    "test:coverage": "vitest run --coverage --segfault-retry=3"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.0.0-rc.11"
+  },
+  "devDependencies": {
+    "@injectivelabs/eslint-config": "*",
+    "@injectivelabs/prettier-config": "*",
+    "@nuxt/module-builder": "latest",
+    "@nuxt/schema": "^3.0.0-rc.11",
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/vue": "^6.6.1",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "@vitest/coverage-c8": "^0.23.4",
+    "@vueuse/nuxt": "^9.3.0",
+    "eslint": "latest",
+    "eslint-plugin-nuxt": "latest",
+    "eslint-plugin-vue": "latest",
+    "jsdom": "^20.0.0",
+    "lint-staged": "^13.0.3",
+    "nuxt": "^3.0.0-rc.11",
+    "postcss-html": "latest",
+    "postcss-import": "latest",
+    "postcss": "latest",
+    "stylelint": "latest",
+    "stylelint-config-recommended-vue": "latest",
+    "stylelint-config-tailwindcss": "latest",
+    "unplugin-vue-components": "^0.22.7",
+    "vitest": "^0.23.4"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,vue,html}": [
+      "eslint --max-warnings 0"
+    ],
+    "*.{css,vue}": "stylelint"
+  }
+}
