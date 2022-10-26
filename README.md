@@ -4,7 +4,7 @@
 
 ## 📚 Overview
 
-[`@thomasralee/injective-ui`](injective-ui/tree/master/packages/injective-ui/README.md) provides a collection of re-useable fonts, render-less FE components and tailwind configs to ease development across the wide range of Injective products.
+[`@thomasralee/injective-ui-components`](injective-ui/tree/master/packages/injective-ui-components/README.md) provides a collection of re-useable fonts, render-less FE components and tailwind configs to ease development across the wide range of Injective products.
 
 [`@thomasralee/injective-notification`](injective-ui/tree/master/packages/injective-notification/README.md) TBD.
 
@@ -23,7 +23,7 @@
 2. Making changes to eslint, prettier or stylelint config
 
 - update the respective `index.js` file
-- commit the changes, which will trigger the lint-staged and vitest yarn scripts [here](injective-ui/../.husky/pre-commit)
+- commit the changes, which will trigger the lint-staged and vitest yarn scripts [here](injective-ui/.husky/pre-commit)
 
 3. Publishing the changes to npm
 

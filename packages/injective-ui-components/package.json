@@ -1,6 +1,6 @@
 {
-  "name": "@thomasralee/injective-ui",
-  "version": "0.0.1",
+  "name": "@thomasralee/injective-ui-components",
+  "version": "0.0.2-alpha.0",
   "license": "MIT",
   "author": "Thomas Lee <thomas@injectiveprotocol.com>",
   "type": "module",
@@ -34,15 +34,15 @@
     "@nuxt/kit": "^3.0.0-rc.12"
   },
   "devDependencies": {
-    "@thomasralee/eslint-config": "*",
-    "@thomasralee/prettier-config": "*",
-    "@thomasralee/stylelint-config": "*",
     "@nuxt/module-builder": "latest",
     "@nuxt/schema": "^3.0.0-rc.12",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@nuxtjs/tailwindcss": "^6.1.1",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^6.6.1",
+    "@thomasralee/eslint-config": "^0.0.2-alpha.0",
+    "@thomasralee/prettier-config": "^0.0.2-alpha.0",
+    "@thomasralee/stylelint-config": "^0.0.2-alpha.0",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@vitest/coverage-c8": "^0.23.4",
@@ -66,5 +66,6 @@
       "eslint --max-warnings 0"
     ],
     "*.{css,vue}": "stylelint"
-  }
+  },
+  "gitHead": "68e81b27857cbc7966e28fb0618c27391d0659cc"
 }
