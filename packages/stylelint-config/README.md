@@ -1,4 +1,4 @@
-# `@injectivelabs/stylelint-config`
+# `@thomasralee/stylelint-config`
 
 > Sharable stylelint config
 
@@ -7,7 +7,7 @@
 ```
 // .stylelint.config.cjs
 {
-  extends: '@injectivelabs/stylelint-config'
+  extends: '@thomasralee/stylelint-config'
 }
 ```
 
