@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['stylelint-config-recommended-vue', 'stylelint-config-tailwindcss'],
+  extends: '@injectivelabs/stylelint-config',
   overrides: [
     {
       files: ['**/**/*.vue'],
@@ -9,22 +9,5 @@ module.exports = {
       files: ['**/**/*.css'],
       customSyntax: 'postcss'
     }
-  ],
-  rules: {
-    'at-rule-no-unknown': [
-      true,
-      {
-        ignoreAtRules: [
-          'apply',
-          'layer',
-          'responsive',
-          'screen',
-          'tailwind',
-          'variants'
-        ]
-      }
-    ],
-    'declaration-block-trailing-semicolon': null,
-    'no-descending-specificity': null
-  }
+  ]
 }

@@ -46,3 +46,7 @@ Collection of re-useable fonts, render-less FE components and tailwind configs t
   - yarn dev:prepare
   - cd playground
   - yarn story:dev
+
+## 🔓 License
+
+This software is licensed under the MIT license. See [LICENSE](./LICENSE) for full disclosure.

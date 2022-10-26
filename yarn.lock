@@ -1456,17 +1456,17 @@
     read-package-json-fast "^2.0.3"
     which "^2.0.2"
 
-"@nrwl/cli@15.0.2":
-  version "15.0.2"
-  resolved "https://registry.npmjs.org/@nrwl/cli/-/cli-15.0.2.tgz#46dbe837f815d0a8bd0a36f9ec4668fcc4d5943d"
-  integrity sha512-jpsAWpOGbO9UCt3d+ANBEc8efbWX08kANhsprL1shGuzETmxr2lcy9ULvOOaPzBLCx6zrQQMq/riwoQVGrVIDQ==
+"@nrwl/cli@15.0.3":
+  version "15.0.3"
+  resolved "https://registry.npmjs.org/@nrwl/cli/-/cli-15.0.3.tgz#31cd05f775930f23623c64bebcf45889865fc83b"
+  integrity sha512-d023UTOWn9b37QtSMMmeBht5TH4oY8GkdC264I9BNrpvu3KNh6cDjhe0xas3d0zaOcR8Bn1LD5obPR3WOo/UUQ==
   dependencies:
-    nx "15.0.2"
+    nx "15.0.3"
 
 "@nrwl/devkit@>=14.8.6 < 16":
-  version "15.0.2"
-  resolved "https://registry.npmjs.org/@nrwl/devkit/-/devkit-15.0.2.tgz#ad079ed0a17a3aef039ccc2607c35e7efa72a6cf"
-  integrity sha512-dtg3Smll65CsGiwEtVXnrEKdM1Sr5Oot3ni4RXcLwov19BlstW2crav+r8Bk5JpeEexB4szk+MKzPsEWEOahpQ==
+  version "15.0.3"
+  resolved "https://registry.npmjs.org/@nrwl/devkit/-/devkit-15.0.3.tgz#632cef1d693694fd5cb3a1acfb2a8cb0dfbb78aa"
+  integrity sha512-upFIXsIcI2nmsxOLK2YDZTmzmBKUVrBDA4pM9lkDmxe/N920e/rZnEpSwjoOYCQAJUWDgcrVOeFuMiUyTqe6Og==
   dependencies:
     "@phenomnomnominal/tsquery" "4.1.1"
     ejs "^3.1.7"
@@ -1474,12 +1474,12 @@
     semver "7.3.4"
     tslib "^2.3.0"
 
-"@nrwl/tao@15.0.2":
-  version "15.0.2"
-  resolved "https://registry.npmjs.org/@nrwl/tao/-/tao-15.0.2.tgz#020f51e7dcc033f9c748810cf0e1a5744aaf31b9"
-  integrity sha512-jH9fgS01rpBimESdtL0UDUD0pCOyeG+L0NE+o1n/cNo8qsfsbw0RwoINdd+FQf3oyD4EMm4bwv3CXQ/PhI0GJw==
+"@nrwl/tao@15.0.3":
+  version "15.0.3"
+  resolved "https://registry.npmjs.org/@nrwl/tao/-/tao-15.0.3.tgz#2802fe4e8e973c651aadb0caab574fe452972dbc"
+  integrity sha512-4vxWMgb9XauVVKdytqh3razAl60u4M6526E5FYQCkC+OImwGA5Zpms0earYOwLh3XzSnTiooMT6XR9s06lTkHw==
   dependencies:
-    nx "15.0.2"
+    nx "15.0.3"
 
 "@nuxt/devalue@^2.0.0":
   version "2.0.0"
@@ -2225,14 +2225,14 @@
   resolved "https://registry.npmjs.org/@vue/test-utils/-/test-utils-2.2.0.tgz#3d8fc020802db9b726e2d91b6e3fb5b21aa0bf0c"
   integrity sha512-EKp5/N7ieNZdoLTkD16j/irUjIEDN63QUIc41vLUMqGvSsTQN0QxbFiQqh5v49RPfS5vZH+DhjNUEkijCMOCSg==
 
-"@vueuse/core@9.3.1":
-  version "9.3.1"
-  resolved "https://registry.npmjs.org/@vueuse/core/-/core-9.3.1.tgz#47bc65da9c705fef7b3beca4af764491f0479647"
-  integrity sha512-xriyD+v3D2ObH/UtnkEl+1sbcLBVHNaZaLi/rqoNEe/B92hggDEFQIGXoQUjdRzYOjASHSezf9uCDtmd7LeWyA==
+"@vueuse/core@9.4.0":
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/@vueuse/core/-/core-9.4.0.tgz#afb30f9494b0954e51a489526566b14f1e2c5fb3"
+  integrity sha512-JzgenGj1ZF2BHOen5rsFiAyyI9sXAv7aKhNLlm9b7SwYQeKTcxTWdhudonURCSP3Egl9NQaRBzes2lv/1JUt/Q==
   dependencies:
     "@types/web-bluetooth" "^0.0.16"
-    "@vueuse/metadata" "9.3.1"
-    "@vueuse/shared" "9.3.1"
+    "@vueuse/metadata" "9.4.0"
+    "@vueuse/shared" "9.4.0"
     vue-demi "*"
 
 "@vueuse/head@~1.0.0-rc.9":
@@ -2244,26 +2244,26 @@
     "@zhead/schema" "^0.9.9"
     "@zhead/schema-vue" "^0.9.9"
 
-"@vueuse/metadata@9.3.1":
-  version "9.3.1"
-  resolved "https://registry.npmjs.org/@vueuse/metadata/-/metadata-9.3.1.tgz#4e04d76df1e16f1aede28590c8b7a113ea3d3a7e"
-  integrity sha512-G1BPhtx3OHaL/y4OZBofh6Xt02G1VA9PuOO8nac9sTKMkMqfyez5VfkF3D9GUjSRNO7cVWyH4rceeGXfr2wdMg==
+"@vueuse/metadata@9.4.0":
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/@vueuse/metadata/-/metadata-9.4.0.tgz#5c8eb105a8ad9eb7b47f78a226ff993560d0bd7f"
+  integrity sha512-7GKMdGAsJyQJl35MYOz/RDpP0FxuiZBRDSN79QIPbdqYx4Sd0sVTnIC68KJ6Oln0t0SouvSUMvRHuno216Ud2Q==
 
 "@vueuse/nuxt@^9.3.0":
-  version "9.3.1"
-  resolved "https://registry.npmjs.org/@vueuse/nuxt/-/nuxt-9.3.1.tgz#f9d7056e7cea8ed4124abee601892ed231610a65"
-  integrity sha512-qj6xTaAhfCT21qfRGu57vafH0baB1n7si9J2iVGWRB8Tju7XunAPb7iCsQECWSaJRCLAvLV7dQ9W2ifHIcK5kw==
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/@vueuse/nuxt/-/nuxt-9.4.0.tgz#dfb3ea00c8dde68de74eee0de2b5f597ca3b04e7"
+  integrity sha512-R2XGbDAQ1kCEqnUHv+sTISOCuu7tfSpEFdYZxiIaEH+D8o2vxZx4itAoAoe1LxmyBsd9fakyQ6qpvkUeQVAfoQ==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.11"
-    "@vueuse/core" "9.3.1"
-    "@vueuse/metadata" "9.3.1"
+    "@vueuse/core" "9.4.0"
+    "@vueuse/metadata" "9.4.0"
     local-pkg "^0.4.2"
     vue-demi "*"
 
-"@vueuse/shared@9.3.1", "@vueuse/shared@^9.2.0", "@vueuse/shared@^9.3.1":
-  version "9.3.1"
-  resolved "https://registry.npmjs.org/@vueuse/shared/-/shared-9.3.1.tgz#78c6cf41d8b75f05460e18a80819bf8164b597a5"
-  integrity sha512-YFu3qcnVeu0S2L4XdQJtBpDcjz6xwqHZtTv/XRhu66/yge1XVhxskUcc7VZbX52xF9A34V6KCfwncP9YDqYFiw==
+"@vueuse/shared@9.4.0", "@vueuse/shared@^9.2.0", "@vueuse/shared@^9.3.1":
+  version "9.4.0"
+  resolved "https://registry.npmjs.org/@vueuse/shared/-/shared-9.4.0.tgz#634022fe42b3d5ece1d81d749724966f5071c8c3"
+  integrity sha512-fTuem51KwMCnqUKkI8B57qAIMcFovtGgsCtAeqxIzH3i6nE9VYge+gVfneNHAAy7lj8twbkNfqQSygOPJTm4tQ==
   dependencies:
     vue-demi "*"
 
@@ -7294,13 +7294,13 @@ nwsapi@^2.2.2:
   resolved "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.2.tgz#e5418863e7905df67d51ec95938d67bf801f0bb0"
   integrity sha512-90yv+6538zuvUMnN+zCr8LuV6bPFdq50304114vJYJ8RDyK8D5O9Phpbd6SZWgI7PwzmmfN1upeOJlvybDSgCw==
 
-nx@15.0.2, "nx@>=14.8.6 < 16":
-  version "15.0.2"
-  resolved "https://registry.npmjs.org/nx/-/nx-15.0.2.tgz#44d2868b4f4703dd76bcf60b495d410ff3c133c5"
-  integrity sha512-qAmSJ2AJG4BntcQJmPG6ykiSvWwYx09/VAynCuvhJkneZvDdGMYaRoNAVVJRhKUi4X+PXBCGfUII6G8tiXuMgg==
+nx@15.0.3, "nx@>=14.8.6 < 16":
+  version "15.0.3"
+  resolved "https://registry.npmjs.org/nx/-/nx-15.0.3.tgz#070845a871c63f5e009c5bf22ce005d5bbc2612d"
+  integrity sha512-d9VWeArRfh4erWriWBMWK24nW6njZHXB/WVl/+8rTq1OirdpHrnILixzogEmTmaBKBE/XXR+zXFWVPHJlsEAYw==
   dependencies:
-    "@nrwl/cli" "15.0.2"
-    "@nrwl/tao" "15.0.2"
+    "@nrwl/cli" "15.0.3"
+    "@nrwl/tao" "15.0.3"
     "@parcel/watcher" "2.0.4"
     "@yarnpkg/lockfile" "^1.1.0"
     "@yarnpkg/parsers" "^3.0.0-rc.18"
@@ -9061,29 +9061,17 @@ stylehacks@^5.1.0:
     browserslist "^4.16.6"
     postcss-selector-parser "^6.0.4"
 
-stylelint-config-html@>=1.0.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/stylelint-config-html/-/stylelint-config-html-1.1.0.tgz#999db19aea713b7ff6dde92ada76e4c1bd812b66"
-  integrity sha512-IZv4IVESjKLumUGi+HWeb7skgO6/g4VMuAYrJdlqQFndgbj6WJAXPhaysvBiXefX79upBdQVumgYcdd17gCpjQ==
-
-stylelint-config-recommended-vue@latest:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/stylelint-config-recommended-vue/-/stylelint-config-recommended-vue-1.4.0.tgz#0a182da17dc9e846e4bec65a7676ccf882b35964"
-  integrity sha512-DVJqyX2KvMCn9U0+keL12r7xlsH26K4Vg8NrIZuq5MoF7g82DpMp326Om4E0Q+Il1o+bTHuUyejf2XAI0iD04Q==
-  dependencies:
-    semver "^7.3.5"
-    stylelint-config-html ">=1.0.0"
-    stylelint-config-recommended ">=6.0.0"
-
-stylelint-config-recommended@>=6.0.0:
+stylelint-config-recommended@^9.0.0:
   version "9.0.0"
   resolved "https://registry.npmjs.org/stylelint-config-recommended/-/stylelint-config-recommended-9.0.0.tgz#1c9e07536a8cd875405f8ecef7314916d94e7e40"
   integrity sha512-9YQSrJq4NvvRuTbzDsWX3rrFOzOlYBmZP+o513BJN/yfEmGSr0AxdvrWs0P/ilSpVV/wisamAHu5XSk8Rcf4CQ==
 
-stylelint-config-tailwindcss@latest:
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/stylelint-config-tailwindcss/-/stylelint-config-tailwindcss-0.0.6.tgz#0b1048cd0c6b00faf366f75c98abb8f43a952c93"
-  integrity sha512-ymqhRR0Ob7vZmMHkgkBZk2H1PO7Z+yRLxv/c3RpKavdVJNlXEdkabaDVkHaE4Zp37Y9LlpBfWYHX23Xl8HVvIw==
+stylelint-config-standard@latest:
+  version "29.0.0"
+  resolved "https://registry.npmjs.org/stylelint-config-standard/-/stylelint-config-standard-29.0.0.tgz#4cc0e0f05512a39bb8b8e97853247d3a95d66fa2"
+  integrity sha512-uy8tZLbfq6ZrXy4JKu3W+7lYLgRQBxYTUUB88vPgQ+ZzAxdrvcaSUW9hOMNLYBnwH+9Kkj19M2DHdZ4gKwI7tg==
+  dependencies:
+    stylelint-config-recommended "^9.0.0"
 
 stylelint@latest:
   version "14.14.0"
@@ -9687,9 +9675,9 @@ unplugin-vue-components@^0.22.7:
     unplugin "^0.10.1"
 
 unplugin@^0.10.0, unplugin@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/unplugin/-/unplugin-0.10.1.tgz#e00dc951c1901aef4124121057102a8c290e28b3"
-  integrity sha512-y1hdBitiLOJvCmer0/IGrMGmHplsm2oFRGWleoAJTRQ8aMHxHOe9gLntYlh1WNLKufBuQ2sOTrHF+KWH4xE8Ag==
+  version "0.10.2"
+  resolved "https://registry.npmjs.org/unplugin/-/unplugin-0.10.2.tgz#0f7089c3666f592cc448d746e39e7f41e9afb01a"
+  integrity sha512-6rk7GUa4ICYjae5PrAllvcDeuT8pA9+j5J5EkxbMFaV+SalHhxZ7X2dohMzu6C3XzsMT+6jwR/+pwPNR3uK9MA==
   dependencies:
     acorn "^8.8.0"
     chokidar "^3.5.3"

@@ -1,15 +1,13 @@
-# `@injectivelabs/eslint-config`
+# `@injectivelabs/stylelint-config`
 
-> Sharable eslint config
+> Sharable stylelint config
 
 ## Usage
 
 ```
-// .eslintrc
+// .stylelint.config.cjs
 {
-  "extends": [
-    "@injectivelabs/eslint-config"
-  ]
+  extends: '@injectivelabs/stylelint-config'
 }
 ```
 

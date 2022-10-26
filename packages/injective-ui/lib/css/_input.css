@@ -2,7 +2,7 @@
   @apply w-full bg-transparent text-left appearance-none box-border rounded-sm p-0;
 }
 
-.input::disabled {
+.input:disabled {
   @apply cursor-not-allowed;
 }
 

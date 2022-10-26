@@ -36,6 +36,7 @@
   "devDependencies": {
     "@injectivelabs/eslint-config": "*",
     "@injectivelabs/prettier-config": "*",
+    "@injectivelabs/stylelint-config": "*",
     "@nuxt/module-builder": "latest",
     "@nuxt/schema": "^3.0.0-rc.11",
     "@nuxtjs/eslint-config-typescript": "latest",
@@ -55,8 +56,6 @@
     "postcss-import": "latest",
     "postcss": "latest",
     "stylelint": "latest",
-    "stylelint-config-recommended-vue": "latest",
-    "stylelint-config-tailwindcss": "latest",
     "unplugin-vue-components": "^0.22.7",
     "vitest": "^0.23.4"
   },

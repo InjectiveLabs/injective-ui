@@ -1,14 +1,14 @@
 {
-  "name": "@injectivelabs/prettier-config",
+  "name": "@injectivelabs/stylelint-config",
   "version": "0.0.1",
-  "description": "Sharable prettier config",
+  "description": "Sharable stylelint config",
   "author": "Thomas Lee <thomas@injectiveprotocol.com>",
   "license": "MIT",
   "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "prettier": "^2.7.1"
+  "dependencies": {
+    "stylelint-config-standard": "latest"
   }
 }
