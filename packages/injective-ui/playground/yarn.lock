@@ -298,14 +298,14 @@
     "@codemirror/view" "^6.3.0"
     "@histoire/vendors" "^0.11.5"
 
-"@histoire/plugin-nuxt@^0.11.5":
+"@histoire/plugin-nuxt@latest":
   version "0.11.5"
   resolved "https://registry.npmjs.org/@histoire/plugin-nuxt/-/plugin-nuxt-0.11.5.tgz#b42ee1e2b7e4eda5633f45de39b32d164b13e40c"
   integrity sha512-2h/aQ5EvWMs5Vv9gQPPnhRhJip6SjFdXjSpZ6aE5Zfsm4BceCKcD0uO0mD8m59n4CciLXlZCCmnkodPBqcUM7A==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.11"
 
-"@histoire/plugin-vue@^0.11.5":
+"@histoire/plugin-vue@latest":
   version "0.11.5"
   resolved "https://registry.npmjs.org/@histoire/plugin-vue/-/plugin-vue-0.11.5.tgz#30c24c3767d13139adda81376960a6c4dc71ed63"
   integrity sha512-4jOocsblEQcG8Xcdg8VamIUn9kLp5s7/+sUCLdyDPbMusm5rXnEp5YRzNX5qG3MjmEBj4sMuhkULtcWffBKMow==
@@ -485,7 +485,7 @@
     unimport "^0.6.8"
     untyped "^0.5.0"
 
-"@nuxtjs/tailwindcss@^6.1.1":
+"@nuxtjs/tailwindcss@latest":
   version "6.1.1"
   resolved "https://registry.npmjs.org/@nuxtjs/tailwindcss/-/tailwindcss-6.1.1.tgz#6a44072805f7cc26f9528756949a8344134eba36"
   integrity sha512-8yrGk2y7IUAMOW3+b0S/nWQmyZXtLge7pYYDXfiEhU4voL7zMoMdtp+ovmUr5LvTuEn3w5zCDczaBexvy0nmDw==
@@ -1700,7 +1700,7 @@ header-case@^2.0.4:
     capital-case "^1.0.4"
     tslib "^2.0.3"
 
-histoire@^0.11.5:
+histoire@latest:
   version "0.11.5"
   resolved "https://registry.npmjs.org/histoire/-/histoire-0.11.5.tgz#dd022c249cc8aa054e95991968f4cac826c5c51b"
   integrity sha512-+27sEYAd45g8LUbnsJZHbnNrXsIV9CMoT7S+Mb6OiCTOKFCOUVO96XwRRPtSLDbmcouIsc4VVcqsLCJX7ol/9w==

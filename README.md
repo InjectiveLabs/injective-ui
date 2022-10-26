@@ -1,6 +1,6 @@
 # 🌟 Injective UI
 
-`Injective Ui` is a collection of UI packages to ease development across the wide range of Injective products.
+`Injective ui` is a collection of UI packages to ease development across the wide range of Injective products.
 
 ## 📚 Overview
 
