@@ -1,6 +1,6 @@
 {
   "name": "@thomasralee/injective-ui-components",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.3-alpha.0",
   "license": "MIT",
   "author": "Thomas Lee <thomas@injectiveprotocol.com>",
   "type": "module",
@@ -40,9 +40,9 @@
     "@nuxtjs/tailwindcss": "^6.1.1",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^6.6.1",
-    "@thomasralee/eslint-config": "^0.0.2-alpha.0",
-    "@thomasralee/prettier-config": "^0.0.2-alpha.0",
-    "@thomasralee/stylelint-config": "^0.0.2-alpha.0",
+    "@thomasralee/eslint-config": "^0.0.3-alpha.0",
+    "@thomasralee/prettier-config": "^0.0.3-alpha.0",
+    "@thomasralee/stylelint-config": "^0.0.3-alpha.0",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@vitest/coverage-c8": "^0.23.4",
@@ -67,5 +67,8 @@
     ],
     "*.{css,vue}": "stylelint"
   },
-  "gitHead": "68e81b27857cbc7966e28fb0618c27391d0659cc"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "1ac241465bd42f2d939c713505516438fd014a73"
 }
