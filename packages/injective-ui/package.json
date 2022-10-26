@@ -22,13 +22,13 @@
     "dist"
   ],
   "scripts": {
-    "clean-up": "rm -rf dist",
-    "prepack": "yarn test:coverage && yarn clean-up && nuxt-module-build",
+    "prepack": "yarn test:coverage && nuxt-module-build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "test": "vitest --segfault-retry=3",
-    "test:coverage": "vitest run --coverage --segfault-retry=3"
+    "test:coverage": "vitest run --coverage --segfault-retry=3",
+    "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0-rc.12"
@@ -66,5 +66,8 @@
       "eslint --max-warnings 0"
     ],
     "*.{css,vue}": "stylelint"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
