@@ -1,4 +1,4 @@
-# `@injectivelabs/eslint-config`
+# `@thomasralee/eslint-config`
 
 > Sharable eslint config
 
@@ -8,7 +8,7 @@
 // .eslintrc
 {
   "extends": [
-    "@injectivelabs/eslint-config"
+    "@thomasralee/eslint-config"
   ]
 }
 ```

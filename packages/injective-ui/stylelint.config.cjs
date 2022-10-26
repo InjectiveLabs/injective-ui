@@ -1,5 +1,5 @@
 module.exports = {
-  extends: '@injectivelabs/stylelint-config',
+  extends: '@thomasralee/stylelint-config',
   overrides: [
     {
       files: ['**/**/*.vue'],
