@@ -4,15 +4,15 @@
 
 ## 📚 Overview
 
-[`@injectivelabs/injective-ui`](injective-ui/tree/master/packages/injective-ui/README.md) provides a collection of re-useable fonts, render-less FE components and tailwind configs to ease development across the wide range of Injective products.
+[`@thomasralee/injective-ui`](injective-ui/tree/master/packages/injective-ui/README.md) provides a collection of re-useable fonts, render-less FE components and tailwind configs to ease development across the wide range of Injective products.
 
-[`@injectivelabs/injective-notification`](injective-ui/tree/master/packages/injective-notification/README.md) TBD.
+[`@thomasralee/injective-notification`](injective-ui/tree/master/packages/injective-notification/README.md) TBD.
 
-[`@injectivelabs/eslint-config`](injective-ui/tree/master/packages/eslint-config/README.md) provides a set of shared eslint config rules.
+[`@thomasralee/eslint-config`](injective-ui/tree/master/packages/eslint-config/README.md) provides a set of shared eslint config rules.
 
-[`@injectivelabs/prettier-config`](injective-ui/tree/master/packages/prettier-config/README.md) provides a set of shared prettier config.
+[`@thomasralee/prettier-config`](injective-ui/tree/master/packages/prettier-config/README.md) provides a set of shared prettier config.
 
-[`@injectivelabs/stylelint-config`](injective-ui/tree/master/packages/stylelint-config/README.md) provides a set of shared stylelint config.
+[`@thomasralee/stylelint-config`](injective-ui/tree/master/packages/stylelint-config/README.md) provides a set of shared stylelint config.
 
 ## Developer guide:
 
