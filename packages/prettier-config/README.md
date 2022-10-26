@@ -1,4 +1,4 @@
-# `@injectivelabs/prettier-config`
+# `@thomasralee/prettier-config`
 
 > Sharable prettier config
 
@@ -7,7 +7,7 @@
 ```
 // .prettierrc.cjs
 module.exports = {
-  ...require('@injectivelabs/prettier-config')
+  ...require('@thomasralee/prettier-config')
 }
 ```
 
