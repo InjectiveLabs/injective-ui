@@ -1,0 +1,73 @@
+{
+  "name": "@injectivelabs/injective-notifications",
+  "version": "2.0.0",
+  "license": "MIT",
+  "author": "Kevin Karsopawiro <kevin@injectivelabs.org>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    },
+    "./lib/fonts/inter.css": "./lib/css/fonts/inter.css",
+    "./lib/fonts/nasalization.css": "./lib/css/fonts/nasalization.css",
+    "./lib/fonts/proxima-nova.css": "./lib/css/fonts/proxima-nova.css",
+    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs",
+    "./lib/tailwind.css": "./lib/css/tailwind.css"
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "yarn test:coverage && nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "test": "vitest --segfault-retry=3",
+    "test:coverage": "vitest run --coverage --segfault-retry=3",
+    "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.0.0-rc.12"
+  },
+  "devDependencies": {
+    "@injectivelabs/eslint-config": "*",
+    "@injectivelabs/prettier-config": "*",
+    "@injectivelabs/stylelint-config": "*",
+    "@nuxt/module-builder": "latest",
+    "@nuxt/schema": "^3.0.0-rc.12",
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@nuxtjs/tailwindcss": "^6.1.1",
+    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/vue": "^6.6.1",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "@vitest/coverage-c8": "^0.23.4",
+    "@vueuse/nuxt": "^9.3.0",
+    "eslint": "latest",
+    "eslint-plugin-nuxt": "latest",
+    "eslint-plugin-vue": "latest",
+    "jsdom": "^20.0.0",
+    "lint-staged": "latest",
+    "nuxt": "^3.0.0-rc.12",
+    "postcss": "latest",
+    "postcss-custom-properties": "latest",
+    "postcss-html": "latest",
+    "postcss-import": "latest",
+    "stylelint": "latest",
+    "unplugin-vue-components": "^0.22.7",
+    "vitest": "^0.23.4"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,vue,html}": [
+      "eslint --max-warnings 0"
+    ],
+    "*.{css,vue}": "stylelint"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

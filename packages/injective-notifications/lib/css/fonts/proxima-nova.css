@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./../../fonts/ProximaNova-Thin.woff2') format('woff2'),
+    url('./../../fonts/ProximaNova-Thin.woff') format('woff'),
+    url('./../../fonts/ProximaNova-Thin.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./../../fonts/ProximaNova-Regular.woff2') format('woff2'),
+    url('./../../fonts/ProximaNova-Regular.woff') format('woff'),
+    url('./../../fonts/ProximaNova-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./../../fonts/ProximaNova-SemiBold.woff2') format('woff2'),
+    url('./../../fonts/ProximaNova-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./../../fonts/ProximaNova-Bold.woff2') format('woff2'),
+    url('./../../fonts/ProximaNova-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
