@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: resolved with Nuxt
 import type { NuxtApp } from 'nuxt3'
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import {
   NotificationData,
   NotificationOptions,
@@ -9,20 +9,14 @@ import {
 } from './types'
 import { defineNuxtPlugin } from '#app'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore: resolved with Nuxt
-// import optionsLoader from '#build/something.options.mjs'
-
 const state = reactive({
   notifications: [] as Array<NotificationData>,
   idCounter: 0
 })
 
-const ntfs = ref([] as Array<string>)
-
 const notifications = {
   state,
-  ntfs,
+
   error(options: NotificationOptions) {
     this.notify(options, NotificationType.Error)
   },
@@ -74,12 +68,10 @@ const notifications = {
       showDeactivationTimer: false,
       actions: options.actions
     })
-
-    ntfs.value.push('a')
   }
 }
-export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
-  // const yourOptions = await optionsLoader()
+export default defineNuxtPlugin((_: NuxtApp) => {
+  //
 })
 
 export const useNotifications = () => notifications

@@ -8,14 +8,13 @@ export default defineNuxtModule({
   },
   hooks: {
     'components:dirs'(dirs) {
-      console.log(import.meta.url)
       dirs.push({
         path: fileURLToPath(new URL('./../lib/components', import.meta.url)),
         prefix: 'base'
       })
     }
   },
-  setup(options, nuxt) {
+  setup() {
     const { resolve } = createResolver(import.meta.url)
 
     addPlugin({ src: resolve('./plugin.ts') })
