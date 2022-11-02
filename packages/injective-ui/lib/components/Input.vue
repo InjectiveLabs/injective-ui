@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PasteEvent } from './../types'
+import { PasteEvent, KeydownEvent } from './../types'
 
 defineProps({
   modelValue: {
@@ -12,6 +12,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', state: string): void
   (e: 'blur'): void
   (e: 'focus'): void
+  (e: 'keydown', event: KeydownEvent<HTMLInputElement>): void
 }>()
 
 function onPaste(payload: ClipboardEvent) {
@@ -35,6 +36,12 @@ function onBlur() {
   emit('blur')
 }
 
+function handleKeydown(payload: KeyboardEvent) {
+  const event = payload as KeydownEvent<HTMLInputElement>
+
+  emit('keydown', event)
+}
+
 function onChange(event: any) {
   const { value } = event.target
 
@@ -50,5 +57,6 @@ function onChange(event: any) {
     @focus="onFocus"
     @input="onChange"
     @paste="onPaste"
+    @keydown="handleKeydown"
   />
 </template>

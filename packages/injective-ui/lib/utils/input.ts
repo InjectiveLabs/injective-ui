@@ -5,10 +5,16 @@ export const convertToNumericValue = (value: string, maxDecimals: number) => {
     return value
   }
 
-  const numericValue = `${parseFloat(value.replace(/[^.\d]/g, ''))}`
+  const numericValuePattern = /^(\.|0|[1-9])\d*(\.\d+)?$/
+  const isNumericValue = numericValuePattern.test(value)
 
-  if (numericValue.includes('.')) {
-    const [wholeValue, decimalValue] = numericValue.split('.')
+  if (!isNumericValue) {
+    return ''
+  }
+
+  // Number function cuts off at 18 digits
+  if (value.includes('.')) {
+    const [wholeValue, decimalValue] = value.split('.')
 
     const formattedDecimalValue =
       decimalValue.length > maxDecimals
@@ -18,7 +24,7 @@ export const convertToNumericValue = (value: string, maxDecimals: number) => {
     return `${Number(wholeValue)}.${formattedDecimalValue}`
   }
 
-  return Number(numericValue)
+  return Number(value)
 }
 
 export const passNumericInputValidation = (
