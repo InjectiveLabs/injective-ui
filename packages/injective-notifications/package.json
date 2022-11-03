@@ -1,6 +1,6 @@
 {
-  "name": "@injectivelabs/injective-notifications",
-  "version": "2.0.4",
+  "name": "@injectivelabs/notifications",
+  "version": "2.0.0",
   "license": "MIT",
   "author": "Kevin Karsopawiro <kevin@injectivelabs.org>",
   "type": "module",
@@ -9,7 +9,8 @@
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
     },
-    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs"
+    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs",
+    "./lib/tailwind.css": "./lib/css/tailwind.css"
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
