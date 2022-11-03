@@ -16,14 +16,5 @@ export default defineNuxtModule({
     'imports:dirs'(dirs) {
       dirs.push(fileURLToPath(new URL('./../lib/composables', import.meta.url)))
     }
-
-    // 'imports:sources'(sources) {
-    //   sources.push({
-    //     imports: {
-    //       from: `@injectivelabs/notifications`,
-    //       name:
-    //     }
-    //   })
-    // }
   }
 })
