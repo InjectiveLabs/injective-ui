@@ -1,6 +1,6 @@
 {
   "name": "@injectivelabs/injective-ui",
-  "version": "0.0.1",
+  "version": "1.0.0-alpha.0",
   "license": "MIT",
   "author": "Thomas Lee <thomas@injectiveprotocol.com>",
   "type": "module",
@@ -31,13 +31,13 @@
     "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"
   },
   "dependencies": {
-    "floating-vue": "^2.0.0-beta.20",
-    "@nuxt/kit": "^3.0.0-rc.12"
+    "@nuxt/kit": "^3.0.0-rc.12",
+    "floating-vue": "^2.0.0-beta.20"
   },
   "devDependencies": {
-    "@injectivelabs/eslint-config": "*",
-    "@injectivelabs/prettier-config": "*",
-    "@injectivelabs/stylelint-config": "*",
+    "@injectivelabs/eslint-config": "^1.0.0-alpha.0",
+    "@injectivelabs/prettier-config": "^1.0.0-alpha.0",
+    "@injectivelabs/stylelint-config": "^1.0.0-alpha.0",
     "@nuxt/module-builder": "latest",
     "@nuxt/schema": "^3.0.0-rc.12",
     "@nuxtjs/eslint-config-typescript": "latest",
