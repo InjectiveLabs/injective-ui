@@ -1,15 +1,15 @@
 {
   "name": "root",
-  "private": true,
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
-    "lerna": "^6.0.1",
-    "husky": "latest"
+    "husky": "latest",
+    "lerna": "^6.0.1"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "publish": "lerna publish"
   },
   "workspaces": [
     "packages/*"
@@ -18,5 +18,6 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint"
     ]
-  }
+  },
+  "version": "0.0.1"
 }

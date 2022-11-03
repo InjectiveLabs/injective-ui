@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useNotifications } from '../src/plugin'
+import useNotifications from '../lib/composables/notifications'
 
 const notifications = useNotifications()
 
@@ -46,16 +46,16 @@ function handleSuccess() {
       Success
     </button>
 
-    <BaseNotifications
+    <Notifications
       class="z-1110 fixed inset-0 flex flex-col gap-2 justify-start items-end p-6 pointer-events-none"
       :notification-wrapper-class="'min-w-md'"
     >
       <template #notification="{ notification }">
-        <BaseNotification
+        <Notification
           :notification="notification"
           class="pointer-events-auto bg-zinc-500"
         />
       </template>
-    </BaseNotifications>
+    </Notifications>
   </div>
 </template>

@@ -1,9 +1,0 @@
-.h-full-flex {
-  @apply flex flex-col flex-grow;
-}
-
-.capitalize-phrase {
-  &::first-letter {
-    @apply uppercase;
-  }
-}

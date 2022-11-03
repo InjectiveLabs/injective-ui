@@ -109,13 +109,3 @@ export interface NotificationsPlugin {
    */
   clear(): void
 }
-
-declare module 'vue/types/vue' {
-  interface VueConstructor {
-    notifications: NotificationsPlugin
-  }
-
-  interface Vue {
-    $notifications: NotificationsPlugin
-  }
-}

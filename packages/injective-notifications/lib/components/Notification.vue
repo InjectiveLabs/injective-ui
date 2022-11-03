@@ -22,19 +22,19 @@ const title = computed(
         v-if="notification.type === NotificationType.Error"
         class="w-6 h-6 text-red-500"
       >
-        <BaseIconsError />
+        <IconsError />
       </div>
       <div
         v-if="notification.type === NotificationType.Warning"
         class="w-6 h-6 text-orange-400"
       >
-        <BaseIconsWarning />
+        <IconsWarning />
       </div>
       <div
         v-if="notification.type === NotificationType.Success"
         class="w-6 h-6 text-green-400"
       >
-        <BaseIconsSuccess />
+        <IconsSuccess />
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-sm text-white font-semibold">{{ title }}</span>
@@ -46,7 +46,7 @@ const title = computed(
         class="w-3 h-3 text-white ml-auto cursor-pointer"
         @click="notification.deactivate"
       >
-        <BaseIconsClose />
+        <IconsClose />
       </div>
     </div>
 
@@ -62,7 +62,7 @@ const title = computed(
             })
         "
       >
-        <span class="text-sm text-primary-500 font-semibold cursor-pointer">
+        <span class="text-primary-500 text-sm font-semibold cursor-pointer">
           {{ action.label }}
         </span>
       </button>

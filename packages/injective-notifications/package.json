@@ -1,6 +1,6 @@
 {
   "name": "@injectivelabs/injective-notifications",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "license": "MIT",
   "author": "Kevin Karsopawiro <kevin@injectivelabs.org>",
   "type": "module",
@@ -9,11 +9,7 @@
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
     },
-    "./lib/fonts/inter.css": "./lib/css/fonts/inter.css",
-    "./lib/fonts/nasalization.css": "./lib/css/fonts/nasalization.css",
-    "./lib/fonts/proxima-nova.css": "./lib/css/fonts/proxima-nova.css",
-    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs",
-    "./lib/tailwind.css": "./lib/css/tailwind.css"
+    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs"
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",

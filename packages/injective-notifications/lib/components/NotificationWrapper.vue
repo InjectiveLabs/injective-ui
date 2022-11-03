@@ -26,7 +26,6 @@ defineProps({
 </template>
 
 <script lang="ts">
-// import Vue, { PropType } from 'vue'
 // import { NotificationData } from '../types'
 
 // export default Vue.extend({
