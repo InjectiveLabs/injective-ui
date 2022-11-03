@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { cleanup, render, waitFor } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
-import ModalWrapper from '../../lib/components/ModalWrapper.vue'
+import ModalWrapper from './../../components/ModalWrapper.vue'
 
 describe('ModalWrapper component', () => {
   describe('renders correctly', () => {

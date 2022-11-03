@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { fireEvent, render, RenderResult } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
-import Input from '../../lib/components/Input.vue'
+import Input from './../../components/Input.vue'
 
 describe('Input component', () => {
   describe('UX behavior works', () => {

@@ -11,7 +11,7 @@ import { icons } from './../icons.json'
     }"
   >
     <Variant v-for="icon in icons" :key="`${icon}-story`" :title="`${icon}`">
-      <BaseIcon :name="icon" />
+      <BaseIcon :name="icon" sm />
     </Variant>
   </Story>
 </template>

@@ -9,7 +9,7 @@ export default defineNuxtModule({
   hooks: {
     'components:dirs'(dirs) {
       dirs.push({
-        path: fileURLToPath(new URL('./../lib/components', import.meta.url)),
+        path: fileURLToPath(new URL('./../components', import.meta.url)),
         prefix: 'base'
       })
     }

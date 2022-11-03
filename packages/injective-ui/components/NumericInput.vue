@@ -3,8 +3,8 @@ import { useDebounceFn } from '@vueuse/core'
 import {
   convertToNumericValue,
   passNumericInputValidation
-} from './../utils/input'
-import { KeydownEvent, PasteEvent } from './../types'
+} from './../lib/utils/input'
+import { KeydownEvent, PasteEvent } from './../lib/types'
 
 const props = defineProps({
   modelValue: {

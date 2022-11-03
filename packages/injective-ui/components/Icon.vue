@@ -37,7 +37,7 @@ const dynamicComponent = defineAsyncComponent(() => {
 
   return new Promise((resolve, _reject) => {
     if (!isProduction) {
-      const comps = import.meta.glob('./../../lib/icons/**/*.vue')
+      const comps = import.meta.glob('./../icons/**/*.vue')
 
       return comps[`../icons/${name}.vue`]().then((component) =>
         resolve(component.default)
@@ -45,8 +45,8 @@ const dynamicComponent = defineAsyncComponent(() => {
     }
 
     // webpack
-    import(/* @vite-ignore */ `./../../lib/icons/${name}.vue`).then(
-      (component) => resolve(component)
+    import(/* @vite-ignore */ `./../lib/icons/${name}.vue`).then((component) =>
+      resolve(component)
     )
   })
 })

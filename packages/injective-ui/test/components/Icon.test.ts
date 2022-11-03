@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { render, waitFor } from '@testing-library/vue'
-import Icon from '../../lib/components/Icon.vue'
+import Icon from './../../components/Icon.vue'
 
 describe('Icon component', () => {
   describe('size classes renders correctly', () => {
