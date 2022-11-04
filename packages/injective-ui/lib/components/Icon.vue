@@ -33,7 +33,15 @@ const sizeClasses = computed<string>(() => {
 })
 
 const dynamicComponent = defineAsyncComponent(() => {
-  const name = props.name
+  let name = props.name
+
+  if (name.includes('ledger-legacy')) {
+    name = 'wallet/ledger'
+  }
+
+  if (name.includes('ledger')) {
+    name = 'wallet/ledger'
+  }
 
   return new Promise((resolve, _reject) => {
     if (!isProduction) {
