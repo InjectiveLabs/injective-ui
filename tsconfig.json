@@ -2,8 +2,7 @@
   "extends": "./packages/injective-ui/tsconfig.json",
   "compilerOptions": {
     "types": [
-      "@vueuse/nuxt",
-      "@injectivelabs/notifications"
+      "@vueuse/nuxt"
     ]
   }
 }
