@@ -15,6 +15,8 @@ module.exports = {
       }
     ],
     'declaration-block-trailing-semicolon': null,
-    'no-descending-specificity': null
-  }
+    'no-descending-specificity': null,
+    'function-no-unknown': [true, { ignoreFunctions: ['theme'] }]
+  },
+  ignoreFiles: ['coverage/**']
 }

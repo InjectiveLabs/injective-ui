@@ -27,6 +27,8 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'vue/v-on-event-hyphenation': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
 }

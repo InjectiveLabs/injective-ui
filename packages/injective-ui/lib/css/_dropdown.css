@@ -1,0 +1,8 @@
+.v-popper--theme-dropdown:not(.v-popper--theme-menu) {
+  .v-popper__arrow-container {
+    .v-popper__arrow-outer,
+    .v-popper__arrow-inner {
+      @apply hidden;
+    }
+  }
+}

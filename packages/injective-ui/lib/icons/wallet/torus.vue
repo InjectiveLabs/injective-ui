@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const uuid = `${Math.random()}`
+</script>
+
 <template>
   <svg
     width="24"
@@ -8,7 +12,7 @@
   >
     <path
       d="M17.2681 0.0268555H6.73177C3.02875 0.0268555 0.0268555 3.02875 0.0268555 6.73177V17.2681C0.0268555 20.9711 3.02875 23.973 6.73177 23.973H17.2681C20.9711 23.973 23.973 20.9711 23.973 17.2681V6.73177C23.973 3.02875 20.9711 0.0268555 17.2681 0.0268555Z"
-      fill="url(#paint0_linear_1_2)"
+      :fill="`url(#torus-${uuid})`"
     />
     <path
       fill-rule="evenodd"
@@ -22,7 +26,7 @@
     />
     <defs>
       <linearGradient
-        id="paint0_linear_1_2"
+        :id="`torus-${uuid}`"
         x1="24.7512"
         y1="24.9308"
         x2="0.0268555"
