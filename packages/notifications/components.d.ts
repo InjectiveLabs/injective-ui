@@ -7,22 +7,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Icon: typeof import('./lib/components/Icon.vue')['default']
     IconsClose: typeof import('./lib/components/icons/Close.vue')['default']
     IconsError: typeof import('./lib/components/icons/Error.vue')['default']
     IconsSuccess: typeof import('./lib/components/icons/Success.vue')['default']
     IconsWarning: typeof import('./lib/components/icons/Warning.vue')['default']
-    Input: typeof import('./lib/components/Input.vue')['default']
-    ModalWrapper: typeof import('./lib/components/ModalWrapper.vue')['default']
     Notification: typeof import('./lib/components/Notification.vue')['default']
     Notifications: typeof import('./lib/components/Notifications.vue')['default']
     NotificationWrapper: typeof import('./lib/components/NotificationWrapper.vue')['default']
-    NumericInput: typeof import('./lib/components/NumericInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SelectorItem: typeof import('./lib/components/SelectorItem.vue')['default']
-    Spinner: typeof import('./lib/components/Spinner.vue')['default']
-    Textarea: typeof import('./assets/components/Textarea.vue')['default']
-    TextArea: typeof import('./lib/components/TextArea.vue')['default']
   }
 }

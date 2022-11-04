@@ -10,7 +10,8 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "build": "lerna run build"
   },
   "workspaces": [
     "packages/*"

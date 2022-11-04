@@ -1,13 +1,24 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
 import { NotificationData } from '../types'
+import useNotifications from '../composables/useNotifications'
 
-defineProps({
+const { pauseDeactivation, resumeDeactivation } = useNotifications()
+
+const props = defineProps({
   notification: {
     type: Object as PropType<NotificationData>,
     required: true
   }
 })
+
+const handleMouseEnter = () => {
+  pauseDeactivation(props.notification.id)
+}
+
+const handleMouseLeave = () => {
+  resumeDeactivation(props.notification.id)
+}
 </script>
 
 <template>

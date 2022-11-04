@@ -529,8 +529,10 @@
   resolved "https://registry.npmjs.org/@hutson/parse-repository-url/-/parse-repository-url-3.0.2.tgz#98c23c950a3d9b6c8f0daed06da6c3af06981340"
   integrity sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==
 
-"@injectivelabs/eslint-config@*":
+"@injectivelabs/eslint-config@latest":
   version "1.0.2-alpha.0"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/eslint-config/-/eslint-config-1.0.2-alpha.0.tgz#5f6e5cb0c3041487776874d13bc52f5b3fc66bf7"
+  integrity sha512-U8Gc5v3wqO3fQtFketmbO3Gr5sLIKDoZLomGcAwhZYRx7JoeYJ+lIHTEMmkef/+rtyMIN8s1y5GZw5ayAi1KWQ==
   dependencies:
     "@nuxtjs/eslint-config-typescript" latest
     "@typescript-eslint/eslint-plugin" latest
@@ -542,11 +544,15 @@
     eslint-plugin-tailwindcss latest
     eslint-plugin-vue latest
 
-"@injectivelabs/prettier-config@*":
+"@injectivelabs/prettier-config@latest":
   version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/prettier-config/-/prettier-config-1.0.0-alpha.0.tgz#1951c86909dfbe08480f93b1b8633206ee44ebe7"
+  integrity sha512-PF1ITRNxDYe8lRY8lVcib63GgUNJ2k+Z4F9yQWEBe3trBIIdpi7dRH1mBWqyOsPCQiEHIwfKuQBYh/9vakpRFQ==
 
-"@injectivelabs/stylelint-config@*":
+"@injectivelabs/stylelint-config@latest":
   version "1.0.1-alpha.0"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/stylelint-config/-/stylelint-config-1.0.1-alpha.0.tgz#66456f2a5a274fcbcdb09659ebab3b14c1c36014"
+  integrity sha512-tOmoJLVTjjVdfeLu7vjiPnA5AvucM3GDRXf/Uk6NbQhEOWUKtyrPaFm19sTimxCcW2gg4L9OluluKeVildvy7w==
   dependencies:
     stylelint-config-standard latest
 
