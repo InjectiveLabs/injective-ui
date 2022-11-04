@@ -28,5 +28,6 @@ module.exports = {
     'vue/v-on-event-hyphenation': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off'
-  }
+  },
+  ignorePatterns: ['coverage/**', 'node_modules/*.js']
 }
