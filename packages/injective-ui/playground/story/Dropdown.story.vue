@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { SelectorOption } from './../../lib/types'
+import { BaseDropdownOption } from './../../lib/types'
 
 const selectedValue = ref('one')
 
-const list: SelectorOption[] = [
+const list: BaseDropdownOption[] = [
   {
     display: 'Item one',
     value: 'one'

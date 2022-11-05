@@ -37,7 +37,7 @@ export default {
   <Transition name="modal" appear>
     <div
       v-if="show"
-      class="z-50 fixed inset-0 w-full h-full bg-gray-900/30 table ease-in duration-300"
+      class="z-50 fixed inset-0 w-full h-full bg-gray-900/80 table ease-in duration-300"
     >
       <div class="table-cell align-middle">
         <div ref="modalRef" class="modal-container" :class="$attrs.class">

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { Dropdown } from 'floating-vue'
 
 const shown = ref(false)
