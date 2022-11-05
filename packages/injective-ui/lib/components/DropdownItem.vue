@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
-import { SelectorOption } from './../../lib/types'
+import { BaseDropdownOption } from './../../lib/types'
 
 const props = defineProps({
   item: {
-    type: Object as PropType<SelectorOption>,
+    type: Object as PropType<BaseDropdownOption>,
     required: true
   }
 })

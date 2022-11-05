@@ -21,8 +21,12 @@ function handleClick(value: string) {
         @click="handleClick"
       >
         <button
-          class="hover:text-opacity/90 hover:bg-opacity/90 px-4 rounded-lg flex items-center font-semibold outline-none py-3 text-base h-10 max-h-10 text-white"
-          :class="[active ? 'bg-blue-600' : 'bg-accent-500']"
+          class="hover:text-opacity-90 px-4 rounded-lg flex items-center font-semibold outline-none py-3 text-base h-10 max-h-10 text-white"
+          :class="[
+            active
+              ? 'bg-blue-600 hover:bg-blue-600/90'
+              : 'bg-accent-500 hover:bg-accent-600/90'
+          ]"
           @click="click"
         >
           {{ value }}

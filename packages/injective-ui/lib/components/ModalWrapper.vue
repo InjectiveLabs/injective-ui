@@ -37,12 +37,11 @@ export default {
   <Transition name="modal" appear>
     <div
       v-if="show"
-      class="bg-opacity/30 z-50 fixed inset-0 w-full h-full bg-gray-900 table ease-in duration-300"
-      :class="$attrs.class"
+      class="z-50 fixed inset-0 w-full h-full bg-gray-900/30 table ease-in duration-300"
     >
       <div class="table-cell align-middle">
-        <div ref="modalRef" class="modal-container">
-          <slot :close="close" :show-loading="showLoading" />
+        <div ref="modalRef" class="modal-container" :class="$attrs.class">
+          <slot ref="modalRef" :close="close" :show-loading="showLoading" />
         </div>
       </div>
     </div>

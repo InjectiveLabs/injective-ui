@@ -22,13 +22,15 @@ describe('ModalWrapper component', () => {
   describe('UX behavior', () => {
     test('emit close event on clickOutside', async () => {
       const { container, emitted, getByText } = render(ModalWrapper, {
-        attrs: { class: 'bg-gray-900' },
+        attrs: { class: 'bg-gray-900/30' },
         props: { show: true },
         slots: { default: '<div>Test</div>' }
       })
 
       getByText('Test')
-      await userEvent.click(container.getElementsByClassName('bg-gray-900')[0])
+      await userEvent.click(
+        container.getElementsByClassName('bg-gray-900/30')[0]
+      )
 
       expect(emitted().close.length).toEqual(1)
 
@@ -37,7 +39,7 @@ describe('ModalWrapper component', () => {
 
     test('emit close event on escape keypress', async () => {
       const { emitted, getByText } = render(ModalWrapper, {
-        attrs: { class: 'bg-gray-900' },
+        attrs: { class: 'bg-gray-900/30' },
         props: { show: true },
         slots: { default: '<div>Test</div>' }
       })
@@ -52,7 +54,7 @@ describe('ModalWrapper component', () => {
 
     test('do not emit close event on escape keypress', async () => {
       const { emitted } = render(ModalWrapper, {
-        attrs: { class: 'bg-gray-900' },
+        attrs: { class: 'bg-gray-900/30' },
         props: { show: false },
         slots: { default: '<div>Test</div>' }
       })
