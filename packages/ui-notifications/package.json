@@ -1,6 +1,6 @@
 {
-  "name": "@injectivelabs/notifications",
-  "version": "2.0.0",
+  "name": "@injectivelabs/ui-notifications",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Kevin Karsopawiro <kevin@injectivelabs.org>",
   "type": "module",
@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "prepack": "yarn test:coverage && nuxt-module-build",
-    "dev": "echo Warning: You should debug 'notifications' via the 'injective-ui' package playground.",
+    "dev": "echo Warning: You should debug 'ui-notifications' via the 'injective-ui' package playground.",
     "test": "vitest --segfault-retry=3",
     "test:coverage": "vitest run --coverage --segfault-retry=3",
     "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"

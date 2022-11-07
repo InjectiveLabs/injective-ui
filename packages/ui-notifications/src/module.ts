@@ -3,7 +3,7 @@ import { defineNuxtModule } from '@nuxt/kit'
 
 export default defineNuxtModule({
   meta: {
-    name: '@injectivelabs/notifications',
+    name: '@injectivelabs/ui-notifications',
     configKey: 'notifications'
   },
   hooks: {

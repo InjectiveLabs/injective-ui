@@ -6,7 +6,7 @@
 
 [`@injectivelabs/injective-ui`](injective-ui/tree/master/packages/injective-ui/README.md) provides a collection of re-useable fonts, render-less FE components and tailwind configs to ease development across the wide range of Injective products.
 
-[`@injectivelabs/notifications`](injective-ui/tree/master/packages/notification/README.md) provides a notification solution for FE products which consists of FE components and composables.
+[`@injectivelabs/ui-notifications`](injective-ui/tree/master/packages/notification/README.md) provides a notification solution for FE products which consists of FE components and composables.
 
 [`@injectivelabs/eslint-config`](injective-ui/tree/master/packages/eslint-config/README.md) provides a set of shared eslint config rules.
 

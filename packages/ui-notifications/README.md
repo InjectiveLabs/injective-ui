@@ -1,4 +1,4 @@
-# @InjectiveLabs/notifications
+# @InjectiveLabs/ui-notifications
 
 Injective notification system
 
@@ -7,7 +7,7 @@ Injective notification system
 Install the package. Any major starting with `1.x.x` is using the Vue Options API while versions starting with `2.x.x` are built for the Vue Compositions API.
 
 ```sh
-$ yarn add @InjectiveLabs/notifications --save
+$ yarn add @InjectiveLabs/ui-notifications --save
 ```
 
 ### Setup for Vue Composition API
@@ -16,7 +16,7 @@ $ yarn add @InjectiveLabs/notifications --save
 
 ```javascript
 export default defineNuxtConfig({
-  modules: ['@injectivelabs/notifications']
+  modules: ['@injectivelabs/ui-notifications']
 })
 ```
 
@@ -27,7 +27,7 @@ Your app is now ready to start using the Notification system.
 1. Create a plugin in your `/plugins` folder. This is needed because Nuxt unfortunately does not allow us to specify an external package in our `nuxt.config.js` file directly.
 
 ```typescript
-import NotificationPlugin from '@injectivelabs/notifications'
+import NotificationPlugin from '@injectivelabs/ui-notifications'
 import { Context } from '@nuxt/types'
 
 export default (_: Context, inject: Function) => {
@@ -52,7 +52,7 @@ Your app is now ready to start using the Notification system.
 Add the following shims to `types/vue-shims.d.ts`:
 
 ```typescript
-import { NotificationsPlugin } from '@injectivelabs/notifications'
+import { NotificationsPlugin } from '@injectivelabs/ui-notifications'
 
 declare module '@nuxt/types' {
   interface Context {
@@ -67,12 +67,12 @@ declare module '@nuxt/vue-app' {
 }
 ```
 
-Add `@injectivelabs/notifications` to your `tsconfig.json` types array:
+Add `@injectivelabs/ui-notifications` to your `tsconfig.json` types array:
 
 ```json
 "compilerOptions": {
   "types": [
-    "@injectivelabs/notifications"
+    "@injectivelabs/ui-notifications"
   ]
 }
 ```
@@ -98,7 +98,7 @@ x
 
 ```vue
 <script lang="ts" setup>
-import { NotificationType } from '@injectivelabs/notifications'
+import { NotificationType } from '@injectivelabs/ui-notifications'
 </script>
 
 <template>
@@ -187,7 +187,7 @@ const placeOrder = () => {
 </template>
 
 <script lang="ts">
-import { Notifications } from '@injectivelabs/notifications'
+import { Notifications } from '@injectivelabs/ui-notifications'
 
 export default Vue.extend({
   components: {
@@ -246,7 +246,7 @@ import {
   Notifications,
   Notification,
   NotificationType
-} from '@injectivelabs/notifications'
+} from '@injectivelabs/ui-notifications'
 
 export default Vue.extend({
   components: {
