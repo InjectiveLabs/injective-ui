@@ -1,19 +1,14 @@
 {
-  "name": "@injectivelabs/injective-ui",
-  "version": "1.0.5-alpha.0",
+  "name": "@injectivelabs/ui-notifications",
+  "version": "1.0.0",
   "license": "MIT",
-  "author": "Thomas Lee <thomas@injectiveprotocol.com>",
+  "author": "Kevin Karsopawiro <kevin@injectivelabs.org>",
   "type": "module",
   "exports": {
     ".": {
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
-    },
-    "./lib/fonts/inter.css": "./lib/css/fonts/inter.css",
-    "./lib/fonts/nasalization.css": "./lib/css/fonts/nasalization.css",
-    "./lib/fonts/proxima-nova.css": "./lib/css/fonts/proxima-nova.css",
-    "./lib/tailwind-preset.cjs": "./lib/tailwind-preset.cjs",
-    "./lib/tailwind.css": "./lib/css/tailwind.css"
+    }
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
@@ -23,36 +18,32 @@
   ],
   "scripts": {
     "prepack": "yarn test:coverage && nuxt-module-build",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev": "echo Warning: You should debug 'ui-notifications' via the 'injective-ui' package playground.",
     "test": "vitest --segfault-retry=3",
     "test:coverage": "vitest run --coverage --segfault-retry=3",
     "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0-rc.12",
-    "floating-vue": "^2.0.0-beta.20"
+    "@nuxt/kit": "^3.0.0-rc.12"
   },
   "devDependencies": {
-    "@injectivelabs/ui-notifications": "^1.0.0-alpha.0",
-    "@injectivelabs/eslint-config": "^1.0.2-alpha.0",
-    "@injectivelabs/prettier-config": "^1.0.0-alpha.0",
-    "@injectivelabs/stylelint-config": "^1.0.1-alpha.0",
+    "@injectivelabs/eslint-config": "latest",
+    "@injectivelabs/prettier-config": "latest",
+    "@injectivelabs/stylelint-config": "latest",
     "@nuxt/module-builder": "latest",
     "@nuxt/schema": "^3.0.0-rc.12",
     "@nuxtjs/eslint-config-typescript": "latest",
-    "@nuxtjs/tailwindcss": "^6.1.2",
+    "@nuxtjs/tailwindcss": "^6.1.1",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^6.6.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "@vitest/coverage-c8": "^0.24.5",
+    "@vitest/coverage-c8": "^0.23.4",
     "@vueuse/nuxt": "^9.3.0",
     "eslint": "latest",
     "eslint-plugin-nuxt": "latest",
     "eslint-plugin-vue": "latest",
-    "jsdom": "^20.0.2",
+    "jsdom": "^20.0.0",
     "lint-staged": "latest",
     "nuxt": "^3.0.0-rc.12",
     "postcss": "latest",
@@ -61,7 +52,7 @@
     "postcss-import": "latest",
     "stylelint": "latest",
     "unplugin-vue-components": "^0.22.7",
-    "vitest": "^0.24.5"
+    "vitest": "^0.23.4"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [

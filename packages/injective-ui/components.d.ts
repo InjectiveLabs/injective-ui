@@ -11,16 +11,13 @@ declare module '@vue/runtime-core' {
     DropdownItem: typeof import('./lib/components/DropdownItem.vue')['default']
     HoverMenu: typeof import('./lib/components/HoverMenu.vue')['default']
     Icon: typeof import('./lib/components/Icon.vue')['default']
-    IconHub: typeof import('./lib/components/IconHub.vue')['default']
     Input: typeof import('./lib/components/Input.vue')['default']
     ModalWrapper: typeof import('./lib/components/ModalWrapper.vue')['default']
     NumericInput: typeof import('./lib/components/NumericInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Selector: typeof import('./lib/components/Selector.vue')['default']
     SelectorItem: typeof import('./lib/components/SelectorItem.vue')['default']
     Spinner: typeof import('./lib/components/Spinner.vue')['default']
-    Textarea: typeof import('./assets/components/Textarea.vue')['default']
     TextArea: typeof import('./lib/components/TextArea.vue')['default']
   }
 }

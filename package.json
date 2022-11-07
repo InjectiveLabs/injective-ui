@@ -9,7 +9,9 @@
     "lerna": "^6.0.1"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "publish": "lerna publish",
+    "build": "lerna run build"
   },
   "workspaces": [
     "packages/*"
@@ -18,5 +20,6 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint"
     ]
-  }
+  },
+  "version": "0.0.1"
 }
