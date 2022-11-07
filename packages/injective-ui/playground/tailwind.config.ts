@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { Config } from 'tailwindcss'
 
 export default <Config>{
-  presets: [require('../lib/tailwind-preset.cjs')],
+  // presets: [require('../lib/tailwind-preset.cjs')],
   content: [
     /*
       historie requires the full path to the components folder

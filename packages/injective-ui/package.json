@@ -31,37 +31,37 @@
     "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0-rc.12",
+    "@nuxt/kit": "^3.0.0-rc.13",
     "floating-vue": "^2.0.0-beta.20"
   },
   "devDependencies": {
-    "@injectivelabs/ui-notifications": "^1.0.0-alpha.0",
+    "@injectivelabs/ui-notifications": "^1.0.1",
     "@injectivelabs/eslint-config": "^1.0.2-alpha.0",
     "@injectivelabs/prettier-config": "^1.0.0-alpha.0",
     "@injectivelabs/stylelint-config": "^1.0.1-alpha.0",
     "@nuxt/module-builder": "latest",
-    "@nuxt/schema": "^3.0.0-rc.12",
+    "@nuxt/schema": "^3.0.0-rc.13",
     "@nuxtjs/eslint-config-typescript": "latest",
-    "@nuxtjs/tailwindcss": "^6.1.2",
+    "@nuxtjs/tailwindcss": "^6.1.3",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^6.6.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "@vitest/coverage-c8": "^0.24.5",
+    "@vitest/coverage-c8": "^0.25.0",
     "@vueuse/nuxt": "^9.3.0",
     "eslint": "latest",
     "eslint-plugin-nuxt": "latest",
     "eslint-plugin-vue": "latest",
     "jsdom": "^20.0.2",
     "lint-staged": "latest",
-    "nuxt": "^3.0.0-rc.12",
+    "nuxt": "^3.0.0-rc.13",
     "postcss": "latest",
     "postcss-custom-properties": "latest",
     "postcss-html": "latest",
     "postcss-import": "latest",
     "stylelint": "latest",
     "unplugin-vue-components": "^0.22.7",
-    "vitest": "^0.24.5"
+    "vitest": "^0.25.0"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [
