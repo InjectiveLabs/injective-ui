@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { Config } from 'tailwindcss'
 
 export default <Config>{
-  // presets: [require('../lib/tailwind-preset.cjs')],
+  presets: [require('../lib/tailwind-preset.cjs')],
   content: [
     /*
       historie requires the full path to the components folder
@@ -11,5 +11,6 @@ export default <Config>{
     fileURLToPath(new URL('./../lib/components/*.vue', import.meta.url)),
     fileURLToPath(new URL('./../lib/icons/*.vue', import.meta.url)),
     fileURLToPath(new URL('./../playground/story/*.vue', import.meta.url))
-  ]
+  ],
+  safeList: ['bg-slate-800']
 }

@@ -10,8 +10,7 @@ function handleError() {
 
 function handleWarning() {
   notifications.warning({
-    title: 'Warning title',
-    description: 'Warning description'
+    title: 'Warning title'
   })
 }
 
@@ -55,13 +54,20 @@ function handleSuccess() {
 
       <Notifications
         class="z-1110 fixed inset-0 flex flex-col gap-2 justify-start items-end p-6 pointer-events-none"
-        :notification-wrapper-class="'min-w-md'"
       >
         <template #notification="{ notification }">
           <Notification
             :notification="notification"
-            class="pointer-events-auto bg-slate-800"
-          />
+            class="pointer-events-auto bg-gray-900"
+          >
+            <template #close="{ close }">
+              <BaseIcon
+                name="close-bold"
+                class="min-w-4 w-4 h-4 text-white hover:text-blue-600"
+                @click="close"
+              />
+            </template>
+          </Notification>
         </template>
       </Notifications>
     </div>

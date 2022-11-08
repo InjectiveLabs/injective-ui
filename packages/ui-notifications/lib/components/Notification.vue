@@ -13,11 +13,18 @@ const props = defineProps({
 const title = computed(
   (): string => props.notification.title || 'Notification Title'
 )
+
+function close() {
+  props.notification.deactivate()
+}
 </script>
 
 <template>
   <div class="bg-gray-800 rounded-lg pointer-events-auto">
-    <div class="flex gap-2 justify-start items-start p-4">
+    <div
+      class="flex gap-2 justify-start items-start p-4"
+      :class="{ 'items-center': !notification.description }"
+    >
       <div
         v-if="notification.type === NotificationType.Error"
         class="w-6 h-6 text-red-500"
@@ -42,12 +49,11 @@ const title = computed(
           {{ notification.description }}
         </span>
       </div>
-      <div
-        class="w-3 h-3 text-white ml-auto cursor-pointer"
-        @click="notification.deactivate"
-      >
-        <IconsClose />
-      </div>
+      <slot name="close" :close="close">
+        <div class="w-3 h-3 text-white ml-auto cursor-pointer" @click="close">
+          <IconsClose />
+        </div>
+      </slot>
     </div>
 
     <div v-if="notification.actions" class="px-4 pb-4 pt-0 flex gap-2">
