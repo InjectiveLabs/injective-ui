@@ -1,7 +1,7 @@
 import { KeydownEvent } from './../types'
 
 export const convertToNumericValue = (value: string, maxDecimals: number) => {
-  if (value === '') {
+  if (value === '' || Number(value) === 0) {
     return value
   }
 

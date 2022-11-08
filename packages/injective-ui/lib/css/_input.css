@@ -1,3 +1,11 @@
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button,
+input[type='number'] {
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: textfield !important;
+}
+
 .input {
   @apply w-full bg-transparent text-left appearance-none box-border rounded-sm p-0;
 }
@@ -11,8 +19,6 @@
 }
 
 .textarea {
-  @apply px-2 py-1;
-
   &.textarea {
     @apply bg-transparent w-full;
 

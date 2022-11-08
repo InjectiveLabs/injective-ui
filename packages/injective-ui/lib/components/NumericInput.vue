@@ -40,6 +40,10 @@ function onBlur() {
   emit('blur')
 }
 
+function onWheel(event: WheelEvent) {
+  event.preventDefault()
+}
+
 function onKeyDown(payload: KeyboardEvent) {
   const event = payload as KeydownEvent<HTMLInputElement>
 
@@ -83,5 +87,6 @@ function onChange(event: any) {
     @input="onChange"
     @paste="onPaste"
     @keydown="onKeyDown"
+    @wheel="onWheel"
   />
 </template>

@@ -5,8 +5,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "husky": "latest",
-    "lerna": "^6.0.1"
+    "husky": "^8.0.2",
+    "lerna": "^6.0.3"
   },
   "scripts": {
     "prepare": "husky install",
