@@ -4,7 +4,99 @@
 
 @import 'floating-vue/dist/style.css';
 
-@import '_root.css';
-@import '_animate.css';
-@import '_dropdown.css';
-@import '_input.css';
+/* 
+  Todo: figure out how to build css files with src/module.ts defineNuxtModule setup
+*/
+
+/* root */
+.h-full-flex {
+  @apply flex flex-col flex-grow;
+}
+
+.capitalize-phrase {
+  &::first-letter {
+    @apply uppercase;
+  }
+}
+
+/* dropdown */
+.v-popper--theme-dropdown:not(.v-popper--theme-menu) {
+  .v-popper__arrow-container {
+    .v-popper__arrow-outer,
+    .v-popper__arrow-inner {
+      @apply hidden;
+    }
+  }
+}
+
+/* input */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button,
+input[type='number'] {
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: textfield !important;
+}
+
+.input {
+  @apply w-full bg-transparent text-left appearance-none box-border rounded-sm p-0;
+}
+
+.input:disabled {
+  @apply cursor-not-allowed;
+}
+
+.input:focus {
+  @apply border-none outline-none;
+}
+
+.textarea {
+  &.textarea {
+    @apply bg-transparent w-full;
+
+    &:focus {
+      @apply border-none outline-none;
+    }
+  }
+}
+
+/* animate */
+.fade-enter-active {
+  transition: opacity 1.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-down-enter-active,
+.fade-down-leave-active,
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: 500ms cubic-bezier(0.3, 0.5, 0.8, 0.9);
+  transition-property: opacity, transform;
+}
+
+.fade-down-leave-active,
+.fade-up-leave-active {
+  opacity: 1;
+}
+
+.fade-down-enter,
+.fade-down-leave-to {
+  opacity: 0.2;
+  transform: translate3d(0, 130%, 0);
+}
+
+.fade-up-enter-to,
+.fade-down-enter-to {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-up-enter,
+.fade-up-leave-to {
+  opacity: 0.2;
+  transform: translate3d(0, -130%, 0);
+}
