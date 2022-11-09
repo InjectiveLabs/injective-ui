@@ -17,7 +17,7 @@ export default function useNotifications(): NotificationsPlugin {
   const notify = (options: NotificationOptions, type: NotificationType) => {
     const { title, timeout } = options
 
-    const duration = timeout || 60000
+    const duration = timeout || 6000
     const id = state.idCounter++
     const description = options.description || ''
 
