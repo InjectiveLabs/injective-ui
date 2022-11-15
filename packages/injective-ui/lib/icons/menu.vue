@@ -5,7 +5,7 @@
     viewBox="0 0 24 24"
     stroke="currentColor"
     aria-hidden="true"
-    class="w-6 h-6"
+    class="h-6 w-6"
   >
     <path
       stroke-linecap="round"

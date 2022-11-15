@@ -7,7 +7,7 @@ const value = ref('')
 <template>
   <Story title="Numeric Input component">
     <div class="h-screen bg-gray-900 p-4">
-      <div class="text-white p-2 border border-gray-600 w-80 rounded">
+      <div class="w-80 rounded border border-gray-600 p-2 text-white">
         <BaseNumericInput v-model="value" :max-decimals="2" />
       </div>
     </div>

@@ -19,7 +19,7 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="flex items-center cursor-pointer" @click="handleClick">
+  <div class="flex cursor-pointer items-center" @click="handleClick">
     <slot :item="item" />
   </div>
 </template>

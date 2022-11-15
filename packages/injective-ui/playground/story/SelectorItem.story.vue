@@ -21,7 +21,7 @@ function handleClick(value: string) {
         @click="handleClick"
       >
         <button
-          class="hover:text-opacity-90 px-4 rounded-lg flex items-center font-semibold outline-none py-3 text-base h-10 max-h-10 text-white"
+          class="flex h-10 max-h-10 items-center rounded-lg px-4 py-3 text-base font-semibold text-white outline-none hover:text-opacity-90"
           :class="[
             active
               ? 'bg-blue-600 hover:bg-blue-600/90'

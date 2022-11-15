@@ -28,7 +28,7 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "test": "vitest --segfault-retry=3",
     "test:coverage": "vitest run --coverage --segfault-retry=3",
-    "lint": "eslint --max-warnings 0 && stylelint lib/css/*.css && stylelint **/*.vue"
+    "lint": "eslint --max-warnings 0 '**/*.{ts,vue,html}' --fix && stylelint '**/*.{css,.vue}'"
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0-rc.13",
@@ -47,7 +47,7 @@
     "@testing-library/vue": "^6.6.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "@vitest/coverage-c8": "^0.25.1",
+    "@vitest/coverage-c8": "^0.25.2",
     "@vueuse/nuxt": "^9.5.0",
     "eslint": "latest",
     "eslint-plugin-nuxt": "latest",
@@ -61,7 +61,7 @@
     "postcss-import": "latest",
     "stylelint": "latest",
     "unplugin-vue-components": "^0.22.7",
-    "vitest": "^0.25.1"
+    "vitest": "^0.25.2"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [

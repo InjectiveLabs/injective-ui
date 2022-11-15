@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { BaseDropdownOption } from './../../lib/types'
 
 const selectedValue = ref('one')
@@ -36,7 +35,7 @@ function handleChange(value: string) {
       <BaseDropdown class="inline-block">
         <template #default="{ shown }">
           <div
-            class="flex items-center border border-gray-400 py-2 rounded gap-2"
+            class="flex items-center gap-2 rounded border border-gray-400 py-2"
             :class="['px-3']"
           >
             <span
@@ -49,7 +48,7 @@ function handleChange(value: string) {
             <div>
               <BaseIcon
                 name="chevron-down"
-                class="w-4 h-4"
+                class="h-4 w-4"
                 :class="[
                   {
                     'ease-in-out duration-300 rotate-180': shown

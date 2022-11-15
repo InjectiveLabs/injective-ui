@@ -8,7 +8,11 @@ const emit = defineEmits<{
 
 const props = defineProps({
   show: Boolean,
-  showLoading: Boolean
+  showLoading: Boolean,
+  wrapperClass: {
+    type: String,
+    default: 'bg-gray-900 bg-opacity-80'
+  }
 })
 
 const modalRef = ref(null)
@@ -37,7 +41,8 @@ export default {
   <Transition name="modal" appear>
     <div
       v-if="show"
-      class="z-50 fixed inset-0 w-full h-full bg-gray-900/80 table ease-in duration-300"
+      class="fixed inset-0 z-50 table h-full w-full duration-300 ease-in"
+      :class="wrapperClass"
     >
       <div class="table-cell align-middle">
         <div ref="modalRef" class="modal-container" :class="$attrs.class">

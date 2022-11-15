@@ -27,7 +27,9 @@
 
 3. Publishing the changes to npm
 
-- `TBD`
+- git add . && git commit -m 'commit message'
+- lerna version
+- lerna publish from-package
 
 ## ⛑ Support
 

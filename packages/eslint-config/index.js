@@ -5,8 +5,10 @@ module.exports = {
     browser: true
   },
   extends: [
+    'standard',
     '@nuxtjs/eslint-config-typescript',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:nuxt/recommended',
     'plugin:prettier/recommended',
     'plugin:tailwindcss/recommended',
@@ -19,6 +21,7 @@ module.exports = {
   },
   plugins: ['vue', '@typescript-eslint'],
   rules: {
+    'tailwindcss/migration-from-tailwind-2': 'off',
     'tailwindcss/no-custom-classname': 'off',
     'vue/html-self-closing': 'off',
     'vue/multi-word-component-names': 'off',

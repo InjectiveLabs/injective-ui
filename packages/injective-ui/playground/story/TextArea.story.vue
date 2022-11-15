@@ -7,7 +7,7 @@ const value = ref('')
 <template>
   <Story title="Textarea component">
     <div class="h-screen bg-gray-900 p-4">
-      <div class="text-white border border-gray-600 rounded">
+      <div class="rounded border border-gray-600 text-white">
         <BaseTextArea v-model="value" :row="4" class="px-2 pt-1" />
       </div>
     </div>

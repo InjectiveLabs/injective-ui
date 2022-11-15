@@ -25,21 +25,21 @@ function handleSuccess() {
 <template>
   <Story title="Notifications">
     <div class="h-screen">
-      <div class="flex justify-start items-center gap-2">
+      <div class="flex items-center justify-start gap-2">
         <button
-          class="h-8 px-4 bg-red-500 text-white font-semibold rounded"
+          class="h-8 rounded bg-red-500 px-4 font-semibold text-white"
           @click="handleError"
         >
           Error
         </button>
         <button
-          class="h-8 px-4 bg-orange-400 text-white font-semibold rounded"
+          class="h-8 rounded bg-orange-400 px-4 font-semibold text-white"
           @click="handleWarning"
         >
           Warning
         </button>
         <button
-          class="h-8 px-4 bg-green-400 text-white font-semibold rounded"
+          class="h-8 rounded bg-green-400 px-4 font-semibold text-white"
           @click="handleSuccess"
         >
           Success
@@ -53,7 +53,7 @@ function handleSuccess() {
       <div class="text-green-400" />
 
       <Notifications
-        class="z-1110 fixed inset-0 flex flex-col gap-2 justify-start items-end p-6 pointer-events-none"
+        class="z-1110 pointer-events-none fixed inset-0 flex flex-col items-end justify-start gap-2 p-6"
       >
         <template #notification="{ notification }">
           <Notification
@@ -63,7 +63,7 @@ function handleSuccess() {
             <template #close="{ close }">
               <BaseIcon
                 name="close-bold"
-                class="min-w-4 w-4 h-4 text-white hover:text-blue-600"
+                class="min-w-4 h-4 w-4 text-white hover:text-blue-600"
                 @click="close"
               />
             </template>

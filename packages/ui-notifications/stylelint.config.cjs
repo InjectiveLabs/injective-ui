@@ -9,5 +9,6 @@ module.exports = {
       files: ['**/**/*.css'],
       customSyntax: 'postcss'
     }
-  ]
+  ],
+  ignoreFiles: ['coverage/**']
 }

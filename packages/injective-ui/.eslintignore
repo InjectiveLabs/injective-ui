@@ -1,2 +1,4 @@
-dist
-node_modules
+!.prettierrc.js
+!.node_modules/**
+!coverage
+!dist
