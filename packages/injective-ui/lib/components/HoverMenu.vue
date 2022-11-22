@@ -21,7 +21,7 @@ function updateShown(value: boolean) {
   <Menu
     v-bind="$attrs"
     placement="top"
-    :triggers="['hover', 'focus', 'click']"
+    :triggers="['click', 'hover', 'focus']"
     :distance="8"
     :shown="shown"
     @update:shown="updateShown"
