@@ -31,7 +31,7 @@
     "lint": "eslint --max-warnings 0 '**/*.{ts,vue,html}' --fix && stylelint '**/*.{css,.vue}'"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0-rc.13",
+    "@nuxt/kit": "^3.0.0",
     "floating-vue": "^2.0.0-beta.20"
   },
   "devDependencies": {
@@ -40,7 +40,7 @@
     "@injectivelabs/stylelint-config": "^1.0.1-alpha.0",
     "@injectivelabs/ui-notifications": "^1.0.5-alpha.0",
     "@nuxt/module-builder": "latest",
-    "@nuxt/schema": "^3.0.0-rc.13",
+    "@nuxt/schema": "^3.0.0",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@nuxtjs/tailwindcss": "^6.1.3",
     "@testing-library/user-event": "^14.4.3",
@@ -54,7 +54,7 @@
     "eslint-plugin-vue": "latest",
     "jsdom": "^20.0.2",
     "lint-staged": "latest",
-    "nuxt": "^3.0.0-rc.13",
+    "nuxt": "^3.0.0",
     "postcss": "latest",
     "postcss-custom-properties": "latest",
     "postcss-html": "latest",
