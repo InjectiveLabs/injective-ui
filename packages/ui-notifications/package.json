@@ -22,7 +22,7 @@
   },
   "scripts": {
     "prepack": "yarn test:coverage && nuxt-module-build",
-    "dev": "echo Warning: You should debug 'ui-notifications' via the 'injective-ui' package playground.",
+    "dev": "echo Warning: You should debug 'ui-notifications' via the 'ui-shared' package playground.",
     "test": "vitest --segfault-retry=3",
     "test:coverage": "vitest run --coverage --segfault-retry=3",
     "lint": "eslint --max-warnings 0 '**/*.{ts,vue,html}' --fix && stylelint '**/*.{css,.vue}'"

@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn --cwd ./packages/injective-ui lint-staged
+yarn --cwd ./packages/ui-shared lint-staged

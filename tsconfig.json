@@ -1,5 +1,5 @@
 {
-  "extends": "./packages/injective-ui/tsconfig.json",
+  "extends": "./packages/ui-shared/tsconfig.json",
   "compilerOptions": {
     "types": [
       "@vueuse/nuxt"
