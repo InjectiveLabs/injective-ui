@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectorItem: typeof import('./lib/components/SelectorItem.vue')['default']
+    SortableHeaderItem: typeof import('./lib/components/SortableHeaderItem.vue')['default']
     Spinner: typeof import('./lib/components/Spinner.vue')['default']
     TextArea: typeof import('./lib/components/TextArea.vue')['default']
   }

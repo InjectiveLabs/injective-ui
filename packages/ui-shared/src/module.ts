@@ -15,6 +15,10 @@ export default defineNuxtModule({
         path: fileURLToPath(new URL('./../lib/components', import.meta.url)),
         prefix: 'base'
       })
+    },
+
+    'imports:dirs'(dirs) {
+      dirs.push(fileURLToPath(new URL('./../lib/composables', import.meta.url)))
     }
   }
 })
