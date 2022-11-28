@@ -31,7 +31,7 @@ export function useBigNumberFormatter(
   })
 
   const valueToFixed = computed(() => {
-    if (valueToBigNumber.value.lte(0)) {
+    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.lte(0)) {
       return '0.00'
     }
 
@@ -39,7 +39,7 @@ export function useBigNumberFormatter(
   })
 
   const valueToString = computed(() => {
-    if (valueToBigNumber.value.lte(0)) {
+    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.lte(0)) {
       return '0.00'
     }
 
@@ -51,7 +51,7 @@ export function useBigNumberFormatter(
   })
 
   const valueWithGasBuffer = computed(() => {
-    if (valueToBigNumber.value.lte(injFee)) {
+    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.lte(injFee)) {
       return new BigNumberInBase(0)
     }
 
@@ -59,7 +59,7 @@ export function useBigNumberFormatter(
   })
 
   const valueWithGasBufferToFixed = computed(() => {
-    if (valueWithGasBuffer.value.lte(0)) {
+    if (valueToBigNumber.value.isNaN() || valueWithGasBuffer.value.lte(0)) {
       return '0.00'
     }
 
@@ -67,7 +67,7 @@ export function useBigNumberFormatter(
   })
 
   const valueWithGasBufferToString = computed(() => {
-    if (valueWithGasBuffer.value.lte(0)) {
+    if (valueToBigNumber.value.isNaN() || valueWithGasBuffer.value.lte(0)) {
       return '0.00'
     }
 
@@ -79,6 +79,7 @@ export function useBigNumberFormatter(
   })
 
   return {
+    valueToBigNumber,
     valueToFixed,
     valueToString,
     valueWithGasBuffer,
