@@ -3,7 +3,7 @@ import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 
 const DEFAULT_DECIMAL_PLACES = 2
 const DEFAULT_MINIMAL_DISPLAY_DECIMAL_PLACES = 4
-const DEFAULT_INJ_FEE = 20000
+const DEFAULT_INJ_FEE = 0.01
 const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
 export function useBigNumberFormatter(
@@ -52,7 +52,7 @@ export function useBigNumberFormatter(
 
   const valueWithGasBuffer = computed(() => {
     if (valueToBigNumber.value.lte(injFee)) {
-      return valueToBigNumber.value
+      return new BigNumberInBase(0)
     }
 
     return valueToBigNumber.value.minus(injFee)
