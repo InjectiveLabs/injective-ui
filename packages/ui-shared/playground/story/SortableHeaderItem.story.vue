@@ -16,7 +16,22 @@ const ascending = ref(false)
           v-model:ascending="ascending"
           :value="item"
         >
-          {{ item }}
+          <template #default="{ active }">
+            <div class="flex cursor-pointer items-center gap-2">
+              <span>{{ item }}</span>
+              <div
+                class="transition-all"
+                :class="[
+                  active ? 'text-blue-600' : 'text-gray-600',
+                  {
+                    'rotate-180': ascending && active
+                  }
+                ]"
+              >
+                <BaseIcon name="triangle" xs />
+              </div>
+            </div>
+          </template>
         </BaseSortableHeaderItem>
       </div>
     </div>

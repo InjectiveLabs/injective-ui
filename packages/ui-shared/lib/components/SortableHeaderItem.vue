@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   value: {
     type: String,
@@ -19,6 +21,8 @@ const emit = defineEmits<{
   (e: 'update:ascending', value: boolean): null
 }>()
 
+const active = computed(() => props.sortBy === props.value)
+
 function handleSort() {
   if (props.value !== props.sortBy) {
     emit('update:sortBy', props.value)
@@ -30,20 +34,7 @@ function handleSort() {
 </script>
 
 <template>
-  <div class="flex cursor-pointer items-center gap-2" @click="handleSort">
-    <slot></slot>
-    <div
-      class="transition-all"
-      :class="[
-        value === sortBy
-          ? 'text-[var(--sortable-item-active-color)]'
-          : 'text-[var(--sortable-item-inactive-color)]',
-        {
-          'rotate-180': ascending && value === sortBy
-        }
-      ]"
-    >
-      <BaseIcon name="triangle" xs />
-    </div>
-  </div>
+  <th @click="handleSort">
+    <slot :active="active" />
+  </th>
 </template>
