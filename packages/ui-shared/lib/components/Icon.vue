@@ -2,6 +2,8 @@
 import { computed, defineAsyncComponent } from 'vue'
 
 const isProduction = process.env.NODE_ENV === 'production'
+const isWebpack = process.env.BUILDER_TYPE === 'webpack' || isProduction
+
 const props = defineProps({
   xs: Boolean,
   sm: Boolean,
@@ -44,7 +46,7 @@ const dynamicComponent = defineAsyncComponent(() => {
   }
 
   return new Promise((resolve, _reject) => {
-    if (!isProduction) {
+    if (!isWebpack) {
       const comps = import.meta.glob('./../../lib/icons/**/*.vue')
 
       return comps[`../icons/${name}.vue`]().then((component) =>
