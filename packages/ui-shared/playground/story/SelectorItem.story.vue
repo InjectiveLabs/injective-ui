@@ -4,9 +4,9 @@ import { ref } from 'vue'
 const activeValue = ref('one')
 const list = ['one', 'two', 'three']
 
-function handleClick(value: string) {
-  activeValue.value = value
-}
+// function handleClick(value: string) {
+//   activeValue.value = value
+// }
 </script>
 
 <template>
@@ -15,10 +15,9 @@ function handleClick(value: string) {
       <BaseSelectorItem
         v-for="item in list"
         :key="item"
-        v-slot="{ active, click, value }"
-        :active="activeValue === item"
+        v-slot="{ active }"
+        v-model="activeValue"
         :value="item"
-        @click="handleClick"
       >
         <button
           class="flex h-10 max-h-10 items-center rounded-lg px-4 py-3 text-base font-semibold text-white outline-none hover:text-opacity-90"
@@ -27,9 +26,8 @@ function handleClick(value: string) {
               ? 'bg-blue-600 hover:bg-blue-600/90'
               : 'bg-accent-500 hover:bg-accent-600/90'
           ]"
-          @click="click"
         >
-          {{ value }}
+          {{ item }}
         </button>
       </BaseSelectorItem>
     </div>
