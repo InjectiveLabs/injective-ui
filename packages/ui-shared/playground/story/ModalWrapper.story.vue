@@ -28,10 +28,7 @@ function closeModal() {
         @close="closeModal"
       >
         <template #default="{ close, showLoading }">
-          <div
-            :class="{ 'min-h-[320px] flex flex-col': showLoading }"
-            @trigger="close"
-          >
+          <div :class="{ 'min-h-[320px] flex flex-col': showLoading }">
             <div class="-mt-3">
               <BaseIcon
                 name="close"

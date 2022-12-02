@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const emit = defineEmits<{
-  (e: 'click', state: string): void
+  (e: 'update:modelValue', state: string): void
 }>()
 
 const props = defineProps({
@@ -12,7 +12,7 @@ const props = defineProps({
 })
 
 function click() {
-  emit('click', props.value)
+  emit('update:modelValue', props.value)
 }
 </script>
 
