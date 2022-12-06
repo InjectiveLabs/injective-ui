@@ -38,7 +38,7 @@
     "@injectivelabs/eslint-config": "^1.0.4-alpha.0",
     "@injectivelabs/prettier-config": "^1.0.1-alpha.0",
     "@injectivelabs/stylelint-config": "^1.0.1-alpha.0",
-    "@injectivelabs/ui-notifications": "*",
+    "@injectivelabs/ui-notifications": "1.0.7-alpha.0",
     "@injectivelabs/utils": "latest",
     "@nuxt/module-builder": "latest",
     "@nuxt/schema": "^3.0.0",
@@ -48,7 +48,7 @@
     "@testing-library/vue": "^6.6.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "@vitest/coverage-c8": "^0.25.2",
+    "@vitest/coverage-c8": "^0.25.5",
     "@vueuse/nuxt": "^9.5.0",
     "eslint": "latest",
     "eslint-plugin-nuxt": "latest",
@@ -62,7 +62,7 @@
     "postcss-import": "latest",
     "stylelint": "latest",
     "unplugin-vue-components": "^0.22.7",
-    "vitest": "^0.25.2"
+    "vitest": "^0.25.5"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [
