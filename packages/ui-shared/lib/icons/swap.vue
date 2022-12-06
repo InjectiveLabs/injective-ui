@@ -1,25 +1,11 @@
 <template>
   <svg
-    width="40"
-    height="40"
-    viewBox="0 0 40 40"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 24 24"
   >
     <path
-      d="M17.4707 10V29.1197L11.0975 22.7464"
-      stroke="currentColor"
-      stroke-width="2"
-    />
-    <path
-      d="M22.5693 31.668L22.5693 12.5483L29.0708 18.9215"
-      stroke="currentColor"
-      stroke-width="2"
-    />
-    <path
-      d="M28.9424 18.9863L22.6332 12.6772"
-      stroke="currentColor"
-      stroke-width="2"
+      d="M15 12L20 8 15 4 15 6.999 2 6.999 2 8.999 15 8.999zM22 15L9 15 9 12 4 16 9 20 9 17 22 17z"
     />
   </svg>
 </template>

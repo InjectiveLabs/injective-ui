@@ -1,30 +1,14 @@
-<script lang="ts" setup>
-const uuid = `${Math.random()}`
-</script>
-
 <template>
   <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
   >
-    <g :clip-path="`url(#${uuid})`">
-      <path
-        d="M11.6668 0.666626H3.66683C2.9335 0.666626 2.3335 1.26663 2.3335 1.99996V11.3333H3.66683V1.99996H11.6668V0.666626ZM13.6668 3.33329H6.3335C5.60016 3.33329 5.00016 3.93329 5.00016 4.66663V14C5.00016 14.7333 5.60016 15.3333 6.3335 15.3333H13.6668C14.4002 15.3333 15.0002 14.7333 15.0002 14V4.66663C15.0002 3.93329 14.4002 3.33329 13.6668 3.33329ZM13.6668 14H6.3335V4.66663H13.6668V14Z"
-        fill="currentColor"
-      />
-    </g>
-    <defs>
-      <clipPath :id="uuid">
-        <rect
-          width="13"
-          height="16"
-          fill="currentColor"
-          transform="translate(2)"
-        />
-      </clipPath>
-    </defs>
+    <path
+      d="M20,2H10C8.896,2,8,2.896,8,4v2h1h7c1.104,0,2,0.896,2,2v7v1h2c1.104,0,2-0.896,2-2V4C22,2.896,21.104,2,20,2z"
+    />
+    <path
+      d="M4,22h10c1.103,0,2-0.897,2-2V10c0-1.103-0.897-2-2-2H4c-1.103,0-2,0.897-2,2v10C2,21.103,2.897,22,4,22z M6,12h6v2H6V12z M6,16h6v2H6V16z"
+    />
   </svg>
 </template>
