@@ -33,23 +33,20 @@ function close() {
       class="flex gap-2 justify-start items-start p-4"
       :class="{ 'items-center': !notification.description }"
     >
-      <div
-        v-if="notification.type === NotificationType.Error"
-        class="w-6 h-6 text-red-500"
-      >
-        <IconsError />
+      <div v-if="notification.type === NotificationType.Error">
+        <slot name="error">
+          <IconsError class="w-6 h-6 text-red-500" />
+        </slot>
       </div>
-      <div
-        v-if="notification.type === NotificationType.Warning"
-        class="w-6 h-6 text-orange-400"
-      >
-        <IconsWarning />
+      <div v-if="notification.type === NotificationType.Warning">
+        <slot name="warning">
+          <IconsWarning class="w-6 h-6 text-orange-400" />
+        </slot>
       </div>
-      <div
-        v-if="notification.type === NotificationType.Success"
-        class="w-6 h-6 text-green-400"
-      >
-        <IconsSuccess />
+      <div v-if="notification.type === NotificationType.Success">
+        <slot name="success">
+          <IconsSuccess class="w-6 h-6 text-green-400" />
+        </slot>
       </div>
       <div class="flex flex-col gap-2" :class="contentClass">
         <span class="text-sm font-semibold">{{ title }}</span>
