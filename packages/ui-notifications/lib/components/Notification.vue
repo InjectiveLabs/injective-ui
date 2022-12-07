@@ -7,6 +7,14 @@ const props = defineProps({
   notification: {
     type: Object as PropType<NotificationData>,
     required: true
+  },
+  wrapperClass: {
+    type: String,
+    default: 'bg-gray-800'
+  },
+  contentClass: {
+    type: String,
+    default: 'text-white'
   }
 })
 
@@ -20,7 +28,7 @@ function close() {
 </script>
 
 <template>
-  <div class="bg-gray-800 rounded-lg pointer-events-auto">
+  <div class="rounded-lg pointer-events-auto" :class="wrapperClass">
     <div
       class="flex gap-2 justify-start items-start p-4"
       :class="{ 'items-center': !notification.description }"
@@ -43,9 +51,9 @@ function close() {
       >
         <IconsSuccess />
       </div>
-      <div class="flex flex-col gap-2">
-        <span class="text-sm text-white font-semibold">{{ title }}</span>
-        <span v-if="notification.description" class="text-sm text-white">
+      <div class="flex flex-col gap-2" :class="contentClass">
+        <span class="text-sm font-semibold">{{ title }}</span>
+        <span v-if="notification.description" class="text-sm">
           {{ notification.description }}
         </span>
       </div>

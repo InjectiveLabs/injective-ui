@@ -12,5 +12,12 @@ export default <Config>{
     fileURLToPath(new URL('./../lib/icons/*.vue', import.meta.url)),
     fileURLToPath(new URL('./../playground/story/*.vue', import.meta.url))
   ],
-  safeList: ['bg-slate-800']
+  theme: {
+    extend: {
+      boxShadow: {
+        glow: '0px 0px 10px rgba(0,0,0, 0.1)',
+        'glow-lg': '0px 0px 20px rgba(0,0,0, 0.2)'
+      }
+    }
+  }
 }

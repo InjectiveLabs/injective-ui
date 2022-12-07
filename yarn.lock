@@ -582,6 +582,13 @@
     link-module-alias "^1.2.0"
     shx "^0.3.2"
 
+"@injectivelabs/ui-notifications@*":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@injectivelabs/ui-notifications/-/ui-notifications-1.0.1.tgz#1bca0a7ca81c1aaaf2bd1631872e4ed3b9d7d22c"
+  integrity sha512-28Q7uDLrJs3mY34hz49CljMUMWvTVCgYByFaT8IIrQo1O5b31Cpuy3cF7z0FJjQA+IWpYad0E27kI5Jg6nBNeQ==
+  dependencies:
+    "@nuxt/kit" "^3.0.0-rc.12"
+
 "@injectivelabs/utils@latest":
   version "1.0.44"
   resolved "https://registry.npmjs.org/@injectivelabs/utils/-/utils-1.0.44.tgz#a970ddcda60ac15a50a284063598b44b8d89311e"

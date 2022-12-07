@@ -3,6 +3,7 @@ const notifications = useNotifications()
 
 function handleError() {
   notifications.error({
+    timeout: 100 * 1000,
     title: 'Error title',
     description: 'Error description'
   })
@@ -10,12 +11,14 @@ function handleError() {
 
 function handleWarning() {
   notifications.warning({
+    timeout: 100 * 1000,
     title: 'Warning title'
   })
 }
 
 function handleSuccess() {
   notifications.success({
+    timeout: 100 * 1000,
     title: 'Success title',
     description: 'Success description'
   })
@@ -58,7 +61,9 @@ function handleSuccess() {
         <template #notification="{ notification }">
           <Notification
             :notification="notification"
-            class="pointer-events-auto bg-gray-900"
+            class="pointer-events-auto"
+            :wrapper-class="'bg-white shadow-glow-lg'"
+            :content-class="'text-black'"
           >
             <template #close="{ close }">
               <BaseIcon
