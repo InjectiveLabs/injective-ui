@@ -1,14 +1,14 @@
 import { computed, Ref } from 'vue'
 import { useField } from 'vee-validate'
 
-export function useBaseField({
+export function useStringField({
+  name,
   dynamicRule,
   initialValue,
-  name,
   rule = 'required'
 }: {
   dynamicRule?: Ref<string>
-  initialValue?: string | number
+  initialValue?: string
   name: string
   rule?: string
 }) {
@@ -16,13 +16,27 @@ export function useBaseField({
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
   )
 
-  if (typeof initialValue === 'number') {
-    return useField<number>(name, validation, {
-      initialValue: (initialValue || 0) as number
-    })
-  }
-
   return useField<string>(name, validation, {
     initialValue: (initialValue || '') as string
+  })
+}
+
+export function useNumberField({
+  name,
+  dynamicRule,
+  initialValue,
+  rule = 'required'
+}: {
+  dynamicRule?: Ref<string>
+  initialValue?: number
+  name: string
+  rule?: string
+}) {
+  const validation = computed(() =>
+    [rule, dynamicRule?.value].filter((rule) => rule).join('|')
+  )
+
+  return useField<number>(name, validation, {
+    initialValue: (initialValue || 0) as number
   })
 }
