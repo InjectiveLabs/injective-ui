@@ -1,18 +1,22 @@
-import { Ref } from 'vue'
+import { computed, Ref } from 'vue'
 import { useField } from 'vee-validate'
 
 export function useBaseField({
+  dynamicRule,
+  initialValue,
   name,
-  type = 'string',
-  validation,
-  initialValue
+  rule = 'required'
 }: {
-  name: string
-  type?: string
+  dynamicRule?: Ref<string>
   initialValue?: string | number
-  validation?: Ref<string>
+  name: string
+  rule?: string
 }) {
-  if (type === 'number') {
+  const validation = computed(() =>
+    [rule, dynamicRule?.value].filter((rule) => rule).join('|')
+  )
+
+  if (typeof initialValue === 'number') {
     return useField<number>(name, validation, {
       initialValue: (initialValue || 0) as number
     })
