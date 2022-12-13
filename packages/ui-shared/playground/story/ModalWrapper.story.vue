@@ -24,7 +24,7 @@ function closeModal() {
 
       <BaseModalWrapper
         :show="show"
-        class="shadow-glow-lg mx-auto max-w-[90%] rounded-xl bg-gray-900 py-8 px-6 shadow-sm sm:max-w-[480px]"
+        class="shadow-glow-lg mx-auto max-w-[90%] rounded-xl bg-gray-900 py-8 px-6 sm:max-w-[480px]"
         @close="closeModal"
       >
         <template #default="{ close, showLoading }">
@@ -37,7 +37,9 @@ function closeModal() {
               />
             </div>
 
-            <slot />
+            <div v-for="i in 100" :key="i" class="text-white">
+              Random content
+            </div>
           </div>
         </template>
       </BaseModalWrapper>

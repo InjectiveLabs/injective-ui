@@ -44,8 +44,12 @@ export default {
       class="fixed inset-0 z-50 table h-full w-full duration-300 ease-in"
       :class="wrapperClass"
     >
-      <div class="table-cell align-middle">
-        <div ref="modalRef" class="modal-container" :class="$attrs.class">
+      <div class="flex items-center justify-center overflow-y-scroll h-full">
+        <div
+          ref="modalRef"
+          class="modal-container max-h-90% overflow-y-scroll"
+          :class="$attrs.class"
+        >
           <slot ref="modalRef" :close="close" :show-loading="showLoading" />
         </div>
       </div>

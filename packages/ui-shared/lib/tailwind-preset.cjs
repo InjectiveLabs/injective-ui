@@ -97,6 +97,10 @@ module.exports = {
         lg: '32rem'
       },
 
+      maxHeight: {
+        '90%': '90%'
+      },
+
       maxWidth: {
         '90%': '90%'
       },
