@@ -11,6 +11,7 @@ const props = defineProps({
     type: [String, Number],
     default: ''
   },
+
   maxDecimals: {
     type: Number,
     default: 6

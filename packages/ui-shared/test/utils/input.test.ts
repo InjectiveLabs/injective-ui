@@ -10,6 +10,10 @@ describe('utils input helper functions', () => {
     test('handles empty value arg correctly', () => {
       expect(convertToNumericValue('', 0)).toEqual('')
     })
+
+    test('handles above max value arg correctly', () => {
+      expect(convertToNumericValue(`${10 ** 19}`, 0)).toEqual(0)
+    })
   })
 
   describe('passNumericInputValidation', () => {
