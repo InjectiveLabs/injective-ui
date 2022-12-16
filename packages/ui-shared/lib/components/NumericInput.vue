@@ -2,7 +2,8 @@
 import { useDebounceFn } from '@vueuse/core'
 import {
   convertToNumericValue,
-  passNumericInputValidation
+  passNumericInputValidation,
+  stripNonDigits
 } from './../utils/input'
 import { KeydownEvent, PasteEvent } from './../types'
 
@@ -63,7 +64,11 @@ function onPaste(payload: ClipboardEvent) {
 
   if (clipboardData) {
     const value = clipboardData.getData('text')
-    const formattedValue = convertToNumericValue(value, props.maxDecimals)
+    const digitOnlyValue = stripNonDigits(value).toString()
+    const formattedValue = convertToNumericValue(
+      digitOnlyValue,
+      props.maxDecimals
+    )
 
     emit('update:modelValue', `${formattedValue}`)
   }

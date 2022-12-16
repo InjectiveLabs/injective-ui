@@ -2,29 +2,35 @@ import { KeydownEvent } from './../types'
 
 const MAXIMUM_ALLOWED_VALUE = 10 ** 18
 
+const formatDecimalPlacesByLimit = (value: string, maxDecimals: number) => {
+  return value.length > maxDecimals ? value.substring(0, maxDecimals) : value
+}
+
+export const stripNonDigits = (value: string) => {
+  return parseFloat(value.replace(/[^.\d]/g, ''))
+}
+
 export const convertToNumericValue = (value: string, maxDecimals: number) => {
-  if (value === '' || Number(value) === 0) {
+  if (value === '') {
     return value
   }
 
-  const numericValue = parseFloat(value.replace(/[^.\d]/g, ''))
+  const [wholeValue, decimalValue] = value.split('.')
 
-  if (numericValue > MAXIMUM_ALLOWED_VALUE) {
+  const formattedWholeNumber = parseFloat(wholeValue)
+
+  if (formattedWholeNumber > MAXIMUM_ALLOWED_VALUE) {
     return 0
   }
 
-  if (numericValue % 1 !== 0) {
-    const [wholeValue, decimalValue] = numericValue.toString().split('.')
-
-    const formattedDecimalValue =
-      decimalValue.length > maxDecimals
-        ? decimalValue.substring(0, maxDecimals)
-        : decimalValue
-
-    return `${wholeValue}.${formattedDecimalValue}`
+  if (decimalValue) {
+    return `${formattedWholeNumber}.${formatDecimalPlacesByLimit(
+      decimalValue,
+      maxDecimals
+    )}`
   }
 
-  return numericValue
+  return formattedWholeNumber
 }
 
 export const passNumericInputValidation = (

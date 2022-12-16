@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { PasteEvent } from './../types'
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     default: ''
@@ -23,7 +23,7 @@ function onPaste(payload: ClipboardEvent) {
   if (clipboardData) {
     const value = clipboardData.getData('text')
 
-    emit('update:modelValue', value.trim())
+    emit('update:modelValue', `${props.modelValue}${value.trim()}`)
   }
 }
 

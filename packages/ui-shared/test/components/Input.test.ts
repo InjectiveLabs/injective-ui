@@ -10,7 +10,7 @@ describe('Input component', () => {
 
     beforeEach(async () => {
       result = render(Input, {
-        props: { modelValue: '111' }
+        props: { modelValue: 'inj' }
       })
       input = await result.container.getElementsByTagName('INPUT')[0]
     })
@@ -29,7 +29,7 @@ describe('Input component', () => {
 
     test('on paste event', async () => {
       await userEvent.click(input)
-      await userEvent.paste('inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku')
+      await userEvent.paste('14au322k9munkmx5wrchz9q30juf5wjgz2cfqku')
 
       expect(result.emitted()['update:modelValue']).toMatchObject([
         ['inj14au322k9munkmx5wrchz9q30juf5wjgz2cfqku']
