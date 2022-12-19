@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     Input: typeof import('./lib/components/Input.vue')['default']
     ModalWrapper: typeof import('./lib/components/ModalWrapper.vue')['default']
     NumericInput: typeof import('./lib/components/NumericInput.vue')['default']
+    PaginationWrapper: typeof import('./lib/components/PaginationWrapper.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectorItem: typeof import('./lib/components/SelectorItem.vue')['default']
