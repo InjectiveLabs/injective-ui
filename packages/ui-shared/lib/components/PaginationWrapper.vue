@@ -77,8 +77,8 @@ const pagesToDisplay = computed(() => {
 })
 
 function handleClickEvent(page: number | string) {
-  if (!props.disabled || typeof page !== 'number') {
-    emit('update:page', page as number)
+  if (!props.disabled && typeof page !== 'number') {
+    emit('update:page', Number(page))
   }
 }
 
