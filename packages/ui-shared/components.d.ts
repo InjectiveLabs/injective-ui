@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     HoverMenu: typeof import('./lib/components/HoverMenu.vue')['default']
     Icon: typeof import('./lib/components/Icon.vue')['default']
     Input: typeof import('./lib/components/Input.vue')['default']
+    LineGraph: typeof import('./lib/components/LineGraph.vue')['default']
     ModalWrapper: typeof import('./lib/components/ModalWrapper.vue')['default']
     NumericInput: typeof import('./lib/components/NumericInput.vue')['default']
     PaginationWrapper: typeof import('./lib/components/PaginationWrapper.vue')['default']
