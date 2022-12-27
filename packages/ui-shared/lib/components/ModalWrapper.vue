@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, PropType } from 'vue'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const emit = defineEmits<{
@@ -9,6 +9,12 @@ const emit = defineEmits<{
 const props = defineProps({
   show: Boolean,
   showLoading: Boolean,
+
+  ignore: {
+    type: Array as PropType<string[]>,
+    default: () => []
+  },
+
   wrapperClass: {
     type: String,
     default: 'bg-gray-900 bg-opacity-80'
@@ -23,9 +29,15 @@ onKeyStroke('Escape', () => {
   }
 })
 
-onClickOutside(modalRef, () => {
-  close()
-})
+onClickOutside(
+  modalRef,
+  () => {
+    close()
+  },
+  {
+    ignore: props.ignore
+  }
+)
 
 const close = () => {
   emit('close')
@@ -41,16 +53,18 @@ export default {
   <Transition name="modal" appear>
     <div
       v-if="show"
-      class="fixed inset-0 z-50 table h-full w-full duration-300 ease-in"
+      class="fixed inset-0 z-50 h-full w-full duration-300 ease-in"
       :class="wrapperClass"
     >
-      <div class="flex items-center justify-center overflow-y-scroll h-full">
+      <div class="flex items-center justify-center h-full">
         <div
           ref="modalRef"
-          class="modal-container max-h-90% overflow-y-scroll"
+          class="modal-container overflow-y-hidden"
           :class="$attrs.class"
         >
-          <slot ref="modalRef" :close="close" :show-loading="showLoading" />
+          <div class="max-h-screen sm:max-h-[90vh] overflow-y-auto">
+            <slot ref="modalRef" :close="close" :show-loading="showLoading" />
+          </div>
         </div>
       </div>
     </div>
