@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, PropType } from 'vue'
+import { ref, PropType, watch } from 'vue'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const emit = defineEmits<{
@@ -13,6 +13,11 @@ const props = defineProps({
   ignore: {
     type: Array as PropType<string[]>,
     default: () => []
+  },
+
+  containerClass: {
+    type: String,
+    default: ''
   },
 
   wrapperClass: {
@@ -39,6 +44,17 @@ onClickOutside(
   }
 )
 
+watch(
+  () => props.show,
+  (showState: Boolean) => {
+    if (showState) {
+      document.body.classList.add('overflow-hidden')
+    } else {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }
+)
+
 const close = () => {
   emit('close')
 }
@@ -62,7 +78,10 @@ export default {
           class="modal-container overflow-y-hidden"
           :class="$attrs.class"
         >
-          <div class="max-h-screen sm:max-h-[90vh] overflow-y-auto">
+          <div
+            class="max-h-screen sm:max-h-[90vh] overflow-y-auto"
+            :class="containerClass"
+          >
             <slot ref="modalRef" :close="close" :show-loading="showLoading" />
           </div>
         </div>
