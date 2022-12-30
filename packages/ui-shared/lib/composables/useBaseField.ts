@@ -1,4 +1,4 @@
-import { computed, Ref } from 'vue'
+import { computed, type Ref } from 'vue'
 import { useField } from 'vee-validate'
 
 export function useStringField({
@@ -38,5 +38,25 @@ export function useNumberField({
 
   return useField<number>(name, validation, {
     initialValue: (initialValue || 0) as number
+  })
+}
+
+export function useBooleanField({
+  name,
+  dynamicRule,
+  initialValue,
+  rule = 'required'
+}: {
+  dynamicRule?: Ref<string>
+  initialValue?: boolean
+  name: string
+  rule?: string
+}) {
+  const validation = computed(() =>
+    [rule, dynamicRule?.value].filter((rule) => rule).join('|')
+  )
+
+  return useField<boolean>(name, validation, {
+    initialValue: (initialValue || false) as boolean
   })
 }
