@@ -24,7 +24,7 @@ describe('NumericInput component', () => {
     test('on blur event', async () => {
       await fireEvent.blur(input)
 
-      expect(result.emitted().blur).toMatchObject([[]])
+      expect(result.emitted().blur).toMatchObject([['']])
     })
 
     test('on keydown string values', async () => {
