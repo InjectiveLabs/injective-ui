@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, PropType, watch } from 'vue'
-import { onClickOutside, onKeyStroke } from '@vueuse/core'
+import {
+  onClickOutside,
+  onKeyStroke,
+  MaybeElement,
+  MaybeElementRef
+} from '@vueuse/core'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -40,7 +45,7 @@ onClickOutside(
     close()
   },
   {
-    ignore: props.ignore
+    ignore: props.ignore as unknown as MaybeElementRef<MaybeElement>[]
   }
 )
 
