@@ -10,9 +10,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   (e: 'update:modelValue', state: string): void
-  (e: 'blur', value: string): void
   (e: 'input', value: string): void
-  (e: 'focus'): void
 }>()
 
 function onPaste(payload: ClipboardEvent) {
@@ -30,16 +28,6 @@ function onPaste(payload: ClipboardEvent) {
   }
 }
 
-function onFocus() {
-  emit('focus')
-}
-
-function onBlur(event: any) {
-  const { value } = event.target
-
-  emit('blur', value)
-}
-
 function onChange(event: any) {
   const { value } = event.target
 
@@ -51,9 +39,8 @@ function onChange(event: any) {
 <template>
   <input
     class="input"
+    v-bind="$attrs"
     :value="modelValue"
-    @blur="onBlur"
-    @focus="onFocus"
     @input="onChange"
     @paste="onPaste"
   />

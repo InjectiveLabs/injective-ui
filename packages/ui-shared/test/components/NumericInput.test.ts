@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from 'vitest'
-import { fireEvent, render, RenderResult, waitFor } from '@testing-library/vue'
+import { render, RenderResult, waitFor } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 import NumericInput from '../../lib/components/NumericInput.vue'
 
@@ -13,18 +13,6 @@ describe('NumericInput component', () => {
         props: { modelValue: '' }
       })
       input = await result.container.getElementsByTagName('INPUT')[0]
-    })
-
-    test('on focus event', async () => {
-      await userEvent.click(input)
-
-      expect(result.emitted().focus).toMatchObject([[]])
-    })
-
-    test('on blur event', async () => {
-      await fireEvent.blur(input)
-
-      expect(result.emitted().blur).toMatchObject([['']])
     })
 
     test('on keydown string values', async () => {

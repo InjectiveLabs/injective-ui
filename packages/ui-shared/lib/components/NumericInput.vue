@@ -21,9 +21,6 @@ const props = defineProps({
 
 const emit = defineEmits<{
   (e: 'update:modelValue', state: string): void
-  (e: 'input', value: string): void
-  (e: 'blur', value: string): void
-  (e: 'focus'): void
 }>()
 
 const debounceSanitizeDecimalPlace = useDebounceFn((value: string) => {
@@ -33,18 +30,7 @@ const debounceSanitizeDecimalPlace = useDebounceFn((value: string) => {
   ).toString()
 
   emit('update:modelValue', formattedValue)
-  emit('input', formattedValue)
 }, 500)
-
-function onFocus() {
-  emit('focus')
-}
-
-function onBlur(event: any) {
-  const { value } = event.target
-
-  emit('blur', value)
-}
 
 function onWheel(event: WheelEvent) {
   event.preventDefault()
@@ -75,7 +61,6 @@ function onPaste(payload: ClipboardEvent) {
     )
 
     emit('update:modelValue', `${formattedValue}`)
-    emit('input', `${formattedValue}`)
   }
 }
 
@@ -93,8 +78,6 @@ function onChange(event: any) {
     type="number"
     v-bind="$attrs"
     :value="modelValue"
-    @blur="onBlur"
-    @focus="onFocus"
     @input="onChange"
     @paste="onPaste"
     @keydown="onKeyDown"

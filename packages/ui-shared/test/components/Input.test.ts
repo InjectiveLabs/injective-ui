@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from 'vitest'
-import { fireEvent, render, RenderResult } from '@testing-library/vue'
+import { render, RenderResult } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 import Input from '../../lib/components/Input.vue'
 
@@ -13,18 +13,6 @@ describe('Input component', () => {
         props: { modelValue: 'inj' }
       })
       input = await result.container.getElementsByTagName('INPUT')[0]
-    })
-
-    test('on focus event', async () => {
-      await userEvent.click(input)
-
-      expect(result.emitted().focus.length).toEqual(1)
-    })
-
-    test('on blur event', async () => {
-      await fireEvent.blur(input)
-
-      expect(result.emitted().blur.length).toEqual(1)
     })
 
     test('on paste event', async () => {
