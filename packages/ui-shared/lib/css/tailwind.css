@@ -38,15 +38,15 @@ input[type='number'] {
   -moz-appearance: textfield !important;
 }
 
-.input {
+.input-base {
   @apply w-full bg-transparent text-left appearance-none box-border rounded-sm p-0;
 }
 
-.input:disabled {
+.input-base:disabled {
   @apply cursor-not-allowed;
 }
 
-.input:focus {
+.input-base:focus {
   @apply border-none outline-none;
 }
 

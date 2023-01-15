@@ -38,7 +38,7 @@ function onChange(event: any) {
 
 <template>
   <input
-    class="input"
+    class="input-base"
     v-bind="$attrs"
     :value="modelValue"
     @input="onChange"
