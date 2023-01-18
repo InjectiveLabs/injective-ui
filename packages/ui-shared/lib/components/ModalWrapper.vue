@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, PropType, watch } from 'vue'
+import { ref, PropType } from 'vue'
 import {
   onClickOutside,
   onKeyStroke,
@@ -46,17 +46,6 @@ onClickOutside(
   },
   {
     ignore: props.ignore as unknown as MaybeElementRef<MaybeElement>[]
-  }
-)
-
-watch(
-  () => props.show,
-  (showState: Boolean) => {
-    if (showState) {
-      document.body.classList.add('overflow-hidden')
-    } else {
-      document.body.classList.remove('overflow-hidden')
-    }
   }
 )
 
