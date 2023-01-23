@@ -96,7 +96,7 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (valueToBigNumber.value.lt(minimalDisplayAmount)) {
+    if (valueToBigNumber.value.abs().lt(minimalDisplayAmount)) {
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
@@ -124,7 +124,7 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (valueWithGasBuffer.value.lt(minimalDisplayAmount)) {
+    if (valueWithGasBuffer.value.abs().lt(minimalDisplayAmount)) {
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
