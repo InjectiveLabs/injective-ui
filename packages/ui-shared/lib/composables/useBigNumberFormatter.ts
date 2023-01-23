@@ -79,7 +79,7 @@ const getNumberMinimalDecimals = (
   }
 }
 
-export function useBigNumberFormatterNew(
+export function useBigNumberFormatter(
   value: Ref<String | Number | BigNumberInBase>,
   options: {
     decimalPlaces?: number
