@@ -12,6 +12,13 @@ const DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES = 12
 const DEFAULT_INJ_FEE = 0.01
 const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
+const abbreviateNumber = (number: number) => {
+  return new Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    compactDisplay: 'short'
+  }).format(number)
+}
+
 const getNumberMinimalDecimals = (
   value: Ref<BigNumberInBase>,
   defaultMinimalDecimalPlaces?: number,
@@ -71,14 +78,18 @@ const getNumberMinimalDecimals = (
   }
 }
 
+/**
+ * Used only until we get the new big number formatter from injective-ui
+ */
 export function useBigNumberFormatter(
   value: Ref<String | Number | BigNumberInBase>,
   options: {
     decimalPlaces?: number
     minimalDecimalPlaces?: number
+    abbreviationFloor?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
     injFee?: number
     roundingMode?: BigNumber.RoundingMode
-    displayAbsoluteDecimalPlace?: boolean
+    displayAbsoluteDecimalPlace?: boolean /** Explained above */
   } = {}
 ) {
   const valueToBigNumber = computed(() => {
@@ -90,7 +101,6 @@ export function useBigNumberFormatter(
   })
 
   const decimalPlaces = options.decimalPlaces || DEFAULT_DECIMAL_PLACES
-
   const injFee = options.injFee || DEFAULT_INJ_FEE
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
@@ -100,12 +110,26 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
+    if (
+      !!options.abbreviationFloor &&
+      valueToBigNumber.value.gte(options.abbreviationFloor)
+    ) {
+      return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+    }
+
     return valueToBigNumber.value.toFixed(decimalPlaces, roundingMode)
   })
 
   const valueToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
       return '0.00'
+    }
+
+    if (
+      !!options.abbreviationFloor &&
+      valueToBigNumber.value.gte(options.abbreviationFloor)
+    ) {
+      return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
@@ -141,6 +165,13 @@ export function useBigNumberFormatter(
   const valueWithGasBufferToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
       return '0.00'
+    }
+
+    if (
+      !!options.abbreviationFloor &&
+      valueToBigNumber.value.gte(options.abbreviationFloor)
+    ) {
+      return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
