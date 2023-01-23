@@ -14,7 +14,6 @@ const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
 const abbreviateNumber = (number: number) => {
   return new Intl.NumberFormat('en-US', {
-    // @ts-ignore
     notation: 'compact',
     compactDisplay: 'short'
   }).format(number)
@@ -79,12 +78,15 @@ const getNumberMinimalDecimals = (
   }
 }
 
+/**
+ * Used only until we get the new big number formatter from injective-ui
+ */
 export function useBigNumberFormatter(
   value: Ref<String | Number | BigNumberInBase>,
   options: {
     decimalPlaces?: number
     minimalDecimalPlaces?: number
-    abbreviationMinimum?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
+    abbreviationFloor?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
     injFee?: number
     roundingMode?: BigNumber.RoundingMode
     displayAbsoluteDecimalPlace?: boolean /** Explained above */
@@ -102,16 +104,16 @@ export function useBigNumberFormatter(
   const injFee = options.injFee || DEFAULT_INJ_FEE
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
+  const displayAbbreviation =
+    !!options.abbreviationFloor &&
+    valueToBigNumber.value.gte(options.abbreviationFloor)
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
       return '0.00'
     }
 
-    if (
-      options.abbreviationMinimum &&
-      valueToBigNumber.value.gte(options.abbreviationMinimum)
-    ) {
+    if (displayAbbreviation) {
       return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
@@ -123,10 +125,7 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (
-      options.abbreviationMinimum &&
-      valueToBigNumber.value.gte(options.abbreviationMinimum)
-    ) {
+    if (displayAbbreviation) {
       return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
@@ -165,10 +164,7 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (
-      options.abbreviationMinimum &&
-      valueToBigNumber.value.gte(options.abbreviationMinimum)
-    ) {
+    if (displayAbbreviation) {
       return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
