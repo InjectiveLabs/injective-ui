@@ -14,7 +14,8 @@ const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
 const getNumberMinimalDecimals = (
   value: Ref<BigNumberInBase>,
-  defaultMinimalDecimalPlaces?: number
+  defaultMinimalDecimalPlaces?: number,
+  displayAbsoluteDecimalPlace?: boolean
 ) => {
   const valueExactDecimals = getExactDecimalsFromNumber(value.value.toFixed())
   const minimalDecimalPlaces =
@@ -31,32 +32,42 @@ const getNumberMinimalDecimals = (
   }
 
   /**
-   * The number is within the range of minimal decimals,
+   * The number is less then the range of minimal decimals,
    * for example if minimalDecimalPlaces = 4, the number is
-   * higher than 0.0001
+   * smaller than 0.0001
+   * show exact decimal places the based on the value provided up to 12 decimal places
+   * i.e a value with 0.000001010102 will be displayed as < 0.000001
    */
-  if (value.value.gt(minNumberFromDefaultMinDecimals)) {
+  if (
+    value.value.lte(minNumberFromDefaultMinDecimals) &&
+    displayAbsoluteDecimalPlace
+  ) {
+    const actualMinimalDecimalPlaces =
+      valueExactDecimals > DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES
+        ? DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES
+        : valueExactDecimals
+    const minimalDisplayAmount = new BigNumber(1).shiftedBy(
+      -actualMinimalDecimalPlaces
+    )
+
+    /**
+     * Go up to 12 decimals if needed, which is a maximum we can support
+     * at this point
+     */
     return {
-      minimalDecimalPlaces,
-      minimalDisplayAmount: new BigNumber(1).shiftedBy(-minimalDecimalPlaces)
+      minimalDisplayAmount,
+      minimalDecimalPlaces: actualMinimalDecimalPlaces
     }
   }
 
-  const actualMinimalDecimalPlaces =
-    valueExactDecimals > DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES
-      ? DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES
-      : valueExactDecimals
-  const minimalDisplayAmount = new BigNumber(1).shiftedBy(
-    -actualMinimalDecimalPlaces
-  )
-
-  /**
-   * Go up to 12 decimals if needed, which is a maximum we can support
-   * at this point
+  /*
+   * display the value based on the minimalDecimalPlaces value provided
+   * which is default to 4, if not provided
+   * for example minimalDecimalPlaces: 3 will show <0.01 if value is less then 0.01
    */
   return {
-    minimalDisplayAmount,
-    minimalDecimalPlaces: actualMinimalDecimalPlaces
+    minimalDecimalPlaces,
+    minimalDisplayAmount: new BigNumber(1).shiftedBy(-minimalDecimalPlaces)
   }
 }
 
@@ -67,6 +78,7 @@ export function useBigNumberFormatter(
     minimalDecimalPlaces?: number
     injFee?: number
     roundingMode?: BigNumber.RoundingMode
+    displayAbsoluteDecimalPlace?: boolean
   } = {}
 ) {
   const valueToBigNumber = computed(() => {
@@ -78,10 +90,10 @@ export function useBigNumberFormatter(
   })
 
   const decimalPlaces = options.decimalPlaces || DEFAULT_DECIMAL_PLACES
-  const { minimalDecimalPlaces, minimalDisplayAmount } =
-    getNumberMinimalDecimals(valueToBigNumber, options.minimalDecimalPlaces)
+
   const injFee = options.injFee || DEFAULT_INJ_FEE
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
+  const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
@@ -96,7 +108,14 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (valueToBigNumber.value.lt(minimalDisplayAmount)) {
+    const { minimalDecimalPlaces, minimalDisplayAmount } =
+      getNumberMinimalDecimals(
+        valueToBigNumber,
+        options.minimalDecimalPlaces,
+        displayAbsoluteDecimalPlace
+      )
+
+    if (valueToBigNumber.value.abs().lt(minimalDisplayAmount)) {
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
@@ -124,7 +143,14 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (valueWithGasBuffer.value.lt(minimalDisplayAmount)) {
+    const { minimalDecimalPlaces, minimalDisplayAmount } =
+      getNumberMinimalDecimals(
+        valueToBigNumber,
+        options.minimalDecimalPlaces,
+        displayAbsoluteDecimalPlace
+      )
+
+    if (valueWithGasBuffer.value.abs().lt(minimalDisplayAmount)) {
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
