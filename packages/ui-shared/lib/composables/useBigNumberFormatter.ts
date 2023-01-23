@@ -104,16 +104,16 @@ export function useBigNumberFormatter(
   const injFee = options.injFee || DEFAULT_INJ_FEE
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
-  const displayAbbreviation =
-    !!options.abbreviationFloor &&
-    valueToBigNumber.value.gte(options.abbreviationFloor)
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
       return '0.00'
     }
 
-    if (displayAbbreviation) {
+    if (
+      !!options.abbreviationFloor &&
+      valueToBigNumber.value.gte(options.abbreviationFloor)
+    ) {
       return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
@@ -125,7 +125,10 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (displayAbbreviation) {
+    if (
+      !!options.abbreviationFloor &&
+      valueToBigNumber.value.gte(options.abbreviationFloor)
+    ) {
       return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
@@ -164,7 +167,10 @@ export function useBigNumberFormatter(
       return '0.00'
     }
 
-    if (displayAbbreviation) {
+    if (
+      !!options.abbreviationFloor &&
+      valueToBigNumber.value.gte(options.abbreviationFloor)
+    ) {
       return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
