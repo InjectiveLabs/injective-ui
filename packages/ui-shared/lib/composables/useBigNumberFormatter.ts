@@ -26,7 +26,7 @@ const getNumberMinimalDecimals = (
 ) => {
   const valueExactDecimals = getExactDecimalsFromNumber(value.value.toFixed())
   const minimalDecimalPlaces =
-    defaultMinimalDecimalPlaces || DEFAULT_MINIMAL_DISPLAY_DECIMAL_PLACES
+    defaultMinimalDecimalPlaces ?? DEFAULT_MINIMAL_DISPLAY_DECIMAL_PLACES
   const minNumberFromDefaultMinDecimals = new BigNumberInBase(1).shiftedBy(
     -minimalDecimalPlaces
   )
@@ -100,8 +100,8 @@ export function useBigNumberFormatter(
     return new BigNumberInBase(value.value as string)
   })
 
-  const decimalPlaces = options.decimalPlaces || DEFAULT_DECIMAL_PLACES
-  const injFee = options.injFee || DEFAULT_INJ_FEE
+  const decimalPlaces = options.decimalPlaces ?? DEFAULT_DECIMAL_PLACES
+  const injFee = options.injFee ?? DEFAULT_INJ_FEE
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
 
