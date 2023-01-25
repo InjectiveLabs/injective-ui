@@ -107,7 +107,7 @@ export function useBigNumberFormatter(
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : ''}${'0'.repeat(decimalPlaces)}`
+      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
     }
 
     if (
@@ -122,7 +122,7 @@ export function useBigNumberFormatter(
 
   const valueToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : ''}${'0'.repeat(decimalPlaces)}`
+      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
     }
 
     if (
@@ -156,7 +156,7 @@ export function useBigNumberFormatter(
 
   const valueWithGasBufferToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : ''}${'0'.repeat(decimalPlaces)}`
+      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
     }
 
     return valueWithGasBuffer.value.toFixed(decimalPlaces, roundingMode)
@@ -164,7 +164,7 @@ export function useBigNumberFormatter(
 
   const valueWithGasBufferToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : ''}${'0'.repeat(decimalPlaces)}`
+      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
     }
 
     if (
