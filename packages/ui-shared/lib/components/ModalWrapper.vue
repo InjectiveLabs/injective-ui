@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { ref, PropType } from 'vue'
-import {
-  onClickOutside,
-  onKeyStroke,
-  MaybeElement,
-  MaybeElementRef
-} from '@vueuse/core'
+import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -45,7 +40,7 @@ onClickOutside(
     close()
   },
   {
-    ignore: props.ignore as unknown as MaybeElementRef<MaybeElement>[]
+    ignore: ['.modal-content', ...props.ignore]
   }
 )
 
@@ -76,7 +71,9 @@ export default {
             class="max-h-screen sm:max-h-[90vh] overflow-y-auto"
             :class="containerClass"
           >
-            <slot ref="modalRef" :close="close" :show-loading="showLoading" />
+            <div class="modal-content">
+              <slot :close="close" :show-loading="showLoading" />
+            </div>
           </div>
         </div>
       </div>
