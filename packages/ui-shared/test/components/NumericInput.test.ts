@@ -54,6 +54,16 @@ describe('NumericInput component', () => {
 
       expect(result.emitted()['update:modelValue']).not.toContainEqual(['0.1'])
     })
+
+    test('on keydown staring with . char', async () => {
+      const result = render(NumericInput, { props: { maxDecimals: 2 } })
+      const input = await result.container.getElementsByTagName('INPUT')[0]
+
+      await userEvent.click(input)
+      await userEvent.keyboard('.01')
+
+      expect(result.emitted()['update:modelValue']).toContainEqual(['0.01'])
+    })
   })
 
   describe('serialization works', () => {

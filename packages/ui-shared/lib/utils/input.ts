@@ -15,6 +15,10 @@ export const convertToNumericValue = (value: string, maxDecimals: number) => {
     return value
   }
 
+  if (value.startsWith('.')) {
+    value = `0${value}`
+  }
+
   const [wholeValue, decimalValue] = value.split('.')
 
   const formattedWholeNumber = parseFloat(wholeValue)
