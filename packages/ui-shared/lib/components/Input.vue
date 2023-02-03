@@ -2,6 +2,8 @@
 import { PasteEvent } from './../types'
 
 const props = defineProps({
+  clearOnPaste: Boolean,
+
   modelValue: {
     type: String,
     default: ''
@@ -21,7 +23,9 @@ function onPaste(payload: ClipboardEvent) {
 
   if (clipboardData) {
     const value = clipboardData.getData('text')
-    const updatedValue = `${props.modelValue}${value.trim()}`
+    const updatedValue = props.clearOnPaste
+      ? value
+      : `${props.modelValue}${value.trim()}`
 
     emit('update:modelValue', updatedValue)
     emit('input', updatedValue)
