@@ -82,7 +82,7 @@ const getNumberMinimalDecimals = (
  * Used only until we get the new big number formatter from injective-ui
  */
 export function useBigNumberFormatter(
-  value: Ref<String | Number | BigNumberInBase>,
+  value: Ref<String | Number | BigNumberInBase | undefined>,
   options: {
     decimalPlaces?: number
     minimalDecimalPlaces?: number
@@ -93,6 +93,10 @@ export function useBigNumberFormatter(
   } = {}
 ) {
   const valueToBigNumber = computed(() => {
+    if (!value.value) {
+      return new BigNumberInBase(0)
+    }
+
     if (BigNumber.isBigNumber(value.value)) {
       return value.value
     }
