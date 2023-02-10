@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0",
-    "floating-vue": "^2.0.0-beta.20",
-    "vee-validate": "^4.7.3"
+    "floating-vue": "2.0.0-beta.20",
+    "vee-validate": "^4.7.4"
   },
   "devDependencies": {
     "@injectivelabs/eslint-config": "^1.0.4-alpha.0",
@@ -49,7 +49,7 @@
     "@testing-library/vue": "^6.6.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "@vitest/coverage-c8": "^0.27.1",
+    "@vitest/coverage-c8": "^0.28.4",
     "@vueuse/nuxt": "^9.8.2",
     "eslint": "latest",
     "eslint-plugin-nuxt": "latest",
@@ -62,8 +62,8 @@
     "postcss-html": "latest",
     "postcss-import": "latest",
     "stylelint": "latest",
-    "unplugin-vue-components": "^0.22.7",
-    "vitest": "^0.27.1"
+    "unplugin-vue-components": "^0.23.0",
+    "vitest": "^0.28.4"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [
