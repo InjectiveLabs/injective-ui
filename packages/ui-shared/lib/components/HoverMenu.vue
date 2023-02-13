@@ -12,12 +12,12 @@ function hide() {
   shown.value = false
 }
 
-function toggle() {
-  shown.value = !shown.value
-}
-
 function updateShown(value: boolean) {
   shown.value = value
+}
+
+function toggle() {
+  shown.value = !shown.value
 }
 </script>
 
