@@ -12,6 +12,10 @@ function hide() {
   shown.value = false
 }
 
+function toggle() {
+  shown.value = !shown.value
+}
+
 function updateShown(value: boolean) {
   shown.value = value
 }
@@ -28,7 +32,7 @@ function updateShown(value: boolean) {
     @apply-hide="hide"
   >
     <div @mouseenter="show" @mouseleave="hide">
-      <slot />
+      <slot :toggle="toggle" />
     </div>
 
     <template #popper>
