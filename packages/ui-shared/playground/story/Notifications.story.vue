@@ -3,7 +3,7 @@ const notifications = useNotifications()
 
 function handleError() {
   notifications.error({
-    timeout: 100 * 1000,
+    timeout: 6 * 1000,
     title: 'Error title',
     description: 'Error description'
   })
@@ -11,14 +11,14 @@ function handleError() {
 
 function handleWarning() {
   notifications.warning({
-    timeout: 100 * 1000,
+    timeout: 6 * 1000,
     title: 'Warning title'
   })
 }
 
 function handleSuccess() {
   notifications.success({
-    timeout: 100 * 1000,
+    timeout: 6 * 1000,
     title: 'Success title',
     description: 'Success description'
   })
@@ -27,7 +27,7 @@ function handleSuccess() {
 
 <template>
   <Story title="Notifications">
-    <div class="h-screen">
+    <div class="h-screen w-screen">
       <div class="flex items-center justify-start gap-2">
         <button
           class="h-8 rounded bg-red-500 px-4 font-semibold text-white"
@@ -49,21 +49,15 @@ function handleSuccess() {
         </button>
       </div>
 
-      <!-- Hack to make sure tailwind classes are compiled and can be used in the <Notification> component -->
-      <!-- Feel free to suggest alternatives -->
-      <div class="text-red-500" />
-      <div class="text-orange-400" />
-      <div class="text-green-400" />
-
-      <Notifications
-        class="z-1110 pointer-events-none fixed inset-0 flex flex-col items-end justify-start gap-2 p-6"
+      <BaseNotifications
+        class="z-[1110] pointer-events-none fixed inset-0 flex flex-col items-end justify-start gap-2 p-6"
       >
         <template #notification="{ notification }">
-          <Notification
+          <BaseNotification
             :notification="notification"
             class="pointer-events-auto"
-            :wrapper-class="'bg-white shadow-glow-lg'"
-            :content-class="'text-black'"
+            wrapper-class="bg-gray-900 shadow-glow-lg"
+            content-class="text-white"
           >
             <template #close="{ close }">
               <BaseIcon
@@ -72,9 +66,9 @@ function handleSuccess() {
                 @click="close"
               />
             </template>
-          </Notification>
+          </BaseNotification>
         </template>
-      </Notifications>
+      </BaseNotifications>
     </div>
   </Story>
 </template>

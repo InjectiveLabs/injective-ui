@@ -1,7 +1,6 @@
 export interface NotificationAction {
   key: string
   label: string
-  // eslint-disable-next-line @typescript-eslint/ban-types
   callback: Function
 }
 
@@ -25,7 +24,6 @@ export interface NotificationData {
   paused: boolean
   showDeactivationTimer: boolean
   actions: NotificationAction[] | undefined
-  // eslint-disable-next-line @typescript-eslint/ban-types
   deactivate: Function
 }
 

@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore: resolved with Nuxt
 import { reactive } from 'vue'
 import {
   NotificationData,
@@ -20,6 +18,14 @@ export default function useNotifications(): NotificationsPlugin {
     const duration = timeout || 6000
     const id = state.idCounter++
     const description = options.description || ''
+
+    const notificationTitleAlreadyExist = state.notifications.some(
+      (notification) => notification.title === title
+    )
+
+    if (notificationTitleAlreadyExist) {
+      return
+    }
 
     state.notifications.push({
       id,

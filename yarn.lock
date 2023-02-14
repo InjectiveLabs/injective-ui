@@ -777,20 +777,6 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@injectivelabs/eslint-config@latest":
-  version "1.0.4-alpha.0"
-  resolved "https://registry.npmjs.org/@injectivelabs/eslint-config/-/eslint-config-1.0.4-alpha.0.tgz#056ee23db0ada7d84c7e9bbed1abde609685de59"
-  integrity sha512-pqdrxGQmQPWfIikbVunPjqVix5FZIbOoAkbtozhqlFsC1sG9Q9Ny5swxPaHMHYe18aw8PkzZVDHgyaocfO+1nw==
-  dependencies:
-    "@nuxtjs/eslint-config-typescript" latest
-    "@typescript-eslint/eslint-plugin" latest
-    "@typescript-eslint/parser" latest
-    eslint latest
-    eslint-config-prettier latest
-    eslint-plugin-nuxt latest
-    eslint-plugin-prettier latest
-    eslint-plugin-vue latest
-
 "@injectivelabs/exceptions@^1.0.54":
   version "1.0.54"
   resolved "https://registry.npmjs.org/@injectivelabs/exceptions/-/exceptions-1.0.54.tgz#6be1e9e05546bf1f16da8fddb215b21d788e4990"
@@ -801,18 +787,6 @@
     http-status-codes "^2.2.0"
     link-module-alias "^1.2.0"
     shx "^0.3.2"
-
-"@injectivelabs/prettier-config@latest":
-  version "1.0.1-alpha.0"
-  resolved "https://registry.npmjs.org/@injectivelabs/prettier-config/-/prettier-config-1.0.1-alpha.0.tgz#b3e7abf4b5da50aa8b58d05d01c5b105949bed2a"
-  integrity sha512-86GWxldPJfBQUIhW0dWFWIPo/Qw703KWu5ag0AHlBRZbxi+vKSxxRXXcP5AUB9iuVcFNikdYptowdOvdk7Qh2w==
-
-"@injectivelabs/stylelint-config@latest":
-  version "1.0.1-alpha.0"
-  resolved "https://registry.npmjs.org/@injectivelabs/stylelint-config/-/stylelint-config-1.0.1-alpha.0.tgz#66456f2a5a274fcbcdb09659ebab3b14c1c36014"
-  integrity sha512-tOmoJLVTjjVdfeLu7vjiPnA5AvucM3GDRXf/Uk6NbQhEOWUKtyrPaFm19sTimxCcW2gg4L9OluluKeVildvy7w==
-  dependencies:
-    stylelint-config-standard latest
 
 "@injectivelabs/ts-types@^1.0.28":
   version "1.0.28"
@@ -7914,7 +7888,7 @@ nuxi@3.2.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-nuxt@^3.0.0, nuxt@^3.0.0-rc.13:
+nuxt@^3.0.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/nuxt/-/nuxt-3.2.0.tgz#d952f8d2c2776a74656b80cc72a6533b56c0ad6c"
   integrity sha512-8jAYyjU1Ht+MXPLLDIdIUmV56KiI0g7KusKwzvqn+vlzyCNtSHg2W/VBCGw5QWplb/MXruogcMl2sDenlQRZFg==

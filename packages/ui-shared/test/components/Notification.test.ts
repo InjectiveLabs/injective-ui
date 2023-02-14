@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { render, waitFor } from '@testing-library/vue'
-import Notification from '../lib/components/Notification.vue'
+import Notification from '../../lib/components/Notification.vue'
 
 describe('Notification component', () => {
   describe('renders correctly', () => {

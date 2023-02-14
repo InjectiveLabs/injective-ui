@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import useNotifications from '../composables/useNotifications'
+import NotificationWrapper from '../components/NotificationWrapper.vue'
 
 const notifications = useNotifications()
 

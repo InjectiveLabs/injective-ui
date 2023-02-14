@@ -1,17 +1,19 @@
 <script lang="ts" setup>
 import { PropType, computed } from 'vue'
-
-import { NotificationData, NotificationType } from '../types'
+import { NotificationData, NotificationType } from './../../lib/types'
+import Icon from './../components/Icon.vue'
 
 const props = defineProps({
   notification: {
     type: Object as PropType<NotificationData>,
     required: true
   },
+
   wrapperClass: {
     type: String,
     default: 'bg-gray-800'
   },
+
   contentClass: {
     type: String,
     default: 'text-white'
@@ -35,17 +37,20 @@ function close() {
     >
       <div v-if="notification.type === NotificationType.Error">
         <slot name="error">
-          <IconsError class="w-6 h-6 text-red-500" />
+          <Icon name="warn" class="w-6 h-6 min-w-6 text-red-500" />
         </slot>
       </div>
       <div v-if="notification.type === NotificationType.Warning">
         <slot name="warning">
-          <IconsWarning class="w-6 h-6 text-orange-400" />
+          <Icon name="warn" class="w-6 h-6 min-w-6 text-orange-400" />
         </slot>
       </div>
       <div v-if="notification.type === NotificationType.Success">
         <slot name="success">
-          <IconsSuccess class="w-6 h-6 text-green-400" />
+          <Icon
+            name="circle-check-border"
+            class="w-6 h-6 min-w-6 text-green-400"
+          />
         </slot>
       </div>
       <div class="flex flex-col gap-2" :class="contentClass">
@@ -55,9 +60,7 @@ function close() {
         </span>
       </div>
       <slot name="close" :close="close">
-        <div class="w-3 h-3 text-white ml-auto cursor-pointer" @click="close">
-          <IconsClose />
-        </div>
+        <Icon name="close" class="w-3 h-3 min-w-3 text-white" @click="close" />
       </slot>
     </div>
 
