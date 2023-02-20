@@ -95,7 +95,6 @@ function handlePrevEvent() {
 }
 
 function handleUpdateLimit(limit: number) {
-  emit('update:page', 1)
   emit('update:limit', limit)
 }
 </script>
