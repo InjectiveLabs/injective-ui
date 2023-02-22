@@ -28,10 +28,10 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "test": "vitest --segfault-retry=3",
     "test:coverage": "vitest run --coverage --segfault-retry=3",
-    "lint": "eslint --max-warnings 0 '**/*.{ts,vue,html}' --fix && stylelint '**/*.{css,.vue}'"
+    "lint": "eslint --max-warnings 0 --fix '**/*.{js,ts,vue,html}' && stylelint '**/*.{css,.vue}'"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0",
+    "@nuxt/kit": "3.0.0",
     "floating-vue": "2.0.0-beta.20",
     "vee-validate": "4.7.3"
   },
@@ -39,34 +39,34 @@
     "@injectivelabs/eslint-config": "^1.0.4-alpha.0",
     "@injectivelabs/prettier-config": "^1.0.1-alpha.0",
     "@injectivelabs/stylelint-config": "^1.0.1-alpha.0",
-    "@injectivelabs/utils": "latest",
-    "@nuxt/module-builder": "latest",
-    "@nuxt/schema": "^3.0.0",
+    "@injectivelabs/utils": "1.0.80",
+    "@nuxt/module-builder": "0.2.1",
+    "@nuxt/schema": "3.0.0",
     "@nuxtjs/eslint-config-typescript": "latest",
-    "@nuxtjs/tailwindcss": "^6.2.0",
+    "@nuxtjs/tailwindcss": "^6.4.1",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^6.6.1",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
-    "@vitest/coverage-c8": "^0.28.4",
-    "@vueuse/nuxt": "^9.8.2",
+    "@typescript-eslint/eslint-plugin": "5.53.0",
+    "@typescript-eslint/parser": "5.53.0",
+    "@vitest/coverage-c8": "^0.28.5",
+    "@vueuse/nuxt": "^9.13.0",
     "eslint": "latest",
     "eslint-plugin-nuxt": "latest",
     "eslint-plugin-vue": "latest",
     "jsdom": "^21.0.0",
-    "lint-staged": "latest",
+    "lint-staged": "13.1.2",
     "nuxt": "^3.0.0",
     "postcss": "latest",
-    "postcss-custom-properties": "latest",
+    "postcss-custom-properties": "13.1.4",
     "postcss-html": "latest",
     "postcss-import": "latest",
-    "stylelint": "latest",
-    "unplugin-vue-components": "^0.23.0",
-    "vitest": "^0.28.4"
+    "stylelint": "15.2.0",
+    "unplugin-vue-components": "^0.24.0",
+    "vitest": "^0.28.5"
   },
   "lint-staged": {
     "**/*.{js,ts,vue,html}": [
-      "eslint --max-warnings 0 --no-ignore"
+      "eslint --max-warnings 0 --no-ignore --fix"
     ],
     "*.{css,vue}": "stylelint"
   },

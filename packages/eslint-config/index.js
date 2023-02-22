@@ -20,6 +20,7 @@ module.exports = {
   },
   plugins: ['vue', '@typescript-eslint'],
   rules: {
+    'eslint-comments/no-unused-disable': 'off',
     'vue/html-self-closing': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-multiple-template-root': 'off',

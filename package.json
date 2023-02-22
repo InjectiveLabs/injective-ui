@@ -3,10 +3,10 @@
   "private": true,
   "license": "MIT",
   "devDependencies": {
-    "@commitlint/cli": "^17.2.0",
-    "@commitlint/config-conventional": "^17.2.0",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "husky": "^8.0.2",
-    "lerna": "^6.1.0"
+    "lerna": "^6.5.1"
   },
   "scripts": {
     "prepare": "husky install",
