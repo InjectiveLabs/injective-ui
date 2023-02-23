@@ -10,8 +10,7 @@ Collection of re-useable fonts, render-less FE components and tailwind configs t
 
 ## Publish
 
-- Update package.json version
-- Run `npm publish --access public`
+- See [here](injective-ui/README.md) for instructions
 
 ## How to add new fonts
 

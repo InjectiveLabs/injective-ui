@@ -4,7 +4,7 @@
 
 ## 📚 Overview
 
-[`@injectivelabs/ui-shared`](injective-ui/tree/master/packages/ui-shared/README.md) provides a collection of re-useable fonts, render-less FE components and tailwind configs to ease development across the wide range of Injective products.
+[`@injectivelabs/ui-shared`](injective-ui/tree/master/packages/ui-shared/README.md) provides a collection of re-useable fonts, render-less FE components, and tailwind configs to ease development across the wide range of Injective products.
 
 [`@injectivelabs/eslint-config`](injective-ui/tree/master/packages/eslint-config/README.md) provides a set of shared eslint config rules.
 
@@ -14,20 +14,21 @@
 
 ## Developer guide:
 
-1. Links different projects within the repo so they can import each other without having to publish anything to NPM
+1. Create a new branch off of the master branch as to make your changes
+
+2. Links different projects within the repo so they can import each other without having to publish anything to NPM
 
 - `lerna boostrap`
 
-2. Making changes to eslint, prettier or stylelint config
+3. Making changes to any of the packages
+- Run `git add . && git commit -m 'commit message'` which will trigger the lint-staged and vitest yarn scripts [here](injective-ui/../.husky/pre-commit)
+- Run `git push` to publish a new branch in the remote repository
+- Create a PR to merge to master. Once approved, you can move on to step 4
 
-- update the respective `index.js` file
-- commit the changes, which will trigger the lint-staged and vitest yarn scripts [here](injective-ui/../.husky/pre-commit)
+4. Publishing the changes to npm
 
-3. Publishing the changes to npm
-
-- git add . && git commit -m 'commit message'
-- lerna version
-- lerna publish from-package
+- `lerna version`
+- `lerna publish from-package`
 
 ## ⛑ Support
 
