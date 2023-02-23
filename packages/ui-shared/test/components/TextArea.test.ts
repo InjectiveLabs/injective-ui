@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { fireEvent, render, RenderResult } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
-import Textarea from '../../lib/components/Textarea.vue'
+import Textarea from '../../lib/components/TextArea.vue'
 
 describe('Textarea component', () => {
   describe('UX behavior works', () => {
