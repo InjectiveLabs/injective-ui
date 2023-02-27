@@ -1,9 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import {
-  convertToNumericValue,
-  passNumericInputValidation
-} from '../../lib/utils/input'
-import { KeydownEvent } from '../../lib/types'
+import { KeydownEvent } from '../types'
+import { convertToNumericValue, passNumericInputValidation } from './input'
 
 describe('utils input helper functions', () => {
   describe('convertToNumericValue', () => {

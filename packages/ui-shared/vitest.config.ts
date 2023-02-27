@@ -16,6 +16,6 @@ export default defineConfig({
     globals: true,
     testTimeout: 30 * 1000,
     minThreads: 3,
-    include: ['./test/**/*.test.ts']
+    include: ['./lib/**/*.spec.ts']
   }
 })

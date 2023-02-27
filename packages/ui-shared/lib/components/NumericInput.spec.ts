@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { render, RenderResult, waitFor } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
-import NumericInput from '../../lib/components/NumericInput.vue'
+import NumericInput from './NumericInput.vue'
 
 describe('NumericInput component', () => {
   describe('UX behavior works', () => {
