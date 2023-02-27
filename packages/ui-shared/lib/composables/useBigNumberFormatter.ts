@@ -78,9 +78,6 @@ const getNumberMinimalDecimals = (
   }
 }
 
-/**
- * Used only until we get the new big number formatter from injective-ui
- */
 export function useBigNumberFormatter(
   value: Ref<String | Number | BigNumberInBase | undefined>,
   options: {
