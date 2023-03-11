@@ -32,12 +32,12 @@ function toggle() {
     @apply-hide="hide"
   >
     <div @mouseenter="show" @mouseleave="hide">
-      <slot :toggle="toggle" />
+      <slot v-bind="{ shown, toggle }" />
     </div>
 
     <template #popper>
       <div @mouseenter="show" @mouseleave="hide">
-        <slot name="content" :shown="shown" />
+        <slot name="content" />
       </div>
     </template>
   </Menu>
