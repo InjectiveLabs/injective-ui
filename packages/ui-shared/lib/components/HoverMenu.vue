@@ -37,7 +37,7 @@ function toggle() {
 
     <template #popper>
       <div @mouseenter="show" @mouseleave="hide">
-        <slot name="content" />
+        <slot name="content" :shown="shown" />
       </div>
     </template>
   </Menu>
