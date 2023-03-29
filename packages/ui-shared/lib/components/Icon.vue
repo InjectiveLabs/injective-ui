@@ -48,7 +48,7 @@ const dynamicComponent = defineAsyncComponent(() => {
     if (!isWebpack) {
       const comps = import.meta.glob('./../../lib/icons/**/*.vue')
 
-      return comps[`../icons/${name}.vue`]().then((component) =>
+      return comps[`../icons/${name}.vue`]().then((component: any) =>
         resolve(component.default)
       )
     }
