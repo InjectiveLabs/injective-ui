@@ -1,6 +1,6 @@
 {
   "name": "@injectivelabs/ui-shared",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "license": "MIT",
   "author": "Thomas Lee <thomas@injectiveprotocol.com>",
   "type": "module",
@@ -34,7 +34,8 @@
   "dependencies": {
     "@nuxt/kit": "3.0.0",
     "floating-vue": "2.0.0-beta.20",
-    "vee-validate": "4.7.3"
+    "vee-validate": "4.7.3",
+    "@vuepic/vue-datepicker": "^4.2.0"
   },
   "devDependencies": {
     "@injectivelabs/eslint-config": "^1.1.0",
