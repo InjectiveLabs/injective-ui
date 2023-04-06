@@ -1,7 +1,11 @@
 <script setup lang="ts">
-const options = { MsgSend: 'Item 1', MsgDelegate: 'Item 2' }
+const options = [
+  { key: 'MsgSend', value: 'Msg Send Value' },
+  { key: 'MsgDelegate', value: 'Msg Delegate Value' }
+]
 
 const selectedItems = ref([])
+const search = ref('')
 </script>
 
 <template>
@@ -11,13 +15,16 @@ const selectedItems = ref([])
         v-model="selectedItems"
         v-bind="{
           options,
-          inputWrapperClasses: 'py-2',
-          inputClasses:
-            'focus:border-blue-300 border-black/20 border p-2 rounded-md',
+          search,
           contentClasses: 'p-2'
         }"
-        show-search
       >
+        <template #search>
+          <input
+            v-model="search"
+            class="border p-2 focus:border-blue-300 rounded-md"
+          />
+        </template>
         <template #default="{ shown }">
           <button
             class="p-4 rounded-md border"
@@ -26,9 +33,9 @@ const selectedItems = ref([])
             {{ shown ? 'Close' : 'Open' }}
           </button>
         </template>
-        <template #item="{ display, isSelected }">
+        <template #item="{ option: { value }, isSelected }">
           <div class="p-2 rounded-md hover:bg-blue-300 hover:text-white w-full">
-            <span>{{ display }}</span>
+            <span>{{ value }}</span>
             <span v-if="isSelected">&check;</span>
           </div>
         </template>
