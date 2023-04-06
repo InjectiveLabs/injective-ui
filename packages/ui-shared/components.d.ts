@@ -9,6 +9,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BitMapFilterList: typeof import('./lib/components/BitMapFilterList.vue')['default']
+    Datepicker: typeof import('./lib/components/Datepicker.vue')['default']
     Dropdown: typeof import('./lib/components/Dropdown.vue')['default']
     DropdownItem: typeof import('./lib/components/DropdownItem.vue')['default']
     HoverMenu: typeof import('./lib/components/HoverMenu.vue')['default']
@@ -16,6 +17,7 @@ declare module '@vue/runtime-core' {
     Input: typeof import('./lib/components/Input.vue')['default']
     LineGraph: typeof import('./lib/components/LineGraph.vue')['default']
     ModalWrapper: typeof import('./lib/components/ModalWrapper.vue')['default']
+    MultiSelect: typeof import('./lib/components/MultiSelect.vue')['default']
     Notification: typeof import('./lib/components/Notification.vue')['default']
     Notifications: typeof import('./lib/components/Notifications.vue')['default']
     NotificationWrapper: typeof import('./lib/components/NotificationWrapper.vue')['default']
