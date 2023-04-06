@@ -67,7 +67,12 @@ function handleToggleItem(key: string) {
       <template #content>
         <div :class="contentClasses">
           <div v-if="showSearch" :class="inputWrapperClasses">
-            <input v-model="search" :class="inputClasses" type="text" />
+            <input
+              v-model="search"
+              placeholder="Search.."
+              :class="inputClasses"
+              type="text"
+            />
           </div>
 
           <div>
