@@ -1,20 +1,15 @@
 <script setup lang="ts">
 import { PropType, computed } from 'vue'
-
-type SelectOption = {
-  key: string
-  value: string
-}
+import { BaseDropdownOption } from '../types'
 
 const props = defineProps({
   options: {
-    type: Array as PropType<SelectOption[]>,
+    type: Array as PropType<BaseDropdownOption[]>,
     required: true
   },
 
   search: {
     type: String,
-    required: false,
     default: ''
   },
 
@@ -25,7 +20,6 @@ const props = defineProps({
 
   contentClasses: {
     type: String,
-    required: false,
     default: ''
   }
 })
@@ -35,19 +29,19 @@ const emits = defineEmits<{
 }>()
 
 const filteredItems = computed(() => {
-  return props.options.filter(({ value }) =>
-    value.toLowerCase().includes(props.search.toLowerCase())
+  return props.options.filter(({ display }) =>
+    display.toLowerCase().includes(props.search.toLowerCase())
   )
 })
 
-function handleToggleItem(key: string) {
-  if (props.modelValue.includes(key)) {
+function handleToggleItem(value: string) {
+  if (props.modelValue.includes(value)) {
     emits(
       'update:modelValue',
-      props.modelValue.filter((message) => message !== key)
+      props.modelValue.filter((message) => message !== value)
     )
   } else {
-    emits('update:modelValue', [...props.modelValue!, key])
+    emits('update:modelValue', [...props.modelValue!, value])
   }
 }
 </script>
@@ -62,21 +56,18 @@ function handleToggleItem(key: string) {
       <div :class="contentClasses">
         <slot name="search" />
 
-        <div>
-          <div
-            v-for="option in filteredItems"
-            :key="`multiselect-item-${option.key}`"
-            class="block"
-            @click="handleToggleItem(option.key)"
-          >
-            <slot
-              name="item"
-              v-bind="{
-                option: option,
-                isSelected: modelValue.includes(option.key)
-              }"
-            />
-          </div>
+        <div
+          v-for="option in filteredItems"
+          :key="`multiselect-item-${option.value}`"
+          @click="handleToggleItem(option.value)"
+        >
+          <slot
+            name="item"
+            v-bind="{
+              option: option,
+              isSelected: modelValue.includes(option.value)
+            }"
+          />
         </div>
       </div>
     </template>
