@@ -12,11 +12,38 @@ const DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES = 12
 const DEFAULT_INJ_FEE = 0.01
 const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
+const unAbbreviateNumber = (value: string): BigNumberInBase | undefined => {
+  const units = {
+    K: Number(`1${'0'.repeat(3)}`),
+    M: Number(`1${'0'.repeat(6)}`),
+    B: Number(`1${'0'.repeat(9)}`),
+    T: Number(`1${'0'.repeat(12)}`)
+  } as Record<string, number>
+
+  const unit = value.at(-1)
+
+  if (!unit || !units[unit]) {
+    return
+  }
+
+  const formattedValue = value.replaceAll(',', '').slice(0, -1)
+
+  return new BigNumberInBase(formattedValue).multipliedBy(units[unit])
+}
+
 const abbreviateNumber = (number: number) => {
-  return new Intl.NumberFormat('en-US', {
+  const abbreviatedValue = new Intl.NumberFormat('en-US', {
     notation: 'compact',
     compactDisplay: 'short'
   }).format(number)
+
+  const abbreviatedValueMatchesInput = new BigNumberInBase(number).eq(
+    unAbbreviateNumber(abbreviatedValue) || '0'
+  )
+
+  return abbreviatedValueMatchesInput
+    ? abbreviatedValue
+    : `≈${abbreviatedValue}`
 }
 
 const getNumberMinimalDecimals = (
@@ -115,7 +142,7 @@ export function useBigNumberFormatter(
       !!options.abbreviationFloor &&
       valueToBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return `${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+      return abbreviateNumber(valueToBigNumber.value.toNumber())
     }
 
     return valueToBigNumber.value.toFixed(decimalPlaces, roundingMode)
@@ -130,7 +157,7 @@ export function useBigNumberFormatter(
       !!options.abbreviationFloor &&
       valueToBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return `${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+      return abbreviateNumber(valueToBigNumber.value.toNumber())
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
@@ -172,7 +199,7 @@ export function useBigNumberFormatter(
       !!options.abbreviationFloor &&
       valueToBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return `${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+      return abbreviateNumber(valueToBigNumber.value.toNumber())
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
