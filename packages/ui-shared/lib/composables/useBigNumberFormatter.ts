@@ -115,7 +115,7 @@ export function useBigNumberFormatter(
       !!options.abbreviationFloor &&
       valueToBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+      return `${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
     return valueToBigNumber.value.toFixed(decimalPlaces, roundingMode)
@@ -130,7 +130,7 @@ export function useBigNumberFormatter(
       !!options.abbreviationFloor &&
       valueToBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+      return `${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
@@ -172,7 +172,7 @@ export function useBigNumberFormatter(
       !!options.abbreviationFloor &&
       valueToBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return `≈${abbreviateNumber(valueToBigNumber.value.toNumber())}`
+      return `${abbreviateNumber(valueToBigNumber.value.toNumber())}`
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
