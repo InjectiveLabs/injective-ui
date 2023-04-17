@@ -26,7 +26,7 @@ function getDirectoryFileNames(folderPath, prefix) {
 function writeDataToFile() {
   try {
     const icons = getDirectoryFileNames('lib/icons')
-    writeFileSync('icons.json', JSON.stringify({ icons }))
+    writeFileSync('icons.json', JSON.stringify({ icons }, null, '\t'))
   } catch (err) {
     console.error(err)
   }
