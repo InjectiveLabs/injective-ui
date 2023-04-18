@@ -9,6 +9,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BitMapFilterList: typeof import('./lib/components/BitMapFilterList.vue')['default']
+    Checkbox: typeof import('./lib/components/Checkbox.vue')['default']
     Datepicker: typeof import('./lib/components/Datepicker.vue')['default']
     Dropdown: typeof import('./lib/components/Dropdown.vue')['default']
     DropdownItem: typeof import('./lib/components/DropdownItem.vue')['default']
