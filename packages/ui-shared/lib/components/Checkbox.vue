@@ -18,56 +18,43 @@ const isChecked = computed({
 })
 
 const classesComputed = computed(() => {
-  if (props.sm) return 'w-3 h-3 relative'
+  if (props.sm) return 'w-3 h-3'
 
-  if (props.lg) return 'w-5 h-5 relative'
+  if (props.lg) return 'w-5 h-5'
 
-  return 'w-4 h-4 relative'
+  return 'w-4 h-4'
 })
 
 const checkboxClassesComputed = computed(() => {
-  if (props.sm)
-    return 'left-1/2 top-0 bottom-0 right-0 -translate-x-[2px] -translate-y-[1px] scale-75'
+  if (props.sm) return '-translate-x-[2px] -translate-y-[1px] scale-75'
 
-  if (props.lg)
-    return 'left-1/2 top-0 bottom-0 right-0 -translate-x-1 -translate-y-[2px] scale-75'
+  if (props.lg) return '-translate-x-1 -translate-y-[2px] scale-75'
 
-  return 'left-1/2 top-0 bottom-0 right-0 -translate-x-1 -translate-y-[2px] scale-75'
+  return '-translate-x-1 -translate-y-[2px] scale-75'
 })
 </script>
 
 <template>
-  <label class="flex space-x-2 relative">
-    <slot v-if="!checkboxOnRight" name="checkbox" v-bind="{ isChecked }">
-      <div class="grid place-items-center">
-        <div :class="classesComputed">
-          <div class="absolute inset-0 border-black dark:border-white border">
-            <div
-              v-if="isChecked"
-              class="absolute border-transparent dark:border-r-white dark:border-b-white border-r-black border-b-black border-2 rotate-45"
-              :class="checkboxClassesComputed"
-            />
+  <label class="relative">
+    <div class="flex" :class="[checkboxOnRight && 'flex-row-reverse']">
+      <slot name="checkbox" v-bind="{ isChecked }">
+        <div class="grid place-items-center p-2">
+          <div class="relative" :class="classesComputed">
+            <div class="absolute inset-0 border-black dark:border-white border">
+              <div
+                v-if="isChecked"
+                class="absolute left-1/2 top-0 bottom-0 right-0 border-transparent dark:border-r-white dark:border-b-white border-r-black border-b-black border-2 rotate-45"
+                :class="checkboxClassesComputed"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </slot>
+      </slot>
 
-    <div class="flex items-center">
-      <slot />
+      <div class="flex items-center">
+        <slot />
+      </div>
     </div>
-
-    <slot v-if="checkboxOnRight" name="checkbox" v-bind="{ isChecked }">
-      <div class="grid place-items-center">
-        <div :class="classesComputed">
-          <div class="absolute inset-0 border-black dark:border-white border">
-            <div
-              v-if="isChecked"
-              class="absolute left-1/2 top-0 bottom-0 right-0 border-transparent dark:border-r-white dark:border-b-white border-r-black border-b-black border-2 rotate-45 -translate-x-1 -translate-y-[2px] scale-75"
-            />
-          </div>
-        </div>
-      </div>
-    </slot>
 
     <input
       v-model="isChecked"

@@ -45,7 +45,13 @@ const checked = ref(false)
       </div>
 
       <div>
-        <BaseCheckbox v-model="checked" />
+        <BaseCheckbox v-model="checked" lg>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat
+          doloremque quidem esse illum tenetur. Consequuntur modi expedita qui!
+          Consequuntur, aliquid! Distinctio doloribus pariatur, harum assumenda
+          nobis, nostrum quasi fuga, accusamus veritatis dolor culpa ea debitis
+          impedit quam cumque tenetur commodi.
+        </BaseCheckbox>
       </div>
     </div>
   </Story>
