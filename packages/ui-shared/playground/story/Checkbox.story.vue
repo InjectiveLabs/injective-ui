@@ -10,7 +10,12 @@ const checked = ref(false)
       </div>
 
       <div class="border-b border-white py-2">
-        <BaseCheckbox v-model="checked" sm>
+        <BaseCheckbox
+          v-model="checked"
+          sm
+          border-color="border-blue-600"
+          check-color="border-r-blue-600 border-b-blue-600"
+        >
           <span class="text-sm">sm Checkbox</span>
         </BaseCheckbox>
       </div>
