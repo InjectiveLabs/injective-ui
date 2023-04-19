@@ -4,7 +4,7 @@
 
 ## 📚 Overview
 
-[`@injectivelabs/ui-shared`](injective-ui/tree/master/packages/ui-shared/README.md) provides a collection of re-useable fonts, render-less FE components, and tailwind configs to ease development across the wide range of Injective products.
+[`@injectivelabs/ui-shared`](tree/master/packages/ui-shared/README.md) provides a collection of re-useable fonts, render-less FE components, and tailwind configs to ease development across the wide range of Injective products.
 
 [`@injectivelabs/eslint-config`](injective-ui/tree/master/packages/eslint-config/README.md) provides a set of shared eslint config rules.
 
