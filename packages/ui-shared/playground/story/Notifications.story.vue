@@ -23,6 +23,14 @@ function handleSuccess() {
     description: 'Success description'
   })
 }
+
+function handleInfo() {
+  notifications.info({
+    timeout: 6 * 1000,
+    title: 'Info title',
+    description: 'Info description'
+  })
+}
 </script>
 
 <template>
@@ -46,6 +54,12 @@ function handleSuccess() {
           @click="handleSuccess"
         >
           Success
+        </button>
+        <button
+          class="h-8 rounded bg-blue-500 px-4 font-semibold text-white"
+          @click="handleInfo"
+        >
+          Info
         </button>
       </div>
 

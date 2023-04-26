@@ -53,6 +53,11 @@ function close() {
           />
         </slot>
       </div>
+      <div v-if="notification.type === NotificationType.Info">
+        <slot name="info">
+          <Icon name="circle-info" class="w-6 h-6 min-w-6 text-blue-500" />
+        </slot>
+      </div>
       <div class="flex flex-col gap-2" :class="contentClass">
         <span class="text-sm font-semibold">{{ title }}</span>
         <span v-if="notification.description" class="text-sm">
