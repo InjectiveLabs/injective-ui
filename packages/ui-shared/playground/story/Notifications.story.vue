@@ -56,7 +56,7 @@ function handleInfo() {
           Success
         </button>
         <button
-          class="h-8 rounded bg-blue-500 px-4 font-semibold text-white"
+          class="h-8 rounded bg-primary-500 px-4 font-semibold text-white"
           @click="handleInfo"
         >
           Info

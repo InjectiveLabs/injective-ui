@@ -55,7 +55,7 @@ function close() {
       </div>
       <div v-if="notification.type === NotificationType.Info">
         <slot name="info">
-          <Icon name="circle-info" class="w-6 h-6 min-w-6 text-blue-500" />
+          <Icon name="circle-info" class="w-6 h-6 min-w-6 text-primary-500" />
         </slot>
       </div>
       <div class="flex flex-col gap-2" :class="contentClass">
@@ -63,28 +63,28 @@ function close() {
         <span v-if="notification.description" class="text-sm">
           {{ notification.description }}
         </span>
+
+        <div v-if="notification.actions" class="flex justify-start">
+          <button
+            v-for="action in notification.actions"
+            :key="action.key"
+            @click="
+              () =>
+                action.callback({
+                  id: notification.id,
+                  deactivate: notification.deactivate
+                })
+            "
+          >
+            <span class="text-primary-500 text-sm font-semibold cursor-pointer">
+              {{ action.label }}
+            </span>
+          </button>
+        </div>
       </div>
       <slot name="close" :close="close">
         <Icon name="close" class="w-3 h-3 min-w-3 text-white" @click="close" />
       </slot>
-    </div>
-
-    <div v-if="notification.actions" class="px-4 pb-4 pt-0 flex gap-2">
-      <button
-        v-for="action in notification.actions"
-        :key="action.key"
-        @click="
-          () =>
-            action.callback({
-              id: notification.id,
-              deactivate: notification.deactivate
-            })
-        "
-      >
-        <span class="text-primary-500 text-sm font-semibold cursor-pointer">
-          {{ action.label }}
-        </span>
-      </button>
     </div>
 
     <!-- <div v-if="showDeactivationTimer" class="w-full h-1 bg-gray-900">
