@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url'
+import path from 'path'
 import { Config } from 'tailwindcss'
 
 export default <Config>{
@@ -8,9 +8,9 @@ export default <Config>{
       historie requires the full path to the components folder
       https://tailwindcss.com/docs/content-configuration#working-with-third-party-libraries
     */
-    fileURLToPath(new URL('./../lib/components/*.vue', import.meta.url)),
-    fileURLToPath(new URL('./../lib/icons/*.vue', import.meta.url)),
-    fileURLToPath(new URL('./../playground/story/*.vue', import.meta.url))
+    path.resolve(__dirname, './../lib/components/*.vue'),
+    path.resolve(__dirname, './../lib/icons/*.vue'),
+    path.resolve(__dirname, './../playground/story/*.vue')
   ],
   theme: {
     extend: {
