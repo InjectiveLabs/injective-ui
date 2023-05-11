@@ -2,14 +2,14 @@
 import { ref } from 'vue'
 import { Menu } from 'floating-vue'
 
-const shown = ref(true)
+const shown = ref(false)
 
 function show() {
   shown.value = true
 }
 
 function hide() {
-  shown.value = true
+  shown.value = false
 }
 
 function updateShown(value: boolean) {

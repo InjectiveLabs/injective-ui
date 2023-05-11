@@ -31,83 +31,24 @@ function close() {
 </script>
 
 <template>
-  <div
-    class="rounded-lg pointer-events-auto notification"
-    :class="wrapperClass"
-  >
+  <div class="rounded-lg pointer-events-auto" :class="wrapperClass">
     <div
       class="flex gap-2 justify-start items-start p-4"
-      :class="{
-        'items-center': !notification.description && !notification.tooltip
-      }"
+      :class="{ 'items-center': !notification.description }"
     >
       <div v-if="notification.type === NotificationType.Error">
         <slot name="error">
-          <HoverMenu
-            v-if="notification.tooltip"
-            popper-class="notification-tooltip"
-          >
-            <template #default>
-              <slot>
-                <Icon
-                  name="circle-check-border"
-                  class="w-6 h-6 min-w-6 text-red-500"
-                />
-              </slot>
-            </template>
-
-            <template #content>
-              {{ notification.tooltip }}
-            </template>
-          </HoverMenu>
-          <Icon v-else name="warn" class="w-6 h-6 min-w-6 text-red-500" />
+          <Icon name="warn" class="w-6 h-6 min-w-6 text-red-500" />
         </slot>
       </div>
       <div v-if="notification.type === NotificationType.Warning">
         <slot name="warning">
-          <HoverMenu
-            v-if="notification.tooltip"
-            popper-class="notification-tooltip"
-          >
-            <template #default>
-              <slot>
-                <Icon
-                  name="circle-check-border"
-                  class="w-6 h-6 min-w-6 text-orange-400"
-                />
-              </slot>
-            </template>
-
-            <template #content>
-              {{ notification.tooltip }}
-            </template>
-          </HoverMenu>
-
-          <Icon v-else name="warn" class="w-6 h-6 min-w-6 text-orange-400" />
+          <Icon name="warn" class="w-6 h-6 min-w-6 text-orange-400" />
         </slot>
       </div>
       <div v-if="notification.type === NotificationType.Success">
         <slot name="success">
-          <HoverMenu
-            v-if="notification.tooltip"
-            popper-class="notification-tooltip"
-          >
-            <template #default>
-              <slot>
-                <Icon
-                  name="circle-check-border"
-                  class="w-6 h-6 min-w-6 text-green-400"
-                />
-              </slot>
-            </template>
-
-            <template #content>
-              {{ notification.tooltip }}
-            </template>
-          </HoverMenu>
-
           <Icon
-            v-else
             name="circle-check-border"
             class="w-6 h-6 min-w-6 text-green-400"
           />
@@ -120,8 +61,32 @@ function close() {
       </div>
       <div class="flex flex-col gap-2" :class="contentClass">
         <span class="text-sm font-semibold">{{ title }}</span>
-        <span v-if="notification.description" class="text-xs text-gray-700">
-          {{ notification.description }}
+
+        <span
+          v-if="notification.description"
+          class="text-xs text-gray-600 flex items-center"
+        >
+          <span
+            :class="{
+              'mr-2': notification.tooltip
+            }"
+          >
+            {{ notification.description }}
+          </span>
+          <HoverMenu
+            v-if="notification.tooltip"
+            popper-class="notification-tooltip"
+          >
+            <template #default>
+              <slot>
+                <Icon name="circle-info" class="w-3 h-3" />
+              </slot>
+            </template>
+
+            <template #content>
+              {{ notification.tooltip }}
+            </template>
+          </HoverMenu>
         </span>
 
         <div v-if="notification.actions" class="flex justify-start">
