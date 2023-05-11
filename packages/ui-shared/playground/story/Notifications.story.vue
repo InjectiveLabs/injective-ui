@@ -5,7 +5,8 @@ function handleError() {
   notifications.error({
     timeout: 6 * 1000,
     title: 'Error title',
-    description: 'Error description'
+    description: 'Error description',
+    tooltip: 'Error tooltip'
   })
 }
 
@@ -20,7 +21,8 @@ function handleSuccess() {
   notifications.success({
     timeout: 6 * 1000,
     title: 'Success title',
-    description: 'Success description'
+    description: 'Success description',
+    tooltip: 'Error tooltip'
   })
 }
 
@@ -28,7 +30,8 @@ function handleInfo() {
   notifications.info({
     timeout: 6 * 1000,
     title: 'Info title',
-    description: 'Info description'
+    description: 'Info description',
+    tooltip: 'Error tooltip'
   })
 }
 </script>
