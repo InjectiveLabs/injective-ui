@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { PropType, computed } from 'vue'
+import { useClipboard } from '@vueuse/core'
 import { NotificationData, NotificationType } from './../../lib/types'
 import Icon from './../components/Icon.vue'
 import HoverMenu from './../components/HoverMenu.vue'
+
+const { copy } = useClipboard()
 
 const props = defineProps({
   notification: {
@@ -64,7 +67,7 @@ function close() {
 
         <span
           v-if="notification.description"
-          class="text-xs text-gray-600 flex items-center"
+          class="text-xs text-gray-400 flex items-center"
         >
           <span
             :class="{
@@ -76,6 +79,7 @@ function close() {
           <HoverMenu
             v-if="notification.tooltip"
             popper-class="notification-tooltip"
+            @click="copy(notification.tooltip)"
           >
             <template #default>
               <slot>
