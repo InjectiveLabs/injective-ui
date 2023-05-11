@@ -2,6 +2,7 @@
 import { PropType, computed } from 'vue'
 import { NotificationData, NotificationType } from './../../lib/types'
 import Icon from './../components/Icon.vue'
+import HoverMenu from './../components/HoverMenu.vue'
 
 const props = defineProps({
   notification: {
@@ -30,24 +31,83 @@ function close() {
 </script>
 
 <template>
-  <div class="rounded-lg pointer-events-auto" :class="wrapperClass">
+  <div
+    class="rounded-lg pointer-events-auto notification"
+    :class="wrapperClass"
+  >
     <div
       class="flex gap-2 justify-start items-start p-4"
-      :class="{ 'items-center': !notification.description }"
+      :class="{
+        'items-center': !notification.description && !notification.tooltip
+      }"
     >
       <div v-if="notification.type === NotificationType.Error">
         <slot name="error">
-          <Icon name="warn" class="w-6 h-6 min-w-6 text-red-500" />
+          <HoverMenu
+            v-if="notification.tooltip"
+            popper-class="notification-tooltip"
+          >
+            <template #default>
+              <slot>
+                <Icon
+                  name="circle-check-border"
+                  class="w-6 h-6 min-w-6 text-red-500"
+                />
+              </slot>
+            </template>
+
+            <template #content>
+              {{ notification.tooltip }}
+            </template>
+          </HoverMenu>
+          <Icon v-else name="warn" class="w-6 h-6 min-w-6 text-red-500" />
         </slot>
       </div>
       <div v-if="notification.type === NotificationType.Warning">
         <slot name="warning">
-          <Icon name="warn" class="w-6 h-6 min-w-6 text-orange-400" />
+          <HoverMenu
+            v-if="notification.tooltip"
+            popper-class="notification-tooltip"
+          >
+            <template #default>
+              <slot>
+                <Icon
+                  name="circle-check-border"
+                  class="w-6 h-6 min-w-6 text-orange-400"
+                />
+              </slot>
+            </template>
+
+            <template #content>
+              {{ notification.tooltip }}
+            </template>
+          </HoverMenu>
+
+          <Icon v-else name="warn" class="w-6 h-6 min-w-6 text-orange-400" />
         </slot>
       </div>
       <div v-if="notification.type === NotificationType.Success">
         <slot name="success">
+          <HoverMenu
+            v-if="notification.tooltip"
+            popper-class="notification-tooltip"
+          >
+            <template #default>
+              <slot>
+                <Icon
+                  name="circle-check-border"
+                  class="w-6 h-6 min-w-6 text-green-400"
+                />
+              </slot>
+            </template>
+
+            <template #content>
+              {{ notification.tooltip }}
+            </template>
+          </HoverMenu>
+
           <Icon
+            v-else
             name="circle-check-border"
             class="w-6 h-6 min-w-6 text-green-400"
           />
@@ -60,7 +120,7 @@ function close() {
       </div>
       <div class="flex flex-col gap-2" :class="contentClass">
         <span class="text-sm font-semibold">{{ title }}</span>
-        <span v-if="notification.description" class="text-sm">
+        <span v-if="notification.description" class="text-xs text-gray-700">
           {{ notification.description }}
         </span>
 
@@ -95,3 +155,14 @@ function close() {
     </div> -->
   </div>
 </template>
+
+<style>
+.notification-tooltip .v-popper__wrapper .v-popper__inner {
+  @apply bg-gray-800 text-gray-300 border-none max-w-xs text-xs px-3 py-1 shadow-sm;
+}
+
+.notification-tooltip .v-popper__wrapper .v-popper__arrow-outer,
+.notification-tooltip .v-popper__wrapper .v-popper__arrow-inner {
+  @apply border-gray-800;
+}
+</style>

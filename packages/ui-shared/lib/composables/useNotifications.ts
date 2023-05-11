@@ -15,9 +15,10 @@ export default function useNotifications(): NotificationsPlugin {
   const notify = (options: NotificationOptions, type: NotificationType) => {
     const { title, timeout } = options
 
-    const duration = timeout || 6000
-    const id = state.idCounter++
+    const duration = 60000 || timeout
+    const id = state.idCounter + 1
     const description = options.description || ''
+    const tooltip = options.tooltip || ''
 
     const notificationTitleAlreadyExist = state.notifications.some(
       (notification) => notification.title === title
@@ -31,6 +32,7 @@ export default function useNotifications(): NotificationsPlugin {
       id,
       type,
       title,
+      tooltip,
       description,
       createdAt: Date.now(),
       timeout: setTimeout(() => deactivate(id), duration),

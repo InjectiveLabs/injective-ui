@@ -32,7 +32,7 @@
     "lint": "eslint --max-warnings 0 --fix '**/*.{js,ts,vue,html}' && stylelint '**/*.{css,.vue}'"
   },
   "dependencies": {
-    "@nuxt/kit": "3.4.1",
+    "@nuxt/kit": "3.3.3",
     "@vuepic/vue-datepicker": "^4.4.0",
     "floating-vue": "2.0.0-beta.20",
     "vee-validate": "4.7.3"
@@ -43,7 +43,7 @@
     "@injectivelabs/stylelint-config": "^1.1.2",
     "@injectivelabs/utils": "1.10.6",
     "@nuxt/module-builder": "0.3.0",
-    "@nuxt/schema": "3.4.1",
+    "@nuxt/schema": "3.3.3",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@testing-library/user-event": "^14.4.3",
@@ -57,7 +57,7 @@
     "eslint-plugin-vue": "9.11.0",
     "jsdom": "^21.1.1",
     "lint-staged": "13.2.1",
-    "nuxt": "^3.4.1",
+    "nuxt": "3.3.3",
     "postcss": "8.4.22",
     "postcss-custom-properties": "13.1.5",
     "postcss-html": "latest",
