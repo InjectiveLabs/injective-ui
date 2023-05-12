@@ -10,8 +10,6 @@ const shown = ref(false)
 
 function updateShown(value: boolean) {
   shown.value = value
-
-  emit('update:show', value)
 }
 
 function close() {
@@ -25,6 +23,8 @@ function close() {
     class="cursor-pointer"
     :shown="shown"
     @update:shown="updateShown"
+    @show="emit('update:show', true)"
+    @hide="emit('update:show', false)"
   >
     <slot :shown="shown" />
 
