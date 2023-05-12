@@ -2,10 +2,16 @@
 import { ref } from 'vue'
 import { Dropdown } from 'floating-vue'
 
+const emit = defineEmits<{
+  (e: 'update:show', show: boolean): void
+}>()
+
 const shown = ref(false)
 
 function updateShown(value: boolean) {
   shown.value = value
+
+  emit('update:show', value)
 }
 
 function close() {
