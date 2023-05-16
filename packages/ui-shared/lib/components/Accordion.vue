@@ -23,14 +23,11 @@ function handleToggle() {
 </script>
 
 <template>
-  <div>
-    <div class="accordion-header" @click="handleToggle">
+  <div class="accordion">
+    <div class="header" @click="handleToggle">
       <slot name="header" v-bind="{ active }" />
     </div>
-    <div
-      class="accordion-content"
-      :class="[active ? 'accordion-open' : 'accordion-closed']"
-    >
+    <div class="content" :class="[active ? 'open' : 'closed']">
       <div>
         <slot name="content" v-bind="{ active }" />
       </div>
@@ -39,21 +36,23 @@ function handleToggle() {
 </template>
 
 <style scoped>
-.accordion-header {
-  user-select: none;
-}
+.accordion {
+  .header {
+    user-select: none;
+  }
 
-.accordion-content {
-  display: grid;
-  transition: all 0.3s;
-}
-.accordion-content > div {
-  overflow: hidden;
-}
-.accordion-open {
-  grid-template-rows: 1fr;
-}
-.accordion-closed {
-  grid-template-rows: 0fr;
+  .content {
+    display: grid;
+    transition: all 0.3s;
+  }
+  .content > div {
+    overflow: hidden;
+  }
+  .open {
+    grid-template-rows: 1fr;
+  }
+  .closed {
+    grid-template-rows: 0fr;
+  }
 }
 </style>
