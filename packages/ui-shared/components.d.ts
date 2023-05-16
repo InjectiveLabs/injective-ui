@@ -8,6 +8,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Accordion: typeof import('./lib/components/Accordion.vue')['default']
     BitMapFilterList: typeof import('./lib/components/BitMapFilterList.vue')['default']
     Checkbox: typeof import('./lib/components/Checkbox.vue')['default']
     Datepicker: typeof import('./lib/components/Datepicker.vue')['default']
