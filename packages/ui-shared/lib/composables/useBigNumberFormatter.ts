@@ -12,6 +12,16 @@ const DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES = 12
 const DEFAULT_INJ_FEE = 0.01
 const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
+const getFormattedZeroValue = (decimalPlaces: number) => {
+  const DECIMAL_DIVIDER = (0.1).toLocaleString().replace(/\d/g, '')
+
+  if (decimalPlaces > 0) {
+    return `0${DECIMAL_DIVIDER}${'0'.repeat(decimalPlaces)}`
+  }
+
+  return `0${DECIMAL_DIVIDER}0`
+}
+
 const unAbbreviateNumber = (value: string): BigNumberInBase | undefined => {
   const units = {
     K: Number(`1${'0'.repeat(3)}`),
@@ -135,7 +145,7 @@ export function useBigNumberFormatter(
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
+      return getFormattedZeroValue(decimalPlaces)
     }
 
     if (
@@ -150,7 +160,7 @@ export function useBigNumberFormatter(
 
   const valueToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
+      return getFormattedZeroValue(decimalPlaces)
     }
 
     if (
@@ -184,7 +194,7 @@ export function useBigNumberFormatter(
 
   const valueWithGasBufferToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
+      return getFormattedZeroValue(decimalPlaces)
     }
 
     return valueWithGasBuffer.value.toFixed(decimalPlaces, roundingMode)
@@ -192,7 +202,7 @@ export function useBigNumberFormatter(
 
   const valueWithGasBufferToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return `0${decimalPlaces > 0 ? '.' : '.0'}${'0'.repeat(decimalPlaces)}`
+      return getFormattedZeroValue(decimalPlaces)
     }
 
     if (
