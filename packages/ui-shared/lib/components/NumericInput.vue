@@ -76,6 +76,7 @@ function onChange(event: any) {
   <input
     class="input-base"
     type="number"
+    lang="en"
     v-bind="$attrs"
     :value="modelValue"
     @input="onChange"

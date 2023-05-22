@@ -4,7 +4,6 @@ import {
   BigNumberInBase,
   getExactDecimalsFromNumber
 } from '@injectivelabs/utils'
-import { getCommaFormatFromLocale } from '../utils/locale'
 
 const ZERO_IN_BASE = new BigNumberInBase(0)
 const DEFAULT_DECIMAL_PLACES = 2
@@ -14,13 +13,11 @@ const DEFAULT_INJ_FEE = 0.01
 const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
 const getFormattedZeroValue = (decimalPlaces: number) => {
-  const { DECIMAL_DIVIDER } = getCommaFormatFromLocale()
-
   if (decimalPlaces > 0) {
-    return `0${DECIMAL_DIVIDER}${'0'.repeat(decimalPlaces)}`
+    return `0.${'0'.repeat(decimalPlaces)}`
   }
 
-  return `0${DECIMAL_DIVIDER}0`
+  return '0.0'
 }
 
 const unAbbreviateNumber = (value: string): BigNumberInBase | undefined => {
