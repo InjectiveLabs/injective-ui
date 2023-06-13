@@ -56,7 +56,7 @@ const polyfillPoints = computed(() => {
   return props.data.reduce((points, [x, y]) => {
     const pointXInWidth = (x / maxX) * width.value
     const pointYInHeight =
-      height.value - ((y - minY) / (maxY - minY)) * height.value
+      height.value - ((y - minY) / (maxY - minY) || 1) * height.value
 
     return `${points} ${pointXInWidth},${pointYInHeight}`
   }, '')
