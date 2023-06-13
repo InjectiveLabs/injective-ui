@@ -13,7 +13,7 @@ describe('utils text functions', () => {
         formatNotificationDescription(descriptionWithLessThan60Chars)
       ).toEqual({
         description: descriptionWithLessThan60Chars,
-        tooltip: ''
+        context: ''
       })
 
       expect(
@@ -21,7 +21,7 @@ describe('utils text functions', () => {
       ).toEqual({
         description:
           'Injective is the only blockchain where developers can find r ...',
-        tooltip: descriptionWithMoreThan60Chars
+        context: descriptionWithMoreThan60Chars
       })
     })
   })

@@ -24,9 +24,7 @@ const props = defineProps({
   }
 })
 
-const title = computed(
-  (): string => props.notification.title || 'Notification Title'
-)
+const title = computed((): string => props.notification.title || '')
 
 function close() {
   props.notification.deactivate()
@@ -69,26 +67,28 @@ function close() {
           v-if="notification.description"
           class="text-xs text-gray-400 flex items-center"
         >
-          <span
-            :class="{
-              'mr-2': notification.tooltip
-            }"
-          >
-            {{ notification.description }}
-          </span>
+          {{ notification.description }}
+        </span>
+
+        <span
+          v-if="notification.context"
+          class="text-xs text-gray-400 flex items-center"
+        >
           <HoverMenu
-            v-if="notification.tooltip"
-            popper-class="notification-tooltip"
-            @click="copy(notification.tooltip)"
+            v-if="notification.context"
+            popper-class="notification-context"
+            @click="copy(notification.context)"
           >
             <template #default>
               <slot>
-                <Icon name="circle-info" class="w-3 h-3" />
+                <span class="text-xs text-gray-400 flex items-center">
+                  Show more context
+                </span>
               </slot>
             </template>
 
             <template #content>
-              {{ notification.tooltip }}
+              {{ notification.context }}
             </template>
           </HoverMenu>
         </span>
@@ -126,12 +126,12 @@ function close() {
 </template>
 
 <style>
-.notification-tooltip .v-popper__wrapper .v-popper__inner {
+.notification-context .v-popper__wrapper .v-popper__inner {
   @apply bg-gray-800 text-gray-300 border-none max-w-xs text-xs px-3 py-1 shadow-sm;
 }
 
-.notification-tooltip .v-popper__wrapper .v-popper__arrow-outer,
-.notification-tooltip .v-popper__wrapper .v-popper__arrow-inner {
+.notification-context .v-popper__wrapper .v-popper__arrow-outer,
+.notification-context .v-popper__wrapper .v-popper__arrow-inner {
   @apply border-gray-800;
 }
 </style>

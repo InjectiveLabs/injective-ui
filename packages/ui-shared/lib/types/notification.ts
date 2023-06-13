@@ -16,7 +16,7 @@ export interface NotificationData {
   type: NotificationType
   title: string
   description: string
-  tooltip: string
+  context: string /** a longer version of a description */
   createdAt: number
   timeout: any
   timeoutStartedAt: number
@@ -40,9 +40,9 @@ export interface NotificationOptions {
   description?: string
 
   /**
-   * Tooltip of the notification for additional context
+   * Context of the notification (longer description)
    */
-  tooltip?: string
+  context?: string
 
   /**
    * Display time of the notification in millisecond

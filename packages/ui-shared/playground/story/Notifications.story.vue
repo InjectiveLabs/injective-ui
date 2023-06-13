@@ -6,7 +6,7 @@ function handleError() {
     timeout: 6 * 1000,
     title: 'Error title',
     description: 'Error description',
-    tooltip: 'Error tooltip'
+    context: 'Error context'
   })
 }
 
@@ -22,7 +22,7 @@ function handleSuccess() {
     timeout: 6 * 1000,
     title: 'Success title',
     description: 'Success description',
-    tooltip: 'Error tooltip'
+    context: 'Error context'
   })
 }
 
@@ -31,7 +31,7 @@ function handleInfo() {
     timeout: 6 * 1000,
     title: 'Info title',
     description: 'Info description',
-    tooltip: 'Error tooltip'
+    context: 'Error context'
   })
 }
 </script>

@@ -2,6 +2,14 @@
 import { ref } from 'vue'
 import { Menu } from 'floating-vue'
 
+defineProps({
+  triggers: {
+    type: Array,
+    default: () => ['click', 'hover', 'focus'],
+    required: false
+  }
+})
+
 const shown = ref(false)
 
 function show() {
@@ -25,7 +33,7 @@ function toggle() {
   <Menu
     v-bind="$attrs"
     placement="top"
-    :triggers="['click', 'hover', 'focus']"
+    :triggers="triggers"
     :distance="8"
     :shown="shown"
     @update:shown="updateShown"

@@ -4,12 +4,12 @@ export const formatNotificationDescription = (description: string) => {
   if (description.length <= DESCRIPTION_CHARACTER_LIMIT) {
     return {
       description,
-      tooltip: ''
+      context: ''
     }
   }
 
   return {
     description: description.slice(0, DESCRIPTION_CHARACTER_LIMIT) + ' ...',
-    tooltip: description
+    context: description
   }
 }
