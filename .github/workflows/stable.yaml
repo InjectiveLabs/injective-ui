@@ -20,11 +20,14 @@ jobs:
         with:
           node-version: '16.15.1'
 
+      - name: 'Setup lerna@6.6.2'
+        run: yarn global add lerna@6.6.2
+
       - name: Install and link dependencies
         run: |
           yarn --cwd ./packages/ui-shared install --force
           yarn --cwd ./packages/ui-shared dev:prepare
-          npx lerna bootstrap
+          lerna bootstrap
 
       - name: 'Setup npm'
         run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
@@ -38,5 +41,5 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
 
-          npx lerna version patch --force-git-tag --yes
-          npx lerna publish from-git --force-git-tag --dist-tag latest --yes --summary-file
+          lerna version patch --force-git-tag --yes
+          lerna publish from-git --force-git-tag --dist-tag latest --yes --summary-file
