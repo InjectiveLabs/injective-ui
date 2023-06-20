@@ -1,5 +1,7 @@
 import { fileURLToPath } from 'node:url'
-import { addImports, defineNuxtModule } from '@nuxt/kit'
+import { defineNuxtModule } from '@nuxt/kit'
+
+export * from '../lib/types'
 
 export default defineNuxtModule({
   meta: {
@@ -8,11 +10,6 @@ export default defineNuxtModule({
   },
   setup(_, nuxt) {
     nuxt.options.css.unshift('@injectivelabs/ui-shared/lib/tailwind.css')
-
-    addImports({
-      from: fileURLToPath(new URL('./../lib/utils', import.meta.url)),
-      name: 'commonUtils'
-    })
   },
   hooks: {
     'components:dirs'(dirs) {
