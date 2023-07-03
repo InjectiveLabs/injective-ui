@@ -21,11 +21,11 @@ jobs:
           node-version: '16.15.1'
 
       - name: 'Setup lerna@6.6.2'
-        run: yarn global add lerna@6.6.2
+        run: yarn global add lerna@6.6.2 --ignore-engines
 
       - name: Install and link dependencies
         run: |
-          yarn --cwd ./packages/ui-shared install --force
+          yarn --cwd ./packages/ui-shared install --force --ignore-engines
           yarn --cwd ./packages/ui-shared dev:prepare
           lerna bootstrap
 
