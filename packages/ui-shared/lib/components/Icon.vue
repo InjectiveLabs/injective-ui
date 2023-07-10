@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, useAttrs } from 'vue'
+
+const attrs = useAttrs()
 
 const isWebpack = process.env.BUILDER_TYPE === 'webpack'
 
@@ -13,26 +15,39 @@ const props = defineProps({
   }
 })
 
+const filteredAttrs = computed(() => {
+  const filteredAttrs = { ...attrs }
+
+  const classes = (filteredAttrs.class as string) || ''
+  const defaultClasses: string[] = []
+
+  if (!classes.includes('cursor-')) {
+    defaultClasses.push('cursor-pointer')
+  }
+
+  if (
+    !classes.includes('w-') &&
+    !classes.includes('h-') &&
+    !classes.includes('min-w-')
+  ) {
+    if (props.xs) {
+      defaultClasses.push('h-2 w-2 min-w-2')
+    } else if (props.sm) {
+      defaultClasses.push('h-3 w-3 min-w-3')
+    } else if (props.md) {
+      defaultClasses.push('h-4 w-4 min-w-4')
+    } else {
+      defaultClasses.push('h-6 w-6 min-w-6')
+    }
+  }
+
+  return { ...attrs, class: [...defaultClasses, classes].join(' ') }
+})
+
 /* temp fix: vite dev not dont support dynamic path
   https://github.com/vitejs/vite/issues/4945
   https://vitejs.dev/guide/features.html#glob-import
 */
-const sizeClasses = computed<string>(() => {
-  if (props.xs) {
-    return 'h-2 w-2 min-w-2'
-  }
-
-  if (props.sm) {
-    return 'h-3 w-3 min-w-3'
-  }
-
-  if (props.md) {
-    return 'h-4 w-4 min-w-4'
-  }
-
-  return 'h-6 w-6 min-w-6'
-})
-
 const dynamicComponent = defineAsyncComponent(() => {
   let name = props.name
 
@@ -48,9 +63,16 @@ const dynamicComponent = defineAsyncComponent(() => {
     if (!isWebpack) {
       const comps = import.meta.glob('./../../lib/icons/**/*.vue')
 
-      return comps[`../icons/${name}.vue`]().then((component: any) =>
-        resolve(component.default)
-      )
+      try {
+        return comps[`../icons/${name}.vue`]().then((component: any) =>
+          resolve(component.default)
+        )
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log({ e, name })
+
+        return
+      }
     }
 
     // webpack
@@ -61,10 +83,12 @@ const dynamicComponent = defineAsyncComponent(() => {
 })
 </script>
 
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+
 <template>
-  <component
-    :is="dynamicComponent"
-    class="cursor-pointer"
-    :class="[$attrs.class ? $attrs.class : sizeClasses]"
-  />
+  <component v-bind="filteredAttrs" :is="dynamicComponent" />
 </template>
