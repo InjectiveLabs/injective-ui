@@ -14,7 +14,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void
+  'update:modelValue': [value: string | number]
 }>()
 
 const active = computed(() => props.modelValue === props.value)

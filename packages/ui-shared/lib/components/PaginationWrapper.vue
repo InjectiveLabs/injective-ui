@@ -25,8 +25,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:page', page: number): void
-  (e: 'update:limit', limit: number): void
+  'update:page': [page: number]
+  'update:limit': [limit: number]
 }>()
 
 const limitOptions = [10, 20, 30, 40, 50]

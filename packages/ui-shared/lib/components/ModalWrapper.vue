@@ -3,7 +3,7 @@ import { ref, PropType } from 'vue'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const emit = defineEmits<{
-  (e: 'close'): void
+  close: []
 }>()
 
 const props = defineProps({

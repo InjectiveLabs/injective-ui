@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', state: string | number): void
+  'update:modelValue': [state: string | number]
 }>()
 
 const props = defineProps({

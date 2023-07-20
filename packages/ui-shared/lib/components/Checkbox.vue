@@ -8,7 +8,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
+  'update:modelValue': [value: boolean]
 }>()
 
 const isChecked = computed({

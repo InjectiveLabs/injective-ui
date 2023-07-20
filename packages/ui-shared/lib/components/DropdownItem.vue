@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'change', state: string): void
+  change: [state: string]
 }>()
 
 function handleClick() {

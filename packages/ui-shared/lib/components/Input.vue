@@ -11,9 +11,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', state: string): void
-  (e: 'input', value: string): void
-  (e: 'paste'): void
+  paste: []
+  input: [value: string]
+  'update:modelValue': [state: string]
 }>()
 
 function onPaste(payload: ClipboardEvent) {

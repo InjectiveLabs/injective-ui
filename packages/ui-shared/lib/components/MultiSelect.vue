@@ -3,12 +3,12 @@ import { PropType, computed } from 'vue'
 import { BaseDropdownOption } from '../types'
 
 const props = defineProps({
-  options: {
-    type: Array as PropType<BaseDropdownOption[]>,
-    required: true
+  search: {
+    type: String,
+    default: ''
   },
 
-  search: {
+  contentClasses: {
     type: String,
     default: ''
   },
@@ -17,15 +17,14 @@ const props = defineProps({
     type: Array as PropType<string[]>,
     required: true
   },
-
-  contentClasses: {
-    type: String,
-    default: ''
+  options: {
+    type: Array as PropType<BaseDropdownOption[]>,
+    required: true
   }
 })
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', msg: string[]): void
+  'update:modelValue': [msg: string[]]
 }>()
 
 const filteredItems = computed(() => {

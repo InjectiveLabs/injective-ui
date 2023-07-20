@@ -13,9 +13,9 @@ defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', state: string): void
-  (e: 'blur'): void
-  (e: 'focus'): void
+  blur: []
+  focus: []
+  'update:modelValue': [state: string]
 }>()
 
 function onPaste(payload: ClipboardEvent) {

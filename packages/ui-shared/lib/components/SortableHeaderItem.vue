@@ -7,10 +7,12 @@ const props = defineProps({
     type: String,
     required: true
   },
+
   sortBy: {
     type: String,
     required: true
   },
+
   ascending: {
     type: Boolean,
     required: true
@@ -18,8 +20,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (e: 'update:sortBy', value: string): null
-  (e: 'update:ascending', value: boolean): null
+  'update:sortBy': [value: string]
+  'update:ascending': [value: boolean]
 }>()
 
 const active = computed(() => props.sortBy === props.value)

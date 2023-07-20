@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Dropdown } from 'floating-vue'
 
 const emit = defineEmits<{
-  (e: 'update:show', show: boolean): void
+  'update:show': [show: boolean]
 }>()
 
 const shown = ref(false)
