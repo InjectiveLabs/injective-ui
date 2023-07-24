@@ -29,5 +29,6 @@ declare module 'vue' {
     SortableHeaderItem: typeof import('./lib/components/SortableHeaderItem.vue')['default']
     Spinner: typeof import('./lib/components/Spinner.vue')['default']
     TextArea: typeof import('./lib/components/TextArea.vue')['default']
+    Tooltip: typeof import('./lib/components/Tooltip.vue')['default']
   }
 }
