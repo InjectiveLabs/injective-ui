@@ -15,6 +15,10 @@ function updateShown(value: boolean) {
 function close() {
   shown.value = false
 }
+
+defineExpose({
+  shown
+})
 </script>
 
 <template>
