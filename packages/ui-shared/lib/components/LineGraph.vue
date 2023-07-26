@@ -40,12 +40,12 @@ onMounted(() => {
     return
   }
 
-  observedElement.value = rootEl.parentElement
-  ro.value.observe(observedElement.value as Element)
+  observedElement.value = rootEl.parentElement as any
+  ro.value.observe(observedElement.value as HTMLElement)
 })
 
 onBeforeUnmount(() => {
-  ro.value.unobserve(observedElement.value as Element)
+  ro.value.unobserve(observedElement.value as HTMLElement)
 })
 
 const polyfillPoints = computed(() => {
