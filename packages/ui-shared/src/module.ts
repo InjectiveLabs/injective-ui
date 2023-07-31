@@ -1,15 +1,51 @@
 import { fileURLToPath } from 'node:url'
-import { defineNuxtModule } from '@nuxt/kit'
+import {
+  useLogger,
+  addImportsDir,
+  createResolver,
+  defineNuxtModule
+} from '@nuxt/kit'
 
 export * from '../lib/types'
 
-export default defineNuxtModule({
+export interface ModuleOptions {
+  /**
+   * @default 'devnet'
+   */
+  network?: string
+}
+
+const defaultOptions = {
+  network: 'devnet'
+}
+
+export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'base-components',
-    configKey: 'baseComponents'
+    name: 'base',
+    configKey: 'base'
   },
-  setup(_, nuxt) {
+  defaults: {
+    network: 'devnet'
+  },
+  setup(userOptions, nuxt) {
+    const logger = useLogger('ui-shared')
+    const { resolve } = createResolver(import.meta.url)
+
+    nuxt.options.runtimeConfig.public.base = {
+      ...userOptions,
+      ...defaultOptions
+    }
+
+    logger.success(
+      `Instantiated ui-shared with ${
+        (nuxt.options.runtimeConfig.public.base as ModuleOptions).network
+      }`
+    )
+
     nuxt.options.css.unshift('@injectivelabs/ui-shared/lib/tailwind.css')
+
+    // import helper functions
+    addImportsDir(resolve('./../lib/helper'))
   },
   hooks: {
     'components:dirs'(dirs) {
