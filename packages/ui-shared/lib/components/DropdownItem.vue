@@ -13,13 +13,13 @@ const emit = defineEmits<{
   change: [state: string]
 }>()
 
-function handleClick() {
+function onClick() {
   emit('change', props.item.value)
 }
 </script>
 
 <template>
-  <div class="flex cursor-pointer items-center" @click="handleClick">
+  <div class="flex cursor-pointer items-center" @click="onClick">
     <slot :item="item" />
   </div>
 </template>

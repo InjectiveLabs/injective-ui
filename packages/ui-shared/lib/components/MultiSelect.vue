@@ -17,6 +17,7 @@ const props = defineProps({
     type: Array as PropType<string[]>,
     required: true
   },
+
   options: {
     type: Array as PropType<BaseDropdownOption[]>,
     required: true
@@ -33,7 +34,7 @@ const filteredItems = computed(() => {
   )
 })
 
-function handleToggleItem(value: string) {
+function onToggle(value: string) {
   if (props.modelValue.includes(value)) {
     emits(
       'update:modelValue',
@@ -47,8 +48,8 @@ function handleToggleItem(value: string) {
 
 <template>
   <BaseDropdown>
-    <template #default="{ shown }">
-      <slot name="default" v-bind="{ shown }" />
+    <template #default="{ isVisible }">
+      <slot name="default" v-bind="{ isVisible }" />
     </template>
 
     <template #content>
@@ -58,7 +59,7 @@ function handleToggleItem(value: string) {
         <div
           v-for="option in filteredItems"
           :key="`multiselect-item-${option.value}`"
-          @click="handleToggleItem(option.value)"
+          @click="onToggle(option.value)"
         >
           <slot
             name="item"

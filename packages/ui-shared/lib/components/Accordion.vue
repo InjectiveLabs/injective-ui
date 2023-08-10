@@ -17,21 +17,21 @@ const emit = defineEmits<{
   'update:modelValue': [value: string | number]
 }>()
 
-const active = computed(() => props.modelValue === props.value)
+const isActive = computed(() => props.modelValue === props.value)
 
-function handleToggle() {
+function onClick() {
   emit('update:modelValue', props.value)
 }
 </script>
 
 <template>
   <div class="accordion">
-    <div class="header" @click="handleToggle">
-      <slot name="header" v-bind="{ active }" />
+    <div class="header" @click="onClick">
+      <slot name="header" v-bind="{ isActive }" />
     </div>
-    <div class="content" :class="[active ? 'open' : 'closed']">
+    <div class="content" :class="[isActive ? 'open' : 'closed']">
       <div>
-        <slot name="content" v-bind="{ active }" />
+        <slot name="content" v-bind="{ isActive }" />
       </div>
     </div>
   </div>

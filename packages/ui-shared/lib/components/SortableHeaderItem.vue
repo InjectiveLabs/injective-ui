@@ -3,6 +3,8 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+  isAscending: Boolean,
+
   value: {
     type: String,
     required: true
@@ -10,11 +12,6 @@ const props = defineProps({
 
   sortBy: {
     type: String,
-    required: true
-  },
-
-  ascending: {
-    type: Boolean,
     required: true
   }
 })
@@ -24,20 +21,20 @@ const emit = defineEmits<{
   'update:ascending': [value: boolean]
 }>()
 
-const active = computed(() => props.sortBy === props.value)
+const isActive = computed(() => props.sortBy === props.value)
 
-function handleSort() {
+function onSort() {
   if (props.value !== props.sortBy) {
     emit('update:sortBy', props.value)
     emit('update:ascending', false)
   } else {
-    emit('update:ascending', !props.ascending)
+    emit('update:ascending', !props.isAscending)
   }
 }
 </script>
 
 <template>
-  <th @click="handleSort">
-    <slot :active="active" />
+  <th @click="onSort">
+    <slot :is-active="isActive" />
   </th>
 </template>

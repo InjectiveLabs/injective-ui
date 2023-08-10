@@ -6,6 +6,7 @@ defineProps({
     type: [String, Number],
     default: ''
   },
+
   rows: {
     type: Number,
     default: 3

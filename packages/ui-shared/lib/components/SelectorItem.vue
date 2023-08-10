@@ -1,22 +1,23 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-const emit = defineEmits<{
-  'update:modelValue': [state: string | number]
-}>()
-
 const props = defineProps({
   modelValue: {
     type: [String, Number],
     required: true
   },
+
   value: {
     type: [String, Number],
     required: true
   }
 })
 
-const active = computed(() => props.modelValue === props.value)
+const emit = defineEmits<{
+  'update:modelValue': [state: string | number]
+}>()
+
+const isActive = computed(() => props.modelValue === props.value)
 
 function click() {
   emit('update:modelValue', props.value)
@@ -25,6 +26,6 @@ function click() {
 
 <template>
   <div @click="click">
-    <slot :active="active" />
+    <slot :is-active="isActive" />
   </div>
 </template>

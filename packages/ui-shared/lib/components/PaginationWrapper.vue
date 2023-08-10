@@ -2,7 +2,8 @@
 import { computed, PropType } from 'vue'
 
 const props = defineProps({
-  disabled: Boolean,
+  isDisabled: Boolean,
+
   extraLimitOptions: {
     type: Array as PropType<number[]>,
     default: () => []
@@ -38,14 +39,14 @@ const rowOptions = computed(() =>
 const totalPages = computed(() => Math.ceil(props.totalCount / props.limit))
 const hasPrevPage = computed(() => props.page > 1)
 const hasNextPage = computed(() => props.page !== totalPages.value)
-const from = computed(() => {
-  return props.page * props.limit - props.limit + 1
-})
+const from = computed(() => props.page * props.limit - props.limit + 1)
+
 const to = computed(() => {
   const maxCountOnPage = props.limit * props.page
 
   return maxCountOnPage > props.totalCount ? props.totalCount : maxCountOnPage
 })
+
 const pagesToDisplay = computed(() => {
   const middlePagesToDisplay = [] as Array<string | number>
 
@@ -76,25 +77,25 @@ const pagesToDisplay = computed(() => {
   return [1, ...middlePagesToDisplay, totalPages.value]
 })
 
-function handleClickEvent(page: number | string) {
-  if (!props.disabled && typeof page !== 'string') {
+function onClickEvent(page: number | string) {
+  if (!props.isDisabled && typeof page !== 'string') {
     emit('update:page', Number(page))
   }
 }
 
-function handleNextEvent() {
-  if (!props.disabled && hasNextPage.value) {
+function onNextEvent() {
+  if (!props.isDisabled && hasNextPage.value) {
     emit('update:page', props.page + 1)
   }
 }
 
-function handlePrevEvent() {
-  if (!props.disabled && hasPrevPage.value) {
+function onPrevEvent() {
+  if (!props.isDisabled && hasPrevPage.value) {
     emit('update:page', props.page - 1)
   }
 }
 
-function handleUpdateLimit(limit: number) {
+function onUpdateLimit(limit: number) {
   emit('update:limit', limit)
 }
 </script>
@@ -107,9 +108,9 @@ function handleUpdateLimit(limit: number) {
     <slot
       :has-prev-page="hasPrevPage"
       :has-next-page="hasNextPage"
-      :handle-click-event="handleClickEvent"
-      :handle-next-event="handleNextEvent"
-      :handle-prev-event="handlePrevEvent"
+      :on-click-event="onClickEvent"
+      :on-next-event="onNextEvent"
+      :on-prev-event="onPrevEvent"
       :pages-to-display="pagesToDisplay"
       :total-pages="totalPages"
     />
@@ -117,7 +118,7 @@ function handleUpdateLimit(limit: number) {
     <slot
       name="row-select"
       :row-options="rowOptions"
-      :handle-update-limit="handleUpdateLimit"
+      :on-update-limit="onUpdateLimit"
     >
       <div />
     </slot>

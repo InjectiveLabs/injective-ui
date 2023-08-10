@@ -3,12 +3,11 @@ import { computed, defineAsyncComponent, useAttrs } from 'vue'
 
 const attrs = useAttrs()
 
-const isWebpack = process.env.BUILDER_TYPE === 'webpack'
-
 const props = defineProps({
   xs: Boolean,
   sm: Boolean,
   md: Boolean,
+
   name: {
     type: String,
     required: true
@@ -60,25 +59,16 @@ const dynamicComponent = defineAsyncComponent(() => {
   }
 
   return new Promise((resolve, _reject) => {
-    if (!isWebpack) {
-      const comps = import.meta.glob('./../../lib/icons/**/*.vue')
+    const comps = import.meta.glob('./../../lib/icons/**/*.vue')
 
-      try {
-        return comps[`../icons/${name}.vue`]().then((component: any) =>
-          resolve(component.default)
-        )
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log({ e, name })
-
-        return
-      }
+    try {
+      return comps[`../icons/${name}.vue`]().then((component: any) =>
+        resolve(component.default)
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log({ e, name })
     }
-
-    // webpack
-    import(/* @vite-ignore */ `./../../lib/icons/${name}.vue`).then(
-      (component) => resolve(component)
-    )
   })
 })
 </script>

@@ -36,6 +36,7 @@ onMounted(() => {
   })
 
   const rootEl = root.value as HTMLElement | undefined
+
   if (!rootEl) {
     return
   }

@@ -6,18 +6,18 @@ const emit = defineEmits<{
   'update:show': [show: boolean]
 }>()
 
-const shown = ref(false)
+const isVisible = ref(false)
 
-function updateShown(value: boolean) {
-  shown.value = value
+function onUpdate(value: boolean) {
+  isVisible.value = value
 }
 
-function close() {
-  shown.value = false
+function onClose() {
+  isVisible.value = false
 }
 
 defineExpose({
-  shown
+  isVisible
 })
 </script>
 
@@ -25,15 +25,15 @@ defineExpose({
   <Dropdown
     v-bind="$attrs"
     class="cursor-pointer"
-    :shown="shown"
-    @update:shown="updateShown"
+    :shown="isVisible"
+    @update:shown="onUpdate"
     @show="emit('update:show', true)"
     @hide="emit('update:show', false)"
   >
-    <slot :shown="shown" />
+    <slot :is-visible="isVisible" />
 
     <template #popper>
-      <slot name="content" :close="close" />
+      <slot name="content" :close="onClose" />
     </template>
   </Dropdown>
 </template>

@@ -10,22 +10,22 @@ defineProps({
   }
 })
 
-const shown = ref(false)
+const isVisible = ref(false)
 
 function show() {
-  shown.value = true
+  isVisible.value = true
 }
 
 function hide() {
-  shown.value = false
+  isVisible.value = false
 }
 
-function updateShown(value: boolean) {
-  shown.value = value
+function onUpdate(value: boolean) {
+  isVisible.value = value
 }
 
-function toggle() {
-  shown.value = !shown.value
+function onToggle() {
+  isVisible.value = !isVisible.value
 }
 </script>
 
@@ -35,12 +35,12 @@ function toggle() {
     placement="top"
     :triggers="triggers"
     :distance="8"
-    :shown="shown"
-    @update:shown="updateShown"
+    :shown="isVisible"
+    @update:shown="onUpdate"
     @apply-hide="hide"
   >
     <div @mouseenter="show" @mouseleave="hide">
-      <slot v-bind="{ shown, toggle }" />
+      <slot v-bind="{ isVisible, toggle: onToggle }" />
     </div>
 
     <template #popper>

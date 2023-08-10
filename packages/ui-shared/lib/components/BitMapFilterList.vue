@@ -6,6 +6,7 @@ const props = defineProps({
     type: Object as PropType<Record<string, number>>,
     required: true
   },
+
   value: {
     type: [String, Number],
     required: true
