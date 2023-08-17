@@ -28,16 +28,24 @@ const props = defineProps({
 
 const modalRef = ref(null)
 
-onKeyStroke('Escape', () => {
+function closeModal() {
   if (props.isVisible) {
     emit('modal:closed')
   }
+}
+
+function onModalClose() {
+  closeModal()
+}
+
+onKeyStroke('Escape', () => {
+  closeModal()
 })
 
 onClickOutside(
   modalRef,
   () => {
-    emit('modal:closed')
+    closeModal()
   },
   {
     ignore: ['.modal-content', ...props.ignore]
@@ -68,7 +76,7 @@ export default {
             :class="containerClass"
           >
             <div class="modal-content">
-              <slot :close="emit('modal:closed')" v-bind="{ isLoading }" />
+              <slot :close="onModalClose" v-bind="{ isLoading }" />
             </div>
           </div>
         </div>

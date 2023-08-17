@@ -15,7 +15,9 @@ describe('Icon component', () => {
     })
 
     test.concurrent('with xs prop', async () => {
-      const { container } = render(Icon, { props: { name: 'arrow', xs: true } })
+      const { container } = render(Icon, {
+        props: { name: 'arrow', isXs: true }
+      })
 
       await waitFor(() => {
         expect(
@@ -25,7 +27,9 @@ describe('Icon component', () => {
     })
 
     test.concurrent('with sm prop', async () => {
-      const { container } = render(Icon, { props: { name: 'arrow', sm: true } })
+      const { container } = render(Icon, {
+        props: { name: 'arrow', isSm: true }
+      })
 
       await waitFor(() => {
         expect(
@@ -35,7 +39,9 @@ describe('Icon component', () => {
     })
 
     test.concurrent('with md prop', async () => {
-      const { container } = render(Icon, { props: { name: 'arrow', md: true } })
+      const { container } = render(Icon, {
+        props: { name: 'arrow', isMd: true }
+      })
 
       await waitFor(() => {
         expect(
@@ -47,7 +53,7 @@ describe('Icon component', () => {
     test.concurrent('with custom class', async () => {
       const { container } = render(Icon, {
         attrs: { class: 'w-10 h-10 min-w-10' },
-        props: { name: 'arrow', md: true }
+        props: { name: 'arrow', isMd: true }
       })
 
       await waitFor(() => {

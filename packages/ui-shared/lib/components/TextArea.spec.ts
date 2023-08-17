@@ -18,13 +18,13 @@ describe('Textarea component', () => {
     test('on focus event', async () => {
       await userEvent.click(textarea)
 
-      expect(result.emitted().focus.length).toEqual(1)
+      expect(result.emitted()['input:focused'].length).toEqual(1)
     })
 
     test('on blur event', async () => {
       await fireEvent.blur(textarea)
 
-      expect(result.emitted().blur.length).toEqual(1)
+      expect(result.emitted()['input:blurred'].length).toEqual(1)
     })
 
     test('on paste event', async () => {
