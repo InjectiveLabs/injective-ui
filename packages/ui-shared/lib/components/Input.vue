@@ -14,6 +14,10 @@ const emit = defineEmits<{
   pasted: []
   'input:changed': [value: string]
   'update:modelValue': [state: string]
+
+  // Legacy
+  paste: []
+  input: [value: string]
 }>()
 
 function onPaste(payload: ClipboardEvent) {
@@ -31,6 +35,9 @@ function onPaste(payload: ClipboardEvent) {
     emit('update:modelValue', updatedValue)
     emit('input:changed', updatedValue)
     emit('pasted')
+
+    // Legacy
+    emit('paste')
   }
 }
 
@@ -39,6 +46,9 @@ function onChange(event: any) {
 
   emit('update:modelValue', value)
   emit('input:changed', value)
+
+  // Legacy
+  emit('input', value)
 }
 </script>
 

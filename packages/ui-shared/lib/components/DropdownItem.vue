@@ -11,10 +11,12 @@ const props = defineProps({
 
 const emit = defineEmits<{
   'item:selected': [state: string]
+  'update:item': [state: string]
 }>()
 
 function onClick() {
   emit('item:selected', props.item.value)
+  emit('update:item', props.item.value)
 }
 </script>
 

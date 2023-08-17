@@ -28,6 +28,8 @@ const props = defineProps({
 const emit = defineEmits<{
   'page:changed': [page: number]
   'limit:changed': [limit: number]
+  'update:page': [page: number]
+  'update:limit': [limit: number]
 }>()
 
 const limitOptions = [10, 20, 30, 40, 50]
@@ -80,23 +82,27 @@ const pagesToDisplay = computed(() => {
 function onClickEvent(page: number | string) {
   if (!props.isDisabled && typeof page !== 'string') {
     emit('page:changed', Number(page))
+    emit('update:page', Number(page))
   }
 }
 
 function onNextEvent() {
   if (!props.isDisabled && hasNextPage.value) {
     emit('page:changed', props.page + 1)
+    emit('update:page', props.page + 1)
   }
 }
 
 function onPrevEvent() {
   if (!props.isDisabled && hasPrevPage.value) {
     emit('page:changed', props.page - 1)
+    emit('update:page', props.page - 1)
   }
 }
 
 function onUpdateLimit(limit: number) {
   emit('limit:changed', limit)
+  emit('update:limit', limit)
 }
 </script>
 
