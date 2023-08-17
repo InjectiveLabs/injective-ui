@@ -48,8 +48,8 @@ function onToggle(value: string) {
 
 <template>
   <BaseDropdown>
-    <template #default="{ isVisible }">
-      <slot name="default" v-bind="{ isVisible }" />
+    <template #default="{ isOpen }">
+      <slot name="default" v-bind="{ isOpen }" />
     </template>
 
     <template #content>
