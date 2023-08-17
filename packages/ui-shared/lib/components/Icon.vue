@@ -4,9 +4,9 @@ import { computed, defineAsyncComponent, useAttrs } from 'vue'
 const attrs = useAttrs()
 
 const props = defineProps({
-  xs: Boolean,
-  sm: Boolean,
-  md: Boolean,
+  isXs: Boolean,
+  isSm: Boolean,
+  isMd: Boolean,
 
   name: {
     type: String,
@@ -29,11 +29,11 @@ const filteredAttrs = computed(() => {
     !classes.includes('h-') &&
     !classes.includes('min-w-')
   ) {
-    if (props.xs) {
+    if (props.isXs) {
       defaultClasses.push('h-2 w-2 min-w-2')
-    } else if (props.sm) {
+    } else if (props.isSm) {
       defaultClasses.push('h-3 w-3 min-w-3')
-    } else if (props.md) {
+    } else if (props.isMd) {
       defaultClasses.push('h-4 w-4 min-w-4')
     } else {
       defaultClasses.push('h-6 w-6 min-w-6')
@@ -47,7 +47,7 @@ const filteredAttrs = computed(() => {
   https://github.com/vitejs/vite/issues/4945
   https://vitejs.dev/guide/features.html#glob-import
 */
-const dynamicComponent = defineAsyncComponent(() => {
+const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
   let name = props.name
 
   if (name.includes('ledger-legacy')) {

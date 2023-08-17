@@ -12,11 +12,11 @@ const props = defineProps({
   }
 })
 
-const handleMouseEnter = () => {
+const onMouseEnter = () => {
   pauseDeactivation(props.notification.id)
 }
 
-const handleMouseLeave = () => {
+const onMouseLeave = () => {
   resumeDeactivation(props.notification.id)
 }
 </script>
@@ -24,13 +24,13 @@ const handleMouseLeave = () => {
 <template>
   <Transition
     enter-active-class="ease-out duration-300"
-    enter-class="opacity-0"
+    enter-from-class="opacity-0"
     enter-to-class="opacity-100"
     leave-active-class="ease-in duration-200"
-    leave-class="opacity-100"
+    leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <div @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+    <div @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
       <slot />
     </div>
   </Transition>

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Dropdown } from 'floating-vue'
 
 const emit = defineEmits<{
-  'update:show': [show: boolean]
+  'isVisible:change': [show: boolean]
 }>()
 
 const isVisible = ref(false)
@@ -27,8 +27,8 @@ defineExpose({
     class="cursor-pointer"
     :shown="isVisible"
     @update:shown="onUpdate"
-    @show="emit('update:show', true)"
-    @hide="emit('update:show', false)"
+    @show="emit('isVisible:change', true)"
+    @hide="emit('isVisible:change', false)"
   >
     <slot :is-visible="isVisible" />
 

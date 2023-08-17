@@ -26,8 +26,12 @@ const props = defineProps({
 
 const title = computed((): string => props.notification.title || '')
 
-function close() {
+function closeNotification() {
   props.notification.deactivate()
+}
+
+function onNotificationClose() {
+  closeNotification()
 }
 </script>
 
@@ -111,8 +115,12 @@ function close() {
           </button>
         </div>
       </div>
-      <slot name="close" :close="close">
-        <Icon name="close" class="w-3 h-3 min-w-3 text-white" @click="close" />
+      <slot name="close" :close-notification="closeNotification">
+        <Icon
+          name="close"
+          class="w-3 h-3 min-w-3 text-white"
+          @click="onNotificationClose"
+        />
       </slot>
     </div>
 

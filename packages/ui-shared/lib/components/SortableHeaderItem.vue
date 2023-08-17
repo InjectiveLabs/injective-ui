@@ -17,18 +17,18 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  'update:sortBy': [value: string]
-  'update:ascending': [value: boolean]
+  'sortBy:changed': [value: string]
+  'isAscending:changed': [value: boolean]
 }>()
 
 const isActive = computed(() => props.sortBy === props.value)
 
 function onSort() {
   if (props.value !== props.sortBy) {
-    emit('update:sortBy', props.value)
-    emit('update:ascending', false)
+    emit('sortBy:changed', props.value)
+    emit('isAscending:changed', false)
   } else {
-    emit('update:ascending', !props.isAscending)
+    emit('isAscending:changed', !props.isAscending)
   }
 }
 </script>

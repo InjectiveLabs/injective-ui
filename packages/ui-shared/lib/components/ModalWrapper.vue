@@ -3,7 +3,7 @@ import { ref, PropType } from 'vue'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const emit = defineEmits<{
-  close: []
+  'modal:closed': []
 }>()
 
 const props = defineProps({
@@ -30,14 +30,14 @@ const modalRef = ref(null)
 
 onKeyStroke('Escape', () => {
   if (props.isVisible) {
-    emit('close')
+    emit('modal:closed')
   }
 })
 
 onClickOutside(
   modalRef,
   () => {
-    emit('close')
+    emit('modal:closed')
   },
   {
     ignore: ['.modal-content', ...props.ignore]
@@ -68,7 +68,7 @@ export default {
             :class="containerClass"
           >
             <div class="modal-content">
-              <slot :close="emit('close')" :is-loading="isLoading" />
+              <slot :close="emit('modal:closed')" v-bind="{ isLoading }" />
             </div>
           </div>
         </div>

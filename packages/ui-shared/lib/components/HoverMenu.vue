@@ -12,11 +12,15 @@ defineProps({
 
 const isVisible = ref(false)
 
-function show() {
+function onHide() {
+  isVisible.value = false
+}
+
+function onMouseEnter() {
   isVisible.value = true
 }
 
-function hide() {
+function onMouseLeave() {
   isVisible.value = false
 }
 
@@ -37,14 +41,14 @@ function onToggle() {
     :distance="8"
     :shown="isVisible"
     @update:shown="onUpdate"
-    @apply-hide="hide"
+    @apply-hide="onHide"
   >
-    <div @mouseenter="show" @mouseleave="hide">
+    <div @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
       <slot v-bind="{ isVisible, toggle: onToggle }" />
     </div>
 
     <template #popper>
-      <div @mouseenter="show" @mouseleave="hide">
+      <div @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <slot name="content" />
       </div>
     </template>
