@@ -2,7 +2,7 @@
 import { PasteEvent } from './../types'
 
 const props = defineProps({
-  clearOnPaste: Boolean,
+  isClearedOnPaste: Boolean,
 
   modelValue: {
     type: String,
@@ -11,8 +11,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  paste: []
-  input: [value: string]
+  pasted: []
+  'input:changed': [value: string]
   'update:modelValue': [state: string]
 }>()
 
@@ -24,13 +24,13 @@ function onPaste(payload: ClipboardEvent) {
 
   if (clipboardData) {
     const value = clipboardData.getData('text')
-    const updatedValue = props.clearOnPaste
+    const updatedValue = props.isClearedOnPaste
       ? value
       : `${props.modelValue}${value.trim()}`
 
     emit('update:modelValue', updatedValue)
-    emit('input', updatedValue)
-    emit('paste')
+    emit('input:changed', updatedValue)
+    emit('pasted')
   }
 }
 
@@ -38,7 +38,7 @@ function onChange(event: any) {
   const { value } = event.target
 
   emit('update:modelValue', value)
-  emit('input', value)
+  emit('input:changed', value)
 }
 </script>
 

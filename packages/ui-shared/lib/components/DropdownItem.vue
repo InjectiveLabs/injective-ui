@@ -10,16 +10,16 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  change: [state: string]
+  'item:selected': [state: string]
 }>()
 
-function handleClick() {
-  emit('change', props.item.value)
+function onClick() {
+  emit('item:selected', props.item.value)
 }
 </script>
 
 <template>
-  <div class="flex cursor-pointer items-center" @click="handleClick">
+  <div class="flex cursor-pointer items-center" @click="onClick">
     <slot :item="item" />
   </div>
 </template>

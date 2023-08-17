@@ -3,12 +3,12 @@ import { ref, PropType } from 'vue'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const emit = defineEmits<{
-  close: []
+  'modal:closed': []
 }>()
 
 const props = defineProps({
-  show: Boolean,
-  showLoading: Boolean,
+  isVisible: Boolean,
+  isLoading: Boolean,
 
   ignore: {
     type: Array as PropType<string[]>,
@@ -29,24 +29,20 @@ const props = defineProps({
 const modalRef = ref(null)
 
 onKeyStroke('Escape', () => {
-  if (props.show) {
-    close()
+  if (props.isVisible) {
+    emit('modal:closed')
   }
 })
 
 onClickOutside(
   modalRef,
   () => {
-    close()
+    emit('modal:closed')
   },
   {
     ignore: ['.modal-content', ...props.ignore]
   }
 )
-
-const close = () => {
-  emit('close')
-}
 </script>
 <script lang="ts">
 export default {
@@ -57,7 +53,7 @@ export default {
 <template>
   <Transition name="modal" appear>
     <div
-      v-if="show"
+      v-if="isVisible"
       class="fixed inset-0 z-50 h-full w-full duration-300 ease-in"
       :class="wrapperClass"
     >
@@ -72,7 +68,7 @@ export default {
             :class="containerClass"
           >
             <div class="modal-content">
-              <slot :close="close" :show-loading="showLoading" />
+              <slot :close="emit('modal:closed')" v-bind="{ isLoading }" />
             </div>
           </div>
         </div>

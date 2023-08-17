@@ -2,9 +2,10 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  disabled: Boolean,
-  modelValue: Boolean,
-  checkboxOnRight: Boolean
+  isOnRight: Boolean,
+  isDisabled: Boolean,
+
+  modelValue: Boolean
 })
 
 const emits = defineEmits<{
@@ -14,7 +15,7 @@ const emits = defineEmits<{
 const isChecked = computed({
   get: () => props.modelValue,
   set: (value: boolean) => {
-    if (!props.disabled) {
+    if (!props.isDisabled) {
       emits('update:modelValue', value)
     }
   }
@@ -26,11 +27,11 @@ const isChecked = computed({
     <div
       class="flex gap-2"
       :class="[
-        { 'flex-row-reverse': checkboxOnRight },
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+        { 'flex-row-reverse': isOnRight },
+        isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
       ]"
     >
-      <slot name="checkbox" v-bind="{ isChecked, disabled }" />
+      <slot name="checkbox" v-bind="{ isChecked, isDisabled }" />
 
       <div class="flex items-center">
         <slot />

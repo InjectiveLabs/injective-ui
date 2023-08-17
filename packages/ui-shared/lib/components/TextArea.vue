@@ -6,6 +6,7 @@ defineProps({
     type: [String, Number],
     default: ''
   },
+
   rows: {
     type: Number,
     default: 3
@@ -13,8 +14,8 @@ defineProps({
 })
 
 const emit = defineEmits<{
-  blur: []
-  focus: []
+  'textArea:blurred': []
+  'textArea:focused': []
   'update:modelValue': [state: string]
 }>()
 
@@ -32,11 +33,11 @@ function onPaste(payload: ClipboardEvent) {
 }
 
 function onFocus() {
-  emit('focus')
+  emit('textArea:focused')
 }
 
 function onBlur() {
-  emit('blur')
+  emit('textArea:blurred')
 }
 
 function onChange(event: any) {
