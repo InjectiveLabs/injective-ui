@@ -8,7 +8,7 @@ describe('ModalWrapper component', () => {
     test.concurrent('with attrs class', async () => {
       const { container } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { isVisible: true }
+        props: { isOpen: true }
       })
 
       await waitFor(() => {
@@ -23,7 +23,7 @@ describe('ModalWrapper component', () => {
     test('emit close event on clickOutside', async () => {
       const { container, emitted, getByText } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { isVisible: true },
+        props: { isOpen: true },
         slots: { default: '<div>Test</div>' }
       })
 
@@ -40,7 +40,7 @@ describe('ModalWrapper component', () => {
     test('emit close event on escape keypress', async () => {
       const { emitted, getByText } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { isVisible: true },
+        props: { isOpen: true },
         slots: { default: '<div>Test</div>' }
       })
 
@@ -55,7 +55,7 @@ describe('ModalWrapper component', () => {
     test('do not emit close event on escape keypress', async () => {
       const { emitted } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { isVisible: false },
+        props: { isOpen: false },
         slots: { default: '<div>Test</div>' }
       })
 

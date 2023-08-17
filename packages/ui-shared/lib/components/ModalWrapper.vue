@@ -7,7 +7,7 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps({
-  isVisible: Boolean,
+  isOpen: Boolean,
   isLoading: Boolean,
 
   ignore: {
@@ -29,7 +29,7 @@ const props = defineProps({
 const modalRef = ref(null)
 
 function closeModal() {
-  if (props.isVisible) {
+  if (props.isOpen) {
     emit('modal:closed')
   }
 }
@@ -61,7 +61,7 @@ export default {
 <template>
   <Transition name="modal" appear>
     <div
-      v-if="isVisible"
+      v-if="isOpen"
       class="fixed inset-0 z-50 h-full w-full duration-300 ease-in"
       :class="wrapperClass"
     >
