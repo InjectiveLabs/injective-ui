@@ -8,7 +8,7 @@ describe('ModalWrapper component', () => {
     test.concurrent('with attrs class', async () => {
       const { container } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { show: true }
+        props: { isVisible: true }
       })
 
       await waitFor(() => {
@@ -23,7 +23,7 @@ describe('ModalWrapper component', () => {
     test('emit close event on clickOutside', async () => {
       const { container, emitted, getByText } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { show: true },
+        props: { isVisible: true },
         slots: { default: '<div>Test</div>' }
       })
 
@@ -32,7 +32,7 @@ describe('ModalWrapper component', () => {
         container.getElementsByClassName('bg-opacity-80')[0]
       )
 
-      expect(emitted().close.length).toEqual(1)
+      expect(emitted()['modal:closed'].length).toEqual(1)
 
       cleanup()
     })
@@ -40,14 +40,14 @@ describe('ModalWrapper component', () => {
     test('emit close event on escape keypress', async () => {
       const { emitted, getByText } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { show: true },
+        props: { isVisible: true },
         slots: { default: '<div>Test</div>' }
       })
 
       getByText('Test')
       await userEvent.keyboard('{Escape}')
 
-      expect(emitted().close.length).toEqual(1)
+      expect(emitted()['modal:closed'].length).toEqual(1)
 
       cleanup()
     })
@@ -55,13 +55,13 @@ describe('ModalWrapper component', () => {
     test('do not emit close event on escape keypress', async () => {
       const { emitted } = render(ModalWrapper, {
         attrs: { class: 'bg-gray-900' },
-        props: { show: false },
+        props: { isVisible: false },
         slots: { default: '<div>Test</div>' }
       })
 
       await userEvent.keyboard('{Escape}')
 
-      expect(emitted().close).toEqual(undefined)
+      expect(emitted()['modal:closed']).toEqual(undefined)
     })
   })
 })

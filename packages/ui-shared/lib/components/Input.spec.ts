@@ -31,7 +31,7 @@ describe('Input component', () => {
 
     beforeEach(async () => {
       result = render(Input, {
-        props: { modelValue: 'inj', clearOnPaste: true }
+        props: { modelValue: 'inj', isClearedOnPaste: true }
       })
       input = await result.container.getElementsByTagName('INPUT')[0]
     })
