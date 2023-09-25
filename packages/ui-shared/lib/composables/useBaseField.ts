@@ -16,9 +16,15 @@ export function useStringField({
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
   )
 
-  return useField<string>(name, validation, {
-    initialValue: (initialValue || '') as string
-  })
+  return useField<string>(
+    name,
+    validation,
+    initialValue
+      ? {
+          initialValue
+        }
+      : undefined
+  )
 }
 
 export function useNumberField({
@@ -36,9 +42,15 @@ export function useNumberField({
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
   )
 
-  return useField<number>(name, validation, {
-    initialValue: (initialValue || 0) as number
-  })
+  return useField<number>(
+    name,
+    validation,
+    initialValue
+      ? {
+          initialValue
+        }
+      : undefined
+  )
 }
 
 export function useBooleanField({
@@ -57,6 +69,6 @@ export function useBooleanField({
   )
 
   return useField<boolean>(name, validation, {
-    initialValue: (initialValue || false) as boolean
+    initialValue: initialValue || false
   })
 }
