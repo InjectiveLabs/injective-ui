@@ -57,7 +57,7 @@ function onChange(event: any) {
     class="input-base"
     v-bind="$attrs"
     :value="modelValue"
-    @input="onChange"
     @paste="onPaste"
+    @input="onChange"
   />
 </template>
