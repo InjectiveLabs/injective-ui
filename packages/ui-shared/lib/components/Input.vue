@@ -32,8 +32,8 @@ function onPaste(payload: ClipboardEvent) {
       ? value
       : `${props.modelValue}${value.trim()}`
 
-    emit('update:modelValue', updatedValue)
     emit('pasted', updatedValue)
+    emit('update:modelValue', updatedValue)
 
     // Legacy
     emit('paste')
