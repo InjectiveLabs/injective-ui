@@ -80,27 +80,37 @@ const pagesToDisplay = computed(() => {
 })
 
 function onClickEvent(page: number | string) {
-  if (!props.isDisabled && typeof page !== 'string') {
-    emit('page:changed', Number(page))
-    emit('update:page', Number(page))
+  if (props.isDisabled || isNaN(Number(page)) || page === props.page) {
+    return
   }
+
+  emit('page:changed', Number(page))
+  emit('update:page', Number(page))
 }
 
 function onNextEvent() {
-  if (!props.isDisabled && hasNextPage.value) {
-    emit('page:changed', props.page + 1)
-    emit('update:page', props.page + 1)
+  if (props.isDisabled || !hasNextPage.value) {
+    return
   }
+
+  emit('page:changed', props.page + 1)
+  emit('update:page', props.page + 1)
 }
 
 function onPrevEvent() {
-  if (!props.isDisabled && hasPrevPage.value) {
-    emit('page:changed', props.page - 1)
-    emit('update:page', props.page - 1)
+  if (props.isDisabled || !hasPrevPage.value) {
+    return
   }
+
+  emit('page:changed', props.page - 1)
+  emit('update:page', props.page - 1)
 }
 
 function onUpdateLimit(limit: number) {
+  if (limit === props.limit) {
+    return
+  }
+
   emit('limit:changed', limit)
   emit('update:limit', limit)
 }
