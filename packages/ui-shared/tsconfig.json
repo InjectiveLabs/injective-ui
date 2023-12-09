@@ -2,7 +2,8 @@
   "extends": "./playground/.nuxt/tsconfig.json",
   "compilerOptions": {
     "types": [
-      "@vueuse/nuxt"
+      "@vueuse/nuxt",
+      "@types/qrcode"
     ]
   }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toDataURL } from 'qrcode'
+import QRCode from 'qrcode'
 import { ref, onMounted } from 'vue'
 
 const props = defineProps({
@@ -12,7 +12,7 @@ const props = defineProps({
 const dataUrl = ref('')
 
 onMounted(async () => {
-  const data = await toDataURL(props.text, {})
+  const data = await QRCode.toDataURL(props.text, {})
   dataUrl.value = data
 })
 </script>
