@@ -1,4 +1,10 @@
-import { TokenPrice, TokenService } from '@injectivelabs/sdk-ui-ts'
+import {
+  TokenPrice,
+  Web3Client,
+  Web3Composer,
+  TokenService,
+  DenomClientAsync
+} from '@injectivelabs/sdk-ui-ts'
 import {
   DenomClient,
   ChainGrpcWasmApi,
@@ -12,7 +18,16 @@ import {
   IndexerGrpcDerivativesApi,
   IndexerGrpcAccountPortfolioApi
 } from '@injectivelabs/sdk-ts'
-import { NETWORK, CHAIN_ID, ENDPOINTS, COINGECKO_KEY } from './utils/constant'
+import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
+import { walletStrategy, alchemyRpcEndpoint } from './wallet/wallet-strategy'
+import {
+  NETWORK,
+  CHAIN_ID,
+  ENDPOINTS,
+  COINGECKO_KEY,
+  ETHEREUM_CHAIN_ID,
+  FEE_PAYER_PUB_KEY
+} from './utils/constant'
 
 // Services
 export const bankApi = new ChainGrpcBankApi(ENDPOINTS.grpc)
@@ -45,4 +60,34 @@ export const tokenPrice = new TokenPrice({
   baseUrl: COINGECKO_KEY
     ? 'https://pro-api.coingecko.com/api/v3'
     : 'https://api.coingecko.com/api/v3'
+})
+
+export const denomClientAsync = new DenomClientAsync(NETWORK, {
+  alchemyRpcUrl: alchemyRpcEndpoint
+})
+
+export const web3Client = new Web3Client({
+  network: NETWORK,
+  rpc: alchemyRpcEndpoint
+})
+
+export const web3Composer = new Web3Composer({
+  network: NETWORK,
+  rpc: alchemyRpcEndpoint,
+  ethereumChainId: ETHEREUM_CHAIN_ID
+})
+
+// Transaction broadcaster
+export const msgBroadcaster = new MsgBroadcaster({
+  walletStrategy,
+  network: NETWORK,
+  networkEndpoints: ENDPOINTS,
+  feePayerPubKey: FEE_PAYER_PUB_KEY,
+  simulateTx: true
+})
+
+export const web3Broadcaster = new Web3Broadcaster({
+  walletStrategy,
+  network: NETWORK,
+  ethereumChainId: ETHEREUM_CHAIN_ID
 })

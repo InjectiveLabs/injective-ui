@@ -1,9 +1,11 @@
-import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { defineConfig } from 'vite'
+import { ViteConfig } from '@nuxt/schema'
+import { createResolver } from '@nuxt/kit'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
-import type { ViteConfig } from '@nuxt/schema'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
+const { resolve } = createResolver(import.meta.url)
 
 export default defineConfig({
   define: {
@@ -36,8 +38,10 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: ['@keplr-wallet/unit', '@injectivelabs/sdk-ts']
+    include: ['@keplr-wallet/unit']
   }
 }) as ViteConfig
 
-export const vitePlugins = [{ src: './nuxt-config/buffer.ts', ssr: false }]
+export const vitePlugins = [
+  { src: resolve('./../../nuxt-config/buffer.ts'), ssr: false }
+]

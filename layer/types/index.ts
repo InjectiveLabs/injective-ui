@@ -1,4 +1,2 @@
-export type LayerTestType = {
-  name: string
-  description: string
-}
+export * from './enum'
+export * from './shared'

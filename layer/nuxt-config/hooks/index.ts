@@ -1,7 +1,9 @@
-import { tokenMetadata } from '../../scripts/scripts/tokens'
+import { tokenMetadata } from '../../scripts/tokens'
+import { bugsnagSourceMaps } from '../../scripts/bugsnag'
 
 export default {
-  'build:done'() {
-    tokenMetadata()
+  async 'build:done'() {
+    await tokenMetadata()
+    await bugsnagSourceMaps()
   }
 }
