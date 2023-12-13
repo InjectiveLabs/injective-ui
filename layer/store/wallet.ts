@@ -100,6 +100,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     onConnect() {
+      console.log('on connectting from layer!')
+
       const modalStore = useSharedModalStore()
       const walletStore = useSharedWalletStore()
 
