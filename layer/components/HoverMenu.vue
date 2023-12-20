@@ -10,7 +10,7 @@ defineProps({
   }
 })
 
-const isOpen = ref(false)
+const isOpen = ref(true)
 
 function onHide() {
   isOpen.value = false

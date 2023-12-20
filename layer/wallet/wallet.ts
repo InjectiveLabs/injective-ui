@@ -20,7 +20,17 @@ export const getAddresses = async (): Promise<string[]> => {
 
   if (addresses.length === 0) {
     throw new WalletException(
-      new Error('There are no addresses linked in this wallet.'),
+      new Error('There are no addresses linked to this wallet.'),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+
+  if (!addresses.every((address) => !!address)) {
+    throw new WalletException(
+      new Error('There are no addresses linked to this wallet.'),
       {
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError

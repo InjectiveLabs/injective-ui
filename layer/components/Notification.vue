@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { PropType } from 'vue'
 import { Notification, NotificationType } from './../types'
 
 const notificationStore = useSharedNotificationStore()
