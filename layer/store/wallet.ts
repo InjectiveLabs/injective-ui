@@ -227,6 +227,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async connectNinji() {
       const walletStore = useSharedWalletStore()
 
+      await walletStore.connectWallet(Wallet.Ninji)
+
       const injectiveAddresses = await getAddresses()
       const [injectiveAddress] = injectiveAddresses
 

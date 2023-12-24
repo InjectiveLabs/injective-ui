@@ -18,7 +18,11 @@ import {
   IndexerGrpcDerivativesApi,
   IndexerGrpcAccountPortfolioApi
 } from '@injectivelabs/sdk-ts'
+import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
+import { SpotCacheApi } from './providers/cacheApi/spot'
+import { TokenCacheApi } from './providers/cacheApi/token'
+import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { walletStrategy, alchemyRpcEndpoint } from './wallet/wallet-strategy'
 import {
   NETWORK,
@@ -49,6 +53,11 @@ export const indexerRestExplorerApi = new IndexerRestExplorerApi(
 export const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
   `${ENDPOINTS.chronos}/api/chronos/v1/spot`
 )
+
+export const spotCacheApi = new SpotCacheApi(ENDPOINTS.cache)
+export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.cache)
+export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cache)
+
 export const denomClient = new DenomClient(NETWORK)
 
 export const tokenService = new TokenService({
@@ -91,3 +100,5 @@ export const web3Broadcaster = new Web3Broadcaster({
   network: NETWORK,
   ethereumChainId: ETHEREUM_CHAIN_ID
 })
+
+export const tokenMetaUtils = TokenMetaUtilsFactory.make(NETWORK)

@@ -17,7 +17,9 @@ export const env = {
     .VITE_CHRONOS_API_ENDPOINT as string,
   VITE_SENTRY_GRPC_ENDPOINT: import.meta.env
     .VITE_SENTRY_GRPC_ENDPOINT as string,
-  VITE_SENTRY_HTTP_ENDPOINT: import.meta.env.VITE_SENTRY_HTTP_ENDPOINT as string
+  VITE_SENTRY_HTTP_ENDPOINT: import.meta.env
+    .VITE_SENTRY_HTTP_ENDPOINT as string,
+  VITE_CACHE_URL: import.meta.env.VITE_CACHE_URL as string
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
@@ -26,6 +28,7 @@ export const NETWORK: Network =
   (import.meta.env.VITE_NETWORK as Network) || Network.Devnet
 export const IS_DEVNET = isDevnet(NETWORK)
 export const IS_TESTNET = isTestnet(NETWORK)
+export const IS_MAINNET = !IS_DEVNET && !IS_TESTNET
 
 export const CHAIN_ID: ChainId = (
   import.meta.env.VITE_CHAIN_ID
@@ -66,7 +69,8 @@ export const ENDPOINTS = {
   http: env.VITE_SENTRY_HTTP_ENDPOINT || endpoints.rest,
   indexer: env.VITE_INDEXER_API_ENDPOINT || endpoints.indexer,
   chronos: env.VITE_CHRONOS_API_ENDPOINT || endpoints.chronos,
-  explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer
+  explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
+  cache: env.VITE_CACHE_URL || 'https://injective-nuxt-api.vercel.app/api'
 }
 
 // wallet

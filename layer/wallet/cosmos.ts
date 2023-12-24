@@ -52,7 +52,7 @@ export const validateCosmosWallet = async ({
 
   if (accounts.length === 0) {
     throw new CosmosWalletException(
-      new Error('Your Keplr wallet is not installed or its not unlocked'),
+      new Error('Your wallet is not installed or its not unlocked'),
       {
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletNotInstalledError
