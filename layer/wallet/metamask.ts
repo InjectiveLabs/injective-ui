@@ -1,15 +1,16 @@
 import {
   ErrorType,
+  GeneralException,
   MetamaskException,
   UnspecifiedErrorCode
 } from '@injectivelabs/exceptions'
 import { EthereumChainId } from '@injectivelabs/ts-types'
-import detectEthereumProvider from '@metamask/detect-provider'
 import { walletStrategy } from './wallet-strategy'
-import { ETHEREUM_CHAIN_ID } from './../utils/constant'
+import { ETHEREUM_CHAIN_ID, IS_MAINNET } from './../utils/constant'
+import { UtilsWallets, Wallet } from '@injectivelabs/wallet-ts'
 
 export const isMetamaskInstalled = async (): Promise<boolean> => {
-  const provider = await detectEthereumProvider()
+  const provider = await UtilsWallets.getMetamaskProvider()
 
   return !!provider
 }
@@ -80,5 +81,44 @@ export const validateMetamask = async (address: string) => {
         type: ErrorType.WalletError
       }
     )
+  }
+
+  const metamaskProvider = await UtilsWallets.getMetamaskProvider()
+
+  if (!metamaskProvider) {
+    throw new GeneralException(
+      new Error('You are connected to the wrong wallet. Please use Metamask.'),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+
+  if (!metamaskProvider.isMetaMask || metamaskProvider.isPhantom) {
+    throw new GeneralException(
+      new Error('You are connected to the wrong wallet. Please use Metamask.'),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+}
+
+export const switchToActiveMetamaskNetwork = async (
+  wallet: Wallet,
+  ethereumChainId: EthereumChainId
+) => {
+  if (wallet !== Wallet.Metamask) {
+    return
+  }
+
+  const chainId = IS_MAINNET ? EthereumChainId.Mainnet : EthereumChainId.Goerli
+
+  try {
+    await UtilsWallets.updateMetamaskNetwork(chainId)
+  } catch (e) {
+    throw e
   }
 }

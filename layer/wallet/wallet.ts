@@ -41,6 +41,7 @@ export const getAddresses = async (): Promise<string[]> => {
   return addresses
 }
 
+/** @deprecated - we should not use this anymore */
 export const confirm = async (address: string) => {
   return await walletStrategy.confirm(address)
 }

@@ -17,7 +17,9 @@ import {
   IndexerGrpcExplorerApi,
   IndexerRestSpotChronosApi,
   IndexerGrpcDerivativesApi,
-  IndexerGrpcAccountPortfolioApi
+  IndexerGrpcAccountPortfolioApi,
+  IndexerRestDerivativesChronosApi,
+  ChainGrpcStakingApi
 } from '@injectivelabs/sdk-ts'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
@@ -36,6 +38,7 @@ import {
 
 // Services
 export const bankApi = new ChainGrpcBankApi(ENDPOINTS.grpc)
+export const stakingApi = new ChainGrpcStakingApi(ENDPOINTS.grpc)
 export const wasmApi = new ChainGrpcWasmApi(ENDPOINTS.grpc)
 export const exchangeApi = new ChainGrpcExchangeApi(ENDPOINTS.grpc)
 
@@ -52,6 +55,10 @@ export const indexerExplorerApi = new IndexerGrpcExplorerApi(ENDPOINTS.indexer)
 export const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${ENDPOINTS.indexer}/api/explorer/v1`
 )
+export const indexerRestDerivativeChronosApi =
+  new IndexerRestDerivativesChronosApi(
+    `${ENDPOINTS.chronos}/api/chronos/v1/derivative`
+  )
 export const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
   `${ENDPOINTS.chronos}/api/chronos/v1/spot`
 )

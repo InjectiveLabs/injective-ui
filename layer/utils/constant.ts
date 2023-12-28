@@ -82,12 +82,8 @@ export const FEE_PAYER_PUB_KEY = (import.meta.env.VITE_FEE_PAYER_PUB_KEY ||
   '') as string
 
 // plugins/tracking.ts
-export const AMPLITUDE_KEY_DEV = import.meta.env
-  .VITE_AMPLITUDE_KEY_DEV as string
 export const AMPLITUDE_KEY_PROD = import.meta.env
   .VITE_AMPLITUDE_KEY_PROD as string
 export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
 export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
-export const AMPLITUDE_KEY =
-  IS_DEVNET || IS_TESTNET ? AMPLITUDE_KEY_DEV : AMPLITUDE_KEY_PROD
