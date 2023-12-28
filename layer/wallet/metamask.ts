@@ -106,18 +106,9 @@ export const validateMetamask = async (address: string) => {
   }
 }
 
-export const switchToActiveMetamaskNetwork = async (
-  wallet: Wallet,
-  ethereumChainId: EthereumChainId
-) => {
-  if (wallet !== Wallet.Metamask) {
-    return
-  }
-
-  const chainId = IS_MAINNET ? EthereumChainId.Mainnet : EthereumChainId.Goerli
-
+export const switchToActiveMetamaskNetwork = async () => {
   try {
-    await UtilsWallets.updateMetamaskNetwork(chainId)
+    await UtilsWallets.updateMetamaskNetwork(ETHEREUM_CHAIN_ID)
   } catch (e) {
     throw e
   }
