@@ -14,6 +14,7 @@ import {
   IndexerGrpcOracleApi,
   IndexerGrpcAccountApi,
   IndexerRestExplorerApi,
+  IndexerGrpcExplorerApi,
   IndexerRestSpotChronosApi,
   IndexerGrpcDerivativesApi,
   IndexerGrpcAccountPortfolioApi
@@ -47,6 +48,7 @@ export const indexerAccountPortfolioApi = new IndexerGrpcAccountPortfolioApi(
   ENDPOINTS.indexer
 )
 export const indexerOracleApi = new IndexerGrpcOracleApi(ENDPOINTS.indexer)
+export const indexerExplorerApi = new IndexerGrpcExplorerApi(ENDPOINTS.indexer)
 export const indexerRestExplorerApi = new IndexerRestExplorerApi(
   `${ENDPOINTS.indexer}/api/explorer/v1`
 )
