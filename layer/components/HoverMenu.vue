@@ -10,10 +10,16 @@ defineProps({
   }
 })
 
-const isOpen = ref(true)
+const emit = defineEmits<{
+  'on:hide': []
+}>()
+
+const isOpen = ref(false)
 
 function onHide() {
   isOpen.value = false
+
+  emit('on:hide')
 }
 
 function onMouseEnter() {
@@ -37,6 +43,7 @@ function onToggle() {
   <Menu
     v-bind="$attrs"
     placement="top"
+    :popperTriggers="triggers"
     :triggers="triggers"
     :distance="8"
     :shown="isOpen"
