@@ -5,23 +5,9 @@
     width="688.23999"
     height="704.70667"
     viewBox="0 0 688.23999 704.70667"
-    sodipodi:docname="dreamstime_142413816.eps"
-    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
     xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
   >
     <defs id="defs6" />
-    <sodipodi:namedview
-      id="namedview4"
-      pagecolor="#ffffff"
-      bordercolor="#000000"
-      borderopacity="0.25"
-      inkscape:showpageshadow="2"
-      inkscape:pageopacity="0.0"
-      inkscape:pagecheckerboard="0"
-      inkscape:deskcolor="#d1d1d1"
-    />
     <g
       id="g8"
       inkscape:groupmode="layer"
