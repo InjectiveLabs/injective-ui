@@ -15,6 +15,26 @@ export const sharedToBalanceInWei = ({
   return new BigNumberInBase(10).pow(decimalPlaces).times(value)
 }
 
+export const sharedConvertTimestampToMilliseconds = (
+  timestamp: number | string
+): number => {
+  const timestampInBigNumber = new BigNumberInBase(timestamp)
+
+  if (timestamp.toString().length > 13) {
+    return timestampInBigNumber
+      .precision(13, BigNumber.ROUND_HALF_UP)
+      .toNumber()
+  }
+
+  if (timestamp.toString().length < 13) {
+    const trailingZeros = 13 - timestamp.toString().length
+
+    return timestampInBigNumber.times(10 ** trailingZeros).toNumber()
+  }
+
+  return timestampInBigNumber.toNumber()
+}
+
 export const sharedToBalanceInToken = ({
   value,
   decimalPlaces,
