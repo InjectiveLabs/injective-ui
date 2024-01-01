@@ -1,6 +1,6 @@
 import { Pagination, TotalSupply } from '@injectivelabs/sdk-ts'
 import { BaseCacheApi } from './base'
-import { bankApi } from '@/Service'
+import { bankApi } from '../../Service'
 
 export class TokenCacheApi extends BaseCacheApi {
   async fetchTotalSupply(_params: any) {

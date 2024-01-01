@@ -8,7 +8,7 @@ import { BaseCacheApi } from './base'
 import {
   indexerDerivativesApi,
   indexerRestDerivativeChronosApi
-} from '@/Service'
+} from '../../Service'
 
 export class DerivativeCacheApi extends BaseCacheApi {
   async fetchMarkets(props?: { marketStatus?: string }) {

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import { Pagination, TotalSupply } from '@injectivelabs/sdk-ts'
-import { bankApi } from '@/Service'
+import { bankApi } from '../../Service'
 
 export class BaseCacheApi {
   client: AxiosInstance

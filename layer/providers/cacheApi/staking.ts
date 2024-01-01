@@ -1,6 +1,6 @@
 import { Pagination, Validator } from '@injectivelabs/sdk-ts'
 import { BaseCacheApi } from './base'
-import { stakingApi } from '@/Service'
+import { stakingApi } from '../../Service'
 
 export class StakingCacheApi extends BaseCacheApi {
   async fetchValidators(_params?: any) {
