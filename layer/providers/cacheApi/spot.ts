@@ -1,6 +1,6 @@
 import { SpotMarket, AllChronosSpotMarketSummary } from '@injectivelabs/sdk-ts'
 import { BaseCacheApi } from './base'
-import { indexerRestSpotChronosApi, indexerSpotApi } from '@/Service'
+import { indexerRestSpotChronosApi, indexerSpotApi } from '../../Service'
 
 export class SpotCacheApi extends BaseCacheApi {
   async fetchMarkets() {
