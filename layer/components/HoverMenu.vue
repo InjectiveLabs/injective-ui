@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useDebounceFn } from '@vueuse/core'
 import { ref } from 'vue'
 import { Menu } from 'floating-vue'
 
@@ -37,6 +38,10 @@ function onUpdate(value: boolean) {
 function onToggle() {
   isOpen.value = !isOpen.value
 }
+
+const closeDebounce = useDebounceFn(() => {
+    isOpen.value = false
+}, 50)
 </script>
 
 <template>
@@ -56,7 +61,7 @@ function onToggle() {
 
     <template #popper>
       <div @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
-        <slot name="content" />
+        <slot name="content" v-bind="{ close: closeDebounce }"  />
       </div>
     </template>
   </Menu>
