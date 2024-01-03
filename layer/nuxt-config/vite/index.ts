@@ -38,7 +38,7 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: ['@keplr-wallet/unit', 'vue-hotjar', 'BroadcastMode']
+    include: ['vue-hotjar']
   }
 }) as ViteConfig
 
