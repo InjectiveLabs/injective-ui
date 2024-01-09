@@ -185,8 +185,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         const addresses = await getAddresses()
 
-        console.log({ wallet, addresses, isEth: isEthWallet(wallet) })
-
         const injectiveAddresses = isEthWallet(wallet)
           ? addresses.map(getInjectiveAddress)
           : addresses
@@ -201,7 +199,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           : addresses
 
         walletStore.$patch({
-          hwAddresses: [...walletStore.addresses, ...injectiveAddresses]
+          hwAddresses: [...walletStore.hwAddresses, ...injectiveAddresses]
         })
       }
     },
