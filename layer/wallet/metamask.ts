@@ -55,32 +55,7 @@ export const validateMetamask = async (address: string) => {
   const metamaskChainIdDoesntMatchTheActiveChainId = chainId !== metamaskChainId
 
   if (metamaskChainIdDoesntMatchTheActiveChainId) {
-    if (chainId === EthereumChainId.Kovan) {
-      throw new MetamaskException(
-        new Error('Please change your Metamask network to Kovan Test Network'),
-        {
-          code: UnspecifiedErrorCode,
-          type: ErrorType.WalletError
-        }
-      )
-    }
-    if (chainId === EthereumChainId.Goerli) {
-      throw new MetamaskException(
-        new Error('Please change your Metamask network to Goerli Test Network'),
-        {
-          code: UnspecifiedErrorCode,
-          type: ErrorType.WalletError
-        }
-      )
-    }
-
-    throw new MetamaskException(
-      new Error('Please change your Metamask network to Ethereum Mainnet'),
-      {
-        code: UnspecifiedErrorCode,
-        type: ErrorType.WalletError
-      }
-    )
+    return await UtilsWallets.updateMetamaskNetwork(chainId)
   }
 
   const metamaskProvider = await UtilsWallets.getMetamaskProvider()

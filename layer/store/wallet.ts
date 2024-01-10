@@ -102,10 +102,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async validateAndQueue() {
+    queue() {
       const walletStore = useSharedWalletStore()
-
-      await walletStore.validate()
 
       if (walletStore.queueStatus === StatusType.Loading) {
         throw new Error('You have a pending transaction.')
@@ -114,6 +112,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           queueStatus: StatusType.Loading
         })
       }
+    },
+
+    async validateAndQueue() {
+      const sharedWalletStore = useSharedWalletStore()
+
+      await sharedWalletStore.validate()
+
+      sharedWalletStore.queue()
     },
 
     async init() {
