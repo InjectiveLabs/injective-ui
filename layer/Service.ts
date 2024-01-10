@@ -73,7 +73,7 @@ export const tokenService = new TokenService({
   chainId: CHAIN_ID,
   network: NETWORK
 })
-export const tokenPrice = new TokenPrice(NETWORK,{
+export const tokenPrice = new TokenPrice(NETWORK, {
   apiKey: COINGECKO_KEY as string,
   baseUrl: COINGECKO_KEY
     ? 'https://pro-api.coingecko.com/api/v3'
