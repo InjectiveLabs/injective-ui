@@ -4,10 +4,9 @@ import {
   MetamaskException,
   UnspecifiedErrorCode
 } from '@injectivelabs/exceptions'
-import { EthereumChainId } from '@injectivelabs/ts-types'
 import { walletStrategy } from './wallet-strategy'
-import { ETHEREUM_CHAIN_ID, IS_MAINNET } from './../utils/constant'
-import { UtilsWallets, Wallet } from '@injectivelabs/wallet-ts'
+import { ETHEREUM_CHAIN_ID } from './../utils/constant'
+import { UtilsWallets } from '@injectivelabs/wallet-ts'
 
 export const isMetamaskInstalled = async (): Promise<boolean> => {
   const provider = await UtilsWallets.getMetamaskProvider()

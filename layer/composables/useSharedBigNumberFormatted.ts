@@ -1,4 +1,4 @@
-import { computed, Ref } from 'vue'
+import { computed, ComputedRef, Ref } from 'vue'
 import {
   BigNumber,
   BigNumberInBase,
@@ -114,7 +114,9 @@ const getNumberMinimalDecimals = (
 }
 
 export function useSharedBigNumberFormatter(
-  value: Ref<String | Number | BigNumberInBase | undefined>,
+  value:
+    | Ref<string | Number | BigNumberInBase | undefined>
+    | ComputedRef<string | Number | BigNumberInBase | undefined>,
   options: {
     decimalPlaces?: number
     minimalDecimalPlaces?: number
