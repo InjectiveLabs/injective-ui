@@ -3,7 +3,7 @@ import { Tooltip } from 'floating-vue'
 </script>
 
 <template>
-  <Tooltip>
+  <Tooltip v-bind="$attrs">
     <div>
       <slot />
     </div>
