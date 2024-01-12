@@ -3,7 +3,7 @@ import { BaseCacheApi } from './base'
 import { bankApi } from '../../Service'
 
 export class TokenCacheApi extends BaseCacheApi {
-  async fetchTotalSupply(_params: any) {
+  async fetchTotalSupply() {
     try {
       const response = await this.client.get<{
         supply: TotalSupply
