@@ -3,28 +3,37 @@ import {
   Web3Client,
   Web3Composer,
   TokenService,
+  InjNameService,
   DenomClientAsync
 } from '@injectivelabs/sdk-ui-ts'
 import {
   DenomClient,
+  ChainGrpcMintApi,
   ChainGrpcWasmApi,
   ChainGrpcBankApi,
+  ChainGrpcPeggyApi,
   IndexerGrpcSpotApi,
+  ChainGrpcStakingApi,
   ChainGrpcExchangeApi,
   IndexerGrpcOracleApi,
   IndexerGrpcAccountApi,
+  IndexerGrpcAuctionApi,
   IndexerRestExplorerApi,
   IndexerGrpcExplorerApi,
+  ChainGrpcTokenFactoryApi,
+  ChainGrpcDistributionApi,
+  ChainGrpcInsuranceFundApi,
   IndexerRestSpotChronosApi,
   IndexerGrpcDerivativesApi,
+  IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
   IndexerRestDerivativesChronosApi,
-  ChainGrpcStakingApi
 } from '@injectivelabs/sdk-ts'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
 import { SpotCacheApi } from './providers/cacheApi/spot'
 import { TokenCacheApi } from './providers/cacheApi/token'
+import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { walletStrategy, alchemyRpcEndpoint } from './wallet/wallet-strategy'
 import {
@@ -38,9 +47,14 @@ import {
 
 // Services
 export const bankApi = new ChainGrpcBankApi(ENDPOINTS.grpc)
+export const mintApi = new ChainGrpcMintApi(ENDPOINTS.grpc)
 export const stakingApi = new ChainGrpcStakingApi(ENDPOINTS.grpc)
 export const wasmApi = new ChainGrpcWasmApi(ENDPOINTS.grpc)
 export const exchangeApi = new ChainGrpcExchangeApi(ENDPOINTS.grpc)
+export const distributionApi = new ChainGrpcDistributionApi(ENDPOINTS.grpc)
+export const insuranceFundsApi = new ChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
+
+export const peggyApi = new ChainGrpcPeggyApi(ENDPOINTS.grpc)
 
 export const indexerSpotApi = new IndexerGrpcSpotApi(ENDPOINTS.indexer)
 export const indexerAccountApi = new IndexerGrpcAccountApi(ENDPOINTS.indexer)
@@ -50,6 +64,7 @@ export const indexerDerivativesApi = new IndexerGrpcDerivativesApi(
 export const indexerAccountPortfolioApi = new IndexerGrpcAccountPortfolioApi(
   ENDPOINTS.indexer
 )
+export const tokenFactoryApi = new ChainGrpcTokenFactoryApi(ENDPOINTS.grpc)
 export const indexerOracleApi = new IndexerGrpcOracleApi(ENDPOINTS.indexer)
 export const indexerExplorerApi = new IndexerGrpcExplorerApi(ENDPOINTS.indexer)
 export const indexerRestExplorerApi = new IndexerRestExplorerApi(
@@ -63,9 +78,17 @@ export const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
   `${ENDPOINTS.chronos}/api/chronos/v1/spot`
 )
 
+export const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(
+  `${ENDPOINTS.chronos}/api/chronos/v1/market`
+)
+
+export const indexerAuctionApi = new IndexerGrpcAuctionApi(ENDPOINTS.indexer)
 export const spotCacheApi = new SpotCacheApi(ENDPOINTS.cache)
 export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.cache)
+export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cache)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cache)
+
+export const injNameService = new InjNameService(NETWORK)
 
 export const denomClient = new DenomClient(NETWORK)
 
