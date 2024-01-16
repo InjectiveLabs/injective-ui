@@ -35,6 +35,16 @@ export const sharedConvertTimestampToMilliseconds = (
   return timestampInBigNumber.toNumber()
 }
 
+export const sharedToBalanceInTokenInBase = ({
+  value,
+  decimalPlaces = 18
+}: {
+  value: string | number
+  decimalPlaces?: number
+}): BigNumberInBase => {
+  return new BigNumberInWei(value).toBase(decimalPlaces)
+}
+
 export const sharedToBalanceInToken = ({
   value,
   fixedDecimals,
@@ -46,7 +56,10 @@ export const sharedToBalanceInToken = ({
   fixedDecimals?: number
   roundingMode?: BigNumber.RoundingMode
 }): string => {
-  const balanceInToken = new BigNumberInWei(value).toBase(decimalPlaces)
+  const balanceInToken = sharedToBalanceInTokenInBase({
+    value,
+    decimalPlaces
+  })
 
   if (fixedDecimals) {
     return balanceInToken.toFixed(fixedDecimals, roundingMode)
