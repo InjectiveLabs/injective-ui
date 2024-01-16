@@ -37,12 +37,12 @@ export const sharedConvertTimestampToMilliseconds = (
 
 export const sharedToBalanceInToken = ({
   value,
-  decimalPlaces,
   fixedDecimals,
-  roundingMode
+  roundingMode,
+  decimalPlaces = 18
 }: {
   value: string | number
-  decimalPlaces: number
+  decimalPlaces?: number
   fixedDecimals?: number
   roundingMode?: BigNumber.RoundingMode
 }): string => {
