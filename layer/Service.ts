@@ -30,20 +30,18 @@ import {
   IndexerRestDerivativesChronosApi,
 } from '@injectivelabs/sdk-ts'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
-import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
 import { SpotCacheApi } from './providers/cacheApi/spot'
 import { TokenCacheApi } from './providers/cacheApi/token'
 import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
-import { walletStrategy, alchemyRpcEndpoint } from './wallet/wallet-strategy'
 import {
   NETWORK,
   CHAIN_ID,
   ENDPOINTS,
   COINGECKO_KEY,
   ETHEREUM_CHAIN_ID,
-  FEE_PAYER_PUB_KEY
 } from './utils/constant'
+import { alchemyRpcEndpoint } from './wallet/alchemy'
 
 // Services
 export const bankApi = new ChainGrpcBankApi(ENDPOINTS.grpc)
@@ -115,21 +113,6 @@ export const web3Client = new Web3Client({
 export const web3Composer = new Web3Composer({
   network: NETWORK,
   rpc: alchemyRpcEndpoint,
-  ethereumChainId: ETHEREUM_CHAIN_ID
-})
-
-// Transaction broadcaster
-export const msgBroadcaster = new MsgBroadcaster({
-  walletStrategy,
-  network: NETWORK,
-  networkEndpoints: ENDPOINTS,
-  feePayerPubKey: FEE_PAYER_PUB_KEY,
-  simulateTx: true
-})
-
-export const web3Broadcaster = new Web3Broadcaster({
-  walletStrategy,
-  network: NETWORK,
   ethereumChainId: ETHEREUM_CHAIN_ID
 })
 
