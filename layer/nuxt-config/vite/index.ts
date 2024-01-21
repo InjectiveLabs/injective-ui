@@ -24,6 +24,10 @@ export default defineConfig({
           if (id.includes('@keplr-wallet')) {
             return 'keplr'
           }
+
+          if (id.includes('@cosmjs')) {
+            return 'cosmjs'
+          }
         }
       }
     }
@@ -38,7 +42,7 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: ['@keplr-wallet/unit']
+    include: []
   }
 }) as ViteConfig
 
