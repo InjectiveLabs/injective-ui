@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 import path from 'path'
-import { copy, removeSync, pathExistsSync, copySync } from 'fs-extra'
+import {  removeSync, pathExistsSync} from 'fs-extra'
+import { copyInChunks } from '../utils/scripts'
 
-export function validatorsLogo(isProduction = false) {
+export async function validatorsLogo(isProduction = false) {
   const outputPathPrefix = isProduction ? '.output/public' : 'public'
   const validatorsLogoDstDir = path.resolve(
     process.cwd(),
@@ -17,15 +18,10 @@ export function validatorsLogo(isProduction = false) {
   try {
     if (outDirPathExist) {
       removeSync(validatorsLogoDstDir)
-      copySync(validatorsLogoSrcDir, validatorsLogoDstDir, {
-        overwrite: true
-      })
-    } else {
-      copy(validatorsLogoSrcDir, validatorsLogoDstDir, {
-        overwrite: true,
-        errorOnExist: false
-      })
     }
+
+    await copyInChunks(validatorsLogoSrcDir, validatorsLogoDstDir)
+
     console.log('✔ Successfully copied validator images!')
   } catch (e) {
     console.log(`Error copying validator images: ${e}`)
