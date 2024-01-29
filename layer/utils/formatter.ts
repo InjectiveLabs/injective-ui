@@ -21,9 +21,15 @@ export const sharedConvertTimestampToMilliseconds = (
   const timestampInBigNumber = new BigNumberInBase(timestamp)
 
   if (timestamp.toString().length > 13) {
-    return timestampInBigNumber
-      .precision(13, BigNumber.ROUND_HALF_UP)
-      .toNumber()
+    const formatNumberBy = new BigNumberInBase(10).pow(
+      timestamp.toString().length - 13
+    )
+
+    const formattedValue = timestampInBigNumber
+      .dividedBy(formatNumberBy)
+      .toFixed(0, BigNumber.ROUND_HALF_UP)
+
+    return new BigNumberInBase(formattedValue).toNumber()
   }
 
   if (timestamp.toString().length < 13) {
