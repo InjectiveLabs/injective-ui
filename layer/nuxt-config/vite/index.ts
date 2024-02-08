@@ -42,7 +42,11 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: []
+    include: [
+      '@injectivelabs/token-metadata',
+      '@injectivelabs/sdk-ui-ts',
+      '@injectivelabs/sdk-ts'
+    ]
   }
 }) as ViteConfig
 

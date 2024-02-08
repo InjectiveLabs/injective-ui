@@ -19,7 +19,8 @@ export const env = {
     .VITE_SENTRY_GRPC_ENDPOINT as string,
   VITE_SENTRY_HTTP_ENDPOINT: import.meta.env
     .VITE_SENTRY_HTTP_ENDPOINT as string,
-  VITE_CACHE_URL: import.meta.env.VITE_CACHE_URL as string
+  VITE_CACHE_REST_API_ENDPOINT: import.meta.env
+    .VITE_CACHE_REST_API_ENDPOINT as string
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
@@ -70,7 +71,9 @@ export const ENDPOINTS = {
   indexer: env.VITE_INDEXER_API_ENDPOINT || endpoints.indexer,
   chronos: env.VITE_CHRONOS_API_ENDPOINT || endpoints.chronos,
   explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
-  cache: env.VITE_CACHE_URL || 'https://injective-nuxt-api.vercel.app/api'
+  cacheRest:
+    env.VITE_CACHE_REST_API_ENDPOINT ||
+    'https://injective-nuxt-api.vercel.app/api'
 }
 
 // wallet

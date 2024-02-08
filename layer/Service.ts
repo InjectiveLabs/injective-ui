@@ -27,7 +27,7 @@ import {
   IndexerGrpcDerivativesApi,
   IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
-  IndexerRestDerivativesChronosApi,
+  IndexerRestDerivativesChronosApi
 } from '@injectivelabs/sdk-ts'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import { SpotCacheApi } from './providers/cacheApi/spot'
@@ -39,7 +39,7 @@ import {
   CHAIN_ID,
   ENDPOINTS,
   COINGECKO_KEY,
-  ETHEREUM_CHAIN_ID,
+  ETHEREUM_CHAIN_ID
 } from './utils/constant'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
 
