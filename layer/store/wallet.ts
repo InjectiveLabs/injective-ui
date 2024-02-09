@@ -134,11 +134,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       modalStore.closeAll()
 
-      useEventBus(EventBus.WalletConnected).emit()
-
-      walletStore.$patch({
+     walletStore.$patch({
         walletConnectStatus: WalletConnectStatus.connected
       })
+
+      useEventBus(EventBus.WalletConnected).emit()
     },
 
     async checkIsMetamaskInstalled() {
