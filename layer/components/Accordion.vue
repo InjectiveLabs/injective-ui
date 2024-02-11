@@ -2,6 +2,11 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+  activeClass: {
+    type: String,
+    default: ''
+  },
+
   modelValue: {
     type: [String, Number],
     default: ''
@@ -9,11 +14,6 @@ const props = defineProps({
 
   value: {
     type: [String, Number],
-    default: ''
-  },
-
-  activeClass: {
-    type: String,
     default: ''
   }
 })
