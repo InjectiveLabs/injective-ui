@@ -23,6 +23,7 @@ declare module 'vue' {
     NotificationWrapper: typeof import('./lib/components/NotificationWrapper.vue')['default']
     NumericInput: typeof import('./lib/components/NumericInput.vue')['default']
     PaginationWrapper: typeof import('./lib/components/PaginationWrapper.vue')['default']
+    QRCode: typeof import('./lib/components/QRCode.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectorItem: typeof import('./lib/components/SelectorItem.vue')['default']

@@ -11,11 +11,6 @@
     style="enable-background: new 0 0 2500 2500"
     xml:space="preserve"
   >
-    <style type="text/css">
-      .okx-st0 {
-        fill: none;
-      }
-    </style>
     <g id="Layer_x0020_1">
       <g id="_2187289728928">
         <rect y="0" class="okx-st0" width="2500" height="2500" />
@@ -40,3 +35,8 @@
     </g>
   </svg>
 </template>
+<style scoped>
+.okx-st0 {
+  fill: none;
+}
+</style>
