@@ -4,7 +4,8 @@ import {
   Web3Composer,
   TokenService,
   InjNameService,
-  DenomClientAsync
+  DenomClientAsync,
+  InjBonfidaNameService,
 } from '@injectivelabs/sdk-ui-ts'
 import {
   DenomClient,
@@ -87,6 +88,7 @@ export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cacheRest)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
 
 export const injNameService = new InjNameService(NETWORK)
+export const injBonfidaNameService = new InjBonfidaNameService(NETWORK)
 
 export const denomClient = new DenomClient(NETWORK)
 
