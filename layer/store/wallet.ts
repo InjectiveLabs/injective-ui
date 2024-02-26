@@ -134,7 +134,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       modalStore.closeAll()
 
-     walletStore.$patch({
+      walletStore.$patch({
         walletConnectStatus: WalletConnectStatus.connected
       })
 
