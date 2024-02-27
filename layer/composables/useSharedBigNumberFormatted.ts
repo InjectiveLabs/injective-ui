@@ -8,7 +8,6 @@ const ZERO_IN_BASE = new BigNumberInBase(0)
 const DEFAULT_DECIMAL_PLACES = 2
 const DEFAULT_MINIMAL_DISPLAY_DECIMAL_PLACES = 4
 const DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES = 12
-const DEFAULT_INJ_FEE = 0.005
 const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
 const getFormattedZeroValue = (decimalPlaces: number) => {
@@ -118,7 +117,6 @@ export function useSharedBigNumberFormatter(
     decimalPlaces?: number
     minimalDecimalPlaces?: number
     abbreviationFloor?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
-    injFee?: number
     roundingMode?: BigNumber.RoundingMode
     displayAbsoluteDecimalPlace?: boolean /** Explained above */
     shouldTruncate?: Boolean
@@ -136,9 +134,8 @@ export function useSharedBigNumberFormatter(
     return new BigNumberInBase(value.value as string)
   })
 
-  const decimalPlaces = options.decimalPlaces ?? DEFAULT_DECIMAL_PLACES
-  const injFee = options.injFee ?? DEFAULT_INJ_FEE
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
+  const decimalPlaces = options.decimalPlaces ?? DEFAULT_DECIMAL_PLACES
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
 
   const valueToFixed = computed(() => {
@@ -155,11 +152,16 @@ export function useSharedBigNumberFormatter(
       return abbreviateNumber(valueToBigNumber.value.toNumber())
     }
 
+    const roundedValue = valueToBigNumber.value.toFixed(
+      decimalPlaces,
+      roundingMode
+    )
+
     if (options.shouldTruncate) {
-      return valueToBigNumber.value.toFixed()
+      return new BigNumberInBase(roundedValue).toFixed()
     }
 
-    return valueToBigNumber.value.toFixed(decimalPlaces, roundingMode)
+    return roundedValue
   })
 
   const valueToString = computed(() => {
@@ -183,73 +185,25 @@ export function useSharedBigNumberFormatter(
         displayAbsoluteDecimalPlace
       )
 
+    const roundedValue = valueToBigNumber.value.toFixed(
+      decimalPlaces,
+      roundingMode
+    )
+
     if (options.shouldTruncate) {
-      return valueToBigNumber.value.toFormat()
+      return new BigNumberInBase(roundedValue).toFormat()
     }
 
     if (valueToBigNumber.value.abs().lt(minimalDisplayAmount)) {
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
-    return valueToBigNumber.value.toFormat(decimalPlaces, roundingMode)
-  })
-
-  const valueWithGasBuffer = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.lte(injFee)) {
-      return new BigNumberInBase(0)
-    }
-
-    return valueToBigNumber.value.minus(injFee)
-  })
-
-  const valueWithGasBufferToFixed = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return getFormattedZeroValue(decimalPlaces)
-    }
-
-    if (options.shouldTruncate) {
-      valueWithGasBuffer.value.toFixed()
-    }
-
-    return valueWithGasBuffer.value.toFixed(decimalPlaces, roundingMode)
-  })
-
-  const valueWithGasBufferToString = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return getFormattedZeroValue(decimalPlaces)
-    }
-
-    if (
-      !!options.abbreviationFloor &&
-      valueToBigNumber.value.gte(options.abbreviationFloor)
-    ) {
-      return abbreviateNumber(valueToBigNumber.value.toNumber())
-    }
-
-    const { minimalDecimalPlaces, minimalDisplayAmount } =
-      getNumberMinimalDecimals(
-        valueToBigNumber,
-        options.minimalDecimalPlaces,
-        displayAbsoluteDecimalPlace
-      )
-
-    if (options.shouldTruncate) {
-      valueWithGasBuffer.value.toFormat()
-    }
-
-    if (valueWithGasBuffer.value.abs().lt(minimalDisplayAmount)) {
-      return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
-    }
-
-    return valueWithGasBuffer.value.toFormat(decimalPlaces, roundingMode)
+    return new BigNumberInBase(roundedValue).toFormat(decimalPlaces)
   })
 
   return {
-    valueToBigNumber,
     valueToFixed,
     valueToString,
-    valueWithGasBuffer,
-    valueWithGasBufferToFixed,
-    valueWithGasBufferToString
+    valueToBigNumber
   }
 }
