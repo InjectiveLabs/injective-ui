@@ -167,8 +167,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async checkIsOkxWalletInstalled() {
       const walletStore = useSharedWalletStore()
 
-      console.log('check okx', await isOkxWalletInstalled())
-
       walletStore.$patch({
         okxWalletInstalled: await isOkxWalletInstalled()
       })
