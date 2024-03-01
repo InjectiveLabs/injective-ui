@@ -15,6 +15,7 @@ import {
   validateTrustWallet,
   isTrustWalletInstalled
 } from './../wallet/trust-wallet'
+import { validateOkxWallet, isOkxWalletInstalled } from './../wallet/okx-wallet'
 import { isPhantomInstalled } from './../wallet/phantom'
 import { IS_DEVNET } from './../utils/constant'
 import {
@@ -35,6 +36,7 @@ type WalletStoreState = {
   hwAddresses: string[]
   phantomInstalled: boolean
   metamaskInstalled: boolean
+  okxWalletInstalled: boolean
   trustWalletInstalled: boolean
   wallet: Wallet
   queueStatus: StatusType
@@ -50,6 +52,7 @@ const initialStateFactory = (): WalletStoreState => ({
   wallet: Wallet.Metamask,
   phantomInstalled: false,
   metamaskInstalled: false,
+  okxWalletInstalled: false,
   trustWalletInstalled: false,
   queueStatus: StatusType.Idle
 })
@@ -92,6 +95,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (walletStore.wallet === Wallet.TrustWallet) {
         await validateTrustWallet(walletStore.address)
+      }
+
+      if (walletStore.wallet === Wallet.OkxWallet) {
+        await validateOkxWallet(walletStore.address)
       }
 
       if (isCosmosBrowserWallet(walletStore.wallet)) {
@@ -154,6 +161,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       walletStore.$patch({
         trustWalletInstalled: await isTrustWalletInstalled()
+      })
+    },
+
+    async checkIsOkxWalletInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      console.log('check okx', await isOkxWalletInstalled())
+
+      walletStore.$patch({
+        okxWalletInstalled: await isOkxWalletInstalled()
       })
     },
 
@@ -402,8 +419,26 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.$patch({
         address,
         addresses,
-        injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await confirm(address)
+        addressConfirmation: await confirm(address),
+        injectiveAddress: getInjectiveAddress(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectOkxWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.OkxWallet)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+
+      walletStore.$patch({
+        address,
+        addresses,
+        addressConfirmation: await confirm(address),
+        injectiveAddress: getInjectiveAddress(address)
       })
 
       await walletStore.onConnect()
@@ -417,6 +452,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.$patch({
         ...initialStateFactory(),
         metamaskInstalled: walletStore.metamaskInstalled,
+        okxWalletInstalled: walletStore.okxWalletInstalled,
         walletConnectStatus: WalletConnectStatus.disconnected
       })
     }

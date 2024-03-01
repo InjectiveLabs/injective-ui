@@ -42,7 +42,7 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: ['@injectivelabs/sdk-ts']
+    include: []
   }
 }) as ViteConfig
 

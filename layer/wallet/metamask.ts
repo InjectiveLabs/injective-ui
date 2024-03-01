@@ -69,7 +69,11 @@ export const validateMetamask = async (address: string) => {
     )
   }
 
-  if (!metamaskProvider.isMetaMask || metamaskProvider.isPhantom) {
+  if (
+    metamaskProvider.isPhantom ||
+    metamaskProvider.isOkxWallet ||
+    metamaskProvider.isTrustWallet
+  ) {
     throw new GeneralException(
       new Error('You are connected to the wrong wallet. Please use Metamask.'),
       {

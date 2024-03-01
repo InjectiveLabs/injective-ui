@@ -1,4 +1,4 @@
-import { EthereumChainId, AccountAddress } from '@injectivelabs/ts-types'
+import { AccountAddress } from '@injectivelabs/ts-types'
 import {
   ErrorType,
   UnspecifiedErrorCode,
