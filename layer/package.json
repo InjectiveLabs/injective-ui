@@ -1,19 +1,20 @@
 {
-  "name": "my-nuxt-layer",
+  "name": "@injectivelabs/ui-layer",
   "type": "module",
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
+  "license": "Apache-2.0",
   "scripts": {
     "lint": "eslint ."
   },
   "dependencies": {
     "@injectivelabs/nuxt-bugsnag": "0.0.3",
-    "@injectivelabs/utils": "1.14.6",
-    "@injectivelabs/networks": "1.14.6",
-    "@injectivelabs/sdk-ts": "1.14.7-beta.0",
-    "@injectivelabs/sdk-ui-ts": "1.14.7-beta.0",
-    "@injectivelabs/token-metadata": "1.14.7-beta.0",
-    "@injectivelabs/wallet-ts": "1.14.7-beta.0",
+    "@injectivelabs/utils": "1.14.10",
+    "@injectivelabs/networks": "1.14.10",
+    "@injectivelabs/sdk-ts": "1.14.10",
+    "@injectivelabs/sdk-ui-ts": "1.14.10",
+    "@injectivelabs/token-metadata": "1.14.10",
+    "@injectivelabs/wallet-ts": "1.14.10",
     "@vueuse/integrations": "^10.7.1",
     "floating-vue": "2.0.0-beta.24",
     "vue-gtag": "^2.0.1",
