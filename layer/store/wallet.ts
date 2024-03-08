@@ -442,6 +442,24 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
+    async connectPhantomWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Phantom)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+
+      walletStore.$patch({
+        address,
+        addresses,
+        addressConfirmation: await confirm(address),
+        injectiveAddress: getInjectiveAddress(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
     async logout() {
       const walletStore = useSharedWalletStore()
 
