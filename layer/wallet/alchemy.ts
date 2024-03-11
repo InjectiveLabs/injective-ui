@@ -1,5 +1,6 @@
 import { EthereumChainId } from '@injectivelabs/ts-types'
 import {
+  IS_DEVNET,
   IS_TESTNET,
   ALCHEMY_KEY,
   ALCHEMY_KOVAN_KEY,
@@ -19,6 +20,7 @@ export const getRpcUrlsForChainIds = (): Record<EthereumChainId, string> => {
   }
 }
 
-export const alchemyRpcEndpoint = IS_TESTNET
-  ? `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_GOERLI_KEY}`
-  : `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`
+export const alchemyRpcEndpoint =
+  IS_TESTNET || IS_DEVNET
+    ? `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_GOERLI_KEY}`
+    : `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`

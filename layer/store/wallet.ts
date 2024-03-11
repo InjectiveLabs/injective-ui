@@ -292,11 +292,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStore.connectWallet(wallet)
 
+      const ethereumAddress = getEthereumAddress(address)
+
       walletStore.$patch({
-        address,
-        addresses: [address],
-        injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await confirm(address)
+        address: ethereumAddress,
+        injectiveAddress: address,
+        addresses: [ethereumAddress],
+        addressConfirmation: await confirm(ethereumAddress)
       })
 
       await walletStore.onConnect()
