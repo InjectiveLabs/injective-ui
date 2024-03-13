@@ -62,7 +62,7 @@ const { typed, el } = useIMask(
   ),
   {
     onAccept: () => {
-      if (typed.value) {
+      if (props.modelValue !== typed.value) {
         emit('update:modelValue', typed.value)
       }
     }
@@ -71,9 +71,12 @@ const { typed, el } = useIMask(
 
 watch(
   () => props.modelValue,
-  (value: string) => {
-    typed.value = value
-  }
+  (value) => {
+    nextTick(() => {
+      typed.value = value
+    })
+  },
+  { immediate: true }
 )
 </script>
 
