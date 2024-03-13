@@ -1,121 +1,80 @@
-<script lang="ts" setup>
-import { useDebounceFn } from '@vueuse/core'
-import { BigNumberInBase } from '@injectivelabs/utils'
-import {
-  stripNonDigits,
-  validateNumericInput,
-  convertToNumericValue
-} from './../utils/input'
-import { KeydownEvent, PasteEvent } from './../types'
+<script setup lang="ts">
+import { useIMask } from 'vue-imask'
+import type { FactoryOpts } from 'imask'
 
 const props = defineProps({
+  isAutofix: Boolean,
   isShowMask: Boolean,
 
   modelValue: {
-    type: [String, Number],
+    type: String,
     default: ''
   },
 
   maxDecimals: {
     type: Number,
     default: 6
+  },
+
+  max: {
+    type: Number,
+    default: 10 ** 18
+  },
+
+  min: {
+    type: Number,
+    default: undefined
   }
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [state: string]
+  'update:modelValue': [value: string]
 }>()
 
-const display = ref('')
-const isBlur = ref(false)
-
-const debounceSanitizeDecimalPlace = useDebounceFn((value: string) => {
-  const formattedValue = convertToNumericValue(value, props.maxDecimals)
-
-  if (Number.isNaN(formattedValue)) {
-    return
-  }
-
-  display.value = isBlur.value
-    ? new BigNumberInBase(formattedValue).toFormat()
-    : formattedValue.toString()
-  emit('update:modelValue', formattedValue.toString())
-}, 500)
-
-function onKeyDown(payload: KeyboardEvent) {
-  const event = payload as KeydownEvent<HTMLInputElement>
-  if (!validateNumericInput(event, props.maxDecimals === 0 ? ['.'] : [])) {
-    event.preventDefault()
+const hardCodedIMaskOptions = {
+  mask: 'num',
+  lazy: false,
+  blocks: {
+    num: {
+      mask: Number,
+      radix: '.',
+      mapToRadix: ['.', ',']
+    }
   }
 }
 
-function onPaste(payload: ClipboardEvent) {
-  const event = payload as PasteEvent<HTMLInputElement>
-  const { clipboardData } = event
-
-  if (!clipboardData) {
-    return
+const { typed, el } = useIMask(
+  computed(
+    () =>
+      ({
+        ...hardCodedIMaskOptions,
+        blocks: {
+          num: {
+            ...hardCodedIMaskOptions.blocks.num,
+            min: props.min,
+            max: props.max,
+            scale: props.maxDecimals,
+            isAutofix: props.isAutofix,
+            thousandsSeparator: props.isShowMask ? ',' : ''
+          }
+        }
+      }) as FactoryOpts
+  ),
+  {
+    onAccept: (e) => {
+      emit('update:modelValue', typed.value)
+    }
   }
+)
 
-  setTimeout(() => {
-    const value = event.target.value.replace(/\D/g, '')
-    const digitOnlyValue = stripNonDigits(value)
-
-    const formattedValue = convertToNumericValue(
-      digitOnlyValue.toString(),
-      props.maxDecimals
-    ).toString()
-
-    event.target.value = formattedValue
-    emit('update:modelValue', formattedValue)
-  }, 0)
-}
-
-function onBlur(event: any) {
-  const { value } = event.target
-
-  if (!props.isShowMask || value === '') {
-    return
+watch(
+  () => props.modelValue,
+  (value: string) => {
+    typed.value = value
   }
-
-  isBlur.value = true
-  display.value = new BigNumberInBase(value).toFormat()
-}
-
-function onFocus(event: any) {
-  const { value } = event.target
-
-  if (value === '') {
-    return
-  }
-
-  isBlur.value = false
-  display.value = new BigNumberInBase(value.replaceAll(',', '')).toFixed()
-}
-
-function onChange(event: any) {
-  const { value } = event.target
-
-  if (value === '') {
-    return
-  }
-
-  display.value = value
-  debounceSanitizeDecimalPlace(value)
-}
+)
 </script>
 
 <template>
-  <input
-    class="input-base"
-    type="text"
-    lang="en"
-    v-bind="$attrs"
-    :value="display"
-    @blur="onBlur"
-    @focus="onFocus"
-    @input="onChange"
-    @paste="onPaste"
-    @keydown="onKeyDown"
-  />
+  <input ref="el" type="text" v-bind="$attrs" />
 </template>
