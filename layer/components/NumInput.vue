@@ -3,23 +3,22 @@ import { useIMask } from 'vue-imask'
 import type { FactoryOpts } from 'imask'
 
 const props = defineProps({
-  autofix: Boolean,
-  thousandsSeparator: Boolean,
+  isAutofix: Boolean,
+  isShowMask: Boolean,
 
   modelValue: {
     type: String,
     default: ''
   },
 
-  decimals: {
+  maxDecimals: {
     type: Number,
-    default: 18
+    default: 6
   },
 
   max: {
     type: Number,
-    // eslint-disable-next-line
-    default: 9999999999999999999
+    default: 10 ** 18
   },
 
   min: {
@@ -32,22 +31,31 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
+const hardCodedIMaskOptions = {
+  mask: 'num',
+  lazy: false,
+  blocks: {
+    num: {
+      mask: Number,
+      radix: '.',
+      mapToRadix: ['.', ',']
+    }
+  }
+}
+
 const { typed, el } = useIMask(
   computed(
     () =>
       ({
-        mask: 'num',
-        lazy: false,
+        ...hardCodedIMaskOptions,
         blocks: {
           num: {
-            mask: Number,
-            thousandsSeparator: props.thousandsSeparator ? ',' : '',
-            radix: '.',
-            mapToRadix: ['.', ','],
-            scale: props.decimals,
-            autofix: props.autofix,
+            ...hardCodedIMaskOptions.blocks.num,
+            min: props.min,
             max: props.max,
-            min: props.min
+            scale: props.maxDecimals,
+            isAutofix: props.isAutofix,
+            thousandsSeparator: props.isShowMask ? ',' : ''
           }
         }
       }) as FactoryOpts
@@ -61,17 +69,12 @@ const { typed, el } = useIMask(
 
 watch(
   () => props.modelValue,
-  (value) => {
+  (value: string) => {
     typed.value = value
   }
 )
 </script>
 
 <template>
-  <input
-    ref="el"
-    type="text"
-    class="bg-transparent p-2 flex-1 min-w-0 focus:outline-none font-mono"
-    v-bind="$attrs"
-  />
+  <input ref="el" type="text" v-bind="$attrs" />
 </template>
