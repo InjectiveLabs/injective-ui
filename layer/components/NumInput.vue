@@ -4,6 +4,7 @@ import type { FactoryOpts } from 'imask'
 
 const props = defineProps({
   autofix: Boolean,
+  thousandsSeparator: Boolean,
 
   modelValue: {
     type: String,
@@ -40,7 +41,7 @@ const { typed, el } = useIMask(
         blocks: {
           num: {
             mask: Number,
-            thousandsSeparator: ',',
+            thousandsSeparator: props.thousandsSeparator ? ',' : '',
             radix: '.',
             mapToRadix: ['.', ','],
             scale: props.decimals,
