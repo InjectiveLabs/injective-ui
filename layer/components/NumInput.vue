@@ -18,7 +18,7 @@ const props = defineProps({
 
   max: {
     type: Number,
-    default: 10 ** 18
+    default: undefined
   },
 
   min: {
@@ -61,8 +61,10 @@ const { typed, el } = useIMask(
       }) as FactoryOpts
   ),
   {
-    onAccept: (e) => {
-      emit('update:modelValue', typed.value)
+    onAccept: () => {
+      if (typed.value) {
+        emit('update:modelValue', typed.value)
+      }
     }
   }
 )
@@ -76,5 +78,5 @@ watch(
 </script>
 
 <template>
-  <input ref="el" type="text" v-bind="$attrs" />
+  <input ref="el" type="text" class="input-base" v-bind="$attrs" />
 </template>
