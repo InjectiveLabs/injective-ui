@@ -42,7 +42,6 @@ function onPaste(payload: ClipboardEvent) {
 
   // Legacy
   emit('paste')
-  emit('update:modelValue', event.target.value)
 }
 
 function onChange(event: any) {
