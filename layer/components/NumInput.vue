@@ -27,6 +27,7 @@ const emit = defineEmits<{
 }>()
 
 const display = ref('')
+const isBlur = ref(false)
 
 const debounceSanitizeDecimalPlace = useDebounceFn((value: string) => {
   const formattedValue = convertToNumericValue(value, props.maxDecimals)
@@ -35,7 +36,9 @@ const debounceSanitizeDecimalPlace = useDebounceFn((value: string) => {
     return
   }
 
-  display.value = formattedValue.toString()
+  display.value = isBlur.value
+    ? new BigNumberInBase(formattedValue).toFormat()
+    : formattedValue.toString()
   emit('update:modelValue', formattedValue.toString())
 }, 500)
 
@@ -68,20 +71,26 @@ function onPaste(payload: ClipboardEvent) {
   }, 0)
 }
 
-function onBlur() {
-  if (!props.isShowMask || props.modelValue === '') {
+function onBlur(event: any) {
+  const { value } = event.target
+
+  if (!props.isShowMask || value === '') {
     return
   }
 
-  display.value = new BigNumberInBase(props.modelValue).toFormat()
+  isBlur.value = true
+  display.value = new BigNumberInBase(value).toFormat()
 }
 
-function onFocus() {
-  if (props.modelValue === '') {
+function onFocus(event: any) {
+  const { value } = event.target
+
+  if (value === '') {
     return
   }
 
-  display.value = new BigNumberInBase(props.modelValue).toFixed()
+  isBlur.value = false
+  display.value = new BigNumberInBase(value.replaceAll(',', '')).toFixed()
 }
 
 function onChange(event: any) {
@@ -92,7 +101,6 @@ function onChange(event: any) {
   }
 
   display.value = value
-
   debounceSanitizeDecimalPlace(value)
 }
 </script>
