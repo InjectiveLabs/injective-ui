@@ -37,6 +37,44 @@ export const convertToNumericValue = (value: string, maxDecimals: number) => {
   return formattedWholeNumber
 }
 
+export const validateNumericInput = (
+  event: KeydownEvent<HTMLInputElement>,
+  additionalInvalidChars: string[] = []
+): boolean => {
+  if (!event.key) {
+    return true
+  }
+
+  const isControlKey = event.ctrlKey || event.metaKey
+  const isCut = isControlKey && event.key.toLowerCase() === 'x'
+  const isCopy = isControlKey && event.key.toLowerCase() === 'c'
+  const isPaste = isControlKey && event.key.toLowerCase() === 'v'
+  const isRefresh = isControlKey && event.key.toLowerCase() === 'r'
+
+  if (isCut || isCopy || isPaste || isRefresh) {
+    return true
+  }
+
+  const allowedEventKeys = [
+    '.',
+    'Tab',
+    'Enter',
+    'Delete',
+    'Escape',
+    'Backspace',
+    'ArrowLeft',
+    'ArrowRight'
+  ]
+
+  if (!allowedEventKeys.includes(event.key) && !isFinite(Number(event.key))) {
+    return false
+  }
+
+  const invalidChars = ['-', '+', 'e']
+
+  return ![...invalidChars, ...additionalInvalidChars].includes(event.key)
+}
+
 export const passNumericInputValidation = (
   event: KeydownEvent<HTMLInputElement>,
   additionalInvalidChars: string[] = []

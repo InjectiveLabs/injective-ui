@@ -24,20 +24,25 @@ function onPaste(payload: ClipboardEvent) {
   const event = payload as PasteEvent<HTMLInputElement>
   const { clipboardData } = event
 
-  event.preventDefault()
+  if (!clipboardData) {
+    return
+  }
 
-  if (clipboardData) {
+  if (props.isClearedOnPaste) {
     const value = clipboardData.getData('text')
-    const updatedValue = props.isClearedOnPaste
-      ? value
-      : `${props.modelValue}${value.trim()}`
-
-    emit('pasted', updatedValue)
-    emit('update:modelValue', updatedValue)
+    event.preventDefault()
 
     // Legacy
     emit('paste')
+    emit('pasted', value)
+    emit('update:modelValue', value)
+
+    return
   }
+
+  // Legacy
+  emit('paste')
+  emit('update:modelValue', event.target.value)
 }
 
 function onChange(event: any) {
