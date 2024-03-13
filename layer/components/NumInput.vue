@@ -1,121 +1,76 @@
-<script lang="ts" setup>
-import { useDebounceFn } from '@vueuse/core'
-import { BigNumberInBase } from '@injectivelabs/utils'
-import {
-  stripNonDigits,
-  validateNumericInput,
-  convertToNumericValue
-} from './../utils/input'
-import { KeydownEvent, PasteEvent } from './../types'
+<script setup lang="ts">
+import { useIMask } from 'vue-imask'
+import type { FactoryOpts } from 'imask'
 
 const props = defineProps({
-  isShowMask: Boolean,
+  autofix: Boolean,
 
   modelValue: {
-    type: [String, Number],
+    type: String,
     default: ''
   },
 
-  maxDecimals: {
+  decimals: {
     type: Number,
-    default: 6
+    default: 18
+  },
+
+  max: {
+    type: Number,
+    // eslint-disable-next-line
+    default: 9999999999999999999
+  },
+
+  min: {
+    type: Number,
+    default: undefined
   }
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [state: string]
+  'update:modelValue': [value: string]
 }>()
 
-const display = ref('')
-const isBlur = ref(false)
-
-const debounceSanitizeDecimalPlace = useDebounceFn((value: string) => {
-  const formattedValue = convertToNumericValue(value, props.maxDecimals)
-
-  if (Number.isNaN(formattedValue)) {
-    return
+const { typed, el } = useIMask(
+  computed(
+    () =>
+      ({
+        mask: 'num',
+        lazy: false,
+        blocks: {
+          num: {
+            mask: Number,
+            thousandsSeparator: ',',
+            radix: '.',
+            mapToRadix: ['.', ','],
+            scale: props.decimals,
+            autofix: props.autofix,
+            max: props.max,
+            min: props.min
+          }
+        }
+      }) as FactoryOpts
+  ),
+  {
+    onAccept: (e) => {
+      emit('update:modelValue', typed.value)
+    }
   }
+)
 
-  display.value = isBlur.value
-    ? new BigNumberInBase(formattedValue).toFormat()
-    : formattedValue.toString()
-  emit('update:modelValue', formattedValue.toString())
-}, 500)
-
-function onKeyDown(payload: KeyboardEvent) {
-  const event = payload as KeydownEvent<HTMLInputElement>
-  if (!validateNumericInput(event, props.maxDecimals === 0 ? ['.'] : [])) {
-    event.preventDefault()
+watch(
+  () => props.modelValue,
+  (value) => {
+    typed.value = value
   }
-}
-
-function onPaste(payload: ClipboardEvent) {
-  const event = payload as PasteEvent<HTMLInputElement>
-  const { clipboardData } = event
-
-  if (!clipboardData) {
-    return
-  }
-
-  setTimeout(() => {
-    const value = event.target.value.replace(/\D/g, '')
-    const digitOnlyValue = stripNonDigits(value)
-
-    const formattedValue = convertToNumericValue(
-      digitOnlyValue.toString(),
-      props.maxDecimals
-    ).toString()
-
-    event.target.value = formattedValue
-    emit('update:modelValue', formattedValue)
-  }, 0)
-}
-
-function onBlur(event: any) {
-  const { value } = event.target
-
-  if (!props.isShowMask || value === '') {
-    return
-  }
-
-  isBlur.value = true
-  display.value = new BigNumberInBase(value).toFormat()
-}
-
-function onFocus(event: any) {
-  const { value } = event.target
-
-  if (value === '') {
-    return
-  }
-
-  isBlur.value = false
-  display.value = new BigNumberInBase(value.replaceAll(',', '')).toFixed()
-}
-
-function onChange(event: any) {
-  const { value } = event.target
-
-  if (value === '') {
-    return
-  }
-
-  display.value = value
-  debounceSanitizeDecimalPlace(value)
-}
+)
 </script>
 
 <template>
   <input
-    class="input-base"
+    ref="el"
     type="text"
-    lang="en"
+    class="bg-transparent p-2 flex-1 min-w-0 focus:outline-none font-mono"
     v-bind="$attrs"
-    :value="display"
-    @blur="onBlur"
-    @focus="onFocus"
-    @input="onChange"
-    @paste="onPaste"
-    @keydown="onKeyDown"
   />
 </template>

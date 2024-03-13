@@ -8,17 +8,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@injectivelabs/nuxt-bugsnag": "0.0.3",
-    "@injectivelabs/utils": "1.14.11-beta.1",
     "@injectivelabs/networks": "1.14.11-beta.2",
+    "@injectivelabs/nuxt-bugsnag": "0.0.3",
     "@injectivelabs/sdk-ts": "1.14.11-beta.10",
     "@injectivelabs/sdk-ui-ts": "1.14.11-beta.14",
     "@injectivelabs/token-metadata": "1.14.11-beta.8",
+    "@injectivelabs/utils": "1.14.11-beta.1",
     "@injectivelabs/wallet-ts": "1.14.11-beta.12",
     "@vueuse/integrations": "^10.7.1",
     "floating-vue": "2.0.0-beta.24",
     "vue-gtag": "^2.0.1",
-    "vue-hotjar": "^1.4.0"
+    "vue-hotjar": "^1.4.0",
+    "vue-imask": "^7.5.0"
   },
   "devDependencies": {
     "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",
