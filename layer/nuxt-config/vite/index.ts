@@ -25,8 +25,16 @@ export default defineConfig({
             return 'keplr'
           }
 
+          if (id.includes('@injectivelabs/wallet-ts')) {
+            return 'injective-wallet'
+          }
+
           if (id.includes('@cosmjs')) {
             return 'cosmjs'
+          }
+
+          if (id.includes('@injectivelabs')) {
+            return 'injective'
           }
         }
       }
