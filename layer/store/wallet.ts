@@ -210,8 +210,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           ? addresses.map(getInjectiveAddress)
           : addresses
 
-        await connect({ wallet })
-
         walletStore.$patch({
           hwAddresses: injectiveAddresses
         })
