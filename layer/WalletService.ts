@@ -10,10 +10,11 @@ import {
 // Transaction broadcaster
 export const msgBroadcaster = new MsgBroadcaster({
   walletStrategy,
+  simulateTx: true,
   network: NETWORK,
   endpoints: ENDPOINTS,
   feePayerPubKey: FEE_PAYER_PUB_KEY,
-  simulateTx: true
+  gasBufferCoefficient: 1.4
 })
 
 export const web3Broadcaster = new Web3Broadcaster({
