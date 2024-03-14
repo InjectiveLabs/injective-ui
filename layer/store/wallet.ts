@@ -206,9 +206,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         const addresses = await getAddresses()
 
+        console.log('getHWAddresses addresses', addresses)
+
         const injectiveAddresses = isEthWallet(wallet)
           ? addresses.map(getInjectiveAddress)
           : addresses
+
+        console.log('getHWAddresses injectiveAddresses', injectiveAddresses)
+
+        await connect({ wallet })
 
         walletStore.$patch({
           hwAddresses: injectiveAddresses
