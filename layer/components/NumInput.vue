@@ -7,7 +7,7 @@ const props = defineProps({
   isShowMask: Boolean,
 
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: ''
   },
 
@@ -61,9 +61,9 @@ const { typed, el } = useIMask(
       }) as FactoryOpts
   ),
   {
-    onAccept: () => {
+    onAccept: async () => {
       if (props.modelValue !== typed.value) {
-        emit('update:modelValue', typed.value)
+        nextTick(() => emit('update:modelValue', `${typed.value}`))
       }
     }
   }
@@ -71,10 +71,8 @@ const { typed, el } = useIMask(
 
 watch(
   () => props.modelValue,
-  (value) => {
-    nextTick(() => {
-      typed.value = value
-    })
+  async (value) => {
+    nextTick(() => (typed.value = value))
   },
   { immediate: true }
 )
