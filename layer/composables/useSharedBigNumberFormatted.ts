@@ -114,8 +114,8 @@ const getNumberMinimalDecimals = (
 export function useSharedBigNumberFormatter(
   value: ComputedRef<string | Number | BigNumberInBase>,
   options: {
-    decimalPlaces?: number
-    minimalDecimalPlaces?: number
+    decimalPlaces?: number | ComputedRef<number | undefined>
+    minimalDecimalPlaces?: number | ComputedRef<number | undefined>
     abbreviationFloor?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
     roundingMode?: BigNumber.RoundingMode
     displayAbsoluteDecimalPlace?: boolean /** Explained above */
@@ -135,14 +135,16 @@ export function useSharedBigNumberFormatter(
   })
 
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
-  const decimalPlaces = options.decimalPlaces ?? DEFAULT_DECIMAL_PLACES
+  const decimalPlaces = computed(
+    () => toValue(options.decimalPlaces) ?? DEFAULT_DECIMAL_PLACES
+  )
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
       return !!options.shouldTruncate
         ? '0'
-        : getFormattedZeroValue(decimalPlaces)
+        : getFormattedZeroValue(decimalPlaces.value)
     }
 
     if (
@@ -153,7 +155,7 @@ export function useSharedBigNumberFormatter(
     }
 
     const roundedValue = valueToBigNumber.value.toFixed(
-      decimalPlaces,
+      decimalPlaces.value,
       roundingMode
     )
 
@@ -168,7 +170,7 @@ export function useSharedBigNumberFormatter(
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
       return !!options.shouldTruncate
         ? '0'
-        : getFormattedZeroValue(decimalPlaces)
+        : getFormattedZeroValue(decimalPlaces.value)
     }
 
     if (
@@ -181,12 +183,12 @@ export function useSharedBigNumberFormatter(
     const { minimalDecimalPlaces, minimalDisplayAmount } =
       getNumberMinimalDecimals(
         valueToBigNumber,
-        options.minimalDecimalPlaces,
+        toValue(options.minimalDecimalPlaces),
         displayAbsoluteDecimalPlace
       )
 
     const roundedValue = valueToBigNumber.value.toFixed(
-      decimalPlaces,
+      decimalPlaces.value,
       roundingMode
     )
 
@@ -198,7 +200,7 @@ export function useSharedBigNumberFormatter(
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
-    return new BigNumberInBase(roundedValue).toFormat(decimalPlaces)
+    return new BigNumberInBase(roundedValue).toFormat(decimalPlaces.value)
   })
 
   return {
