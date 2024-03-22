@@ -46,7 +46,7 @@ export const ETHEREUM_CHAIN_ID: EthereumChainId = import.meta.env
   ? parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string)
   : parseInt(
       (IS_TESTNET || IS_DEVNET
-        ? EthereumChainId.Goerli
+        ? EthereumChainId.Sepolia
         : EthereumChainId.Mainnet
       ).toString()
     )
@@ -81,6 +81,7 @@ export const ALCHEMY_KEY = import.meta.env.VITE_ALCHEMY_KEY
 export const COINGECKO_KEY = import.meta.env.VITE_COINGECKO_KEY
 export const ALCHEMY_KOVAN_KEY = import.meta.env.VITE_ALCHEMY_KOVAN_KEY
 export const ALCHEMY_GOERLI_KEY = import.meta.env.VITE_ALCHEMY_GOERLI_KEY
+export const ALCHEMY_SEPOLIA_KEY = import.meta.env.VITE_ALCHEMY_SEPOLIA_KEY
 export const FEE_PAYER_PUB_KEY = (import.meta.env.VITE_FEE_PAYER_PUB_KEY ||
   '') as string
 

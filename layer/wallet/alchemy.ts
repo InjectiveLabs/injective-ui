@@ -4,6 +4,7 @@ import {
   IS_TESTNET,
   ALCHEMY_KEY,
   ALCHEMY_KOVAN_KEY,
+  ALCHEMY_SEPOLIA_KEY,
   ALCHEMY_GOERLI_KEY
 } from './../utils/constant'
 
@@ -12,6 +13,7 @@ export const getRpcUrlsForChainIds = (): Record<EthereumChainId, string> => {
     [EthereumChainId.Ganache]: 'http://localhost:8545',
     [EthereumChainId.HardHat]: 'http://localhost:8545',
     [EthereumChainId.Goerli]: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_GOERLI_KEY}`,
+    [EthereumChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
     [EthereumChainId.Kovan]: `https://eth-kovan.alchemyapi.io/v2/${ALCHEMY_KOVAN_KEY}`,
     [EthereumChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
     [EthereumChainId.Injective]: '',
