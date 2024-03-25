@@ -45,8 +45,6 @@ function onPause() {
 
 function onResume() {
   timeout.value = setTimeout(onClose, remainingTimeout.value)
-
-  console.log('resume', remainingTimeout.value)
 }
 </script>
 
