@@ -472,9 +472,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.$patch({
         ...initialStateFactory(),
         queueStatus: StatusType.Idle,
+        phantomInstalled: walletStore.phantomInstalled,
         metamaskInstalled: walletStore.metamaskInstalled,
         okxWalletInstalled: walletStore.okxWalletInstalled,
-        walletConnectStatus: WalletConnectStatus.disconnected
+        walletConnectStatus: WalletConnectStatus.disconnected,
+        trustWalletInstalled: walletStore.trustWalletInstalled,
       })
     }
   }
