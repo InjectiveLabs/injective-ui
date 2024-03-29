@@ -1,7 +1,6 @@
 import {
   ErrorType,
   UnspecifiedErrorCode,
-  ChainCosmosErrorCode,
   CosmosWalletException
 } from '@injectivelabs/exceptions'
 import { PublicKey } from '@injectivelabs/sdk-ts'

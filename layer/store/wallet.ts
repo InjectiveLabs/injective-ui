@@ -12,19 +12,20 @@ import {
   isCosmosBrowserWallet
 } from '@injectivelabs/wallet-ts'
 import {
-  validateTrustWallet,
-  isTrustWalletInstalled
-} from './../wallet/trust-wallet'
-import { validateOkxWallet, isOkxWalletInstalled } from './../wallet/okx-wallet'
-import { isPhantomInstalled } from './../wallet/phantom'
-import { IS_DEVNET } from './../utils/constant'
-import {
   validateCosmosWallet,
   confirmCorrectKeplrAddress
 } from './../wallet/cosmos'
+import {
+  validateTrustWallet,
+  isTrustWalletInstalled
+} from './../wallet/trust-wallet'
+import { IS_DEVNET } from './../utils/constant'
+import { isPhantomInstalled } from './../wallet/phantom'
 import { walletStrategy } from './../wallet/wallet-strategy'
 import { confirm, connect, getAddresses } from './../wallet/wallet'
+import { isBitGetInstalled, validateBitGet } from './../wallet/bitget'
 import { validateMetamask, isMetamaskInstalled } from './../wallet/metamask'
+import { validateOkxWallet, isOkxWalletInstalled } from './../wallet/okx-wallet'
 import { EventBus, WalletConnectStatus } from './../types'
 
 type WalletStoreState = {
@@ -34,6 +35,7 @@ type WalletStoreState = {
   addressConfirmation: string
   addresses: string[]
   hwAddresses: string[]
+  bitGetInstalled: boolean
   phantomInstalled: boolean
   metamaskInstalled: boolean
   okxWalletInstalled: boolean
@@ -50,6 +52,7 @@ const initialStateFactory = (): WalletStoreState => ({
   addresses: [],
   hwAddresses: [],
   wallet: Wallet.Metamask,
+  bitGetInstalled: false,
   phantomInstalled: false,
   metamaskInstalled: false,
   okxWalletInstalled: false,
@@ -99,6 +102,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (walletStore.wallet === Wallet.OkxWallet) {
         await validateOkxWallet(walletStore.address)
+      }
+
+      if (walletStore.wallet === Wallet.BitGet) {
+        await validateBitGet(walletStore.address)
       }
 
       if (isCosmosBrowserWallet(walletStore.wallet)) {
@@ -169,6 +176,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       walletStore.$patch({
         okxWalletInstalled: await isOkxWalletInstalled()
+      })
+    },
+
+    async checkIsBitGetInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        bitGetInstalled: await isBitGetInstalled()
       })
     },
 
@@ -464,6 +479,24 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
+    async connectBitGet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.BitGet)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+
+      walletStore.$patch({
+        address,
+        addresses,
+        addressConfirmation: await confirm(address),
+        injectiveAddress: getInjectiveAddress(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
     async logout() {
       const walletStore = useSharedWalletStore()
 
@@ -472,11 +505,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.$patch({
         ...initialStateFactory(),
         queueStatus: StatusType.Idle,
+        bitGetInstalled: walletStore.bitGetInstalled,
         phantomInstalled: walletStore.phantomInstalled,
         metamaskInstalled: walletStore.metamaskInstalled,
         okxWalletInstalled: walletStore.okxWalletInstalled,
         walletConnectStatus: WalletConnectStatus.disconnected,
-        trustWalletInstalled: walletStore.trustWalletInstalled,
+        trustWalletInstalled: walletStore.trustWalletInstalled
       })
     }
   }
