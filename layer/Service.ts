@@ -90,7 +90,8 @@ export const denomClient = new DenomClient(NETWORK)
 
 export const tokenService = new TokenService({
   chainId: CHAIN_ID,
-  network: NETWORK
+  network: NETWORK,
+  alchemyRpcUrl: alchemyRpcEndpoint
 })
 export const tokenServiceStatic = new TokenServiceStatic({
   chainId: CHAIN_ID,
