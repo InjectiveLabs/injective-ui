@@ -47,7 +47,7 @@ export const validateCosmosWallet = async ({
     chainId
   })
 
-  const accounts = await cosmosWalletStrategy.getAddresses()
+  const accounts = await cosmosWalletStrategy.enableAndGetAddresses()
 
   if (accounts.length === 0) {
     throw new CosmosWalletException(
