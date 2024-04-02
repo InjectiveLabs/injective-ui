@@ -1,4 +1,4 @@
-import { spotMarketIdMap, spotDenomMap } from '@/data/spot'
+import { spotMarketIdMap, spotDenomMap } from './../data/spot'
 
 export const sharedSpotGetSlugAndTicket = ({
   marketId,
