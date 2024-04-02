@@ -15,32 +15,6 @@ export const sharedToBalanceInWei = ({
   return new BigNumberInBase(10).pow(decimalPlaces).times(value)
 }
 
-export const sharedConvertTimestampToMilliseconds = (
-  timestamp: number | string
-): number => {
-  const timestampInBigNumber = new BigNumberInBase(timestamp)
-
-  if (timestamp.toString().length > 13) {
-    const formatNumberBy = new BigNumberInBase(10).pow(
-      timestamp.toString().length - 13
-    )
-
-    const formattedValue = timestampInBigNumber
-      .dividedBy(formatNumberBy)
-      .toFixed(0, BigNumber.ROUND_HALF_UP)
-
-    return new BigNumberInBase(formattedValue).toNumber()
-  }
-
-  if (timestamp.toString().length < 13) {
-    const trailingZeros = 13 - timestamp.toString().length
-
-    return timestampInBigNumber.times(10 ** trailingZeros).toNumber()
-  }
-
-  return timestampInBigNumber.toNumber()
-}
-
 export const sharedToBalanceInTokenInBase = ({
   value,
   decimalPlaces = 18
@@ -115,4 +89,66 @@ export const sharedFormatSecondsToDisplay = ({
   }
 
   return output
+}
+
+export const sharedConvertTimestampToMilliseconds = (
+  timestamp: number | string
+): number => {
+  const timestampInBigNumber = new BigNumberInBase(timestamp)
+
+  if (timestamp.toString().length > 13) {
+    const formatNumberBy = new BigNumberInBase(10).pow(
+      timestamp.toString().length - 13
+    )
+
+    const formattedValue = timestampInBigNumber
+      .dividedBy(formatNumberBy)
+      .toFixed(0, BigNumber.ROUND_HALF_UP)
+
+    return new BigNumberInBase(formattedValue).toNumber()
+  }
+
+  if (timestamp.toString().length < 13) {
+    const trailingZeros = 13 - timestamp.toString().length
+
+    return timestampInBigNumber.times(10 ** trailingZeros).toNumber()
+  }
+
+  return timestampInBigNumber.toNumber()
+}
+
+export const sharedGetExactDecimalsFromNumber = (
+  number: number | string
+): number => {
+  if (!number.toString().includes('.')) {
+    return 0
+  }
+
+  if (Number(number) % 1 === 0) {
+    return 0
+  }
+
+  const [, decimals] = number.toString().split('.')
+
+  if (!decimals) {
+    return 0
+  }
+
+  return decimals.length
+}
+
+export const sharedGetTensMultiplier = (number: number | string): number => {
+  const numberToBn = new BigNumber(number)
+
+  if (numberToBn.eq(1)) {
+    return 0
+  }
+
+  if (numberToBn.lt(1)) {
+    return -1 * sharedGetExactDecimalsFromNumber(numberToBn.toFixed())
+  }
+
+  const [, zerosInTheNumber] = numberToBn.toFixed().split('1')
+
+  return zerosInTheNumber.length
 }
