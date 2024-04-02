@@ -16,7 +16,7 @@ export const isMetamaskInstalled = async (): Promise<boolean> => {
 
 export const validateMetamask = async (address: string) => {
   const chainId = ETHEREUM_CHAIN_ID
-  const addresses = await walletStrategy.getAddresses()
+  const addresses = await walletStrategy.enableAndGetAddresses()
   const metamaskIsLocked = addresses.length === 0
 
   if (metamaskIsLocked) {

@@ -15,7 +15,7 @@ export const isTrustWalletInstalled = async (): Promise<boolean> => {
 }
 
 export const validateTrustWallet = async (address: AccountAddress) => {
-  const addresses = await walletStrategy.getAddresses()
+  const addresses = await walletStrategy.enableAndGetAddresses()
   const trustWalletIsLocked = addresses.length === 0
 
   if (trustWalletIsLocked) {
