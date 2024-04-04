@@ -1648,17 +1648,17 @@
     shx "^0.3.2"
     snakecase-keys "^5.4.1"
 
-"@injectivelabs/sdk-ui-ts@1.14.11-beta.51":
-  version "1.14.11-beta.51"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ui-ts/-/sdk-ui-ts-1.14.11-beta.51.tgz#61532c27b703305fcc9bd927547a604d3a8a914f"
-  integrity sha512-QHDIA/ZX+wN2jcIncflufGDNGRyBp8inBIXW4WLUmILsE+gDvJTFw7NVAN/cMVU8wo0rMjar54mEg0P3x1yaTQ==
+"@injectivelabs/sdk-ui-ts@1.14.11-beta.52":
+  version "1.14.11-beta.52"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ui-ts/-/sdk-ui-ts-1.14.11-beta.52.tgz#fef4ec2b076df97c3f8e62fa22a3655c43249403"
+  integrity sha512-GReARn+3ayCv1nM7pmNxRDXP3MlOr3+fqF9J49uHp34BIv5DSiRzsv7/kyH2BssYYxaaC+IMXdYQQr+v+GnEEA==
   dependencies:
     "@injectivelabs/contracts" "^1.14.11-beta.4"
     "@injectivelabs/exceptions" "^1.14.11-beta.3"
     "@injectivelabs/networks" "^1.14.11-beta.4"
     "@injectivelabs/sdk-ts" "^1.14.11-beta.37"
     "@injectivelabs/token-metadata" "^1.14.11-beta.29"
-    "@injectivelabs/token-utils" "^1.14.11-beta.3"
+    "@injectivelabs/token-utils" "^1.14.11-beta.4"
     "@injectivelabs/ts-types" "^1.14.11-beta.1"
     "@injectivelabs/utils" "^1.14.11-beta.3"
     alchemy-sdk "^2.6.3"
@@ -1695,10 +1695,10 @@
     lodash.values "^4.3.0"
     shx "^0.3.2"
 
-"@injectivelabs/token-utils@^1.14.11-beta.3":
-  version "1.14.11-beta.3"
-  resolved "https://registry.npmjs.org/@injectivelabs/token-utils/-/token-utils-1.14.11-beta.3.tgz#5525a441358a6b3f94f2582827f256e38e15e2a5"
-  integrity sha512-izKO+HHWERy8HLBHAB3KV4p7sp8uEsK7PXOerF2FPsh6Tc1z7aRYfVwMa3ZjABFHL0l1Zkl/VQgaZ1oKjTJk0Q==
+"@injectivelabs/token-utils@^1.14.11-beta.4":
+  version "1.14.11-beta.4"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/token-utils/-/token-utils-1.14.11-beta.4.tgz#cede190931329442c46a21586fc36fda58fe4da0"
+  integrity sha512-6xoR0GWb4F6As4Oql9LSiG2vC006GgdJ+Ad4jOBv3TwKhfPPHjtr6iNNR8nC6HOXF7fu0tuGMK8I7cw/pHiJvA==
   dependencies:
     "@injectivelabs/exceptions" "^1.14.11-beta.3"
     "@injectivelabs/utils" "^1.14.11-beta.3"
