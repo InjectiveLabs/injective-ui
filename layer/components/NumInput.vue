@@ -61,8 +61,9 @@ const { typed, el } = useIMask(
       }) as FactoryOpts
   ),
   {
-    onAccept: async () => {
-      if (props.modelValue !== typed.value) {
+    onAccept: async (event) => {
+      // emit event only if event is triggered by user input
+      if (event && props.modelValue !== typed.value) {
         nextTick(() => emit('update:modelValue', `${typed.value}`))
       }
     }
