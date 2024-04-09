@@ -8,14 +8,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@injectivelabs/nuxt-bugsnag": "0.0.3",
-    "@injectivelabs/utils": "1.14.11-beta.3",
     "@injectivelabs/networks": "1.14.11-beta.5",
     "@injectivelabs/ts-types": "1.14.11-beta.1",
     "@injectivelabs/sdk-ts": "1.14.11-beta.45",
     "@injectivelabs/sdk-ui-ts": "1.14.11-beta.61",
     "@injectivelabs/token-metadata": "1.14.11-beta.34",
     "@injectivelabs/wallet-ts": "1.14.11-beta.55",
+    "@injectivelabs/nuxt-bugsnag": "0.0.3",
+    "@injectivelabs/utils": "1.14.11-beta.3",
     "@vueuse/integrations": "^10.7.1",
     "floating-vue": "2.0.0-beta.24",
     "vue-gtag": "^2.0.1",
@@ -29,7 +29,7 @@
     "@types/fs-extra": "^11.0.1",
     "eslint": "^8.28.0",
     "git-clone": "^0.2.0",
-    "nuxt": "3.8.1",
+    "nuxt": "^3.11.2",
     "typescript": "^4.9.3",
     "vite-tsconfig-paths": "^4.2.0"
   }
