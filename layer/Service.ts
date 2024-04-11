@@ -8,11 +8,14 @@ import {
 } from '@injectivelabs/sdk-ui-ts'
 import {
   DenomClient,
+  ChainGrpcGovApi,
   ChainGrpcMintApi,
   ChainGrpcWasmApi,
   ChainGrpcBankApi,
   ChainGrpcPeggyApi,
   IndexerGrpcSpotApi,
+  ChainGrpcOracleApi,
+  ChainGrpcAuctionApi,
   ChainGrpcStakingApi,
   ChainGrpcExchangeApi,
   IndexerGrpcOracleApi,
@@ -25,9 +28,10 @@ import {
   ChainGrpcInsuranceFundApi,
   IndexerRestSpotChronosApi,
   IndexerGrpcDerivativesApi,
+  IndexerGrpcInsuranceFundApi,
   IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
-  IndexerRestDerivativesChronosApi
+  IndexerRestDerivativesChronosApi,
 } from '@injectivelabs/sdk-ts'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import { SpotCacheApi } from './providers/cacheApi/spot'
@@ -51,6 +55,9 @@ export const wasmApi = new ChainGrpcWasmApi(ENDPOINTS.grpc)
 export const exchangeApi = new ChainGrpcExchangeApi(ENDPOINTS.grpc)
 export const distributionApi = new ChainGrpcDistributionApi(ENDPOINTS.grpc)
 export const insuranceFundsApi = new ChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
+export const oracleApi = new ChainGrpcOracleApi(ENDPOINTS.grpc)
+export const governanceApi = new ChainGrpcGovApi(ENDPOINTS.grpc)
+export const auctionApi = new ChainGrpcAuctionApi(ENDPOINTS.grpc)
 
 export const peggyApi = new ChainGrpcPeggyApi(ENDPOINTS.grpc)
 
@@ -60,6 +67,9 @@ export const indexerDerivativesApi = new IndexerGrpcDerivativesApi(
   ENDPOINTS.indexer
 )
 export const indexerAccountPortfolioApi = new IndexerGrpcAccountPortfolioApi(
+  ENDPOINTS.indexer
+)
+export const indexerFundsApi = new IndexerGrpcInsuranceFundApi(
   ENDPOINTS.indexer
 )
 export const tokenFactoryApi = new ChainGrpcTokenFactoryApi(ENDPOINTS.grpc)

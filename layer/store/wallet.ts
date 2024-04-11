@@ -20,7 +20,7 @@ import {
   isTrustWalletInstalled
 } from './../wallet/trust-wallet'
 import { IS_DEVNET } from './../utils/constant'
-import { isPhantomInstalled } from './../wallet/phantom'
+import { validatePhantom, isPhantomInstalled } from './../wallet/phantom'
 import { walletStrategy } from './../wallet/wallet-strategy'
 import { confirm, connect, getAddresses } from './../wallet/wallet'
 import { isBitGetInstalled, validateBitGet } from './../wallet/bitget'
@@ -106,6 +106,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (walletStore.wallet === Wallet.BitGet) {
         await validateBitGet(walletStore.address)
+      }
+
+      if (walletStore.wallet === Wallet.Phantom) {
+        await validatePhantom(walletStore.address)
       }
 
       if (isCosmosBrowserWallet(walletStore.wallet)) {
@@ -492,6 +496,24 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         addresses,
         addressConfirmation: await confirm(address),
         injectiveAddress: getInjectiveAddress(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectAddress(injectiveAddress: string) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Metamask)
+
+      const addresses = [getEthereumAddress(injectiveAddress)]
+      const [address] = addresses
+
+      walletStore.$patch({
+        address,
+        addresses,
+        injectiveAddress,
+        addressConfirmation: await confirm(address),
       })
 
       await walletStore.onConnect()
