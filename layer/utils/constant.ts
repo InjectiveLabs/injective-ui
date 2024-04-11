@@ -91,3 +91,5 @@ export const AMPLITUDE_KEY_PROD = import.meta.env
 export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
 export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
+export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
+
