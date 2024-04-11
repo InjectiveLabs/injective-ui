@@ -82,6 +82,10 @@ export const COINGECKO_KEY = import.meta.env.VITE_COINGECKO_KEY
 export const ALCHEMY_KOVAN_KEY = import.meta.env.VITE_ALCHEMY_KOVAN_KEY
 export const ALCHEMY_GOERLI_KEY = import.meta.env.VITE_ALCHEMY_GOERLI_KEY
 export const ALCHEMY_SEPOLIA_KEY = import.meta.env.VITE_ALCHEMY_SEPOLIA_KEY
+export const SOL_ALCHEMY_KEY = import.meta.env.VITE_SOL_ALCHEMY_KEY
+export const BUGSNAG_KEY = import.meta.env.VITE_BUGSNAG_KEY
+
+
 export const FEE_PAYER_PUB_KEY = (import.meta.env.VITE_FEE_PAYER_PUB_KEY ||
   '') as string
 
