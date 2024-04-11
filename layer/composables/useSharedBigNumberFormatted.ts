@@ -216,15 +216,15 @@ export function useSharedBigNumberFormatter(
 
   const valueWithGasBufferToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return getFormattedZeroValue(decimalPlaces)
+      return getFormattedZeroValue(decimalPlaces.value)
     }
 
-    return valueWithGasBuffer.value.toFixed(decimalPlaces, roundingMode)
+    return valueWithGasBuffer.value.toFixed(decimalPlaces.value, roundingMode)
   })
 
   const valueWithGasBufferToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return getFormattedZeroValue(decimalPlaces)
+      return getFormattedZeroValue(decimalPlaces.value)
     }
 
     if (
@@ -237,7 +237,7 @@ export function useSharedBigNumberFormatter(
     const { minimalDecimalPlaces, minimalDisplayAmount } =
       getNumberMinimalDecimals(
         valueToBigNumber,
-        options.minimalDecimalPlaces,
+        toValue(options.minimalDecimalPlaces),
         displayAbsoluteDecimalPlace
       )
 
@@ -245,7 +245,7 @@ export function useSharedBigNumberFormatter(
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
-    return valueWithGasBuffer.value.toFormat(decimalPlaces, roundingMode)
+    return valueWithGasBuffer.value.toFormat(decimalPlaces.value, roundingMode)
   })
 
   return {
