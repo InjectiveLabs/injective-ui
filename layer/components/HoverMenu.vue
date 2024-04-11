@@ -5,8 +5,8 @@ import { Menu } from 'floating-vue'
 
 defineProps({
   triggers: {
-    type: Array,
-    default: () => ['click', 'hover', 'focus'],
+    type: Array as any,
+    default: () => ['click', 'hover', 'focus'] as any,
     required: false
   }
 })
@@ -40,7 +40,7 @@ function onToggle() {
 }
 
 const closeDebounce = useDebounceFn(() => {
-    isOpen.value = false
+  isOpen.value = false
 }, 50)
 </script>
 
@@ -61,7 +61,7 @@ const closeDebounce = useDebounceFn(() => {
 
     <template #popper>
       <div @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
-        <slot name="content" v-bind="{ close: closeDebounce }"  />
+        <slot name="content" v-bind="{ close: closeDebounce }" />
       </div>
     </template>
   </Menu>

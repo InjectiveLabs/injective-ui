@@ -1,5 +1,11 @@
 import { TokenStatic } from '@injectivelabs/token-metadata'
 
+export interface SharedDropdownOptionWithToken {
+  value: string
+  display: string
+  token?: TokenStatic
+}
+
 export interface SharedBalanceWithTokenAndPrice {
   denom: string
   balance: string
