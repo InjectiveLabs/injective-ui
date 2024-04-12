@@ -2,6 +2,8 @@ import { BigNumberInBase } from '@injectivelabs/utils'
 
 export * from './setup'
 
+export const INJ_LOGO_URL =
+  'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/c7b97294-890e-459c-4673-1ca1dea64f00/public'
 export const INJ_LOGO_DARK_URL =
   'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/8493baf6-e4d3-4ac6-5a3b-afe15b47ae00/public'
 export const UNKNOWN_LOGO_URL =

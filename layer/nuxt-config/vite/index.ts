@@ -8,10 +8,6 @@ const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
 const { resolve } = createResolver(import.meta.url)
 
 export default defineConfig({
-  define: {
-    // 'process.env': JSON.stringify({}),
-    // 'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
-  },
   plugins: [tsconfigPaths(), nodePolyfills({ protocolImports: true })],
 
   build: {

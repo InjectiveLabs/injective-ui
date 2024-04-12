@@ -77,15 +77,19 @@ export const ENDPOINTS = {
 }
 
 // wallet
-export const ALCHEMY_KEY = import.meta.env.VITE_ALCHEMY_KEY
-export const COINGECKO_KEY = import.meta.env.VITE_COINGECKO_KEY
-export const ALCHEMY_KOVAN_KEY = import.meta.env.VITE_ALCHEMY_KOVAN_KEY
-export const ALCHEMY_GOERLI_KEY = import.meta.env.VITE_ALCHEMY_GOERLI_KEY
-export const ALCHEMY_SEPOLIA_KEY = import.meta.env.VITE_ALCHEMY_SEPOLIA_KEY
-export const SOL_ALCHEMY_KEY = import.meta.env.VITE_SOL_ALCHEMY_KEY
-export const BUGSNAG_KEY = import.meta.env.VITE_BUGSNAG_KEY
 
-
+export const ALCHEMY_KEY = (import.meta.env.VITE_ALCHEMY_KEY || '') as string
+export const COINGECKO_KEY = (import.meta.env.VITE_COINGECKO_KEY ||
+  '') as string
+export const ALCHEMY_KOVAN_KEY = (import.meta.env.VITE_ALCHEMY_KOVAN_KEY ||
+  '') as string
+export const ALCHEMY_GOERLI_KEY = (import.meta.env.VITE_ALCHEMY_GOERLI_KEY ||
+  '') as string
+export const ALCHEMY_SEPOLIA_KEY = (import.meta.env.VITE_ALCHEMY_SEPOLIA_KEY ||
+  '') as string
+export const SOL_ALCHEMY_KEY = (import.meta.env.VITE_SOL_ALCHEMY_KEY ||
+  '') as string
+export const BUGSNAG_KEY = (import.meta.env.VITE_BUGSNAG_KEY || '') as string
 export const FEE_PAYER_PUB_KEY = (import.meta.env.VITE_FEE_PAYER_PUB_KEY ||
   '') as string
 
@@ -96,4 +100,3 @@ export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
 export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
 export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
-
