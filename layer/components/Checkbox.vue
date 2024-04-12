@@ -4,7 +4,6 @@ import { computed } from 'vue'
 const props = defineProps({
   isOnRight: Boolean,
   isDisabled: Boolean,
-
   modelValue: Boolean
 })
 

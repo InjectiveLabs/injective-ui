@@ -24,3 +24,8 @@ export interface NotificationOptions {
   timeout?: number
   actions?: NotificationAction[]
 }
+
+export interface SharedDropdownOption {
+  display: string
+  value: string
+}
