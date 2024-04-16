@@ -30,7 +30,6 @@ export class SharedTokenClient {
     const cachedToken = this.cachedTokens[denom.toLowerCase()]
 
     if (cachedToken) {
-      console.log(`from cache ${denom}!`)
       return cachedToken
     }
 
@@ -94,7 +93,7 @@ export class SharedTokenClient {
   }
 
   async #getPeggyToken(denom: string): Promise<TokenStatic | undefined> {
-    if (denom.startsWith('0x') || !denom.startsWith('peggy')) {
+    if (!denom.startsWith('0x') && !denom.startsWith('peggy')) {
       return
     }
 
