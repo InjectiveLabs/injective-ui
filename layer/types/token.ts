@@ -6,11 +6,14 @@ export interface SharedDropdownOptionWithToken {
   token?: TokenStatic
 }
 
-export interface SharedBalanceWithTokenAndPrice {
+export interface SharedBalanceWithToken {
   denom: string
   balance: string
-  usdPrice: number
   token: TokenStatic
+}
+
+export interface SharedBalanceWithTokenAndPrice extends SharedBalanceWithToken {
+  usdPrice: number
 }
 
 export interface SharedBalanceInUsdWithTokenAndPrice

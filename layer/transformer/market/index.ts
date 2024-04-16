@@ -1,22 +1,23 @@
 import {
   SpotMarket,
   PerpetualMarket,
-  BinaryOptionsMarket
+  BinaryOptionsMarket,
+  ExpiryFuturesMarket
 } from '@injectivelabs/sdk-ts'
 import { TokenType, TokenStatic } from '@injectivelabs/token-metadata'
 import {
   sharedToBalanceInWei,
   sharedGetTensMultiplier,
   sharedGetExactDecimalsFromNumber
-} from '../utils/formatter'
-import { injToken } from '../data/token'
-import { spotMarketIdMap, spotDenomMap } from './../data/spot'
+} from '../../utils/formatter'
+import { injToken } from '../../data/token'
+import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
 import {
   SharedMarketType,
-  SharedUiBinaryOptionsMarket,
+  SharedUiSpotMarket,
   SharedUiDerivativeMarket,
-  SharedUiSpotMarket
-} from '../types'
+  SharedUiBinaryOptionsMarket
+} from '../../types'
 
 export const sharedSpotGetSlugAndTicket = ({
   marketId,
@@ -97,7 +98,7 @@ export const toUiDerivativeMarket = ({
   quoteToken
 }: {
   slug: string
-  market: PerpetualMarket
+  market: PerpetualMarket | ExpiryFuturesMarket
   baseToken: TokenStatic
   quoteToken: TokenStatic
 }): SharedUiDerivativeMarket => {
@@ -118,7 +119,7 @@ export const toUiDerivativeMarket = ({
       baseToken,
       quoteToken,
       type: SharedMarketType.Derivative,
-      subType: market.isPerpetual
+      subType: (market as PerpetualMarket).isPerpetual
         ? SharedMarketType.Perpetual
         : SharedMarketType.Futures,
       priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),

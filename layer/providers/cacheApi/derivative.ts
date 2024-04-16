@@ -9,7 +9,7 @@ import {
   indexerDerivativesApi,
   indexerRestDerivativeChronosApi
 } from '../../Service'
-import { IS_MAINNET } from '~/utils/constant'
+import { IS_MAINNET } from './../../utils/constant'
 
 export class DerivativeCacheApi extends BaseCacheApi {
   async fetchMarkets(props?: { marketStatus?: string }) {
