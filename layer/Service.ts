@@ -47,7 +47,7 @@ import {
   ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
 import { SpotCacheApi } from './providers/cacheApi/spot'
-import { SharedTokenClient } from './Service/tokenClient'
+import { SharedTokenClient } from './services/tokenClient'
 import { TokenCacheApi } from './providers/cacheApi/token'
 import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
