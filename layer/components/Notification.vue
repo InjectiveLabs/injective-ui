@@ -58,7 +58,7 @@ function onResume() {
     leave-to-class="opacity-0"
   >
     <div
-      class="rounded-lg pointer-events-auto"
+      class="rounded-lg pointer-events-auto ui-notification"
       :class="wrapperClass"
       @mouseenter="onPause"
       @mouseleave="onResume"
@@ -92,14 +92,14 @@ function onResume() {
 
           <span
             v-if="notification.description"
-            class="text-xs text-gray-400 flex items-center"
+            class="text-xs text-gray-400 flex items-center ui-notification-description"
           >
             {{ notification.description }}
           </span>
 
           <span
             v-if="notification.context"
-            class="text-xs text-gray-400 flex items-center"
+            class="text-xs text-gray-400 flex items-center ui-notification-context"
           >
             <SharedHoverMenu
               v-if="notification.context"
@@ -108,7 +108,7 @@ function onResume() {
             >
               <template #default>
                 <slot>
-                  <span class="text-xs text-gray-400 flex items-center">
+                  <span class="text-xs text-gray-400 flex items-center ui-notification-context">
                     Show more context
                   </span>
                 </slot>
