@@ -19,6 +19,9 @@ import {
   SharedUiBinaryOptionsMarket
 } from '../../types'
 
+export * from './summary'
+export * from './history'
+
 export const sharedSpotGetSlugAndTicket = ({
   marketId,
   slug,

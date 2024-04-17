@@ -1,10 +1,11 @@
 import {
   SpotMarket,
   PerpetualMarket,
-  BinaryOptionsMarket
+  BinaryOptionsMarket,
+  AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
 import { TokenStatic } from '@injectivelabs/token-metadata'
-import { SharedMarketType } from './enum'
+import { SharedMarketType, SharedMarketChange } from './enum'
 
 export interface SharedUiSpotMarket
   extends Omit<SpotMarket, 'quoteToken' | 'baseToken'> {
@@ -46,4 +47,21 @@ export interface SharedUiBinaryOptionsMarket
   type: SharedMarketType
   subType: SharedMarketType
   upcoming?: boolean
+}
+
+export interface SharedUiMarketSummary
+  extends AllChronosDerivativeMarketSummary {
+  lastPrice?: number
+  lastPriceChange?: SharedMarketChange
+}
+
+export interface SharedUiMarketHistory {
+  marketId: string
+  resolution: string
+  time: number[]
+  volume: number[]
+  closePrice: number[]
+  highPrice: number[]
+  lowPrice: number[]
+  openPrice: number[]
 }

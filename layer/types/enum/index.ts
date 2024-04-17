@@ -1,3 +1,5 @@
+export * from './market'
+
 export enum NotificationType {
   Error = 'error',
   Warning = 'warning',
@@ -27,13 +29,4 @@ export enum TimeDuration {
   Hour = 'hour',
   Minute = 'minute',
   Second = 'second'
-}
-
-export enum SharedMarketType {
-  Favorite = 'Favorite',
-  Spot = 'Spot',
-  Derivative = 'Derivative',
-  Perpetual = 'Perpetual',
-  Futures = 'Futures',
-  BinaryOptions = 'BinaryOptions'
 }
