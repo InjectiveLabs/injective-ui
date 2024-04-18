@@ -65,3 +65,9 @@ export interface SharedUiMarketHistory {
   lowPrice: number[]
   openPrice: number[]
 }
+
+export type SharedUiMarketMarkPrice = {
+  price: string
+  marketId: string
+  timestamp?: number
+}
