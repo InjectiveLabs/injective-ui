@@ -1,8 +1,10 @@
 export * from './enum'
 export * from './token'
+export * from './trade'
 export * from './shared'
 export * from './market'
 export * from './bridge'
+export * from './validator'
 
 export interface PasteEvent<T extends EventTarget> extends ClipboardEvent {
   target: T
