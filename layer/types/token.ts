@@ -20,3 +20,7 @@ export interface SharedBalanceInUsdWithTokenAndPrice
   extends SharedBalanceWithTokenAndPrice {
   balanceInUsd: string
 }
+
+export interface SharedCw20BalanceWithToken extends SharedBalanceWithToken {
+  token: TokenStatic
+}
