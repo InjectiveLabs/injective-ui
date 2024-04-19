@@ -60,6 +60,7 @@ export const toUiSpotMarket = ({
   quoteToken: TokenStatic
 }): SharedUiSpotMarket => {
   const slug = market.ticker
+    .trim()
     .replaceAll('/', '-')
     .replaceAll(' ', '-')
     .toLowerCase()
