@@ -28,4 +28,5 @@ export interface NotificationOptions {
 export interface SharedDropdownOption {
   display: string
   value: string
+  description?: string
 }

@@ -9,6 +9,7 @@ import {
 import {
   DenomClient,
   ChainGrpcGovApi,
+  ChainGrpcIbcApi,
   ChainGrpcMintApi,
   ChainGrpcWasmApi,
   ChainGrpcBankApi,
@@ -31,27 +32,33 @@ import {
   IndexerGrpcInsuranceFundApi,
   IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
-  IndexerRestDerivativesChronosApi,
+  IndexerRestDerivativesChronosApi
 } from '@injectivelabs/sdk-ts'
+import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
-import { SpotCacheApi } from './providers/cacheApi/spot'
-import { TokenCacheApi } from './providers/cacheApi/token'
-import { StakingCacheApi } from './providers/cacheApi/staking'
-import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import {
   NETWORK,
   CHAIN_ID,
   ENDPOINTS,
+  IS_MAINNET,
+  ALCHEMY_KEY,
   COINGECKO_KEY,
-  ETHEREUM_CHAIN_ID
+  ETHEREUM_CHAIN_ID,
+  ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
+import { SpotCacheApi } from './providers/cacheApi/spot'
+import { SharedTokenClient } from './services/tokenClient'
+import { TokenCacheApi } from './providers/cacheApi/token'
+import { StakingCacheApi } from './providers/cacheApi/staking'
+import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
 
 // Services
+export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)
 export const bankApi = new ChainGrpcBankApi(ENDPOINTS.grpc)
 export const mintApi = new ChainGrpcMintApi(ENDPOINTS.grpc)
-export const stakingApi = new ChainGrpcStakingApi(ENDPOINTS.grpc)
 export const wasmApi = new ChainGrpcWasmApi(ENDPOINTS.grpc)
+export const stakingApi = new ChainGrpcStakingApi(ENDPOINTS.grpc)
 export const exchangeApi = new ChainGrpcExchangeApi(ENDPOINTS.grpc)
 export const distributionApi = new ChainGrpcDistributionApi(ENDPOINTS.grpc)
 export const insuranceFundsApi = new ChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
@@ -129,4 +136,16 @@ export const web3Composer = new Web3Composer({
   ethereumChainId: ETHEREUM_CHAIN_ID
 })
 
+export const sharedTokenClient = new SharedTokenClient()
+
 export const tokenMetaUtils = TokenMetaUtilsFactory.make(NETWORK)
+
+export const alchemyClient = IS_MAINNET
+  ? new Alchemy({
+      apiKey: ALCHEMY_KEY,
+      network: AlchemyNetwork.ETH_MAINNET
+    })
+  : new Alchemy({
+      apiKey: ALCHEMY_SEPOLIA_KEY,
+      network: AlchemyNetwork.ETH_SEPOLIA
+    })
