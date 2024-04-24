@@ -58,15 +58,18 @@ export const spotDenomMap: Record<string, Function> = {
     ticker: ticker.replace('NONJA', 'NONJAunverified')
   }),
   'factory/inj14ejqjyq8um4p3xfqj74yld5waqljf88f9eneuk/inj1sthrn5ep8ls5vzz8f9gp89khhmedahhdkqa8z3':
-    ({ ticker }: { ticker: string }) => ({
+    ({ slug, ticker }: { slug: string; ticker: string }) => ({
+      slug,
       ticker: ticker.replace('SOL', 'SOLlegacy')
     }),
   'factory/inj14ejqjyq8um4p3xfqj74yld5waqljf88f9eneuk/inj1d5vz0uzwlpfvgwrwulxg6syy82axa58y4fuszd':
-    ({ ticker }: { ticker: string }) => ({
+    ({ slug, ticker }: { slug: string; ticker: string }) => ({
+      slug,
       ticker: ticker.replace('ARB', 'ARBlegacy')
     }),
   'factory/inj14ejqjyq8um4p3xfqj74yld5waqljf88f9eneuk/inj1dxv423h8ygzgxmxnvrf33ws3k94aedfdevxd8h':
-    ({ ticker }: { ticker: string }) => ({
+    ({ slug, ticker }: { slug: string; ticker: string }) => ({
+      slug,
       ticker: ticker.replace('WMATIC', 'WMATIClegacy')
     })
 }
