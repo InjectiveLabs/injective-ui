@@ -37,6 +37,14 @@ export const getExplorerUrl = (): string => {
   return 'https://explorer.injective.network'
 }
 
+export const getBridgeUrl = (): string => {
+  if (IS_DEVNET) {
+    return 'https://devnet.bridge.injective.dev'
+  }
+
+  return 'https://bridge.injective.network'
+}
+
 export const getNetworkFromAddress = (address: string): Network => {
   switch (true) {
     case address.startsWith('inj'):
