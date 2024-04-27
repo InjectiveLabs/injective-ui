@@ -24,7 +24,7 @@ const isChecked = computed({
 <template>
   <label class="relative">
     <div
-      class="flex gap-2"
+      class="flex gap-2 items-center"
       :class="[
         { 'flex-row-reverse': isOnRight },
         isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
