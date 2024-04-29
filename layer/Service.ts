@@ -28,6 +28,7 @@ import {
   IndexerRestDerivativesChronosApi,
   IndexerGrpcMitoApi
 } from '@injectivelabs/sdk-ts'
+import { InjectiveAssetService } from '@injectivelabs/token-utils'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import {
@@ -37,8 +38,9 @@ import {
   IS_MAINNET,
   ALCHEMY_KEY,
   COINGECKO_KEY,
+  MITO_API_ENDPOINT,
   ALCHEMY_SEPOLIA_KEY,
-  MITO_API_ENDPOINT
+  getAssetMicroserviceEndpoint
 } from './utils/constant'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
 import { InjNameService } from './services/nameService'
@@ -125,6 +127,9 @@ export const tokenPriceService = new TokenPriceService(NETWORK, {
 // name service
 export const injNameService = new InjNameService(NETWORK)
 export const injBonfidaNameService = new InjBonfidaNameService(NETWORK)
+export const injectiveAssetService = new InjectiveAssetService(
+  getAssetMicroserviceEndpoint()
+)
 
 export const sharedTokenClient = new SharedTokenClient()
 

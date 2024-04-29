@@ -65,6 +65,25 @@ if (endpointsNotProvided) {
   )
 }
 
+const ASSET_PRICE_SERVICE_URL =
+  'https://k8s.mainnet.asset.injective.network/asset-price/v1'
+const TESTNET_ASSET_PRICE_SERVICE_URL =
+  'https://k8s.testnet.asset.injective.network/asset-price/v1'
+const DEVNET_ASSET_PRICE_SERVICE_URL =
+  'https://devnet.asset.injective.dev/asset-price/v1'
+
+export const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
+  if (isTestnet(network)) {
+    return TESTNET_ASSET_PRICE_SERVICE_URL
+  }
+
+  if (isDevnet(network)) {
+    return DEVNET_ASSET_PRICE_SERVICE_URL
+  }
+
+  return ASSET_PRICE_SERVICE_URL
+}
+
 export const ENDPOINTS = {
   ...endpoints,
   grpc: env.VITE_SENTRY_GRPC_ENDPOINT || endpoints.grpc,
