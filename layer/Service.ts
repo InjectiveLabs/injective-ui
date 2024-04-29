@@ -52,6 +52,8 @@ import { TokenCacheApi } from './providers/cacheApi/token'
 import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
+import { InjNameService } from './services/nameService'
+import { InjBonfidaNameService } from './services/bonfida'
 
 // Services
 export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)
@@ -120,6 +122,10 @@ export const tokenPrice = new TokenPrice(NETWORK, {
     ? 'https://pro-api.coingecko.com/api/v3'
     : 'https://api.coingecko.com/api/v3'
 })
+
+// name service
+export const injNameService = new InjNameService(NETWORK)
+export const injBonfidaNameService = new InjBonfidaNameService(NETWORK)
 
 export const denomClientAsync = new DenomClientAsync(NETWORK, {
   alchemyRpcUrl: alchemyRpcEndpoint
