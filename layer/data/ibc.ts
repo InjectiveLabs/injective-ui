@@ -19,6 +19,7 @@ export const canonicalChannelsToChainList = [
   { channelId: 'channel-7', chainA: 'Celestia', chainB: 'Injective' },
   { channelId: 'channel-54', chainA: 'Kujira', chainB: 'Injective' },
   { channelId: 'channel-13', chainA: 'Andromeda', chainB: 'Injective' },
+  { channelId: 'channel-25', chainA: 'Saga', chainB: 'Injective' },
   { channelId: 'channel-1', chainA: 'Injective', chainB: 'CosmosHub' },
   { channelId: 'channel-83', chainA: 'Injective', chainB: 'Evmos' },
   { channelId: 'channel-8', chainA: 'Injective', chainB: 'Osmosis' },
@@ -44,7 +45,8 @@ export const canonicalChannelsToChainList = [
   { channelId: 'channel-148', chainA: 'Injective', chainB: 'Noble' },
   { channelId: 'channel-152', chainA: 'Injective', chainB: 'Celestia' },
   { channelId: 'channel-183', chainA: 'Injective', chainB: 'Gateway' },
-  { channelId: 'channel-213', chainA: 'Injective', chainB: 'Andromeda' }
+  { channelId: 'channel-213', chainA: 'Injective', chainB: 'Andromeda' },
+  { channelId: 'channel-261', chainA: 'Injective', chainB: 'Saga' }
 ]
 
 export const canonicalChannelIds = [
@@ -76,5 +78,6 @@ export const canonicalChannelIds = [
   'channel-148',
   'channel-152',
   'channel-183',
-  'channel-213'
+  'channel-213',
+  'channel-261'
 ]

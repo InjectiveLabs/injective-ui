@@ -81,8 +81,8 @@ export const getNetworkFromAddress = (address: string): Network => {
       return Network.Migaloo
     case address.startsWith('kujira'):
       return Network.Kujira
-    case address.startsWith('andr'):
-      return Network.Andromeda
+    case address.startsWith('saga'):
+      return Network.Saga
     default:
       return Network.Injective
   }
@@ -136,6 +136,8 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
       return 'https://finder.terra.money/mainnet'
     case Network.Andromeda:
       return 'https://ping.wildsage.io/andromeda'
+    case Network.Saga:
+      return 'https://www.mintscan.io/saga'
     case Network.Injective:
       return 'https://explorer.injective.network'
     default:

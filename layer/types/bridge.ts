@@ -37,5 +37,6 @@ export enum Network {
   Migaloo = 'migaloo',
   Kujira = 'kujira',
   CosmosHubTestnet = 'cosmosHub-testnet',
-  Andromeda = 'andromeda'
+  Andromeda = 'andromeda',
+  Saga = 'saga',
 }

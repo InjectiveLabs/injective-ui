@@ -20,6 +20,8 @@ export const CosmosChainId = {
   [Network.Stride]: 'stride-1',
   [Network.CosmosHubTestnet]: 'theta-testnet-001',
   [Network.Andromeda]: 'andromeda-1',
+  [Network.Saga]: 'ssc-1',
+
 
   // networks below are disabled
   [Network.Canto]: 'canto_7700-1',
@@ -170,6 +172,15 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     aToBChannelId: 'channel-31',
     aToBClientId: '',
     bToAChannelId: 'channel-148',
+    bToAClientId: '',
+    port: 'transfer'
+  },
+  [Network.Saga]: {
+    aChainId: CosmosChainId[Network.Saga],
+    bChainId: CosmosChainId[Network.Injective],
+    aToBChannelId: 'channel-25',
+    aToBClientId: '',
+    bToAChannelId: 'channel-261',
     bToAClientId: '',
     port: 'transfer'
   }
