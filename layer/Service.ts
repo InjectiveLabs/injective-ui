@@ -28,7 +28,7 @@ import {
   IndexerRestDerivativesChronosApi,
   IndexerGrpcMitoApi
 } from '@injectivelabs/sdk-ts'
-import { InjectiveAssetService } from '@injectivelabs/token-utils'
+import { InjectiveAssetService } from './services/assetPrice'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import {
