@@ -1,5 +1,11 @@
 import { WalletStrategy } from '@injectivelabs/wallet-ts'
-import { CHAIN_ID, ETHEREUM_CHAIN_ID } from './../utils/constant'
+import {
+  CHAIN_ID,
+  IS_MAINNET,
+  ALCHEMY_KEY,
+  ETHEREUM_CHAIN_ID,
+  ALCHEMY_SEPOLIA_KEY
+} from './../utils/constant'
 import { alchemyRpcEndpoint } from './alchemy'
 
 export const walletStrategy = new WalletStrategy({
@@ -9,3 +15,7 @@ export const walletStrategy = new WalletStrategy({
     rpcUrl: alchemyRpcEndpoint
   }
 })
+
+export const alchemyKey = (
+  IS_MAINNET ? ALCHEMY_KEY : ALCHEMY_SEPOLIA_KEY
+) as string

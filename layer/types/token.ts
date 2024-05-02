@@ -21,6 +21,9 @@ export interface SharedBalanceInUsdWithTokenAndPrice
   balanceInUsd: string
 }
 
-export interface SharedCw20BalanceWithToken extends SharedBalanceWithToken {
+export interface SharedSubaccountBalanceWithToken {
+  availableBalance: string
+  totalBalance: string
+  denom: string
   token: TokenStatic
 }

@@ -1,6 +1,7 @@
 import {
   SpotMarket,
   PerpetualMarket,
+  ExpiryFuturesMarket,
   BinaryOptionsMarket,
   AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
@@ -23,6 +24,20 @@ export interface SharedUiSpotMarket
 
 export interface SharedUiDerivativeMarket
   extends Omit<PerpetualMarket, 'quoteToken'> {
+  baseToken: TokenStatic
+  quoteToken: TokenStatic
+  slug: string
+  priceDecimals: number
+  quantityDecimals: number
+  priceTensMultiplier: number
+  quantityTensMultiplier: number
+  type: SharedMarketType
+  subType: SharedMarketType
+  upcoming?: boolean
+}
+
+export interface SharedUiExpiryFuturesMarket
+  extends Omit<ExpiryFuturesMarket, 'quoteToken'> {
   baseToken: TokenStatic
   quoteToken: TokenStatic
   slug: string

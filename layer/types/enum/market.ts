@@ -13,3 +13,11 @@ export enum SharedMarketChange {
   Increase = 'increase',
   Decrease = 'decrease'
 }
+
+export enum SharedMarketStatus {
+  Unspecified = 'unspecified',
+  Active = 'active',
+  Paused = 'paused',
+  Demolished = 'demolished',
+  Expired = 'expired'
+}
