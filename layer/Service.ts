@@ -1,10 +1,6 @@
 import {
   TokenPrice,
-  Web3Client,
-  Web3Composer,
   TokenService,
-  DenomClientAsync,
-  TokenServiceStatic
 } from '@injectivelabs/sdk-ui-ts'
 import {
   DenomClient,
@@ -43,7 +39,6 @@ import {
   IS_MAINNET,
   ALCHEMY_KEY,
   COINGECKO_KEY,
-  ETHEREUM_CHAIN_ID,
   ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
 import { SpotCacheApi } from './providers/cacheApi/spot'
@@ -112,10 +107,6 @@ export const tokenService = new TokenService({
   network: NETWORK,
   alchemyRpcUrl: alchemyRpcEndpoint
 })
-export const tokenServiceStatic = new TokenServiceStatic({
-  chainId: CHAIN_ID,
-  network: NETWORK
-})
 export const tokenPrice = new TokenPrice(NETWORK, {
   apiKey: COINGECKO_KEY as string,
   baseUrl: COINGECKO_KEY
@@ -126,21 +117,6 @@ export const tokenPrice = new TokenPrice(NETWORK, {
 // name service
 export const injNameService = new InjNameService(NETWORK)
 export const injBonfidaNameService = new InjBonfidaNameService(NETWORK)
-
-export const denomClientAsync = new DenomClientAsync(NETWORK, {
-  alchemyRpcUrl: alchemyRpcEndpoint
-})
-
-export const web3Client = new Web3Client({
-  network: NETWORK,
-  rpc: alchemyRpcEndpoint
-})
-
-export const web3Composer = new Web3Composer({
-  network: NETWORK,
-  rpc: alchemyRpcEndpoint,
-  ethereumChainId: ETHEREUM_CHAIN_ID
-})
 
 export const sharedTokenClient = new SharedTokenClient()
 
