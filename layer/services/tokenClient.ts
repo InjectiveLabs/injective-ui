@@ -82,6 +82,7 @@ export class SharedTokenClient {
     const token = {
       ...unknownToken,
       hash,
+      denom,
       path: data.path,
       baseDenom: data.baseDenom,
       channelId: data.path.split('/').pop() as string
