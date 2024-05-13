@@ -14,6 +14,8 @@ const TESTNET_ASSET_PRICE_SERVICE_URL =
 const DEVNET_ASSET_PRICE_SERVICE_URL =
   'https://devnet.asset.injective.dev/asset-price/v1'
 
+const whiteListedCoinGeckoIds: string[] = []
+
 const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
   if (isTestnet(network)) {
     return TESTNET_ASSET_PRICE_SERVICE_URL
@@ -41,10 +43,11 @@ export class TokenPrice {
     this.restClient = new HttpRestClient(getAssetMicroserviceEndpoint(network))
   }
 
-  // we always pass only coinGeckoIds => never denoms
-  async fetchUsdTokensPrice(coinIds: string[] = []) {
-    const { data: prices } = (await this.restClient.get('coin/prices')) as {
-      data: { id: string; current_price: number }[]
+  async fetchUsdTokensPrice(coinGeckoIds: string[] = []) {
+    const {
+      data: { data: prices }
+    } = (await this.restClient.get('coin/prices')) as {
+      data: { data: { id: string; current_price: number }[] }
     }
 
     const tokenPriceMap: Record<string, number> = prices.reduce(
@@ -52,7 +55,7 @@ export class TokenPrice {
       {}
     )
 
-    const coinGeckoIdsToFetch = coinIds.filter(
+    const coinGeckoIdsToFetch = coinGeckoIds.filter(
       (coinGeckoId) => !tokenPriceMap[coinGeckoId]
     )
 
@@ -60,7 +63,7 @@ export class TokenPrice {
       return tokenPriceMap
     }
 
-    const { denomPriceMap, coinGeckoIds } = coinGeckoIdsToFetch.reduce(
+    const { denomPriceMap, coinGeckoIdList } = coinGeckoIdsToFetch.reduce(
       (lists, coinGeckoId: string) => {
         const isDenomFormat =
           coinGeckoId.startsWith('ibc/') ||
@@ -75,18 +78,38 @@ export class TokenPrice {
           }
         }
 
-        return { ...lists, coinGeckoIds: [...lists.coinGeckoIds, coinGeckoId] }
+        return {
+          ...lists,
+          coinGeckoIdList: [...lists.coinGeckoIdList, coinGeckoId]
+        }
       },
-      { denomPriceMap: {}, coinGeckoIds: [] } as {
+      { denomPriceMap: {}, coinGeckoIdList: [] } as {
         denomPriceMap: Record<string, number>
-        coinGeckoIds: string[]
+        coinGeckoIdList: string[]
       }
     )
 
-    const coinGeckoIdsPriceMap =
-      await this.fetchUsdTokenPriceFromCoinGeckoInChunks(coinGeckoIds)
+    const whiteListedCoinGeckoIdsToFetch = coinGeckoIdList.filter(
+      (coinGeckoId) => whiteListedCoinGeckoIds.includes(coinGeckoId)
+    )
 
-    return { ...tokenPriceMap, ...coinGeckoIdsPriceMap, ...denomPriceMap }
+    const coinGeckoIdsPriceMap =
+      await this.fetchUsdTokenPriceFromCoinGeckoInChunks(
+        whiteListedCoinGeckoIdsToFetch
+      )
+
+    const formattedCoinGeckoIdsPriceMap = Object.entries(
+      coinGeckoIdsPriceMap
+    ).reduce(
+      (list, [key, value]) => ({ ...list, [key.toLowerCase()]: value }),
+      {} as Record<string, number>
+    )
+
+    return {
+      ...tokenPriceMap,
+      ...formattedCoinGeckoIdsPriceMap,
+      ...denomPriceMap
+    }
   }
 
   private fetchUsdTokenPriceFromCoinGeckoNoThrow = async (coinId: string) => {
