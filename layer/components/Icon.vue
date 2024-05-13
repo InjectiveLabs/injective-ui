@@ -7,6 +7,7 @@ const props = defineProps({
   isXs: Boolean,
   isSm: Boolean,
   isMd: Boolean,
+  isLg: Boolean,
 
   name: {
     type: String,
@@ -35,6 +36,8 @@ const filteredAttrs = computed(() => {
       defaultClasses.push('h-3 w-3 min-w-3')
     } else if (props.isMd) {
       defaultClasses.push('h-4 w-4 min-w-4')
+    } else if (props.isLg) {
+      defaultClasses.push('h-10 w-10 min-w-10')
     } else {
       defaultClasses.push('h-6 w-6 min-w-6')
     }
