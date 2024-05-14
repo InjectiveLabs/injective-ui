@@ -18,6 +18,7 @@ import {
   SharedUiDerivativeMarket,
   SharedUiBinaryOptionsMarket
 } from '../../types'
+import { BigNumber } from '@injectivelabs/utils'
 
 export * from './summary'
 export * from './history'
@@ -109,7 +110,7 @@ export const toUiDerivativeMarket = ({
   {
     const minPriceTickSize = sharedToBalanceInWei({
       value: market.minPriceTickSize,
-      decimalPlaces: baseToken.decimals - quoteToken.decimals
+      decimalPlaces: -quoteToken.decimals
     }).toFixed()
 
     const minQuantityTickSize = sharedToBalanceInWei({
