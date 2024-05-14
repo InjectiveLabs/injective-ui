@@ -5,8 +5,7 @@ import {
   OkxWalletException,
   UnspecifiedErrorCode
 } from '@injectivelabs/exceptions'
-import { UtilsWallets } from '@injectivelabs/wallet-ts'
-import { walletStrategy } from './wallet-strategy'
+import { UtilsWallets } from '@injectivelabs/wallet-ts/dist/esm/exports'import { walletStrategy } from './wallet-strategy'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 
 export const isOkxWalletInstalled = async (): Promise<boolean> => {
