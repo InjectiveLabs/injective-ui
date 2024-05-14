@@ -129,8 +129,12 @@ export const toUiDerivativeMarket = ({
         : SharedMarketType.Futures,
       priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
       priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
-      quantityDecimals: sharedGetExactDecimalsFromNumber(minQuantityTickSize),
-      quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize)
+      quantityDecimals: sharedGetExactDecimalsFromNumber(
+        market.minQuantityTickSize
+      ),
+      quantityTensMultiplier: sharedGetTensMultiplier(
+        market.minQuantityTickSize
+      )
     }
   }
 }
