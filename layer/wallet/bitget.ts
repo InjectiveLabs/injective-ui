@@ -5,7 +5,8 @@ import {
   UnspecifiedErrorCode,
   BitGetException
 } from '@injectivelabs/exceptions'
-import { UtilsWallets } from '@injectivelabs/wallet-ts/dist/esm/exports'import { ETHEREUM_CHAIN_ID } from './../utils/constant'
+import { UtilsWallets } from '@injectivelabs/wallet-ts/dist/esm/exports'
+import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 import { walletStrategy } from './wallet-strategy'
 
 export const isBitGetInstalled = async (): Promise<boolean> => {
