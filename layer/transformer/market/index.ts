@@ -18,7 +18,6 @@ import {
   SharedUiDerivativeMarket,
   SharedUiBinaryOptionsMarket
 } from '../../types'
-import { BigNumber } from '@injectivelabs/utils'
 
 export * from './summary'
 export * from './history'
