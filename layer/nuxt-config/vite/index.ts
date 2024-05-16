@@ -45,12 +45,14 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    exclude: ['fsevents'],
     include: [
-      '@injectivelabs/sdk-ts',
-      '@injectivelabs/sdk-ui-ts',
-      '@injectivelabs/token-metadata'
-    ]
+      'vue-imask',
+      'apexcharts',
+      'js-confetti',
+      'lightweight-charts',
+      '@vueuse/integrations/useQRCode'
+    ],
+    exclude: ['fsevents']
   }
 }) as ViteConfig
 
