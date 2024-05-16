@@ -77,6 +77,29 @@ export const ENDPOINTS = {
     'https://injective-nuxt-api.vercel.app/api'
 }
 
+export const MITO_API_ENDPOINTS: Record<Network, string> = {
+  [Network.Local]: 'https://devnet.api.ninja.injective.dev',
+  [Network.Devnet]: 'https://devnet.api.ninja.injective.dev',
+  [Network.Devnet1]: 'https://devnet-1.api.ninja.injective.dev',
+  [Network.Devnet2]: 'https://devnet-2.api.ninja.injective.dev',
+  [Network.Testnet]: 'https://testnet.api.ninja.injective.network',
+  [Network.TestnetSentry]: 'https://testnet.api.ninja.injective.network',
+  [Network.TestnetOld]: 'https://testnet.api.ninja.injective.network',
+  [Network.TestnetK8s]: 'https://testnet.api.ninja.injective.network',
+  [Network.Staging]: 'https://staging.api.mito.injective.network',
+  [Network.Mainnet]: 'https://k8s.mainnet.mito.grpc-web.injective.network',
+  [Network.Internal]: 'https://k8s.mainnet.mito.grpc-web.injective.network',
+  [Network.MainnetLB]: 'https://k8s.mainnet.mito.grpc-web.injective.network',
+  [Network.MainnetK8s]: 'https://k8s.mainnet.mito.grpc-web.injective.network',
+  [Network.MainnetOld]: 'https://k8s.mainnet.mito.grpc-web.injective.network',
+  [Network.MainnetSentry]: 'https://k8s.mainnet.mito.grpc-web.injective.network'
+}
+
+export const MITO_API_ENDPOINT =
+  (import.meta.env.VITE_MITO_API_ENDPOINT as string) ||
+  MITO_API_ENDPOINTS[NETWORK] ||
+  'https://devnet.api.ninja.injective.dev'
+
 // wallet
 
 export const ALCHEMY_KEY = (import.meta.env.VITE_ALCHEMY_KEY || '') as string

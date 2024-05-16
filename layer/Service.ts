@@ -25,7 +25,8 @@ import {
   IndexerGrpcInsuranceFundApi,
   IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
-  IndexerRestDerivativesChronosApi
+  IndexerRestDerivativesChronosApi,
+  IndexerGrpcMitoApi
 } from '@injectivelabs/sdk-ts'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
@@ -36,7 +37,8 @@ import {
   IS_MAINNET,
   ALCHEMY_KEY,
   COINGECKO_KEY,
-  ALCHEMY_SEPOLIA_KEY
+  ALCHEMY_SEPOLIA_KEY,
+  MITO_API_ENDPOINT
 } from './utils/constant'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
 import { InjNameService } from './services/nameService'
@@ -60,6 +62,7 @@ export const insuranceFundsApi = new ChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
 export const oracleApi = new ChainGrpcOracleApi(ENDPOINTS.grpc)
 export const governanceApi = new ChainGrpcGovApi(ENDPOINTS.grpc)
 export const auctionApi = new ChainGrpcAuctionApi(ENDPOINTS.grpc)
+export const mitoApi = new IndexerGrpcMitoApi(MITO_API_ENDPOINT)
 
 export const peggyApi = new ChainGrpcPeggyApi(ENDPOINTS.grpc)
 
