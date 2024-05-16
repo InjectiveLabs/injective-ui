@@ -3,6 +3,8 @@ import { vite, hooks } from './nuxt-config'
 import { createResolver } from '@nuxt/kit'
 import { vitePlugins } from './nuxt-config/vite'
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
@@ -19,6 +21,8 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['composables/**', 'store/**']
   },
+
+  ignore: isProduction ? ['pages/sandbox.vue'] : [],
 
   components: [{ path: resolve('./components'), prefix: 'Shared' }],
 
