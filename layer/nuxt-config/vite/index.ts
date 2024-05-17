@@ -53,7 +53,8 @@ export default defineConfig({
       '@vueuse/integrations/useQRCode',
       'canvas-confetti',
       'lottie-web',
-      'date-fns-tz'
+      'date-fns-tz',
+      '@injectivelabs/sdk-ts'
     ],
     exclude: ['fsevents']
   }
