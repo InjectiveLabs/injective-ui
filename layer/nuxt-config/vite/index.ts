@@ -50,7 +50,10 @@ export default defineConfig({
       'apexcharts',
       'js-confetti',
       'lightweight-charts',
-      '@vueuse/integrations/useQRCode'
+      '@vueuse/integrations/useQRCode',
+      'canvas-confetti',
+      'lottie-web',
+      'date-fns-tz'
     ],
     exclude: ['fsevents']
   }
