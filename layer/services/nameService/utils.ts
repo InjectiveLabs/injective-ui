@@ -1,7 +1,7 @@
-import ensNameHash from '@ensdomains/eth-ens-namehash'
-import { validate } from '@ensdomains/ens-validation'
+import { validate } from '@bangjelkoski/ens-validation'
 import { ErrorType, GeneralException } from '@injectivelabs/exceptions'
 import { keccak_256 as keccak256 } from 'js-sha3'
+import { normalize } from './namehash'
 
 const nameHash = (inputName: string) => {
   let node = ''
@@ -14,7 +14,7 @@ const nameHash = (inputName: string) => {
     const labels = inputName.split('.')
 
     for (let i = labels.length - 1; i >= 0; i -= 1) {
-      const normalizedLabel = ensNameHash.normalize(labels[i])
+      const normalizedLabel = normalize(labels[i])
       const labelSha = keccak256(normalizedLabel)
 
       node = keccak256(Buffer.from(node + labelSha, 'hex'))
@@ -87,7 +87,7 @@ const normalizeName = (name: string) => {
   let normalizedArray: string[]
 
   try {
-    normalizedArray = labelArr.map((e) => ensNameHash.normalize(e))
+    normalizedArray = labelArr.map((e) => normalize(e))
   } catch (e) {
     throw new GeneralException(new Error('Invalid Domain'), {
       context: 'Params',

@@ -8,18 +8,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ensdomains/ens-validation": "^0.1.0",
-    "@ensdomains/eth-ens-namehash": "^2.0.15",
-    "@injectivelabs/nuxt-bugsnag": "0.0.3",
-    "@injectivelabs/utils": "1.14.11-beta.8",
+    "@bangjelkoski/ens-validation": "^0.1.0",
     "@injectivelabs/networks": "1.14.11-beta.10",
-    "@injectivelabs/ts-types": "1.14.11-beta.3",
+    "@injectivelabs/nuxt-bugsnag": "0.0.3",
     "@injectivelabs/sdk-ts": "1.14.11-beta.70",
     "@injectivelabs/sdk-ui-ts": "1.14.11-beta.92",
     "@injectivelabs/token-metadata": "1.14.11-beta.49",
+    "@injectivelabs/ts-types": "1.14.11-beta.3",
+    "@injectivelabs/utils": "1.14.11-beta.8",
     "@injectivelabs/wallet-ts": "1.14.11-beta.84",
     "@vueuse/integrations": "^10.7.1",
     "floating-vue": "2.0.0-beta.24",
+    "idna-uts46-hx": "^6.0.4",
     "vue-gtag": "^2.0.1",
     "vue-hotjar": "^1.4.0",
     "vue-imask": "^7.5.0"

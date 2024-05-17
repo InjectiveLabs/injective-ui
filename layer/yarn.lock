@@ -380,6 +380,11 @@
     "@babel/helper-validator-identifier" "^7.24.5"
     to-fast-properties "^2.0.0"
 
+"@bangjelkoski/ens-validation@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@bangjelkoski/ens-validation/-/ens-validation-0.1.0.tgz#2276b62235871188757cc1e02bc292eaff221dcf"
+  integrity sha512-o/FitF/AWhMPd7XVg6wCWulBCfIImx9gjzgH/iYwXPysQ7CkVKNxHtRfH3McgRP8pUqC9WQoIkImwffxFFaKUQ==
+
 "@bangjelkoski/node-stdlib-browser@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@bangjelkoski/node-stdlib-browser/-/node-stdlib-browser-0.0.1.tgz#5cf82659f00d15d3c6758d001294b53e3d0f6dd1"
@@ -8043,6 +8048,13 @@ idb-keyval@^6.2.1:
   resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-6.2.1.tgz#94516d625346d16f56f3b33855da11bfded2db33"
   integrity sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==
 
+idna-uts46-hx@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.npmjs.org/idna-uts46-hx/-/idna-uts46-hx-6.0.4.tgz#25f9f8af628bd4150b36340e99a1f9532c815905"
+  integrity sha512-sI5p40O39Mev3pk7dmG4m2vaSBQcpn8ZETN72ftaIPaDvY3MwgOj2psh20lYA9aVgQ5eS/Wcmo6l+USXyepffg==
+  dependencies:
+    tr46 "^5.0.0"
+
 ieee754@^1.1.13, ieee754@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
@@ -10378,7 +10390,7 @@ punycode@^1.4.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
   integrity sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==
 
-punycode@^2.1.0:
+punycode@^2.1.0, punycode@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
@@ -11766,6 +11778,13 @@ totalist@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/totalist/-/totalist-3.0.1.tgz#ba3a3d600c915b1a97872348f79c127475f6acf8"
   integrity sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==
+
+tr46@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/tr46/-/tr46-5.0.0.tgz#3b46d583613ec7283020d79019f1335723801cec"
+  integrity sha512-tk2G5R2KRwBd+ZN0zaEXpmzdKyOYksXwywulIX95MBODjSzMIuQnQ3m8JxgbhnL1LeVo7lqQKsYa1O3Htl7K5g==
+  dependencies:
+    punycode "^2.3.1"
 
 tr46@~0.0.3:
   version "0.0.3"
