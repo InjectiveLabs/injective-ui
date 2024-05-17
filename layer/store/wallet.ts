@@ -513,7 +513,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         address,
         addresses,
         injectiveAddress,
-        addressConfirmation: await confirm(address),
+        addressConfirmation: await confirm(address)
       })
 
       await walletStore.onConnect()
