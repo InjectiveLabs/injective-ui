@@ -4,14 +4,14 @@ import {
   NetworkEndpoints,
   getNetworkEndpoints,
   getInjNameRegistryContractForNetwork,
-  getInjNameReverseResolverContractForNetwork,
+  getInjNameReverseResolverContractForNetwork
 } from '@injectivelabs/networks'
 import {
   QueryInjName,
   ChainGrpcWasmApi,
   QueryResolverAddress,
   QueryInjectiveAddress,
-  InjNameServiceQueryTransformer,
+  InjNameServiceQueryTransformer
 } from '@injectivelabs/sdk-ts'
 import { nameToNode, normalizeName } from './utils'
 
@@ -24,7 +24,7 @@ export class InjNameService {
 
   constructor(
     network: Network = Network.MainnetSentry,
-    endpoints?: NetworkEndpoints,
+    endpoints?: NetworkEndpoints
   ) {
     const networkEndpoints = endpoints || getNetworkEndpoints(network)
 
@@ -39,11 +39,11 @@ export class InjNameService {
 
     const response = await this.client.fetchSmartContractState(
       this.registryAddress,
-      query,
+      query
     )
 
     return InjNameServiceQueryTransformer.resolverAddressResponseToResolverAddress(
-      response,
+      response
     )
   }
 
@@ -64,11 +64,11 @@ export class InjNameService {
 
     const response = await this.client.fetchSmartContractState(
       resolverAddress,
-      query,
+      query
     )
 
     return InjNameServiceQueryTransformer.injectiveAddressResponseToInjectiveAddress(
-      response,
+      response
     )
   }
 
@@ -77,12 +77,12 @@ export class InjNameService {
 
     const response = await this.client.fetchSmartContractState(
       this.reverseResolverAddress,
-      query,
+      query
     )
 
     const name =
       InjNameServiceQueryTransformer.injectiveNameResponseToInjectiveName(
-        response,
+        response
       )
 
     if (!name) {

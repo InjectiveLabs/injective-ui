@@ -1,7 +1,6 @@
-import { validate } from '@bangjelkoski/ens-validation'
+import { validate, normalize } from '@bangjelkoski/ens-validation'
 import { ErrorType, GeneralException } from '@injectivelabs/exceptions'
 import { keccak_256 as keccak256 } from 'js-sha3'
-import { normalize } from './namehash'
 
 const nameHash = (inputName: string) => {
   let node = ''
