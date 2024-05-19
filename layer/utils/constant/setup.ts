@@ -21,7 +21,9 @@ export const env = {
   VITE_SENTRY_HTTP_ENDPOINT: import.meta.env
     .VITE_SENTRY_HTTP_ENDPOINT as string,
   VITE_CACHE_REST_API_ENDPOINT: import.meta.env
-    .VITE_CACHE_REST_API_ENDPOINT as string
+    .VITE_CACHE_REST_API_ENDPOINT as string,
+  VITE_WALLET_CONNECT_PROJECT_ID:
+    import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '',
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
@@ -145,3 +147,6 @@ export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
 export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
 
 export const CW20_ADAPTER_CONTRACT = getCw20AdapterContractForNetwork(NETWORK)
+export const APP_NAME = env.VITE_NAME
+export const APP_BASE_URL = env.VITE_BASE_URL
+export const WALLET_CONNECT_PROJECT_ID = env.VITE_WALLET_CONNECT_PROJECT_ID

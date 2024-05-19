@@ -7,12 +7,21 @@ import {
   ALCHEMY_SEPOLIA_KEY
 } from './../utils/constant'
 import { alchemyRpcEndpoint } from './alchemy'
+import { APP_NAME, APP_BASE_URL, WALLET_CONNECT_PROJECT_ID } from './../utils/constant'
 
 export const walletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,
   ethereumOptions: {
     ethereumChainId: ETHEREUM_CHAIN_ID,
     rpcUrl: alchemyRpcEndpoint
+  },
+  options: {
+    metadata: {
+      name: APP_NAME,
+      url: APP_BASE_URL,
+      projectId: WALLET_CONNECT_PROJECT_ID,
+      description: ''
+    }
   }
 })
 
