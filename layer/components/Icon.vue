@@ -83,5 +83,10 @@ export default {
 </script>
 
 <template>
-  <component v-bind="filteredAttrs" :is="dynamicComponent" />
+  <Suspense>
+    <component v-bind="filteredAttrs" :is="dynamicComponent" />
+    <template #fallback>
+      <div v-bind="filteredAttrs" />
+    </template>
+  </Suspense>
 </template>

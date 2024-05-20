@@ -38,6 +38,10 @@ export default defineConfig({
   },
 
   server: {
+    watch: {
+      usePolling: true
+    },
+
     fs: {
       // Allow serving files from one level up to the project root
       allow: ['..']
@@ -46,15 +50,19 @@ export default defineConfig({
 
   optimizeDeps: {
     include: [
+      'date-fns',
       'vue-imask',
       'apexcharts',
-      'js-confetti',
-      'lightweight-charts',
-      '@vueuse/integrations/useQRCode',
-      'canvas-confetti',
       'lottie-web',
+      'lottie-web',
+      'js-confetti',
       'date-fns-tz',
-      '@injectivelabs/sdk-ts'
+      'date-fns-tz',
+      'canvas-confetti',
+      'canvas-confetti',
+      'lightweight-charts',
+      '@injectivelabs/sdk-ts',
+      '@vueuse/integrations/useQRCode'
     ],
     exclude: ['fsevents']
   }
