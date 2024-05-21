@@ -13,6 +13,18 @@ export const getHubUrl = (): string => {
   return 'https://hub.injective.network'
 }
 
+export const getMitoUrl = (): string => {
+  if (IS_DEVNET) {
+    return 'https://devnet.mito.fi/'
+  }
+
+  if (IS_TESTNET) {
+    return 'https://testnet.mito.fi/'
+  }
+
+  return 'https://mito.fi/'
+}
+
 export const getExchangeUrl = (): string => {
   if (IS_DEVNET) {
     return 'https://dev.helixapp.com'
