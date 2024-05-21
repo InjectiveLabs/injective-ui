@@ -8,9 +8,6 @@ export default defineNuxtModule({
     name: 'base-components',
     configKey: 'baseComponents'
   },
-  setup(_, nuxt) {
-    nuxt.options.css.unshift('@injectivelabs/ui-shared/lib/tailwind.css')
-  },
   hooks: {
     'components:dirs'(dirs) {
       dirs.push({
