@@ -4,7 +4,7 @@ import {
   BigNumberInBase,
   splitArrayToChunks
 } from '@injectivelabs/utils'
-import { CoinGeckoApi } from '@injectivelabs/token-utils'
+import { CoinGeckoApi } from './assetPrice'
 import { Network } from '@injectivelabs/networks'
 import { getAssetMicroserviceEndpoint } from '../utils/constant'
 
