@@ -7,6 +7,7 @@ import {
   ChainGrpcWasmApi,
   ChainGrpcBankApi,
   ChainGrpcPeggyApi,
+  IndexerGrpcMitoApi,
   IndexerGrpcSpotApi,
   ChainGrpcOracleApi,
   ChainGrpcAuctionApi,
@@ -26,7 +27,6 @@ import {
   IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
   IndexerRestDerivativesChronosApi,
-  IndexerGrpcMitoApi
 } from '@injectivelabs/sdk-ts'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
