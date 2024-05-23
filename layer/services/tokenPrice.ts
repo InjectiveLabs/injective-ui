@@ -5,7 +5,22 @@ import {
   splitArrayToChunks
 } from '@injectivelabs/utils'
 import { CoinGeckoApi } from '@injectivelabs/token-utils'
+import { TokenStatic } from '@injectivelabs/token-metadata'
 import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
+
+interface TokenStaticWithPrice {
+  denom: string
+  coingecko_id: string
+  price: {
+    price: number
+    metadata: {
+      source: string
+      market_id: string
+      market_price: number
+      height: number
+    }
+  }
+}
 
 const ASSET_PRICE_SERVICE_URL =
   'https://k8s.mainnet.asset.injective.network/asset-price/v1'
@@ -44,14 +59,16 @@ export class TokenPrice {
   }
 
   async fetchUsdTokensPrice(coinGeckoIds: string[] = []) {
-    const {
-      data: { data: prices }
-    } = (await this.restClient.get('coin/prices')) as {
-      data: { data: { id: string; current_price: number }[] }
+    const { data } = (await this.restClient.get('denoms?withPrice=true')) as {
+      data: Record<string, TokenStaticWithPrice>
     }
 
-    const tokenPriceMap: Record<string, number> = prices.reduce(
-      (prices, { id, current_price }) => ({ ...prices, [id]: current_price }),
+    const tokenPriceMap: Record<string, number> = Object.values(data).reduce(
+      (prices, tokenWithPrice) => {
+        const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
+
+        return { ...prices, [id.toLowerCase()]: tokenWithPrice.price.price }
+      },
       {}
     )
 

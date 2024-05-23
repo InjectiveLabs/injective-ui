@@ -112,11 +112,6 @@ export const toUiDerivativeMarket = ({
       decimalPlaces: -quoteToken.decimals
     }).toFixed()
 
-    const minQuantityTickSize = sharedToBalanceInWei({
-      value: market.minQuantityTickSize,
-      decimalPlaces: -baseToken.decimals
-    }).toFixed()
-
     return {
       ...market,
       slug,
@@ -149,6 +144,7 @@ export const toUiBinaryOptionsMarket = ({
     .replaceAll('/', '-')
     .replaceAll(' ', '-')
     .toLowerCase()
+
   const [baseTokenSymbol] = quoteToken
     ? market.ticker.replace(quoteToken.symbol, '')
     : market.ticker.replace('/', '')
