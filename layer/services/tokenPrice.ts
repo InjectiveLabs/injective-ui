@@ -5,7 +5,6 @@ import {
   splitArrayToChunks
 } from '@injectivelabs/utils'
 import { CoinGeckoApi } from '@injectivelabs/token-utils'
-import { TokenStatic } from '@injectivelabs/token-metadata'
 import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
 
 interface TokenStaticWithPrice {
