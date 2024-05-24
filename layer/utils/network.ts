@@ -13,14 +13,6 @@ export const getHubUrl = (): string => {
   return 'https://hub.injective.network'
 }
 
-export const getBridgeUrl = (): string => {
-  if (IS_DEVNET) {
-    return 'https://devnet.bridge.injective.dev'
-  }
-
-  return 'https://bridge.injective.network'
-}
-
 export const getMitoUrl = (): string => {
   if (IS_DEVNET) {
     return 'https://devnet.mito.fi/'
