@@ -38,8 +38,7 @@ import {
   ALCHEMY_KEY,
   COINGECKO_KEY,
   MITO_API_ENDPOINT,
-  ALCHEMY_SEPOLIA_KEY,
-  getAssetMicroserviceEndpoint
+  ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
 import { CoinGeckoApi } from '@/services/assetPrice'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
