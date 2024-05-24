@@ -4,7 +4,7 @@ import {
   BigNumberInBase,
   splitArrayToChunks
 } from '@injectivelabs/utils'
-import { CoinGeckoApi } from '@injectivelabs/token-utils'
+import { CoinGeckoApiService } from './CoinGeckoApi'
 import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
 
 const ASSET_PRICE_SERVICE_URL =
@@ -29,7 +29,7 @@ const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
 }
 
 export class TokenPrice {
-  private coinGeckoApi: CoinGeckoApi | undefined
+  private coinGeckoApi: CoinGeckoApiService | undefined
   private restClient: HttpRestClient
 
   constructor(
@@ -39,7 +39,7 @@ export class TokenPrice {
       apiKey: string
     }
   ) {
-    this.coinGeckoApi = new CoinGeckoApi(coinGeckoOptions)
+    this.coinGeckoApi = new CoinGeckoApiService(coinGeckoOptions)
     this.restClient = new HttpRestClient(getAssetMicroserviceEndpoint(network))
   }
 
