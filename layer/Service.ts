@@ -49,6 +49,7 @@ import { TokenCacheApi } from './providers/cacheApi/token'
 import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
+import { PythService } from './services/pythClient'
 
 // Services
 export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)
@@ -102,6 +103,8 @@ export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cacheRest)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
 
 export const denomClient = new DenomClient(NETWORK)
+
+export const pythService = new PythService()
 
 export const tokenService = new TokenService({
   chainId: CHAIN_ID,
