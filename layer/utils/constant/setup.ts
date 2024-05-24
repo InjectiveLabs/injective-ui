@@ -23,7 +23,7 @@ export const env = {
   VITE_CACHE_REST_API_ENDPOINT: import.meta.env
     .VITE_CACHE_REST_API_ENDPOINT as string,
   VITE_WALLET_CONNECT_PROJECT_ID:
-    import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '',
+    import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || ''
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
@@ -65,25 +65,6 @@ if (endpointsNotProvided) {
   throw new Error(
     'You either have to provide a correct VITE_NETWORK in the .env or provide VITE_EXCHANGE_API_ENDPOINT, VITE_SENTRY_GRPC_ENDPOINT and VITE_SENTRY_HTTP_ENDPOINT'
   )
-}
-
-const ASSET_PRICE_SERVICE_URL =
-  'https://k8s.mainnet.asset.injective.network/asset-price/v1'
-const TESTNET_ASSET_PRICE_SERVICE_URL =
-  'https://k8s.testnet.asset.injective.network/asset-price/v1'
-const DEVNET_ASSET_PRICE_SERVICE_URL =
-  'https://devnet.asset.injective.dev/asset-price/v1'
-
-export const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
-  if (isTestnet(network)) {
-    return TESTNET_ASSET_PRICE_SERVICE_URL
-  }
-
-  if (isDevnet(network)) {
-    return DEVNET_ASSET_PRICE_SERVICE_URL
-  }
-
-  return ASSET_PRICE_SERVICE_URL
 }
 
 export const ENDPOINTS = {

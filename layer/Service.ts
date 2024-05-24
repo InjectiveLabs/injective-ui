@@ -40,13 +40,13 @@ import {
   MITO_API_ENDPOINT,
   ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
-import { CoinGeckoApi } from '@/services/assetPrice'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
 import { InjNameService } from './services/nameService'
 import { InjBonfidaNameService } from './services/bonfida'
 import { SpotCacheApi } from './providers/cacheApi/spot'
 import { SharedTokenClient } from './services/tokenClient'
 import { TokenCacheApi } from './providers/cacheApi/token'
+import { CoinGeckoApiService } from '@/services/CoinGeckoApi'
 import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
@@ -123,7 +123,7 @@ export const tokenPriceService = new TokenPriceService(NETWORK, {
     : 'https://api.coingecko.com/api/v3'
 })
 
-export const coinGeckoApi = new CoinGeckoApi({
+export const coinGeckoApi = new CoinGeckoApiService({
   apiKey: COINGECKO_KEY as string,
   baseUrl: COINGECKO_KEY
     ? 'https://pro-api.coingecko.com/api/v3'

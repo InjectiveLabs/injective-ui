@@ -3,18 +3,18 @@ import { HttpRequestException } from '@injectivelabs/exceptions'
 import {
   CoinGeckoCoin,
   CoinGeckoReturnObject,
-  CoinGeckoMarketChartResponse,
   CoinGeckoCoinResponse,
-} from './types'
+  CoinGeckoMarketChartResponse
+} from './../types'
 
-export default class CoinGeckoApi {
+export class CoinGeckoApiService {
   private httpClient: HttpRestClient
 
   private apiKey: string
 
   constructor({ apiKey, baseUrl }: { apiKey: string; baseUrl: string }) {
     const headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     } as any
 
     if (apiKey) {
@@ -23,13 +23,13 @@ export default class CoinGeckoApi {
 
     this.apiKey = apiKey
     this.httpClient = new HttpRestClient(baseUrl, { timeout: 1500 }).setConfig({
-      headers,
+      headers
     })
   }
 
   async fetchCoin(
     coinId: string,
-    options: Record<string, any> | undefined = {},
+    options: Record<string, any> | undefined = {}
   ) {
     try {
       const actualParams = {
@@ -39,12 +39,12 @@ export default class CoinGeckoApi {
         sparkline: false,
         developer_data: false,
         x_cg_pro_api_key: this.apiKey,
-        ...options,
+        ...options
       }
 
       const { data } = (await this.httpClient.get(
         `/coins/${coinId}`,
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
 
       return data
@@ -59,17 +59,17 @@ export default class CoinGeckoApi {
 
   async fetchErc20TokenCoinId(
     tokenAddress: string,
-    options: Record<string, any> | undefined = {},
+    options: Record<string, any> | undefined = {}
   ) {
     try {
       const actualParams = {
         x_cg_pro_api_key: this.apiKey,
-        ...options,
+        ...options
       }
 
       const { data } = (await this.httpClient.get(
         `/coins/ethereum/contract/${tokenAddress}`,
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
 
       return data?.id
@@ -84,7 +84,7 @@ export default class CoinGeckoApi {
 
   async fetchPrice(
     coinId: string,
-    options: Record<string, any> | undefined = {},
+    options: Record<string, any> | undefined = {}
   ) {
     try {
       const actualParams = {
@@ -94,12 +94,12 @@ export default class CoinGeckoApi {
         sparkline: false,
         developer_data: false,
         x_cg_pro_api_key: this.apiKey,
-        ...options,
+        ...options
       }
 
       const { data } = (await this.httpClient.get(
         `/coins/${coinId}`,
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
 
       return data?.market_data?.current_price
@@ -114,7 +114,7 @@ export default class CoinGeckoApi {
 
   async fetchUsdPrice(
     coinId: string,
-    options: Record<string, any> | undefined = {},
+    options: Record<string, any> | undefined = {}
   ) {
     try {
       const actualParams = {
@@ -124,12 +124,12 @@ export default class CoinGeckoApi {
         sparkline: false,
         developer_data: false,
         x_cg_pro_api_key: this.apiKey,
-        ...options,
+        ...options
       }
 
       const { data } = (await this.httpClient.get(
         `/coins/${coinId}`,
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
 
       return data?.market_data?.current_price?.usd
@@ -147,12 +147,12 @@ export default class CoinGeckoApi {
       const actualParams = {
         include_platform: false,
         x_cg_pro_api_key: this.apiKey,
-        ...params,
+        ...params
       }
 
       return (await this.httpClient.get(
         '/coins/list',
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoCoin[]>
     } catch (e: unknown) {
       if (e instanceof HttpRequestException) {
@@ -167,12 +167,12 @@ export default class CoinGeckoApi {
     try {
       const actualParams = {
         ...params,
-        x_cg_pro_api_key: this.apiKey,
+        x_cg_pro_api_key: this.apiKey
       }
 
       const { data } = (await this.httpClient.get(
         `/coins/${id}/market_chart/range`,
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoMarketChartResponse>
 
       return data
@@ -189,12 +189,12 @@ export default class CoinGeckoApi {
     try {
       const actualParams = {
         ...params,
-        x_cg_pro_api_key: this.apiKey,
+        x_cg_pro_api_key: this.apiKey
       }
 
       const { data } = (await this.httpClient.get(
         `/coins/${id}/history`,
-        actualParams,
+        actualParams
       )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
 
       return data

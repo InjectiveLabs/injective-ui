@@ -4,6 +4,7 @@ export * from './trade'
 export * from './shared'
 export * from './market'
 export * from './bridge'
+export * from './coinGecko'
 export * from './validator'
 
 export interface PasteEvent<T extends EventTarget> extends ClipboardEvent {

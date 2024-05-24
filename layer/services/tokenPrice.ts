@@ -4,14 +4,32 @@ import {
   BigNumberInBase,
   splitArrayToChunks
 } from '@injectivelabs/utils'
-import { CoinGeckoApi } from './assetPrice'
-import { Network } from '@injectivelabs/networks'
-import { getAssetMicroserviceEndpoint } from '../utils/constant'
+import { CoinGeckoApiService } from './CoinGeckoApi'
+import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
+
+const ASSET_PRICE_SERVICE_URL =
+  'https://k8s.mainnet.asset.injective.network/asset-price/v1'
+const TESTNET_ASSET_PRICE_SERVICE_URL =
+  'https://k8s.testnet.asset.injective.network/asset-price/v1'
+const DEVNET_ASSET_PRICE_SERVICE_URL =
+  'https://devnet.asset.injective.dev/asset-price/v1'
 
 const whiteListedCoinGeckoIds: string[] = []
 
+const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
+  if (isTestnet(network)) {
+    return TESTNET_ASSET_PRICE_SERVICE_URL
+  }
+
+  if (isDevnet(network)) {
+    return DEVNET_ASSET_PRICE_SERVICE_URL
+  }
+
+  return ASSET_PRICE_SERVICE_URL
+}
+
 export class TokenPrice {
-  private coinGeckoApi: CoinGeckoApi | undefined
+  private coinGeckoApi: CoinGeckoApiService | undefined
   private restClient: HttpRestClient
 
   constructor(
@@ -21,7 +39,7 @@ export class TokenPrice {
       apiKey: string
     }
   ) {
-    this.coinGeckoApi = new CoinGeckoApi(coinGeckoOptions)
+    this.coinGeckoApi = new CoinGeckoApiService(coinGeckoOptions)
     this.restClient = new HttpRestClient(getAssetMicroserviceEndpoint(network))
   }
 
