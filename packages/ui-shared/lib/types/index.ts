@@ -9,6 +9,7 @@ export interface KeydownEvent<T extends EventTarget> extends KeyboardEvent {
 export interface BaseDropdownOption {
   display: string
   value: string
+  amount?: number | string
 }
 
 export * from './notification'
