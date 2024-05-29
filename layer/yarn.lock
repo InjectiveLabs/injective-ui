@@ -9540,6 +9540,15 @@ nuxi@^3.11.1:
   optionalDependencies:
     fsevents "~2.3.3"
 
+nuxt-lcp-speedup@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/nuxt-lcp-speedup/-/nuxt-lcp-speedup-0.5.2.tgz#cefd2e41c55067c184aa4c438adff78e048b054f"
+  integrity sha512-e7WSyKAN6aM4EKUh+gTV4ARDY5gIAoumv0gHkpQZY3ArGEg9cXXskOF2f7zCsE5IUNCCI6Ik3r5xhwDEG/Wcsg==
+  dependencies:
+    "@nuxt/kit" "^3.11.2"
+    defu "^6.1.4"
+    knitwork "^1.1.0"
+
 nuxt@^3.11.2:
   version "3.11.2"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.11.2.tgz#38e14b96ff5669b1fbae7fc99e8d79042dce658d"
