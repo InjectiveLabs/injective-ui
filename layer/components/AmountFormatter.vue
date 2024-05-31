@@ -1,12 +1,15 @@
 <script lang="ts" setup>
-import { BigNumberInBase } from '@injectivelabs/utils';
 import { computed } from 'vue'
-import { useSharedBigNumberFormatter } from '~/composables/useSharedBigNumberFormatted';
 
 const props = defineProps({
   amount: {
     type: String,
     required: true
+  },
+
+  maxTrailingZeros: {
+    type: Number,
+    default: 1
   },
 
   decimalPlaces: {
@@ -20,17 +23,21 @@ const props = defineProps({
   }
 })
 
+const maxTrailingZeros = computed(() => {
+  return `0.${'0'.repeat(props.maxTrailingZeros)}`
+})
 
-const { valueToBigNumber: amountInBigNumber, valueToString: amountToString } = useSharedBigNumberFormatter(
-  computed(() => props.amount),
-  {
-    decimalPlaces: props.decimalPlaces,
-    minimalDecimalPlaces: props.decimalPlaces
-  }
-)
+const { valueToBigNumber: amountInBigNumber, valueToString: amountToString } =
+  useSharedBigNumberFormatter(
+    computed(() => props.amount),
+    {
+      decimalPlaces: props.decimalPlaces,
+      minimalDecimalPlaces: props.decimalPlaces
+    }
+  )
 
 const condensedZeroCount = computed(() => {
-  if (!props.amount.startsWith('0.0')) {
+  if (!props.amount.startsWith(maxTrailingZeros.value)) {
     return 0
   }
 
@@ -48,10 +55,7 @@ const condensedZeroCount = computed(() => {
 })
 
 const dustAmount = computed(() => {
-  return props.amount.replace(
-    `0.${'0'.repeat(condensedZeroCount.value)}`,
-    ''
-  )
+  return props.amount.replace(`0.${'0'.repeat(condensedZeroCount.value)}`, '')
 })
 
 const slicedDustAmount = computed(() => {
@@ -79,6 +83,7 @@ const displayDecimals = computed(() => {
       condensedZeroCount
     }"
   >
+    <pre>{{ dustAmount }}</pre>
     <span
       v-if="
         amountInBigNumber.eq(0) ||
@@ -91,7 +96,7 @@ const displayDecimals = computed(() => {
 
     <span v-else>
       <span class="flex items-center">
-        0.0
+        {{ maxTrailingZeros }}
         <sub>
           {{ condensedZeroCount }}
         </sub>
