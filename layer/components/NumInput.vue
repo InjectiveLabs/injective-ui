@@ -38,7 +38,7 @@ const hardCodedIMaskOptions = {
     num: {
       mask: Number,
       radix: '.',
-      mapToRadix: ['.', ',']
+      mapToRadix: ['.']
     }
   }
 }
