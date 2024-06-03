@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask'
 import type { FactoryOpts } from 'imask'
+import { BigNumberInBase } from '@injectivelabs/utils'
 
 const props = defineProps({
   isAutofix: Boolean,
@@ -70,6 +71,19 @@ const { typed, el } = useIMask(
   }
 )
 
+function onPaste(e: ClipboardEvent) {
+  if (!e.clipboardData) {
+    return
+  }
+
+  e.preventDefault()
+
+  const text = e.clipboardData.getData('text/plain').replaceAll(',', '')
+  const value = new BigNumberInBase(text).toFixed(props.maxDecimals)
+
+  typed.value = value
+}
+
 watch(
   () => props.modelValue,
   async (value) => {
@@ -80,5 +94,11 @@ watch(
 </script>
 
 <template>
-  <input ref="el" type="text" class="input-base" v-bind="$attrs" />
+  <input
+    ref="el"
+    type="text"
+    class="input-base"
+    v-bind="$attrs"
+    @paste="onPaste"
+  />
 </template>
