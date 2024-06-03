@@ -78,11 +78,10 @@ function onPaste(e: ClipboardEvent) {
 
   e.preventDefault()
 
-  const text = e.clipboardData.getData('text/plain')
+  const text = e.clipboardData.getData('text/plain').replaceAll(',', '')
   const value = new BigNumberInBase(text).toFixed(props.maxDecimals)
 
   typed.value = value
-  emit('update:modelValue', value)
 }
 
 watch(
