@@ -26,7 +26,7 @@ import {
   IndexerGrpcInsuranceFundApi,
   IndexerRestMarketChronosApi,
   IndexerGrpcAccountPortfolioApi,
-  IndexerRestDerivativesChronosApi,
+  IndexerRestDerivativesChronosApi
 } from '@injectivelabs/sdk-ts'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
