@@ -18,7 +18,7 @@ export function useStringField({
 
   return useField<string>(
     name,
-    validation.value,
+    validation,
     initialValue
       ? {
           initialValue
@@ -44,7 +44,7 @@ export function useNumberField({
 
   return useField<number>(
     name,
-    validation.value,
+    validation,
     initialValue
       ? {
           initialValue
@@ -68,7 +68,7 @@ export function useBooleanField({
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
   )
 
-  return useField<boolean>(name, validation.value, {
+  return useField<boolean>(name, validation, {
     initialValue: initialValue || false
   })
 }
