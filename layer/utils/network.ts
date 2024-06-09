@@ -168,11 +168,11 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
 const getTestNetworkExplorerUrl = (network: Network): string => {
   switch (network) {
     case Network.Ethereum:
-      return 'https://goerli.etherscan.io'
+      return 'https://sepolia.etherscan.io'
     case Network.EthereumWh:
-      return 'https://goerli.etherscan.io'
+      return 'https://sepolia.etherscan.io'
     case Network.Arbitrum:
-      return 'https://goerli.arbiscan.io'
+      return 'https://sepolia.arbiscan.io'
     case Network.Polygon:
       return 'https://mumbai.polygonscan.com'
     case Network.Solana:
