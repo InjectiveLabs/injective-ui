@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import JSConfetti from 'js-confetti'
 
-const canvas = ref<HTMLCanvasElement | undefined>(null)
+const canvas = ref<HTMLCanvasElement | undefined>()
 const confetti = ref<JSConfetti>()
 
 onMounted(() => {
