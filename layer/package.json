@@ -8,20 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@bangjelkoski/ens-validation": "^0.1.1",
-    "@injectivelabs/nuxt-bugsnag": "0.0.3",
-    "@injectivelabs/ts-types": "1.14.11-beta.3",
-    "@injectivelabs/utils": "1.14.11-beta.10",
-    "@injectivelabs/networks": "1.14.11-beta.13",
-    "@injectivelabs/sdk-ts": "1.14.11-beta.87",
-    "@injectivelabs/sdk-ui-ts": "1.14.11-beta.112",
-    "@injectivelabs/token-metadata": "1.14.11-beta.62",
-    "@injectivelabs/wallet-ts": "1.14.11-beta.101",
-    "@vueuse/integrations": "^10.7.1",
-    "floating-vue": "2.0.0-beta.24",
-    "vue-gtag": "^2.0.1",
-    "vue-hotjar": "^1.4.0",
-    "vue-imask": "^7.5.0"
+    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
     "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",

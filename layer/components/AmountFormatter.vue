@@ -83,7 +83,6 @@ const displayDecimals = computed(() => {
       condensedZeroCount
     }"
   >
-    <pre>{{ dustAmount }}</pre>
     <span
       v-if="
         amountInBigNumber.eq(0) ||
