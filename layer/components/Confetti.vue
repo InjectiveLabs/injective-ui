@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import JSConfetti from 'js-confetti'
 
-const canvas = ref(null)
-const confetti = ref(null)
+const canvas = ref<HTMLCanvasElement | undefined>(null)
+const confetti = ref<JSConfetti>()
 
 onMounted(() => {
   confetti.value = new JSConfetti({
     canvas: canvas.value
   })
 
-  confetti.value.addConfetti()
+  if (confetti.value) {
+    confetti.value.addConfetti()
+  }
 })
 </script>
 
