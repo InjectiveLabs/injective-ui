@@ -1,5 +1,4 @@
 import {
-  DenomClient,
   ChainGrpcGovApi,
   ChainGrpcIbcApi,
   ChainGrpcMintApi,
@@ -98,8 +97,6 @@ export const spotCacheApi = new SpotCacheApi(ENDPOINTS.cacheRest)
 export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.cacheRest)
 export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cacheRest)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
-
-export const denomClient = new DenomClient(NETWORK)
 
 export const pythService = new PythService()
 
