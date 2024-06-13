@@ -1,4 +1,4 @@
-import { TokenStatic, TokenType } from '@injectivelabs/token-metadata'
+import { TokenStatic, TokenType } from '@injectivelabs/sdk-ts'
 import {
   canonicalChannelIds,
   canonicalChannelsToChainList

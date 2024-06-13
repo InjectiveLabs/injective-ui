@@ -2,7 +2,7 @@ import {
   TokenType,
   TokenStatic,
   TokenVerification
-} from '@injectivelabs/token-metadata'
+} from '@injectivelabs/sdk-ts'
 import {
   INJ_DENOM,
   INJ_LOGO_URL,

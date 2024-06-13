@@ -1,4 +1,3 @@
-import { TokenPrice, TokenService } from '@injectivelabs/sdk-ui-ts'
 import {
   DenomClient,
   ChainGrpcGovApi,
@@ -29,10 +28,8 @@ import {
   IndexerRestDerivativesChronosApi
 } from '@injectivelabs/sdk-ts'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
-import { TokenMetaUtilsFactory } from '@injectivelabs/token-metadata'
 import {
   NETWORK,
-  CHAIN_ID,
   ENDPOINTS,
   IS_MAINNET,
   ALCHEMY_KEY,
@@ -40,7 +37,6 @@ import {
   MITO_API_ENDPOINT,
   ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
-import { alchemyRpcEndpoint } from './wallet/alchemy'
 import { InjNameService } from './services/nameService'
 import { InjBonfidaNameService } from './services/bonfida'
 import { SpotCacheApi } from './providers/cacheApi/spot'
@@ -107,18 +103,6 @@ export const denomClient = new DenomClient(NETWORK)
 
 export const pythService = new PythService()
 
-export const tokenService = new TokenService({
-  chainId: CHAIN_ID,
-  network: NETWORK,
-  alchemyRpcUrl: alchemyRpcEndpoint
-})
-export const tokenPrice = new TokenPrice(NETWORK, {
-  apiKey: COINGECKO_KEY as string,
-  baseUrl: COINGECKO_KEY
-    ? 'https://pro-api.coingecko.com/api/v3'
-    : 'https://api.coingecko.com/api/v3'
-})
-
 export const tokenPriceService = new TokenPriceService(NETWORK, {
   apiKey: COINGECKO_KEY as string,
   baseUrl: COINGECKO_KEY
@@ -138,8 +122,6 @@ export const injNameService = new InjNameService(NETWORK)
 export const injBonfidaNameService = new InjBonfidaNameService(NETWORK)
 
 export const sharedTokenClient = new SharedTokenClient()
-
-export const tokenMetaUtils = TokenMetaUtilsFactory.make(NETWORK)
 
 export const alchemyClient = IS_MAINNET
   ? new Alchemy({

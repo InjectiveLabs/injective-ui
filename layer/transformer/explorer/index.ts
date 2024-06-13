@@ -1,5 +1,8 @@
-import { CW20BalanceExplorerApiResponse } from '@injectivelabs/sdk-ts'
-import { TokenType, TokenVerification } from '@injectivelabs/token-metadata'
+import {
+  TokenType,
+  TokenVerification,
+  CW20BalanceExplorerApiResponse
+} from '@injectivelabs/sdk-ts'
 import { unknownToken } from '../../data/token'
 import { SharedBalanceWithToken } from '../../types'
 

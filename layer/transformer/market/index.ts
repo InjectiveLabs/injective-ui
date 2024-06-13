@@ -1,10 +1,11 @@
 import {
+  TokenType,
   SpotMarket,
+  TokenStatic,
   PerpetualMarket,
   BinaryOptionsMarket,
   ExpiryFuturesMarket
 } from '@injectivelabs/sdk-ts'
-import { TokenType, TokenStatic } from '@injectivelabs/token-metadata'
 import {
   sharedToBalanceInWei,
   sharedGetTensMultiplier,

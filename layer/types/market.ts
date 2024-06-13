@@ -1,11 +1,11 @@
 import {
   SpotMarket,
+  TokenStatic,
   PerpetualMarket,
   ExpiryFuturesMarket,
   BinaryOptionsMarket,
   AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
-import { TokenStatic } from '@injectivelabs/token-metadata'
 import { SharedMarketType, SharedMarketChange } from './enum'
 
 export interface SharedUiSpotMarket

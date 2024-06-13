@@ -1,12 +1,10 @@
 import {
+  Metadata,
   TokenType,
   TokenStatic,
-  TokenVerification
-} from '@injectivelabs/token-metadata'
-import {
-  Metadata,
   ContractInfo,
   InsuranceFund,
+  TokenVerification,
   isCw20ContractAddress,
   ContractStateWithPagination
 } from '@injectivelabs/sdk-ts'
