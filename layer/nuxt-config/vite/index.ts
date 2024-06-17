@@ -60,13 +60,13 @@ export default defineConfig({
       'floating-vue',
       'canvas-confetti',
       'lightweight-charts',
-      '@cosmostation',
       '@cosmjs/stargate',
       '@cosmjs/launchpad',
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
       '@injectivelabs/grpc-web',
       '@injectivelabs/wallet-ts',
+      '@cosmostation/extension-client',
       '@vueuse/integrations/useQRCode'
     ],
     exclude: ['fsevents']
