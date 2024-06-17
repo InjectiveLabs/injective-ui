@@ -60,6 +60,7 @@ export default defineConfig({
       'floating-vue',
       'canvas-confetti',
       'lightweight-charts',
+      '@cosmjs/launchpad',
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
       '@injectivelabs/grpc-web',
