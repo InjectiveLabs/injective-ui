@@ -58,6 +58,7 @@ export default defineConfig({
       'js-confetti',
       'date-fns-tz',
       'floating-vue',
+      'eventemitter3',
       'canvas-confetti',
       'lightweight-charts',
       '@cosmjs/stargate',
