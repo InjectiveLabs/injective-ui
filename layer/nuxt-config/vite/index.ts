@@ -62,6 +62,7 @@ export default defineConfig({
       'lightweight-charts',
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
+      '@injectivelabs/grpc-web',
       '@injectivelabs/wallet-ts',
       '@vueuse/integrations/useQRCode'
     ],
