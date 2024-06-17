@@ -5,8 +5,7 @@
   "main": "./nuxt.config.ts",
   "license": "Apache-2.0",
   "scripts": {
-    "lint": "eslint .",
-    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts"
+    "lint": "eslint ."
   },
   "dependencies": {
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
