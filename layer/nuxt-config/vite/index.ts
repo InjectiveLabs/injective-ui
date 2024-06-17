@@ -52,6 +52,7 @@ export default defineConfig({
     include: [
       'date-fns',
       'vue-imask',
+      'vue-hotjar',
       'apexcharts',
       'lottie-web',
       'js-confetti',
@@ -59,6 +60,7 @@ export default defineConfig({
       'floating-vue',
       'canvas-confetti',
       'lightweight-charts',
+      '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
       '@injectivelabs/wallet-ts',
       '@vueuse/integrations/useQRCode'
