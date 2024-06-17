@@ -58,16 +58,11 @@ export default defineConfig({
       'js-confetti',
       'date-fns-tz',
       'floating-vue',
-      'eventemitter3',
       'canvas-confetti',
       'lightweight-charts',
-      '@cosmjs/stargate',
-      '@cosmjs/launchpad',
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
-      '@injectivelabs/grpc-web',
       '@injectivelabs/wallet-ts',
-      '@cosmostation/extension-client',
       '@vueuse/integrations/useQRCode'
     ],
     exclude: ['fsevents']
