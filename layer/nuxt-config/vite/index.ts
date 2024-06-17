@@ -60,6 +60,7 @@ export default defineConfig({
       'floating-vue',
       'canvas-confetti',
       'lightweight-charts',
+      '@cosmostation',
       '@cosmjs/stargate',
       '@cosmjs/launchpad',
       '@injectivelabs/utils',
