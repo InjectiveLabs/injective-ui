@@ -7,12 +7,20 @@ import { Wallet } from '@injectivelabs/wallet-ts'
 import { walletStrategy } from './wallet-strategy'
 
 export const connect = ({
-  wallet
+  wallet,
+  options
 }: {
   wallet: Wallet
+  options?: {
+    privateKey?: string
+  }
   // onAccountChangeCallback?: (account: string) => void,
 }) => {
   walletStrategy.setWallet(wallet)
+
+  if (wallet === Wallet.PrivateKey && options?.privateKey) {
+    walletStrategy.setOptions({ privateKey: options.privateKey })
+  }
 }
 
 export const getAddresses = async (): Promise<string[]> => {
