@@ -476,8 +476,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const [address] = addresses
       const session = await walletStrategy.getSessionOrConfirm(address)
 
-      console.log({ session })
-
       walletStore.$patch({
         address,
         addresses,
