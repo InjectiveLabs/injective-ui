@@ -15,14 +15,14 @@ export const getHubUrl = (): string => {
 
 export const getMitoUrl = (): string => {
   if (IS_DEVNET) {
-    return 'https://devnet.mito.fi/'
+    return 'https://devnet.mito.fi'
   }
 
   if (IS_TESTNET) {
-    return 'https://testnet.mito.fi/'
+    return 'https://testnet.mito.fi'
   }
 
-  return 'https://mito.fi/'
+  return 'https://mito.fi'
 }
 
 export const getExchangeUrl = (): string => {
@@ -52,6 +52,10 @@ export const getExplorerUrl = (): string => {
 export const getBridgeUrl = (): string => {
   if (IS_DEVNET) {
     return 'https://devnet.bridge.injective.dev'
+  }
+
+  if (IS_TESTNET) {
+    return 'https://testnet.bridge.injective.network'
   }
 
   return 'https://bridge.injective.network'
