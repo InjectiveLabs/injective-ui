@@ -16,6 +16,7 @@ export enum Network {
   Ethereum = 'ethereum',
   EthereumWh = 'ethereumWh',
   Evmos = 'evmos',
+  Fetch = 'fetch',
   Injective = 'injective',
   Juno = 'juno',
   Osmosis = 'osmosis',
