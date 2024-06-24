@@ -1,12 +1,9 @@
 import {
-  getEthereumAddress,
-  getInjectiveAddress,
-  getDefaultSubaccountId,
-  msgsOrMsgExecMsgs,
-  PrivateKey,
-  getGenericAuthorizationFromMessageType,
   MsgGrant,
-  Msgs
+  PrivateKey,
+  getEthereumAddress,
+  getDefaultSubaccountId,
+  getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
 import { Wallet } from '@injectivelabs/wallet-ts'
 import { GrantDirection, AutoSign, EventBus } from '../../types'
@@ -35,17 +32,6 @@ export const connectAutoSign = async (msgsType: string[]) => {
 
   const { privateKey } = PrivateKey.generate()
   const injectiveAddress = privateKey.toBech32()
-
-  // const tradingMessages = [
-  //   MsgType.MsgCancelSpotOrder,
-  //   MsgType.MsgCreateSpotLimitOrder,
-  //   MsgType.MsgCancelDerivativeOrder,
-  //   MsgType.MsgCreateSpotMarketOrder,
-  //   MsgType.MsgBatchCancelSpotOrders,
-  //   MsgType.MsgCreateDerivativeLimitOrder,
-  //   MsgType.MsgCreateDerivativeMarketOrder,
-  //   MsgType.MsgBatchCancelDerivativeOrders
-  // ]
 
   const nowInSeconds = Math.floor(Date.now() / 1000)
   const expirationInSeconds = 60 * 60 // 1 hour
