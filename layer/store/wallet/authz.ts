@@ -59,8 +59,6 @@ export const connectAutoSign = async (msgsType: string[]) => {
     })
   )
 
-  console.log('here')
-
   await walletStore.broadcastWithFeeDelegation(authZMsgs)
 
   const autoSign = {
@@ -69,8 +67,6 @@ export const connectAutoSign = async (msgsType: string[]) => {
     expiration: nowInSeconds + expirationInSeconds,
     duration: expirationInSeconds
   }
-
-  console.log('autosign')
 
   walletStore.$patch({
     autoSign

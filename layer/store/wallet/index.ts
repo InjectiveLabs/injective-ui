@@ -130,19 +130,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const isUserWalletConnected =
         hasAddresses && addressConnectedAndConfirmed && !!state.injectiveAddress
 
-      console.log({
-        addressConnectedAndConfirmed,
-        isUserWalletConnected,
-        authZAddress: state.authZ.address,
-        authZInjectiveAddress: state.authZ.injectiveAddress
-      })
-
-      console.log(
-        'isTrue',
-        isUserWalletConnected &&
-          !!state.authZ.address &&
-          !!state.authZ.injectiveAddress
-      )
       return (
         isUserWalletConnected &&
         !!state.authZ.address &&
@@ -182,7 +169,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       if (walletStore.autoSign) {
-        console.log(' auto sign')
         return
       }
 
@@ -308,22 +294,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     ) {
       const walletStore = useSharedWalletStore()
 
-      console.log('set wallet:', wallet)
-
       walletStrategy.disconnect()
       walletStrategy.setWallet(wallet)
-
-      console.log({
-        walletStrategy
-      })
 
       if (options?.privateKey) {
         walletStrategy.setOptions({ privateKey: options.privateKey })
       }
 
       if (!options?.isAutoSign) {
-        console.log('setting wallet store wallet')
-
         walletStore.$patch({
           walletConnectStatus: WalletConnectStatus.connecting,
           wallet
@@ -715,21 +693,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           msgs,
           walletStore.autoSign.injectiveAddress
         )
-
-        console.log('auto sign', actualMessage)
       } else if (walletStore.isAuthzWalletConnected) {
         actualMessage = msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress)
-
-        console.log('authz', actualMessage)
       } else {
         actualMessage = msgs
-        console.log('no authz or autosign', { actualMessage })
       }
-
-      console.log({
-        isAutosign: !!walletStore.autoSign,
-        walletStrategy
-      })
 
       const broadcastOptions = {
         msgs: actualMessage,
