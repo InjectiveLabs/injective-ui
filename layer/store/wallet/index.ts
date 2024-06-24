@@ -32,9 +32,13 @@ import { walletStrategy } from './../../wallet/wallet-strategy'
 import { isBitGetInstalled, validateBitGet } from './../../wallet/bitget'
 import { validatePhantom, isPhantomInstalled } from './../../wallet/phantom'
 import { validateMetamask, isMetamaskInstalled } from './../../wallet/metamask'
-import { EventBus, GrantDirection, WalletConnectStatus } from './../../types'
-import { AutoSign } from '@/types/wallet'
-import { msgBroadcaster } from '@/WalletService'
+import { msgBroadcaster } from '../../WalletService'
+import {
+  AutoSign,
+  EventBus,
+  GrantDirection,
+  WalletConnectStatus
+} from './../../types'
 import {
   resetAuthZ,
   connectAuthZ,
@@ -226,10 +230,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStrategy.setWallet(walletStore.wallet)
 
       if (walletStore.autoSign && walletStore.autoSign?.privateKey) {
-        walletStrategy.disconnect()
-        walletStrategy.setWallet(Wallet.PrivateKey)
-        walletStrategy.setOptions({
-          privateKey: walletStore.autoSign?.privateKey
+        walletStore.connectWallet(Wallet.PrivateKey, {
+          privateKey: walletStore.autoSign?.privateKey,
+          isAutoSign: true
         })
       }
     },
