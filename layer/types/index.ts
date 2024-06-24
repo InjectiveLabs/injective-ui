@@ -4,6 +4,7 @@ export * from './trade'
 export * from './shared'
 export * from './market'
 export * from './bridge'
+export * from './wallet'
 export * from './coinGecko'
 export * from './validator'
 

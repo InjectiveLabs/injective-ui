@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
 
   imports: {
-    dirs: ['composables/**', 'store/**']
+    dirs: ['composables/**', 'store/**', 'store/**/index.ts']
   },
 
   ignore: isProduction ? ['pages/sandbox.vue'] : [],
