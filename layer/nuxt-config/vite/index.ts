@@ -67,7 +67,8 @@ export default defineConfig({
       '@injectivelabs/grpc-web',
       '@cosmjs',
       '@cosmjs/launchpad',
-      '@cosmjs/stargate'
+      '@cosmjs/stargate',
+      '@cosmostation/extension-client'
     ],
     exclude: ['fsevents']
   }
