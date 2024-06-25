@@ -63,12 +63,14 @@ export default defineConfig({
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
       '@injectivelabs/wallet-ts',
-      '@vueuse/integrations/useQRCode'
-      // '@injectivelabs/grpc-web',
-      // '@cosmjs',
-      // '@cosmjs/launchpad',
-      // '@cosmjs/stargate',
-      // '@cosmostation/extension-client/index'
+      '@vueuse/integrations/useQRCode',
+      '@injectivelabs/grpc-web',
+      '@cosmjs',
+      '@cosmjs/launchpad',
+      '@cosmjs/stargate',
+      '@cosmostation/extension-client',
+      '@cosmostation/extension-client/error',
+      '@cosmostation/extension-client/index'
     ],
     exclude: ['fsevents']
   }
