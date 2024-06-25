@@ -64,7 +64,9 @@ export default defineConfig({
       '@injectivelabs/sdk-ts',
       '@injectivelabs/wallet-ts',
       '@vueuse/integrations/useQRCode',
-      '@injectivelabs/grpc-web'
+      '@injectivelabs/grpc-web',
+      '@cosmjs',
+      '@cosmjs/launchpad'
     ],
     exclude: ['fsevents']
   }
