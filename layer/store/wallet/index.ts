@@ -732,7 +732,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }) {
       const walletStore = useSharedWalletStore()
 
-      await walletStore.broadcastMessages(messages, memo, true)
+      return await walletStore.broadcastMessages(messages, memo, true)
     },
 
     async logout() {
