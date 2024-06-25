@@ -1,32 +1,51 @@
 import { defineStore } from 'pinia'
 import {
+  Msgs,
+  msgsOrMsgExecMsgs,
   getEthereumAddress,
   getInjectiveAddress,
   getDefaultSubaccountId
 } from '@injectivelabs/sdk-ts'
+import { GeneralException } from '@injectivelabs/exceptions'
+import { StatusType } from '@injectivelabs/utils'
 import {
   Wallet,
   isEthWallet,
   isCosmosWallet,
   isCosmosBrowserWallet
 } from '@injectivelabs/wallet-ts'
-import { StatusType } from '@injectivelabs/utils'
 import {
   validateCosmosWallet,
   confirmCorrectKeplrAddress
-} from './../wallet/cosmos'
+} from './../../wallet/cosmos'
+import {
+  validateOkxWallet,
+  isOkxWalletInstalled
+} from './../../wallet/okx-wallet'
 import {
   validateTrustWallet,
   isTrustWalletInstalled
-} from './../wallet/trust-wallet'
-import { IS_DEVNET } from './../utils/constant'
-import { getAddresses } from './../wallet/wallet'
-import { walletStrategy } from './../wallet/wallet-strategy'
-import { isBitGetInstalled, validateBitGet } from './../wallet/bitget'
-import { validatePhantom, isPhantomInstalled } from './../wallet/phantom'
-import { validateMetamask, isMetamaskInstalled } from './../wallet/metamask'
-import { validateOkxWallet, isOkxWalletInstalled } from './../wallet/okx-wallet'
-import { EventBus, WalletConnectStatus } from './../types'
+} from './../../wallet/trust-wallet'
+import { IS_DEVNET } from './../../utils/constant'
+import { getAddresses } from './../../wallet/wallet'
+import { walletStrategy } from './../../wallet/wallet-strategy'
+import { isBitGetInstalled, validateBitGet } from './../../wallet/bitget'
+import { validatePhantom, isPhantomInstalled } from './../../wallet/phantom'
+import { validateMetamask, isMetamaskInstalled } from './../../wallet/metamask'
+import { msgBroadcaster } from '../../WalletService'
+import {
+  AutoSign,
+  EventBus,
+  GrantDirection,
+  WalletConnectStatus
+} from './../../types'
+import {
+  resetAuthZ,
+  connectAuthZ,
+  connectAutoSign,
+  validateAutoSign,
+  disconnectAutoSign
+} from './authz'
 
 type WalletStoreState = {
   walletConnectStatus: WalletConnectStatus
@@ -43,6 +62,15 @@ type WalletStoreState = {
   trustWalletInstalled: boolean
   wallet: Wallet
   queueStatus: StatusType
+
+  authZ: {
+    address: string
+    direction: GrantDirection
+    injectiveAddress: string
+    defaultSubaccountId: string
+  }
+
+  autoSign?: AutoSign
 }
 
 const initialStateFactory = (): WalletStoreState => ({
@@ -59,7 +87,16 @@ const initialStateFactory = (): WalletStoreState => ({
   metamaskInstalled: false,
   okxWalletInstalled: false,
   trustWalletInstalled: false,
-  queueStatus: StatusType.Idle
+  queueStatus: StatusType.Idle,
+
+  authZ: {
+    address: '',
+    direction: GrantDirection.Grantee,
+    injectiveAddress: '',
+    defaultSubaccountId: ''
+  },
+
+  autoSign: undefined
 })
 
 export const useSharedWalletStore = defineStore('sharedWallet', {
@@ -88,11 +125,56 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       return getDefaultSubaccountId(state.injectiveAddress)
+    },
+
+    isAuthzWalletConnected: (state) => {
+      const addressConnectedAndConfirmed =
+        !!state.address && !!state.addressConfirmation
+      const hasAddresses = state.addresses.length > 0
+      const isUserWalletConnected =
+        hasAddresses && addressConnectedAndConfirmed && !!state.injectiveAddress
+
+      return (
+        isUserWalletConnected &&
+        !!state.authZ.address &&
+        !!state.authZ.injectiveAddress
+      )
+    },
+
+    authZOrInjectiveAddress: (state) => {
+      return state.authZ.injectiveAddress || state.injectiveAddress
+    },
+
+    authZOrDefaultSubaccountId: (state) => {
+      return (
+        state.authZ.defaultSubaccountId ||
+        (state.injectiveAddress &&
+          getDefaultSubaccountId(state.injectiveAddress)) ||
+        ''
+      )
+    },
+
+    authZOrAddress: (state) => {
+      return state.authZ.address || state.address
+    },
+
+    isAutoSignEnabled: (state) => {
+      return !!state.autoSign?.injectiveAddress && !!state.autoSign?.privateKey
     }
   },
   actions: {
+    resetAuthZ,
+    connectAuthZ,
+    connectAutoSign,
+    validateAutoSign,
+    disconnectAutoSign,
+
     async validate() {
       const walletStore = useSharedWalletStore()
+
+      if (walletStore.autoSign) {
+        return
+      }
 
       if (walletStore.wallet === Wallet.Metamask) {
         await validateMetamask(walletStore.address)
@@ -146,6 +228,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStrategy.setWallet(walletStore.wallet)
+
+      if (walletStore.autoSign && walletStore.autoSign?.privateKey) {
+        walletStore.connectWallet(Wallet.PrivateKey, {
+          privateKey: walletStore.autoSign?.privateKey,
+          isAutoSign: true
+        })
+      }
     },
 
     onConnect() {
@@ -159,6 +248,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       useEventBus(EventBus.WalletConnected).emit()
+      useEventBus(EventBus.SubaccountChange).emit()
     },
 
     async checkIsMetamaskInstalled() {
@@ -201,16 +291,25 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
     },
 
-    async connectWallet(wallet: Wallet) {
+    async connectWallet(
+      wallet: Wallet,
+      options?: { privateKey: string; isAutoSign: boolean }
+    ) {
       const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        walletConnectStatus: WalletConnectStatus.connecting,
-        wallet
-      })
 
       walletStrategy.disconnect()
       walletStrategy.setWallet(wallet)
+
+      if (options?.privateKey) {
+        walletStrategy.setOptions({ privateKey: options.privateKey })
+      }
+
+      if (!options?.isAutoSign) {
+        walletStore.$patch({
+          walletConnectStatus: WalletConnectStatus.connecting,
+          wallet
+        })
+      }
     },
 
     async getHWAddresses(wallet: Wallet) {
@@ -565,6 +664,68 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       await walletStore.onConnect()
+    },
+
+    async broadcastMessages(
+      messages: Msgs | Msgs[],
+      memo?: string,
+      isFeeDelegated: boolean = false
+    ) {
+      const walletStore = useSharedWalletStore()
+      const msgs = Array.isArray(messages) ? messages : [messages]
+
+      if (!walletStore.isUserConnected) {
+        return
+      }
+
+      let actualMessage
+
+      if (walletStore.autoSign && walletStore.isAuthzWalletConnected) {
+        // error becase we don't support authz + auto-sign
+        throw new GeneralException(
+          new Error('Authz and auto-sign cannot be used together')
+        )
+
+        // TODO: uncomment this when we support authz + auto-sign
+        // actualMessage = msgsOrMsgExecMsgs(
+        //   msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress),
+        //   walletStore.autoSign.injectiveAddress
+        // )
+      } else if (walletStore.autoSign && !walletStore.isAuthzWalletConnected) {
+        actualMessage = msgsOrMsgExecMsgs(
+          msgs,
+          walletStore.autoSign.injectiveAddress
+        )
+      } else if (walletStore.isAuthzWalletConnected) {
+        actualMessage = msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress)
+      } else {
+        actualMessage = msgs
+      }
+
+      const broadcastOptions = {
+        msgs: actualMessage,
+        injectiveAddress: walletStore.autoSign
+          ? walletStore.autoSign.injectiveAddress
+          : walletStore.injectiveAddress,
+        memo
+      }
+
+      if (isFeeDelegated) {
+        const response = await msgBroadcaster.broadcastWithFeeDelegation(
+          broadcastOptions
+        )
+
+        return response
+      }
+
+      const response = await msgBroadcaster.broadcast(broadcastOptions)
+
+      return response
+    },
+
+    async broadcastWithFeeDelegation(messages: Msgs | Msgs[], memo?: string) {
+      const walletStore = useSharedWalletStore()
+      return await walletStore.broadcastMessages(messages, memo, true)
     },
 
     async logout() {

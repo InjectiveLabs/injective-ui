@@ -8,7 +8,8 @@ export enum NotificationType {
 }
 
 export enum EventBus {
-  WalletConnected = 'wallet-connected'
+  WalletConnected = 'wallet-connected',
+  SubaccountChange = 'subaccount-change'
 }
 
 export enum WalletConnectStatus {
@@ -38,4 +39,9 @@ export enum SharedMarketType {
   Perpetual = 'Perpetual',
   Futures = 'Futures',
   BinaryOptions = 'BinaryOptions'
+}
+
+export enum GrantDirection {
+  Grantee = 'grantee',
+  Granter = 'granter'
 }
