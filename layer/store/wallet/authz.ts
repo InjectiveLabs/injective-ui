@@ -6,6 +6,7 @@ import {
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
 import { Wallet } from '@injectivelabs/wallet-ts'
+import { msgBroadcaster } from './../../WalletService'
 import { GrantDirection, AutoSign, EventBus } from '../../types'
 import { useSharedWalletStore } from '.'
 
@@ -45,7 +46,7 @@ export const connectAutoSign = async (msgsType: string[]) => {
     })
   )
 
-  await walletStore.broadcastWithFeeDelegation(authZMsgs)
+  await walletStore.broadcastWithFeeDelegation({ messages: authZMsgs })
 
   const autoSign = {
     injectiveAddress,
@@ -92,8 +93,8 @@ export const validateAutoSign = async (msgsType: string[]) => {
   await walletStore.connectWallet(walletStore.wallet)
 
   await walletStore.broadcastWithFeeDelegation({
-    msgs: authZMsgs,
-    injectiveAddress: walletStore.injectiveAddress
+    messages: authZMsgs,
+    memo: walletStore.injectiveAddress
   })
 
   walletStore.$patch((state) => {

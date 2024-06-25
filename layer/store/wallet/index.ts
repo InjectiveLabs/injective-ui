@@ -723,9 +723,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return response
     },
 
-    async broadcastWithFeeDelegation(messages: Msgs | Msgs[], memo?: string) {
+    async broadcastWithFeeDelegation({
+      messages,
+      memo
+    }: {
+      messages: Msgs | Msgs[]
+      memo?: string
+    }) {
       const walletStore = useSharedWalletStore()
-      return await walletStore.broadcastMessages(messages, memo, true)
+
+      await walletStore.broadcastMessages(messages, memo, true)
     },
 
     async logout() {
