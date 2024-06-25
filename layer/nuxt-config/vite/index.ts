@@ -62,12 +62,13 @@ export default defineConfig({
       'lightweight-charts',
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
-      '@vueuse/integrations/useQRCode',
-      '@injectivelabs/grpc-web',
-      '@cosmjs',
-      '@cosmjs/launchpad',
-      '@cosmjs/stargate',
-      '@cosmostation/extension-client/index'
+      '@injectivelabs/wallet-ts',
+      '@vueuse/integrations/useQRCode'
+      // '@injectivelabs/grpc-web',
+      // '@cosmjs',
+      // '@cosmjs/launchpad',
+      // '@cosmjs/stargate',
+      // '@cosmostation/extension-client/index'
     ],
     exclude: ['fsevents']
   }
