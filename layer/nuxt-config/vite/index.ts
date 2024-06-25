@@ -65,9 +65,9 @@ export default defineConfig({
       '@injectivelabs/wallet-ts',
       '@vueuse/integrations/useQRCode',
       '@injectivelabs/grpc-web',
-      '@cosmjs',
       '@cosmjs/launchpad',
       '@cosmjs/stargate',
+      '@cosmostation/extension-client',
       '@cosmostation/extension-client/error',
       'eventemitter3'
     ],
