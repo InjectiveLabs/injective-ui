@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia'
 import {
   Msgs,
+  MsgGrant,
+  PrivateKey,
   msgsOrMsgExecMsgs,
   getEthereumAddress,
   getInjectiveAddress,
-  getDefaultSubaccountId
+  getDefaultSubaccountId,
+  getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { StatusType } from '@injectivelabs/utils'
@@ -17,35 +20,25 @@ import {
 import {
   validateCosmosWallet,
   confirmCorrectKeplrAddress
-} from './../../wallet/cosmos'
-import {
-  validateOkxWallet,
-  isOkxWalletInstalled
-} from './../../wallet/okx-wallet'
+} from '../wallet/cosmos'
+import { validateOkxWallet, isOkxWalletInstalled } from '../wallet/okx-wallet'
 import {
   validateTrustWallet,
   isTrustWalletInstalled
-} from './../../wallet/trust-wallet'
-import { IS_DEVNET } from './../../utils/constant'
-import { getAddresses } from './../../wallet/wallet'
-import { walletStrategy } from './../../wallet/wallet-strategy'
-import { isBitGetInstalled, validateBitGet } from './../../wallet/bitget'
-import { validatePhantom, isPhantomInstalled } from './../../wallet/phantom'
-import { validateMetamask, isMetamaskInstalled } from './../../wallet/metamask'
-import { msgBroadcaster } from '../../WalletService'
+} from '../wallet/trust-wallet'
+import { IS_DEVNET } from '../utils/constant'
+import { getAddresses } from '../wallet/wallet'
+import { walletStrategy } from '../wallet/wallet-strategy'
+import { isBitGetInstalled, validateBitGet } from '../wallet/bitget'
+import { validatePhantom, isPhantomInstalled } from '../wallet/phantom'
+import { validateMetamask, isMetamaskInstalled } from '../wallet/metamask'
+import { msgBroadcaster } from '../WalletService'
 import {
   AutoSign,
   EventBus,
   GrantDirection,
   WalletConnectStatus
-} from './../../types'
-import {
-  resetAuthZ,
-  connectAuthZ,
-  connectAutoSign,
-  validateAutoSign,
-  disconnectAutoSign
-} from './authz'
+} from '../types'
 
 type WalletStoreState = {
   walletConnectStatus: WalletConnectStatus
@@ -163,12 +156,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
-    resetAuthZ,
-    connectAuthZ,
-    connectAutoSign,
-    validateAutoSign,
-    disconnectAutoSign,
-
     async validate() {
       const walletStore = useSharedWalletStore()
 
@@ -735,6 +722,131 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const response = await walletStore.broadcastMessages(messages, memo, true)
 
       return response
+    },
+
+    connectAuthZ(
+      injectiveAddress: string,
+      direction: GrantDirection = GrantDirection.Granter
+    ) {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        authZ: {
+          direction,
+          injectiveAddress,
+          address: getEthereumAddress(injectiveAddress),
+          defaultSubaccountId: getDefaultSubaccountId(injectiveAddress)
+        }
+      })
+
+      walletStore.onConnect()
+    },
+
+    async connectAutoSign(msgsType: string[]) {
+      const walletStore = useSharedWalletStore()
+
+      const { privateKey } = PrivateKey.generate()
+      const injectiveAddress = privateKey.toBech32()
+
+      const nowInSeconds = Math.floor(Date.now() / 1000)
+      const expirationInSeconds = 60 * 60 // 1 hour
+
+      const authZMsgs = msgsType.map((messageType) =>
+        MsgGrant.fromJSON({
+          grantee: injectiveAddress,
+          granter: walletStore.injectiveAddress,
+          expiration: nowInSeconds + expirationInSeconds,
+          authorization: getGenericAuthorizationFromMessageType(messageType)
+        })
+      )
+
+      await walletStore.broadcastWithFeeDelegation({ messages: authZMsgs })
+
+      const autoSign = {
+        injectiveAddress,
+        privateKey: privateKey.toPrivateKeyHex(),
+        expiration: nowInSeconds + expirationInSeconds,
+        duration: expirationInSeconds
+      }
+
+      walletStore.$patch({
+        autoSign
+      })
+
+      await walletStore.connectWallet(Wallet.PrivateKey, {
+        privateKey: autoSign.privateKey,
+        isAutoSign: true
+      })
+    },
+
+    async validateAutoSign(msgsType: string[]) {
+      const walletStore = useSharedWalletStore()
+
+      if (!walletStore.isAutoSignEnabled) {
+        return
+      }
+
+      const autoSign = walletStore.autoSign as AutoSign
+      const nowInSeconds = Math.floor(Date.now() / 1000)
+
+      if (autoSign.expiration > nowInSeconds) {
+        return
+      }
+
+      const expirationInSeconds = autoSign.duration || 3600
+
+      const authZMsgs = msgsType.map((messageType) =>
+        MsgGrant.fromJSON({
+          grantee: autoSign.injectiveAddress,
+          granter: walletStore.injectiveAddress,
+          expiration: nowInSeconds + expirationInSeconds,
+          authorization: getGenericAuthorizationFromMessageType(messageType)
+        })
+      )
+
+      await walletStore.connectWallet(walletStore.wallet)
+
+      await walletStore.broadcastWithFeeDelegation({
+        messages: authZMsgs
+      })
+
+      walletStore.$patch((state) => {
+        state.autoSign = {
+          ...autoSign,
+          expiration: expirationInSeconds
+        }
+      })
+
+      await walletStore.connectWallet(Wallet.PrivateKey, {
+        privateKey: autoSign.privateKey,
+        isAutoSign: true
+      })
+    },
+
+    resetAuthZ() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        authZ: {
+          address: '',
+          defaultSubaccountId: '',
+          direction: GrantDirection.Granter,
+          injectiveAddress: ''
+        }
+      })
+
+      walletStore.onConnect()
+    },
+
+    async disconnectAutoSign() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        autoSign: undefined
+      })
+
+      await walletStore.connectWallet(walletStore.wallet)
+      await walletStore.onConnect()
     },
 
     async logout() {
