@@ -68,7 +68,7 @@ export default defineConfig({
       '@cosmjs',
       '@cosmjs/launchpad',
       '@cosmjs/stargate',
-      '@cosmostation/extension-client'
+      '@cosmostation/extension-client/index'
     ],
     exclude: ['fsevents']
   }
