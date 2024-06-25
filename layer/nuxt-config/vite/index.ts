@@ -63,7 +63,8 @@ export default defineConfig({
       '@injectivelabs/utils',
       '@injectivelabs/sdk-ts',
       '@injectivelabs/wallet-ts',
-      '@vueuse/integrations/useQRCode'
+      '@vueuse/integrations/useQRCode',
+      '@injectivelabs/grpc-web'
     ],
     exclude: ['fsevents']
   }
