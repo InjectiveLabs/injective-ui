@@ -93,8 +93,7 @@ export const validateAutoSign = async (msgsType: string[]) => {
   await walletStore.connectWallet(walletStore.wallet)
 
   await walletStore.broadcastWithFeeDelegation({
-    messages: authZMsgs,
-    memo: walletStore.injectiveAddress
+    messages: authZMsgs
   })
 
   walletStore.$patch((state) => {
