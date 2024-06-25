@@ -66,7 +66,8 @@ export default defineConfig({
       '@vueuse/integrations/useQRCode',
       '@injectivelabs/grpc-web',
       '@cosmjs',
-      '@cosmjs/launchpad'
+      '@cosmjs/launchpad',
+      'cosmjs/stargate'
     ],
     exclude: ['fsevents']
   }
