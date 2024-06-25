@@ -4,8 +4,28 @@ import { ViteConfig } from '@nuxt/schema'
 import { createResolver } from '@nuxt/kit'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
 
+const isLocalLayer = process.env.LOCAL_LAYER === 'true'
+const isProduction = process.env.NODE_ENV === 'production'
+
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
 const { resolve } = createResolver(import.meta.url)
+
+// deps affecting local build against github source
+const additionalDeps = [
+  'bs58',
+  'bn.js',
+  'eventemitter3',
+  '@solana/web3.js',
+  '@cosmjs/stargate',
+  '@cosmjs/launchpad',
+  '@solana/buffer-layout',
+  '@injectivelabs/grpc-web',
+  'jayson/lib/client/browser',
+  '@cosmostation/extension-client',
+  'jayson/lib/client/browser/index',
+  '@cosmostation/extension-client/error',
+  '@cosmostation/extension-client/index'
+]
 
 export default defineConfig({
   plugins: [tsconfigPaths(), nodePolyfills({ protocolImports: true })],
@@ -49,22 +69,25 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: [
-      'date-fns',
-      'vue-imask',
-      'vue-hotjar',
-      'apexcharts',
-      'lottie-web',
-      'js-confetti',
-      'date-fns-tz',
-      'floating-vue',
-      'canvas-confetti',
-      'lightweight-charts',
-      '@injectivelabs/utils',
-      '@injectivelabs/sdk-ts',
-      '@injectivelabs/wallet-ts',
-      '@vueuse/integrations/useQRCode'
-    ],
+    include: isProduction
+      ? []
+      : [
+          'date-fns',
+          'vue-imask',
+          'vue-hotjar',
+          'apexcharts',
+          'lottie-web',
+          'js-confetti',
+          'date-fns-tz',
+          'floating-vue',
+          'canvas-confetti',
+          'lightweight-charts',
+          '@injectivelabs/utils',
+          '@injectivelabs/sdk-ts',
+          '@injectivelabs/wallet-ts',
+          '@vueuse/integrations/useQRCode',
+          ...(isLocalLayer ? [] : additionalDeps)
+        ],
     exclude: ['fsevents']
   }
 }) as ViteConfig
