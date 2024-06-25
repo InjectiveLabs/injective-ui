@@ -67,6 +67,7 @@ export default defineConfig({
       '@injectivelabs/grpc-web',
       '@cosmjs/launchpad',
       '@cosmjs/stargate',
+      'bn.js',
       '@cosmostation/extension-client',
       '@cosmostation/extension-client/error',
       '@cosmostation/extension-client/index',
