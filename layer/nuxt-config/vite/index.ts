@@ -71,7 +71,8 @@ export default defineConfig({
       '@cosmostation/extension-client',
       '@cosmostation/extension-client/error',
       '@cosmostation/extension-client/index',
-      'eventemitter3'
+      'eventemitter3',
+      'jayson/lib/client/browser'
     ],
     exclude: ['fsevents']
   }
