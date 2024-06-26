@@ -559,6 +559,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(Wallet.WalletConnect)
 
       const addresses = await getAddresses()
+
+      console.log({ addresses })
+
       const [address] = addresses
       const session = await walletStrategy.getSessionOrConfirm(address)
 
