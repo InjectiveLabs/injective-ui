@@ -284,8 +284,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     ) {
       const walletStore = useSharedWalletStore()
 
-      walletStrategy.disconnect()
-      walletStrategy.setWallet(wallet)
+      await walletStrategy.disconnect()
+      await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
         walletStrategy.setOptions({ privateKey: options.privateKey })
