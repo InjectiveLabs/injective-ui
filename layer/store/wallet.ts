@@ -214,7 +214,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async init() {
       const walletStore = useSharedWalletStore()
 
-      walletStrategy.setWallet(walletStore.wallet)
+      await walletStrategy.setWallet(walletStore.wallet)
 
       if (walletStore.autoSign && walletStore.autoSign?.privateKey) {
         walletStore.connectWallet(Wallet.PrivateKey, {
