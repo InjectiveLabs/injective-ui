@@ -162,6 +162,8 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
       return 'https://ping.wildsage.io/andromeda'
     case Network.Saga:
       return 'https://www.mintscan.io/saga'
+    case Network.Fetch:
+      return 'https://www.mintscan.io/fetchai'
     case Network.Injective:
       return 'https://explorer.injective.network'
     default:
