@@ -4,7 +4,6 @@ import {
   CosmosWalletException
 } from '@injectivelabs/exceptions'
 import { PublicKey } from '@injectivelabs/sdk-ts'
-import { CosmosChainId } from '@injectivelabs/ts-types'
 import { CosmosWalletStrategy, Wallet } from '@injectivelabs/wallet-ts'
 import { KeplrWallet } from '@injectivelabs/wallet-ts/dist/esm/utils/wallets/keplr'
 import { CHAIN_ID } from './../utils/constant'
@@ -40,7 +39,7 @@ export const validateCosmosWallet = async ({
   wallet: Wallet
   address: string
 }) => {
-  const chainId = CHAIN_ID as unknown as CosmosChainId
+  const chainId = CHAIN_ID as unknown as any
 
   const cosmosWalletStrategy = new CosmosWalletStrategy({
     wallet,

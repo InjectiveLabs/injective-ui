@@ -77,13 +77,17 @@ export class SharedTokenClient {
       }
     }
 
+    const path = data.trace
+      .map((trace) => `transfer/${trace.channelId}`)
+      .join('/')
+
     const token = {
       ...unknownToken,
       hash,
       denom,
-      path: data.path,
-      baseDenom: data.baseDenom,
-      channelId: data.path.split('/').pop() as string
+      path,
+      baseDenom: data.base,
+      channelId: data.trace[0].channelId
     }
 
     this.cachedTokens[denom.toLowerCase()] = token
