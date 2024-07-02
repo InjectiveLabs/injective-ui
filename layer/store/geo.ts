@@ -7,7 +7,7 @@ import {
   PROXY_DETECTION_API_KEY
 } from './../utils/constant'
 
-type AppStoreState = {
+type GeoStoreState = {
   geoContinent: string
   geoCountry: string
   ipAddress: string
@@ -16,7 +16,7 @@ type AppStoreState = {
   vpnCheckedTimestamp: number
 }
 
-const initialStateFactory = (): AppStoreState => ({
+const initialStateFactory = (): GeoStoreState => ({
   vpnDetected: false,
   geoContinent: '',
   geoCountry: '',
@@ -25,14 +25,14 @@ const initialStateFactory = (): AppStoreState => ({
   vpnCheckedTimestamp: 0
 })
 
-export const useSharedAppStore = defineStore('sharedApp', {
-  state: (): AppStoreState => initialStateFactory(),
+export const useSharedGeoStore = defineStore('sharedGeo', {
+  state: (): GeoStoreState => initialStateFactory(),
   getters: {
     country: (state) => state.browserCountry || state.geoCountry
   },
   actions: {
     async fetchGeoLocation() {
-      const sharedAppStore = useSharedAppStore()
+      const sharedGeoStore = useSharedGeoStore()
 
       const httpClient = new HttpClient('https://geoip.injective.dev/')
 
@@ -44,7 +44,7 @@ export const useSharedAppStore = defineStore('sharedApp', {
           }
         }
 
-        sharedAppStore.$patch({
+        sharedGeoStore.$patch({
           geoContinent: data.continent,
           geoCountry: data.country
         })
@@ -54,14 +54,14 @@ export const useSharedAppStore = defineStore('sharedApp', {
     },
 
     async fetchIpAddress() {
-      const sharedAppStore = useSharedAppStore()
+      const sharedGeoStore = useSharedGeoStore()
 
       try {
         const httpClient = new HttpClient('https://www.myexternalip.com/json')
 
         const { data } = (await httpClient.get('')) as any
 
-        sharedAppStore.$patch({
+        sharedGeoStore.$patch({
           ipAddress: data.ip
         })
       } catch (e: unknown) {
@@ -72,17 +72,17 @@ export const useSharedAppStore = defineStore('sharedApp', {
     },
 
     async fetchVPNStatus() {
-      const sharedAppStore = useSharedAppStore()
+      const sharedGeoStore = useSharedGeoStore()
 
-      if (!sharedAppStore.ipAddress) {
-        await sharedAppStore.fetchIpAddress()
+      if (!sharedGeoStore.ipAddress) {
+        await sharedGeoStore.fetchIpAddress()
       }
 
       const httpClient = new HttpClient('https://vpnapi.io/', { timeout: 1000 })
 
       try {
         const response = (await httpClient.get(
-          `api/${sharedAppStore.ipAddress}`,
+          `api/${sharedGeoStore.ipAddress}`,
           {
             key: PROXY_DETECTION_API_KEY
           }
@@ -101,7 +101,7 @@ export const useSharedAppStore = defineStore('sharedApp', {
         }
 
         if (!response.data) {
-          sharedAppStore.$patch({
+          sharedGeoStore.$patch({
             vpnDetected: false
           })
 
@@ -113,18 +113,18 @@ export const useSharedAppStore = defineStore('sharedApp', {
         const vpnDetected =
           security.proxy || security.vpn || security.tor || security.relay
 
-        sharedAppStore.$patch({
+        sharedGeoStore.$patch({
           vpnDetected
         })
       } catch (e: unknown) {
-        sharedAppStore.$patch({
+        sharedGeoStore.$patch({
           vpnDetected: false
         })
       }
     },
 
     async fetchUserCountryFromBrowser() {
-      const sharedAppStore = useSharedAppStore()
+      const sharedGeoStore = useSharedGeoStore()
 
       const position = (await new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject)
@@ -166,7 +166,7 @@ export const useSharedAppStore = defineStore('sharedApp', {
           component.types.includes('country')
         )
 
-        sharedAppStore.$patch({
+        sharedGeoStore.$patch({
           browserCountry: country?.short_name || ''
         })
       } catch (e: unknown) {
@@ -175,30 +175,30 @@ export const useSharedAppStore = defineStore('sharedApp', {
     },
 
     async fetchUserLocation() {
-      const sharedAppStore = useSharedAppStore()
+      const sharedGeoStore = useSharedGeoStore()
 
-      await sharedAppStore.fetchGeoLocation()
+      await sharedGeoStore.fetchGeoLocation()
 
       if (VPN_CHECKS_ENABLED) {
         const todayInSeconds = Math.floor(Date.now() / 1000)
 
-        await sharedAppStore.fetchVPNStatus()
+        await sharedGeoStore.fetchVPNStatus()
 
-        if (!sharedAppStore.vpnDetected) {
+        if (!sharedGeoStore.vpnDetected) {
           return
         }
 
         const shouldCheckVpnOrProxyUsage = SECONDS_IN_A_DAY.times(7)
-          .plus(sharedAppStore.vpnCheckedTimestamp)
+          .plus(sharedGeoStore.vpnCheckedTimestamp)
           .lte(todayInSeconds)
 
         if (!shouldCheckVpnOrProxyUsage) {
           return
         }
 
-        await sharedAppStore.fetchUserCountryFromBrowser()
+        await sharedGeoStore.fetchUserCountryFromBrowser()
 
-        sharedAppStore.$patch({
+        sharedGeoStore.$patch({
           vpnCheckedTimestamp: todayInSeconds
         })
       }
