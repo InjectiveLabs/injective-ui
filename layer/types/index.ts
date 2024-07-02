@@ -16,3 +16,10 @@ export interface PasteEvent<T extends EventTarget> extends ClipboardEvent {
 export interface KeydownEvent<T extends EventTarget> extends KeyboardEvent {
   target: T
 }
+
+export interface GeoLocation {
+  continent: string
+  country: string
+  browserCountry: string
+  vpnCheckTimestamp: number
+}

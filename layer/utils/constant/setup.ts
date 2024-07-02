@@ -129,10 +129,26 @@ export const AMPLITUDE_KEY_PROD = import.meta.env
   .VITE_AMPLITUDE_KEY_PROD as string
 export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
+export const PROXY_DETECTION_API_KEY =
+  import.meta.env.VITE_PROXY_DETECTION_API_KEY || ''
 export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
 export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
+export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
+
+export const VPN_CHECKS_ENABLED: boolean =
+  import.meta.env.VITE_VPN_CHECKS_ENABLED === 'true'
+export const GEO_IP_RESTRICTIONS_ENABLED: boolean =
+  import.meta.env.VITE_GEO_IP_RESTRICTIONS_ENABLED === 'true'
 
 export const CW20_ADAPTER_CONTRACT = getCw20AdapterContractForNetwork(NETWORK)
 export const APP_NAME = env.VITE_NAME
 export const APP_BASE_URL = env.VITE_BASE_URL
 export const WALLET_CONNECT_PROJECT_ID = env.VITE_WALLET_CONNECT_PROJECT_ID
+
+if (VPN_CHECKS_ENABLED && !GOOGLE_MAPS_KEY) {
+  throw new Error('GOOGLE_MAPS_KEY is required when VPN_CHECKS_ENABLED')
+}
+
+if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
+  throw new Error('PROXY_DETECTION_API_KEY is required when VPN_CHECKS_ENABLED')
+}
