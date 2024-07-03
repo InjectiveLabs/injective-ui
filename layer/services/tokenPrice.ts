@@ -26,7 +26,7 @@ const ASSET_PRICE_SERVICE_URL =
 const TESTNET_ASSET_PRICE_SERVICE_URL =
   'https://k8s.testnet.asset.injective.network/asset-price/v1'
 const DEVNET_ASSET_PRICE_SERVICE_URL =
-  'https://devnet.asset.injective.dev/asset-price/v1'
+  'https://devnet.api.injective.dev/asset-price/v1'
 
 const whiteListedCoinGeckoIds: string[] = []
 
