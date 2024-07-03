@@ -6,6 +6,7 @@ import {
   VPN_CHECKS_ENABLED,
   PROXY_DETECTION_API_KEY
 } from './../utils/constant'
+import { EventBus } from './../types/'
 
 type GeoStoreState = {
   geoContinent: string
@@ -147,7 +148,7 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       const googleMapsHttpClient = new HttpClient(
         'https://maps.googleapis.com/maps/api/geocode/'
       )
-      const GOOGLE_MAPS_SUFFIX = `json?latlng=${position.coords.longitude},${position.coords.latitude}&sensor=false&key=${GOOGLE_MAPS_KEY}`
+      const GOOGLE_MAPS_SUFFIX = `json?latlng=${position.coords.latitude},${position.coords.longitude}&sensor=false&key=${GOOGLE_MAPS_KEY}`
 
       try {
         const response = (await googleMapsHttpClient.get(
@@ -174,34 +175,59 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       }
     },
 
-    async fetchUserLocation() {
+    async showVpnToast(docLink?: string) {
+      const sharedNotificationStore = useSharedNotificationStore()
+
+      sharedNotificationStore.info({
+        title: 'VPN or proxy detected',
+        description:
+          'Please make sure that you have allowed location access in your browser and system settings.',
+        timeout: 10 * 1000,
+        ...(docLink
+          ? {
+              actions: [
+                {
+                  key: docLink,
+                  label: 'Learn More',
+                  callback: () => window.open(docLink, '_blank')
+                }
+              ]
+            }
+          : {})
+      })
+    },
+
+    async fetchUserLocation(docLink?: string) {
       const sharedGeoStore = useSharedGeoStore()
 
       await sharedGeoStore.fetchGeoLocation()
 
-      if (VPN_CHECKS_ENABLED) {
-        const todayInSeconds = Math.floor(Date.now() / 1000)
-
-        await sharedGeoStore.fetchVPNStatus()
-
-        if (!sharedGeoStore.vpnDetected) {
-          return
-        }
-
-        const shouldCheckVpnOrProxyUsage = SECONDS_IN_A_DAY.times(7)
-          .plus(sharedGeoStore.vpnCheckedTimestamp)
-          .lte(todayInSeconds)
-
-        if (!shouldCheckVpnOrProxyUsage) {
-          return
-        }
-
-        await sharedGeoStore.fetchUserCountryFromBrowser()
-
-        sharedGeoStore.$patch({
-          vpnCheckedTimestamp: todayInSeconds
-        })
+      if (!VPN_CHECKS_ENABLED) {
+        return
       }
+
+      const todayInSeconds = Math.floor(Date.now() / 1000)
+
+      await sharedGeoStore.fetchVPNStatus()
+
+      if (!sharedGeoStore.vpnDetected) {
+        return
+      }
+
+      const shouldCheckVpnOrProxyUsage = SECONDS_IN_A_DAY.times(7)
+        .plus(sharedGeoStore.vpnCheckedTimestamp)
+        .lte(todayInSeconds)
+
+      if (!shouldCheckVpnOrProxyUsage) {
+        return
+      }
+
+      sharedGeoStore.showVpnToast(docLink)
+      await sharedGeoStore.fetchUserCountryFromBrowser()
+
+      sharedGeoStore.$patch({
+        vpnCheckedTimestamp: todayInSeconds
+      })
     }
   }
 })
