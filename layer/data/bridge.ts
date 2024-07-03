@@ -188,7 +188,7 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     aChainId: CosmosChainId[Network.Fetch],
     bChainId: CosmosChainId[Network.Injective],
     aToBChannelId: 'channel-33',
-    aToBClientId: '07-tendermint-81',
+    aToBClientId: '07-tendermint-82',
     bToAChannelId: 'channel-283',
     bToAClientId: '07-tendermint-266',
     port: 'transfer'
