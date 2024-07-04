@@ -89,7 +89,12 @@ const initialStateFactory = (): WalletStoreState => ({
     defaultSubaccountId: ''
   },
 
-  autoSign: undefined
+  autoSign: {
+    privateKey: '',
+    injectiveAddress: '',
+    expiration: 0,
+    duration: 0
+  }
 })
 
 export const useSharedWalletStore = defineStore('sharedWallet', {
@@ -152,14 +157,26 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     isAutoSignEnabled: (state) => {
-      return !!state.autoSign?.injectiveAddress && !!state.autoSign?.privateKey
+      if (!state.autoSign) {
+        return false
+      }
+
+      if (!state.autoSign.injectiveAddress || !state.autoSign.privateKey) {
+        return false
+      }
+
+      if (!state.autoSign.expiration || !state.autoSign.duration) {
+        return false
+      }
+
+      return true
     }
   },
   actions: {
     async validate() {
       const walletStore = useSharedWalletStore()
 
-      if (walletStore.autoSign) {
+      if (walletStore.isAutoSignEnabled) {
         return
       }
 
@@ -216,9 +233,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.setWallet(walletStore.wallet)
 
-      if (walletStore.autoSign && walletStore.autoSign?.privateKey) {
+      if (walletStore.isAutoSignEnabled) {
         walletStore.connectWallet(Wallet.PrivateKey, {
-          privateKey: walletStore.autoSign?.privateKey,
+          privateKey: walletStore.autoSign?.privateKey as string,
           isAutoSign: true
         })
       }
@@ -656,11 +673,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async broadcastMessages(
-      messages: Msgs | Msgs[],
-      memo?: string,
-      isFeeDelegated: boolean = false
-    ) {
+    async prepareBroadcastMessages(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
       const msgs = Array.isArray(messages) ? messages : [messages]
 
@@ -670,8 +683,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       let actualMessage
 
-      if (walletStore.autoSign && walletStore.isAuthzWalletConnected) {
-        // error becase we don't support authz + auto-sign
+      if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
+        // error because we don't support authz + auto-sign
         throw new GeneralException(
           new Error('Authz and auto-sign cannot be used together')
         )
@@ -681,10 +694,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         //   msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress),
         //   walletStore.autoSign.injectiveAddress
         // )
-      } else if (walletStore.autoSign && !walletStore.isAuthzWalletConnected) {
+      } else if (
+        walletStore.isAutoSignEnabled &&
+        !walletStore.isAuthzWalletConnected
+      ) {
         actualMessage = msgsOrMsgExecMsgs(
           msgs,
-          walletStore.autoSign.injectiveAddress
+          walletStore.autoSign?.injectiveAddress
         )
       } else if (walletStore.isAuthzWalletConnected) {
         actualMessage = msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress)
@@ -694,18 +710,24 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const broadcastOptions = {
         msgs: actualMessage,
-        injectiveAddress: walletStore.autoSign
-          ? walletStore.autoSign.injectiveAddress
+        injectiveAddress: walletStore.isAutoSignEnabled
+          ? walletStore.autoSign?.injectiveAddress
           : walletStore.injectiveAddress,
         memo
       }
 
-      if (isFeeDelegated) {
-        const response = await msgBroadcaster.broadcastWithFeeDelegation(
-          broadcastOptions
-        )
+      return broadcastOptions
+    },
 
-        return response
+    async broadcastMessages(messages: Msgs | Msgs[], memo?: string) {
+      const walletStore = useSharedWalletStore()
+      const broadcastOptions = await walletStore.prepareBroadcastMessages(
+        messages,
+        memo
+      )
+
+      if (!broadcastOptions) {
+        return
       }
 
       const response = await msgBroadcaster.broadcast(broadcastOptions)
@@ -722,7 +744,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }) {
       const walletStore = useSharedWalletStore()
 
-      const response = await walletStore.broadcastMessages(messages, memo, true)
+      const broadcastOptions = await walletStore.prepareBroadcastMessages(
+        messages,
+        memo
+      )
+
+      if (!broadcastOptions) {
+        return
+      }
+
+      const response = await msgBroadcaster.broadcastWithFeeDelegation(
+        broadcastOptions
+      )
 
       return response
     },
