@@ -252,7 +252,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       useEventBus(EventBus.WalletConnected).emit()
-      useEventBus(EventBus.SubaccountChange).emit()
     },
 
     async checkIsMetamaskInstalled() {
