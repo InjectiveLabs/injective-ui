@@ -5,6 +5,7 @@ export * from './shared'
 export * from './market'
 export * from './bridge'
 export * from './wallet'
+export * from './explorer'
 export * from './coinGecko'
 export * from './validator'
 

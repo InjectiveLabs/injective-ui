@@ -72,6 +72,9 @@ export default defineConfig({
     include: isProduction
       ? []
       : [
+          'tailwind-merge',
+          'class-variance-authority',
+          'mixpanel-browser',
           'date-fns',
           'vue-imask',
           'vue-hotjar',
