@@ -152,3 +152,12 @@ export const sharedGetTensMultiplier = (number: number | string): number => {
 
   return zerosInTheNumber.length
 }
+
+export const sharedEllipsisFormatText = (text: string, length = 20): string => {
+  return text.length > length
+    ? `${text.slice(0, length)}...${text.slice(
+        text.length - length,
+        text.length
+      )}`
+    : text
+}
