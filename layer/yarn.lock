@@ -1644,10 +1644,10 @@
     "@bugsnag/source-maps" "^2.3.1"
     "@nuxt/kit" "^3.0.0-rc.13"
 
-"@injectivelabs/sdk-ts@1.14.12-dev.6", "@injectivelabs/sdk-ts@1.14.14-beta.5", "@injectivelabs/sdk-ts@^1.14.12-dev.6":
-  version "1.14.12-dev.6"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ts/-/sdk-ts-1.14.12-dev.6.tgz#ec681321717e4fdbe78d9be0cf4b08a8a3307bfc"
-  integrity sha512-Fe6Qp57qHdnDe5dAvoBfAsiTsUGY1lwdJWK+3Xzwb+8oTqcOKgTE+/chMgxLhydPSk4zF4sJ43JYw3c3zXiddQ==
+"@injectivelabs/sdk-ts@1.14.12-dev.7", "@injectivelabs/sdk-ts@1.14.14-beta.5", "@injectivelabs/sdk-ts@^1.14.12-dev.7":
+  version "1.14.12-dev.7"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ts/-/sdk-ts-1.14.12-dev.7.tgz#a9da9d9b4cfff2065775cf11961ce2683a07f244"
+  integrity sha512-JwP1FPiNSrLA42wNEqrxulel505P9EamB105tdXTLYQBhbQ3FLx5s4LhaZhQ1E7+oLrD2opKbQdx1L+xsFCb9A==
   dependencies:
     "@apollo/client" "^3.5.8"
     "@cosmjs/amino" "^0.32.3"
@@ -1720,10 +1720,10 @@
     snakecase-keys "^5.1.2"
     store2 "^2.12.0"
 
-"@injectivelabs/wallet-ts@1.14.12-dev.6", "@injectivelabs/wallet-ts@1.14.14-beta.7":
-  version "1.14.12-dev.6"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-ts/-/wallet-ts-1.14.12-dev.6.tgz#bfce8698afeccbbdc13b4a9a6c38981c93a6c0aa"
-  integrity sha512-s/CrxoxW1RcOappeY9gJxy8CRvBx2Yu3Vo7y+HcnQH9rHf8timLpnOl280a3c81n4rePcYas1qL0WhZt9b3K9w==
+"@injectivelabs/wallet-ts@1.14.12-dev.7", "@injectivelabs/wallet-ts@1.14.14-beta.7":
+  version "1.14.12-dev.7"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-ts/-/wallet-ts-1.14.12-dev.7.tgz#b2a36afb63bb3ff79777f9a59eb4bd145b6a4502"
+  integrity sha512-VT4RL5UHGzghrM5AbTU1Dp31vDCyOuGQy1Ov8fP8jiaGBWl5Pk2RnxTSsjK6GgSJqSSwbDsFZgQ8EB1m7vitww==
   dependencies:
     "@cosmjs/launchpad" "0.27.1"
     "@cosmjs/proto-signing" "0.32.2"
@@ -1733,7 +1733,7 @@
     "@ethereumjs/tx" "^4.1.1"
     "@injectivelabs/exceptions" "^1.14.12-beta.0"
     "@injectivelabs/networks" "^1.14.12-beta.0"
-    "@injectivelabs/sdk-ts" "^1.14.12-dev.6"
+    "@injectivelabs/sdk-ts" "^1.14.12-dev.7"
     "@injectivelabs/ts-types" "^1.14.12-beta.0"
     "@injectivelabs/utils" "^1.14.12-beta.0"
     "@keplr-wallet/cosmos" "^0.12.71"
