@@ -9,7 +9,8 @@ import {
 import {
   sharedToBalanceInWei,
   sharedGetTensMultiplier,
-  sharedGetExactDecimalsFromNumber
+  sharedGetExactDecimalsFromNumber,
+  sharedToBalanceInToken
 } from '../../utils/formatter'
 import { injToken } from '../../data/token'
 import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
@@ -92,7 +93,11 @@ export const toUiSpotMarket = ({
     priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
     priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
     quantityDecimals: sharedGetExactDecimalsFromNumber(minQuantityTickSize),
-    quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize)
+    quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize),
+    minNotionalInToken: sharedToBalanceInToken({
+      value: market.minNotional,
+      decimalPlaces: quoteToken.decimals
+    })
   }
 }
 
@@ -129,7 +134,11 @@ export const toUiDerivativeMarket = ({
       ),
       quantityTensMultiplier: sharedGetTensMultiplier(
         market.minQuantityTickSize
-      )
+      ),
+      minNotionalInToken: sharedToBalanceInToken({
+        value: market.minNotional,
+        decimalPlaces: quoteToken.decimals
+      })
     }
   }
 }
@@ -180,6 +189,10 @@ export const toUiBinaryOptionsMarket = ({
     priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
     priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
     quantityDecimals: sharedGetExactDecimalsFromNumber(minQuantityTickSize),
-    quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize)
+    quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize),
+    minNotionalInToken: sharedToBalanceInToken({
+      value: market.minNotional,
+      decimalPlaces: quoteToken.decimals
+    })
   }
 }

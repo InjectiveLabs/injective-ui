@@ -10,6 +10,8 @@ import {
   UNKNOWN_LOGO_URL
 } from './../utils/constant'
 
+export const stableCoinSymbols = ['USDT', 'USDC', 'USDCet']
+
 export const unknownToken: TokenStatic = {
   address: 'unknown',
   isNative: false,
