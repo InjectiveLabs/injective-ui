@@ -192,7 +192,7 @@ const getTestNetworkExplorerUrl = (network: Network): string => {
     case Network.Axelar:
       return 'https://www.mintscan.io/axelar-testnet'
     case Network.Evmos:
-      return 'https://www.mintscan.io/evmos-testnet'
+      return 'https://www.mintscan.io/evmos'
     case Network.Persistence:
       return 'https://www.mintscan.io/persistence-testnet'
     case Network.Osmosis:
@@ -201,6 +201,8 @@ const getTestNetworkExplorerUrl = (network: Network): string => {
       return 'https://www.mintscan.io/kava-testnet'
     case Network.Noble:
       return 'https://www.mintscan.io/noble-testnet'
+    case Network.EvmosTestnet:
+      return 'https://www.mintscan.io/evmos-testnet'
     default:
       return 'https://mintscan.io/cosmoshub-testnet'
   }
