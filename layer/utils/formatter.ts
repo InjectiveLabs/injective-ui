@@ -165,6 +165,7 @@ export const sharedEllipsisFormatText = (text: string, length = 20): string => {
 
 export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
   return coinString.split(',').map((coin) => {
+    // is used to remove any empty strings that might result from the split operation.
     const [amount, denom] = coin.split(/(\d+)/).filter(Boolean)
 
     return {
