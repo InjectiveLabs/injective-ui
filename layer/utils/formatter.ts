@@ -1,8 +1,9 @@
 import {
   BigNumber,
-  BigNumberInBase,
-  BigNumberInWei
+  BigNumberInWei,
+  BigNumberInBase
 } from '@injectivelabs/utils'
+import { Coin } from '@injectivelabs/sdk-ts'
 import { TimeDuration } from './../types'
 
 export const sharedToBalanceInWei = ({
@@ -160,4 +161,15 @@ export const sharedEllipsisFormatText = (text: string, length = 20): string => {
         text.length
       )}`
     : text
+}
+
+export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
+  return coinString.split(',').map((coin) => {
+    const [amount, denom] = coin.split(/(\d+)/).filter(Boolean)
+
+    return {
+      denom,
+      amount
+    }
+  })
 }
