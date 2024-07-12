@@ -1,4 +1,6 @@
+import { BigNumberInWei } from '@injectivelabs/utils'
 import { spotMarketIdMap, spotDenomMap } from './../data/spot'
+import { SharedUiSpotMarket } from './../types'
 
 export const sharedSpotGetSlugAndTicket = ({
   marketId,
@@ -27,3 +29,14 @@ export const sharedSpotGetSlugAndTicket = ({
 
   return { slug, ticker }
 }
+
+export const formatPriceToSpotMarketPrice = ({
+  price,
+  market
+}: {
+  price: string
+  market: SharedUiSpotMarket
+}) =>
+  new BigNumberInWei(price).toBase(
+    market.quoteToken.decimals - market.baseToken.decimals
+  )
