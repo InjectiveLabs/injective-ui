@@ -1544,10 +1544,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@injectivelabs/core-proto-ts@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/core-proto-ts/-/core-proto-ts-0.0.25.tgz#dbfff318b3c8e7f1731496277c33ac81ec15ee57"
-  integrity sha512-2RB4vJPqK960wO5HWZPdtbIG6005kwzqHLquL+78tNJjiyyvr4mW6UTq9PUz5N1JXrDtzUrCbE8cqVA0OvVZPw==
+"@injectivelabs/core-proto-ts@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/core-proto-ts/-/core-proto-ts-0.0.26.tgz#b986d3c50f983a5fb740d88710f729c373317eee"
+  integrity sha512-s51bQMj8s2G1+EydGnWitfhlnh9/5bExSW0+GrZEhZy22BmXK1AR9SPak20efj2VyzRRv0rj17GG1ck9PNUUGQ==
   dependencies:
     "@injectivelabs/grpc-web" "^0.0.1"
     google-protobuf "^3.14.0"
@@ -1644,17 +1644,17 @@
     "@bugsnag/source-maps" "^2.3.1"
     "@nuxt/kit" "^3.0.0-rc.13"
 
-"@injectivelabs/sdk-ts@1.14.12-dev.8", "@injectivelabs/sdk-ts@1.14.14-beta.5", "@injectivelabs/sdk-ts@^1.14.12-dev.8":
-  version "1.14.12-dev.8"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ts/-/sdk-ts-1.14.12-dev.8.tgz#e112e4b9ac0f4dad6d14dcf04bc2d36c010b11ce"
-  integrity sha512-I8/3xm5IMLpbI+CspFHOHuFfUy+X0dGFURiEMZeBrW9JWWlaFjuvsz+7OhmXZH4IiH5UUiNsCHiayY7F+cSctg==
+"@injectivelabs/sdk-ts@1.14.12-dev.9", "@injectivelabs/sdk-ts@1.14.14-beta.5", "@injectivelabs/sdk-ts@^1.14.12-dev.9":
+  version "1.14.12-dev.9"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ts/-/sdk-ts-1.14.12-dev.9.tgz#7176da9a59e16d33d052ea82e04b7832b7951ce0"
+  integrity sha512-JRsYOtvxG0u2bsMmJxGtfD72KUJdguWMuYreZ8f0IZ8PnXEMj6rZp5WBQguFjqs3DUYOhXZ+RXe4F5A/g2MTXg==
   dependencies:
     "@apollo/client" "^3.5.8"
     "@cosmjs/amino" "^0.32.3"
     "@cosmjs/proto-signing" "^0.32.3"
     "@cosmjs/stargate" "^0.32.3"
     "@ethersproject/bytes" "^5.7.0"
-    "@injectivelabs/core-proto-ts" "^0.0.25"
+    "@injectivelabs/core-proto-ts" "0.0.26"
     "@injectivelabs/dmm-proto-ts" "1.0.20"
     "@injectivelabs/exceptions" "^1.14.13-beta.0"
     "@injectivelabs/grpc-web" "^0.0.1"
@@ -1720,10 +1720,10 @@
     snakecase-keys "^5.1.2"
     store2 "^2.12.0"
 
-"@injectivelabs/wallet-ts@1.14.12-dev.8", "@injectivelabs/wallet-ts@1.14.14-beta.7":
-  version "1.14.12-dev.8"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-ts/-/wallet-ts-1.14.12-dev.8.tgz#fd41b975b2e6f2c82a99dc0486a44ede8270f3a4"
-  integrity sha512-PHwUX81qslp0dYcADvY+3JguZsa8lR5eF4bKDd2YEt1kBgG0NezLJQufauYgOpZ50PzEQuWTK4MQd4dT1Bz3Gw==
+"@injectivelabs/wallet-ts@1.14.12-dev.9", "@injectivelabs/wallet-ts@1.14.14-beta.7":
+  version "1.14.12-dev.9"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-ts/-/wallet-ts-1.14.12-dev.9.tgz#f4a8d1b59c8bde2bd7e9d791649d70c9a9c4a4d0"
+  integrity sha512-NcQe4JkaSGs6M39SodxAiN08pR1189sw2yz7+1PqsvT36XHMzHmEji7PvpJJL1gHtdR3k1ao+jMvL2Iuh7XX9Q==
   dependencies:
     "@cosmjs/launchpad" "0.27.1"
     "@cosmjs/proto-signing" "0.32.2"
@@ -1733,7 +1733,7 @@
     "@ethereumjs/tx" "^4.1.1"
     "@injectivelabs/exceptions" "^1.14.12-beta.0"
     "@injectivelabs/networks" "^1.14.12-beta.0"
-    "@injectivelabs/sdk-ts" "^1.14.12-dev.8"
+    "@injectivelabs/sdk-ts" "^1.14.12-dev.9"
     "@injectivelabs/ts-types" "^1.14.12-beta.0"
     "@injectivelabs/utils" "^1.14.12-beta.0"
     "@keplr-wallet/cosmos" "^0.12.71"
