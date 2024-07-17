@@ -246,8 +246,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.privateKey) {
-        console.log('connecting wallet!')
-
         walletStore.connectWallet(Wallet.PrivateKey, {
           privateKey: walletStore.privateKey,
           isAutoSign: false
