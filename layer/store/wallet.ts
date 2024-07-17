@@ -64,6 +64,7 @@ type WalletStoreState = {
   }
 
   autoSign?: AutoSign
+  privateKey: string
 }
 
 const initialStateFactory = (): WalletStoreState => ({
@@ -94,7 +95,9 @@ const initialStateFactory = (): WalletStoreState => ({
     injectiveAddress: '',
     expiration: 0,
     duration: 0
-  }
+  },
+
+  privateKey: ''
 })
 
 export const useSharedWalletStore = defineStore('sharedWallet', {
@@ -238,6 +241,17 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           privateKey: walletStore.autoSign?.privateKey as string,
           isAutoSign: true
         })
+
+        return
+      }
+
+      if (walletStore.privateKey) {
+        console.log('connecting wallet!')
+
+        walletStore.connectWallet(Wallet.PrivateKey, {
+          privateKey: walletStore.privateKey,
+          isAutoSign: false
+        })
       }
     },
 
@@ -307,7 +321,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStrategy.setOptions({ privateKey: options.privateKey })
       }
 
-      if (!options?.isAutoSign) {
+      if (!options?.isAutoSign && wallet !== Wallet.PrivateKey) {
         walletStore.$patch({
           walletConnectStatus: WalletConnectStatus.connecting,
           wallet
@@ -667,6 +681,33 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
         session
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectPrivateKey(privateKeyHash: string) {
+      const walletStore = useSharedWalletStore()
+
+      const pk = PrivateKey.fromHex(privateKeyHash)
+      const injectiveAddress = pk.toBech32()
+
+      await walletStore.connectWallet(Wallet.PrivateKey, {
+        privateKey: privateKeyHash,
+        isAutoSign: false
+      })
+
+      const address = getEthereumAddress(injectiveAddress)
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        injectiveAddress,
+        addresses: [address],
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        wallet: Wallet.PrivateKey,
+        privateKey: privateKeyHash
       })
 
       await walletStore.onConnect()
