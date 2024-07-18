@@ -13,6 +13,10 @@ export const spotMarketIdMap: Record<string, { slug: string; ticker: string }> =
     '0xa6ec1de114a5ffa85b6b235144383ce51028a1c0c2dee7db5ff8bf14d5ca0d49': {
       slug: 'pythlegacy-usdt',
       ticker: 'PYTHlegacy/USDT'
+    },
+    '0x75f6a79b552dac417df219ab384be19cb13b53dec7cf512d73a965aee8bc83af': {
+      slug: 'usdyet-usdt',
+      ticker: 'USDYet/USDT'
     }
   }
 
