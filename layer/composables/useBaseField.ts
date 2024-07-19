@@ -19,7 +19,7 @@ export function useStringField({
   return useField<string>(
     name,
     validation,
-    initialValue
+    typeof initialValue === 'string'
       ? {
           initialValue
         }
