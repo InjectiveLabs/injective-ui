@@ -108,7 +108,7 @@ export const getNetworkFromAddress = (address: string): Network => {
     case address.startsWith('saga'):
       return Network.Saga
     case address.startsWith('xion'):
-      return Network.Xion
+      return Network.XionTestnet
     default:
       return Network.Injective
   }
@@ -166,8 +166,6 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
       return 'https://www.mintscan.io/saga'
     case Network.Fetch:
       return 'https://www.mintscan.io/fetchai'
-    case Network.Xion:
-      return 'https://testnet.xion.explorers.guru'
     case Network.Injective:
       return 'https://explorer.injective.network'
     default:
@@ -201,6 +199,8 @@ const getTestNetworkExplorerUrl = (network: Network): string => {
       return 'https://www.mintscan.io/persistence-testnet'
     case Network.Osmosis:
       return 'https://www.mintscan.io/osmosis-testnet'
+    case Network.XionTestnet:
+      return 'https://explorer.burnt.com/xion-testnet-1'
     case Network.Kava:
       return 'https://www.mintscan.io/kava-testnet'
     case Network.Noble:
