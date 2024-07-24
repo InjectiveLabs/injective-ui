@@ -48,7 +48,7 @@ export const canonicalChannelsToChainList = [
   { channelId: 'channel-183', chainA: 'Injective', chainB: 'Gateway' },
   { channelId: 'channel-213', chainA: 'Injective', chainB: 'Andromeda' },
   { channelId: 'channel-261', chainA: 'Injective', chainB: 'Saga' },
-  { channelId: 'channel-283', chainA: 'Injective', chainB: 'fetchhub-4' }
+  { channelId: 'channel-283', chainA: 'Injective', chainB: 'fetchhub-4' },
 ]
 
 export const canonicalChannelIds = [
@@ -82,5 +82,5 @@ export const canonicalChannelIds = [
   'channel-183',
   'channel-213',
   'channel-261',
-  'channel-283'
+  'channel-283',
 ]
