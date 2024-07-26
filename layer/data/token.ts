@@ -5,6 +5,7 @@ import {
 } from '@injectivelabs/sdk-ts'
 import {
   INJ_DENOM,
+  IS_TESTNET,
   INJ_LOGO_URL,
   USDT_LOGO_URL,
   UNKNOWN_LOGO_URL
@@ -41,14 +42,18 @@ export const injToken: TokenStatic = {
 }
 
 export const usdtToken: TokenStatic = {
-  address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  address: IS_TESTNET
+    ? '0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5'
+    : '0xdAC17F958D2ee523a2206206994597C13D831ec7',
   isNative: false,
   decimals: 6,
   symbol: 'USDT',
   name: 'Tether',
   logo: USDT_LOGO_URL,
   coinGeckoId: 'tether',
-  denom: 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  denom: IS_TESTNET
+    ? 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5'
+    : 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7',
   tokenType: TokenType.Erc20,
   tokenVerification: TokenVerification.Verified
 }
