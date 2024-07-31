@@ -5,7 +5,6 @@ import {
 } from '@injectivelabs/sdk-ts'
 import { Network } from '@injectivelabs/networks'
 import {
-  NETWORK as EnvNetwork,
   INJ_DENOM,
   IS_TESTNET,
   INJ_LOGO_URL,
@@ -14,6 +13,10 @@ import {
 } from './../utils/constant'
 
 export const stableCoinSymbols = ['USDT', 'USDC', 'USDCet']
+
+//  address: IS_TESTNET
+//     ? '0x5512c04B6FF813f3571bDF64A1d74c98B5257332'
+//     : '0xe28b3b32b6c345a34ff64674606124dd5aceca30',
 
 export const injectivePeggyAddress = {
   [Network.Mainnet]: '0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3',
@@ -79,7 +82,9 @@ export const usdtToken: TokenStatic = {
 }
 
 export const injErc20Token: TokenStatic = {
-  address: injectivePeggyAddress[EnvNetwork],
+  address: IS_TESTNET
+    ? '0x5512c04B6FF813f3571bDF64A1d74c98B5257332'
+    : '0xe28b3b32b6c345a34ff64674606124dd5aceca30',
   isNative: false,
   tokenVerification: TokenVerification.Verified,
   decimals: 18,
@@ -87,7 +92,9 @@ export const injErc20Token: TokenStatic = {
   name: 'Injective',
   logo: 'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/c7b97294-890e-459c-4673-1ca1dea64f00/public',
   coinGeckoId: 'injective-protocol',
-  denom: `peggy${injectivePeggyAddress[EnvNetwork]}`,
+  denom: IS_TESTNET
+    ? 'peggy0x5512c04B6FF813f3571bDF64A1d74c98B5257332'
+    : 'peggy0xe28b3b32b6c345a34ff64674606124dd5aceca30',
   tokenType: TokenType.Erc20,
   externalLogo: 'injective-v3.png'
 }
