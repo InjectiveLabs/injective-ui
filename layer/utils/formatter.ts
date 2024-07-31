@@ -158,9 +158,9 @@ export const sharedGetTensMultiplier = (number: number | string): number => {
 export const sharedEllipsisFormatText = (text: string, length = 20): string => {
   return text.length > length
     ? `${text.slice(0, length)}...${text.slice(
-      text.length - length,
-      text.length
-    )}`
+        text.length - length,
+        text.length
+      )}`
     : text
 }
 
@@ -174,26 +174,4 @@ export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
       amount
     }
   })
-}
-
-
-
-export const sharedGetDuration = ({
-  endDateInMilliseconds,
-  nowInMilliseconds
-}: {
-  endDateInMilliseconds: string
-  nowInMilliseconds: string
-}) => {
-  const end = new BigNumberInBase(endDateInMilliseconds)
-  const now = new BigNumberInBase(nowInMilliseconds)
-
-  const startInMilliseconds = now.isGreaterThan(end) ? end : now
-
-  const duration = intervalToDuration({
-    start: startInMilliseconds.toNumber(),
-    end: end.toNumber()
-  })
-
-  return duration;
 }
