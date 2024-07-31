@@ -87,5 +87,6 @@ export const msgTypeMap = {
   [MsgType.MsgExecuteContract]: 'Execute Contract',
   [MsgType.MsgExecuteContractCompat]: 'Execute Contract',
   // todo: add to injective-ts
-  'injective.exchange.v1beta1.MsgPrivilegedExecuteContract': 'Execute Contract'
+  'injective.exchange.v1beta1.MsgPrivilegedExecuteContract': 'Execute Contract',
+  'cosmos.bank.v1beta1.MsgMultiSend': 'Multi Send'
 }

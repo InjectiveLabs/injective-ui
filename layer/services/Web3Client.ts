@@ -4,8 +4,7 @@ import { Web3Exception } from '@injectivelabs/exceptions'
 import { injToken } from '../data/token'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { getKeyFromRpcUrl, peggyDenomToContractAddress } from './utils'
-import { injErc20Token } from '../data/token'
-import { injectivePeggyAddress } from '../data/web3'
+import { injErc20Token, injectivePeggyAddress } from '../data/token'
 
 /**
  * Preparing and broadcasting
