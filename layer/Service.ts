@@ -46,7 +46,7 @@ import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
 import { PythService } from './services/pythClient'
-import { Web3Client } from './services/web3client'
+import { Web3Client } from './services/Web3Client'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
 
 // Services
