@@ -57,3 +57,21 @@ export const usdtToken: TokenStatic = {
   tokenType: TokenType.Erc20,
   tokenVerification: TokenVerification.Verified
 }
+
+export const injErc20Token: TokenStatic = {
+  address: IS_TESTNET
+    ? '0x5512c04B6FF813f3571bDF64A1d74c98B5257332'
+    : '0xe28b3b32b6c345a34ff64674606124dd5aceca30',
+  isNative: false,
+  tokenVerification: TokenVerification.Verified,
+  decimals: 18,
+  symbol: 'INJ',
+  name: 'Injective',
+  logo: 'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/c7b97294-890e-459c-4673-1ca1dea64f00/public',
+  coinGeckoId: 'injective-protocol',
+  denom: IS_TESTNET
+    ? 'peggy0x5512c04B6FF813f3571bDF64A1d74c98B5257332'
+    : 'peggy0xe28b3b32b6c345a34ff64674606124dd5aceca30',
+  tokenType: TokenType.Erc20,
+  externalLogo: 'injective-v3.png'
+}
