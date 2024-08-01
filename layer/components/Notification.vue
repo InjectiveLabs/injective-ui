@@ -108,7 +108,9 @@ function onResume() {
             >
               <template #default>
                 <slot>
-                  <span class="text-xs text-gray-400 flex items-center ui-notification-context">
+                  <span
+                    class="text-xs text-gray-400 flex items-center ui-notification-context"
+                  >
                     Show more context
                   </span>
                 </slot>

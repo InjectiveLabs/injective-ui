@@ -29,3 +29,5 @@ export const GWEI_IN_WEI: BigNumber = new BigNumber(1000000000)
 export const DEFAULT_GAS_PRICE = new BigNumber(120).times(GWEI_IN_WEI)
 export const DEFAULT_MAINNET_GAS_PRICE = new BigNumber(30).times(GWEI_IN_WEI)
 export const INJ_REQUIRED_FOR_GAS = 0.005
+
+export const UTC_TIMEZONE = 'Etc/Greenwich'

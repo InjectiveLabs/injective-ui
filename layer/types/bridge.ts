@@ -40,5 +40,6 @@ export enum Network {
   CosmosHubTestnet = 'cosmosHub-testnet',
   Andromeda = 'andromeda',
   Saga = 'saga',
-  XionTestnet = 'xion-testnet'
+  XionTestnet = 'xion-testnet',
+  EvmosTestnet = 'evmos-testnet',
 }

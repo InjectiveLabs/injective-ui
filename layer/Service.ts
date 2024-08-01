@@ -46,6 +46,8 @@ import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
 import { PythService } from './services/pythClient'
+import { Web3Client } from './services/Web3Client'
+import { alchemyRpcEndpoint } from './wallet/alchemy'
 
 // Services
 export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)
@@ -129,3 +131,8 @@ export const alchemyClient = IS_MAINNET
       apiKey: ALCHEMY_SEPOLIA_KEY,
       network: AlchemyNetwork.ETH_SEPOLIA
     })
+
+export const web3Client = new Web3Client({
+  network: NETWORK,
+  rpc: alchemyRpcEndpoint
+})

@@ -20,6 +20,7 @@ export interface SharedUiSpotMarket
   type: SharedMarketType
   subType: SharedMarketType
   upcoming?: boolean
+  minNotionalInToken: string
 }
 
 export interface SharedUiDerivativeMarket
@@ -31,6 +32,7 @@ export interface SharedUiDerivativeMarket
   quantityDecimals: number
   priceTensMultiplier: number
   quantityTensMultiplier: number
+  minNotionalInToken: string
   type: SharedMarketType
   subType: SharedMarketType
   upcoming?: boolean
@@ -45,6 +47,7 @@ export interface SharedUiExpiryFuturesMarket
   quantityDecimals: number
   priceTensMultiplier: number
   quantityTensMultiplier: number
+  minNotionalInToken: string
   type: SharedMarketType
   subType: SharedMarketType
   upcoming?: boolean
@@ -59,6 +62,7 @@ export interface SharedUiBinaryOptionsMarket
   quantityDecimals: number
   priceTensMultiplier: number
   quantityTensMultiplier: number
+  minNotionalInToken: string
   type: SharedMarketType
   subType: SharedMarketType
   upcoming?: boolean

@@ -3,6 +3,7 @@ import {
   BigNumberInWei,
   BigNumberInBase
 } from '@injectivelabs/utils'
+import { intervalToDuration } from 'date-fns'
 import { Coin } from '@injectivelabs/sdk-ts'
 import { TimeDuration } from './../types'
 
@@ -165,11 +166,11 @@ export const sharedEllipsisFormatText = (text: string, length = 20): string => {
 
 export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
   return coinString.split(',').map((coin) => {
-    // is used to remove any empty strings that might result from the split operation.
-    const [amount, denom] = coin.split(/(\d+)/).filter(Boolean)
+    // filter(Boolean) is used to remove any empty strings that might result from the split operation.
+    const [amount, ...denom] = coin.split(/(\d+)/).filter(Boolean)
 
     return {
-      denom,
+      denom: denom.join(''),
       amount
     }
   })
