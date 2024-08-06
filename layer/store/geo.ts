@@ -6,7 +6,6 @@ import {
   VPN_CHECKS_ENABLED,
   PROXY_DETECTION_API_KEY
 } from './../utils/constant'
-import { EventBus } from './../types/'
 
 type GeoStoreState = {
   geoContinent: string
@@ -226,12 +225,6 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       sharedGeoStore.$patch({
         vpnCheckedTimestamp: todayInSeconds
       })
-    },
-
-    async fetchUserLocation() {
-      const sharedGeoStore = useSharedGeoStore()
-
-      await sharedGeoStore.fetchGeoLocation()
     }
   }
 })
