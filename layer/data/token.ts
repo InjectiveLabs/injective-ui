@@ -14,10 +14,6 @@ import {
 
 export const stableCoinSymbols = ['USDT', 'USDC', 'USDCet']
 
-//  address: IS_TESTNET
-//     ? '0x5512c04B6FF813f3571bDF64A1d74c98B5257332'
-//     : '0xe28b3b32b6c345a34ff64674606124dd5aceca30',
-
 export const injectivePeggyAddress = {
   [Network.Mainnet]: '0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3',
   [Network.MainnetK8s]: '0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3',
