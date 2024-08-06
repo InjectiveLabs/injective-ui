@@ -197,10 +197,8 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       })
     },
 
-    async fetchUserLocation(docLink?: string) {
+    async fetchVpnLocation(docLink?: string) {
       const sharedGeoStore = useSharedGeoStore()
-
-      await sharedGeoStore.fetchGeoLocation()
 
       if (!VPN_CHECKS_ENABLED) {
         return
@@ -228,6 +226,12 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       sharedGeoStore.$patch({
         vpnCheckedTimestamp: todayInSeconds
       })
+    },
+
+    async fetchUserLocation() {
+      const sharedGeoStore = useSharedGeoStore()
+
+      await sharedGeoStore.fetchGeoLocation()
     }
   }
 })
