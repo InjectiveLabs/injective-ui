@@ -115,10 +115,30 @@ export const getCoins = ({
   }, [] as Coin[])
 }
 
+// todo remove once /api/explorer/v1/txs?skip=0&limit=20 add signatures
+const getSender = (transaction: ExplorerTransaction): string => {
+  if (transaction.signatures) {
+    return transaction.signatures[0].address
+  }
+
+  const message = transaction.messages[0]?.message
+  const msgs = message.msgs
+
+  if (msgs) {
+    return msgs[0].sender
+  }
+
+  if (message.from_address) {
+    return message.from_address
+  }
+
+  return message.sender
+}
+
 export const toUiTransaction = (
   transaction: ExplorerTransaction
 ): UiExplorerTransaction => {
-  const sender = transaction.signatures[0].address
+  const sender = getSender(transaction)
 
   return {
     ...transaction,
