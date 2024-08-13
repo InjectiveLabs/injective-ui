@@ -7,7 +7,7 @@ export class TokenCacheApi extends BaseCacheApi {
   async fetchTotalSupply() {
     const fetchFromBank = async () => {
       const { supply, pagination } = await bankApi.fetchTotalSupply({
-        limit: 2000
+        limit: 5000
       })
 
       return { supply, pagination }
