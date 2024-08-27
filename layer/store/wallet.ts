@@ -664,6 +664,26 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
+    async connectMagic(email: string) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Magic)
+
+      const addresses = await getAddresses(email)
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        addresses,
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        injectiveAddress: getInjectiveAddress(address),
+        session
+      })
+
+      await walletStore.onConnect()
+    },
+
     async connectAddress(injectiveAddress: string) {
       const walletStore = useSharedWalletStore()
 

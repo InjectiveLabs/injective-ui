@@ -9,6 +9,7 @@ import {
 import { alchemyRpcEndpoint } from './alchemy'
 import {
   APP_NAME,
+  ENDPOINTS,
   APP_BASE_URL,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
@@ -21,6 +22,8 @@ export const walletStrategy = new WalletStrategy({
   },
   options: {
     metadata: {
+      magicApiKey: 'pk_live_57BA82F0A1C914EA',
+      rpcEndpoint: ENDPOINTS.rpc,
       name: APP_NAME,
       url: APP_BASE_URL,
       projectId: WALLET_CONNECT_PROJECT_ID,

@@ -5,8 +5,8 @@ import {
 } from '@injectivelabs/exceptions'
 import { walletStrategy } from './wallet-strategy'
 
-export const getAddresses = async (): Promise<string[]> => {
-  const addresses = await walletStrategy.enableAndGetAddresses()
+export const getAddresses = async (args?: unknown): Promise<string[]> => {
+  const addresses = await walletStrategy.enableAndGetAddresses(args)
 
   if (addresses.length === 0) {
     throw new WalletException(
