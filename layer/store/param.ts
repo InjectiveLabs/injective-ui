@@ -12,10 +12,10 @@ const ACTUAL_BLCOk_TIME = 0.625194000005722
 const ACTUAL_BLOCKS_PER_YEAR = 50441942.82048672
 
 type ParamStoreState = {
-  injSupply: number
-  baseInflation: number
-  bondedTokens: number
-  blocksPerYear: number
+  injSupply: string
+  baseInflation: string
+  bondedTokens: string
+  blocksPerYear: string
   actualBlockTime: number
   actualBlocksPerYear: number
   pool: Pool
@@ -23,10 +23,10 @@ type ParamStoreState = {
 }
 
 const initialStateFactory = (): ParamStoreState => ({
-  injSupply: 0,
-  baseInflation: 0,
-  bondedTokens: 0,
-  blocksPerYear: 0,
+  injSupply: '0',
+  baseInflation: '0',
+  bondedTokens: '0',
+  blocksPerYear: '0',
   actualBlockTime: 0,
   actualBlocksPerYear: 0,
   pool: {} as Pool,
@@ -71,7 +71,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
       const { inflation } = await mintApi.fetchInflation()
 
       paramsStore.$patch({
-        baseInflation: new BigNumberInBase(inflation).toFixed()
+        baseInflation: inflation
       })
     },
 
@@ -82,7 +82,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
 
       paramsStore.$patch({
         pool,
-        bondedTokens: new BigNumberInBase(pool.bondedTokens).toFixed()
+        bondedTokens: pool.bondedTokens
       })
     },
 
@@ -93,7 +93,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
 
       paramsStore.$patch({
         mintParams,
-        blocksPerYear: new BigNumberInBase(mintParams.blocksPerYear).toFixed()
+        blocksPerYear: mintParams.blocksPerYear
       })
     },
 
