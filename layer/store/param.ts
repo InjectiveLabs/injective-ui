@@ -1,47 +1,67 @@
 import { defineStore } from 'pinia'
 import {
   Pool,
+  DistributionModuleParams,
   MinModuleParams as MintModuleParams
 } from '@injectivelabs/sdk-ts'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
 import { injToken } from './../data/token'
 import { mintApi, bankApi, stakingApi } from './../Service'
 import { sharedToBalanceInToken } from './../utils/formatter'
 
-const ACTUAL_BLOCK_TIME = 0.75
-const ACTUAL_BLOCKS_PER_YEAR = 42_048_000
+const ON_CHAIN_BLOCK_TIME = 0.75
+const ON_CHAIN_BLOCKS_PER_YEAR = 42_048_000
+const ON_CHAIN_INFLATION = 0.88
+const ON_CHAIN_COMMUNITY_TAX = 0.05
 
 type ParamStoreState = {
   injSupply: string
   baseInflation: string
   bondedTokens: string
+  communityTax: string
   blocksPerYear: string
+  currentBlockTime: number
+  currentBlocksPerYear: number
   actualBlockTime: number
   actualBlocksPerYear: number
   pool: Pool
   mintParams: MintModuleParams
+  distributionParams: DistributionModuleParams
 }
 
 const initialStateFactory = (): ParamStoreState => ({
   injSupply: '0',
   baseInflation: '0',
+  communityTax: ON_CHAIN_COMMUNITY_TAX.toString(),
   bondedTokens: '0',
   blocksPerYear: '0',
+  currentBlockTime: ON_CHAIN_BLOCK_TIME,
+  currentBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR,
   actualBlockTime: 0,
   actualBlocksPerYear: 0,
   pool: {} as Pool,
-  mintParams: {} as MintModuleParams
+  mintParams: {} as MintModuleParams,
+  distributionParams: {} as DistributionModuleParams
 })
 
 export const useSharedParamStore = defineStore('sharedParam', {
   state: (): ParamStoreState => initialStateFactory(),
   getters: {
     apr: (state) => {
-      return new BigNumberInBase(state.actualBlocksPerYear)
+      const secondsInAYear = new BigNumberInBase(365 * 24 * 60 * 60)
+      const blockPerYear = new BigNumberInBase(state.currentBlocksPerYear)
+      const blockTime = secondsInAYear.div(blockPerYear)
+      const annualProvisionRatio = blockTime.div(state.currentBlockTime)
+
+      const apr = new BigNumberInBase(state.currentBlocksPerYear)
         .dividedBy(state.blocksPerYear)
         .times(state.baseInflation)
         .times(state.injSupply)
+        .times(new BigNumberInBase(1).minus(state.communityTax))
         .div(state.bondedTokens)
+        .times(annualProvisionRatio)
+
+      return apr.isNaN() ? new BigNumberInBase(0) : apr
     }
   },
   actions: {
@@ -68,11 +88,17 @@ export const useSharedParamStore = defineStore('sharedParam', {
     async fetchInflation() {
       const paramsStore = useSharedParamStore()
 
-      const { inflation } = await mintApi.fetchInflation()
+      try {
+        const { inflation } = await mintApi.fetchInflation()
 
-      paramsStore.$patch({
-        baseInflation: inflation
-      })
+        paramsStore.$patch({
+          baseInflation: inflation || ON_CHAIN_INFLATION.toString()
+        })
+      } catch (e) {
+        paramsStore.$patch({
+          baseInflation: ON_CHAIN_INFLATION.toString()
+        })
+      }
     },
 
     async fetchPool() {
@@ -100,10 +126,35 @@ export const useSharedParamStore = defineStore('sharedParam', {
     async fetchChainParams() {
       const paramStore = useSharedParamStore()
 
-      paramStore.$patch({
-        actualBlockTime: ACTUAL_BLOCK_TIME,
-        actualBlocksPerYear: ACTUAL_BLOCKS_PER_YEAR
-      })
+      const httpClient = new HttpClient('https://chains.cosmos.directory/')
+
+      try {
+        const { data } = (await httpClient.get('injective')) as {
+          data: {
+            chain: {
+              params: {
+                actual_block_time: number
+                actual_blocks_per_year: number
+              }
+            }
+          }
+        }
+
+        paramStore.$patch({
+          currentBlockTime: ON_CHAIN_BLOCK_TIME,
+          currentBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR,
+          actualBlockTime: data.chain.params.actual_block_time,
+          actualBlocksPerYear: data.chain.params.actual_blocks_per_year
+        })
+      } catch (error: any) {
+        // silently throw
+        paramStore.$patch({
+          currentBlockTime: ON_CHAIN_BLOCK_TIME,
+          currentBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR,
+          actualBlockTime: ON_CHAIN_BLOCK_TIME,
+          actualBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR
+        })
+      }
     }
   }
 })
