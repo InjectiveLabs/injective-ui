@@ -86,7 +86,7 @@ export const injErc20Token: TokenStatic = {
   decimals: 18,
   symbol: 'INJ',
   name: 'Injective',
-  logo: 'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/c7b97294-890e-459c-4673-1ca1dea64f00/public',
+  logo: INJ_LOGO_URL,
   coinGeckoId: 'injective-protocol',
   denom: IS_TESTNET
     ? 'peggy0x5512c04B6FF813f3571bDF64A1d74c98B5257332'

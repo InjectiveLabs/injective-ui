@@ -7,13 +7,13 @@ import {
 export * from './setup'
 
 export const INJ_LOGO_URL =
-  'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/c7b97294-890e-459c-4673-1ca1dea64f00/public'
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/18984c0b-3e61-431d-241d-dfbb60b57600/public'
 export const INJ_LOGO_DARK_URL =
-  'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/8493baf6-e4d3-4ac6-5a3b-afe15b47ae00/public'
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/60aee853-77a2-40b1-04bd-b4aba9312000/public'
 export const USDT_LOGO_URL =
-  'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/2d38ee9a-2df1-4dd0-155b-11404014bc00/public'
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/a0bd252b-1005-47ef-d209-7c1c4a3cbf00/public'
 export const UNKNOWN_LOGO_URL =
-  'https://imagedelivery.net/DYKOWp0iCc0sIkF-2e4dNw/1fb4f29a-9aed-4349-4e0b-0db6b28e7500/public'
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/6f015260-c589-499f-b692-a57964af9900/public'
 
 export const INJ_DENOM = 'inj'
 export const ETH_DENOM = 'peggy0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
