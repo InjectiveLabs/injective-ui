@@ -28,7 +28,7 @@ withDefaults(
             ]
           }
         },
-        imageOptions: { imageSize: 0.4, margin: 8 },
+        imageOptions: { imageSize: 0.4, margin: 16 },
         cornersDotOptions: {
           type: 'dot',
           color: '#000000'
