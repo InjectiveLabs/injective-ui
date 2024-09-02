@@ -72,6 +72,7 @@ export default defineConfig({
     include: isProduction
       ? []
       : [
+          'qrcode-vue3',
           'tailwind-merge',
           'class-variance-authority',
           'mixpanel-browser',
