@@ -9,19 +9,18 @@ import { injToken } from './../data/token'
 import { mintApi, bankApi, stakingApi } from './../Service'
 import { sharedToBalanceInToken } from './../utils/formatter'
 
-const ON_CHAIN_BLOCK_TIME = 0.75
-const ON_CHAIN_BLOCKS_PER_YEAR = 42_048_000
+const ON_CHAIN_BLOCK_TIME = 0.64
+const ON_CHAIN_BLOCKS_PER_YEAR = 63072000
 const ON_CHAIN_INFLATION = 0.88
 const ON_CHAIN_COMMUNITY_TAX = 0.05
 
 type ParamStoreState = {
   injSupply: string
-  baseInflation: string
+  inflation: string
   bondedTokens: string
   communityTax: string
+  blockTime: number
   blocksPerYear: string
-  currentBlockTime: number
-  currentBlocksPerYear: number
   actualBlockTime: number
   actualBlocksPerYear: number
   pool: Pool
@@ -31,37 +30,68 @@ type ParamStoreState = {
 
 const initialStateFactory = (): ParamStoreState => ({
   injSupply: '0',
-  baseInflation: '0',
-  communityTax: ON_CHAIN_COMMUNITY_TAX.toString(),
+  inflation: '0',
   bondedTokens: '0',
-  blocksPerYear: '0',
-  currentBlockTime: ON_CHAIN_BLOCK_TIME,
-  currentBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR,
+  communityTax: ON_CHAIN_COMMUNITY_TAX.toString(),
+  mintParams: {} as MintModuleParams,
+
+  blockTime: ON_CHAIN_BLOCK_TIME,
+  blocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR.toString(),
   actualBlockTime: 0,
   actualBlocksPerYear: 0,
+
   pool: {} as Pool,
-  mintParams: {} as MintModuleParams,
   distributionParams: {} as DistributionModuleParams
 })
 
 export const useSharedParamStore = defineStore('sharedParam', {
   state: (): ParamStoreState => initialStateFactory(),
   getters: {
-    apr: (state) => {
-      const secondsInAYear = new BigNumberInBase(365 * 24 * 60 * 60)
-      const blockPerYear = new BigNumberInBase(state.currentBlocksPerYear)
-      const blockTime = secondsInAYear.div(blockPerYear)
-      const annualProvisionRatio = blockTime.div(state.currentBlockTime)
+    /**
+     * @deprecated - use `state.inflation` instead
+     */
+    baseInflation: (state) => new BigNumberInBase(state.inflation).toFixed(),
 
-      const apr = new BigNumberInBase(state.currentBlocksPerYear)
+    apr: (state) => {
+      const MAX_APR_DIFFERENCE = 0.25
+      const secondsInAYear = new BigNumberInBase(365 * 24 * 60 * 60)
+
+      const blockTime = secondsInAYear.div(state.blocksPerYear)
+      const actualBlockTime = secondsInAYear.div(state.actualBlocksPerYear)
+
+      const annualProvisionRatio = blockTime.div(state.blockTime)
+      const actualAnnualProvisionRatio = actualBlockTime.div(
+        state.actualBlockTime
+      )
+
+      const actualApr = new BigNumberInBase(state.actualBlocksPerYear)
         .dividedBy(state.blocksPerYear)
-        .times(state.baseInflation)
+        .times(state.inflation)
+        .times(state.injSupply)
+        .times(new BigNumberInBase(1).minus(state.communityTax))
+        .div(state.bondedTokens)
+        .times(actualAnnualProvisionRatio)
+
+      const apr = new BigNumberInBase(state.blocksPerYear)
+        .dividedBy(state.blocksPerYear)
+        .times(state.inflation)
         .times(state.injSupply)
         .times(new BigNumberInBase(1).minus(state.communityTax))
         .div(state.bondedTokens)
         .times(annualProvisionRatio)
 
-      return apr.isNaN() ? new BigNumberInBase(0) : apr
+      console.log({ actualApr: actualApr.toFixed(), apr: apr.toFixed() })
+
+      if (actualApr.isNaN() && apr.isNaN()) {
+        return new BigNumberInBase(0)
+      }
+
+      // We cap it so there is no huge difference between on chain and actual apr on the UI
+      const currentApr = actualApr.minus(apr).abs().gt(MAX_APR_DIFFERENCE)
+        ? actualApr
+        : apr
+
+      return currentApr.isFinite() ? currentApr : new BigNumberInBase(0)
     }
   },
   actions: {
@@ -92,11 +122,11 @@ export const useSharedParamStore = defineStore('sharedParam', {
         const { inflation } = await mintApi.fetchInflation()
 
         paramsStore.$patch({
-          baseInflation: inflation || ON_CHAIN_INFLATION.toString()
+          inflation: inflation || ON_CHAIN_INFLATION.toString()
         })
       } catch (e) {
         paramsStore.$patch({
-          baseInflation: ON_CHAIN_INFLATION.toString()
+          inflation: ON_CHAIN_INFLATION.toString()
         })
       }
     },
@@ -141,16 +171,12 @@ export const useSharedParamStore = defineStore('sharedParam', {
         }
 
         paramStore.$patch({
-          currentBlockTime: ON_CHAIN_BLOCK_TIME,
-          currentBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR,
           actualBlockTime: data.chain.params.actual_block_time,
           actualBlocksPerYear: data.chain.params.actual_blocks_per_year
         })
       } catch (error: any) {
         // silently throw
         paramStore.$patch({
-          currentBlockTime: ON_CHAIN_BLOCK_TIME,
-          currentBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR,
           actualBlockTime: ON_CHAIN_BLOCK_TIME,
           actualBlocksPerYear: ON_CHAIN_BLOCKS_PER_YEAR
         })
