@@ -9,6 +9,7 @@
     "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts"
   },
   "dependencies": {
+    "qrcode-vue3": "^1.6.8",
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
