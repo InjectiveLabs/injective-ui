@@ -1,16 +1,43 @@
-<script setup lang="ts">
-import { useQRCode } from '@vueuse/integrations/useQRCode'
+<script lang="ts" setup>
+import QRCodeVue3 from 'qrcode-vue3'
+import { injLogoBase64 } from './../data/token'
 
-const props = defineProps({
-  text: {
-    type: String,
-    required: true
-  }
-})
-
-const qrcode = useQRCode(props.text)
+withDefaults(
+  defineProps<{
+    text: string
+  }>(),
+  {}
+)
 </script>
 
 <template>
-  <img :src="qrcode" alt="QR Code" />
+  <div class="p-2 bg-white">
+    <QRCodeVue3
+      v-bind="{
+        value: text,
+        image: injLogoBase64,
+        margin: 0,
+        dotsOptions: {
+          type: 'dots',
+          gradient: {
+            type: 'radial',
+            rotation: 0,
+            colorStops: [
+              { offset: 0.5, color: '#007CF6' },
+              { offset: 1, color: '#5208c7' }
+            ]
+          }
+        },
+        imageOptions: { imageSize: 0.4, margin: 16 },
+        cornersDotOptions: {
+          type: 'dot',
+          color: '#000000'
+        },
+        cornersSquareOptions: {
+          type: 'extra-rounded',
+          color: '#000'
+        }
+      }"
+    />
+  </div>
 </template>

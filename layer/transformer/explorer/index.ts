@@ -4,6 +4,7 @@ import {
   EventLog,
   TokenType,
   TokenVerification,
+  ContractTransaction,
   ExplorerTransaction,
   CW20BalanceExplorerApiResponse
 } from '@injectivelabs/sdk-ts'
@@ -12,7 +13,11 @@ import { MsgType } from '@injectivelabs/ts-types'
 import { unknownToken } from '../../data/token'
 import { msgTypeMap } from '../../data/explorer'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
-import { UiExplorerTransaction, SharedBalanceWithToken } from '../../types'
+import {
+  UiContractTransaction,
+  UiExplorerTransaction,
+  SharedBalanceWithToken
+} from '../../types'
 
 export const toUiCw20Balance = (
   cw20Balance: CW20BalanceExplorerApiResponse
@@ -115,33 +120,12 @@ export const getCoins = ({
   }, [] as Coin[])
 }
 
-// todo remove once /api/explorer/v1/txs?skip=0&limit=20 add signatures
-const getSender = (transaction: ExplorerTransaction): string => {
-  if (transaction.signatures) {
-    return transaction.signatures[0].address
-  }
-
-  const message = transaction.messages[0]?.message
-  const msgs = message.msgs
-
-  if (msgs) {
-    return msgs[0].sender
-  }
-
-  if (message.from_address) {
-    return message.from_address
-  }
-
-  return message.sender
-}
-
-export const toUiTransaction = (
-  transaction: ExplorerTransaction
-): UiExplorerTransaction => {
-  const sender = getSender(transaction)
+const getTypesAndCoins = (
+  transaction: ExplorerTransaction | ContractTransaction
+) => {
+  const sender = transaction.signatures[0].address
 
   return {
-    ...transaction,
     types: transaction.messages.map(
       (message) => msgTypeMap[getMsgType(message)] || message.type
     ),
@@ -157,5 +141,26 @@ export const toUiTransaction = (
       attributeType: 'spender',
       eventType: 'coin_spent'
     })
+  }
+}
+
+export const toUiTransaction = (
+  transaction: ExplorerTransaction
+): UiExplorerTransaction => {
+  return {
+    ...transaction,
+    ...getTypesAndCoins(transaction)
+  }
+}
+
+export const toUiContractTransaction = (
+  transaction: ContractTransaction
+): UiContractTransaction => {
+  return {
+    ...transaction,
+    hash: transaction.txHash,
+    blockNumber: transaction.height,
+    blockTimestamp: transaction.time,
+    ...getTypesAndCoins(transaction)
   }
 }
