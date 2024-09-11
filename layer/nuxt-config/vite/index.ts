@@ -14,11 +14,16 @@ const { resolve } = createResolver(import.meta.url)
 const additionalDeps = [
   'bs58',
   'bn.js',
+  'aes-js',
+  'hash.js',
+  'js-sha3',
+  'json-wallets',
   'eventemitter3',
   '@solana/web3.js',
   '@cosmjs/stargate',
   '@cosmjs/launchpad',
   '@solana/buffer-layout',
+  'qr-code-generator-vue3',
   '@injectivelabs/grpc-web',
   'jayson/lib/client/browser',
   '@cosmostation/extension-client',
@@ -72,7 +77,6 @@ export default defineConfig({
     include: isProduction
       ? []
       : [
-          'qrcode-vue3',
           'tailwind-merge',
           'class-variance-authority',
           'mixpanel-browser',
@@ -89,7 +93,6 @@ export default defineConfig({
           '@injectivelabs/utils',
           '@injectivelabs/sdk-ts',
           '@injectivelabs/wallet-ts',
-          '@vueuse/integrations/useQRCode',
           ...(isLocalLayer ? [] : additionalDeps)
         ],
     exclude: ['fsevents']
