@@ -14,6 +14,11 @@ import {
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
 
+console.log(ENDPOINTS.rpc)
+
+const HUNTER_API = 'pk_live_8D40A7E251F283ED'
+const INJECTIVE_API = 'pk_live_E1CB10CF489E800D'
+
 export const walletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,
   ethereumOptions: {
@@ -22,8 +27,10 @@ export const walletStrategy = new WalletStrategy({
   },
   options: {
     metadata: {
-      magicApiKey: 'pk_live_57BA82F0A1C914EA',
-      rpcEndpoint: ENDPOINTS.rpc,
+      magic: {
+        rpcEndpoint: ENDPOINTS.rpc as string,
+        apiKey: INJECTIVE_API
+      },
       name: APP_NAME,
       url: APP_BASE_URL,
       projectId: WALLET_CONNECT_PROJECT_ID,

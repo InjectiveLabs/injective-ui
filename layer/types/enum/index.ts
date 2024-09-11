@@ -16,7 +16,8 @@ export enum WalletConnectStatus {
   idle = 'Idle',
   connected = 'Connected',
   connecting = 'Connecting',
-  disconnected = 'Disconnected'
+  disconnected = 'Disconnected',
+  disconnecting = 'disconnecting'
 }
 
 export enum SharedAmplitudeEvent {

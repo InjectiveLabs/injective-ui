@@ -141,9 +141,10 @@ export const GEO_IP_RESTRICTIONS_ENABLED: boolean =
   import.meta.env.VITE_GEO_IP_RESTRICTIONS_ENABLED === 'true'
 
 export const CW20_ADAPTER_CONTRACT = getCw20AdapterContractForNetwork(NETWORK)
-export const APP_NAME = env.VITE_NAME
-export const APP_BASE_URL = env.VITE_BASE_URL
-export const WALLET_CONNECT_PROJECT_ID = env.VITE_WALLET_CONNECT_PROJECT_ID
+export const APP_NAME = env.VITE_NAME as string
+export const APP_BASE_URL = env.VITE_BASE_URL as string
+export const WALLET_CONNECT_PROJECT_ID =
+  env.VITE_WALLET_CONNECT_PROJECT_ID as string
 
 if (VPN_CHECKS_ENABLED && !GOOGLE_MAPS_KEY) {
   throw new Error('GOOGLE_MAPS_KEY is required when VPN_CHECKS_ENABLED')
