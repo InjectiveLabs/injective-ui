@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import QRCodeVue3 from 'qrcode-vue3'
+import QRCodeVue3 from 'qr-code-generator-vue3'
 import { injLogoBase64 } from './../data/token'
 
 withDefaults(
