@@ -238,9 +238,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.walletConnectStatus = WalletConnectStatus.idle
       await walletStrategy.setWallet(walletStore.wallet)
 
-      // if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
-      //   await walletStore.connectMagic()
-      // }
+      if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
+        await walletStore.connectMagic()
+      }
 
       if (walletStore.isAutoSignEnabled) {
         walletStore.connectWallet(Wallet.PrivateKey, {
@@ -675,24 +675,30 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStore.connectWallet(Wallet.Magic)
 
-      const addresses = await getAddresses({ email, provider })
+      try {
+        const addresses = await getAddresses({ email, provider })
 
-      if (!addresses.length) {
-        return
+        if (!addresses.length) {
+          return
+        }
+
+        const [address] = addresses
+        const session = await walletStrategy.getSessionOrConfirm(address)
+
+        walletStore.$patch({
+          address,
+          addresses,
+          addressConfirmation: await walletStrategy.getSessionOrConfirm(
+            address
+          ),
+          injectiveAddress: address,
+          session
+        })
+
+        await walletStore.onConnect()
+      } catch {
+        walletStore.walletConnectStatus = WalletConnectStatus.idle
       }
-
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        injectiveAddress: address,
-        session
-      })
-
-      await walletStore.onConnect()
     },
 
     async connectAddress(injectiveAddress: string) {

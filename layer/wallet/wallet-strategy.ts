@@ -3,6 +3,7 @@ import {
   CHAIN_ID,
   IS_MAINNET,
   ALCHEMY_KEY,
+  MAGIC_APK_KEY,
   ETHEREUM_CHAIN_ID,
   ALCHEMY_SEPOLIA_KEY
 } from './../utils/constant'
@@ -14,11 +15,6 @@ import {
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
 
-console.log(ENDPOINTS.rpc)
-
-const HUNTER_API = 'pk_live_8D40A7E251F283ED'
-const INJECTIVE_API = 'pk_live_E1CB10CF489E800D'
-
 export const walletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,
   ethereumOptions: {
@@ -28,8 +24,8 @@ export const walletStrategy = new WalletStrategy({
   options: {
     metadata: {
       magic: {
-        rpcEndpoint: ENDPOINTS.rpc as string,
-        apiKey: INJECTIVE_API
+        apiKey: MAGIC_APK_KEY as string,
+        rpcEndpoint: ENDPOINTS.rpc as string
       },
       name: APP_NAME,
       url: APP_BASE_URL,
