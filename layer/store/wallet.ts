@@ -14,6 +14,7 @@ import { StatusType } from '@injectivelabs/utils'
 import {
   Wallet,
   isEthWallet,
+  MagicProvider,
   isCosmosWallet,
   isCosmosBrowserWallet
 } from '@injectivelabs/wallet-ts'
@@ -234,7 +235,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async init() {
       const walletStore = useSharedWalletStore()
 
+      walletStore.walletConnectStatus = WalletConnectStatus.idle
       await walletStrategy.setWallet(walletStore.wallet)
+
+      if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
+        await walletStore.connectMagic()
+      }
 
       if (walletStore.isAutoSignEnabled) {
         walletStore.connectWallet(Wallet.PrivateKey, {
@@ -664,6 +670,37 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
+    async connectMagic(provider?: MagicProvider, email?: string) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Magic)
+
+      try {
+        const addresses = await getAddresses({ email, provider })
+
+        if (!addresses.length) {
+          return
+        }
+
+        const [address] = addresses
+        const session = await walletStrategy.getSessionOrConfirm(address)
+
+        walletStore.$patch({
+          address,
+          addresses,
+          addressConfirmation: await walletStrategy.getSessionOrConfirm(
+            address
+          ),
+          injectiveAddress: address,
+          session
+        })
+
+        await walletStore.onConnect()
+      } catch {
+        walletStore.walletConnectStatus = WalletConnectStatus.idle
+      }
+    },
+
     async connectAddress(injectiveAddress: string) {
       const walletStore = useSharedWalletStore()
 
@@ -925,6 +962,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async logout() {
       const walletStore = useSharedWalletStore()
+
+      walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
 
       await walletStrategy.disconnect()
 

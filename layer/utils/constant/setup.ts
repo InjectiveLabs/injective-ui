@@ -133,6 +133,7 @@ export const PROXY_DETECTION_API_KEY =
   import.meta.env.VITE_PROXY_DETECTION_API_KEY || ''
 export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
 export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
+export const MAGIC_APK_KEY = import.meta.env.VITE_MAGIC_APK_KEY || ''
 export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
 
 export const VPN_CHECKS_ENABLED: boolean =
@@ -141,9 +142,10 @@ export const GEO_IP_RESTRICTIONS_ENABLED: boolean =
   import.meta.env.VITE_GEO_IP_RESTRICTIONS_ENABLED === 'true'
 
 export const CW20_ADAPTER_CONTRACT = getCw20AdapterContractForNetwork(NETWORK)
-export const APP_NAME = env.VITE_NAME
-export const APP_BASE_URL = env.VITE_BASE_URL
-export const WALLET_CONNECT_PROJECT_ID = env.VITE_WALLET_CONNECT_PROJECT_ID
+export const APP_NAME = env.VITE_NAME as string
+export const APP_BASE_URL = env.VITE_BASE_URL as string
+export const WALLET_CONNECT_PROJECT_ID =
+  env.VITE_WALLET_CONNECT_PROJECT_ID as string
 
 if (VPN_CHECKS_ENABLED && !GOOGLE_MAPS_KEY) {
   throw new Error('GOOGLE_MAPS_KEY is required when VPN_CHECKS_ENABLED')

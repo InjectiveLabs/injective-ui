@@ -3,12 +3,14 @@ import {
   CHAIN_ID,
   IS_MAINNET,
   ALCHEMY_KEY,
+  MAGIC_APK_KEY,
   ETHEREUM_CHAIN_ID,
   ALCHEMY_SEPOLIA_KEY
 } from './../utils/constant'
 import { alchemyRpcEndpoint } from './alchemy'
 import {
   APP_NAME,
+  ENDPOINTS,
   APP_BASE_URL,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
@@ -21,6 +23,10 @@ export const walletStrategy = new WalletStrategy({
   },
   options: {
     metadata: {
+      magic: {
+        apiKey: MAGIC_APK_KEY as string,
+        rpcEndpoint: ENDPOINTS.rpc as string
+      },
       name: APP_NAME,
       url: APP_BASE_URL,
       projectId: WALLET_CONNECT_PROJECT_ID,
