@@ -20,7 +20,7 @@ import {
 } from '@injectivelabs/wallet-ts'
 import {
   validateCosmosWallet,
-  confirmCorrectKeplrAddress
+  confirmCorrectKeplrAddress, confirmCorrectOWalletAddress
 } from '../wallet/cosmos'
 import { validateOkxWallet, isOkxWalletInstalled } from '../wallet/okx-wallet'
 import {
@@ -422,6 +422,29 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const session = await walletStrategy.getSessionOrConfirm()
 
       await confirmCorrectKeplrAddress(injectiveAddress)
+
+      walletStore.$patch({
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          injectiveAddress
+        ),
+        session
+      })
+
+      await walletStore.onConnect()
+    },
+    async connectOWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.OWallet)
+
+      const injectiveAddresses = await getAddresses()
+      const [injectiveAddress] = injectiveAddresses
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      await confirmCorrectOWalletAddress(injectiveAddress)
 
       walletStore.$patch({
         injectiveAddress,

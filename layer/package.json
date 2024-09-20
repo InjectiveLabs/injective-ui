@@ -5,12 +5,30 @@
   "main": "./nuxt.config.ts",
   "license": "Apache-2.0",
   "scripts": {
-    "lint": "eslint .",
-    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts"
+    "lint": "eslint ."
   },
   "dependencies": {
     "qrcode-vue3": "^1.6.8",
-    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
+    "@bangjelkoski/ens-validation": "^0.1.1",
+    "@injectivelabs/exceptions": "1.14.14",
+    "@injectivelabs/networks": "1.14.14",
+    "@injectivelabs/nuxt-bugsnag": "0.0.3",
+    "@injectivelabs/sdk-ts": "1.14.15-beta.3",
+    "@injectivelabs/ts-types": "1.14.14",
+    "@injectivelabs/utils": "1.14.14",
+    "@injectivelabs/wallet-ts": "link:../injective-ts/packages/wallet-ts",
+    "@types/canvas-confetti": "^1.6.4",
+    "@vuepic/vue-datepicker": "^5.4.0",
+    "@vueuse/integrations": "^10.7.1",
+    "canvas-confetti": "^1.6.0",
+    "floating-vue": "2.0.0-beta.24",
+    "js-confetti": "^0.12.0",
+    "nuxt-lcp-speedup": "^0.5.2",
+    "qr-code-generator-vue3": "^1.4.21",
+    "vee-validate": "4.11.7",
+    "vue-gtag": "^2.0.1",
+    "vue-hotjar": "^1.4.0",
+    "vue-imask": "^7.5.0"
   },
   "devDependencies": {
     "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",
@@ -25,10 +43,18 @@
   },
   "resolutions": {
     "@nuxt/kit": "3.11.2",
-    "@nuxt/schema": "3.11.2"
+    "@nuxt/schema": "3.11.2",
+    "@ledgerhq/devices": "6.27.1",
+    "@ledgerhq/errors": "6.16.3",
+    "@ledgerhq/hw-transport": "6.27.1",
+    "@ledgerhq/hw-transport-webhid": "6.27.1"
   },
   "overrides": {
     "@nuxt/kit": "3.11.2",
-    "@nuxt/schema": "3.11.2"
+    "@nuxt/schema": "3.11.2",
+    "@ledgerhq/devices": "6.27.1",
+    "@ledgerhq/errors": "6.16.3",
+    "@ledgerhq/hw-transport": "6.27.1",
+    "@ledgerhq/hw-transport-webhid": "6.27.1"
   }
 }
