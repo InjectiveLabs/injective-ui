@@ -77,9 +77,6 @@ export default defineConfig({
     include: isProduction
       ? []
       : [
-          'tailwind-merge',
-          'class-variance-authority',
-          'mixpanel-browser',
           'date-fns',
           'vue-imask',
           'vue-hotjar',
@@ -88,10 +85,14 @@ export default defineConfig({
           'js-confetti',
           'date-fns-tz',
           'floating-vue',
+          'tailwind-merge',
           'canvas-confetti',
+          'mixpanel-browser',
           'lightweight-charts',
           '@injectivelabs/utils',
           '@injectivelabs/sdk-ts',
+          'qr-code-generator-vue3',
+          'class-variance-authority',
           '@injectivelabs/wallet-ts',
           ...(isLocalLayer ? [] : additionalDeps)
         ],
