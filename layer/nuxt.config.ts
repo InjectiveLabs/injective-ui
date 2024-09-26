@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import { vite, hooks } from './nuxt-config'
+import { vite } from './nuxt-config'
 import { createResolver } from '@nuxt/kit'
 import { vitePlugins } from './nuxt-config/vite'
 
@@ -9,7 +9,6 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   vite,
-  hooks,
   plugins: vitePlugins,
   devtools: { enabled: true },
   alias: { '@shared': resolve('./') },
@@ -39,21 +38,6 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: 'build'
   },
-
-  // @ts-ignore
-  bugsnag: process.env.VITE_BUGSNAG_KEY
-    ? {
-        disabled: false,
-        publishRelease: true,
-        baseUrl: process.env.VITE_BASE_URL,
-        config: {
-          releaseStage: process.env.VITE_ENV,
-          notifyReleaseStages: ['staging', 'mainnet'],
-          appVersion: process.env.npm_package_version,
-          apiKey: process.env.VITE_BUGSNAG_KEY
-        }
-      }
-    : undefined,
 
   sourcemap: {
     server: false,
