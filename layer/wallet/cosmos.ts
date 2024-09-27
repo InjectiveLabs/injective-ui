@@ -6,6 +6,7 @@ import {
 import { PublicKey } from '@injectivelabs/sdk-ts'
 import { CosmosWalletStrategy, Wallet } from '@injectivelabs/wallet-ts'
 import { KeplrWallet } from '@injectivelabs/wallet-ts/dist/esm/utils/wallets/keplr'
+import { OWalletBase } from '@injectivelabs/wallet-ts/dist/esm/utils/wallets/owallet'
 import { CHAIN_ID } from './../utils/constant'
 import { walletStrategy } from './wallet-strategy'
 
@@ -27,6 +28,28 @@ export const confirmCorrectKeplrAddress = async (injectiveAddress: string) => {
     throw new CosmosWalletException(
       new Error(
         'Connected Keplr address is wrong. Please update Injective on Keplr.'
+      )
+    )
+  }
+}
+export const confirmCorrectOWalletAddress = async (injectiveAddress: string) => {
+  // We only perform this check for OWallet addresses
+  if (walletStrategy.getWallet() !== Wallet.OWallet) {
+    return
+  }
+
+  const owallet = new OWalletBase(CHAIN_ID)
+  const key = await owallet.getKey()
+  const publicKey = PublicKey.fromBase64(
+    Buffer.from(key.pubKey).toString('base64')
+  )
+
+  const { address: derivedAddress } = publicKey.toAddress()
+
+  if (derivedAddress !== injectiveAddress) {
+    throw new CosmosWalletException(
+      new Error(
+        'Connected OWallet address is wrong. Please update Injective on OWallet.'
       )
     )
   }
