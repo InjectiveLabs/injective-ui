@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { vite } from './nuxt-config'
 import { createResolver } from '@nuxt/kit'
+import bugsnag from './nuxt-config/bugsnag'
 import { vitePlugins } from './nuxt-config/vite'
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -42,5 +43,8 @@ export default defineNuxtConfig({
   sourcemap: {
     server: false,
     client: true
-  }
+  },
+
+  //@ts-ignore
+  bugsnag
 })
