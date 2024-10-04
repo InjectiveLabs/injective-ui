@@ -9352,6 +9352,15 @@ nuxt-lcp-speedup@^0.5.2:
     defu "^6.1.4"
     knitwork "^1.1.0"
 
+nuxt-vitalizer@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/nuxt-vitalizer/-/nuxt-vitalizer-0.10.0.tgz#1a9a163fd5de852ce736280aa55448ddc2ce8da6"
+  integrity sha512-z5leudr8wD2msKl7ETLGUICSOVoXVLMA8bAeRuWN4/UuYl7g7G2k7Idzl1z8ft/VmoYZ9ld3J0/2UZOZuxxzog==
+  dependencies:
+    "@nuxt/kit" "^3.12.2"
+    defu "^6.1.4"
+    knitwork "^1.1.0"
+
 nuxt@3.11.2:
   version "3.11.2"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.11.2.tgz#38e14b96ff5669b1fbae7fc99e8d79042dce658d"
@@ -10927,7 +10936,7 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
 
 "shared-packages@https://github.com/InjectiveLabs/shared-packages#master":
   version "1.0.0"
-  resolved "https://github.com/InjectiveLabs/shared-packages#6e9094ddb95d9f25f488288a55706ae0a42359ec"
+  resolved "https://github.com/InjectiveLabs/shared-packages#8415ee3d1a8a21cd3af7cfbff2ca253560a26a5d"
   dependencies:
     "@bangjelkoski/ens-validation" "^0.1.1"
     "@injectivelabs/exceptions" "1.14.14"
@@ -10944,6 +10953,7 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
     floating-vue "2.0.0-beta.24"
     js-confetti "^0.12.0"
     nuxt-lcp-speedup "^0.5.2"
+    nuxt-vitalizer "0.10.0"
     qr-code-generator-vue3 "^1.4.21"
     vee-validate "4.11.7"
     vue-gtag "^2.0.1"
