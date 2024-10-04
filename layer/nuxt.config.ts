@@ -8,6 +8,8 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const { resolve } = createResolver(import.meta.url)
 
+console.log({ bugsnag })
+
 export default defineNuxtConfig({
   vite,
   plugins: vitePlugins,
