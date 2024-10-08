@@ -14,10 +14,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   alias: { '@shared': resolve('./') },
 
-  build: {
-    transpile: ['@nuxtjs/i18n']
-  },
-
   imports: {
     dirs: ['composables/**', 'store/**', 'store/**/index.ts']
   },
