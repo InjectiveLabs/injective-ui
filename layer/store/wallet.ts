@@ -696,7 +696,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         })
 
         await walletStore.onConnect()
-      } catch {
+      } catch (e: any) {
+        walletStore.wallet = initialStateFactory().wallet
         walletStore.walletConnectStatus = WalletConnectStatus.idle
       }
     },

@@ -9,7 +9,6 @@
     "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts"
   },
   "dependencies": {
-    "qrcode-vue3": "^1.6.8",
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
@@ -17,18 +16,9 @@
     "@nuxt/eslint-config": "^0.1.1",
     "@pinia/nuxt": "^0.4.11",
     "@types/fs-extra": "^11.0.1",
-    "eslint": "^8.28.0",
-    "git-clone": "^0.2.0",
-    "nuxt": "3.11.2",
-    "typescript": "^4.9.3",
+    "eslint": "8.37.0",
+    "nuxt": "3.13.2",
+    "typescript": "5.5.4",
     "vite-tsconfig-paths": "^4.2.0"
-  },
-  "resolutions": {
-    "@nuxt/kit": "3.11.2",
-    "@nuxt/schema": "3.11.2"
-  },
-  "overrides": {
-    "@nuxt/kit": "3.11.2",
-    "@nuxt/schema": "3.11.2"
   }
 }

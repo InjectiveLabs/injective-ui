@@ -21,9 +21,7 @@ export const env = {
   VITE_SENTRY_HTTP_ENDPOINT: import.meta.env
     .VITE_SENTRY_HTTP_ENDPOINT as string,
   VITE_CACHE_REST_API_ENDPOINT: import.meta.env
-    .VITE_CACHE_REST_API_ENDPOINT as string,
-  VITE_WALLET_CONNECT_PROJECT_ID:
-    import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || ''
+    .VITE_CACHE_REST_API_ENDPOINT as string
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
@@ -112,10 +110,6 @@ export const MITO_API_ENDPOINT =
 export const ALCHEMY_KEY = (import.meta.env.VITE_ALCHEMY_KEY || '') as string
 export const COINGECKO_KEY = (import.meta.env.VITE_COINGECKO_KEY ||
   '') as string
-export const ALCHEMY_KOVAN_KEY = (import.meta.env.VITE_ALCHEMY_KOVAN_KEY ||
-  '') as string
-export const ALCHEMY_GOERLI_KEY = (import.meta.env.VITE_ALCHEMY_GOERLI_KEY ||
-  '') as string
 export const ALCHEMY_SEPOLIA_KEY = (import.meta.env.VITE_ALCHEMY_SEPOLIA_KEY ||
   '') as string
 export const SOL_ALCHEMY_KEY = (import.meta.env.VITE_SOL_ALCHEMY_KEY ||
@@ -125,8 +119,6 @@ export const FEE_PAYER_PUB_KEY = (import.meta.env.VITE_FEE_PAYER_PUB_KEY ||
   '') as string
 
 // plugins/tracking.ts
-export const AMPLITUDE_KEY_PROD = import.meta.env
-  .VITE_AMPLITUDE_KEY_PROD as string
 export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
 export const PROXY_DETECTION_API_KEY =
@@ -138,14 +130,16 @@ export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
 
 export const VPN_CHECKS_ENABLED: boolean =
   import.meta.env.VITE_VPN_CHECKS_ENABLED === 'true'
+export const MAINTENANCE_ENABLED =
+  import.meta.env.VITE_MAINTENANCE_ENABLED === 'true'
 export const GEO_IP_RESTRICTIONS_ENABLED: boolean =
   import.meta.env.VITE_GEO_IP_RESTRICTIONS_ENABLED === 'true'
 
 export const CW20_ADAPTER_CONTRACT = getCw20AdapterContractForNetwork(NETWORK)
 export const APP_NAME = env.VITE_NAME as string
 export const APP_BASE_URL = env.VITE_BASE_URL as string
-export const WALLET_CONNECT_PROJECT_ID =
-  env.VITE_WALLET_CONNECT_PROJECT_ID as string
+export const WALLET_CONNECT_PROJECT_ID = import.meta.env
+  .VITE_WALLET_CONNECT_PROJECT_ID as string
 
 if (VPN_CHECKS_ENABLED && !GOOGLE_MAPS_KEY) {
   throw new Error('GOOGLE_MAPS_KEY is required when VPN_CHECKS_ENABLED')

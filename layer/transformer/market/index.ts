@@ -8,9 +8,9 @@ import {
 } from '@injectivelabs/sdk-ts'
 import {
   sharedToBalanceInWei,
+  sharedToBalanceInToken,
   sharedGetTensMultiplier,
-  sharedGetExactDecimalsFromNumber,
-  sharedToBalanceInToken
+  sharedGetExactDecimalsFromNumber
 } from '../../utils/formatter'
 import { injToken } from '../../data/token'
 import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
