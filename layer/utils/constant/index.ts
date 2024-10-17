@@ -31,3 +31,5 @@ export const DEFAULT_MAINNET_GAS_PRICE = new BigNumber(30).times(GWEI_IN_WEI)
 export const INJ_REQUIRED_FOR_GAS = 0.005
 
 export const UTC_TIMEZONE = 'Etc/Greenwich'
+export const DEFAULT_BIG_NUMBER_DECIMAL_PLACES = 2;
+export const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN;
