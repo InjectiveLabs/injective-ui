@@ -1,19 +1,17 @@
 import { WalletStrategy } from '@injectivelabs/wallet-ts'
 import {
   CHAIN_ID,
-  IS_MAINNET,
-  ALCHEMY_KEY,
-  MAGIC_APK_KEY,
-  ETHEREUM_CHAIN_ID,
-  ALCHEMY_SEPOLIA_KEY
-} from './../utils/constant'
-import { alchemyRpcEndpoint } from './alchemy'
-import {
   APP_NAME,
   ENDPOINTS,
+  IS_MAINNET,
+  ALCHEMY_KEY,
   APP_BASE_URL,
+  MAGIC_APK_KEY,
+  ETHEREUM_CHAIN_ID,
+  ALCHEMY_SEPOLIA_KEY,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
+import { alchemyRpcEndpoint } from './alchemy'
 
 export const walletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,

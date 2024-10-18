@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface CoinGeckoCoinResponse {
   id: string
   symbol: string

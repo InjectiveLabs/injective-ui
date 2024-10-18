@@ -168,7 +168,7 @@ export class TokenPrice {
      */
     const response = await Promise.all(
       chunks.map(async (chunk, index) => {
-        let prices = {} as Record<string, number>
+        const prices = {} as Record<string, number>
 
         for (let i = 0; i < chunk.length; i += 1) {
           const price = await this.fetchUsdTokenPriceFromCoinGeckoNoThrow(

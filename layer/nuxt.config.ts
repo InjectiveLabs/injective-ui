@@ -1,6 +1,6 @@
+import { createResolver } from '@nuxt/kit'
 import { defineNuxtConfig } from 'nuxt/config'
 import { vite } from './nuxt-config'
-import { createResolver } from '@nuxt/kit'
 import bugsnag from './nuxt-config/bugsnag'
 import { vitePlugins } from './nuxt-config/vite'
 
@@ -41,6 +41,6 @@ export default defineNuxtConfig({
     client: true
   },
 
-  //@ts-ignore
+  // @ts-ignore
   bugsnag
 })

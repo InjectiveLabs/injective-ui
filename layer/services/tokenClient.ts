@@ -22,7 +22,7 @@ export class SharedTokenClient {
   private cachedInsuranceFunds: InsuranceFund[] = []
   private cachedTokens: Record<string, TokenStatic> = {}
 
-  constructor() {}
+  // constructor() {}
 
   async queryToken(denom: string): Promise<TokenStatic | undefined> {
     const cachedToken = this.cachedTokens[denom.toLowerCase()]
@@ -32,15 +32,15 @@ export class SharedTokenClient {
     }
 
     if (denom.startsWith('share')) {
-      return this.#getInsuranceToken(denom)
+      return await this.#getInsuranceToken(denom)
     }
 
     if (denom.startsWith('peggy') || denom.startsWith('0x')) {
-      return this.#getPeggyToken(denom)
+      return await this.#getPeggyToken(denom)
     }
 
     if (denom.startsWith('ibc')) {
-      return this.#getIbcToken(denom)
+      return await this.#getIbcToken(denom)
     }
 
     if (denom.startsWith('factory')) {
@@ -51,13 +51,11 @@ export class SharedTokenClient {
       }
 
       if (isCw20ContractAddress(contractAddress)) {
-        return this.#getCw20Token(denom)
+        return await this.#getCw20Token(denom)
       }
 
-      return this.#getTokenFactoryToken(denom)
+      return await this.#getTokenFactoryToken(denom)
     }
-
-    return
   }
 
   async #getIbcToken(denom: string): Promise<TokenStatic | undefined> {
@@ -142,19 +140,21 @@ export class SharedTokenClient {
     const defaultToken = {
       ...unknownToken,
       denom,
-      address: address
+      address
     }
 
-    const contractInfo = (await wasmApi
-      .fetchContractInfo(address)
-      .catch(() => {})) as ContractInfo | undefined
+    const contractInfo = (await wasmApi.fetchContractInfo(address).catch(() => {
+      // silently fail
+    })) as ContractInfo | undefined
 
     const contractStateResponse = (await wasmApi
       .fetchContractState({
         contractAddress: address,
         pagination: { reverse: true }
       })
-      .catch(() => {})) as ContractStateWithPagination | undefined
+      .catch(() => {
+        // silently fail
+      })) as ContractStateWithPagination | undefined
 
     if (
       !contractStateResponse ||

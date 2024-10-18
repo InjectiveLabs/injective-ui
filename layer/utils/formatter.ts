@@ -3,7 +3,6 @@ import {
   BigNumberInWei,
   BigNumberInBase
 } from '@injectivelabs/utils'
-import { intervalToDuration } from 'date-fns'
 import { Coin } from '@injectivelabs/sdk-ts'
 import { TimeDuration } from './../types'
 

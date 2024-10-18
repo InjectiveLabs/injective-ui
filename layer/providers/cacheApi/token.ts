@@ -1,6 +1,6 @@
 import { Pagination, TotalSupply } from '@injectivelabs/sdk-ts'
-import { BaseCacheApi } from './base'
 import { bankApi } from '../../Service'
+import { BaseCacheApi } from './base'
 import { IS_MAINNET } from './../../utils/constant'
 
 export class TokenCacheApi extends BaseCacheApi {

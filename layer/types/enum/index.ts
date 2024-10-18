@@ -33,15 +33,6 @@ export enum TimeDuration {
   Second = 'second'
 }
 
-export enum SharedMarketType {
-  Favorite = 'Favorite',
-  Spot = 'Spot',
-  Derivative = 'Derivative',
-  Perpetual = 'Perpetual',
-  Futures = 'Futures',
-  BinaryOptions = 'BinaryOptions'
-}
-
 export enum GrantDirection {
   Grantee = 'grantee',
   Granter = 'granter'

@@ -15,6 +15,7 @@ const bugsnagConfig = {
   }
 }
 
+// eslint-disable-next-line no-console
 console.log(
   `Instantiating bugsnag: ${shouldInstantiateBugsnag}`,
   '\n',

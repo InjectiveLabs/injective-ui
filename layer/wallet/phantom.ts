@@ -31,7 +31,8 @@ export const validatePhantom = async (address: string) => {
 
   const [phantomWalletActiveAddress] = addresses
   const phantomtWalletActiveAddressDoesntMatchTheActiveAddress =
-    address && phantomWalletActiveAddress.toLowerCase() !== address.toLowerCase()
+    address &&
+    phantomWalletActiveAddress.toLowerCase() !== address.toLowerCase()
 
   if (phantomtWalletActiveAddressDoesntMatchTheActiveAddress) {
     throw new MetamaskException(
