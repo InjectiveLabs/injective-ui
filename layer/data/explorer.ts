@@ -89,4 +89,4 @@ export const msgTypeMap = {
   // todo: add to injective-ts
   'injective.exchange.v1beta1.MsgPrivilegedExecuteContract': 'Execute Contract',
   'cosmos.bank.v1beta1.MsgMultiSend': 'Multi Send'
-}
+} as Record<string | MsgType, string>
