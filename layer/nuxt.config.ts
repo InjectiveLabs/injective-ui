@@ -32,6 +32,7 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     // '@nuxtjs/tailwindcss',
     'nuxt-lcp-speedup',
+    '@nuxt/ui',
     ...(process.env.VITE_BUGSNAG_KEY ? ['@injectivelabs/nuxt-bugsnag'] : [])
   ],
 
