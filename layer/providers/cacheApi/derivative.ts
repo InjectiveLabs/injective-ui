@@ -4,11 +4,11 @@ import {
   ExpiryFuturesMarket,
   AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
-import { BaseCacheApi } from './base'
 import {
   indexerDerivativesApi,
   indexerRestDerivativeChronosApi
 } from '../../Service'
+import { BaseCacheApi } from './base'
 import { IS_MAINNET } from './../../utils/constant'
 
 export class DerivativeCacheApi extends BaseCacheApi {

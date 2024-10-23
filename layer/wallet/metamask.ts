@@ -84,9 +84,5 @@ export const validateMetamask = async (address: string) => {
 }
 
 export const switchToActiveMetamaskNetwork = async () => {
-  try {
-    await UtilsWallets.updateMetamaskNetwork(ETHEREUM_CHAIN_ID)
-  } catch (e) {
-    throw e
-  }
+  await UtilsWallets.updateMetamaskNetwork(ETHEREUM_CHAIN_ID)
 }

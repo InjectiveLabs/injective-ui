@@ -51,7 +51,7 @@ const validateName = (name: string) => {
   }
 
   const blackList =
-    // eslint-disable-next-line no-control-regex,no-misleading-character-class
+    // eslint-disable-next-line no-control-regex,no-misleading-character-class,unicorn/escape-case
     /[\u0000-\u002c\u002e-\u002f\u003a-\u005e\u0060\u007b-\u007f\u200b\u200c\u200d\ufeff]/g
 
   if (blackList.test(name)) {

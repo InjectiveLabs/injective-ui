@@ -1,7 +1,8 @@
 module.exports = {
   root: true,
-  extends: ['@nuxt/eslint-config', '@injectivelabs/eslint-config'],
+  extends: ['@injectivelabs/eslint-config'],
   rules: {
+    'import/order': 'off',
     'vue/max-attributes-per-line': 'off'
   }
 }

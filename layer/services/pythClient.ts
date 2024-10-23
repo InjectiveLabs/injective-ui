@@ -1,12 +1,10 @@
-import {
-  HttpRestClient,
-} from '@injectivelabs/utils'
+/* eslint-disable camelcase, no-console */
+import { HttpRestClient } from '@injectivelabs/utils'
 
 const PYTH_SERVICE_URL = 'https://benchmarks.pyth.network/v1/'
 
 export class PythService {
   private restClient: HttpRestClient
-
 
   constructor() {
     this.restClient = new HttpRestClient(PYTH_SERVICE_URL)
@@ -16,15 +14,15 @@ export class PythService {
     try {
       const {
         data: {
-          market_hours: { is_open },
+          market_hours: { is_open }
         }
       } = (await this.restClient.get(`price_feeds/${pythId}`)) as {
         data: {
           market_hours: {
-            is_open: boolean;
-          };
-        };
-      };
+            is_open: boolean
+          }
+        }
+      }
 
       return is_open
     } catch (e: unknown) {

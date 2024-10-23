@@ -1,10 +1,9 @@
 import { Network, isTestnetOrDevnet } from '@injectivelabs/networks'
 import { BigNumberInWei } from '@injectivelabs/utils'
 import { Web3Exception } from '@injectivelabs/exceptions'
-import { injToken } from '../data/token'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
+import { injToken, injErc20Token, injectivePeggyAddress } from '../data/token'
 import { getKeyFromRpcUrl, peggyDenomToContractAddress } from './utils'
-import { injErc20Token, injectivePeggyAddress } from '../data/token'
 
 /**
  * Preparing and broadcasting
@@ -43,7 +42,7 @@ export class Web3Client {
     }
 
     try {
-      const alchemy = await this.getAlchemy()
+      const alchemy = this.getAlchemy()
       const ethersProvider = await alchemy.config.getProvider()
       const tokenAddress = peggyDenomToContractAddress(contractAddress)
       const tokenContractAddress =
@@ -103,7 +102,7 @@ export class Web3Client {
     }
   }
 
-  private async getAlchemy() {
+  private getAlchemy() {
     if (this.alchemy) {
       return this.alchemy
     }

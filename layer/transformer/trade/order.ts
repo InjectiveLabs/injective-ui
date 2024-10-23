@@ -21,11 +21,11 @@ export const orderSideToOrderType = (orderType: OrderSide): GrpcOrderType => {
       return GrpcOrderTypeMap.BUY_PO
     case OrderSide.SellPO:
       return GrpcOrderTypeMap.SELL_PO
-    case OrderSide.SellPO:
+    case OrderSide.BuyAtomic:
       return GrpcOrderTypeMap.BUY_ATOMIC
-    case OrderSide.SellPO:
+    case OrderSide.SellAtomic:
       return GrpcOrderTypeMap.SELL_ATOMIC
-    case OrderSide.SellPO:
+    case OrderSide.Unrecognized:
       return GrpcOrderTypeMap.UNRECOGNIZED
     default:
       return GrpcOrderTypeMap.BUY

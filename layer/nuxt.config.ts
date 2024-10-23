@@ -1,6 +1,7 @@
+import { createResolver } from '@nuxt/kit'
 import { defineNuxtConfig } from 'nuxt/config'
 import { vite } from './nuxt-config'
-import { createResolver } from '@nuxt/kit'
+import bugsnag from './nuxt-config/bugsnag'
 import { vitePlugins } from './nuxt-config/vite'
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -13,10 +14,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   alias: { '@shared': resolve('./') },
 
-  build: {
-    transpile: ['@nuxtjs/i18n']
-  },
-
   imports: {
     dirs: ['composables/**', 'store/**', 'store/**/index.ts']
   },
@@ -26,13 +23,13 @@ export default defineNuxtConfig({
   components: [{ path: resolve('./components'), prefix: 'Shared' }],
 
   modules: [
-    '@nuxtjs/i18n',
+    '@nuxt/ui',
     '@pinia/nuxt',
+    '@nuxtjs/i18n',
     '@vueuse/nuxt',
     '@nuxt/devtools',
-    // '@nuxtjs/tailwindcss',
+    'nuxt-vitalizer',
     'nuxt-lcp-speedup',
-    '@nuxt/ui',
     ...(process.env.VITE_BUGSNAG_KEY ? ['@injectivelabs/nuxt-bugsnag'] : [])
   ],
 
@@ -43,5 +40,8 @@ export default defineNuxtConfig({
   sourcemap: {
     server: false,
     client: true
-  }
+  },
+
+  // @ts-ignore
+  bugsnag
 })

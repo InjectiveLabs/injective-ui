@@ -112,34 +112,30 @@ export const toUiDerivativeMarket = ({
   baseToken: TokenStatic
   quoteToken: TokenStatic
 }): SharedUiDerivativeMarket => {
-  {
-    const minPriceTickSize = sharedToBalanceInWei({
-      value: market.minPriceTickSize,
-      decimalPlaces: -quoteToken.decimals
-    }).toFixed()
+  const minPriceTickSize = sharedToBalanceInWei({
+    value: market.minPriceTickSize,
+    decimalPlaces: -quoteToken.decimals
+  }).toFixed()
 
-    return {
-      ...market,
-      slug,
-      baseToken,
-      quoteToken,
-      type: SharedMarketType.Derivative,
-      subType: (market as PerpetualMarket).isPerpetual
-        ? SharedMarketType.Perpetual
-        : SharedMarketType.Futures,
-      priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
-      priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
-      quantityDecimals: sharedGetExactDecimalsFromNumber(
-        market.minQuantityTickSize
-      ),
-      quantityTensMultiplier: sharedGetTensMultiplier(
-        market.minQuantityTickSize
-      ),
-      minNotionalInToken: sharedToBalanceInToken({
-        value: market.minNotional,
-        decimalPlaces: quoteToken.decimals
-      })
-    }
+  return {
+    ...market,
+    slug,
+    baseToken,
+    quoteToken,
+    type: SharedMarketType.Derivative,
+    subType: (market as PerpetualMarket).isPerpetual
+      ? SharedMarketType.Perpetual
+      : SharedMarketType.Futures,
+    priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
+    priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
+    quantityDecimals: sharedGetExactDecimalsFromNumber(
+      market.minQuantityTickSize
+    ),
+    quantityTensMultiplier: sharedGetTensMultiplier(market.minQuantityTickSize),
+    minNotionalInToken: sharedToBalanceInToken({
+      value: market.minNotional,
+      decimalPlaces: quoteToken.decimals
+    })
   }
 }
 

@@ -80,8 +80,6 @@ export const useSharedParamStore = defineStore('sharedParam', {
         .div(state.bondedTokens)
         .times(annualProvisionRatio)
 
-      console.log({ actualApr: actualApr.toFixed(), apr: apr.toFixed() })
-
       if (actualApr.isNaN() && apr.isNaN()) {
         return new BigNumberInBase(0)
       }

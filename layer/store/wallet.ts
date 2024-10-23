@@ -594,8 +594,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = await getAddresses()
 
-      console.log({ addresses })
-
       const [address] = addresses
       const session = await walletStrategy.getSessionOrConfirm(address)
 
@@ -749,7 +747,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async prepareBroadcastMessages(messages: Msgs | Msgs[], memo?: string) {
+    prepareBroadcastMessages(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
       const msgs = Array.isArray(messages) ? messages : [messages]
 

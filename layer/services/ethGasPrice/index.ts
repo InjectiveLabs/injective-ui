@@ -27,7 +27,6 @@ export interface EthGasStationResult {
   safeLowWait: number
   blockNum: number
   avgWait: number
-  // eslint-disable-next-line camelcase
   block_time: number
   speed: number
   fastest: number

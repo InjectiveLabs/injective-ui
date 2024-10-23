@@ -174,7 +174,7 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       }
     },
 
-    async showVpnToast(docLink?: string) {
+    showVpnToast(docLink?: string) {
       const sharedNotificationStore = useSharedNotificationStore()
 
       sharedNotificationStore.info({

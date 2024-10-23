@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const iconsList = ref<string[]>([])
 
@@ -15,9 +15,9 @@ onMounted(() => {
 <template>
   <article class="px-4 grid md:grid-cols-4 grid-cols-6 gap-4">
     <div
-      class="flex flex-col justify-center items-center py-4"
       v-for="icon in iconsList"
       :key="icon"
+      class="flex flex-col justify-center items-center py-4"
     >
       <SharedIcon :name="icon" />
       <span>{{ icon }}</span>

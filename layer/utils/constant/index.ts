@@ -23,6 +23,7 @@ export const BINANCE_DEPOSIT_ADDRESS =
 
 export const ZERO_IN_WEI: BigNumberInWei = new BigNumberInWei(0)
 export const ZERO_IN_BASE: BigNumberInBase = new BigNumberInBase(0)
+// eslint-disable-next-line  prefer-regex-literals
 export const NUMBER_REGEX = new RegExp(/^-?(0|[1-9]\d*)?(\.\d+)?$/)
 
 export const GWEI_IN_WEI: BigNumber = new BigNumber(1000000000)

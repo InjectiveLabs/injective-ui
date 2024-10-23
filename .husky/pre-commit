@@ -1,4 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-yarn --cwd ./packages/ui-shared lint-staged
+yarn --cwd ./layer lint-staged
