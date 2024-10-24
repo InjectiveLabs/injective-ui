@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { BigNumber } from '@injectivelabs/utils'
+import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 
 const props = defineProps({
   shouldTruncate: Boolean,
@@ -15,16 +17,31 @@ const props = defineProps({
   }
 })
 
+const { valueToString: amountToString } = useSharedBigNumberFormatter(
+  computed(() => props.amount),
+  {
+    decimalPlaces: computed(() =>
+      sharedGetExactDecimalsFromNumber(props.amount)
+    ),
+    roundingMode: BigNumber.ROUND_DOWN,
+    minimalDecimalPlaces: computed(() =>
+      sharedGetExactDecimalsFromNumber(props.amount)
+    )
+  }
+)
+
 const amountWithoutTrailingZeros = computed(() => {
   if (!props.shouldTruncate) {
-    return props.amount
+    return amountToString.value
   }
 
-  if (!props.amount.includes('.')) {
-    return props.amount
+  if (!amountToString.value.includes('.')) {
+    return amountToString.value
   }
 
-  return props.amount.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
+  return amountToString.value
+    .replace(/(\.\d*?[1-9])0+$/, '$1')
+    .replace(/\.0+$/, '')
 })
 
 const maxTrailingZeros = computed(
@@ -32,7 +49,7 @@ const maxTrailingZeros = computed(
 )
 
 const { valueToBigNumber: amountInBigNumber } = useSharedBigNumberFormatter(
-  computed(() => props.amount)
+  computed(() => amountToString.value)
 )
 
 const condensedZeroCount = computed(() => {

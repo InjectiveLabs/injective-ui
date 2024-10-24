@@ -174,3 +174,17 @@ export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
     }
   })
 }
+
+export const getUsdDecimals = (usdValue: string): number => {
+  const amountInBigNumber = new BigNumberInBase(usdValue)
+
+  if (amountInBigNumber.isLessThan(0.01)) {
+    return 4
+  }
+
+  if (amountInBigNumber.isLessThan(0.1)) {
+    return 3
+  }
+
+  return 2
+}
