@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 
 const props = defineProps({
+  shouldTruncate: Boolean,
+
   amount: {
     type: String,
     required: true
@@ -13,21 +15,34 @@ const props = defineProps({
   }
 })
 
-const maxTrailingZeros = computed(() => {
-  return `0.${'0'.repeat(props.maxTrailingZeros)}`
+const amountWithoutTrailingZeros = computed(() => {
+  if (!props.shouldTruncate) {
+    return props.amount
+  }
+
+  if (!props.amount.includes('.')) {
+    return props.amount
+  }
+
+  return props.amount.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
 })
 
-const { valueToBigNumber: amountInBigNumber, valueToString: amountToString } =
-  useSharedBigNumberFormatter(computed(() => props.amount))
+const maxTrailingZeros = computed(
+  () => `0.${'0'.repeat(props.maxTrailingZeros)}`
+)
+
+const { valueToBigNumber: amountInBigNumber } = useSharedBigNumberFormatter(
+  computed(() => props.amount)
+)
 
 const condensedZeroCount = computed(() => {
-  if (!props.amount.startsWith(maxTrailingZeros.value)) {
+  if (!amountWithoutTrailingZeros.value.startsWith(maxTrailingZeros.value)) {
     return 0
   }
 
   let condensedCount = 0
 
-  for (const num of props.amount.replace('0.', '')) {
+  for (const num of amountWithoutTrailingZeros.value.replace('0.', '')) {
     if (num !== '0') {
       break
     }
@@ -39,7 +54,10 @@ const condensedZeroCount = computed(() => {
 })
 
 const dustAmount = computed(() =>
-  props.amount.replace(`0.${'0'.repeat(condensedZeroCount.value)}`, '')
+  amountWithoutTrailingZeros.value.replace(
+    `0.${'0'.repeat(condensedZeroCount.value)}`,
+    ''
+  )
 )
 </script>
 
@@ -57,7 +75,7 @@ const dustAmount = computed(() =>
         Number(condensedZeroCount) <= 1
       "
     >
-      {{ amountToString }}
+      {{ amountWithoutTrailingZeros }}
     </span>
 
     <span v-else>
