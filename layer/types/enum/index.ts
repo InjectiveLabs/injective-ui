@@ -37,3 +37,9 @@ export enum GrantDirection {
   Grantee = 'grantee',
   Granter = 'granter'
 }
+
+export enum NuxtUiIcons {
+  Info = 'entypo:info-with-circle',
+  ChevronUp = 'lucide:chevron-up',
+  ChevronDown = 'lucide:chevron-up'
+}
