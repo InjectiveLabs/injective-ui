@@ -119,13 +119,14 @@ export const sharedConvertTimestampToMilliseconds = (
 }
 
 export const sharedGetExactDecimalsFromNumber = (
-  number: number | string
+  number: number | string,
+  keepTrailingZeros?: boolean
 ): number => {
   if (!number.toString().includes('.')) {
     return 0
   }
 
-  if (Number(number) % 1 === 0) {
+  if (!keepTrailingZeros && Number(number) % 1 === 0) {
     return 0
   }
 
@@ -176,15 +177,32 @@ export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
 }
 
 export const getUsdDecimals = (usdValue: string): number => {
-  const amountInBigNumber = new BigNumberInBase(usdValue)
+  const amountInBigNumber = new BigNumber(usdValue)
+
+  if (amountInBigNumber.isZero()) {
+    return 2
+  }
 
   if (amountInBigNumber.isLessThan(0.01)) {
-    return 4
+    return countSignificantDecimals(amountInBigNumber, 4)
   }
 
   if (amountInBigNumber.isLessThan(0.1)) {
-    return 3
+    return countSignificantDecimals(amountInBigNumber, 3)
   }
 
   return 2
+}
+
+const countSignificantDecimals = (value: BigNumber, maxDecimals: number) => {
+  const decimalPlaces = value.decimalPlaces()
+
+  if (!decimalPlaces) {
+    return 2
+  }
+
+  const significantDigits =
+    value.toPrecision(maxDecimals).split('.')[1]?.length || 0
+
+  return Math.min(decimalPlaces, significantDigits)
 }

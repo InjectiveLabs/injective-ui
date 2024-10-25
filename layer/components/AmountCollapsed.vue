@@ -21,11 +21,11 @@ const { valueToString: amountToString } = useSharedBigNumberFormatter(
   computed(() => props.amount),
   {
     decimalPlaces: computed(() =>
-      sharedGetExactDecimalsFromNumber(props.amount)
+      sharedGetExactDecimalsFromNumber(props.amount, true)
     ),
     roundingMode: BigNumber.ROUND_DOWN,
     minimalDecimalPlaces: computed(() =>
-      sharedGetExactDecimalsFromNumber(props.amount)
+      sharedGetExactDecimalsFromNumber(props.amount, true)
     )
   }
 )
