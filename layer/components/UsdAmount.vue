@@ -1,15 +1,14 @@
 <script lang="ts" setup>
-import { getUsdDecimals } from '@/utils/formatter'
+import { getUsdDecimals } from '../utils/formatter'
 import { BigNumber } from '@injectivelabs/utils'
 
-const props = defineProps({
-  isShowNoDecimals: Boolean,
-
-  amount: {
-    type: String,
-    required: true
-  }
-})
+const props = withDefaults(
+  defineProps<{
+    isShowNoDecimals?: boolean
+    amount: string
+  }>(),
+  { isShowNoDecimals: false }
+)
 
 const decimals = computed(() => {
   if (props.isShowNoDecimals) {
@@ -24,7 +23,7 @@ const { valueToFixed: usdAmountToFixed } = useSharedBigNumberFormatter(
   {
     decimalPlaces: decimals.value,
     roundingMode: BigNumber.ROUND_HALF_UP,
-    minimalDisplayDecimals: decimals.value
+    minimalDecimalPlaces: decimals.value
   }
 )
 </script>

@@ -12,6 +12,7 @@ const props = withDefaults(
 
 const formattedTokens = computed(() =>
   props.tokens.map((token) => ({
+    id: token.denom,
     label: `${token.symbol} (${token.name})`,
     avatar: {
       src: token.logo
@@ -22,11 +23,11 @@ const formattedTokens = computed(() =>
   }))
 )
 
-const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
+// const emit = defineEmits<{
+//   'update:modelValue': [value: string]
+// }>()
 
-const selected = ref([people[3]])
+const selected = ref([formattedTokens.value[3]])
 </script>
 
 <template>

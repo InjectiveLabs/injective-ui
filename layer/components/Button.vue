@@ -7,30 +7,30 @@ const props = withDefaults(
   defineProps<{
     ui?: object
     type?: string
-    size?: string
-    icon?: string | null
+    size?: any
+    icon?: string | undefined
     block?: boolean
-    label?: string | null
-    color?: string
+    label?: string | undefined
+    color?: any
     square?: boolean
     padded?: boolean
     class?: string | object | Array<string | object>
     leading?: boolean
     truncate?: boolean
     trailing?: boolean
-    variant?: string
+    variant?: any
     loading?: boolean
     disabled?: boolean
     loadingIcon?: string
-    leadingIcon?: string | null
-    trailingIcon?: string | null
+    leadingIcon?: string | undefined
+    trailingIcon?: string | undefined
   }>(),
   {
-    icon: null,
+    icon: undefined,
     type: 'button',
     size: undefined,
     block: false,
-    label: null,
+    label: undefined,
     color: undefined,
     class: '',
     padded: true,
@@ -41,9 +41,9 @@ const props = withDefaults(
     disabled: false,
     trailing: false,
     truncate: false,
-    leadingIcon: null,
+    leadingIcon: undefined,
     loadingIcon: undefined,
-    trailingIcon: null,
+    trailingIcon: undefined,
     ui: () => ({})
   }
 )
