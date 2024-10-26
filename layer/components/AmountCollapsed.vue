@@ -45,21 +45,28 @@ const amountWithoutTrailingZeros = computed(() => {
 })
 
 const maxTrailingZeros = computed(
-  () => `0.${'0'.repeat(props.maxTrailingZeros)}`
+  () => '0.' + '0'.repeat(props.maxTrailingZeros)
 )
 
 const { valueToBigNumber: amountInBigNumber } = useSharedBigNumberFormatter(
   computed(() => amountToString.value)
 )
 
+// Refactor condensedZeroCount to handle negative numbers
 const condensedZeroCount = computed(() => {
-  if (!amountWithoutTrailingZeros.value.startsWith(maxTrailingZeros.value)) {
+  const amountString = amountWithoutTrailingZeros.value
+  const isNegative = amountString.startsWith('-')
+  const absAmountString = isNegative ? amountString.slice(1) : amountString
+
+  if (!absAmountString.startsWith(maxTrailingZeros.value)) {
     return 0
   }
 
   let condensedCount = 0
 
-  for (const num of amountWithoutTrailingZeros.value.replace('0.', '')) {
+  const digitsAfterDecimal = absAmountString.replace(/^0\./, '')
+
+  for (const num of digitsAfterDecimal) {
     if (num !== '0') {
       break
     }
@@ -70,12 +77,13 @@ const condensedZeroCount = computed(() => {
   return condensedCount
 })
 
-const dustAmount = computed(() =>
-  amountWithoutTrailingZeros.value.replace(
-    `0.${'0'.repeat(condensedZeroCount.value)}`,
-    ''
-  )
-)
+const dustAmount = computed(() => {
+  const amount = amountWithoutTrailingZeros.value
+  const absAmount = amount.replace('-', '')
+  const zerosPattern = `^0.${'0'.repeat(condensedZeroCount.value)}`
+
+  return absAmount.replace(new RegExp(zerosPattern), '')
+})
 </script>
 
 <template>
@@ -88,7 +96,7 @@ const dustAmount = computed(() =>
     <span
       v-if="
         amountInBigNumber.eq(0) ||
-        amountInBigNumber.gt(1) ||
+        amountInBigNumber.abs().gt(1) ||
         Number(condensedZeroCount) <= 1
       "
     >
@@ -97,7 +105,7 @@ const dustAmount = computed(() =>
 
     <span v-else>
       <span class="flex items-center">
-        0.0
+        {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
         <sub>
           {{ condensedZeroCount }}
         </sub>
