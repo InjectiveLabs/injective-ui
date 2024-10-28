@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { getUsdDecimals } from '../utils/formatter'
 import { BigNumber } from '@injectivelabs/utils'
 
 const props = withDefaults(
   defineProps<{
-    isShowNoDecimals?: boolean
     amount: string
+    isShowNoDecimals?: boolean
   }>(),
-  { isShowNoDecimals: false }
+  {}
 )
 
 const decimals = computed(() => {
@@ -15,12 +14,23 @@ const decimals = computed(() => {
     return 0
   }
 
-  return getUsdDecimals(props.amount)
+  const amountInBigNumber = new BigNumber(props.amount)
+  const decimalPlaces = amountInBigNumber.decimalPlaces()
+
+  if (!decimalPlaces) {
+    return 2
+  }
+
+  return Math.min(
+    decimalPlaces,
+    amountInBigNumber.toPrecision(2).split('.')[1]?.length || 0
+  )
 })
 
 const { valueToFixed: usdAmountToFixed } = useSharedBigNumberFormatter(
   computed(() => props.amount),
   {
+    shouldTruncate: true,
     decimalPlaces: decimals.value,
     roundingMode: BigNumber.ROUND_HALF_UP,
     minimalDecimalPlaces: decimals.value

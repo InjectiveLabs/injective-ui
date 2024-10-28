@@ -176,33 +176,33 @@ export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
   })
 }
 
-export const getUsdDecimals = (usdValue: string): number => {
-  const amountInBigNumber = new BigNumber(usdValue)
+// export const getUsdDecimals = (usdValue: string): number => {
+//   const amountInBigNumber = new BigNumber(usdValue)
 
-  if (amountInBigNumber.isZero()) {
-    return 2
-  }
+//   if (amountInBigNumber.isZero()) {
+//     return 2
+//   }
 
-  if (amountInBigNumber.isLessThan(0.01)) {
-    return countSignificantDecimals(amountInBigNumber, 4)
-  }
+//   if (amountInBigNumber.isLessThan(0.01)) {
+//     return countSignificantDecimals(amountInBigNumber, 2)
+//   }
 
-  if (amountInBigNumber.isLessThan(0.1)) {
-    return countSignificantDecimals(amountInBigNumber, 3)
-  }
+//   if (amountInBigNumber.isLessThan(0.1)) {
+//     return countSignificantDecimals(amountInBigNumber, 2)
+//   }
 
-  return 2
-}
+//   return 2
+// }
 
-const countSignificantDecimals = (value: BigNumber, maxDecimals: number) => {
-  const decimalPlaces = value.decimalPlaces()
+// const countSignificantDecimals = (value: BigNumber, maxDecimals: number) => {
+//   const decimalPlaces = value.decimalPlaces()
 
-  if (!decimalPlaces) {
-    return 2
-  }
+//   if (!decimalPlaces) {
+//     return 2
+//   }
 
-  const significantDigits =
-    value.toPrecision(maxDecimals).split('.')[1]?.length || 0
+//   const significantDigits =
+//     value.toPrecision(maxDecimals).split('.')[1]?.length || 0
 
-  return Math.min(decimalPlaces, significantDigits)
-}
+//   return Math.min(decimalPlaces, significantDigits)
+// }
