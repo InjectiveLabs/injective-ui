@@ -88,32 +88,34 @@ const dustAmount = computed(() => {
 </script>
 
 <template>
-  <slot
-    v-bind="{
-      dustAmount,
-      condensedZeroCount
-    }"
-  >
-    <span v-if="showZeroAsEmDash && amountInBigNumber.eq(0)"> &mdash; </span>
-
-    <span
-      v-else-if="
-        condensedZeroCount <= 1 ||
-        amountInBigNumber.eq(0) ||
-        amountInBigNumber.abs().gt(1)
-      "
+  <span>
+    <slot
+      v-bind="{
+        dustAmount,
+        condensedZeroCount
+      }"
     >
-      {{ amountWithoutTrailingZeros }}
-    </span>
+      <span v-if="showZeroAsEmDash && amountInBigNumber.eq(0)"> &mdash; </span>
 
-    <span v-else>
-      <span class="flex items-center">
-        {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
-        <sub>
-          {{ condensedZeroCount }}
-        </sub>
-        {{ dustAmount }}
+      <span
+        v-else-if="
+          condensedZeroCount <= 1 ||
+          amountInBigNumber.eq(0) ||
+          amountInBigNumber.abs().gt(1)
+        "
+      >
+        {{ amountWithoutTrailingZeros }}
       </span>
-    </span>
-  </slot>
+
+      <span v-else>
+        <span class="flex items-center">
+          {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
+          <sub>
+            {{ condensedZeroCount }}
+          </sub>
+          {{ dustAmount }}
+        </span>
+      </span>
+    </slot>
+  </span>
 </template>
