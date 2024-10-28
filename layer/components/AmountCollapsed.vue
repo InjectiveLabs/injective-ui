@@ -5,6 +5,7 @@ import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 
 const props = defineProps({
   shouldTruncate: Boolean,
+  showZeroAsEmDash: Boolean,
 
   amount: {
     type: String,
@@ -93,11 +94,13 @@ const dustAmount = computed(() => {
       condensedZeroCount
     }"
   >
+    <span v-if="showZeroAsEmDash && amountInBigNumber.eq(0)"> &mdash; </span>
+
     <span
-      v-if="
+      v-else-if="
+        condensedZeroCount <= 1 ||
         amountInBigNumber.eq(0) ||
-        amountInBigNumber.abs().gt(1) ||
-        Number(condensedZeroCount) <= 1
+        amountInBigNumber.abs().gt(1)
       "
     >
       {{ amountWithoutTrailingZeros }}
