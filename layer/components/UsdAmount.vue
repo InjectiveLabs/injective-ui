@@ -45,6 +45,10 @@ const shouldTruncateUsdAmount = computed(() => {
     return true
   }
 
+  if (usdAmountToBigNumber.value.isZero() && !props.isShowNoDecimals) {
+    return false
+  }
+
   return (
     usdAmountToBigNumber.value.lt(0.01) && usdAmountToFixed.value.endsWith('0')
   )
