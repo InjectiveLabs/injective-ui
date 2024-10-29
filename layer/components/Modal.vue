@@ -20,17 +20,19 @@ const props = withDefaults(
     modelValue: false,
     preventClose: false,
     class: () => '',
-    object: () => ({})
+    ui: () => ({})
   }
 )
 
 const emit = defineEmits<{
-  'update:isOpen': [isOpen: boolean]
+  'update:modelValue': [modelValue: boolean]
 }>()
 
 const isOpen = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: (value: boolean) => {
+    emit('update:modelValue', value)
+  }
 })
 </script>
 

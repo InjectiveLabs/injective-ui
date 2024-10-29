@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { BigNumber } from '@injectivelabs/utils'
+import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 
 const props = defineProps({
   shouldTruncate: Boolean,
+  showZeroAsEmDash: Boolean,
 
   amount: {
     type: String,
@@ -15,34 +18,56 @@ const props = defineProps({
   }
 })
 
+const { valueToString: amountToString } = useSharedBigNumberFormatter(
+  computed(() => props.amount),
+  {
+    decimalPlaces: computed(() =>
+      sharedGetExactDecimalsFromNumber(props.amount, true)
+    ),
+    roundingMode: BigNumber.ROUND_DOWN,
+    minimalDecimalPlaces: computed(() =>
+      sharedGetExactDecimalsFromNumber(props.amount, true)
+    )
+  }
+)
+
 const amountWithoutTrailingZeros = computed(() => {
   if (!props.shouldTruncate) {
-    return props.amount
+    return amountToString.value
   }
 
-  if (!props.amount.includes('.')) {
-    return props.amount
+  if (!amountToString.value.includes('.')) {
+    return amountToString.value
   }
 
-  return props.amount.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
+  return amountToString.value
+    .replace(/(\.\d*?[1-9])0+$/, '$1')
+    .replace(/\.0+$/, '')
 })
 
 const maxTrailingZeros = computed(
-  () => `0.${'0'.repeat(props.maxTrailingZeros)}`
+  () => '0.' + '0'.repeat(props.maxTrailingZeros)
 )
 
 const { valueToBigNumber: amountInBigNumber } = useSharedBigNumberFormatter(
-  computed(() => props.amount)
+  computed(() => amountToString.value)
 )
 
+// Refactor condensedZeroCount to handle negative numbers
 const condensedZeroCount = computed(() => {
-  if (!amountWithoutTrailingZeros.value.startsWith(maxTrailingZeros.value)) {
+  const amountString = amountWithoutTrailingZeros.value
+  const isNegative = amountString.startsWith('-')
+  const absAmountString = isNegative ? amountString.slice(1) : amountString
+
+  if (!absAmountString.startsWith(maxTrailingZeros.value)) {
     return 0
   }
 
   let condensedCount = 0
 
-  for (const num of amountWithoutTrailingZeros.value.replace('0.', '')) {
+  const digitsAfterDecimal = absAmountString.replace(/^0\./, '')
+
+  for (const num of digitsAfterDecimal) {
     if (num !== '0') {
       break
     }
@@ -53,39 +78,44 @@ const condensedZeroCount = computed(() => {
   return condensedCount
 })
 
-const dustAmount = computed(() =>
-  amountWithoutTrailingZeros.value.replace(
-    `0.${'0'.repeat(condensedZeroCount.value)}`,
-    ''
-  )
-)
+const dustAmount = computed(() => {
+  const amount = amountWithoutTrailingZeros.value
+  const absAmount = amount.replace('-', '')
+  const zerosPattern = `^0.${'0'.repeat(condensedZeroCount.value)}`
+
+  return absAmount.replace(new RegExp(zerosPattern), '')
+})
 </script>
 
 <template>
-  <slot
-    v-bind="{
-      dustAmount,
-      condensedZeroCount
-    }"
-  >
-    <span
-      v-if="
-        amountInBigNumber.eq(0) ||
-        amountInBigNumber.gt(1) ||
-        Number(condensedZeroCount) <= 1
-      "
+  <span>
+    <slot
+      v-bind="{
+        dustAmount,
+        condensedZeroCount
+      }"
     >
-      {{ amountWithoutTrailingZeros }}
-    </span>
+      <span v-if="showZeroAsEmDash && amountInBigNumber.eq(0)"> &mdash; </span>
 
-    <span v-else>
-      <span class="flex items-center">
-        0.0
-        <sub>
-          {{ condensedZeroCount }}
-        </sub>
-        {{ dustAmount }}
+      <span
+        v-else-if="
+          condensedZeroCount <= 1 ||
+          amountInBigNumber.eq(0) ||
+          amountInBigNumber.abs().gt(1)
+        "
+      >
+        {{ amountWithoutTrailingZeros }}
       </span>
-    </span>
-  </slot>
+
+      <span v-else>
+        <span class="flex items-center">
+          {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
+          <sub>
+            {{ condensedZeroCount }}
+          </sub>
+          {{ dustAmount }}
+        </span>
+      </span>
+    </slot>
+  </span>
 </template>
