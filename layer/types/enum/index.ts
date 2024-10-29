@@ -44,6 +44,8 @@ export enum NuxtUiIcons {
   ChevronDown = 'bi:chevron-down',
   ChevronLeft = 'bi:chevron-left',
   ChevronRight = 'bi:chevron-right',
+  ChevronUp2 = 'fa-solid:chevron-up',
+  ChevronLeft2 = 'fa-solid:chevron-left',
   Loading = 'eos-icons:loading',
   Trash = 'mdi:bin-outline',
   PieChart = 'bi:pie-chart',
@@ -88,7 +90,7 @@ export enum NuxtUiIcons {
   Chain = 'akar-icons:link-chain',
   Bitcoin = 'hugeicons:bitcoin-04',
   Robot = 'bi:robot',
-  Notebook = 'solar:notebook-outline',
+  Notebook = 'lucide:notebook-text',
   Gas = 'material-symbols:local-gas-station',
   FourPointStar = 'mdi:star-four-points',
   Share = 'mage:share-fill',
@@ -96,7 +98,7 @@ export enum NuxtUiIcons {
   Plus = 'mdi:plus',
   Star = 'material-symbols:star',
   Rotate = 'fa:rotate-left',
-  CheckShieldOutline = 'iconamoon:copy-light',
+  CheckShieldOutline = 'stash:shield-check',
   CloudSlash = 'bi:cloud-slash',
   Refresh = 'el:refresh'
 }
