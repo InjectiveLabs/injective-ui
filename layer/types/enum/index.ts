@@ -60,6 +60,8 @@ export enum NuxtUiIcons {
   Close = 'flowbite:close-outline',
   CloseBold = 'ep:close-bold',
   Triangle = 'bi:caret-down-fill',
+  TriangleDown = 'bi:caret-down-fill',
+  TriangleUp = 'bi:caret-up-fill',
   ArrowLeft = 'fluent:arrow-left-12-regular',
   ArrowDiagonalRight = 'eva:diagonal-arrow-right-up-fill',
   DashCircle = 'bi:dash-circle',
