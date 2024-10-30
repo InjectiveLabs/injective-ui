@@ -966,6 +966,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.disconnect()
 
+      walletStore.resetAuthZ()
+      walletStore.disconnectAutoSign()
+
       walletStore.$patch({
         ...initialStateFactory(),
         queueStatus: StatusType.Idle,
