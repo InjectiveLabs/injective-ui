@@ -34,9 +34,9 @@ const {
 } = useSharedBigNumberFormatter(
   computed(() => props.amount),
   {
-    decimalPlaces: decimals.value,
+    decimalPlaces: computed(() => decimals.value),
     roundingMode: BigNumber.ROUND_HALF_UP,
-    minimalDecimalPlaces: decimals.value
+    minimalDecimalPlaces: computed(() => decimals.value)
   }
 )
 
