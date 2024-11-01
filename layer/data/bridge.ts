@@ -24,13 +24,17 @@ export const CosmosChainId = {
   [Network.Fetch]: 'fetchhub-4',
   [Network.XionTestnet]: 'xion-testnet-1',
   [Network.EvmosTestnet]: 'evmos_9000-4',
-  [Network.MantraChain]: 'mantrachain',
+  [Network.Mantra]: 'mantra-1',
+  [Network.WormholeGeneric]: 'wormchain',
+  [Network.Neutron]: 'neutron-1',
 
   // networks below are disabled
   [Network.Canto]: 'canto_7700-1',
   [Network.Chihuahua]: 'chihuahua-1',
   [Network.Juno]: 'juno-1',
-  [Network.Terra]: 'columbus-5'
+  [Network.Terra]: 'columbus-5',
+  [Network.InjectiveDevnet]: 'injective-777',
+  [Network.InjectiveTestnet]: 'injective-888'
 }
 
 export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
@@ -196,8 +200,8 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     bToAClientId: '07-tendermint-266',
     port: 'transfer'
   },
-  [Network.MantraChain]: {
-    aChainId: CosmosChainId[Network.MantraChain],
+  [Network.Mantra]: {
+    aChainId: CosmosChainId[Network.Mantra],
     bChainId: CosmosChainId[Network.Injective],
     aToBChannelId: 'channel-2',
     aToBClientId: '07-tendermint-2',

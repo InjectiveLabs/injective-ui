@@ -40,8 +40,11 @@ export enum Network {
   CosmosHubTestnet = 'cosmosHub-testnet',
   Andromeda = 'andromeda',
   Saga = 'saga',
+  Mantra = 'mantra',
+  Neutron = 'neutron',
+  WormholeGeneric = 'wormhole-generic',
   XionTestnet = 'xion-testnet',
   EvmosTestnet = 'evmos-testnet',
-  WormholeGeneric = 'wormhole-generic',
-  MantraChain = 'mantrachain'
+  InjectiveDevnet = 'injective-devnet',
+  InjectiveTestnet = 'injective-testnet'
 }
