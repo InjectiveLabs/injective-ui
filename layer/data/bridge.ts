@@ -23,8 +23,8 @@ export const CosmosChainId = {
   [Network.Saga]: 'ssc-1',
   [Network.Fetch]: 'fetchhub-4',
   [Network.XionTestnet]: 'xion-testnet-1',
-
   [Network.EvmosTestnet]: 'evmos_9000-4',
+  [Network.MantraChain]: 'mantrachain',
 
   // networks below are disabled
   [Network.Canto]: 'canto_7700-1',
@@ -194,6 +194,15 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     aToBClientId: '07-tendermint-82',
     bToAChannelId: 'channel-283',
     bToAClientId: '07-tendermint-266',
+    port: 'transfer'
+  },
+  [Network.MantraChain]: {
+    aChainId: CosmosChainId[Network.MantraChain],
+    bChainId: CosmosChainId[Network.Injective],
+    aToBChannelId: 'channel-2',
+    aToBClientId: '07-tendermint-2',
+    bToAChannelId: 'channel-363',
+    bToAClientId: '07-tendermint-275',
     port: 'transfer'
   }
   // networks below are disabled

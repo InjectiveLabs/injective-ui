@@ -42,5 +42,6 @@ export enum Network {
   Saga = 'saga',
   XionTestnet = 'xion-testnet',
   EvmosTestnet = 'evmos-testnet',
-  WormholeGeneric = 'wormhole-generic'
+  WormholeGeneric = 'wormhole-generic',
+  MantraChain = 'mantrachain'
 }
