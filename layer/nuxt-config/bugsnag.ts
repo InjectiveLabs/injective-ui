@@ -15,11 +15,13 @@ const bugsnagConfig = {
   }
 }
 
-// eslint-disable-next-line no-console
-console.log(
-  `Instantiating bugsnag: ${shouldInstantiateBugsnag}`,
-  '\n',
-  bugsnagConfig
-)
+if (process.env.VITE_BUGSNAG_KEY) {
+  // eslint-disable-next-line no-console
+  console.log(
+    `Instantiating bugsnag: ${shouldInstantiateBugsnag}`,
+    '\n',
+    bugsnagConfig
+  )
+}
 
 export default shouldInstantiateBugsnag ? bugsnagConfig : undefined
