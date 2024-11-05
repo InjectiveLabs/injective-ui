@@ -23,7 +23,6 @@ export default defineNuxtConfig({
   components: [{ path: resolve('./components'), prefix: 'Shared' }],
 
   modules: [
-    '@nuxt/ui',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@vueuse/nuxt',
