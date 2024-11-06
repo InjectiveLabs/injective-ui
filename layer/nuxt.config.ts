@@ -23,12 +23,12 @@ export default defineNuxtConfig({
   components: [{ path: resolve('./components'), prefix: 'Shared' }],
 
   modules: [
-    '@nuxtjs/i18n',
     '@pinia/nuxt',
+    '@nuxtjs/i18n',
     '@vueuse/nuxt',
     '@nuxt/devtools',
-    '@nuxtjs/tailwindcss',
     'nuxt-vitalizer',
+    'nuxt-lcp-speedup',
     ...(process.env.VITE_BUGSNAG_KEY ? ['@injectivelabs/nuxt-bugsnag'] : [])
   ],
 

@@ -9,6 +9,7 @@
     "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.18.7",
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {

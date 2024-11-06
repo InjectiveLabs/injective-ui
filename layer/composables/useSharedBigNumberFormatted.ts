@@ -145,7 +145,7 @@ export function useSharedBigNumberFormatter(
 
   const valueToFixed = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return !options.shouldTruncate
+      return options.shouldTruncate
         ? '0'
         : getFormattedZeroValue(decimalPlaces.value)
     }
@@ -171,7 +171,7 @@ export function useSharedBigNumberFormatter(
 
   const valueToString = computed(() => {
     if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
-      return !options.shouldTruncate
+      return options.shouldTruncate
         ? '0'
         : getFormattedZeroValue(decimalPlaces.value)
     }
