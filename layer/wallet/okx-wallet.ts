@@ -40,10 +40,9 @@ export const validateOkxWallet = async (
 
   if (okxWalletActiveAddressDoesntMatchTheActiveAddress) {
     throw new OkxWalletException(
-      new Error(
-        'You are connected to the wrong address. Please logout and connect to OkxWallet again'
-      ),
+      new Error(`You are connected to the wrong address. Please reconnect!`),
       {
+        contextModule: 'OkxWallet',
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError
       }

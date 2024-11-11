@@ -38,10 +38,9 @@ export const validateBitGet = async (
 
   if (bitGetActiveAddressDoesntMatchTheActiveAddress) {
     throw new BitGetException(
-      new Error(
-        'You are connected to the wrong address. Please logout and connect to BitGet again'
-      ),
+      new Error(`You are connected to the wrong address. Please reconnect!`),
       {
+        contextModule: 'BitGet',
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError
       }
