@@ -216,7 +216,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       if (walletStore.queueStatus === StatusType.Loading) {
-        throw new Error('You have a pending transaction.')
+        throw new GeneralException(new Error('You have a pending transaction.'))
       } else {
         walletStore.$patch({
           queueStatus: StatusType.Loading
