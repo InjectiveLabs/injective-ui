@@ -86,7 +86,7 @@ export class Web3Client {
     try {
       return await alchemy.core.getTokenMetadata(address)
     } catch (e: unknown) {
-      throw new Web3Exception(new Error((e as any).message))
+      throw new Web3Exception(new Error(e as any))
     }
   }
 
@@ -98,7 +98,7 @@ export class Web3Client {
 
       return ethBalance.toString()
     } catch (e: unknown) {
-      throw new Web3Exception(new Error((e as any).message))
+      throw new Web3Exception(new Error(e as any))
     }
   }
 

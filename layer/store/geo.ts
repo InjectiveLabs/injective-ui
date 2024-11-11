@@ -55,9 +55,10 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
 
     async fetchIpAddress() {
       const sharedGeoStore = useSharedGeoStore()
+      const endpoint = 'https://www.myexternalip.com/json'
 
       try {
-        const httpClient = new HttpClient('https://www.myexternalip.com/json')
+        const httpClient = new HttpClient(endpoint)
 
         const { data } = (await httpClient.get('')) as any
 
@@ -66,7 +67,8 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
         })
       } catch (e: unknown) {
         throw new HttpRequestException(new Error((e as any).message), {
-          contextModule: 'region'
+          contextModule: 'region',
+          context: endpoint
         })
       }
     },

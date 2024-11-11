@@ -53,7 +53,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 
@@ -78,7 +78,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 
@@ -108,7 +108,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 
@@ -138,7 +138,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 
@@ -159,7 +159,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 
@@ -181,7 +181,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 
@@ -203,7 +203,7 @@ export class CoinGeckoApiService {
         throw e
       }
 
-      throw new HttpRequestException(new Error((e as any).message))
+      throw new HttpRequestException(new Error(e as any))
     }
   }
 }
