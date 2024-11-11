@@ -23,7 +23,7 @@ const props = defineProps({
 })
 
 const timeout = ref()
-const remainingTimeout = ref(6000)
+const remainingTimeout = ref(6_000_000)
 
 onMounted(
   () => (timeout.value = setTimeout(onClose, props.notification.timeout))
@@ -58,6 +58,7 @@ function onResume() {
     leave-to-class="opacity-0"
   >
     <div
+      v-if="notification"
       class="rounded-lg pointer-events-auto ui-notification"
       :class="wrapperClass"
       @mouseenter="onPause"
