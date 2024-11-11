@@ -44,7 +44,7 @@ const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
 
 export class TokenPrice {
   private coinGeckoApi: CoinGeckoApiService | undefined
-  private restClient: HttpRestClient
+  private client: HttpRestClient
 
   constructor(
     network: Network,
@@ -54,22 +54,23 @@ export class TokenPrice {
     }
   ) {
     this.coinGeckoApi = new CoinGeckoApiService(coinGeckoOptions)
-    this.restClient = new HttpRestClient(getAssetMicroserviceEndpoint(network))
+    this.client = new HttpRestClient(getAssetMicroserviceEndpoint(network), {
+      timeout: 30_000
+    })
   }
 
   async fetchUsdTokensPrice(coinGeckoIds: string[] = []) {
-    const { data } = (await this.restClient.get('denoms?withPrice=true')) as {
+    const response = await this.client.retry<{
       data: Record<string, TokenStaticWithPrice>
-    }
+    }>(() => this.client.get(`denoms?withPrice=true`))
 
-    const tokenPriceMap: Record<string, number> = Object.values(data).reduce(
-      (prices, tokenWithPrice) => {
-        const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
+    const tokenPriceMap: Record<string, number> = Object.values(
+      response.data
+    ).reduce((prices, tokenWithPrice) => {
+      const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
 
-        return { ...prices, [id.toLowerCase()]: tokenWithPrice.price.price }
-      },
-      {}
-    )
+      return { ...prices, [id.toLowerCase()]: tokenWithPrice.price.price }
+    }, {})
 
     const coinGeckoIdsToFetch = coinGeckoIds.filter(
       (coinGeckoId) => !tokenPriceMap[coinGeckoId]
