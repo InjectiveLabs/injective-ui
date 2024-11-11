@@ -23,7 +23,7 @@ const props = defineProps({
 })
 
 const timeout = ref()
-const remainingTimeout = ref(6_000_000)
+const remainingTimeout = ref(6000)
 
 onMounted(
   () => (timeout.value = setTimeout(onClose, props.notification.timeout))
