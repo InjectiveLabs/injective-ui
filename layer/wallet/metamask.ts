@@ -37,9 +37,10 @@ export const validateMetamask = async (address: string) => {
   if (metamaskActiveAddressDoesntMatchTheActiveAddress) {
     throw new MetamaskException(
       new Error(
-        'You are connected to the wrong address. Please logout and connect to Metamask again'
+        `You are connected to the wrong address. Please reconnect your wallet!`
       ),
       {
+        contextModule: 'Metamask',
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError
       }

@@ -36,10 +36,9 @@ export const validateTrustWallet = async (address: AccountAddress) => {
 
   if (trustWalletActiveAddressDoesntMatchTheActiveAddress) {
     throw new TrustWalletException(
-      new Error(
-        'You are connected to the wrong address. Please logout and connect to TrustWallet again'
-      ),
+      new Error(`You are connected to the wrong address. Please reconnect!`),
       {
+        contextModule: 'TrustWallet',
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError
       }

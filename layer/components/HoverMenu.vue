@@ -8,6 +8,30 @@ defineProps({
     type: Array as any,
     default: () => ['click', 'hover', 'focus'] as any,
     required: false
+  },
+
+  container: {
+    type: String,
+    default: 'body',
+    required: false
+  },
+
+  placement: {
+    type: String,
+    default: 'top',
+    required: false
+  },
+
+  boundary: {
+    type: String,
+    default: undefined,
+    required: false
+  },
+
+  distance: {
+    type: Number,
+    default: 8,
+    required: false
   }
 })
 
@@ -47,10 +71,12 @@ const closeDebounce = useDebounceFn(() => {
 <template>
   <Menu
     v-bind="$attrs"
-    placement="top"
-    :popperTriggers="triggers"
+    :placement="placement"
+    :container="container"
+    :popper-triggers="triggers"
     :triggers="triggers"
-    :distance="8"
+    :boundary="boundary"
+    :distance="distance"
     :shown="isOpen"
     @update:shown="onUpdate"
     @apply-hide="onHide"

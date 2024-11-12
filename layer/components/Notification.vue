@@ -58,6 +58,7 @@ function onResume() {
     leave-to-class="opacity-0"
   >
     <div
+      v-if="notification"
       class="rounded-lg pointer-events-auto ui-notification"
       :class="wrapperClass"
       @mouseenter="onPause"

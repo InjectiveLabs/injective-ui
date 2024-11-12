@@ -5,7 +5,10 @@ import {
   BigNumberInBase
 } from '@injectivelabs/utils'
 import { Network as AlchemyNetwork, Alchemy } from 'alchemy-sdk'
-import { HttpRequestException } from '@injectivelabs/exceptions'
+import {
+  GeneralException,
+  HttpRequestException
+} from '@injectivelabs/exceptions'
 import { Network, isTestnetOrDevnet, isMainnet } from '@injectivelabs/networks'
 import {
   GWEI_IN_WEI,
@@ -57,7 +60,7 @@ const fetchGasPriceFromAlchemy = async (
     const response = await alchemy.core.getFeeData()
 
     if (!response) {
-      throw new HttpRequestException(new Error('No response from Alchemy'))
+      throw new GeneralException(new Error('No response from Alchemy'))
     }
 
     if (response.maxFeePerGas) {
@@ -67,7 +70,7 @@ const fetchGasPriceFromAlchemy = async (
     const gasPrice = await alchemy.core.getGasPrice()
 
     if (!gasPrice) {
-      throw new HttpRequestException(
+      throw new GeneralException(
         new Error('No gas price response from Alchemy')
       )
     }
@@ -78,20 +81,19 @@ const fetchGasPriceFromAlchemy = async (
       throw e
     }
 
-    throw new HttpRequestException(new Error((e as any).message))
+    throw new GeneralException(new Error(e as any))
   }
 }
 
 const fetchGasPriceFromEtherchain = async (): Promise<string> => {
   try {
-    const response = (await new HttpClient(
-      'https://www.etherchain.org/api/'
-    ).get('gasPriceOracle')) as {
+    const endpoint = 'https://www.etherchain.org/api/gasPriceOracle'
+    const response = (await new HttpClient(endpoint).get('')) as {
       data: EtherchainResult
     }
 
     if (!response || (response && !response.data)) {
-      throw new HttpRequestException(new Error('No response from Etherchain'))
+      throw new GeneralException(new Error('No response from Etherchain'))
     }
 
     return new BigNumberInWei(
@@ -102,21 +104,23 @@ const fetchGasPriceFromEtherchain = async (): Promise<string> => {
       throw e
     }
 
-    throw new HttpRequestException(new Error((e as any).message))
+    throw new GeneralException(new Error(e as any))
   }
 }
 
 const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
   try {
-    const response = (await new HttpClient(
-      'https://ethgasstation.info/json'
-    ).get('ethgasAPI.json')) as {
+    const endpoint = 'https://ethgasstation.info/json/ethgasAPI.json'
+    const response = (await new HttpClient(endpoint).get('')) as {
       data: EthGasStationResult
     }
 
     if (!response || (response && !response.data)) {
       throw new HttpRequestException(
-        new Error('No response from Ethgasstation')
+        new Error('No response from Ethgasstation'),
+        {
+          context: endpoint
+        }
       )
     }
 
@@ -130,7 +134,7 @@ const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
       throw e
     }
 
-    throw new HttpRequestException(new Error((e as any).message))
+    throw new HttpRequestException(new Error(e as any))
   }
 }
 

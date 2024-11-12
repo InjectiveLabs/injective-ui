@@ -64,10 +64,9 @@ export const validateCosmosWallet = async ({
 
   if (activeAddressDoesntMatchTheActiveAddress) {
     throw new CosmosWalletException(
-      new Error(
-        `You are connected to the wrong address. Your connected address is ${address}`
-      ),
+      new Error(`You are connected to the wrong address. Please reconnect!`),
       {
+        contextModule: wallet,
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError
       }

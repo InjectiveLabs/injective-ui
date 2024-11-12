@@ -36,10 +36,9 @@ export const validatePhantom = async (address: string) => {
 
   if (phantomtWalletActiveAddressDoesntMatchTheActiveAddress) {
     throw new MetamaskException(
-      new Error(
-        'You are connected to the wrong address. Please logout and connect to Phantom again'
-      ),
+      new Error(`You are connected to the wrong address. Please reconnect!`),
       {
+        contextModule: 'Phantom',
         code: UnspecifiedErrorCode,
         type: ErrorType.WalletError
       }

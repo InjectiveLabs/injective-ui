@@ -1,3 +1,13 @@
 {
-  "extends": "./nuxt/tsconfig.json"
+  "extends": "./nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "@injectivelabs/networks",
+      "@injectivelabs/utils",
+      "@injectivelabs/sdk-ts",
+      "@injectivelabs/exceptions",
+      "@injectivelabs/ts-types",
+      "@injectivelabs/wallet-ts"
+    ]
+  },
 }
