@@ -1,3 +1,5 @@
+import type { ModuleOptions } from 'nuxt-bugsnag'
+
 const shouldInstantiateBugsnag = !!(
   process.env.GIT_TAG &&
   process.env.VITE_ENV &&
@@ -5,17 +7,21 @@ const shouldInstantiateBugsnag = !!(
   process.env.VITE_BUGSNAG_KEY
 )
 
-const bugsnagConfig = {
-  baseUrl: process.env.VITE_BASE_URL,
-  config: {
-    appVersion: process.env.GIT_TAG,
-    releaseStage: process.env.VITE_ENV,
-    apiKey: process.env.VITE_BUGSNAG_KEY,
-    notifyReleaseStages: ['staging', 'mainnet']
-  }
-}
+const bugsnagConfig: Partial<ModuleOptions> = process.env.VITE_BUGSNAG_KEY
+  ? ({} as ModuleOptions)
+  : {
+      config: {
+        appVersion: process.env.GIT_TAG,
+        releaseStage: process.env.VITE_ENV,
+        apiKey: process.env.VITE_BUGSNAG_KEY as string,
+        notifyReleaseStages: ['staging', 'mainnet']
+      },
+      baseUrl: process.env.VITE_BASE_URL,
+      publishRelease: false,
+      disabled: false
+    }
 
-if (process.env.VITE_BUGSNAG_KEY) {
+if (shouldInstantiateBugsnag) {
   // eslint-disable-next-line no-console
   console.log(
     `Instantiating bugsnag: ${shouldInstantiateBugsnag}`,
@@ -24,4 +30,4 @@ if (process.env.VITE_BUGSNAG_KEY) {
   )
 }
 
-export default shouldInstantiateBugsnag ? bugsnagConfig : undefined
+export default bugsnagConfig

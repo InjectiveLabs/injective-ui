@@ -5,11 +5,14 @@
   "main": "./nuxt.config.ts",
   "license": "Apache-2.0",
   "scripts": {
+    "prepare": "nuxi prepare",
     "lint": "eslint .",
-    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts"
+    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts && yarn prepare"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
+    "@vueuse/nuxt": "^11.2.0",
+    "nuxt-bugsnag": "^8.0.0",
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
