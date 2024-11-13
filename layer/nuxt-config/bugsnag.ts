@@ -16,7 +16,7 @@ const bugsnagConfig: Partial<ModuleOptions> = {
   },
   baseUrl: process.env.VITE_BASE_URL,
   publishRelease: false,
-  disabled: shouldInstantiateBugsnag
+  disabled: !shouldInstantiateBugsnag
 }
 
 if (shouldInstantiateBugsnag) {
