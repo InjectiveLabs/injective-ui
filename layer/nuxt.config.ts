@@ -28,8 +28,10 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     'nuxt-vitalizer',
     'nuxt-lcp-speedup',
-    ['nuxt-bugsnag', { ...bugsnag }]
+    'nuxt-bugsnag'
   ],
+
+  bugsnag,
 
   typescript: {
     typeCheck: 'build'
