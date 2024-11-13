@@ -1943,10 +1943,10 @@
     "@injectivelabs/utils" "^1.14.19"
     shx "^0.3.2"
 
-"@injectivelabs/nuxt-bugsnag@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/nuxt-bugsnag/-/nuxt-bugsnag-0.0.4.tgz#5a1f1617cb30d3d47b5ab3501c6c5eea27b1bffa"
-  integrity sha512-sLxhgKcHewCnqj/j602wqPp1PGN53rS/jwjK/wsFormOkFikqWGZ+LgBD386klYbGHouvMjfNhHmlABhIOyJpw==
+"@injectivelabs/nuxt-bugsnag@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/nuxt-bugsnag/-/nuxt-bugsnag-0.0.5.tgz#e3337ef4811c996745ae001f07ab8f38ee9ffff4"
+  integrity sha512-0qHYkfwAtYwEe1SLqMBubKsVlITo2XhnZn0WtwImiX9P7zgJHPrWHJXFjaEK2wq9SEKyc2g36+SE9v8S1mDDqw==
   dependencies:
     "@bugsnag/browser-performance" "^2.8.0"
     "@bugsnag/js" "^8.0.0"
@@ -12319,12 +12319,12 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
 
 "shared-packages@https://github.com/InjectiveLabs/shared-packages#master":
   version "1.0.0"
-  resolved "https://github.com/InjectiveLabs/shared-packages#ae72dbe2c001f9a5263ef2a8d91728937c804b65"
+  resolved "https://github.com/InjectiveLabs/shared-packages#22d1b87d09274d86bb119da937e7a1d8de40837b"
   dependencies:
     "@bangjelkoski/ens-validation" "^0.1.1"
     "@injectivelabs/exceptions" " 1.14.19"
     "@injectivelabs/networks" " 1.14.19"
-    "@injectivelabs/nuxt-bugsnag" "0.0.4"
+    "@injectivelabs/nuxt-bugsnag" "0.0.5"
     "@injectivelabs/sdk-ts" "1.14.20-beta.2"
     "@injectivelabs/ts-types" " 1.14.19"
     "@injectivelabs/utils" " 1.14.19"
