@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
+    '@nuxtjs/i18n',
     '@nuxt/devtools',
     'nuxt-vitalizer',
     'nuxt-lcp-speedup',
