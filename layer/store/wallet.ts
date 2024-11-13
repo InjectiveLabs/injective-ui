@@ -674,18 +674,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(Wallet.Magic)
 
       try {
-        const addresses = await getAddresses({ email, provider })
+        const [address] = await getAddresses({ email, provider })
 
-        if (!addresses.length) {
+        if (!address) {
           return
         }
 
-        const [address] = addresses
+        const ethereumAddress = getEthereumAddress(address)
         const session = await walletStrategy.getSessionOrConfirm(address)
 
         walletStore.$patch({
-          address,
-          addresses,
+          address: ethereumAddress,
+          addresses: [ethereumAddress],
           addressConfirmation: await walletStrategy.getSessionOrConfirm(
             address
           ),
