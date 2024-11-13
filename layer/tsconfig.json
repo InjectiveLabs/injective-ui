@@ -2,7 +2,8 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "types": [
-      "nuxt-bugsnag",
+      "@types/node",
+      "@injectivelabs/nuxt-bugsnag",
       "@injectivelabs/networks",
       "@injectivelabs/utils",
       "@injectivelabs/sdk-ts",

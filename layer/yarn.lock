@@ -1792,10 +1792,10 @@
     "@injectivelabs/utils" "^1.14.19"
     shx "^0.3.2"
 
-"@injectivelabs/nuxt-bugsnag@0.0.6":
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/@injectivelabs/nuxt-bugsnag/-/nuxt-bugsnag-0.0.6.tgz#25a558385a7b6dcb0eb8a1bd14a932e2527a90dc"
-  integrity sha512-NhH21zcVJwFOen3qmVuA9ak3vXs/gAqIgxjK418dvlONoDK7NDptdeMkjnbYJW9Sp8t4jBrXI6shrVhmsb6f4Q==
+"@injectivelabs/nuxt-bugsnag@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/nuxt-bugsnag/-/nuxt-bugsnag-0.0.10.tgz#290a2e798968e8237f246d17d04abf7ba6874038"
+  integrity sha512-5yQ0K25Yxv8WfTGT/3s60Svk2DrY4PbacUXhvjnj0Bl6fpz6OTfUrXsg+8l10LhKdM5uZ+ZbwSDSzBI77UdI4Q==
   dependencies:
     "@bugsnag/browser-performance" "^2.8.0"
     "@bugsnag/js" "^8.0.0"
@@ -4589,6 +4589,13 @@
   version "12.20.55"
   resolved "https://registry.npmjs.org/@types/node/-/node-12.20.55.tgz#c329cbd434c42164f846b909bd6f85b5537f6240"
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
+
+"@types/node@^20.4.9":
+  version "20.17.6"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.17.6.tgz#6e4073230c180d3579e8c60141f99efdf5df0081"
+  integrity sha512-VEI7OdvK2wP7XHnsuXbAJnEpEkF6NjSN45QJlL4VGqZSXsnicpesdTWsg9RISeSdYd3yeRj/y3k5KGjUXYnFwQ==
+  dependencies:
+    undici-types "~6.19.2"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.4"
@@ -10278,19 +10285,6 @@ nuxi@^3.13.2:
   resolved "https://registry.npmjs.org/nuxi/-/nuxi-3.15.0.tgz#ed54923ca46727c6e7df10495143db340d9791c9"
   integrity sha512-ZVu45nuDrdb7nzKW2kLGY/N1vvFYLLbUVX6gUYw4BApKGGu4+GktTR5o48dGVgMYX9A8chaugl7TL9ZYmwC9Mg==
 
-nuxt-bugsnag@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/nuxt-bugsnag/-/nuxt-bugsnag-8.0.0.tgz#fbdbd1b59503312a17b18a5918cdad5a22297b9c"
-  integrity sha512-zzZterGunJ3oTX199cPO9yHsuZbcW4EYdHduUn7+2aVaR4kyecOuVMg6XlIq2FOvlh2xpZWLzXPvii2NtKhCPw==
-  dependencies:
-    "@bugsnag/browser-performance" "^2.8.0"
-    "@bugsnag/js" "^8.0.0"
-    "@bugsnag/plugin-vue" "^8.0.0"
-    "@bugsnag/vue-router-performance" "^2.8.0"
-    "@nuxt/kit" "^3.4.3"
-    bugsnag-source-maps-fork "^2.4.0"
-    defu "^6.1.2"
-
 nuxt-lcp-speedup@^0.5.2:
   version "0.5.2"
   resolved "https://registry.npmjs.org/nuxt-lcp-speedup/-/nuxt-lcp-speedup-0.5.2.tgz#cefd2e41c55067c184aa4c438adff78e048b054f"
@@ -12068,12 +12062,12 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
 
 "shared-packages@https://github.com/InjectiveLabs/shared-packages#master":
   version "1.0.0"
-  resolved "https://github.com/InjectiveLabs/shared-packages#08cdf8bc44c03847169a05a7b659d620315b3da6"
+  resolved "https://github.com/InjectiveLabs/shared-packages#2f4463788808dc53f9ee8c7d3d55b626c60886d4"
   dependencies:
     "@bangjelkoski/ens-validation" "^0.1.1"
     "@injectivelabs/exceptions" " 1.14.19"
     "@injectivelabs/networks" " 1.14.19"
-    "@injectivelabs/nuxt-bugsnag" "0.0.6"
+    "@injectivelabs/nuxt-bugsnag" "0.0.10"
     "@injectivelabs/sdk-ts" "1.14.20-beta.2"
     "@injectivelabs/ts-types" " 1.14.19"
     "@injectivelabs/utils" " 1.14.19"

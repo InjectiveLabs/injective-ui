@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     'nuxt-vitalizer',
     'nuxt-lcp-speedup',
-    'nuxt-bugsnag'
+    '@injectivelabs/nuxt-bugsnag'
   ],
 
   bugsnag,

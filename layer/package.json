@@ -12,7 +12,6 @@
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
     "@vueuse/nuxt": "^11.2.0",
-    "nuxt-bugsnag": "^8.0.0",
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
@@ -20,6 +19,7 @@
     "@nuxt/eslint-config": "^0.1.1",
     "@pinia/nuxt": "^0.4.11",
     "@types/fs-extra": "^11.0.1",
+    "@types/node": "^20.4.9",
     "eslint": "8.37.0",
     "lint-staged": "13.2.3",
     "nuxt": "3.13.2",

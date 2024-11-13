@@ -1,4 +1,4 @@
-import type { ModuleOptions } from 'nuxt-bugsnag'
+import type { ModuleOptions } from '@injectivelabs/nuxt-bugsnag'
 
 const shouldInstantiateBugsnag = !!(
   process.env.GIT_TAG &&
