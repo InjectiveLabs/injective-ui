@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import {
-  Msgs,
+  type Msgs,
   MsgGrant,
   PrivateKey,
   msgsOrMsgExecMsgs,
@@ -35,7 +35,7 @@ import { validatePhantom, isPhantomInstalled } from '../wallet/phantom'
 import { validateMetamask, isMetamaskInstalled } from '../wallet/metamask'
 import { msgBroadcaster } from '../WalletService'
 import {
-  AutoSign,
+  type AutoSign,
   EventBus,
   GrantDirection,
   WalletConnectStatus
