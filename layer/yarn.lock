@@ -1792,10 +1792,10 @@
     "@injectivelabs/utils" "^1.14.19"
     shx "^0.3.2"
 
-"@injectivelabs/nuxt-bugsnag@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/nuxt-bugsnag/-/nuxt-bugsnag-0.0.10.tgz#290a2e798968e8237f246d17d04abf7ba6874038"
-  integrity sha512-5yQ0K25Yxv8WfTGT/3s60Svk2DrY4PbacUXhvjnj0Bl6fpz6OTfUrXsg+8l10LhKdM5uZ+ZbwSDSzBI77UdI4Q==
+"@injectivelabs/nuxt-bugsnag@0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/nuxt-bugsnag/-/nuxt-bugsnag-0.0.11.tgz#d66ac77a802fcb87680e5420e2126eba4a57d94b"
+  integrity sha512-Gj4hJv/fUMQtgKRLQYaCt155hotRzv+DIFaoMoo1JnjyiIR9SmvSYU/azwMLhkHRQxIW+bb7CDY4enffwRwwrg==
   dependencies:
     "@bugsnag/browser-performance" "^2.8.0"
     "@bugsnag/js" "^8.0.0"
@@ -1947,44 +1947,12 @@
     source-map-js "^1.0.1"
     yaml-eslint-parser "^1.2.2"
 
-"@intlify/bundle-utils@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@intlify/bundle-utils/-/bundle-utils-9.0.0.tgz#c0e2b41502a2a7d5e2f47a97f0a42b0bdc9bfc62"
-  integrity sha512-19dunbgM4wuCvi2xSai2PKhXkcKGjlbJhNWm9BCQWkUYcPmXwzptNWOE0O7OSrhNlEDxwpkHsJzZ/vLbCkpElw==
-  dependencies:
-    "@intlify/message-compiler" "^9.4.0"
-    "@intlify/shared" "^9.4.0"
-    acorn "^8.8.2"
-    escodegen "^2.1.0"
-    estree-walker "^2.0.2"
-    jsonc-eslint-parser "^2.3.0"
-    magic-string "^0.30.0"
-    mlly "^1.2.0"
-    source-map-js "^1.0.1"
-    yaml-eslint-parser "^1.2.2"
-
-"@intlify/core-base@9.14.1":
-  version "9.14.1"
-  resolved "https://registry.npmjs.org/@intlify/core-base/-/core-base-9.14.1.tgz#405b43dca3a38ab70dbb06a818d0a5b8a835fcc9"
-  integrity sha512-rG5/hlNW6Qfve41go37szEf0mVLcfhYuOu83JcY0jZKasnwsrcZYYWDzebCcuO5I/6Sy1JFWo9p+nvkQS1Dy+w==
-  dependencies:
-    "@intlify/message-compiler" "9.14.1"
-    "@intlify/shared" "9.14.1"
-
 "@intlify/core-base@9.14.1":
   version "9.14.1"
   resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-9.14.1.tgz#405b43dca3a38ab70dbb06a818d0a5b8a835fcc9"
   integrity sha512-rG5/hlNW6Qfve41go37szEf0mVLcfhYuOu83JcY0jZKasnwsrcZYYWDzebCcuO5I/6Sy1JFWo9p+nvkQS1Dy+w==
   dependencies:
     "@intlify/message-compiler" "9.14.1"
-    "@intlify/shared" "9.14.1"
-
-"@intlify/core@^10.0.3":
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/@intlify/core/-/core-10.0.4.tgz#1c581024e65c0283a7bfbe864e5e165394a4793a"
-  integrity sha512-YVb0Hk0vgulAhC/uq5CMUXLMcmDL+24FWcjRk2RMn2EF8ZrM3ZV9+8dGOKextntN1/RtjK3RvoHicF48vMyYkA==
-  dependencies:
-    "@intlify/core-base" "9.14.1"
     "@intlify/shared" "9.14.1"
 
 "@intlify/core@^9.8.0":
@@ -2003,22 +1971,6 @@
     "@intlify/core" "^9.8.0"
     "@intlify/utils" "^0.12.0"
 
-"@intlify/h3@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@intlify/h3/-/h3-0.6.0.tgz#069bd7a5f4a8beea736d81a01c300f237203cecc"
-  integrity sha512-tWBm92pYLT+T2H5I2Uwz0dnylX1uRKuS6/n9CV4eTW43r/iAN2q07b0sY2cvgT61KYDetomY1pVRkzA2Rftv5g==
-  dependencies:
-    "@intlify/core" "^9.8.0"
-    "@intlify/utils" "^0.12.0"
-
-"@intlify/message-compiler@9.14.1", "@intlify/message-compiler@^9.4.0":
-  version "9.14.1"
-  resolved "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-9.14.1.tgz#e361133e2849453c55cb3feb856898ff563e70d1"
-  integrity sha512-MY8hwukJBnXvGAncVKlHsqKDQ5ZcQx4peqEmI8wBUTXn4pezrtTGYXNoz81cLyEEHB+L/zlKWVBSh5TiX4gYoQ==
-  dependencies:
-    "@intlify/shared" "9.14.1"
-    source-map-js "^1.0.2"
-
 "@intlify/message-compiler@9.14.1", "@intlify/message-compiler@^9.4.0":
   version "9.14.1"
   resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-9.14.1.tgz#e361133e2849453c55cb3feb856898ff563e70d1"
@@ -2026,24 +1978,6 @@
   dependencies:
     "@intlify/shared" "9.14.1"
     source-map-js "^1.0.2"
-
-"@intlify/message-compiler@next":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-10.0.0.tgz#96c18a7229a0b6f154c217873b5beddde6042865"
-  integrity sha512-OcaWc63NC/9p1cMdgoNKBj4d61BH8sUW1Hfs6YijTd9656ZR4rNqXAlRnBrfS5ABq0vjQjpa8VnyvH9hK49yBw==
-  dependencies:
-    "@intlify/shared" "10.0.0"
-    source-map-js "^1.0.2"
-
-"@intlify/shared@10.0.0", "@intlify/shared@next":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-10.0.0.tgz#fdd967754c30d899274969f883b0557faf0f279a"
-  integrity sha512-6ngLfI7DOTew2dcF9WMJx+NnMWghMBhIiHbGg+wRvngpzD5KZJZiJVuzMsUQE1a5YebEmtpTEfUrDp/NqVGdiw==
-
-"@intlify/shared@10.0.4", "@intlify/shared@^10.0.0", "@intlify/shared@^10.0.3", "@intlify/shared@latest":
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-10.0.4.tgz#3acc71e162ffd77a7de9f486e082cc135ec4cdef"
-  integrity sha512-ukFn0I01HsSgr3VYhYcvkTCLS7rGa0gw4A4AMpcy/A9xx/zRJy7PS2BElMXLwUazVFMAr5zuiTk3MQeoeGXaJg==
 
 "@intlify/shared@9.14.1", "@intlify/shared@^9.4.0", "@intlify/shared@^9.9.0":
   version "9.14.1"
@@ -2068,45 +2002,10 @@
     source-map-js "^1.0.2"
     unplugin "^1.1.0"
 
-"@intlify/unplugin-vue-i18n@^5.2.0":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@intlify/unplugin-vue-i18n/-/unplugin-vue-i18n-5.3.1.tgz#bf7193ad3fe885c585c7bc115b5b79a9d36e3475"
-  integrity sha512-76huP8TpMOtBMLsYYIMLNbqMPXJ7+Q6xcjP6495h/pmbOQ7sw/DB8E0OFvDFeIZ2571a4ylzJnz+KMuYbAs1xA==
-  dependencies:
-    "@eslint-community/eslint-utils" "^4.4.0"
-    "@intlify/bundle-utils" "^9.0.0"
-    "@intlify/shared" latest
-    "@intlify/vue-i18n-extensions" "^7.0.0"
-    "@rollup/pluginutils" "^5.1.0"
-    "@vue/compiler-sfc" "^3.2.47"
-    debug "^4.3.3"
-    fast-glob "^3.2.12"
-    js-yaml "^4.1.0"
-    json5 "^2.2.3"
-    pathe "^1.0.0"
-    picocolors "^1.0.0"
-    source-map-js "^1.0.2"
-    unplugin "^1.1.0"
-
 "@intlify/utils@^0.12.0":
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@intlify/utils/-/utils-0.12.0.tgz#74ef0723048151687447342e90fbc3b26a7de3ff"
   integrity sha512-yCBNcuZQ49iInqmWC2xfW0rgEQyNtCM8C8KcWKTXxyscgUE1+48gjLgZZqP75MjhlApxwph7ZMWLqyABkSgxQA==
-
-"@intlify/utils@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@intlify/utils/-/utils-0.13.0.tgz#bea7014796b633a9f4d312833642d33b38755cba"
-  integrity sha512-8i3uRdAxCGzuHwfmHcVjeLQBtysQB2aXl/ojoagDut5/gY5lvWCQ2+cnl2TiqE/fXj/D8EhWG/SLKA7qz4a3QA==
-
-"@intlify/vue-i18n-extensions@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@intlify/vue-i18n-extensions/-/vue-i18n-extensions-7.0.0.tgz#20cc25bea1e20b69a6a5b3e60a6ac2f62bc79db6"
-  integrity sha512-MtvfJnb4aklpCU5Q/dkWkBT/vGsp3qERiPIwtTq5lX4PCLHtUprAJZp8wQj5ZcwDaFCU7+yVMjYbeXpIf927cA==
-  dependencies:
-    "@babel/parser" "^7.24.6"
-    "@intlify/shared" "^10.0.0"
-    "@vue/compiler-dom" "^3.2.45"
-    vue-i18n "^10.0.0"
 
 "@ioredis/commands@^1.1.1":
   version "1.2.0"
@@ -3093,34 +2992,6 @@
   version "8.5.5"
   resolved "https://registry.yarnpkg.com/@nuxtjs/i18n/-/i18n-8.5.5.tgz#b0df4d64e3765b601e7ae918ae9ec8f777ad0818"
   integrity sha512-HVXRy61VBACIwmap1WxuhT9nNf6liU9L9LQSB6D7LDJ+8w57Cc6qWHRJ7dNI9sI/IQ2FQWk7PkTWriybAd3MlQ==
-  dependencies:
-    "@intlify/h3" "^0.5.0"
-    "@intlify/shared" "^9.9.0"
-    "@intlify/unplugin-vue-i18n" "^3.0.1"
-    "@intlify/utils" "^0.12.0"
-    "@miyaneee/rollup-plugin-json5" "^1.2.0"
-    "@nuxt/kit" "^3.13.1"
-    "@rollup/plugin-yaml" "^4.1.2"
-    "@vue/compiler-sfc" "^3.5.4"
-    debug "^4.3.5"
-    defu "^6.1.2"
-    estree-walker "^3.0.3"
-    is-https "^4.0.0"
-    knitwork "^1.1.0"
-    magic-string "^0.30.10"
-    mlly "^1.7.1"
-    pathe "^1.1.1"
-    scule "^1.1.1"
-    sucrase "^3.35.0"
-    ufo "^1.3.1"
-    unplugin "^1.10.1"
-    vue-i18n "^9.9.0"
-    vue-router "^4.4.4"
-
-"@nuxtjs/i18n@9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/i18n/-/i18n-9.0.0.tgz#7d2b2e947059a2027108ad85cd53d794cf26c537"
-  integrity sha512-olAVD7ZPNVxWpOgj5VJrtWaqkVfKSDQmJENfed7t6TwDjVggPHPHMpmw4rbudDsr9cdCIBR30hvUEXm2m7s2BA==
   dependencies:
     "@intlify/h3" "^0.5.0"
     "@intlify/shared" "^9.9.0"
@@ -5141,7 +5012,7 @@
     "@vue/compiler-core" "3.5.12"
     "@vue/shared" "3.5.12"
 
-"@vue/compiler-sfc@3.5.12", "@vue/compiler-sfc@^3.2.47", "@vue/compiler-sfc@^3.5.12", "@vue/compiler-sfc@^3.5.3", "@vue/compiler-sfc@^3.5.4", "@vue/compiler-sfc@^3.5.5":
+"@vue/compiler-sfc@3.5.12", "@vue/compiler-sfc@^3.2.47", "@vue/compiler-sfc@^3.5.12", "@vue/compiler-sfc@^3.5.3", "@vue/compiler-sfc@^3.5.4":
   version "3.5.12"
   resolved "https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.5.12.tgz#6688120d905fcf22f7e44d3cb90f8dabc4dd3cc8"
   integrity sha512-2k973OGo2JuAa5+ZlekuQJtitI5CgLMOwgl94BzMCsKZCX/xiqzJYzapl4opFogKHqwJk34vfsaKpfEhd1k5nw==
@@ -12343,12 +12214,12 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
 
 "shared-packages@https://github.com/InjectiveLabs/shared-packages#master":
   version "1.0.0"
-  resolved "https://github.com/InjectiveLabs/shared-packages#51174c07c4c094193a1ceda9add00c0bcc156530"
+  resolved "https://github.com/InjectiveLabs/shared-packages#cffcbcdb95beff7955d8cc5b877679db0662dee1"
   dependencies:
     "@bangjelkoski/ens-validation" "^0.1.1"
     "@injectivelabs/exceptions" " 1.14.19"
     "@injectivelabs/networks" " 1.14.19"
-    "@injectivelabs/nuxt-bugsnag" "0.0.10"
+    "@injectivelabs/nuxt-bugsnag" "0.0.11"
     "@injectivelabs/sdk-ts" "1.14.20-beta.2"
     "@injectivelabs/ts-types" " 1.14.19"
     "@injectivelabs/utils" " 1.14.19"
@@ -12738,7 +12609,16 @@ string-argv@^0.3.1:
   resolved "https://registry.npmjs.org/string-argv/-/string-argv-0.3.2.tgz#2b6d0ef24b656274d957d54e0a4bbf6153dc02b6"
   integrity sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==
 
-"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -12779,7 +12659,7 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -12792,6 +12672,13 @@ strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
   dependencies:
     ansi-regex "^4.1.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -13838,15 +13725,6 @@ vue-hotjar@^1.4.0:
 
 vue-i18n@^9.9.0:
   version "9.14.1"
-  resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.14.1.tgz#5bd2d7659e1a1dcda28df66e78aa786d1792ef31"
-  integrity sha512-xjxV0LYc1xQ8TbAVfIyZiOSS8qoU1R0YwV7V5I8I6Fd64+zvsTsdPgtylPsie3Vdt9wekeYhr+smKDeaK6RBuA==
-  dependencies:
-    "@intlify/core-base" "9.14.1"
-    "@intlify/shared" "9.14.1"
-    "@vue/devtools-api" "^6.5.0"
-
-vue-i18n@^9.9.0:
-  version "9.14.1"
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-9.14.1.tgz#5bd2d7659e1a1dcda28df66e78aa786d1792ef31"
   integrity sha512-xjxV0LYc1xQ8TbAVfIyZiOSS8qoU1R0YwV7V5I8I6Fd64+zvsTsdPgtylPsie3Vdt9wekeYhr+smKDeaK6RBuA==
   dependencies:
@@ -14106,7 +13984,7 @@ wordwrapjs@^4.0.0:
     reduce-flatten "^2.0.0"
     typical "^5.2.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -14128,6 +14006,15 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
