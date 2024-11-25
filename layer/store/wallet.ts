@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import {
-  Msgs,
+  type Msgs,
   MsgGrant,
   PrivateKey,
   msgsOrMsgExecMsgs,
@@ -35,7 +35,7 @@ import { validatePhantom, isPhantomInstalled } from '../wallet/phantom'
 import { validateMetamask, isMetamaskInstalled } from '../wallet/metamask'
 import { msgBroadcaster } from '../WalletService'
 import {
-  AutoSign,
+  type AutoSign,
   EventBus,
   GrantDirection,
   WalletConnectStatus
@@ -680,12 +680,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           return
         }
 
-        const ethereumAddess = getEthereumAddress(address)
+        const ethereumAddress = getEthereumAddress(address)
         const session = await walletStrategy.getSessionOrConfirm(address)
 
         walletStore.$patch({
-          address: ethereumAddess,
-          addresses: [ethereumAddess],
+          address: ethereumAddress,
+          addresses: [ethereumAddress],
           addressConfirmation: await walletStrategy.getSessionOrConfirm(
             address
           ),

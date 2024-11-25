@@ -24,13 +24,15 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    '@nuxtjs/i18n',
     '@vueuse/nuxt',
+    '@nuxtjs/i18n',
     '@nuxt/devtools',
     'nuxt-vitalizer',
     'nuxt-lcp-speedup',
-    ...(process.env.VITE_BUGSNAG_KEY ? ['@injectivelabs/nuxt-bugsnag'] : [])
+    '@injectivelabs/nuxt-bugsnag'
   ],
+
+  bugsnag,
 
   typescript: {
     typeCheck: 'build'
@@ -39,8 +41,5 @@ export default defineNuxtConfig({
   sourcemap: {
     server: false,
     client: true
-  },
-
-  // @ts-ignore
-  bugsnag
+  }
 })
