@@ -1890,17 +1890,10 @@
     snakecase-keys "^5.1.2"
     store2 "^2.12.0"
 
-"@injectivelabs/ts-types@ 1.14.19":
+"@injectivelabs/ts-types@ 1.14.19", "@injectivelabs/ts-types@1.14.19", "@injectivelabs/ts-types@^1.14.19", "@injectivelabs/ts-types@^1.14.32":
   version "1.14.19"
-  resolved "https://registry.npmjs.org/@injectivelabs/ts-types/-/ts-types-1.14.19.tgz#1b176c45eac9054e545e09afe5bdcea382665724"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/ts-types/-/ts-types-1.14.19.tgz#1b176c45eac9054e545e09afe5bdcea382665724"
   integrity sha512-nQVJrHC+yDPK4IaYKWZ/CUZPJ4oeKLUwArObvJhlNGMtsypthDGj1MLctc0otMigdTc64ZEpVcdrT9Q3g5P6wQ==
-  dependencies:
-    shx "^0.3.2"
-
-"@injectivelabs/ts-types@^1.14.19", "@injectivelabs/ts-types@^1.14.32":
-  version "1.14.32"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/ts-types/-/ts-types-1.14.32.tgz#826fbc632b9012f9dbf6d62d0d10e6a3ed34cc81"
-  integrity sha512-8ZT+PrsgcZQVQwskk9o9VIlV59cw5vMngytrtC4E23mXRf299v9NAIMSAB9onRo5s0a1kIgaOb663VTjkMiPOQ==
   dependencies:
     shx "^0.3.2"
 
