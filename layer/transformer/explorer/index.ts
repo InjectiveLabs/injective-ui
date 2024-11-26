@@ -44,7 +44,7 @@ export const toUiCw20Balance = (
 }
 
 const getMsgType = (msg: Message): MsgType => {
-  const type = msg.type || msg['@type']
+  const type = msg.type || (msg as unknown as { '@type': string })['@type']
 
   if (type.startsWith('/')) {
     return type.split('/')[1] as MsgType
