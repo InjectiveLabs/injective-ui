@@ -35,7 +35,7 @@
 
 "@apollo/client@^3.11.10":
   version "3.11.10"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.11.10.tgz#e16ae82ea9b16536ffd109847d24f9293fab5c4d"
+  resolved "https://registry.npmjs.org/@apollo/client/-/client-3.11.10.tgz#e16ae82ea9b16536ffd109847d24f9293fab5c4d"
   integrity sha512-IfGc+X4il0rDqVQBBWdxIKM+ciDCiDzBq9+Bg9z4tJMi87uF6po4v+ddiac1wP0ARgVPsFwEIGxK7jhN4pW8jg==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
@@ -1745,16 +1745,6 @@
     http-status-codes "^2.2.0"
     shx "^0.3.2"
 
-"@injectivelabs/exceptions@^1.14.32":
-  version "1.14.32"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/exceptions/-/exceptions-1.14.32.tgz#8f7fbdb6fa8f9828200b5d60a7f199d889d26d79"
-  integrity sha512-5GCp+4KWluVwReCnH1xbxGNAXpTbWS9ub+UgBl59BBaXLDrz2u01BnpdWb5Fzr1aTurAXnPmv8b1uQRWrakYJQ==
-  dependencies:
-    "@injectivelabs/grpc-web" "^0.0.1"
-    "@injectivelabs/ts-types" "^1.14.32"
-    http-status-codes "^2.2.0"
-    shx "^0.3.2"
-
 "@injectivelabs/grpc-web-node-http-transport@^0.0.2":
   version "0.0.2"
   resolved "https://registry.npmjs.org/@injectivelabs/grpc-web-node-http-transport/-/grpc-web-node-http-transport-0.0.2.tgz#87c9bbd4db1f70cf18d6a55b54b2cf17d3cf30c0"
@@ -1792,7 +1782,7 @@
     protobufjs "^7.0.0"
     rxjs "^7.4.0"
 
-"@injectivelabs/networks@ 1.14.19":
+"@injectivelabs/networks@ 1.14.19", "@injectivelabs/networks@^1.14.19":
   version "1.14.19"
   resolved "https://registry.npmjs.org/@injectivelabs/networks/-/networks-1.14.19.tgz#66e4bad04f6fd5171c749bb8f758613478a87e73"
   integrity sha512-U6rdOTZSnZlvMF1iJCgL1QQ77tyZhNZ83e0+pdS1v51KW/i2Q4+1gnaNoUYySoVpgeIbJRN1FItAHfK5wLM2EA==
@@ -1890,21 +1880,14 @@
     snakecase-keys "^5.1.2"
     store2 "^2.12.0"
 
-"@injectivelabs/ts-types@ 1.14.19":
+"@injectivelabs/ts-types@ 1.14.19", "@injectivelabs/ts-types@^1.14.19":
   version "1.14.19"
   resolved "https://registry.npmjs.org/@injectivelabs/ts-types/-/ts-types-1.14.19.tgz#1b176c45eac9054e545e09afe5bdcea382665724"
   integrity sha512-nQVJrHC+yDPK4IaYKWZ/CUZPJ4oeKLUwArObvJhlNGMtsypthDGj1MLctc0otMigdTc64ZEpVcdrT9Q3g5P6wQ==
   dependencies:
     shx "^0.3.2"
 
-"@injectivelabs/ts-types@^1.14.19", "@injectivelabs/ts-types@^1.14.32":
-  version "1.14.32"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/ts-types/-/ts-types-1.14.32.tgz#826fbc632b9012f9dbf6d62d0d10e6a3ed34cc81"
-  integrity sha512-8ZT+PrsgcZQVQwskk9o9VIlV59cw5vMngytrtC4E23mXRf299v9NAIMSAB9onRo5s0a1kIgaOb663VTjkMiPOQ==
-  dependencies:
-    shx "^0.3.2"
-
-"@injectivelabs/utils@ 1.14.19":
+"@injectivelabs/utils@ 1.14.19", "@injectivelabs/utils@^1.14.19":
   version "1.14.19"
   resolved "https://registry.npmjs.org/@injectivelabs/utils/-/utils-1.14.19.tgz#e85b32ae105524eb8536b91255a520ee895263b2"
   integrity sha512-iiUanV6Y7cUlH5PBoyYpHd4HWDRHlo806DyRZP7IZCpIIvWhyrKRn1JOtzz4j4XDYxH34/99vN3TsK+VUmrQzQ==
@@ -12255,7 +12238,7 @@ sha.js@^2.4.0, sha.js@^2.4.11, sha.js@^2.4.8:
 
 "shared-packages@https://github.com/InjectiveLabs/shared-packages#master":
   version "1.0.0"
-  resolved "https://github.com/InjectiveLabs/shared-packages#83008d09f953b7b05a469e029ac96bd4399a2176"
+  resolved "https://github.com/InjectiveLabs/shared-packages#4d719557d6136591c05578b36d3d8d62e5bf299e"
   dependencies:
     "@bangjelkoski/ens-validation" "^0.1.1"
     "@injectivelabs/exceptions" " 1.14.19"
