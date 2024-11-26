@@ -102,5 +102,6 @@ export enum NuxtUiIcons {
   Rotate = 'fa:rotate-left',
   CheckShieldOutline = 'stash:shield-check',
   CloudSlash = 'bi:cloud-slash',
-  Refresh = 'el:refresh'
+  Refresh = 'el:refresh',
+  MenuDots = 'solar:menu-dots-bold'
 }
