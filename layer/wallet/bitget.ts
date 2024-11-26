@@ -1,11 +1,11 @@
-import { EthereumChainId, AccountAddress } from '@injectivelabs/ts-types'
+import { EthereumChainId, type AccountAddress } from '@injectivelabs/ts-types'
 import {
   ErrorType,
   GeneralException,
   UnspecifiedErrorCode,
   BitGetException
 } from '@injectivelabs/exceptions'
-import { UtilsWallets } from '@injectivelabs/wallet-ts/dist/esm/exports'
+import { UtilsWallets } from '@injectivelabs/wallet-ts/exports'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 import { walletStrategy } from './wallet-strategy'
 

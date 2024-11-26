@@ -1,10 +1,10 @@
-import { AccountAddress } from '@injectivelabs/ts-types'
+import { type AccountAddress } from '@injectivelabs/ts-types'
 import {
   ErrorType,
   UnspecifiedErrorCode,
   TrustWalletException
 } from '@injectivelabs/exceptions'
-import { UtilsWallets } from '@injectivelabs/wallet-ts/dist/esm/exports'
+import { UtilsWallets } from '@injectivelabs/wallet-ts/exports'
 import { walletStrategy } from './wallet-strategy'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 
