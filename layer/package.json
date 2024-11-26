@@ -31,5 +31,9 @@
     "**/*.{js,ts,vue}": [
       "eslint --max-warnings 0 --no-ignore --fix"
     ]
+  },
+  "resolutions": {
+    "@injectivelabs/sdk-ts": "1.14.33-beta.1",
+    "@injectivelabs/wallet-ts": "1.14.33-beta.1"
   }
 }
