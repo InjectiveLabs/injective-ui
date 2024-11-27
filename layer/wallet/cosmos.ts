@@ -5,7 +5,7 @@ import {
 } from '@injectivelabs/exceptions'
 import { PublicKey } from '@injectivelabs/sdk-ts'
 import { CosmosWalletStrategy, Wallet } from '@injectivelabs/wallet-ts'
-import { KeplrWallet } from '@injectivelabs/wallet-ts/dist/esm/utils/wallets/keplr'
+import { UtilsWallets } from '@injectivelabs/wallet-ts/exports'
 import { CHAIN_ID } from './../utils/constant'
 import { walletStrategy } from './wallet-strategy'
 
@@ -15,7 +15,7 @@ export const confirmCorrectKeplrAddress = async (injectiveAddress: string) => {
     return
   }
 
-  const keplr = new KeplrWallet(CHAIN_ID)
+  const keplr = new UtilsWallets.KeplrWallet(CHAIN_ID)
   const key = await keplr.getKey()
   const publicKey = PublicKey.fromBase64(
     Buffer.from(key.pubKey).toString('base64')

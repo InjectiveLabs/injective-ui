@@ -44,7 +44,7 @@ export const toUiCw20Balance = (
 }
 
 const getMsgType = (msg: Message): MsgType => {
-  const type = msg.type
+  const type = msg.type || (msg as unknown as { '@type': string })['@type']
 
   if (type.startsWith('/')) {
     return type.split('/')[1] as MsgType
@@ -120,15 +120,24 @@ export const getCoins = ({
   }, [] as Coin[])
 }
 
+const formatMsgType = (message: Message): string => {
+  const type = getMsgType(message)
+  const formattedType = msgTypeMap[type] || message.type
+
+  if (type !== MsgType.MsgExec) {
+    return formattedType
+  }
+
+  return `${formattedType} - ${msgTypeMap[getMsgType(message.message.msgs[0])]}`
+}
+
 const getTypesAndCoins = (
   transaction: ExplorerTransaction | ContractTransaction
 ) => {
   const sender = transaction.signatures[0].address
 
   return {
-    types: transaction.messages.map(
-      (message) => msgTypeMap[getMsgType(message)] || message.type
-    ),
+    types: transaction.messages.map(formatMsgType),
     coinReceived: getCoins({
       sender,
       logs: transaction.logs,
