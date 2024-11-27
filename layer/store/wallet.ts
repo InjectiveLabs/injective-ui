@@ -7,6 +7,8 @@ import {
   getEthereumAddress,
   getInjectiveAddress,
   getDefaultSubaccountId,
+  MsgGrantWithAuthorization,
+  ContractExecutionAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
 import { GeneralException } from '@injectivelabs/exceptions'
@@ -852,7 +854,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.onConnect()
     },
 
-    async connectAutoSign(msgsType: string[]) {
+    async connectAutoSign(
+      msgsType: string[],
+      contractMsgDetails?: {
+        contractAddress: string
+        acceptedMessagesKeys: string[]
+      }[]
+    ) {
       const walletStore = useSharedWalletStore()
 
       const { privateKey } = PrivateKey.generate()
@@ -861,7 +869,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const nowInSeconds = Math.floor(Date.now() / 1000)
       const expirationInSeconds = 60 * 60 // 1 hour
 
-      const authZMsgs = msgsType.map((messageType) =>
+      const genericAuthzMsgs = msgsType.map((messageType) =>
         MsgGrant.fromJSON({
           grantee: injectiveAddress,
           granter: walletStore.injectiveAddress,
@@ -870,7 +878,27 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         })
       )
 
-      await walletStore.broadcastWithFeeDelegation({ messages: authZMsgs })
+      const contractAuthzMsgs =
+        contractMsgDetails?.map(({ contractAddress, acceptedMessagesKeys }) =>
+          MsgGrantWithAuthorization.fromJSON({
+            grantee: injectiveAddress,
+            granter: walletStore.injectiveAddress,
+            expiration: nowInSeconds + expirationInSeconds,
+            authorization: ContractExecutionAuthorization.fromJSON({
+              contract: contractAddress,
+              limit: {
+                maxCalls: 100
+              },
+              filter: {
+                acceptedMessagesKeys
+              }
+            })
+          })
+        ) || []
+
+      await walletStore.broadcastWithFeeDelegation({
+        messages: [...genericAuthzMsgs, ...contractAuthzMsgs]
+      })
 
       const autoSign = {
         injectiveAddress,
