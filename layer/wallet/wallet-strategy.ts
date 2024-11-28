@@ -1,4 +1,4 @@
-import { WalletStrategy } from '@injectivelabs/wallet-ts'
+import { WalletStrategy } from '@injectivelabs/wallet-strategy'
 import {
   CHAIN_ID,
   APP_NAME,
@@ -30,7 +30,8 @@ export const walletStrategy = new WalletStrategy({
       projectId: WALLET_CONNECT_PROJECT_ID,
       description: ''
     }
-  }
+  },
+  strategies: {}
 })
 
 export const alchemyKey = (
