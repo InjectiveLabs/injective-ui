@@ -7,13 +7,13 @@
   "scripts": {
     "prepare": "nuxi prepare",
     "lint": "eslint .",
-    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts && yarn prepare"
+    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#refactor/wallet-ts --ignore-scripts && yarn prepare"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
     "@nuxtjs/i18n": "8.5.5",
     "@vueuse/nuxt": "^11.2.0",
-    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
+    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#refactor/wallet-ts"
   },
   "devDependencies": {
     "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",

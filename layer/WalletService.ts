@@ -1,5 +1,5 @@
-import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
 import { walletStrategy } from './wallet/wallet-strategy'
+import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-core'
 import {
   NETWORK,
   ENDPOINTS,
