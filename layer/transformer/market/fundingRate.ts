@@ -1,7 +1,4 @@
-import {
-  type PerpetualMarket,
-  type ExpiryFuturesMarket
-} from '@injectivelabs/sdk-ts'
+import { type PerpetualMarket } from '@injectivelabs/sdk-ts'
 import { BigNumberInBase } from '@injectivelabs/utils'
 import { ZERO_IN_BASE } from './../../utils/constant'
 
@@ -22,9 +19,7 @@ export const getTwapEst = (market: PerpetualMarket) => {
   ).dividedBy(divisor)
 }
 
-export const formatFundingRate = (
-  market: PerpetualMarket | ExpiryFuturesMarket
-) => {
+export const formatFundingRate = (market: UiMarketWithToken) => {
   const perpMarket = market as PerpetualMarket
 
   if (!perpMarket.isPerpetual || !perpMarket.perpetualMarketInfo) {

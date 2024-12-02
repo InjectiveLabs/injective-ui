@@ -14,7 +14,6 @@ import {
 } from '../../utils/formatter'
 import { injToken } from '../../data/token'
 import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
-// import { formatFundingRate } from './fundingRate'
 import {
   SharedMarketType,
   type SharedUiSpotMarket,
@@ -123,7 +122,6 @@ export const toUiDerivativeMarket = ({
     slug,
     baseToken,
     quoteToken,
-    // estFundingRate: formatFundingRate(market),
     type: SharedMarketType.Derivative,
     subType: (market as PerpetualMarket).isPerpetual
       ? SharedMarketType.Perpetual
