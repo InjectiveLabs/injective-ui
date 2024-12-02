@@ -1,5 +1,5 @@
-import { AllChronosMarketHistory } from '@injectivelabs/sdk-ts'
-import { SharedUiMarketHistory } from '../../types'
+import { type AllChronosMarketHistory } from '@injectivelabs/sdk-ts'
+import { type SharedUiMarketHistory } from '../../types'
 
 export const toUiMarketHistory = (
   marketsHistory: AllChronosMarketHistory

@@ -1,10 +1,10 @@
 import {
   TokenType,
-  SpotMarket,
-  TokenStatic,
-  PerpetualMarket,
-  BinaryOptionsMarket,
-  ExpiryFuturesMarket
+  type SpotMarket,
+  type TokenStatic,
+  type PerpetualMarket,
+  type BinaryOptionsMarket,
+  type ExpiryFuturesMarket
 } from '@injectivelabs/sdk-ts'
 import {
   sharedToBalanceInWei,
@@ -14,11 +14,12 @@ import {
 } from '../../utils/formatter'
 import { injToken } from '../../data/token'
 import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
+import { formatFundingRate } from './fundingRate'
 import {
   SharedMarketType,
-  SharedUiSpotMarket,
-  SharedUiDerivativeMarket,
-  SharedUiBinaryOptionsMarket
+  type SharedUiSpotMarket,
+  type SharedUiDerivativeMarket,
+  type SharedUiBinaryOptionsMarket
 } from '../../types'
 
 export * from './summary'
@@ -122,6 +123,7 @@ export const toUiDerivativeMarket = ({
     slug,
     baseToken,
     quoteToken,
+    estFundingRate: formatFundingRate(market),
     type: SharedMarketType.Derivative,
     subType: (market as PerpetualMarket).isPerpetual
       ? SharedMarketType.Perpetual
