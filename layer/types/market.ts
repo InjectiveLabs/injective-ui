@@ -28,7 +28,7 @@ export interface SharedUiDerivativeMarket
   extends Omit<PerpetualMarket, 'quoteToken'> {
   baseToken: TokenStatic
   quoteToken: TokenStatic
-  estFundingRate: BigNumberInBase
+  // estFundingRate: BigNumberInBase
   slug: string
   priceDecimals: number
   quantityDecimals: number
