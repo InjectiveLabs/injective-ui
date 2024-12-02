@@ -1,12 +1,11 @@
-import { type PerpetualMarket } from '@injectivelabs/sdk-ts'
+import {
+  type PerpetualMarketInfo,
+  type PerpetualMarketFunding
+} from '@injectivelabs/sdk-ts'
 import { BigNumberInBase } from '@injectivelabs/utils'
 import { ZERO_IN_BASE } from './../../utils/constant'
 
-export const getTwapEst = (market: PerpetualMarket) => {
-  if (!market.perpetualMarketFunding) {
-    return ZERO_IN_BASE
-  }
-
+export const getTwapEst = (funding: PerpetualMarketFunding) => {
   const currentUnixTime = Math.floor(Date.now() / 1000)
   const divisor = new BigNumberInBase(currentUnixTime).mod(3600).times(24)
 
@@ -14,24 +13,24 @@ export const getTwapEst = (market: PerpetualMarket) => {
     return ZERO_IN_BASE
   }
 
-  return new BigNumberInBase(
-    market.perpetualMarketFunding.cumulativePrice
-  ).dividedBy(divisor)
+  return new BigNumberInBase(funding.cumulativePrice).dividedBy(divisor)
 }
 
-export const formatFundingRate = (market: UiMarketWithToken) => {
-  const perpMarket = market as PerpetualMarket
-
-  if (!perpMarket.isPerpetual || !perpMarket.perpetualMarketInfo) {
+export const formatFundingRate = ({
+  info,
+  funding
+}: {
+  info?: PerpetualMarketInfo
+  funding?: PerpetualMarketFunding
+}) => {
+  if (!info || !funding) {
     return ZERO_IN_BASE
   }
 
-  const hourlyFundingRateCap = new BigNumberInBase(
-    perpMarket.perpetualMarketInfo.hourlyFundingRateCap
+  const hourlyFundingRateCap = new BigNumberInBase(info.hourlyFundingRateCap)
+  const estFundingRate = new BigNumberInBase(info.hourlyInterestRate).plus(
+    getTwapEst(funding)
   )
-  const estFundingRate = new BigNumberInBase(
-    perpMarket.perpetualMarketInfo.hourlyInterestRate
-  ).plus(getTwapEst(market))
 
   if (estFundingRate.gt(hourlyFundingRateCap)) {
     return new BigNumberInBase(hourlyFundingRateCap).multipliedBy(100)
