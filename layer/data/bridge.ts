@@ -204,6 +204,15 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     bToAChannelId: 'channel-363',
     bToAClientId: '07-tendermint-275',
     port: 'transfer'
+  },
+  [Network.Xion]: {
+    aChainId: CosmosChainId[Network.Xion],
+    bChainId: CosmosChainId[Network.Injective],
+    aToBChannelId: 'channel-4',
+    aToBClientId: '07-tendermint-4',
+    bToAChannelId: 'channel-387',
+    bToAClientId: '07-tendermint-279',
+    port: 'transfer'
   }
   // networks below are disabled
   // [Network.Noble]: {

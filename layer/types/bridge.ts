@@ -43,5 +43,6 @@ export enum Network {
   XionTestnet = 'xion-testnet',
   EvmosTestnet = 'evmos-testnet',
   WormholeGeneric = 'wormhole-generic',
-  MantraChain = 'mantrachain'
+  MantraChain = 'mantrachain',
+  Xion = 'xion-mainnet-1'
 }
