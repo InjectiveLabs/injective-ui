@@ -46,6 +46,7 @@ export enum Network {
   XionTestnet = 'xion-testnet',
   Xion = 'xion',
   EvmosTestnet = 'evmos-testnet',
+  Xion = 'xion-mainnet-1',
   InjectiveDevnet = 'injective-devnet',
   InjectiveTestnet = 'injective-testnet'
 }
