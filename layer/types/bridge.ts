@@ -45,6 +45,7 @@ export enum Network {
   WormholeGeneric = 'wormhole-generic',
   XionTestnet = 'xion-testnet',
   EvmosTestnet = 'evmos-testnet',
+  Xion = 'xion-mainnet-1',
   InjectiveDevnet = 'injective-devnet',
   InjectiveTestnet = 'injective-testnet'
 }
