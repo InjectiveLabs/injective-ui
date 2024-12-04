@@ -107,8 +107,6 @@ export const getNetworkFromAddress = (address: string): Network => {
       return Network.Kujira
     case address.startsWith('saga'):
       return Network.Saga
-    case address.startsWith('xion'):
-      return Network.XionTestnet
     case address.startsWith('fetch'):
       return Network.Fetch
     case address.startsWith('mantra'):
