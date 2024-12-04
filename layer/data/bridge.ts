@@ -1,5 +1,5 @@
 import { IS_DEVNET, IS_TESTNET } from '../utils/constant'
-import { Network, CosmosChannel } from '../types'
+import { Network, type CosmosChannel } from '../types'
 
 export const CosmosChainId = {
   [Network.Axelar]: 'axelar-dojo-1',
@@ -34,7 +34,8 @@ export const CosmosChainId = {
   [Network.Juno]: 'juno-1',
   [Network.Terra]: 'columbus-5',
   [Network.InjectiveDevnet]: 'injective-777',
-  [Network.InjectiveTestnet]: 'injective-888'
+  [Network.InjectiveTestnet]: 'injective-888',
+  [Network.Xion]: 'xion-mainnet-1'
 }
 
 export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
