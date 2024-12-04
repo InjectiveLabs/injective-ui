@@ -5,8 +5,11 @@ import { injLogoBase64 } from './../data/token'
 withDefaults(
   defineProps<{
     text: string
+    color?: string
   }>(),
-  {}
+  {
+    color: ''
+  }
 )
 </script>
 
@@ -19,14 +22,18 @@ withDefaults(
         margin: 0,
         dotsOptions: {
           type: 'dots',
-          gradient: {
-            type: 'radial',
-            rotation: 0,
-            colorStops: [
-              { offset: 0.5, color: '#007CF6' },
-              { offset: 1, color: '#5208c7' }
-            ]
-          }
+          ...(color
+            ? { color }
+            : {
+                gradient: {
+                  type: 'radial',
+                  rotation: 0,
+                  colorStops: [
+                    { offset: 0.5, color: '#007CF6' },
+                    { offset: 1, color: '#5208c7' }
+                  ]
+                }
+              })
         },
         imageOptions: { imageSize: 0.4, margin: 16 },
         cornersDotOptions: {
