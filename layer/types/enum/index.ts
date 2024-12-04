@@ -94,6 +94,7 @@ export enum NuxtUiIcons {
   Order = 'bi:list-nested',
   PieChart = 'bi:pie-chart',
   Plus = 'mdi:plus',
+  CirclePlus = 'ep:circle-plus',
   PortfolioHistory = 'bi:clock',
   Position = 'bi:graph-up-arrow',
   QrCode = 'f7:qrcode',
