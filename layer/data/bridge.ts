@@ -35,8 +35,7 @@ export const CosmosChainId = {
   [Network.Juno]: 'juno-1',
   [Network.Terra]: 'columbus-5',
   [Network.InjectiveDevnet]: 'injective-777',
-  [Network.InjectiveTestnet]: 'injective-888',
-  [Network.Xion]: 'xion-mainnet-1'
+  [Network.InjectiveTestnet]: 'injective-888'
 }
 
 export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
