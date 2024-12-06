@@ -1,10 +1,10 @@
 import {
   TokenType,
-  SpotMarket,
-  TokenStatic,
-  PerpetualMarket,
-  BinaryOptionsMarket,
-  ExpiryFuturesMarket
+  type SpotMarket,
+  type TokenStatic,
+  type PerpetualMarket,
+  type BinaryOptionsMarket,
+  type ExpiryFuturesMarket
 } from '@injectivelabs/sdk-ts'
 import {
   sharedToBalanceInWei,
@@ -16,9 +16,9 @@ import { injToken } from '../../data/token'
 import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
 import {
   SharedMarketType,
-  SharedUiSpotMarket,
-  SharedUiDerivativeMarket,
-  SharedUiBinaryOptionsMarket
+  type SharedUiSpotMarket,
+  type SharedUiDerivativeMarket,
+  type SharedUiBinaryOptionsMarket
 } from '../../types'
 
 export * from './summary'

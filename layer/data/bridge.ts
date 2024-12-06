@@ -1,5 +1,5 @@
 import { IS_DEVNET, IS_TESTNET } from '../utils/constant'
-import { Network, CosmosChannel } from '../types'
+import { Network, type CosmosChannel } from '../types'
 
 export const CosmosChainId = {
   [Network.Axelar]: 'axelar-dojo-1',
@@ -27,6 +27,7 @@ export const CosmosChainId = {
   [Network.Mantra]: 'mantra-1',
   [Network.WormholeGeneric]: 'wormchain',
   [Network.Neutron]: 'neutron-1',
+  [Network.Xion]: 'xion-mainnet-1',
 
   // networks below are disabled
   [Network.Canto]: 'canto_7700-1',
@@ -207,6 +208,15 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     aToBClientId: '07-tendermint-2',
     bToAChannelId: 'channel-363',
     bToAClientId: '07-tendermint-275',
+    port: 'transfer'
+  },
+  [Network.Xion]: {
+    aChainId: CosmosChainId[Network.Xion],
+    bChainId: CosmosChainId[Network.Injective],
+    aToBChannelId: 'channel-4',
+    aToBClientId: '07-tendermint-4',
+    bToAChannelId: 'channel-387',
+    bToAClientId: '07-tendermint-279',
     port: 'transfer'
   }
   // networks below are disabled

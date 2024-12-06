@@ -3,20 +3,19 @@ import { computed } from 'vue'
 import { BigNumber } from '@injectivelabs/utils'
 import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 
-const props = defineProps({
-  shouldTruncate: Boolean,
-  showZeroAsEmDash: Boolean,
+const props = withDefaults(
+  defineProps<{
+    alignLeft?: boolean
+    shouldTruncate?: boolean
+    showZeroAsEmDash?: boolean
 
-  amount: {
-    type: String,
-    required: true
-  },
-
-  maxTrailingZeros: {
-    type: Number,
-    default: 1
+    amount: string
+    maxTrailingZeros?: number
+  }>(),
+  {
+    maxTrailingZeros: 1
   }
-})
+)
 
 const { valueToString: amountToString } = useSharedBigNumberFormatter(
   computed(() => props.amount),
@@ -108,7 +107,7 @@ const dustAmount = computed(() => {
       </span>
 
       <span v-else>
-        <span class="flex items-center">
+        <span class="flex items-center" :class="{ 'justify-end': !alignLeft }">
           {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
           <sub>
             {{ condensedZeroCount }}

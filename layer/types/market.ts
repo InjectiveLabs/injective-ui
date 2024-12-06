@@ -1,11 +1,12 @@
 import {
-  SpotMarket,
-  TokenStatic,
-  PerpetualMarket,
-  ExpiryFuturesMarket,
-  BinaryOptionsMarket,
-  AllChronosDerivativeMarketSummary
+  type SpotMarket,
+  type TokenStatic,
+  type PerpetualMarket,
+  type ExpiryFuturesMarket,
+  type BinaryOptionsMarket,
+  type AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
+import { BigNumberInBase } from '@injectivelabs/utils'
 import { SharedMarketType, SharedMarketChange } from './enum'
 
 export interface SharedUiSpotMarket
@@ -27,6 +28,7 @@ export interface SharedUiDerivativeMarket
   extends Omit<PerpetualMarket, 'quoteToken'> {
   baseToken: TokenStatic
   quoteToken: TokenStatic
+  // estFundingRate: BigNumberInBase
   slug: string
   priceDecimals: number
   quantityDecimals: number
@@ -42,6 +44,7 @@ export interface SharedUiExpiryFuturesMarket
   extends Omit<ExpiryFuturesMarket, 'quoteToken'> {
   baseToken: TokenStatic
   quoteToken: TokenStatic
+  estFundingRate: BigNumberInBase
   slug: string
   priceDecimals: number
   quantityDecimals: number
