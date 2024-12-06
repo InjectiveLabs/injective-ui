@@ -109,6 +109,7 @@ export enum NuxtUiIcons {
   Share = 'mage:share-fill',
   Share2 = 'ion:share-outline',
   Star = 'material-symbols:star',
+  StarOutline = 'iconamoon:star-light',
   Stop = 'ph:prohibit',
   SubAccount = 'bi:grid',
   Telegram = 'file-icons:telegram',
