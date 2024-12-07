@@ -5,15 +5,23 @@ import {
 import { BigNumberInBase } from '@injectivelabs/utils'
 import { ZERO_IN_BASE } from './../../utils/constant'
 
-export const getTwapEst = (funding: PerpetualMarketFunding) => {
-  const currentUnixTime = Math.floor(Date.now() / 1000)
-  const divisor = new BigNumberInBase(currentUnixTime).mod(3600).times(24)
+export const getTwapEst = ({
+  info,
+  funding
+}: {
+  info: PerpetualMarketInfo
+  funding: PerpetualMarketFunding
+}) => {
+  const timeInterval = new BigNumberInBase(funding.lastTimestamp)
+    .plus(info.fundingInterval)
+    .minus(info.nextFundingTimestamp)
+    .multipliedBy(24)
 
-  if (divisor.lte(0)) {
+  if (timeInterval.eq(0)) {
     return ZERO_IN_BASE
   }
 
-  return new BigNumberInBase(funding.cumulativePrice).dividedBy(divisor)
+  return new BigNumberInBase(funding.cumulativePrice).dividedBy(timeInterval)
 }
 
 export const formatFundingRate = ({
@@ -29,7 +37,7 @@ export const formatFundingRate = ({
 
   const hourlyFundingRateCap = new BigNumberInBase(info.hourlyFundingRateCap)
   const estFundingRate = new BigNumberInBase(info.hourlyInterestRate).plus(
-    getTwapEst(funding)
+    getTwapEst({ info, funding })
   )
 
   if (estFundingRate.gt(hourlyFundingRateCap)) {
