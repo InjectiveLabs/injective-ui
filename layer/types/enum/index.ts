@@ -103,6 +103,7 @@ export enum NuxtUiIcons {
   Refresh = 'el:refresh',
   Robot = 'bi:robot',
   Rotate = 'fa:rotate-left',
+  RotateAuto = 'material-symbols:rotate-auto',
   Search = 'ic:twotone-search',
   Settings = 'bi:gear-fill',
   SettingsOutline = 'bi:gear',
