@@ -944,8 +944,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           injectiveAddress: ''
         }
       })
-
-      walletStore.onConnect()
     },
 
     async disconnectAutoSign() {
@@ -956,7 +954,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       await walletStore.connectWallet(walletStore.wallet)
-      await walletStore.onConnect()
     },
 
     async logout() {
@@ -967,10 +964,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStrategy.disconnect()
 
       walletStore.resetAuthZ()
-      walletStore.disconnectAutoSign()
 
       walletStore.$patch({
         ...initialStateFactory(),
+        autoSign: undefined,
         queueStatus: StatusType.Idle,
         bitGetInstalled: walletStore.bitGetInstalled,
         phantomInstalled: walletStore.phantomInstalled,
