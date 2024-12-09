@@ -965,10 +965,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.disconnect()
 
-      walletStore.resetAuthZ()
-
       walletStore.$patch({
         ...initialStateFactory(),
+        authZ: {
+          address: '',
+          defaultSubaccountId: '',
+          direction: GrantDirection.Granter,
+          injectiveAddress: ''
+        },
         autoSign: undefined,
         queueStatus: StatusType.Idle,
         bitGetInstalled: walletStore.bitGetInstalled,
