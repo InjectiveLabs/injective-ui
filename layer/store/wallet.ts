@@ -944,6 +944,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           injectiveAddress: ''
         }
       })
+
+      walletStore.onConnect()
     },
 
     async disconnectAutoSign() {
