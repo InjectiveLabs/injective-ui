@@ -86,6 +86,7 @@ export const msgTypeMap = {
   [MsgType.MsgCreateDenom]: 'Create Denom',
   [MsgType.MsgExecuteContract]: 'Execute Contract',
   [MsgType.MsgExecuteContractCompat]: 'Execute Contract',
+  [MsgType.MsgRelayProviderPrices]: 'Relay Provider Prices',
   // todo: add to injective-ts
   'injective.exchange.v1beta1.MsgPrivilegedExecuteContract': 'Execute Contract',
   'cosmos.bank.v1beta1.MsgMultiSend': 'Multi Send'
