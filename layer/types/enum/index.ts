@@ -74,6 +74,7 @@ export enum NuxtUiIcons {
   DiscordWithBg = 'jam:discord',
   Download = 'fa6-solid:download',
   Download2 = 'material-symbols:download',
+  EmptyData = 'i-heroicons-circle-stack-20-solid',
   Exit = 'bx:exit',
   ExternalLink = 'ooui:link-external-ltr',
   Eye = 'heroicons:eye-16-solid',
