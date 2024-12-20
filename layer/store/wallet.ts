@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import {
   Wallet,
-  isEthWallet,
+  isEvmWallet,
   MagicProvider,
   isCosmosWallet
 } from '@injectivelabs/wallet-base'
@@ -344,7 +344,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         const addresses = await getAddresses()
 
-        const injectiveAddresses = isEthWallet(wallet)
+        const injectiveAddresses = isEvmWallet(wallet)
           ? addresses.map(getInjectiveAddress)
           : addresses
 
@@ -353,7 +353,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         })
       } else {
         const addresses = await getAddresses()
-        const injectiveAddresses = isEthWallet(wallet)
+        const injectiveAddresses = isEvmWallet(wallet)
           ? addresses.map(getInjectiveAddress)
           : addresses
 
