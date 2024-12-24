@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
+    'nuxt-security',
     '@nuxt/devtools',
     'nuxt-vitalizer',
     '@injectivelabs/nuxt-bugsnag'
