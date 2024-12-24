@@ -34,6 +34,29 @@ export default defineNuxtConfig({
 
   bugsnag,
 
+  // @ts-ignore
+  security: {
+    nonce: true, // Enables HTML nonce support in SSR mode
+    ssg: {
+      meta: true, // Enables CSP as a meta tag in SSG mode
+      hashScripts: true, // Enables CSP hash support for scripts in SSG mode
+      hashStyles: false // Disables CSP hash support for styles in SSG mode (recommended)
+    },
+    headers: {
+      contentSecurityPolicy: {
+        'base-uri': ["'none'"],
+        'img-src': [
+          "'self'",
+          'data:',
+          'https://blog.helixapp.com/',
+          'https://imagedelivery.net'
+        ]
+      }
+    }
+  },
+
+  // Refused to set the document's base URI to 'http://localhost:3000/chart/charting_library/' because it violates the following Content Security Policy directive: "base-uri 'none'"
+
   typescript: {
     typeCheck: 'build'
   },
