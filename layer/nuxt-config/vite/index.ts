@@ -100,6 +100,7 @@ export default defineConfig({
           '@injectivelabs/wallet-ledger',
           '@injectivelabs/wallet-cosmos',
           '@injectivelabs/wallet-strategy',
+          '@injectivelabs/wallet-cosmos-strategy',
           ...(isLocalLayer ? [] : additionalDeps)
         ],
     exclude: ['fsevents']
