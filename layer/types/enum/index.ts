@@ -48,6 +48,7 @@ export enum NuxtUiIcons {
   BoxCircle = 'bi:bounding-box-circles',
   Bridge = 'fa6-solid:bridge',
   Calendar = 'bi:calendar-week',
+  Calendar2 = 'bi:calendar',
   Chain = 'akar-icons:link-chain',
   Checkmark = 'material-symbols:check-circle',
   Checkmark2 = 'icomoon-free:checkmark',
