@@ -956,6 +956,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       await walletStore.connectWallet(walletStore.wallet)
+      walletStore.onConnect()
     },
 
     async logout() {
