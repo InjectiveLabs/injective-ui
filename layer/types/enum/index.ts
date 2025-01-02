@@ -124,6 +124,7 @@ export enum NuxtUiIcons {
   TriangleUp = 'bi:caret-up-fill',
   Trophy = 'bi:trophy-fill',
   Twitter = 'mdi:twitter',
+  TwitterNew = 'fa6-brands:x-twitter',
   TwitterCircle = 'formkit:twitter',
   User = 'mdi:user',
   UserOutline = 'mingcute:user-1-line',
