@@ -859,7 +859,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const injectiveAddress = privateKey.toBech32()
 
       const nowInSeconds = Math.floor(Date.now() / 1000)
-      const expirationInSeconds = 60 * 60 // 1 hour
+      const expirationInSeconds = 60 * 60 * 24 * 3 // 3 days
 
       const authZMsgs = msgsType.map((messageType) =>
         MsgGrant.fromJSON({
