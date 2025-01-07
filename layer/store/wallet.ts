@@ -965,14 +965,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.onConnect()
     },
 
-    disconnectAutoSign() {
+    async disconnectAutoSign() {
       const walletStore = useSharedWalletStore()
 
       walletStore.$patch({
         autoSign: undefined
       })
 
-      autoSignWalletStrategy.disconnect()
+      await autoSignWalletStrategy.disconnect()
     },
 
     async logout() {
