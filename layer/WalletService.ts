@@ -16,8 +16,8 @@ export const msgBroadcaster = new MsgBroadcaster({
   simulateTx: true,
   network: NETWORK,
   endpoints: ENDPOINTS,
-  feePayerPubKey: FEE_PAYER_PUB_KEY,
-  gasBufferCoefficient: 1.4
+  gasBufferCoefficient: 1.4,
+  feePayerPubKey: FEE_PAYER_PUB_KEY
 })
 
 /**
@@ -28,11 +28,12 @@ export const msgBroadcaster = new MsgBroadcaster({
  */
 
 export const autoSignMsgBroadcaster = new MsgBroadcaster({
-  walletStrategy: autoSignWalletStrategy,
+  simulateTx: true,
   network: NETWORK,
   endpoints: ENDPOINTS,
+  gasBufferCoefficient: 1.4,
   feePayerPubKey: FEE_PAYER_PUB_KEY,
-  gasBufferCoefficient: 1.4
+  walletStrategy: autoSignWalletStrategy
 })
 
 export const web3Broadcaster = new Web3Broadcaster({

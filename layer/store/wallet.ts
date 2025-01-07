@@ -837,13 +837,20 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       )
 
       if (!hasMsgExecuteContract && walletStore.autoSign) {
+        // eslint-disable-next-line no-console
+        console.log('broadcasting with auto sign', {
+          memo,
+          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress),
+          injectiveAddress: walletStore.autoSign.injectiveAddress
+        })
+
         const response =
           await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
+            memo,
             msgs: msgsOrMsgExecMsgs(
               msgs,
               walletStore.autoSign.injectiveAddress
             ),
-            memo,
             injectiveAddress: walletStore.autoSign.injectiveAddress
           })
 
