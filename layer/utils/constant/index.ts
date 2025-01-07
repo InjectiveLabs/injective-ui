@@ -32,3 +32,6 @@ export const DEFAULT_MAINNET_GAS_PRICE = new BigNumber(30).times(GWEI_IN_WEI)
 export const INJ_REQUIRED_FOR_GAS = 0.005
 
 export const UTC_TIMEZONE = 'Etc/Greenwich'
+
+export const MSG_TYPE_URL_MSG_EXECUTE_CONTRACT =
+  '/injective.wasmx.v1.MsgExecuteContractCompat'

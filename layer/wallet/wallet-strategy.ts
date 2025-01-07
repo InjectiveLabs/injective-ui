@@ -1,4 +1,4 @@
-import { WalletStrategy } from '@injectivelabs/wallet-ts'
+import { WalletStrategy, Wallet } from '@injectivelabs/wallet-ts'
 import {
   CHAIN_ID,
   APP_NAME,
@@ -30,6 +30,18 @@ export const walletStrategy = new WalletStrategy({
       projectId: WALLET_CONNECT_PROJECT_ID,
       description: ''
     }
+  }
+})
+
+export const autoSignWalletStrategy = new WalletStrategy({
+  wallet: Wallet.PrivateKey,
+  chainId: CHAIN_ID,
+  ethereumOptions: {
+    ethereumChainId: ETHEREUM_CHAIN_ID,
+    rpcUrl: alchemyRpcEndpoint
+  },
+  options: {
+    privateKey: ''
   }
 })
 
