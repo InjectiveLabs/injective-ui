@@ -5,7 +5,6 @@ import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 
 const props = withDefaults(
   defineProps<{
-    alignLeft?: boolean
     shouldTruncate?: boolean
     showZeroAsEmDash?: boolean
 
@@ -107,7 +106,7 @@ const dustAmount = computed(() => {
       </span>
 
       <span v-else>
-        <span class="flex items-center" :class="{ 'justify-end': !alignLeft }">
+        <span class="flex items-center">
           {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
           <sub>
             {{ condensedZeroCount }}
