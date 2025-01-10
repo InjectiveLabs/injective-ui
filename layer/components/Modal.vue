@@ -3,14 +3,15 @@
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: boolean
+    ui?: object
+    cardUi?: object
     appear?: boolean
     overlay?: boolean
+    modelValue?: boolean
     transition?: boolean
-    preventClose?: boolean
     fullscreen?: boolean
+    preventClose?: boolean
     class?: string | object | string[]
-    ui?: object
   }>(),
   {
     appear: false,
@@ -19,8 +20,9 @@ const props = withDefaults(
     fullscreen: false,
     modelValue: false,
     preventClose: false,
+    ui: () => ({}),
     class: () => '',
-    ui: () => ({})
+    cardUi: () => ({})
   }
 )
 
@@ -49,10 +51,11 @@ const isOpen = computed({
       ui
     }"
   >
-    <UCard>
+    <UCard v-bind="{ ui: cardUi }">
       <template v-if="$slots.header" #header>
         <slot name="header" />
       </template>
+
       <slot />
 
       <template v-if="$slots.footer" #footer>
