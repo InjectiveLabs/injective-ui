@@ -12,6 +12,7 @@ import { BigNumberInBase } from '@injectivelabs/utils'
 import { MsgType } from '@injectivelabs/ts-types'
 import { unknownToken } from '../../data/token'
 import { msgTypeMap } from '../../data/explorer'
+import { getHumanReadableMessage } from './messageSummary'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
 import {
   UiContractTransaction,
@@ -158,7 +159,8 @@ export const toUiTransaction = (
 ): UiExplorerTransaction => {
   return {
     ...transaction,
-    ...getTypesAndCoins(transaction)
+    ...getTypesAndCoins(transaction),
+    templateMsgs: transaction.messages.map(getHumanReadableMessage)
   }
 }
 

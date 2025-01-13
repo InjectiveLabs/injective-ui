@@ -9,6 +9,7 @@ export interface UiExplorerTransaction extends ExplorerTransaction {
   types: string[]
   coinReceived: Coin[]
   coinSpent: Coin[]
+  templateMsgs: string[]
 }
 
 export interface UiContractTransaction extends ContractTransaction {
