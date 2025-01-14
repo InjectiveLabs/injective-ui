@@ -108,6 +108,7 @@ export enum NuxtUiIcons {
   CirclePlus = 'ep:circle-plus',
   PortfolioHistory = 'bi:clock',
   Position = 'bi:graph-up-arrow',
+  PottedPlant = 'material-symbols:potted-plant-outline-rounded',
   QrCode = 'f7:qrcode',
   Refresh = 'el:refresh',
   Robot = 'bi:robot',
