@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NuxtUiIcons } from '@/types'
+import { NuxtUiIcons } from '../types'
 
 const props = withDefaults(
   defineProps<{
@@ -14,12 +14,8 @@ const props = withDefaults(
     class?: string | object | string[]
   }>(),
   {
-    appear: false,
     overlay: true,
     transition: true,
-    fullscreen: false,
-    modelValue: false,
-    preventClose: false,
     ui: () => ({}),
     class: () => '',
     cardUi: () => ({})
