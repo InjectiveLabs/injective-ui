@@ -1,5 +1,5 @@
 <script setup lang="ts">
-//
+import { NuxtUiIcons } from '@/types'
 
 const props = withDefaults(
   defineProps<{
@@ -36,6 +36,10 @@ const isOpen = computed({
     emit('update:modelValue', value)
   }
 })
+
+function onClose() {
+  isOpen.value = false
+}
 </script>
 
 <template>
@@ -52,6 +56,14 @@ const isOpen = computed({
     }"
   >
     <UCard v-bind="{ ui: cardUi }">
+      <UButton
+        class="absolute top-6 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent"
+        variant="ghost"
+        @click="onClose"
+      >
+        <UIcon :name="NuxtUiIcons.Close" class="block size-5 min-w-5" />
+      </UButton>
+
       <template v-if="$slots.header" #header>
         <slot name="header" />
       </template>
