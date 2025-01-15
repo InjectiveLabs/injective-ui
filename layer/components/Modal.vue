@@ -11,6 +11,7 @@ const props = withDefaults(
     transition?: boolean
     fullscreen?: boolean
     preventClose?: boolean
+    isHideCloseButton?: boolean
     class?: string | object | string[]
   }>(),
   {
@@ -53,6 +54,7 @@ function onClose() {
   >
     <UCard v-bind="{ ui: cardUi }">
       <UButton
+        v-if="!isHideCloseButton && !preventClose"
         class="absolute top-6 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent"
         variant="ghost"
         @click="onClose"

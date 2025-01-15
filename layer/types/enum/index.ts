@@ -144,3 +144,19 @@ export enum NuxtUiIcons {
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet'
 }
+
+export enum UIBreakpoints {
+  '2xs' = 375,
+  xs = 480,
+  sm = 640,
+  md = 768,
+  '2md' = 800,
+  '3md' = 840,
+  lg = 1024,
+  xl = 1280,
+  '2xl' = 1366,
+  '3xl' = 1440,
+  '4xl' = 1536,
+  '5xl' = 1681,
+  '6xl' = 1920
+}
