@@ -157,10 +157,20 @@ const getTypesAndCoins = (
 export const toUiTransaction = (
   transaction: ExplorerTransaction
 ): UiExplorerTransaction => {
+  const msgsWithSummary = transaction.messages.map((message) => ({
+    ...message,
+    msgSummary: getHumanReadableMessage(message)
+  }))
+
   return {
     ...transaction,
     ...getTypesAndCoins(transaction),
-    templateMsgs: transaction.messages.map(getHumanReadableMessage)
+
+    templateMsgs: transaction.messages
+      .map(getHumanReadableMessage)
+      .filter(Boolean)
+      .flat(),
+    msgsWithSummary
   }
 }
 
