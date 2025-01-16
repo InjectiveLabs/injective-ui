@@ -32,12 +32,6 @@ const emit = defineEmits<{
 const isOpen = computed({
   get: () => props.modelValue,
   set: (value: boolean) => {
-    if (value) {
-      emit('on:open')
-    } else {
-      emit('on:close')
-    }
-
     emit('update:modelValue', value)
   }
 })
@@ -45,6 +39,19 @@ const isOpen = computed({
 function onClose() {
   isOpen.value = false
 }
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    if (value) {
+      emit('on:open')
+
+      return
+    }
+
+    emit('on:close')
+  }
+)
 </script>
 
 <template>
