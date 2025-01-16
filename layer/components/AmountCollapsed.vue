@@ -19,10 +19,10 @@ const props = withDefaults(
 const { valueToString: amountToString } = useSharedBigNumberFormatter(
   computed(() => props.amount),
   {
+    roundingMode: BigNumber.ROUND_DOWN,
     decimalPlaces: computed(() =>
       sharedGetExactDecimalsFromNumber(props.amount, true)
     ),
-    roundingMode: BigNumber.ROUND_DOWN,
     minimalDecimalPlaces: computed(() =>
       sharedGetExactDecimalsFromNumber(props.amount, true)
     )

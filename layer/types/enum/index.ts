@@ -50,7 +50,6 @@ export enum NuxtUiIcons {
   Box = 'mynaui:box-solid',
   BoxCircle = 'bi:bounding-box-circles',
   Bridge = 'fa6-solid:bridge',
-  Cash = 'bi:cash-stack',
   Calendar = 'bi:calendar-week',
   Calendar2 = 'bi:calendar',
   Chain = 'akar-icons:link-chain',

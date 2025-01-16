@@ -34,8 +34,8 @@ const {
 } = useSharedBigNumberFormatter(
   computed(() => props.amount),
   {
-    decimalPlaces: computed(() => decimals.value),
     roundingMode: BigNumber.ROUND_HALF_UP,
+    decimalPlaces: computed(() => decimals.value),
     minimalDecimalPlaces: computed(() => decimals.value)
   }
 )
@@ -57,10 +57,18 @@ const shouldTruncateUsdAmount = computed(() => {
 
 <template>
   <SharedAmountCollapsed
+    v-if="!usdAmountToBigNumber.gte(1_000_000)"
     v-bind="{
       ...$attrs,
       amount: usdAmountToFixed,
       shouldTruncate: shouldTruncateUsdAmount
+    }"
+  />
+  <SharedAmountBalance
+    v-else
+    v-bind="{
+      ...$attrs,
+      amount: usdAmountToFixed
     }"
   />
 </template>
