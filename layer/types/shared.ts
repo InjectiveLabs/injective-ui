@@ -8,25 +8,28 @@ export interface NotificationAction {
 
 export interface Notification {
   id: number
-  type: NotificationType
   title: string
-  description: string
-  context: string /** a longer version of a description */
-  createdAt: number
   timeout: number
+  createdAt: number
+  description: string
+  type: NotificationType
+  isTemplateString?: boolean
+
   actions: NotificationAction[] | undefined
+  context: string /** a longer version of a description */
 }
 
 export interface NotificationOptions {
   title: string
-  description?: string
-  context?: string // (longer description)
   timeout?: number
+  description?: string
+  isTemplateString?: boolean
   actions?: NotificationAction[]
+  context?: string // (longer description)
 }
 
 export interface SharedDropdownOption {
-  display: string
   value: string
+  display: string
   description?: string
 }
