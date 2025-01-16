@@ -1,9 +1,9 @@
 export * from './market'
 
 export enum NotificationType {
+  Info = 'info',
   Error = 'error',
   Warning = 'warning',
-  Info = 'info',
   Success = 'success'
 }
 

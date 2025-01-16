@@ -89,7 +89,11 @@ function onResume() {
           </slot>
         </div>
         <div class="flex flex-col gap-2" :class="contentClass">
-          <span class="text-sm font-semibold">{{ notification.title }}</span>
+          <span class="text-sm font-semibold">
+            <slot name="custom">
+              {{ notification.title }}
+            </slot>
+          </span>
 
           <span
             v-if="notification.description"

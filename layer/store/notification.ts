@@ -36,6 +36,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
             context: options.context,
             actions: options.actions,
             description: options.description,
+            isTemplateString: options.isTemplateString,
             timeout: options.timeout || DEFAULT_TIMEOUT
           }
         ]
