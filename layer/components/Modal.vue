@@ -24,12 +24,20 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+  'on:open': []
+  'on:close': []
   'update:modelValue': [modelValue: boolean]
 }>()
 
 const isOpen = computed({
   get: () => props.modelValue,
   set: (value: boolean) => {
+    if (value) {
+      emit('on:open')
+    } else {
+      emit('on:close')
+    }
+
     emit('update:modelValue', value)
   }
 })
