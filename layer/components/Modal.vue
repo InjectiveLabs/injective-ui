@@ -1,5 +1,5 @@
 <script setup lang="ts">
-//
+import { NuxtUiIcons } from '../types'
 
 const props = withDefaults(
   defineProps<{
@@ -11,15 +11,12 @@ const props = withDefaults(
     transition?: boolean
     fullscreen?: boolean
     preventClose?: boolean
+    isHideCloseButton?: boolean
     class?: string | object | string[]
   }>(),
   {
-    appear: false,
     overlay: true,
     transition: true,
-    fullscreen: false,
-    modelValue: false,
-    preventClose: false,
     ui: () => ({}),
     class: () => '',
     cardUi: () => ({})
@@ -27,15 +24,40 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+  'on:open': []
+  'on:close': []
   'update:modelValue': [modelValue: boolean]
 }>()
 
 const isOpen = computed({
   get: () => props.modelValue,
   set: (value: boolean) => {
+    if (!value) {
+      emit('on:close')
+    }
+
     emit('update:modelValue', value)
   }
 })
+
+function onClose() {
+  isOpen.value = false
+
+  emit('update:modelValue', false)
+}
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    if (value) {
+      emit('on:open')
+
+      return
+    }
+
+    emit('on:close')
+  }
+)
 </script>
 
 <template>
@@ -52,6 +74,15 @@ const isOpen = computed({
     }"
   >
     <UCard v-bind="{ ui: cardUi }">
+      <UButton
+        v-if="!isHideCloseButton && !preventClose"
+        class="absolute top-6 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent"
+        variant="ghost"
+        @click="onClose"
+      >
+        <UIcon :name="NuxtUiIcons.Close" class="block size-5 min-w-5" />
+      </UButton>
+
       <template v-if="$slots.header" #header>
         <slot name="header" />
       </template>

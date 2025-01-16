@@ -56,6 +56,7 @@ export enum NuxtUiIcons {
   Chain = 'akar-icons:link-chain',
   Checkmark = 'material-symbols:check-circle',
   Checkmark2 = 'icomoon-free:checkmark',
+  CheckmarkThin = 'fluent:checkmark-20-filled',
   CheckmarkOutline = 'solar:check-circle-outline',
   CheckShieldOutline = 'stash:shield-check',
   ChevronDown = 'bi:chevron-down',
@@ -108,6 +109,7 @@ export enum NuxtUiIcons {
   CirclePlus = 'ep:circle-plus',
   PortfolioHistory = 'bi:clock',
   Position = 'bi:graph-up-arrow',
+  PottedPlant = 'material-symbols:potted-plant-outline-rounded',
   QrCode = 'f7:qrcode',
   Refresh = 'el:refresh',
   Robot = 'bi:robot',
@@ -141,4 +143,20 @@ export enum NuxtUiIcons {
   Wallet = 'bi:wallet-fill',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet'
+}
+
+export enum UIBreakpoints {
+  '2xs' = 375,
+  xs = 480,
+  sm = 640,
+  md = 768,
+  '2md' = 800,
+  '3md' = 840,
+  lg = 1024,
+  xl = 1280,
+  '2xl' = 1366,
+  '3xl' = 1440,
+  '4xl' = 1536,
+  '5xl' = 1681,
+  '6xl' = 1920
 }
