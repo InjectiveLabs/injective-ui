@@ -227,6 +227,15 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     return [
       `{{account:${delegator}}} undelegated {{denom:${denom}-${amount}}} from {{validator:${validator}}}`
     ]
+  },
+
+  [MsgType.MsgWithdrawDelegatorReward]: (value: Message) => {
+    const { delegator_address: delegator, validator_address: validator } =
+      value.message
+
+    return [
+      `{{account:${delegator}}} claimed rewards from {{validator:${validator}}}`
+    ]
   }
 }
 
