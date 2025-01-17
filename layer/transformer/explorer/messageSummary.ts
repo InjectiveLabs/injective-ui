@@ -1,6 +1,7 @@
 import { type Coin, type Message } from '@injectivelabs/sdk-ts'
 import { MsgType } from '@injectivelabs/ts-types'
 import { getNetworkFromAddress } from './../../utils/network'
+import { sharedToBalanceInToken } from './../../utils/formatter'
 
 const AUCTION_POOL_SUBACCOUNT_ID =
   '0x1111111111111111111111111111111111111111111111111111111111111111'
@@ -338,7 +339,9 @@ const insuranceMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} requested a redemption of {{denom:${denom}-${amount}}} from the {{market:${marketId}}} Insurance Fund`
+      `{{account:${sender}}} requested a redemption of ${sharedToBalanceInToken(
+        { value: amount }
+      )} ${denom} from the {{market:${marketId}}} Insurance Fund`
     ]
   },
   [MsgType.MsgUnderwrite]: (value: Message) => {
