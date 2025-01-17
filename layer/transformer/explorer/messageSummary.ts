@@ -1,28 +1,10 @@
 import { type Message } from '@injectivelabs/sdk-ts'
 import { MsgType } from '@injectivelabs/ts-types'
+import { getNetworkFromAddress } from './../../utils/network'
 
-const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
-  [MsgType.MsgSend]: (value: Message) => {
-    const { amount, from_address: sender, to_address: receiver } = value.message
-    const [coin] = amount as { denom: string; amount: string }[]
-
-    return [
-      `{{account:${sender}}} sent {{denom:${coin.denom}-${coin.amount}}} to {{account:${receiver}}}`
-    ]
-  },
-
-  [MsgType.MsgDelegate]: (value: Message) => {
-    const {
-      amount: { denom, amount },
-      delegator_address: delegator,
-      validator_address: validator
-    } = value.message
-
-    return [
-      `{{account:${delegator}}} delegated {{denom:${denom}-${amount}}} to {{validator:${validator}}}`
-    ]
-  },
-
+const exchangeMsgSummaryMap: Partial<
+  Record<MsgType, (value: Message) => string[]>
+> = {
   [MsgType.MsgCreateSpotMarketOrder]: (value: Message) => {
     const { sender, order } = value.message
 
@@ -71,22 +53,91 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgExec]: (value: Message) => {
-    const execMsgs = (value.message as any).msgs.map((msg: any) => ({
-      type: msg['@type'],
-      message: msg
-    })) as Message[]
+  [MsgType.MsgCancelSpotOrder]: (value: Message) => {
+    const {
+      sender,
+      cid,
+      order_hash: orderHash,
+      market_id: marketId
+    } = value.message
 
-    return execMsgs.map((msg) => getHumanReadableMessage(msg)).flat()
+    return [
+      `{{account:${sender}}} cancelled order ${
+        cid || orderHash
+      } in the {{market:${marketId}}} Spot Market`
+    ]
+  },
+
+  [MsgType.MsgBatchCancelSpotOrders]: (value: Message) => {
+    const { sender, data: orders } = value.message
+
+    return [
+      `{{account:${sender}}} cancelled all spot orders in:`,
+      ...orders.map(
+        (order: any) =>
+          `• {{market:${order.market_id}}} with the following order hash: ${order.order_hash}`
+      )
+    ]
+  },
+
+  [MsgType.MsgBatchCreateSpotLimitOrders]: (value: Message) => {
+    const { sender, orders } = value.message
+
+    return [
+      `{{account:${sender}}} created a batch of spot limit orders:`,
+      ...orders.map(
+        (order: any) =>
+          `• {{spotQuantity:${order.market_id}-${order.order_info.quantity}}} at {{spotPrice:${order.market_id}-${order.order_info.price}}} in the {{market:${order.market_id}}} Spot Market`
+      )
+    ]
+  },
+
+  [MsgType.MsgCancelDerivativeOrder]: (value: Message) => {
+    const {
+      sender,
+      cid,
+      order_hash: orderHash,
+      market_id: marketId
+    } = value.message
+
+    return [
+      `{{account:${sender}}} cancelled order ${
+        cid || orderHash
+      } in the {{market:${marketId}}} Derivative Market`
+    ]
+  },
+
+  [MsgType.MsgBatchCancelDerivativeOrders]: (value: Message) => {
+    const { sender, orders } = value.message
+
+    return [
+      `{{account:${sender}}} cancelled all derivative orders in:`,
+      ...orders.map(
+        (order: any) =>
+          `• {{market:${order.marketId}}} with the following order hash: ${order.orderHash}`
+      )
+    ]
+  },
+
+  [MsgType.MsgBatchCreateDerivativeLimitOrders]: (value: Message) => {
+    const { sender, orders } = value.message
+
+    return [
+      `{{account:${sender}}} created a batch of derivative limit orders:`,
+      ...orders.map(
+        (order: any) =>
+          `• {{derivativeQuantity:${order.market_id}-${order.order_info.quantity}}} at {{derivativePrice:${order.market_id}-${order.order_info.price}}} in the {{market:${order.market_id}}} Derivative Market`
+      )
+    ]
   },
 
   [MsgType.MsgBatchUpdateOrders]: (value: Message) => {
     const {
+      sender,
       spot_orders_to_cancel: spotOrdersToCancel,
-      derivative_orders_to_cancel: derivativeOrdersToCancel,
       spot_orders_to_create: spotOrdersToCreate,
-      derivative_orders_to_create: derivativeOrdersToCreate,
-      sender
+      derivative_orders_to_cancel: derivativeOrdersToCancel,
+      derivative_orders_to_create: derivativeOrdersToCreate
     } = value.message as Record<string, any>
 
     // Not Used:
@@ -135,35 +186,21 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
       ...spotCancelOrders,
       ...derivativeCancelOrders
     ]
-  },
+  }
+}
 
-  [MsgType.MsgCancelSpotOrder]: (value: Message) => {
+const stakingMsgSummaryMap: Partial<
+  Record<MsgType, (value: Message) => string[]>
+> = {
+  [MsgType.MsgDelegate]: (value: Message) => {
     const {
-      sender,
-      cid,
-      order_hash: orderHash,
-      market_id: marketId
+      amount: { denom, amount },
+      delegator_address: delegator,
+      validator_address: validator
     } = value.message
 
     return [
-      `{{account:${sender}}} cancelled order ${
-        cid || orderHash
-      } in the {{market:${marketId}}} Spot Market`
-    ]
-  },
-
-  [MsgType.MsgCancelDerivativeOrder]: (value: Message) => {
-    const {
-      sender,
-      cid,
-      order_hash: orderHash,
-      market_id: marketId
-    } = value.message
-
-    return [
-      `{{account:${sender}}} cancelled order ${
-        cid || orderHash
-      } in the {{market:${marketId}}} Derivative Market`
+      `{{account:${delegator}}} staked {{denom:${denom}-${amount}}} to {{validator:${validator}}}`
     ]
   },
 
@@ -177,43 +214,6 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
 
     return [
       `{{account:${delegator}}} redelegated {{denom:${denom}-${amount}}} from {{validator:${validatorSrc}}} to {{validator:${validatorDst}}}`
-    ]
-  },
-
-  [MsgType.MsgDeposit]: (value: Message) => {
-    const {
-      amount: { denom, amount },
-      sender,
-      subaccount_id: subaccountId
-    } = value.message
-
-    return [
-      `{{account:${sender}}} deposited {{denom:${denom}-${amount}}} to subaccount ${subaccountId}`
-    ]
-  },
-
-  [MsgType.MsgWithdraw]: (value: Message) => {
-    const {
-      amount: { denom, amount },
-      sender,
-      subaccount_id: subaccountId
-    } = value.message
-
-    return [
-      `{{account:${sender}}} withdrew {{denom:${denom}-${amount}}} from subaccount ${subaccountId}`
-    ]
-  },
-
-  [MsgType.MsgSubaccountTransfer]: (value: Message) => {
-    const {
-      amount: { denom, amount },
-      source_subaccount_id: sourceSubaccountId,
-      destination_subaccount_id: destinationSubaccountId,
-      sender
-    } = value.message
-
-    return [
-      `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from subaccount ${sourceSubaccountId} to subaccount ${destinationSubaccountId}`
     ]
   },
 
@@ -235,6 +235,118 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
 
     return [
       `{{account:${delegator}}} claimed rewards from {{validator:${validator}}}`
+    ]
+  }
+}
+
+const insuranceMsgSummaryMap: Partial<
+  Record<MsgType, (value: Message) => string[]>
+> = {
+  [MsgType.MsgRequestRedemption]: (value: Message) => {
+    const {
+      sender,
+      market_id: marketId,
+      amount: { amount, denom }
+    } = value.message
+
+    return [
+      `{{account:${sender}}} requested a redemption of {{denom:${denom}-${amount}}} from the {{market:${marketId}}} Insurance Fund`
+    ]
+  }
+}
+
+const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
+  ...stakingMsgSummaryMap,
+  ...exchangeMsgSummaryMap,
+  ...insuranceMsgSummaryMap,
+
+  [MsgType.MsgSend]: (value: Message) => {
+    const { amount, from_address: sender, to_address: receiver } = value.message
+    const [coin] = amount as { denom: string; amount: string }[]
+
+    return [
+      `{{account:${sender}}} sent {{denom:${coin.denom}-${coin.amount}}} to {{account:${receiver}}}`
+    ]
+  },
+
+  [MsgType.MsgDeposit]: (value: Message) => {
+    const {
+      amount: { amount, denom },
+      subaccount_id: subaccount,
+      sender
+    } = value.message
+
+    return [
+      `{{account:${sender}}} deposited {{denom:${denom}-${amount}}} to subaccount {{subaccount:${subaccount}}}`
+    ]
+  },
+
+  [MsgType.MsgDepositClaim]: (value: Message) => {
+    const {
+      amount,
+      token_contract: denom,
+      ethereum_sender: sender,
+      cosmos_receiver: receiver
+    } = value.message
+
+    return [
+      `{{cosmosAccount:${sender}}} deposited {{denom:${denom}-${amount}}} to {{account:${receiver}}} on Injective`
+    ]
+  },
+
+  [MsgType.MsgExec]: (value: Message) => {
+    const execMsgs = (value.message as any).msgs.map((msg: any) => ({
+      type: msg['@type'],
+      message: msg
+    })) as Message[]
+
+    return execMsgs.map((msg) => getHumanReadableMessage(msg)).flat()
+  },
+
+  [MsgType.MsgBid]: (value: Message) => {
+    const { bid_amount: denom, amount, sender, round } = value.message
+
+    return [
+      `{{account:${sender}}} submitted a bid of {{denom:${denom}-${amount}}} in round ${round}`
+    ]
+  },
+
+  [MsgType.MsgTransfer]: (value: Message) => {
+    const {
+      sender,
+      receiver: toAddress,
+      token: { denom, amount }
+    } = value.message
+
+    return [
+      `{{account:${sender}}} withdrew {{denom:${denom}-${amount}}} to {{account:${toAddress}}} from {{network:${getNetworkFromAddress(
+        sender
+      )}}}`
+    ]
+  },
+
+  [MsgType.MsgSubaccountTransfer]: (value: Message) => {
+    const {
+      sender,
+      amount: { denom, amount },
+      source_subaccount_id: sourceSubaccountId,
+      destination_subaccount_id: destinationSubaccountId
+    } = value.message
+
+    return [
+      `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from subaccount {{subaccount:${sourceSubaccountId}}} to subaccount {{subaccount:${destinationSubaccountId}}}`
+    ]
+  },
+
+  [MsgType.MsgWithdraw]: (value: Message) => {
+    const {
+      sender,
+      amount: { denom, amount },
+      subaccount_id: subaccountId
+    } = value.message
+
+    return [
+      `{{account:${sender}}} withdrew {{denom:${denom}-${amount}}} from subaccount {{subaccount:${subaccountId}}}`
     ]
   }
 }
