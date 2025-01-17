@@ -41,11 +41,13 @@ export enum GrantDirection {
 export enum NuxtUiIcons {
   Auction = 'ri:auction-fill',
   Apps = 'bi:grid-1x2-fill',
+  Apps2 = 'bi:grid-fill',
   ArrowDiagonalRight = 'eva:diagonal-arrow-right-up-fill',
   ArrowLeft = 'fluent:arrow-left-12-regular',
   ArrowSwap = 'fontisto:arrow-swap',
   Bank = 'bi:bank',
   BarChart = 'bi:bar-chart-line',
+  BarChart2 = 'heroicons:chart-bar-16-solid',
   Bitcoin = 'hugeicons:bitcoin-04',
   Box = 'mynaui:box-solid',
   BoxCircle = 'bi:bounding-box-circles',
@@ -140,6 +142,7 @@ export enum NuxtUiIcons {
   UserOutline = 'mingcute:user-1-line',
   Warning = 'ep:warning-filled',
   Wallet = 'bi:wallet-fill',
+  Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet'
 }

@@ -6,22 +6,25 @@ const props = withDefaults(
   defineProps<{
     amount: string
     decimalPlaces?: number
+    abbreviationFloor?: number
     showZeroAsEmDash?: boolean
   }>(),
   {
-    decimalPlaces: 8
+    decimalPlaces: 8,
+    abbreviationFloor: 0
   }
 )
 
-const { valueToString: amountToString } = useSharedBigNumberFormatter(
-  computed(() => props.amount),
-  {
-    abbreviationFloor: 1_000_000,
-    roundingMode: BigNumber.ROUND_DOWN,
-    decimalPlaces: computed(() => props.decimalPlaces),
-    minimalDecimalPlaces: computed(() => props.decimalPlaces)
-  }
-)
+const { valueToString: amountToString, valueToBigNumber: amountInBigNumber } =
+  useSharedBigNumberFormatter(
+    computed(() => props.amount),
+    {
+      roundingMode: BigNumber.ROUND_DOWN,
+      abbreviationFloor: props.abbreviationFloor,
+      decimalPlaces: computed(() => props.decimalPlaces),
+      minimalDecimalPlaces: computed(() => props.decimalPlaces)
+    }
+  )
 
 const amountWithoutTrailingZeros = computed(() => {
   if (!amountToString.value.includes('.')) {
@@ -32,10 +35,6 @@ const amountWithoutTrailingZeros = computed(() => {
     .replace(/(\.\d*?[1-9])0+$/, '$1')
     .replace(/\.0+$/, '')
 })
-
-const { valueToBigNumber: amountInBigNumber } = useSharedBigNumberFormatter(
-  computed(() => amountToString.value)
-)
 </script>
 
 <template>

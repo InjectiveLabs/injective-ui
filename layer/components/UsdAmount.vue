@@ -5,9 +5,13 @@ const props = withDefaults(
   defineProps<{
     amount: string
     shouldTruncate?: boolean
+    shouldAbbreviate?: boolean
+    abbreviationFloor?: number
     isShowNoDecimals?: boolean
   }>(),
-  {}
+  {
+    abbreviationFloor: 0
+  }
 )
 
 const decimals = computed(() => {
@@ -56,19 +60,20 @@ const shouldTruncateUsdAmount = computed(() => {
 </script>
 
 <template>
+  <SharedAmountBalance
+    v-if="shouldAbbreviate && usdAmountToBigNumber.gte(abbreviationFloor)"
+    v-bind="{
+      ...$attrs,
+      abbreviationFloor,
+      amount: usdAmountToFixed
+    }"
+  />
   <SharedAmountCollapsed
-    v-if="!usdAmountToBigNumber.gte(1_000_000)"
+    v-else
     v-bind="{
       ...$attrs,
       amount: usdAmountToFixed,
       shouldTruncate: shouldTruncateUsdAmount
-    }"
-  />
-  <SharedAmountBalance
-    v-else
-    v-bind="{
-      ...$attrs,
-      amount: usdAmountToFixed
     }"
   />
 </template>
