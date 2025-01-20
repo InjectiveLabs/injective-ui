@@ -133,11 +133,13 @@ function onResume() {
               :key="action.key"
               @click="() => action.callback()"
             >
-              <span
-                class="text-primary-500 text-sm font-semibold cursor-pointer"
-              >
-                {{ action.label }}
-              </span>
+              <slot name="label" :label="action.label">
+                <span
+                  class="text-primary-500 text-sm font-semibold cursor-pointer"
+                >
+                  {{ action.label }}
+                </span>
+              </slot>
             </button>
           </div>
         </div>
