@@ -162,7 +162,7 @@ export const toUiTransaction = (
     ...getTypesAndCoins(transaction),
     templateSummaries: transaction.messages.map((message) => ({
       type: message.type,
-      summary: getHumanReadableMessage(message)
+      summary: getHumanReadableMessage(message, transaction.logs || [])
     }))
   }
 }

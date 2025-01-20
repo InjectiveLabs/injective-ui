@@ -1,15 +1,17 @@
-import { type Coin, type Message } from '@injectivelabs/sdk-ts'
+import { type Coin, type Message, type EventLog } from '@injectivelabs/sdk-ts'
 import { MsgType } from '@injectivelabs/ts-types'
+import { eventLogsSummaryMap } from './messageEvents'
 import { getNetworkFromAddress } from './../../utils/network'
 import { sharedToBalanceInToken } from './../../utils/formatter'
+import { EventMessageType } from './../../types'
 
 const AUCTION_POOL_SUBACCOUNT_ID =
   '0x1111111111111111111111111111111111111111111111111111111111111111'
 
 const exchangeMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message) => string[]>
+  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
 > = {
-  [MsgType.MsgWithdraw]: (value: Message) => {
+  [MsgType.MsgWithdraw]: (value: Message, _) => {
     const {
       sender,
       amount: { denom, amount },
@@ -17,17 +19,17 @@ const exchangeMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} withdrew {{denom:${denom}-${amount}}} from subaccount {{subaccount:${subaccountId}}}`
+      `{{account:${sender}}} withdrew {{denom:${denom}-${amount}}} from subaccount {{ellipsis:${subaccountId}}}`
     ]
   },
 
-  [MsgType.MsgInstantSpotMarketLaunch]: (value: Message) => {
+  [MsgType.MsgInstantSpotMarketLaunch]: (value: Message, _) => {
     const { sender, ticker } = value.message
 
-    return [`{{account:${sender}}} instant launched the ${ticker} Spot Market`]
+    return [`{{account:${sender}}} instant launched the ${ticker}`]
   },
 
-  [MsgType.MsgCreateSpotMarketOrder]: (value: Message) => {
+  [MsgType.MsgCreateSpotMarketOrder]: (value: Message, _) => {
     const { sender, order } = value.message
 
     const { quantity, price } = order.order_info
@@ -35,11 +37,11 @@ const exchangeMsgSummaryMap: Partial<
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in the {{market:${marketId}}} Spot Market`
+      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in {{market:${marketId}}}`
     ]
   },
 
-  [MsgType.MsgCreateSpotLimitOrder]: (value: Message) => {
+  [MsgType.MsgCreateSpotLimitOrder]: (value: Message, _) => {
     const { sender, order } = value.message
 
     const { quantity, price } = order.order_info
@@ -47,11 +49,11 @@ const exchangeMsgSummaryMap: Partial<
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in the {{market:${marketId}}} Spot Market`
+      `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in {{market:${marketId}}}`
     ]
   },
 
-  [MsgType.MsgCreateDerivativeMarketOrder]: (value: Message) => {
+  [MsgType.MsgCreateDerivativeMarketOrder]: (value: Message, _) => {
     const { sender, order } = value.message
 
     const { quantity, price } = order.order_info
@@ -59,11 +61,11 @@ const exchangeMsgSummaryMap: Partial<
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in the {{market:${marketId}}} Derivative Market`
+      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in {{market:${marketId}}}`
     ]
   },
 
-  [MsgType.MsgCreateDerivativeLimitOrder]: (value: Message) => {
+  [MsgType.MsgCreateDerivativeLimitOrder]: (value: Message, _) => {
     const { sender, order } = value.message
 
     const { quantity, price } = order.order_info
@@ -71,89 +73,134 @@ const exchangeMsgSummaryMap: Partial<
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in the {{market:${marketId}}} Derivative Market`
+      `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in {{market:${marketId}}}`
     ]
   },
 
-  [MsgType.MsgCancelSpotOrder]: (value: Message) => {
+  [MsgType.MsgCancelSpotOrder]: (value: Message, logs: EventLog[]) => {
     const {
-      sender,
       cid,
-      order_hash: orderHash,
-      market_id: marketId
+      sender,
+      market_id: marketId,
+      order_hash: orderHash
     } = value.message
 
+    const eventSummary = eventLogsSummaryMap[
+      EventMessageType.CancelSpotOrder
+    ]?.({
+      logs,
+      sender,
+      args: cid || orderHash
+    })
+
+    if (eventSummary) {
+      return [eventSummary]
+    }
+
     return [
-      `{{account:${sender}}} cancelled order ${
+      `{{account:${sender}}} cancelled order {{ellipsis:${
         cid || orderHash
-      } in the {{market:${marketId}}} Spot Market`
+      }}} in {{market:${marketId}}}`
     ]
   },
 
-  [MsgType.MsgBatchCancelSpotOrders]: (value: Message) => {
+  [MsgType.MsgBatchCancelSpotOrders]: (value: Message, logs: EventLog[]) => {
     const { sender, data: orders } = value.message
 
     return [
-      `{{account:${sender}}} cancelled all spot orders in:`,
-      ...orders.map(
-        (order: any) =>
-          `• {{market:${order.market_id}}} with the following order hash: ${order.order_hash}`
-      )
+      `{{account:${sender}}} cancelled a batch of spot limit orders:`,
+      ...orders.map((order: any) => {
+        const eventSummary = eventLogsSummaryMap[
+          EventMessageType.BatchCancelSpotOrders
+        ]?.({
+          logs,
+          sender,
+          args: order.order_hash || order.cid
+        })
+
+        return eventSummary
+          ? `• ${eventSummary}`
+          : `• failed to cancel order {{ellipsis:${order.order_hash}}} in {{market:${order.market_id}}}`
+      })
     ]
   },
 
-  [MsgType.MsgBatchCreateSpotLimitOrders]: (value: Message) => {
+  [MsgType.MsgBatchCreateSpotLimitOrders]: (value: Message, _) => {
     const { sender, orders } = value.message
 
     return [
       `{{account:${sender}}} created a batch of spot limit orders:`,
       ...orders.map(
         (order: any) =>
-          `• {{spotQuantity:${order.market_id}-${order.order_info.quantity}}} at {{spotPrice:${order.market_id}-${order.order_info.price}}} in the {{market:${order.market_id}}} Spot Market`
+          `• {{spotQuantity:${order.market_id}-${order.order_info.quantity}}} at {{spotPrice:${order.market_id}-${order.order_info.price}}} in {{market:${order.market_id}}}`
       )
     ]
   },
 
-  [MsgType.MsgCancelDerivativeOrder]: (value: Message) => {
+  [MsgType.MsgCancelDerivativeOrder]: (value: Message, logs: EventLog[]) => {
     const {
-      sender,
       cid,
+      sender,
       order_hash: orderHash,
       market_id: marketId
     } = value.message
 
+    const eventSummary = eventLogsSummaryMap[
+      EventMessageType.CancelDerivativeOrder
+    ]?.({
+      logs,
+      sender,
+      args: cid || orderHash
+    })
+
+    if (eventSummary) {
+      return [eventSummary]
+    }
+
     return [
-      `{{account:${sender}}} cancelled order ${
+      `{{account:${sender}}} failed to cancel order {{ellipsis:${
         cid || orderHash
-      } in the {{market:${marketId}}} Derivative Market`
+      }}} in {{market:${marketId}}}`
     ]
   },
 
-  [MsgType.MsgBatchCancelDerivativeOrders]: (value: Message) => {
-    const { sender, orders } = value.message
+  [MsgType.MsgBatchCancelDerivativeOrders]: (
+    value: Message,
+    logs: EventLog[]
+  ) => {
+    const { sender, data: orders } = value.message
 
     return [
-      `{{account:${sender}}} cancelled all derivative orders in:`,
-      ...orders.map(
-        (order: any) =>
-          `• {{market:${order.marketId}}} with the following order hash: ${order.orderHash}`
-      )
+      `{{account:${sender}}} cancelled a batch of derivative limit orders:`,
+      ...orders.map((order: any) => {
+        const eventSummary = eventLogsSummaryMap[
+          EventMessageType.BatchCancelDerivativeOrders
+        ]?.({
+          logs,
+          sender,
+          args: order.order_hash || order.cid
+        })
+
+        return eventSummary
+          ? `• ${eventSummary}`
+          : `• failed to cancel order {{ellipsis:${order.order_hash}}} in {{market:${order.market_id}}}`
+      })
     ]
   },
 
-  [MsgType.MsgBatchCreateDerivativeLimitOrders]: (value: Message) => {
+  [MsgType.MsgBatchCreateDerivativeLimitOrders]: (value: Message, _) => {
     const { sender, orders } = value.message
 
     return [
       `{{account:${sender}}} created a batch of derivative limit orders:`,
       ...orders.map(
         (order: any) =>
-          `• {{derivativeQuantity:${order.market_id}-${order.order_info.quantity}}} at {{derivativePrice:${order.market_id}-${order.order_info.price}}} in the {{market:${order.market_id}}} Derivative Market`
+          `• {{derivativeQuantity:${order.market_id}-${order.order_info.quantity}}} at {{derivativePrice:${order.market_id}-${order.order_info.price}}} in {{market:${order.market_id}}}`
       )
     ]
   },
 
-  [MsgType.MsgBatchUpdateOrders]: (value: Message) => {
+  [MsgType.MsgBatchUpdateOrders]: (value: Message, logs: EventLog[]) => {
     const {
       sender,
       spot_orders_to_cancel: spotOrdersToCancel,
@@ -174,31 +221,55 @@ const exchangeMsgSummaryMap: Partial<
       const { quantity, price } = order.order_info
       const { market_id: marketId } = order
 
-      return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in the {{market:${marketId}}} Derivative Market`
+      return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in {{market:${marketId}}}`
     })
 
     const spotOrders = spotOrdersToCreate.map((order: any) => {
       const { quantity, price } = order.order_info
       const { market_id: marketId } = order
 
-      return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in the {{market:${marketId}}} Spot Market`
+      return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in {{market:${marketId}}}`
     })
 
     const spotCancelOrders = spotOrdersToCancel.map((order: any) => {
       const { cid, order_hash: orderHash, market_id: marketId } = order
 
-      return `{{account:${sender}}} cancelled order  ${
+      const eventSummary = eventLogsSummaryMap[
+        EventMessageType.CancelSpotOrder
+      ]?.({
+        logs,
+        sender,
+        args: order.cid || order.order_hash
+      })
+
+      if (eventSummary) {
+        return eventSummary
+      }
+
+      return `{{account:${sender}}} failed to cancel order  {{ellipsis:${
         cid || orderHash
-      } in the {{market:${marketId}}} Spot Market`
+      }}} in {{market:${marketId}}}`
     })
 
     const derivativeCancelOrders = derivativeOrdersToCancel.map(
       (order: any) => {
+        const eventSummary = eventLogsSummaryMap[
+          EventMessageType.CancelDerivativeOrder
+        ]?.({
+          logs,
+          sender,
+          args: order.cid || order.order_hash
+        })
+
+        if (eventSummary) {
+          return eventSummary
+        }
+
         const { cid, order_hash: orderHash, market_id: marketId } = order
 
-        return `{{account:${sender}}} cancelled order ${
+        return `{{account:${sender}}} failed to cancel order {{ellipsis:${
           cid || orderHash
-        } in the {{market:${marketId}}} Derivative Market`
+        }}} in {{market:${marketId}}}`
       }
     )
 
@@ -210,7 +281,7 @@ const exchangeMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgIncreasePositionMargin]: (value: Message) => {
+  [MsgType.MsgIncreasePositionMargin]: (value: Message, _) => {
     const {
       sender,
       amount,
@@ -220,11 +291,11 @@ const exchangeMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} increased position margin by ${amount} for the {{market:${marketId}}} from subaccount {{subaccount:${sourceSubaccountId}}} to subaccount {{subaccount:${destinationSubaccountId}}}`
+      `{{account:${sender}}} increased position margin by ${amount} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
     ]
   },
 
-  [MsgType.MsgLiquidatePosition]: (value: Message) => {
+  [MsgType.MsgLiquidatePosition]: (value: Message, _) => {
     const {
       sender,
       market_id: marketId,
@@ -232,15 +303,15 @@ const exchangeMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} liquidated a position in the {{market:${marketId}}} market that belonged to the subaccount {{subaccount:${subaccountId}}}`
+      `{{account:${sender}}} liquidated a position in {{market:${marketId}}} market that belonged to the subaccount {{ellipsis:${subaccountId}}}`
     ]
   }
 }
 
 const stakingMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message) => string[]>
+  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
 > = {
-  [MsgType.MsgDelegate]: (value: Message) => {
+  [MsgType.MsgDelegate]: (value: Message, _) => {
     const {
       amount: { denom, amount },
       delegator_address: delegator,
@@ -252,13 +323,13 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgUnjail]: (value: Message) => {
+  [MsgType.MsgUnjail]: (value: Message, _) => {
     const { validator_addr: validatorAddress } = value.message
 
     return [`{{validator:${validatorAddress}}} sent an unjail message`]
   },
 
-  [MsgType.MsgCreateValidator]: (value: Message) => {
+  [MsgType.MsgCreateValidator]: (value: Message, _) => {
     const {
       description: { moniker },
       validator_address: validatorAddress
@@ -269,7 +340,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgEditValidator]: (value: Message) => {
+  [MsgType.MsgEditValidator]: (value: Message, _) => {
     const {
       description: { moniker },
       validator_address: validatorAddress
@@ -280,7 +351,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgBeginRedelegate]: (value: Message) => {
+  [MsgType.MsgBeginRedelegate]: (value: Message, _) => {
     const {
       amount: { denom, amount },
       delegator_address: delegator,
@@ -293,7 +364,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgWithdrawDelegatorReward]: (value: Message) => {
+  [MsgType.MsgWithdrawDelegatorReward]: (value: Message, _) => {
     const {
       delegator_address: delegatorAddress,
       validator_address: validatorAddress
@@ -304,7 +375,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgUndelegate]: (value: Message) => {
+  [MsgType.MsgUndelegate]: (value: Message, _) => {
     const {
       amount: { denom, amount },
       delegator_address: delegator,
@@ -318,9 +389,9 @@ const stakingMsgSummaryMap: Partial<
 }
 
 const insuranceMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message) => string[]>
+  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
 > = {
-  [MsgType.MsgCreateInsuranceFund]: (value: Message) => {
+  [MsgType.MsgCreateInsuranceFund]: (value: Message, _) => {
     const {
       sender,
       ticker,
@@ -331,7 +402,7 @@ const insuranceMsgSummaryMap: Partial<
       `{{account:${sender}}} created an insurance fund with an initial deposit of {{denom:${denom}-${amount}}} for the ${ticker} market`
     ]
   },
-  [MsgType.MsgRequestRedemption]: (value: Message) => {
+  [MsgType.MsgRequestRedemption]: (value: Message, _) => {
     const {
       sender,
       market_id: marketId,
@@ -344,7 +415,7 @@ const insuranceMsgSummaryMap: Partial<
       )} ${denom} from the {{market:${marketId}}} Insurance Fund`
     ]
   },
-  [MsgType.MsgUnderwrite]: (value: Message) => {
+  [MsgType.MsgUnderwrite]: (value: Message, _) => {
     const {
       sender,
       market_id: marketId,
@@ -352,37 +423,37 @@ const insuranceMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} underwrote {{denom:${denom}-${amount}}} in the {{market:${marketId}}} insurance fund`
+      `{{account:${sender}}} underwrote {{denom:${denom}-${amount}}} in {{market:${marketId}}} insurance fund`
     ]
   }
 }
 
 const peggyMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message) => string[]>
+  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
 > = {
-  [MsgType.MsgConfirmBatch]: (value: Message) => {
+  [MsgType.MsgConfirmBatch]: (value: Message, _) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} confirmed a batch request`]
   },
-  [MsgType.MsgRequestBatch]: (value: Message) => {
+  [MsgType.MsgRequestBatch]: (value: Message, _) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} sent a batch request`]
   },
-  [MsgType.MsgValsetConfirm]: (value: Message) => {
+  [MsgType.MsgValsetConfirm]: (value: Message, _) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} confirmed the Valset`]
   },
-  [MsgType.MsgSetOrchestratorAddresses]: (value: Message) => {
+  [MsgType.MsgSetOrchestratorAddresses]: (value: Message, _) => {
     const { sender, orchestrator } = value.message
 
     return [
       `{{account:${sender}}} set the orchestrator address to {{account:${orchestrator}}}`
     ]
   },
-  [MsgType.MsgSendToEth]: (value: Message) => {
+  [MsgType.MsgSendToEth]: (value: Message, _) => {
     const { amount, sender, eth_dest: receiver } = value.message
 
     return [
@@ -391,61 +462,60 @@ const peggyMsgSummaryMap: Partial<
   }
 }
 
-const govMsgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> =
-  {
-    [MsgType.MsgDepositCosmos]: (value: Message) => {
-      const { amount, depositor, proposal_id: proposalId } = value.message
+const govMsgSummaryMap: Partial<
+  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+> = {
+  [MsgType.MsgDepositCosmos]: (value: Message, _) => {
+    const { amount, depositor, proposal_id: proposalId } = value.message
 
-      const [coin] = amount
+    const [coin] = amount
 
-      return [
-        `{{account:${depositor}}} deposited {{denom:${coin.denom}-${coin.amount}}} to proposal {{proposal:${proposalId}}}`
-      ]
-    },
-    [MsgType.MsgVote]: (value: Message) => {
-      const {
-        voter,
-        option: optionRaw,
-        proposal_id: proposalId
-      } = value.message
+    return [
+      `{{account:${depositor}}} deposited {{denom:${coin.denom}-${coin.amount}}} to proposal {{proposal:${proposalId}}}`
+    ]
+  },
+  [MsgType.MsgVote]: (value: Message, _) => {
+    const { voter, option: optionRaw, proposal_id: proposalId } = value.message
 
-      let option = 'noWithVeto'
+    let option = 'noWithVeto'
 
-      if (optionRaw === 'VOTE_OPTION_YES') {
-        option = 'yes'
-      }
-
-      if (optionRaw === 'VOTE_OPTION_ABSTAIN') {
-        option = 'abstain'
-      }
-
-      if (optionRaw === 'VOTE_OPTION_NO') {
-        option = 'no'
-      }
-
-      return [
-        `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
-      ]
-    },
-    [MsgType.MsgSubmitProposal]: (value: Message) => {
-      const { proposer, initial_deposit: amount } = value.message
-
-      const [coin] = amount
-
-      return [
-        `{{account:${proposer}}} submitted a proposal with an initial deposit of {{denom:${coin.denom}-${coin.amount}}}`
-      ]
+    if (optionRaw === 'VOTE_OPTION_YES') {
+      option = 'yes'
     }
-  }
 
-const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
+    if (optionRaw === 'VOTE_OPTION_ABSTAIN') {
+      option = 'abstain'
+    }
+
+    if (optionRaw === 'VOTE_OPTION_NO') {
+      option = 'no'
+    }
+
+    return [
+      `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
+    ]
+  },
+  [MsgType.MsgSubmitProposal]: (value: Message, _) => {
+    const { proposer, initial_deposit: amount } = value.message
+
+    const [coin] = amount
+
+    return [
+      `{{account:${proposer}}} submitted a proposal with an initial deposit of {{denom:${coin.denom}-${coin.amount}}}`
+    ]
+  }
+}
+
+const msgSummaryMap: Partial<
+  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+> = {
   ...govMsgSummaryMap,
   ...peggyMsgSummaryMap,
   ...stakingMsgSummaryMap,
   ...exchangeMsgSummaryMap,
   ...insuranceMsgSummaryMap,
 
-  [MsgType.MsgSend]: (value: Message) => {
+  [MsgType.MsgSend]: (value: Message, _) => {
     const { amount, from_address: sender, to_address: receiver } = value.message
     const [coin] = amount as { denom: string; amount: string }[]
 
@@ -454,7 +524,7 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgMultiSend]: (value: Message) => {
+  [MsgType.MsgMultiSend]: (value: Message, _) => {
     const { inputs, outputs } = value.message
 
     return [
@@ -473,7 +543,7 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgRecvPacket]: (value: Message) => {
+  [MsgType.MsgRecvPacket]: (value: Message, _) => {
     const { packet } = value.message
     const decodedPacketData = JSON.parse(
       Buffer.from(packet.data, 'base64').toString('utf-8')
@@ -494,7 +564,7 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgExternalTransfer]: (value: Message) => {
+  [MsgType.MsgExternalTransfer]: (value: Message, _) => {
     const {
       sender,
       amount: { denom, amount },
@@ -508,11 +578,11 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
         : ''
 
     return [
-      `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from {{subaccount:${sourceSubaccountId}}} to subaccount {{subaccount:${destinationSubaccountId}}}${suffix}`
+      `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}${suffix}`
     ]
   },
 
-  [MsgType.MsgDeposit]: (value: Message) => {
+  [MsgType.MsgDeposit]: (value: Message, _) => {
     const {
       amount: { amount, denom },
       subaccount_id: subaccount,
@@ -520,11 +590,11 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     } = value.message
 
     return [
-      `{{account:${sender}}} deposited {{denom:${denom}-${amount}}} to subaccount {{subaccount:${subaccount}}}`
+      `{{account:${sender}}} deposited {{denom:${denom}-${amount}}} to subaccount {{ellipsis:${subaccount}}}`
     ]
   },
 
-  [MsgType.MsgDepositClaim]: (value: Message) => {
+  [MsgType.MsgDepositClaim]: (value: Message, _) => {
     const {
       amount,
       token_contract: denom,
@@ -537,16 +607,16 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgExec]: (value: Message) => {
+  [MsgType.MsgExec]: (value: Message, logs: EventLog[]) => {
     const execMsgs = (value.message as any).msgs.map((msg: any) => ({
       type: msg['@type'],
       message: msg
     })) as Message[]
 
-    return execMsgs.map((msg) => getHumanReadableMessage(msg)).flat()
+    return execMsgs.map((msg) => getHumanReadableMessage(msg, logs)).flat()
   },
 
-  [MsgType.MsgBid]: (value: Message) => {
+  [MsgType.MsgBid]: (value: Message, _) => {
     const { bid_amount: denom, amount, sender, round } = value.message
 
     return [
@@ -554,7 +624,7 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgTransfer]: (value: Message) => {
+  [MsgType.MsgTransfer]: (value: Message, _) => {
     const {
       sender,
       receiver: toAddress,
@@ -568,7 +638,7 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     ]
   },
 
-  [MsgType.MsgSubaccountTransfer]: (value: Message) => {
+  [MsgType.MsgSubaccountTransfer]: (value: Message, _) => {
     const {
       sender,
       amount: { denom, amount },
@@ -577,18 +647,21 @@ const msgSummaryMap: Partial<Record<MsgType, (value: Message) => string[]>> = {
     } = value.message
 
     return [
-      `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from subaccount {{subaccount:${sourceSubaccountId}}} to subaccount {{subaccount:${destinationSubaccountId}}}`
+      `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
     ]
   }
 }
 
-export const getHumanReadableMessage = (value: Message): string[] => {
+export const getHumanReadableMessage = (
+  value: Message,
+  logs: EventLog[]
+): string[] => {
   const { type } = value
 
   const msgType = (type.startsWith('/') ? type.slice(1) : type) as MsgType
 
   if (msgSummaryMap[msgType]) {
-    return msgSummaryMap[msgType](value)
+    return msgSummaryMap[msgType](value, logs)
   }
 
   return []
