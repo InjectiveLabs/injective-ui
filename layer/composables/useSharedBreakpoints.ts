@@ -1,6 +1,6 @@
 import { UIBreakpoints } from '../types'
 
-export default function useSharedBreakpoints() {
+export function useSharedBreakpoints() {
   const breakpointsTailwind = {
     '2xs': UIBreakpoints['2xs'],
     xs: UIBreakpoints.xs,

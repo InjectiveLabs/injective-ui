@@ -5,9 +5,13 @@ const props = withDefaults(
   defineProps<{
     amount: string
     shouldTruncate?: boolean
+    shouldAbbreviate?: boolean
+    abbreviationFloor?: number
     isShowNoDecimals?: boolean
   }>(),
-  {}
+  {
+    abbreviationFloor: 0
+  }
 )
 
 const decimals = computed(() => {
@@ -34,8 +38,8 @@ const {
 } = useSharedBigNumberFormatter(
   computed(() => props.amount),
   {
-    decimalPlaces: computed(() => decimals.value),
     roundingMode: BigNumber.ROUND_HALF_UP,
+    decimalPlaces: computed(() => decimals.value),
     minimalDecimalPlaces: computed(() => decimals.value)
   }
 )
@@ -56,7 +60,16 @@ const shouldTruncateUsdAmount = computed(() => {
 </script>
 
 <template>
+  <SharedAmountBalance
+    v-if="shouldAbbreviate && usdAmountToBigNumber.gte(abbreviationFloor)"
+    v-bind="{
+      ...$attrs,
+      abbreviationFloor,
+      amount: usdAmountToFixed
+    }"
+  />
   <SharedAmountCollapsed
+    v-else
     v-bind="{
       ...$attrs,
       amount: usdAmountToFixed,

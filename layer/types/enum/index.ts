@@ -2,9 +2,9 @@ export * from './market'
 export * from './explorer'
 
 export enum NotificationType {
+  Info = 'info',
   Error = 'error',
   Warning = 'warning',
-  Info = 'info',
   Success = 'success'
 }
 
@@ -42,16 +42,17 @@ export enum GrantDirection {
 export enum NuxtUiIcons {
   Auction = 'ri:auction-fill',
   Apps = 'bi:grid-1x2-fill',
+  Apps2 = 'bi:grid-fill',
   ArrowDiagonalRight = 'eva:diagonal-arrow-right-up-fill',
   ArrowLeft = 'fluent:arrow-left-12-regular',
   ArrowSwap = 'fontisto:arrow-swap',
   Bank = 'bi:bank',
   BarChart = 'bi:bar-chart-line',
+  BarChart2 = 'heroicons:chart-bar-16-solid',
   Bitcoin = 'hugeicons:bitcoin-04',
   Box = 'mynaui:box-solid',
   BoxCircle = 'bi:bounding-box-circles',
   Bridge = 'fa6-solid:bridge',
-  Cash = 'bi:cash-stack',
   Calendar = 'bi:calendar-week',
   Calendar2 = 'bi:calendar',
   Chain = 'akar-icons:link-chain',
@@ -142,6 +143,7 @@ export enum NuxtUiIcons {
   UserOutline = 'mingcute:user-1-line',
   Warning = 'ep:warning-filled',
   Wallet = 'bi:wallet-fill',
+  Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet'
 }
