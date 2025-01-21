@@ -1,6 +1,8 @@
 import { type Coin, type Message, type EventLog } from '@injectivelabs/sdk-ts'
 import { MsgType } from '@injectivelabs/ts-types'
 import { eventLogsSummaryMap } from './messageEvents'
+import { contractEventSummaryMap } from './contractEvents'
+import { contractMsgTypeMap } from './../../utils/explorer'
 import { getNetworkFromAddress } from './../../utils/network'
 import { sharedToBalanceInToken } from './../../utils/formatter'
 import { EventMessageType } from './../../types'
@@ -649,6 +651,40 @@ const msgSummaryMap: Partial<
     return [
       `{{account:${sender}}} transferred {{denom:${denom}-${amount}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
     ]
+  },
+
+  [MsgType.MsgExecuteContract]: (value: Message, logs: EventLog[]) => {
+    const { sender, contract: contractAddress } = value.message
+
+    const contractType = contractMsgTypeMap[contractAddress]
+
+    if (!contractType) {
+      return []
+    }
+
+    const contractSummary = contractEventSummaryMap[contractType]?.({
+      logs,
+      sender
+    })
+
+    return contractSummary ? [contractSummary] : []
+  },
+
+  [MsgType.MsgExecuteContractCompat]: (value: Message, logs: EventLog[]) => {
+    const { sender, contract: contractAddress } = value.message
+
+    const contractType = contractMsgTypeMap[contractAddress]
+
+    if (!contractType) {
+      return []
+    }
+
+    const contractSummary = contractEventSummaryMap[contractType]?.({
+      logs,
+      sender
+    })
+
+    return contractSummary ? [contractSummary] : []
   }
 }
 

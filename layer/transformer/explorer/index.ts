@@ -1,8 +1,8 @@
 import {
   Coin,
   Message,
-  EventLog,
   TokenType,
+  EventLogEvent,
   TokenVerification,
   ContractTransaction,
   ExplorerTransaction,
@@ -14,6 +14,7 @@ import { unknownToken } from '../../data/token'
 import { msgTypeMap } from '../../data/explorer'
 import { getHumanReadableMessage } from './messageSummary'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
+import { hardCodedContractCopyMap } from './../../utils/explorer'
 import {
   UiContractTransaction,
   UiExplorerTransaction,
@@ -54,34 +55,77 @@ const getMsgType = (msg: Message): MsgType => {
   return type as MsgType
 }
 
+// get MsgExec sender address
+// const getAuthzMsgSender = ({
+//   events,
+//   msgIndex,
+//   authzMsgIndex
+// }: {
+//   msgIndex?: string
+//   authzMsgIndex?: string
+//   events: EventLogEvent[]
+// }): string | undefined => {
+//   if (!msgIndex || !authzMsgIndex) {
+//     return
+//   }
+
+//   const authZMsgKeys = ['sender', 'authz_msg_index', 'msg_index']
+//   const authZMsgEvents = events.filter(({ type }) => type === 'message')
+
+//   if (!authZMsgEvents.length) {
+//     return undefined
+//   }
+
+//   const authZSenderEvent = authZMsgEvents.find(({ attributes }) => {
+//     const keys = attributes.map((attribute) => attribute.key)
+
+//     if (keys.length !== authZMsgKeys.length) {
+//       return false
+//     }
+
+//     const eventMatchesFormat = authZMsgKeys.every((key) => keys.includes(key))
+
+//     if (!eventMatchesFormat) {
+//       return false
+//     }
+
+//     const msgIndexAttribute = attributes.find(
+//       ({ key, value }) => key === 'msg_index' && value === msgIndex
+//     )
+//     const authzMsgIndexAttribute = attributes.find(
+//       ({ key, value }) => key === 'authz_msg_index' && value === authzMsgIndex
+//     )
+
+//     return msgIndexAttribute && authzMsgIndexAttribute
+//   })
+
+//   return authZSenderEvent?.attributes.find(({ key }) => key === 'sender')?.value
+// }
+
 export const getCoins = ({
-  logs,
+  events,
   sender,
   eventType,
   attributeType
 }: {
   sender: string
-  logs?: EventLog[]
+  events?: EventLogEvent[]
   attributeType: string
   eventType: string
 }): Coin[] => {
-  if (!logs) {
-    return []
-  }
-
-  const { events } = logs[0]
-
   if (!events) {
     return []
   }
 
-  const ownerCoinEvents = events.filter(
-    (log) =>
-      log.type === eventType &&
-      log.attributes.some(
-        ({ key, value }) => key === attributeType && value === sender
-      )
-  )
+  const ownerCoinEvents = events.filter((log) => {
+    if (log.type !== eventType) {
+      return false
+    }
+
+    return log.attributes.some(
+      ({ key, value }) => key === attributeType && value === sender
+    )
+  })
 
   const coinsDenomMap = ownerCoinEvents.reduce(
     (list, { attributes }) => {
@@ -121,33 +165,50 @@ export const getCoins = ({
   }, [] as Coin[])
 }
 
+const getMsgTypeSuffix = (message: Message): string | undefined => {
+  const type = getMsgType(message)
+
+  if (type === MsgType.MsgExec) {
+    return msgTypeMap[getMsgType(message.message.msgs[0])]
+  }
+
+  if (type === MsgType.MsgExecuteContractCompat) {
+    return hardCodedContractCopyMap[message.message.contract]
+  }
+
+  return undefined
+}
+
 const formatMsgType = (message: Message): string => {
   const type = getMsgType(message)
   const formattedType = msgTypeMap[type] || message.type
 
-  if (type !== MsgType.MsgExec) {
+  const suffix = getMsgTypeSuffix(message)
+
+  if (!suffix) {
     return formattedType
   }
 
-  return `${formattedType} - ${msgTypeMap[getMsgType(message.message.msgs[0])]}`
+  return `${formattedType} - ${suffix}`
 }
 
 const getTypesAndCoins = (
   transaction: ExplorerTransaction | ContractTransaction
 ) => {
+  const events = (transaction.logs || []).flatMap(({ events }) => events)
   const sender = transaction.signatures[0].address
 
   return {
     types: transaction.messages.map(formatMsgType),
     coinReceived: getCoins({
+      events,
       sender,
-      logs: transaction.logs,
       attributeType: 'receiver',
       eventType: 'coin_received'
     }),
     coinSpent: getCoins({
+      events,
       sender,
-      logs: transaction.logs,
       attributeType: 'spender',
       eventType: 'coin_spent'
     })
