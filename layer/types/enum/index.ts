@@ -144,7 +144,8 @@ export enum NuxtUiIcons {
   Wallet = 'bi:wallet-fill',
   Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
-  WaterDrop = 'bi:droplet'
+  WaterDrop = 'bi:droplet',
+  TwitterX = 'ri:twitter-x-line'
 }
 
 export enum UIBreakpoints {
