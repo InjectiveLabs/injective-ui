@@ -8,6 +8,7 @@ import {
   INJ_DENOM,
   IS_TESTNET,
   INJ_LOGO_URL,
+  AUSD_LOGO_URL,
   USDT_LOGO_URL,
   UNKNOWN_LOGO_URL
 } from './../utils/constant'
@@ -57,6 +58,24 @@ export const injToken: TokenStatic = {
   denom: INJ_DENOM,
   externalLogo: 'injective-v3.png',
   tokenType: TokenType.Native,
+  tokenVerification: TokenVerification.Verified
+}
+
+export const ausdToken: TokenStatic = {
+  address: IS_TESTNET
+    ? 'factory/inj17sjeugxjurr8s36ylywrsfd6mc4tdlfdzhftc5/ausd'
+    : 'factory/inj1n636d9gzrqggdk66n2f97th0x8yuhfrtx520e7/ausd',
+  isNative: false,
+  name: 'AUSD',
+  logo: AUSD_LOGO_URL,
+  symbol: 'AUSD',
+  decimals: 6,
+  coinGeckoId: 'agora-dollar',
+  denom: IS_TESTNET
+    ? 'factory/inj17sjeugxjurr8s36ylywrsfd6mc4tdlfdzhftc5/ausd'
+    : 'factory/inj1n636d9gzrqggdk66n2f97th0x8yuhfrtx520e7/ausd',
+  externalLogo: 'AUSD.png',
+  tokenType: TokenType.TokenFactory,
   tokenVerification: TokenVerification.Verified
 }
 

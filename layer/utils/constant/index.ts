@@ -12,6 +12,8 @@ export const INJ_LOGO_DARK_URL =
   'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/60aee853-77a2-40b1-04bd-b4aba9312000/public'
 export const USDT_LOGO_URL =
   'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/a0bd252b-1005-47ef-d209-7c1c4a3cbf00/public'
+export const AUSD_LOGO_URL =
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/4b446611-8af6-424f-abc6-e41defe1d800/public'
 export const UNKNOWN_LOGO_URL =
   'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/6f015260-c589-499f-b692-a57964af9900/public'
 
