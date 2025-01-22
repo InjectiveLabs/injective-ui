@@ -19,10 +19,6 @@ export const DevnetContractCopyMap = {
   [DevnetWasmContractAddress.HelixSwap]: 'Mito Swap'
 }
 
-// export const MainnetContractEventMap = {
-//   [ContractMsgType.Swap]: []
-// }
-
 const getHardCodedContracts = () => {
   if (IS_MAINNET) {
     return Object.values(MainnetWasmContractAddress) as string[]
