@@ -64,16 +64,13 @@ watch(
   <UModal
     v-model="isOpen"
     v-bind="{
+      ui,
       appear,
       overlay,
       transition,
       fullscreen,
       preventClose,
-      class: props.class,
-      ui: {
-        base: 'max-h-[90vh] overflow-y-auto',
-        ...ui
-      }
+      class: props.class
     }"
   >
     <UCard v-bind="{ ui: cardUi }">
