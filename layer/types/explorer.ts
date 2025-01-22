@@ -1,14 +1,20 @@
 import {
-  Coin,
-  BlockWithTxs,
-  ContractTransaction,
-  ExplorerTransaction
+  type Coin,
+  type BlockWithTxs,
+  type ContractTransaction,
+  type ExplorerTransaction
 } from '@injectivelabs/sdk-ts'
+
+export interface UIMessageTemplateSummary {
+  type: string
+  summary: string[]
+}
 
 export interface UiExplorerTransaction extends ExplorerTransaction {
   types: string[]
   coinReceived: Coin[]
   coinSpent: Coin[]
+  templateSummaries: UIMessageTemplateSummary[]
 }
 
 export interface UiContractTransaction extends ContractTransaction {

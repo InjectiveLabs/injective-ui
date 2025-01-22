@@ -70,7 +70,10 @@ watch(
       fullscreen,
       preventClose,
       class: props.class,
-      ui
+      ui: {
+        base: 'max-h-[90vh] overflow-y-auto',
+        ...ui
+      }
     }"
   >
     <UCard v-bind="{ ui: cardUi }">
