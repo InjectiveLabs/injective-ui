@@ -98,6 +98,7 @@ export enum NuxtUiIcons {
   Google = 'ri:google-fill',
   GoogleColor = 'devicon:google',
   Info = 'entypo:info-with-circle',
+  Info2 = 'i-heroicons-information-circle',
   Injective = 'token:injective',
   Loading = 'eos-icons:loading',
   Markets = 'bi:bar-chart-steps',
