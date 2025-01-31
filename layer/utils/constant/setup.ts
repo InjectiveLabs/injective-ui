@@ -88,6 +88,7 @@ export const MITO_API_ENDPOINTS: Record<Network, string> = {
   [Network.Devnet]: MITO_DEVNET_API_ENDPOINT,
   [Network.Devnet1]: 'https://devnet-1.api.ninja.injective.dev',
   [Network.Devnet2]: 'https://devnet-2.api.ninja.injective.dev',
+  [Network.Devnet3]: 'https://devnet-3.api.ninja.injective.dev',
   [Network.Testnet]: MITO_TESTNET_API_ENDPOINT,
   [Network.TestnetSentry]: MITO_TESTNET_API_ENDPOINT,
   [Network.TestnetOld]: MITO_TESTNET_API_ENDPOINT,
