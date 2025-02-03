@@ -465,7 +465,7 @@ const peggyMsgSummaryMap: Partial<
 }
 
 const govMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+  Record<MsgType | string, (value: Message, logs: EventLog[]) => string[]>
 > = {
   [MsgType.MsgDepositCosmos]: (value: Message, _) => {
     const { amount, depositor, proposal_id: proposalId } = value.message
@@ -474,6 +474,27 @@ const govMsgSummaryMap: Partial<
 
     return [
       `{{account:${depositor}}} deposited {{denom:${coin.denom}-${coin.amount}}} to proposal {{proposal:${proposalId}}}`
+    ]
+  },
+  'cosmos.gov.v1.MsgVote': (value: Message, _) => {
+    const { voter, option: optionRaw, proposal_id: proposalId } = value.message
+
+    let option = 'noWithVeto'
+
+    if (optionRaw === 'VOTE_OPTION_YES') {
+      option = 'yes'
+    }
+
+    if (optionRaw === 'VOTE_OPTION_ABSTAIN') {
+      option = 'abstain'
+    }
+
+    if (optionRaw === 'VOTE_OPTION_NO') {
+      option = 'no'
+    }
+
+    return [
+      `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
     ]
   },
   [MsgType.MsgVote]: (value: Message, _) => {

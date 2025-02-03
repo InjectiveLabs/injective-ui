@@ -11,6 +11,7 @@ export const msgTypeMap = {
   [MsgType.MsgDepositCosmos]: 'Deposit Cosmos',
   [MsgType.MsgSubmitProposal]: 'Submit Proposal',
   [MsgType.MsgVote]: 'Vote',
+  'cosmos.gov.v1.MsgVote': 'Vote',
   [MsgType.MsgUnjail]: 'Unjail',
   [MsgType.MsgBeginRedelegate]: 'Begin Redelegate',
   [MsgType.MsgCreateValidator]: 'Create Validator',

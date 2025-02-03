@@ -7,6 +7,7 @@ import {
 import { walletStrategy } from './wallet-strategy'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 import { UtilsWallets } from '@injectivelabs/wallet-ts/exports'
+
 export const isMetamaskInstalled = async (): Promise<boolean> => {
   const provider = await UtilsWallets.getMetamaskProvider()
 
