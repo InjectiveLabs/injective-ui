@@ -89,7 +89,11 @@ function onResume() {
           </slot>
         </div>
         <div class="flex flex-col gap-2" :class="contentClass">
-          <span class="text-sm font-semibold">{{ notification.title }}</span>
+          <span class="text-sm font-semibold">
+            <slot name="custom">
+              {{ notification.title }}
+            </slot>
+          </span>
 
           <span
             v-if="notification.description"
@@ -129,11 +133,13 @@ function onResume() {
               :key="action.key"
               @click="() => action.callback()"
             >
-              <span
-                class="text-primary-500 text-sm font-semibold cursor-pointer"
-              >
-                {{ action.label }}
-              </span>
+              <slot name="label" :label="action.label">
+                <span
+                  class="text-primary-500 text-sm font-semibold cursor-pointer"
+                >
+                  {{ action.label }}
+                </span>
+              </slot>
             </button>
           </div>
         </div>

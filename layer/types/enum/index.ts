@@ -1,9 +1,10 @@
 export * from './market'
+export * from './explorer'
 
 export enum NotificationType {
+  Info = 'info',
   Error = 'error',
   Warning = 'warning',
-  Info = 'info',
   Success = 'success'
 }
 
@@ -39,10 +40,15 @@ export enum GrantDirection {
 }
 
 export enum NuxtUiIcons {
+  Auction = 'ri:auction-fill',
+  Apps = 'bi:grid-1x2-fill',
+  Apps2 = 'bi:grid-fill',
   ArrowDiagonalRight = 'eva:diagonal-arrow-right-up-fill',
   ArrowLeft = 'fluent:arrow-left-12-regular',
   ArrowSwap = 'fontisto:arrow-swap',
+  Bank = 'bi:bank',
   BarChart = 'bi:bar-chart-line',
+  BarChart2 = 'heroicons:chart-bar-16-solid',
   Bitcoin = 'hugeicons:bitcoin-04',
   Box = 'mynaui:box-solid',
   BoxCircle = 'bi:bounding-box-circles',
@@ -52,6 +58,7 @@ export enum NuxtUiIcons {
   Chain = 'akar-icons:link-chain',
   Checkmark = 'material-symbols:check-circle',
   Checkmark2 = 'icomoon-free:checkmark',
+  CheckmarkThin = 'fluent:checkmark-20-filled',
   CheckmarkOutline = 'solar:check-circle-outline',
   CheckShieldOutline = 'stash:shield-check',
   ChevronDown = 'bi:chevron-down',
@@ -70,6 +77,7 @@ export enum NuxtUiIcons {
   Copy = 'bxs:copy-alt',
   Copy2 = 'clarity:copy-line',
   Copy3 = 'ic:baseline-content-copy',
+  Database = 'fa-solid:database',
   DashCircle = 'bi:dash-circle',
   Discord = 'ic:baseline-discord',
   DiscordWithBg = 'jam:discord',
@@ -86,9 +94,12 @@ export enum NuxtUiIcons {
   Filter = 'fluent:filter-32-filled',
   FourPointStar = 'mdi:star-four-points',
   Gas = 'material-symbols:local-gas-station',
+  Globe = 'bi:globe',
   Google = 'ri:google-fill',
   GoogleColor = 'devicon:google',
   Info = 'entypo:info-with-circle',
+  Info2 = 'i-heroicons-information-circle',
+  Injective = 'token:injective',
   Loading = 'eos-icons:loading',
   Markets = 'bi:bar-chart-steps',
   Menu = 'heroicons-outline:menu-alt-2',
@@ -101,9 +112,11 @@ export enum NuxtUiIcons {
   CirclePlus = 'ep:circle-plus',
   PortfolioHistory = 'bi:clock',
   Position = 'bi:graph-up-arrow',
+  PottedPlant = 'material-symbols:potted-plant-outline-rounded',
   QrCode = 'f7:qrcode',
   Refresh = 'el:refresh',
   Robot = 'bi:robot',
+  Rocket = 'material-symbols-light:rocket',
   Rotate = 'fa:rotate-left',
   RotateAuto = 'material-symbols:rotate-auto',
   Search = 'ic:twotone-search',
@@ -124,10 +137,31 @@ export enum NuxtUiIcons {
   TriangleUp = 'bi:caret-up-fill',
   Trophy = 'bi:trophy-fill',
   Twitter = 'mdi:twitter',
+  TwitterNew = 'fa6-brands:x-twitter',
   TwitterCircle = 'formkit:twitter',
+  UptrendChart = 'icon-park-outline:chart-line',
   User = 'mdi:user',
   UserOutline = 'mingcute:user-1-line',
   Warning = 'ep:warning-filled',
+  Wallet = 'bi:wallet-fill',
+  Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
-  WaterDrop = 'bi:droplet'
+  WaterDrop = 'bi:droplet',
+  TwitterX = 'ri:twitter-x-line'
+}
+
+export enum UIBreakpoints {
+  '2xs' = 375,
+  xs = 480,
+  sm = 640,
+  md = 768,
+  '2md' = 800,
+  '3md' = 840,
+  lg = 1024,
+  xl = 1280,
+  '2xl' = 1366,
+  '3xl' = 1440,
+  '4xl' = 1536,
+  '5xl' = 1681,
+  '6xl' = 1920
 }

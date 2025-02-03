@@ -21,11 +21,29 @@ import {
   validateCosmosWallet,
   confirmCosmosWalletAddress
 } from '../wallet/cosmos'
+<<<<<<< HEAD
 import { IS_DEVNET } from '../utils/constant'
 import { getAddresses } from '../wallet/wallet'
 import { msgBroadcaster } from '../WalletService'
 import { walletStrategy } from '../wallet/wallet-strategy'
 import { validateEvmWallet, getEvmWalletProvider } from './../wallet/evm'
+=======
+import { validateOkxWallet, isOkxWalletInstalled } from '../wallet/okx-wallet'
+import {
+  validateTrustWallet,
+  isTrustWalletInstalled
+} from '../wallet/trust-wallet'
+import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
+import { getAddresses } from '../wallet/wallet'
+import {
+  autoSignWalletStrategy,
+  walletStrategy
+} from '../wallet/wallet-strategy'
+import { isBitGetInstalled, validateBitGet } from '../wallet/bitget'
+import { validatePhantom, isPhantomInstalled } from '../wallet/phantom'
+import { validateMetamask, isMetamaskInstalled } from '../wallet/metamask'
+import { autoSignMsgBroadcaster, msgBroadcaster } from '../WalletService'
+>>>>>>> master
 import {
   EventBus,
   type AutoSign,
@@ -172,7 +190,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async validate() {
       const walletStore = useSharedWalletStore()
 
-      if (walletStore.isAutoSignEnabled) {
+      if (walletStore.autoSign) {
         return
       }
 
@@ -237,19 +255,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         await walletStore.connectMagic()
       }
 
-      if (walletStore.isAutoSignEnabled) {
-        walletStore.connectWallet(Wallet.PrivateKey, {
-          privateKey: walletStore.autoSign?.privateKey as string,
-          isAutoSign: true
+      if (walletStore.autoSign) {
+        autoSignWalletStrategy.setOptions({
+          privateKey: walletStore.autoSign.privateKey as string
         })
-
-        return
       }
 
       if (walletStore.privateKey) {
         walletStore.connectWallet(Wallet.PrivateKey, {
-          privateKey: walletStore.privateKey,
-          isAutoSign: false
+          privateKey: walletStore.privateKey
         })
       }
     },
@@ -307,10 +321,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
     },
 
-    async connectWallet(
-      wallet: Wallet,
-      options?: { privateKey: string; isAutoSign: boolean }
-    ) {
+    async connectWallet(wallet: Wallet, options?: { privateKey: string }) {
       const walletStore = useSharedWalletStore()
 
       await walletStrategy.disconnect()
@@ -320,12 +331,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStrategy.setOptions({ privateKey: options.privateKey })
       }
 
-      if (!options?.isAutoSign && wallet !== Wallet.PrivateKey) {
-        walletStore.$patch({
-          walletConnectStatus: WalletConnectStatus.connecting,
-          wallet
-        })
-      }
+      walletStore.$patch({
+        walletConnectStatus: WalletConnectStatus.connecting,
+        wallet
+      })
     },
 
     async getHWAddresses(wallet: Wallet) {
@@ -722,8 +731,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const injectiveAddress = pk.toBech32()
 
       await walletStore.connectWallet(Wallet.PrivateKey, {
-        privateKey: privateKeyHash,
-        isAutoSign: false
+        privateKey: privateKeyHash
       })
 
       const address = getEthereumAddress(injectiveAddress)
@@ -763,14 +771,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         //   msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress),
         //   walletStore.autoSign.injectiveAddress
         // )
-      } else if (
-        walletStore.isAutoSignEnabled &&
-        !walletStore.isAuthzWalletConnected
-      ) {
-        actualMessage = msgsOrMsgExecMsgs(
-          msgs,
-          walletStore.autoSign?.injectiveAddress
-        )
       } else if (walletStore.isAuthzWalletConnected) {
         actualMessage = msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress)
       } else {
@@ -779,9 +779,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const broadcastOptions = {
         msgs: actualMessage,
-        injectiveAddress: walletStore.isAutoSignEnabled
-          ? walletStore.autoSign?.injectiveAddress
-          : walletStore.injectiveAddress,
+        injectiveAddress: walletStore.injectiveAddress,
         memo
       }
 
@@ -797,6 +795,28 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (!broadcastOptions) {
         return
+      }
+
+      const msgs = Array.isArray(messages) ? messages : [messages]
+
+      const hasMsgExecuteContract = msgs.some(
+        (msg) =>
+          JSON.parse(msg.toJSON())['@type'] ===
+          MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
+      )
+
+      if (
+        walletStore.autoSign &&
+        !hasMsgExecuteContract &&
+        walletStore.isAutoSignEnabled
+      ) {
+        const response = await autoSignMsgBroadcaster.broadcastV2({
+          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress),
+          memo,
+          injectiveAddress: walletStore.autoSign.injectiveAddress
+        })
+
+        return response
       }
 
       const response = await msgBroadcaster.broadcast(broadcastOptions)
@@ -822,9 +842,29 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return
       }
 
-      const response = await msgBroadcaster.broadcastWithFeeDelegation(
-        broadcastOptions
+      const msgs = Array.isArray(messages) ? messages : [messages]
+
+      const hasMsgExecuteContract = msgs.some(
+        (msg) =>
+          JSON.parse(msg.toJSON())['@type'] ===
+          MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
       )
+
+      if (
+        walletStore.autoSign &&
+        !hasMsgExecuteContract &&
+        walletStore.isAutoSignEnabled
+      ) {
+        const response = await autoSignMsgBroadcaster.broadcastV2({
+          memo,
+          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress),
+          injectiveAddress: walletStore.autoSign.injectiveAddress
+        })
+
+        return response
+      }
+
+      const response = await msgBroadcaster.broadcastV2(broadcastOptions)
 
       return response
     },
@@ -854,7 +894,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const injectiveAddress = privateKey.toBech32()
 
       const nowInSeconds = Math.floor(Date.now() / 1000)
-      const expirationInSeconds = 60 * 60 // 1 hour
+      const expirationInSeconds = 60 * 60 * 24 * 3 // 3 days
 
       const authZMsgs = msgsType.map((messageType) =>
         MsgGrant.fromJSON({
@@ -878,9 +918,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign
       })
 
-      await walletStore.connectWallet(Wallet.PrivateKey, {
-        privateKey: autoSign.privateKey,
-        isAutoSign: true
+      autoSignWalletStrategy.setOptions({
+        privateKey: autoSign.privateKey
       })
     },
 
@@ -921,11 +960,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           expiration: expirationInSeconds
         }
       })
-
-      await walletStore.connectWallet(Wallet.PrivateKey, {
-        privateKey: autoSign.privateKey,
-        isAutoSign: true
-      })
     },
 
     resetAuthZ() {
@@ -950,7 +984,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign: undefined
       })
 
-      await walletStore.connectWallet(walletStore.wallet)
+      await autoSignWalletStrategy.disconnect()
     },
 
     async logout() {

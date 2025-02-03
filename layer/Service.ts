@@ -80,7 +80,7 @@ export const tokenFactoryApi = new ChainGrpcTokenFactoryApi(ENDPOINTS.grpc)
 export const indexerOracleApi = new IndexerGrpcOracleApi(ENDPOINTS.indexer)
 export const indexerExplorerApi = new IndexerGrpcExplorerApi(ENDPOINTS.indexer)
 export const indexerRestExplorerApi = new IndexerRestExplorerApi(
-  `${ENDPOINTS.indexer}/api/explorer/v1`
+  `${ENDPOINTS.explorer}/api/explorer/v1`
 )
 export const indexerRestDerivativeChronosApi =
   new IndexerRestDerivativesChronosApi(

@@ -11,6 +11,7 @@ export const msgTypeMap = {
   [MsgType.MsgDepositCosmos]: 'Deposit Cosmos',
   [MsgType.MsgSubmitProposal]: 'Submit Proposal',
   [MsgType.MsgVote]: 'Vote',
+  'cosmos.gov.v1.MsgVote': 'Vote',
   [MsgType.MsgUnjail]: 'Unjail',
   [MsgType.MsgBeginRedelegate]: 'Begin Redelegate',
   [MsgType.MsgCreateValidator]: 'Create Validator',
@@ -87,7 +88,6 @@ export const msgTypeMap = {
   [MsgType.MsgExecuteContract]: 'Execute Contract',
   [MsgType.MsgExecuteContractCompat]: 'Execute Contract',
   [MsgType.MsgRelayProviderPrices]: 'Relay Provider Prices',
-  // todo: add to injective-ts
-  'injective.exchange.v1beta1.MsgPrivilegedExecuteContract': 'Execute Contract',
-  'cosmos.bank.v1beta1.MsgMultiSend': 'Multi Send'
+  [MsgType.MsgMultiSend]: 'Multi Send',
+  [MsgType.MsgPrivilegedExecuteContract]: 'Execute Contract'
 } as Record<string | MsgType, string>

@@ -5,30 +5,29 @@ import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 
 const props = withDefaults(
   defineProps<{
-    alignLeft?: boolean
-    shouldTruncate?: boolean
-    showZeroAsEmDash?: boolean
-
     amount: string
+    shouldTruncate?: boolean
     maxTrailingZeros?: number
+    showZeroAsEmDash?: boolean
   }>(),
   {
     maxTrailingZeros: 1
   }
 )
 
-const { valueToString: amountToString } = useSharedBigNumberFormatter(
-  computed(() => props.amount),
-  {
-    decimalPlaces: computed(() =>
-      sharedGetExactDecimalsFromNumber(props.amount, true)
-    ),
-    roundingMode: BigNumber.ROUND_DOWN,
-    minimalDecimalPlaces: computed(() =>
-      sharedGetExactDecimalsFromNumber(props.amount, true)
-    )
-  }
-)
+const { valueToString: amountToString, valueToBigNumber: amountInBigNumber } =
+  useSharedBigNumberFormatter(
+    computed(() => props.amount),
+    {
+      roundingMode: BigNumber.ROUND_DOWN,
+      decimalPlaces: computed(() =>
+        sharedGetExactDecimalsFromNumber(props.amount, true)
+      ),
+      minimalDecimalPlaces: computed(() =>
+        sharedGetExactDecimalsFromNumber(props.amount, true)
+      )
+    }
+  )
 
 const amountWithoutTrailingZeros = computed(() => {
   if (!props.shouldTruncate) {
@@ -46,10 +45,6 @@ const amountWithoutTrailingZeros = computed(() => {
 
 const maxTrailingZeros = computed(
   () => '0.' + '0'.repeat(props.maxTrailingZeros)
-)
-
-const { valueToBigNumber: amountInBigNumber } = useSharedBigNumberFormatter(
-  computed(() => amountToString.value)
 )
 
 // Refactor condensedZeroCount to handle negative numbers
@@ -107,7 +102,7 @@ const dustAmount = computed(() => {
       </span>
 
       <span v-else>
-        <span class="flex items-center" :class="{ 'justify-end': !alignLeft }">
+        <span class="flex items-center">
           {{ amountInBigNumber.lt(0) ? '-' : '' }}0.0
           <sub>
             {{ condensedZeroCount }}
