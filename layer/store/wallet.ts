@@ -21,29 +21,14 @@ import {
   validateCosmosWallet,
   confirmCosmosWalletAddress
 } from '../wallet/cosmos'
-<<<<<<< HEAD
-import { IS_DEVNET } from '../utils/constant'
-import { getAddresses } from '../wallet/wallet'
-import { msgBroadcaster } from '../WalletService'
-import { walletStrategy } from '../wallet/wallet-strategy'
-import { validateEvmWallet, getEvmWalletProvider } from './../wallet/evm'
-=======
-import { validateOkxWallet, isOkxWalletInstalled } from '../wallet/okx-wallet'
 import {
-  validateTrustWallet,
-  isTrustWalletInstalled
-} from '../wallet/trust-wallet'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
-import { getAddresses } from '../wallet/wallet'
-import {
-  autoSignWalletStrategy,
-  walletStrategy
+  walletStrategy,
+  autoSignWalletStrategy
 } from '../wallet/wallet-strategy'
-import { isBitGetInstalled, validateBitGet } from '../wallet/bitget'
-import { validatePhantom, isPhantomInstalled } from '../wallet/phantom'
-import { validateMetamask, isMetamaskInstalled } from '../wallet/metamask'
-import { autoSignMsgBroadcaster, msgBroadcaster } from '../WalletService'
->>>>>>> master
+import { getAddresses } from '../wallet/wallet'
+import { msgBroadcaster, autoSignMsgBroadcaster } from '../WalletService'
+import { validateEvmWallet, getEvmWalletProvider } from './../wallet/evm'
+import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {
   EventBus,
   type AutoSign,
