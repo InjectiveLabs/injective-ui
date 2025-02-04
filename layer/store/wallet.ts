@@ -845,16 +845,22 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         !hasMsgExecuteContract &&
         walletStore.isAutoSignEnabled
       ) {
-        const response = await autoSignMsgBroadcaster.broadcastV2({
-          memo,
-          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress),
-          injectiveAddress: walletStore.autoSign.injectiveAddress
-        })
+        const response =
+          await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
+            memo,
+            msgs: msgsOrMsgExecMsgs(
+              msgs,
+              walletStore.autoSign.injectiveAddress
+            ),
+            injectiveAddress: walletStore.autoSign.injectiveAddress
+          })
 
         return response
       }
 
-      const response = await msgBroadcaster.broadcastV2(broadcastOptions)
+      const response = await msgBroadcaster.broadcastWithFeeDelegation(
+        broadcastOptions
+      )
 
       return response
     },
