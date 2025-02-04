@@ -7,7 +7,7 @@ import {
 export * from './setup'
 
 export const INJ_LOGO_URL =
-  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/18984c0b-3e61-431d-241d-dfbb60b57600/public'
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/efaa2c96-5463-4707-0d2b-19e5b63df000/public'
 export const INJ_LOGO_DARK_URL =
   'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/60aee853-77a2-40b1-04bd-b4aba9312000/public'
 export const USDT_LOGO_URL =
