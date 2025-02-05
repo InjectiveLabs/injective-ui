@@ -46,7 +46,7 @@ export const getExplorerUrl = (): string => {
     return 'https://testnet.explorer.injective.network'
   }
 
-  return 'https://www.injscan.com'
+  return 'https://injscan.com'
 }
 
 export const getBridgeUrl = (): string => {
@@ -175,9 +175,9 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
     case Network.Xion:
       return 'https://www.mintscan.io/xion'
     case Network.Injective:
-      return 'https://explorer.injective.network'
+      return 'https://injscan.com'
     default:
-      return 'https://explorer.injective.network'
+      return 'https://injscan.com'
   }
 }
 
