@@ -46,7 +46,7 @@ export const getExplorerUrl = (): string => {
     return 'https://testnet.explorer.injective.network'
   }
 
-  return 'https://explorer.injective.network'
+  return 'https://www.injscan.com'
 }
 
 export const getBridgeUrl = (): string => {

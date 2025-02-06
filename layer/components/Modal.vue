@@ -76,7 +76,10 @@ watch(
     <UCard v-bind="{ ui: cardUi }">
       <UButton
         v-if="!isHideCloseButton && !preventClose"
-        class="absolute top-6 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent"
+        :class="[
+          $slots.header ? 'top-5' : 'top-6',
+          'absolute max-sm:right-4 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent'
+        ]"
         variant="ghost"
         @click="onClose"
       >
