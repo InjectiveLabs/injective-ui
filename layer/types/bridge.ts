@@ -42,6 +42,7 @@ export enum Network {
   Saga = 'saga',
   Mantra = 'mantra',
   Neutron = 'neutron',
+  Wormhole = 'wormhole',
   WormholeGeneric = 'wormhole-generic',
   XionTestnet = 'xion-testnet',
   Xion = 'xion',
