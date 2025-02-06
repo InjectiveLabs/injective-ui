@@ -179,7 +179,7 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
     case Network.Injective:
       return 'https://injscan.com'
     case Network.Wormhole:
-      return 'https://bigdipper.live/wormhole/accounts'
+      return 'https://bigdipper.live/wormhole'
     default:
       return 'https://injscan.com'
   }
