@@ -36,8 +36,6 @@ export const sharedGetDerivativeSlugOverride = ({
   }
 
   return ticker.replaceAll('/', '-').replaceAll(' ', '-').toLowerCase()
-
-  return ''
 }
 
 export const sharedSpotGetSlugAndTicket = ({
