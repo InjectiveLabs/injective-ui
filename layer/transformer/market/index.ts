@@ -24,6 +24,22 @@ import {
 export * from './summary'
 export * from './history'
 
+export const sharedGetDerivativeSlugOverride = ({
+  ticker,
+  marketId
+}: {
+  ticker: string
+  marketId: string
+}): string => {
+  if (derivativeMarketIdMap[marketId]) {
+    return derivativeMarketIdMap[marketId].slug
+  }
+
+  return ticker.replaceAll('/', '-').replaceAll(' ', '-').toLowerCase()
+
+  return ''
+}
+
 export const sharedSpotGetSlugAndTicket = ({
   marketId,
   slug,
@@ -137,7 +153,11 @@ export const toUiDerivativeMarket = ({
     ...market,
     baseToken,
     quoteToken,
-    slug,
+    ...sharedDerivativeGetSlugAndTicket({
+      slug,
+      ticker: market.ticker,
+      marketId: market.marketId
+    }),
     type: SharedMarketType.Derivative,
     subType: (market as PerpetualMarket).isPerpetual
       ? SharedMarketType.Perpetual
@@ -193,11 +213,7 @@ export const toUiBinaryOptionsMarket = ({
 
   return {
     ...market,
-    ...sharedDerivativeGetSlugAndTicket({
-      slug,
-      ticker: market.ticker,
-      marketId: market.marketId
-    }),
+    slug,
     baseToken,
     quoteToken,
     type: SharedMarketType.BinaryOptions,
