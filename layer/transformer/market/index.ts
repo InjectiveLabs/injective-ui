@@ -193,7 +193,11 @@ export const toUiBinaryOptionsMarket = ({
 
   return {
     ...market,
-    slug,
+    ...sharedDerivativeGetSlugAndTicket({
+      slug,
+      ticker: market.ticker,
+      marketId: market.marketId
+    }),
     baseToken,
     quoteToken,
     type: SharedMarketType.BinaryOptions,
