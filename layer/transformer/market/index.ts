@@ -137,11 +137,7 @@ export const toUiDerivativeMarket = ({
     ...market,
     baseToken,
     quoteToken,
-    ...sharedDerivativeGetSlugAndTicket({
-      slug,
-      ticker: market.ticker,
-      marketId: market.marketId
-    }),
+    slug,
     type: SharedMarketType.Derivative,
     subType: (market as PerpetualMarket).isPerpetual
       ? SharedMarketType.Perpetual
