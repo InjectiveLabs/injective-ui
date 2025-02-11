@@ -8,18 +8,18 @@ const { copy } = useClipboard();
 const props = defineProps({
   notification: {
     type: Object as PropType<Notification>,
-    required: true,
+    required: true
   },
 
   wrapperClass: {
     type: String,
-    default: "bg-gray-800",
+    default: "bg-gray-800"
   },
 
   contentClass: {
     type: String,
-    default: "text-white",
-  },
+    default: "text-white"
+  }
 });
 
 const timeout = ref();
