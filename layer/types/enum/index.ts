@@ -10,7 +10,8 @@ export enum NotificationType {
 
 export enum EventBus {
   WalletConnected = 'wallet-connected',
-  SubaccountChange = 'subaccount-change'
+  SubaccountChange = 'subaccount-change',
+  WalletDisconnected = 'wallet-disconnected'
 }
 
 export enum WalletConnectStatus {

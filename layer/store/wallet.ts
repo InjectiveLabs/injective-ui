@@ -1002,6 +1002,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletConnectStatus: WalletConnectStatus.disconnected,
         trustWalletInstalled: walletStore.trustWalletInstalled
       })
+
+      useEventBus(EventBus.WalletDisconnected).emit()
     }
   }
 })

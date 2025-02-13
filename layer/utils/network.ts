@@ -46,7 +46,7 @@ export const getExplorerUrl = (): string => {
     return 'https://testnet.explorer.injective.network'
   }
 
-  return 'https://www.injscan.com'
+  return 'https://injscan.com'
 }
 
 export const getBridgeUrl = (): string => {
@@ -113,6 +113,8 @@ export const getNetworkFromAddress = (address: string): Network => {
       return Network.Mantra
     case address.startsWith('xion'):
       return Network.Xion
+    case address.startsWith('wormhole'):
+      return Network.Wormhole
     default:
       return Network.Injective
   }
@@ -175,9 +177,11 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
     case Network.Xion:
       return 'https://www.mintscan.io/xion'
     case Network.Injective:
-      return 'https://explorer.injective.network'
+      return 'https://injscan.com'
+    case Network.Wormhole:
+      return 'https://bigdipper.live/wormhole'
     default:
-      return 'https://explorer.injective.network'
+      return 'https://injscan.com'
   }
 }
 

@@ -14,15 +14,29 @@ import {
 } from '../../utils/formatter'
 import { injToken } from '../../data/token'
 import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
+import { derivativeMarketIdMap } from '../../data/derivative'
 import {
   SharedMarketType,
   type SharedUiSpotMarket,
   type SharedUiDerivativeMarket,
   type SharedUiBinaryOptionsMarket
 } from '../../types'
-
 export * from './summary'
 export * from './history'
+
+export const sharedGetDerivativeSlugOverride = ({
+  ticker,
+  marketId
+}: {
+  ticker: string
+  marketId: string
+}): string => {
+  if (derivativeMarketIdMap[marketId]) {
+    return derivativeMarketIdMap[marketId].slug
+  }
+
+  return ticker.replaceAll('/', '-').replaceAll(' ', '-').toLowerCase()
+}
 
 export const sharedSpotGetSlugAndTicket = ({
   marketId,
@@ -47,6 +61,22 @@ export const sharedSpotGetSlugAndTicket = ({
 
   if (spotDenomMap[quoteDenom]) {
     return spotDenomMap[quoteDenom]({ slug, ticker })
+  }
+
+  return { slug, ticker }
+}
+
+export const sharedDerivativeGetSlugAndTicket = ({
+  marketId,
+  slug,
+  ticker
+}: {
+  marketId: string
+  slug: string
+  ticker: string
+}): { slug: string; ticker: string } => {
+  if (derivativeMarketIdMap[marketId]) {
+    return derivativeMarketIdMap[marketId]
   }
 
   return { slug, ticker }
@@ -119,9 +149,13 @@ export const toUiDerivativeMarket = ({
 
   return {
     ...market,
-    slug,
     baseToken,
     quoteToken,
+    ...sharedDerivativeGetSlugAndTicket({
+      slug,
+      ticker: market.ticker,
+      marketId: market.marketId
+    }),
     type: SharedMarketType.Derivative,
     subType: (market as PerpetualMarket).isPerpetual
       ? SharedMarketType.Perpetual
