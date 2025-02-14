@@ -51,11 +51,7 @@ watch(
   (value) => {
     if (value) {
       emit('on:open')
-
-      return
     }
-
-    emit('on:close')
   }
 )
 </script>
