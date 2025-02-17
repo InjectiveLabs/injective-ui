@@ -29,7 +29,7 @@ withDefaults(
                   type: 'radial',
                   rotation: 0,
                   colorStops: [
-                    { offset: 0.5, color: '#007CF6' },
+                    { offset: 0.5, color: '#7C70FF' },
                     { offset: 1, color: '#5208c7' }
                   ]
                 }

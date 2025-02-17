@@ -10,7 +10,8 @@ export enum NotificationType {
 
 export enum EventBus {
   WalletConnected = 'wallet-connected',
-  SubaccountChange = 'subaccount-change'
+  SubaccountChange = 'subaccount-change',
+  WalletDisconnected = 'wallet-disconnected'
 }
 
 export enum WalletConnectStatus {
@@ -147,7 +148,8 @@ export enum NuxtUiIcons {
   Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet',
-  TwitterX = 'ri:twitter-x-line'
+  TwitterX = 'ri:twitter-x-line',
+  FullScreen = 'tdesign:fullscreen'
 }
 
 export enum UIBreakpoints {

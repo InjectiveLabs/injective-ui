@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
-import { Notification, NotificationType } from './../types'
+import type { PropType } from 'vue'
+import { type Notification, NotificationType } from './../types'
 
 const notificationStore = useSharedNotificationStore()
 const { copy } = useClipboard()
@@ -106,25 +106,22 @@ function onResume() {
             v-if="notification.context"
             class="text-xs text-gray-400 flex items-center ui-notification-context"
           >
-            <SharedHoverMenu
-              v-if="notification.context"
-              popper-class="notification-context"
-              @click="onCopy"
-            >
+            <UPopover v-if="notification.context" mode="hover">
               <template #default>
-                <slot>
-                  <span
-                    class="text-xs text-gray-400 flex items-center ui-notification-context"
-                  >
-                    Show more context
-                  </span>
-                </slot>
+                <button
+                  class="text-xs text-gray-400 flex items-center ui-notification-context"
+                  @click="onCopy"
+                >
+                  Show more context
+                </button>
               </template>
 
-              <template #content>
-                {{ notification.context }}
+              <template #panel>
+                <div class="p-2">
+                  {{ notification.context }}
+                </div>
               </template>
-            </SharedHoverMenu>
+            </UPopover>
           </span>
 
           <div v-if="notification.actions" class="flex justify-start">
