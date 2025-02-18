@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { PropType } from "vue";
-import { type Notification, NotificationType } from "./../types";
+import type { PropType } from 'vue'
+import { type Notification, NotificationType } from './../types'
 
-const notificationStore = useSharedNotificationStore();
-const { copy } = useClipboard();
+const notificationStore = useSharedNotificationStore()
+const { copy } = useClipboard()
 
 const props = defineProps({
   notification: {
@@ -13,38 +13,38 @@ const props = defineProps({
 
   wrapperClass: {
     type: String,
-    default: "bg-gray-800"
+    default: 'bg-gray-800'
   },
 
   contentClass: {
     type: String,
-    default: "text-white"
+    default: 'text-white'
   }
-});
+})
 
-const timeout = ref();
-const remainingTimeout = ref(6000);
+const timeout = ref()
+const remainingTimeout = ref(6000)
 
 onMounted(
   () => (timeout.value = setTimeout(onClose, props.notification.timeout))
-);
+)
 
 function onCopy() {
-  copy(props.notification.context);
+  copy(props.notification.context)
 }
 
 function onClose() {
-  notificationStore.clear(props.notification.id);
-  clearTimeout(timeout.value);
+  notificationStore.clear(props.notification.id)
+  clearTimeout(timeout.value)
 }
 
 function onPause() {
-  clearTimeout(timeout.value);
-  remainingTimeout.value -= Date.now() - props.notification.id;
+  clearTimeout(timeout.value)
+  remainingTimeout.value -= Date.now() - props.notification.id
 }
 
 function onResume() {
-  timeout.value = setTimeout(onClose, remainingTimeout.value);
+  timeout.value = setTimeout(onClose, remainingTimeout.value)
 }
 </script>
 
@@ -109,8 +109,8 @@ function onResume() {
             <UPopover v-if="notification.context" mode="hover">
               <template #default>
                 <button
-                  @click="onCopy"
                   class="text-xs text-gray-400 flex items-center ui-notification-context"
+                  @click="onCopy"
                 >
                   Show more context
                 </button>

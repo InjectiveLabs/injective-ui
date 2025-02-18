@@ -208,7 +208,9 @@ const exchangeMsgSummaryMap: Partial<
       spot_orders_to_cancel: spotOrdersToCancel,
       spot_orders_to_create: spotOrdersToCreate,
       derivative_orders_to_cancel: derivativeOrdersToCancel,
-      derivative_orders_to_create: derivativeOrdersToCreate
+      derivative_orders_to_create: derivativeOrdersToCreate,
+      spot_market_ids_to_cancel_all: spotMarketIdsToCancelAll,
+      derivative_market_ids_to_cancel_all: derivativeMarketIdsToCancelAll
     } = value.message as Record<string, any>
 
     // Not Used:
@@ -216,8 +218,17 @@ const exchangeMsgSummaryMap: Partial<
     // binary_options_market_ids_to_cancel_all
     // binary_options_orders_to_create
 
-    // derivative_market_ids_to_cancel_all
-    // spot_market_ids_to_cancel_all
+    const cancelAllSpotMarketIds = spotMarketIdsToCancelAll.map(
+      (marketId: string) => {
+        return `{{account:${sender}}} cancelled all orders in {{market:${marketId}}}`
+      }
+    )
+
+    const cancelAllDerivativeMarketIds = derivativeMarketIdsToCancelAll.map(
+      (marketId: string) => {
+        return `{{account:${sender}}} cancelled all orders in {{market:${marketId}}}`
+      }
+    )
 
     const derivativeOrders = derivativeOrdersToCreate.map((order: any) => {
       const { quantity, price } = order.order_info
@@ -279,7 +290,9 @@ const exchangeMsgSummaryMap: Partial<
       ...derivativeOrders,
       ...spotOrders,
       ...spotCancelOrders,
-      ...derivativeCancelOrders
+      ...derivativeCancelOrders,
+      ...cancelAllSpotMarketIds,
+      ...cancelAllDerivativeMarketIds
     ]
   },
 

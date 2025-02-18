@@ -89,5 +89,6 @@ export const msgTypeMap = {
   [MsgType.MsgExecuteContractCompat]: 'Execute Contract',
   [MsgType.MsgRelayProviderPrices]: 'Relay Provider Prices',
   [MsgType.MsgMultiSend]: 'Multi Send',
-  [MsgType.MsgPrivilegedExecuteContract]: 'Execute Contract'
+  [MsgType.MsgPrivilegedExecuteContract]: 'Execute Contract',
+  'injective.oracle.v1beta1.MsgRelayStorkPrices': 'Relay Stork Prices'
 } as Record<string | MsgType, string>

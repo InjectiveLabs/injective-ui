@@ -10,7 +10,7 @@ export const getHubUrl = (): string => {
     return 'https://testnet.hub.injective.network'
   }
 
-  return 'https://hub.injective.network'
+  return 'https://injhub.com'
 }
 
 export const getMitoUrl = (): string => {

@@ -22,6 +22,10 @@ export default defineNuxtConfig({
 
   components: [{ path: resolve('./components'), prefix: 'Shared' }],
 
+  pinia: {
+    autoImports: ['defineStore']
+  },
+
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
