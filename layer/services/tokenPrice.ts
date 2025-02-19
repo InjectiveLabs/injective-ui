@@ -66,11 +66,20 @@ export class TokenPrice {
 
     const tokenPriceMap: Record<string, number> = Object.values(
       response.data
-    ).reduce((prices, tokenWithPrice) => {
-      const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
+    ).reduce(
+      (prices, tokenWithPrice) => {
+        const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
 
-      return { ...prices, [id.toLowerCase()]: tokenWithPrice.price.price }
-    }, {})
+        if (prices[id]) {
+          return prices
+        }
+
+        prices[id] = tokenWithPrice.price.price
+
+        return prices
+      },
+      {} as Record<string, number>
+    )
 
     const coinGeckoIdsToFetch = coinGeckoIds.filter(
       (coinGeckoId) => !tokenPriceMap[coinGeckoId]
@@ -187,9 +196,10 @@ export class TokenPrice {
       })
     )
 
-    const prices = response.reduce((prices, chunkResponse) => {
-      return { ...prices, ...chunkResponse }
-    }, {})
+    const prices = response.reduce(
+      (prices, chunkResponse) => ({ ...prices, ...chunkResponse }),
+      {} as Record<string, number>
+    )
 
     return prices
   }
