@@ -7,6 +7,21 @@ import {
   type Coin
 } from '@injectivelabs/sdk-ts'
 
+export const sharedGetToken = async (
+  tokenFactoryStatic: TokenFactoryStatic,
+  denomOrSymbol: string
+): Promise<TokenStatic | undefined> => {
+  const token = tokenFactoryStatic.toToken(denomOrSymbol)
+
+  if (token) {
+    return token
+  }
+
+  const asyncToken = await sharedTokenClient.queryToken(denomOrSymbol)
+
+  return asyncToken
+}
+
 export class SharedTokens {
   private tokenFactoryStatic: TokenFactoryStatic
 
@@ -31,23 +46,8 @@ export class SharedTokens {
     this.shouldFetchUnknownTokens = shouldFetchUnknownTokens
   }
 
-  async getToken(denomOrSymbol: string): Promise<TokenStatic | undefined> {
-    const { tokenFactoryStatic } = this
-
-    const token = tokenFactoryStatic.toToken(denomOrSymbol)
-
-    if (token) {
-      return token
-    }
-
-    const asyncToken = await sharedTokenClient.queryToken(denomOrSymbol)
-
-    return asyncToken
-  }
-
   async fetchTokens() {
-    const { state, shouldFetchUnknownTokens, tokenFactoryStatic, getToken } =
-      this
+    const { state, shouldFetchUnknownTokens, tokenFactoryStatic } = this
 
     if (state.tokens.length > 0) {
       return
@@ -82,7 +82,7 @@ export class SharedTokens {
         continue
       }
 
-      const token = await getToken(coin.denom)
+      const token = await sharedGetToken(tokenFactoryStatic, coin.denom)
 
       unknownTokens.push(token || unknownToken)
     }
@@ -95,8 +95,7 @@ export class SharedTokens {
   }
 
   async fetchAssets() {
-    const { state, shouldFetchUnknownTokens, tokenFactoryStatic, getToken } =
-      this
+    const { state, shouldFetchUnknownTokens, tokenFactoryStatic } = this
 
     if (state.assets.length > 0) {
       return
@@ -143,7 +142,7 @@ export class SharedTokens {
         continue
       }
 
-      const token = await getToken(coin.denom)
+      const token = await sharedGetToken(tokenFactoryStatic, coin.denom)
 
       unknownAssets.push({
         denom: coin.denom,
