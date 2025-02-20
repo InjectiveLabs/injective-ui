@@ -7,6 +7,9 @@ import {
   getCw20AdapterContractForNetwork
 } from '@injectivelabs/networks'
 
+export const IS_PRODUCTION: boolean = process.env.NODE_ENV === 'production'
+export const IS_DEVELOPMENT: boolean = process.env.NODE_ENV === 'development'
+
 export const env = {
   VITE_ENV: import.meta.env.VITE_ENV,
   VITE_NAME: import.meta.env.VITE_NAME,
