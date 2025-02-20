@@ -515,26 +515,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async connectTorus() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Torus)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        addresses,
-        address,
-        injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
     async connectTrezor(address: string) {
       const walletStore = useSharedWalletStore()
 
