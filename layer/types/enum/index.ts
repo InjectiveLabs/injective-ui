@@ -94,6 +94,7 @@ export enum NuxtUiIcons {
   FileOutline = 'lucide:file-text',
   Filter = 'fluent:filter-32-filled',
   FourPointStar = 'mdi:star-four-points',
+  FullScreen = 'tdesign:fullscreen',
   Gas = 'material-symbols:local-gas-station',
   Globe = 'bi:globe',
   Google = 'ri:google-fill',
@@ -125,6 +126,7 @@ export enum NuxtUiIcons {
   SettingsOutline = 'bi:gear',
   Share = 'mage:share-fill',
   Share2 = 'ion:share-outline',
+  Share3 = 'material-symbols-light:share-outline',
   Star = 'material-symbols:star',
   StarOutline = 'iconamoon:star-light',
   Stop = 'ph:prohibit',
@@ -138,6 +140,7 @@ export enum NuxtUiIcons {
   TriangleUp = 'bi:caret-up-fill',
   Trophy = 'bi:trophy-fill',
   Twitter = 'mdi:twitter',
+  TwitterX = 'ri:twitter-x-line',
   TwitterNew = 'fa6-brands:x-twitter',
   TwitterCircle = 'formkit:twitter',
   UptrendChart = 'icon-park-outline:chart-line',
@@ -148,8 +151,7 @@ export enum NuxtUiIcons {
   Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet',
-  TwitterX = 'ri:twitter-x-line',
-  FullScreen = 'tdesign:fullscreen'
+  Youtube = 'mdi:youtube'
 }
 
 export enum UIBreakpoints {
