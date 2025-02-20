@@ -23,6 +23,10 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         return
       }
 
+      const data = await client.get('json/tokens/mainnet.json')
+      // eslint-disable-next-line no-console
+      console.log({ data })
+
       sharedJsonStore.$patch({
         tokens: await client.get('json/tokens/mainnet.json')
       })

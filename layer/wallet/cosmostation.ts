@@ -13,7 +13,7 @@ export const confirmCosmosWalletAddress = async (
   injectiveAddress: string
 ) => await confirmCosmosAddress({ wallet, injectiveAddress, chainId: CHAIN_ID })
 
-export const validateCosmosWallet = async ({
+export const validateCosmosStationWallet = async ({
   wallet,
   address
 }: {

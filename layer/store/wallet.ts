@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 import {
-  type Msgs,
+  Wallet,
+  isEvmWallet,
+  MagicProvider,
+  isCosmosWallet
+} from '@injectivelabs/wallet-base'
+import {
   MsgGrant,
+  type Msgs,
   PrivateKey,
   msgsOrMsgExecMsgs,
   getEthereumAddress,
@@ -9,37 +15,23 @@ import {
   getDefaultSubaccountId,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
-import { GeneralException } from '@injectivelabs/exceptions'
 import { StatusType } from '@injectivelabs/utils'
-import {
-  Wallet,
-  isEthWallet,
-  MagicProvider,
-  isCosmosWallet,
-  isCosmosBrowserWallet
-} from '@injectivelabs/wallet-ts'
+import { GeneralException } from '@injectivelabs/exceptions'
 import {
   validateCosmosWallet,
-  confirmCorrectKeplrAddress
+  confirmCosmosWalletAddress
 } from '../wallet/cosmos'
-import { validateOkxWallet, isOkxWalletInstalled } from '../wallet/okx-wallet'
 import {
-  validateTrustWallet,
-  isTrustWalletInstalled
-} from '../wallet/trust-wallet'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
-import { getAddresses } from '../wallet/wallet'
-import {
-  autoSignWalletStrategy,
-  walletStrategy
+  walletStrategy,
+  autoSignWalletStrategy
 } from '../wallet/wallet-strategy'
-import { isBitGetInstalled, validateBitGet } from '../wallet/bitget'
-import { validatePhantom, isPhantomInstalled } from '../wallet/phantom'
-import { validateMetamask, isMetamaskInstalled } from '../wallet/metamask'
-import { autoSignMsgBroadcaster, msgBroadcaster } from '../WalletService'
+import { getAddresses } from '../wallet/wallet'
+import { msgBroadcaster, autoSignMsgBroadcaster } from '../WalletService'
+import { validateEvmWallet, getEvmWalletProvider } from './../wallet/evm'
+import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {
-  type AutoSign,
   EventBus,
+  type AutoSign,
   GrantDirection,
   WalletConnectStatus
 } from '../types'
@@ -187,27 +179,30 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return
       }
 
-      if (walletStore.wallet === Wallet.Metamask) {
-        await validateMetamask(walletStore.address)
+      if (
+        [
+          Wallet.BitGet,
+          Wallet.Phantom,
+          Wallet.Metamask,
+          Wallet.OkxWallet,
+          Wallet.TrustWallet
+        ].includes(walletStore.wallet)
+      ) {
+        await validateEvmWallet({
+          wallet: walletStore.wallet,
+          address: walletStore.address
+        })
       }
 
-      if (walletStore.wallet === Wallet.TrustWallet) {
-        await validateTrustWallet(walletStore.address)
-      }
-
-      if (walletStore.wallet === Wallet.OkxWallet) {
-        await validateOkxWallet(walletStore.address)
-      }
-
-      if (walletStore.wallet === Wallet.BitGet) {
-        await validateBitGet(walletStore.address)
-      }
-
-      if (walletStore.wallet === Wallet.Phantom) {
-        await validatePhantom(walletStore.address)
-      }
-
-      if (isCosmosBrowserWallet(walletStore.wallet)) {
+      if (
+        [
+          Wallet.Leap,
+          Wallet.Ninji,
+          Wallet.Keplr,
+          Wallet.OWallet,
+          Wallet.Cosmostation
+        ].includes(walletStore.wallet)
+      ) {
         await validateCosmosWallet({
           wallet: walletStore.wallet,
           address: walletStore.injectiveAddress
@@ -275,7 +270,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStore.$patch({
-        metamaskInstalled: await isMetamaskInstalled()
+        metamaskInstalled: await !!getEvmWalletProvider(Wallet.Metamask)
       })
     },
 
@@ -283,7 +278,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStore.$patch({
-        trustWalletInstalled: await isTrustWalletInstalled()
+        trustWalletInstalled: await !!getEvmWalletProvider(Wallet.TrustWallet)
       })
     },
 
@@ -291,7 +286,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStore.$patch({
-        okxWalletInstalled: await isOkxWalletInstalled()
+        okxWalletInstalled: await !!getEvmWalletProvider(Wallet.OkxWallet)
       })
     },
 
@@ -299,7 +294,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStore.$patch({
-        bitGetInstalled: await isBitGetInstalled()
+        bitGetInstalled: await !!getEvmWalletProvider(Wallet.BitGet)
       })
     },
 
@@ -307,7 +302,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStore.$patch({
-        phantomInstalled: await isPhantomInstalled()
+        phantomInstalled: await !!getEvmWalletProvider(Wallet.Phantom)
       })
     },
 
@@ -343,7 +338,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         const addresses = await getAddresses()
 
-        const injectiveAddresses = isEthWallet(wallet)
+        const injectiveAddresses = isEvmWallet(wallet)
           ? addresses.map(getInjectiveAddress)
           : addresses
 
@@ -352,7 +347,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         })
       } else {
         const addresses = await getAddresses()
-        const injectiveAddresses = isEthWallet(wallet)
+        const injectiveAddresses = isEvmWallet(wallet)
           ? addresses.map(getInjectiveAddress)
           : addresses
 
@@ -415,7 +410,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const [injectiveAddress] = injectiveAddresses
       const session = await walletStrategy.getSessionOrConfirm()
 
-      await confirmCorrectKeplrAddress(injectiveAddress)
+      await confirmCosmosWalletAddress(Wallet.Keplr, injectiveAddress)
 
       walletStore.$patch({
         injectiveAddress,
@@ -504,26 +499,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       await walletStore.connectWallet(Wallet.Metamask)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        addresses,
-        address,
-        injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectTorus() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Torus)
 
       const addresses = await getAddresses()
       const [address] = addresses
