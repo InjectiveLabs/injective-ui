@@ -120,9 +120,16 @@ export const eventLogsSummaryMap: Partial<
         .flatMap(({ events }) => events)
         .filter(
           ({ type, attributes }) =>
-            type === 'injective.exchange.v1beta1.EventCancelDerivativeOrder' &&
+            [
+              'injective.exchange.v1beta1.EventCancelDerivativeOrder',
+              'injective.exchange.v1beta1.EventCancelConditionalDerivativeOrder'
+            ].includes(type) &&
             attributes.some(({ key, value }) => {
-              if (key === 'limit_order') {
+              if (key === 'limit_order' || key === 'market_order') {
+                if (!value || value === 'null') {
+                  return false
+                }
+
                 const parsedAttribute = JSON.parse(value)
 
                 return (
@@ -136,8 +143,12 @@ export const eventLogsSummaryMap: Partial<
         )
 
       const derivativeOrder = parsedEvents[0].attributes.find(
-        ({ key }) => key === 'limit_order'
+        ({ key, value }) =>
+          value &&
+          value !== 'null' &&
+          ['limit_order', 'market_order'].includes(key)
       )
+
       const marketId = JSON.parse(
         parsedEvents[0].attributes.find(({ key }) => key === 'market_id')
           ?.value || ''
@@ -167,9 +178,16 @@ export const eventLogsSummaryMap: Partial<
         .flatMap(({ events }) => events)
         .filter(
           ({ type, attributes }) =>
-            type === 'injective.exchange.v1beta1.EventCancelDerivativeOrder' &&
+            [
+              'injective.exchange.v1beta1.EventCancelDerivativeOrder',
+              'injective.exchange.v1beta1.EventCancelConditionalDerivativeOrder'
+            ].includes(type) &&
             attributes.some(({ key, value }) => {
-              if (key === 'limit_order') {
+              if (key === 'limit_order' || key === 'market_order') {
+                if (!value || value === 'null') {
+                  return false
+                }
+
                 const parsedAttribute = JSON.parse(value)
 
                 return (
@@ -183,8 +201,12 @@ export const eventLogsSummaryMap: Partial<
         )
 
       const derivativeOrder = parsedEvents[0].attributes.find(
-        ({ key }) => key === 'limit_order'
+        ({ key, value }) =>
+          value &&
+          value !== 'null' &&
+          ['limit_order', 'market_order'].includes(key)
       )
+
       const marketId = JSON.parse(
         parsedEvents[0].attributes.find(({ key }) => key === 'market_id')
           ?.value || ''
