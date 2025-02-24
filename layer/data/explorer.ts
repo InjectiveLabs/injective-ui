@@ -90,5 +90,7 @@ export const msgTypeMap = {
   [MsgType.MsgRelayProviderPrices]: 'Relay Provider Prices',
   [MsgType.MsgMultiSend]: 'Multi Send',
   [MsgType.MsgPrivilegedExecuteContract]: 'Execute Contract',
-  'injective.oracle.v1beta1.MsgRelayStorkPrices': 'Relay Stork Prices'
+  'injective.oracle.v1beta1.MsgRelayStorkPrices': 'Relay Stork Prices',
+  'injective.exchange.v1beta1.MsgDecreasePositionMargin':
+    'Decrease Position Margin'
 } as Record<string | MsgType, string>
