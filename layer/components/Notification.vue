@@ -106,22 +106,20 @@ function onResume() {
             v-if="notification.context"
             class="text-xs text-gray-400 flex items-center ui-notification-context"
           >
-            <UPopover v-if="notification.context" mode="hover">
-              <template #default>
-                <button
-                  class="text-xs text-gray-400 flex items-center ui-notification-context"
-                  @click="onCopy"
-                >
-                  Show more context
-                </button>
-              </template>
+            <div v-if="notification.context" class="group relative">
+              <button
+                class="text-xs text-gray-400 flex items-center ui-notification-context"
+                @click="onCopy"
+              >
+                Show more context
+              </button>
 
-              <template #panel>
-                <div class="p-2">
-                  {{ notification.context }}
-                </div>
-              </template>
-            </UPopover>
+              <div
+                class="p-2 absolute bottom-full right-0 hidden group-hover:block max-h-[300px] min-w-[400px] overflow-auto bg-gray-800 text-white border-none text-xs shadow-sm"
+              >
+                {{ notification.context }}
+              </div>
+            </div>
           </span>
 
           <div v-if="notification.actions" class="flex justify-start">
