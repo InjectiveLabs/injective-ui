@@ -819,18 +819,14 @@ export const useSharedWalletStore = defineStore("sharedWallet", {
 
       const msgs = Array.isArray(messages) ? messages : [messages];
 
+      // Disable for now, since we will allow contract execution
       const hasMsgExecuteContract = msgs.some((msg) => {
         const parsedMsg = JSON.parse(msg.toJSON());
-        console.log(parsedMsg);
 
         const isMsgExec =
           parsedMsg["@type"] === MSG_TYPE_URL_MSG_EXECUTE_CONTRACT;
 
-        // const isSwapOrNeptuneContract = [NEPTUNE_USDT_CW20_CONTRACT,].includes(
-        //   parsedMsg["contract"]
-        // );
-
-        return;
+        return isMsgExec;
       });
 
       if (
@@ -842,6 +838,8 @@ export const useSharedWalletStore = defineStore("sharedWallet", {
           msgs,
           walletStore.autoSign.injectiveAddress
         );
+
+        console.log("msgExecMsgs 🪵",msgExecMsgs.map((msg) => msg.toEip712V2()));
 
         const response =
           await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
@@ -903,6 +901,8 @@ export const useSharedWalletStore = defineStore("sharedWallet", {
             expiration: nowInSeconds + expirationInSeconds,
           })
       );
+
+      console.log('Grant 🪵:',grantWithAuthorization);
 
       const authZMsgs = msgsType.map((messageType) =>
         MsgGrant.fromJSON({
