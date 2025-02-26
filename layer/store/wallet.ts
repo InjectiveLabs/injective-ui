@@ -831,15 +831,13 @@ export const useSharedWalletStore = defineStore("sharedWallet", {
 
       if (
         walletStore.autoSign &&
-        // !hasMsgExecuteContract &&
+        !hasMsgExecuteContract &&
         walletStore.isAutoSignEnabled
       ) {
         const msgExecMsgs = msgsOrMsgExecMsgs(
           msgs,
           walletStore.autoSign.injectiveAddress
         );
-
-        console.log("msgExecMsgs 🪵",msgExecMsgs.map((msg) => msg.toEip712V2()));
 
         const response =
           await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
@@ -901,8 +899,6 @@ export const useSharedWalletStore = defineStore("sharedWallet", {
             expiration: nowInSeconds + expirationInSeconds,
           })
       );
-
-      console.log('Grant 🪵:',grantWithAuthorization);
 
       const authZMsgs = msgsType.map((messageType) =>
         MsgGrant.fromJSON({
