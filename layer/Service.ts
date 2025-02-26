@@ -36,18 +36,19 @@ import {
   MITO_API_ENDPOINT,
   ALCHEMY_SEPOLIA_KEY
 } from './utils/constant'
+import { Web3Client } from './services/Web3Client'
+import { PythService } from './services/pythClient'
+import { alchemyRpcEndpoint } from './wallet/alchemy'
 import { InjNameService } from './services/nameService'
-import { InjBonfidaNameService } from './services/bonfida'
 import { SpotCacheApi } from './providers/cacheApi/spot'
+import { InjBonfidaNameService } from './services/bonfida'
 import { SharedTokenClient } from './services/tokenClient'
 import { TokenCacheApi } from './providers/cacheApi/token'
 import { CoinGeckoApiService } from './services/CoinGeckoApi'
 import { StakingCacheApi } from './providers/cacheApi/staking'
+import { StagingPythService } from './services/stagingPythClient'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
-import { PythService } from './services/pythClient'
-import { Web3Client } from './services/Web3Client'
-import { alchemyRpcEndpoint } from './wallet/alchemy'
 
 // Services
 export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)
@@ -101,6 +102,7 @@ export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cacheRest)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
 
 export const pythService = new PythService()
+export const stagingPythService = new StagingPythService()
 
 export const tokenPriceService = new TokenPriceService(NETWORK, {
   apiKey: COINGECKO_KEY as string,
