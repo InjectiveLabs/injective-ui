@@ -4,7 +4,8 @@ import { type SharedBalanceWithToken } from '../types'
 import {
   TokenFactoryStatic,
   type TokenStatic,
-  type Coin
+  type Coin,
+  TokenVerification
 } from '@injectivelabs/sdk-ts'
 
 export const sharedGetToken = async (
@@ -155,11 +156,25 @@ export class SharedTokens {
       })
     }
 
+    const verificationStatusSortOrder = [
+      TokenVerification.Verified,
+      TokenVerification.Internal,
+      TokenVerification.External,
+      TokenVerification.Unverified
+    ]
+
+    const sortedBalancesWithTokens = balancesWithTokens.sort((a, b) => {
+      return (
+        verificationStatusSortOrder.indexOf(a.token.tokenVerification) -
+        verificationStatusSortOrder.indexOf(b.token.tokenVerification)
+      )
+    })
+
     this.state = {
       ...state,
       supplyMap,
       unknownAssets,
-      assets: balancesWithTokens
+      assets: sortedBalancesWithTokens
     }
   }
 }
