@@ -7,23 +7,19 @@
   "scripts": {
     "prepare": "nuxi prepare",
     "lint": "eslint .",
-    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts && yarn prepare"
+    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#refactor/wallet-ts --ignore-scripts && yarn prepare"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
-    "@nuxtjs/i18n": "8.5.5",
-    "@vueuse/nuxt": "12.3.0",
-    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
+    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#refactor/wallet-ts"
   },
   "devDependencies": {
     "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",
     "@nuxt/eslint-config": "^0.1.1",
-    "@pinia/nuxt": "^0.4.11",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.4.9",
     "eslint": "8.37.0",
     "lint-staged": "13.2.3",
-    "nuxt": "3.13.2",
     "typescript": "5.5.4",
     "vite-tsconfig-paths": "^4.2.0"
   },
@@ -35,6 +31,7 @@
   "resolutions": {
     "@solana/web3.js": "1.98.0",
     "rpc-websockets": "9.0.4",
-    "crypto-js": "4.2.0"
+    "crypto-js": "4.2.0",
+    "@injectivelabs/wallet-trezor": "1.14.41-alpha.18"
   }
 }

@@ -1,14 +1,14 @@
-import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-ts'
-import {
-  walletStrategy,
-  autoSignWalletStrategy
-} from './wallet/wallet-strategy'
+import { MsgBroadcaster, Web3Broadcaster } from '@injectivelabs/wallet-core'
 import {
   NETWORK,
   ENDPOINTS,
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY
 } from './utils/constant'
+import {
+  walletStrategy,
+  autoSignWalletStrategy
+} from './wallet/wallet-strategy'
 
 // Transaction broadcaster
 export const msgBroadcaster = new MsgBroadcaster({
