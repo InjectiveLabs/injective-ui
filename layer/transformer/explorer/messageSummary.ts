@@ -653,7 +653,7 @@ const msgSummaryMap: Partial<
   },
 
   [MsgType.MsgBid]: (value: Message, _) => {
-    const { bid_amount: denom, amount, sender, round } = value.message
+    const { bid_amount: { denom, amount }, sender, round } = value.message
 
     return [
       `{{account:${sender}}} submitted a bid of {{denom:${denom}-${amount}}} in round ${round}`
