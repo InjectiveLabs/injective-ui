@@ -6,9 +6,11 @@ withDefaults(
   defineProps<{
     text: string
     color?: string
+    extraConfigs?: object
   }>(),
   {
-    color: ''
+    color: '',
+    extraConfigs: () => ({})
   }
 )
 </script>
@@ -43,7 +45,8 @@ withDefaults(
         cornersSquareOptions: {
           type: 'extra-rounded',
           color: '#000'
-        }
+        },
+        ...extraConfigs
       }"
     />
   </div>
