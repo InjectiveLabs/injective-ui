@@ -46,7 +46,7 @@ export default defineConfig({
             return 'keplr'
           }
 
-          if (id.includes('@injectivelabs/wallet-ts')) {
+          if (id.includes('@injectivelabs/wallet')) {
             return 'injective-wallet'
           }
 
@@ -93,7 +93,14 @@ export default defineConfig({
           '@injectivelabs/sdk-ts',
           'qr-code-generator-vue3',
           'class-variance-authority',
-          '@injectivelabs/wallet-ts',
+          '@injectivelabs/wallet-evm',
+          '@injectivelabs/wallet-base',
+          '@injectivelabs/wallet-core',
+          '@injectivelabs/wallet-ledger',
+          '@injectivelabs/wallet-cosmos',
+          '@injectivelabs/wallet-strategy',
+          '@injectivelabs/wallet-cosmostation',
+          '@injectivelabs/wallet-cosmos-strategy',
           ...(isLocalLayer ? [] : additionalDeps)
         ],
     exclude: ['fsevents']

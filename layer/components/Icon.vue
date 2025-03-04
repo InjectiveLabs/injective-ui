@@ -53,6 +53,10 @@ const filteredAttrs = computed(() => {
 const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
   let name = props.name
 
+  if (name.includes('trezor')) {
+    name = 'wallet/trezor'
+  }
+
   if (name.includes('ledger-legacy')) {
     name = 'wallet/ledger'
   }
