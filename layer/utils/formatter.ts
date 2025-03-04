@@ -118,6 +118,10 @@ export const sharedConvertTimestampToMilliseconds = (
   return timestampInBigNumber.toNumber()
 }
 
+export const sharedStripTrillingZero = (value: string): string => {
+  return value.replace(/\.?0+$/, '')
+}
+
 export const sharedGetExactDecimalsFromNumber = (
   number: number | string,
   keepTrailingZeros?: boolean
