@@ -325,11 +325,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (wallet !== Wallet.PrivateKey) {
         walletStore.$patch({
-          walletConnectStatus: WalletConnectStatus.connecting,
+          walletConnectStatus: WalletConnectStatus.connecting
         })
       }
-
-      
     },
 
     async getHWAddresses(wallet: Wallet) {
