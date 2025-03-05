@@ -46,7 +46,7 @@ import { SharedTokenClient } from './services/tokenClient'
 import { TokenCacheApi } from './providers/cacheApi/token'
 import { CoinGeckoApiService } from './services/CoinGeckoApi'
 import { StakingCacheApi } from './providers/cacheApi/staking'
-import { StagingPythService } from './services/stagingPythClient'
+import { CachePythService } from './services/cachePythClient'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
 
@@ -102,7 +102,7 @@ export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cacheRest)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
 
 export const pythService = new PythService()
-export const stagingPythService = new StagingPythService()
+export const cachePythService = new CachePythService()
 
 export const tokenPriceService = new TokenPriceService(NETWORK, {
   apiKey: COINGECKO_KEY as string,
