@@ -829,7 +829,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (
         walletStore.autoSign &&
-        !hasMsgExecuteContract &&
+        // !hasMsgExecuteContract &&
         walletStore.isAutoSignEnabled
       ) {
         const msgExecMsgs = msgsOrMsgExecMsgs(
