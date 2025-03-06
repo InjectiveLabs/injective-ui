@@ -7,11 +7,11 @@
   "scripts": {
     "prepare": "nuxi prepare",
     "lint": "eslint .",
-    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#refactor/wallet-ts --ignore-scripts && yarn prepare"
+    "postinstall": "yarn add https://github.com/InjectiveLabs/shared-packages#master --ignore-scripts && yarn prepare"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
-    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#refactor/wallet-ts"
+    "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
     "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",
@@ -31,23 +31,6 @@
   "resolutions": {
     "@solana/web3.js": "1.98.0",
     "rpc-websockets": "9.0.4",
-    "crypto-js": "4.2.0",
-    "@injectivelabs/utils": "1.14.41-alpha.7",
-    "@injectivelabs/networks": "1.14.41-alpha.2",
-    "@injectivelabs/ts-types": "1.14.41-alpha.2",
-    "@injectivelabs/exceptions": "1.14.41-alpha.1",
-    "@injectivelabs/sdk-ts": "1.14.41-alpha.16",
-    "@injectivelabs/wallet-base": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-core": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-cosmos": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-cosmos-strategy": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-cosmostation": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-evm": "1.14.41-alpha.20",
-    "@injectivelabs/wallet-ledger": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-magic": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-private-key": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-strategy": "1.14.41-alpha.20",
-    "@injectivelabs/wallet-trezor": "1.14.41-alpha.18",
-    "@injectivelabs/wallet-wallet-connect": "1.14.41-alpha.18"
+    "crypto-js": "4.2.0"
   }
 }
