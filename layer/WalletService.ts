@@ -16,7 +16,7 @@ export const msgBroadcaster = new MsgBroadcaster({
   simulateTx: true,
   network: NETWORK,
   endpoints: ENDPOINTS,
-  gasBufferCoefficient: 1.4,
+  gasBufferCoefficient: 1.2,
   feePayerPubKey: FEE_PAYER_PUB_KEY
 })
 
@@ -31,7 +31,7 @@ export const autoSignMsgBroadcaster = new MsgBroadcaster({
   simulateTx: true,
   network: NETWORK,
   endpoints: ENDPOINTS,
-  gasBufferCoefficient: 1.4,
+  gasBufferCoefficient: 1.2,
   feePayerPubKey: FEE_PAYER_PUB_KEY,
   walletStrategy: autoSignWalletStrategy
 })
