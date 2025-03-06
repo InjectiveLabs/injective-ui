@@ -97,6 +97,7 @@ export enum NuxtUiIcons {
   FullScreen = 'tdesign:fullscreen',
   Gas = 'material-symbols:local-gas-station',
   Globe = 'bi:globe',
+  Globe2 = 'vaadin:globe',
   Google = 'ri:google-fill',
   GoogleColor = 'devicon:google',
   Info = 'entypo:info-with-circle',

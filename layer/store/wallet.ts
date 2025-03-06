@@ -817,7 +817,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const msgs = Array.isArray(messages) ? messages : [messages]
 
-      // Disable for now, since we will allow contract execution
       const hasMsgExecuteContract = msgs.some((msg) => {
         const parsedMsg = JSON.parse(msg.toJSON())
 
@@ -829,7 +828,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (
         walletStore.autoSign &&
-        // !hasMsgExecuteContract &&
+        !hasMsgExecuteContract &&
         walletStore.isAutoSignEnabled
       ) {
         const msgExecMsgs = msgsOrMsgExecMsgs(

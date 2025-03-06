@@ -62,7 +62,7 @@ const { typed, el } = useIMask(
       }) as FactoryOpts
   ),
   {
-    onAccept: async (event) => {
+    onAccept: (event) => {
       // emit event only if event is triggered by user input
       if (event && props.modelValue !== typed.value) {
         nextTick(() => emit('update:modelValue', `${typed.value}`))
@@ -82,11 +82,12 @@ function onPaste(e: ClipboardEvent) {
   const value = new BigNumberInBase(text).toFixed(props.maxDecimals)
 
   typed.value = value
+  emit('update:modelValue', `${typed.value}`)
 }
 
 watch(
   () => props.modelValue,
-  async (value) => {
+  (value) => {
     nextTick(() => (typed.value = value))
   },
   { immediate: true }

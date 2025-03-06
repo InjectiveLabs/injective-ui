@@ -2,9 +2,9 @@
 import { HttpRestClient } from '@injectivelabs/utils'
 
 const NUXT_CACHE_PYTH_SERVICE_URL =
-  'https://injective-nuxt-api-staging.vercel.app/api/v1/'
+  'https://injective-nuxt-api.vercel.app/api/v1/'
 
-export class StagingPythService {
+export class CachePythService {
   private restClient: HttpRestClient
 
   constructor() {
