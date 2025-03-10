@@ -1,20 +1,20 @@
-import { Pagination, Validator } from '@injectivelabs/sdk-ts'
-import { stakingApi } from '../../Service'
-import { IS_MAINNET } from './../../utils/constant'
+import { Pagination, Validator, ExplorerValidator } from '@injectivelabs/sdk-ts'
 import { BaseCacheApi } from './base'
+import { IS_MAINNET } from './../../utils/constant'
+import { stakingApi, indexerRestExplorerApi } from '../../Service'
 
 export class StakingCacheApi extends BaseCacheApi {
   async fetchValidators(_params?: any) {
-    const fetchFromStaking = async () => {
+    const fetchFromSource = async () => {
       const { validators, pagination } = await stakingApi.fetchValidators({
-        limit: 200
+        limit: 500
       })
 
       return { validators, pagination }
     }
 
     if (!IS_MAINNET) {
-      return fetchFromStaking()
+      return fetchFromSource()
     }
 
     try {
@@ -25,7 +25,29 @@ export class StakingCacheApi extends BaseCacheApi {
 
       return response.data
     } catch (e) {
-      return fetchFromStaking()
+      return fetchFromSource()
+    }
+  }
+
+  async fetchExplorerValidators(_params?: any) {
+    const fetchFromSource = async () => {
+      const explorerValidators = await indexerRestExplorerApi.fetchValidators()
+
+      return explorerValidators
+    }
+
+    if (!IS_MAINNET) {
+      return fetchFromSource()
+    }
+
+    try {
+      const response = await this.client.get<{
+        validators: ExplorerValidator[]
+      }>('/explorer-validators')
+
+      return response.data.validators
+    } catch (e) {
+      return fetchFromSource()
     }
   }
 }
