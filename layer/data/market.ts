@@ -1,3 +1,2 @@
 export const MARKET_IDS_TO_HIDE = [
-  '0x37d4e69a77cdca055615d55c088d5bdf1bc75801e2c00a925e0b2dae62b5d660', // TTI/USDT PERP
 ]
