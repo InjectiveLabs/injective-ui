@@ -4,14 +4,7 @@ import {
   CosmosWalletException
 } from '@injectivelabs/exceptions'
 import { Wallet } from '@injectivelabs/wallet-base'
-import { confirmCosmosAddress } from '@injectivelabs/wallet-cosmos'
-import { CHAIN_ID } from './../utils/constant'
 import { walletStrategy } from './wallet-strategy'
-
-export const confirmCosmosWalletAddress = async (
-  wallet: Wallet,
-  injectiveAddress: string
-) => await confirmCosmosAddress({ wallet, injectiveAddress, chainId: CHAIN_ID })
 
 export const validateCosmosStationWallet = async ({
   wallet,

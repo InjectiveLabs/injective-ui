@@ -26,10 +26,11 @@ import {
 } from '../wallet/cosmos'
 import {
   walletStrategy,
-  autoSignWalletStrategy
-} from '../wallet/wallet-strategy'
+  autoSignWalletStrategy,
+  msgBroadcaster,
+  autoSignMsgBroadcaster
+} from '../WalletService'
 import { getAddresses } from '../wallet/wallet'
-import { msgBroadcaster, autoSignMsgBroadcaster } from '../WalletService'
 import { validateEvmWallet, getEvmWalletProvider } from './../wallet/evm'
 import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {

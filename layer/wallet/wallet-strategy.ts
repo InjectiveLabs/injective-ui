@@ -4,12 +4,9 @@ import {
   CHAIN_ID,
   APP_NAME,
   ENDPOINTS,
-  IS_MAINNET,
-  ALCHEMY_KEY,
   APP_BASE_URL,
   MAGIC_APK_KEY,
   ETHEREUM_CHAIN_ID,
-  ALCHEMY_SEPOLIA_KEY,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
 import { alchemyRpcEndpoint } from './alchemy'
@@ -47,7 +44,3 @@ export const autoSignWalletStrategy = new WalletStrategy({
   },
   strategies: {}
 })
-
-export const alchemyKey = (
-  IS_MAINNET ? ALCHEMY_KEY : ALCHEMY_SEPOLIA_KEY
-) as string
