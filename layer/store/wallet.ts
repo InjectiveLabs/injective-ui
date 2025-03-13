@@ -21,17 +21,16 @@ import {
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
 import {
-  validateCosmosWallet,
-  confirmCosmosWalletAddress
-} from '../wallet/cosmos'
-import {
+  getAddresses,
   walletStrategy,
-  autoSignWalletStrategy,
   msgBroadcaster,
-  autoSignMsgBroadcaster
+  validateEvmWallet,
+  validateCosmosWallet,
+  confirmCosmosWalletAddress,
+  autoSignWalletStrategy,
+  autoSignMsgBroadcaster,
+  getEvmWalletProvider
 } from '../WalletService'
-import { getAddresses } from '../wallet/wallet'
-import { validateEvmWallet, getEvmWalletProvider } from './../wallet/evm'
 import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {
   EventBus,
@@ -238,6 +237,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       walletStore.walletConnectStatus = WalletConnectStatus.idle
+
       await walletStrategy.setWallet(walletStore.wallet)
 
       if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
@@ -313,7 +313,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async connectWallet(wallet: Wallet, options?: { privateKey: string }) {
       const walletStore = useSharedWalletStore()
 
-      await walletStrategy.disconnect()
+      /**
+       * We should disconnect only if there are no hardware wallets connected
+       * and we still haven't fetched any addresses and we've already connected
+       * so there is no need to disconnect
+       */
+      if (walletStore.hwAddresses.length === 0) {
+        await walletStrategy.disconnect()
+      }
+
       await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
@@ -524,10 +532,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async connectTrezor(address: string) {
+    async connectTrezor({
+      wallet,
+      address
+    }: {
+      wallet: Wallet
+      address: string
+    }) {
       const walletStore = useSharedWalletStore()
 
-      await walletStore.connectWallet(Wallet.TrezorLegacy)
+      await walletStore.connectWallet(wallet)
 
       const ethereumAddress = getEthereumAddress(address)
       const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
