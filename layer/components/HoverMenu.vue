@@ -71,7 +71,7 @@ const closeDebounce = useDebounceFn(() => {
 <template>
   <Menu
     v-bind="$attrs"
-    :placement="placement"
+    :placement="placement as any"
     :container="container"
     :popper-triggers="triggers"
     :triggers="triggers"
