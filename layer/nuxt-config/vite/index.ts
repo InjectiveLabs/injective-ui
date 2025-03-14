@@ -1,8 +1,9 @@
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vite'
 import { ViteConfig } from '@nuxt/schema'
 import { createResolver } from '@nuxt/kit'
+import tsconfigPaths from 'vite-tsconfig-paths'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
+import { IS_HELIX } from './../../utils/constant'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
@@ -101,7 +102,15 @@ export default defineConfig({
           '@injectivelabs/wallet-strategy',
           '@injectivelabs/wallet-cosmostation',
           '@injectivelabs/wallet-cosmos-strategy',
-          ...(isLocalLayer ? [] : additionalDeps)
+          ...(isLocalLayer ? [] : additionalDeps),
+          ...(IS_HELIX
+            ? [
+                'gsap',
+                'gsap/ScrollTrigger',
+                'gsap/ScrollToPlugin',
+                'html-to-image'
+              ]
+            : [])
         ],
     exclude: ['fsevents']
   }
