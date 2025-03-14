@@ -5,11 +5,11 @@ import {
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY
 } from './../utils/constant'
-import { walletStrategy, autoSignWalletStrategy } from './wallet-strategy'
+import { getWalletStrategy, getAutoSignWalletStrategy } from './wallet-strategy'
 
 // Transaction broadcaster
 export const msgBroadcaster = new MsgBroadcaster({
-  walletStrategy,
+  walletStrategy: getWalletStrategy(),
   simulateTx: true,
   network: NETWORK,
   endpoints: ENDPOINTS,
@@ -30,11 +30,11 @@ export const autoSignMsgBroadcaster = new MsgBroadcaster({
   endpoints: ENDPOINTS,
   gasBufferCoefficient: 1.2,
   feePayerPubKey: FEE_PAYER_PUB_KEY,
-  walletStrategy: autoSignWalletStrategy
+  walletStrategy: getAutoSignWalletStrategy()
 })
 
 export const web3Broadcaster = new Web3Broadcaster({
-  walletStrategy,
+  walletStrategy: getWalletStrategy(),
   network: NETWORK,
   ethereumChainId: ETHEREUM_CHAIN_ID
 })

@@ -22,12 +22,12 @@ import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
 import {
   getAddresses,
-  walletStrategy,
+  getWalletStrategy,
   msgBroadcaster,
   validateEvmWallet,
   validateCosmosWallet,
   confirmCosmosWalletAddress,
-  autoSignWalletStrategy,
+  getAutoSignWalletStrategy,
   autoSignMsgBroadcaster,
   getEvmWalletProvider
 } from '../WalletService'
@@ -238,14 +238,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       walletStore.walletConnectStatus = WalletConnectStatus.idle
 
-      await walletStrategy.setWallet(walletStore.wallet)
+      await getWalletStrategy().setWallet(walletStore.wallet)
 
       if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
         await walletStore.connectMagic()
       }
 
       if (walletStore.autoSign) {
-        autoSignWalletStrategy.setOptions({
+        getAutoSignWalletStrategy().setOptions({
           privateKey: walletStore.autoSign.privateKey as string
         })
       }
@@ -319,13 +319,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
        * so there is no need to disconnect
        */
       if (walletStore.hwAddresses.length === 0) {
-        await walletStrategy.disconnect()
+        await getWalletStrategy().disconnect()
       }
 
-      await walletStrategy.setWallet(wallet)
+      await getWalletStrategy().setWallet(wallet)
 
       if (options?.privateKey) {
-        walletStrategy.setOptions({ privateKey: options.privateKey })
+        getWalletStrategy().setOptions({ privateKey: options.privateKey })
       }
 
       walletStore.$patch({
@@ -346,8 +346,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.hwAddresses.length === 0 ||
         walletStore.wallet !== wallet
       ) {
-        walletStrategy.disconnect()
-        walletStrategy.setWallet(wallet)
+        getWalletStrategy().disconnect()
+        getWalletStrategy().setWallet(wallet)
 
         walletStore.$patch({
           wallet
@@ -381,13 +381,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const injectiveAddresses = await getAddresses()
       const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
+      const session = await getWalletStrategy().getSessionOrConfirm()
 
       walletStore.$patch({
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           injectiveAddress
         ),
         session
@@ -403,13 +403,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const injectiveAddresses = await getAddresses()
       const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
+      const session = await getWalletStrategy().getSessionOrConfirm()
 
       walletStore.$patch({
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           injectiveAddress
         ),
         session
@@ -425,7 +425,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const injectiveAddresses = await getAddresses()
       const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
+      const session = await getWalletStrategy().getSessionOrConfirm()
 
       await confirmCosmosWalletAddress(Wallet.Keplr, injectiveAddress)
 
@@ -433,7 +433,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           injectiveAddress
         ),
         session
@@ -454,13 +454,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(wallet)
 
       const ethereumAddress = getEthereumAddress(address)
-      const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
+      const session = await getWalletStrategy().getSessionOrConfirm(
+        ethereumAddress
+      )
 
       walletStore.$patch({
         address: ethereumAddress,
         injectiveAddress: address,
         addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           ethereumAddress
         ),
         session
@@ -475,13 +477,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(Wallet.LedgerCosmos)
 
       const ethereumAddress = getEthereumAddress(injectiveAddress)
-      const session = await walletStrategy.getSessionOrConfirm()
+      const session = await getWalletStrategy().getSessionOrConfirm()
 
       walletStore.$patch({
         injectiveAddress,
         address: ethereumAddress,
         addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           injectiveAddress
         ),
         session
@@ -497,13 +499,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const injectiveAddresses = await getAddresses()
       const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
+      const session = await getWalletStrategy().getSessionOrConfirm()
 
       walletStore.$patch({
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           injectiveAddress
         ),
         session
@@ -519,13 +521,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = await getAddresses()
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         addresses,
         address,
         injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         session
       })
 
@@ -544,13 +548,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(wallet)
 
       const ethereumAddress = getEthereumAddress(address)
-      const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
+      const session = await getWalletStrategy().getSessionOrConfirm(
+        ethereumAddress
+      )
 
       walletStore.$patch({
         address: ethereumAddress,
         injectiveAddress: address,
         addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
           ethereumAddress
         ),
         session
@@ -566,13 +572,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = await getAddresses()
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         addresses,
         injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         session
       })
 
@@ -587,12 +595,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const addresses = await getAddresses()
 
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         injectiveAddress: getInjectiveAddress(address),
         session
       })
@@ -607,12 +617,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = await getAddresses()
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         injectiveAddress: getInjectiveAddress(address),
         session
       })
@@ -627,12 +639,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = await getAddresses()
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         injectiveAddress: getInjectiveAddress(address),
         session
       })
@@ -647,12 +661,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = await getAddresses()
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         injectiveAddress: getInjectiveAddress(address),
         session
       })
@@ -673,12 +689,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         }
 
         const ethereumAddress = getEthereumAddress(address)
-        const session = await walletStrategy.getSessionOrConfirm(address)
+        const session = await getWalletStrategy().getSessionOrConfirm(address)
 
         walletStore.$patch({
           address: ethereumAddress,
           addresses: [ethereumAddress],
-          addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
             address
           ),
           injectiveAddress: address,
@@ -699,13 +715,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const addresses = [getEthereumAddress(injectiveAddress)]
       const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         addresses,
         injectiveAddress,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         session
       })
 
@@ -723,14 +741,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       const address = getEthereumAddress(injectiveAddress)
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const session = await getWalletStrategy().getSessionOrConfirm(address)
 
       walletStore.$patch({
         address,
         session,
         injectiveAddress,
         addresses: [address],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
+        addressConfirmation: await getWalletStrategy().getSessionOrConfirm(
+          address
+        ),
         wallet: Wallet.PrivateKey,
         privateKey: privateKeyHash
       })
@@ -936,7 +956,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign
       })
 
-      autoSignWalletStrategy.setOptions({
+      getAutoSignWalletStrategy().setOptions({
         privateKey: autoSign.privateKey
       })
     },
@@ -1019,7 +1039,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign: undefined
       })
 
-      await autoSignWalletStrategy.disconnect()
+      await getAutoSignWalletStrategy().disconnect()
     },
 
     async logout() {
@@ -1027,7 +1047,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
 
-      await walletStrategy.disconnect()
+      await getWalletStrategy().disconnect()
 
       walletStore.$patch({
         ...initialStateFactory(),
