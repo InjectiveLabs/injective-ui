@@ -238,7 +238,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       walletStore.walletConnectStatus = WalletConnectStatus.idle
 
+      console.log('walletStore.wallet', walletStore.wallet)
+      console.log('walletStrategy pre', walletStrategy)
       await walletStrategy.setWallet(walletStore.wallet)
+      console.log('walletStrategy post', walletStrategy)
+      console.log('walletStore.wallet', walletStore.wallet)
 
       if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
         await walletStore.connectMagic()
