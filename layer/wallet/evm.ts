@@ -19,7 +19,7 @@ import {
 import { Wallet } from '@injectivelabs/wallet-base'
 import { type AccountAddress } from '@injectivelabs/ts-types'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
-import { getWalletStrategy } from './wallet-strategy'
+import { walletStrategy } from './wallet-strategy'
 
 export const getEvmWalletProvider = async (wallet: Wallet) => {
   if (wallet === Wallet.Metamask) {
@@ -84,7 +84,7 @@ export const validateEvmWallet = async ({
   wallet: Wallet
   address: AccountAddress
 }) => {
-  const accounts = await getWalletStrategy().enableAndGetAddresses()
+  const accounts = await walletStrategy.enableAndGetAddresses()
   const isAccountLocked = accounts.length === 0
 
   if (isAccountLocked) {
@@ -114,10 +114,7 @@ export const validateEvmWallet = async ({
     )
   }
 
-  const walletChainId = parseInt(
-    await getWalletStrategy().getEthereumChainId(),
-    16
-  )
+  const walletChainId = parseInt(await walletStrategy.getEthereumChainId(), 16)
   const walletChainIdDoesntMatchTheActiveChainId =
     ETHEREUM_CHAIN_ID !== walletChainId
 

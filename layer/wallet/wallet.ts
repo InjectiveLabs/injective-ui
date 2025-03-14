@@ -3,10 +3,10 @@ import {
   WalletException,
   UnspecifiedErrorCode
 } from '@injectivelabs/exceptions'
-import { getWalletStrategy } from './wallet-strategy'
+import { walletStrategy } from './wallet-strategy'
 
 export const getAddresses = async (args?: unknown): Promise<string[]> => {
-  const addresses = await getWalletStrategy().enableAndGetAddresses(args)
+  const addresses = await walletStrategy.enableAndGetAddresses(args)
 
   if (addresses.length === 0) {
     throw new WalletException(
