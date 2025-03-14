@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.7",
-    "floating-vue": "^5.2.2",
+    "floating-vue": "2.0.0-beta.24",
     "shared-packages": "https://github.com/InjectiveLabs/shared-packages#master"
   },
   "devDependencies": {
@@ -32,6 +32,7 @@
   "resolutions": {
     "@solana/web3.js": "1.98.0",
     "rpc-websockets": "9.0.4",
-    "crypto-js": "4.2.0"
+    "crypto-js": "4.2.0",
+    "floating-vue": "2.0.0-beta.24"
   }
 }
