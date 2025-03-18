@@ -22,7 +22,13 @@ export class SharedTokenClient {
   private cachedInsuranceFunds: InsuranceFund[] = []
   private cachedTokens: Record<string, TokenStatic> = {}
 
-  // constructor() {}
+  async queryTokens(denoms: string[]): Promise<TokenStatic[]> {
+    const tokens = await Promise.all(
+      denoms.map(async (denom) => await this.queryToken(denom))
+    )
+
+    return tokens.filter((token) => token !== undefined)
+  }
 
   async queryToken(denom: string): Promise<TokenStatic | undefined> {
     const cachedToken = this.cachedTokens[denom.toLowerCase()]
