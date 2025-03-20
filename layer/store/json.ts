@@ -6,7 +6,7 @@ import {
 } from '@injectivelabs/sdk-ts'
 import { HttpClient } from '@injectivelabs/utils'
 import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
-import { tokenFactoryStatic } from '../Service'
+import { tokenStaticFactory } from '../Service'
 import { type JsonValidator } from './../types'
 
 const CLOUD_FRONT_URL = 'https://d36789lqgasyke.cloudfront.net'
@@ -49,7 +49,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         data: TokenStatic[]
       }
 
-      tokenFactoryStatic.mapRegistry(data.data)
+      tokenStaticFactory.mapRegistry(data.data)
     },
 
     async fetchSpotMarkets() {

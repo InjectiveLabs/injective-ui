@@ -1,10 +1,10 @@
 import { TokenStatic } from '@injectivelabs/sdk-ts'
-import { tokenFactoryStatic, sharedTokenClient } from '../Service'
+import { tokenStaticFactory, sharedTokenClient } from '../Service'
 
 export const sharedGetToken = async (
   denomOrSymbol: string
 ): Promise<TokenStatic | undefined> => {
-  const token = tokenFactoryStatic.toToken(denomOrSymbol)
+  const token = tokenStaticFactory.toToken(denomOrSymbol)
 
   if (token) {
     return token

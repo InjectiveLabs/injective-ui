@@ -8,6 +8,7 @@ import {
   IndexerGrpcMitoApi,
   IndexerGrpcSpotApi,
   ChainGrpcOracleApi,
+  TokenStaticFactory,
   ChainGrpcAuctionApi,
   ChainGrpcStakingApi,
   ChainGrpcExchangeApi,
@@ -47,7 +48,6 @@ import { TokenCacheApi } from './providers/cacheApi/token'
 import { CachePythService } from './services/cachePythClient'
 import { CoinGeckoApiService } from './services/CoinGeckoApi'
 import { StakingCacheApi } from './providers/cacheApi/staking'
-import { TokenFactoryStatic } from './classes/TokenFactoryStatic'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
 
@@ -105,7 +105,7 @@ export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
 export const pythService = new PythService()
 export const cachePythService = new CachePythService()
 
-export const tokenFactoryStatic = new TokenFactoryStatic([])
+export const tokenStaticFactory = new TokenStaticFactory([])
 
 export const tokenPriceService = new TokenPriceService(NETWORK, {
   apiKey: COINGECKO_KEY as string,
