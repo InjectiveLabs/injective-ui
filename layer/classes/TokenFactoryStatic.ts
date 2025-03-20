@@ -53,7 +53,6 @@ export class TokenFactoryStatic {
   }
 
   mapRegistry(registry: TokenStatic[]) {
-    console.time('mapRegistry')
     for (const token of registry) {
       const {
         denom,
@@ -73,12 +72,10 @@ export class TokenFactoryStatic {
         this.denomVerifiedMap[denom] = token
       }
 
-      if (tokenVerification === TokenVerification.Unverified) {
-        // if (this.denomUnverifiedMap[denom]) {
-        //   console.log('denom unverified duplicate spotted')
-        //   console.log(this.denomUnverifiedMap[denom], token)
-        // }
-
+      if (
+        tokenVerification === TokenVerification.Unverified ||
+        tokenVerification === TokenVerification.Blacklisted
+      ) {
         this.denomUnverifiedMap[denom] = token
       }
 
@@ -173,8 +170,6 @@ export class TokenFactoryStatic {
         }
       }
     }
-
-    console.timeEnd('mapRegistry')
   }
 
   getSymbolToken(symbol: string): TokenStatic | undefined {
@@ -267,6 +262,10 @@ export class TokenFactoryStatic {
     } = {}
   ): TokenStatic | undefined {
     const denomOrSymbolTrimmed = denomOrSymbol.trim()
+
+    if (denomOrSymbol === 'inj') {
+      return this.denomVerifiedMap[denomOrSymbolTrimmed]
+    }
 
     if (source) {
       return this.getIbcToken(denomOrSymbol, {
