@@ -33,10 +33,3 @@ export interface SharedDropdownOption {
   display: string
   description?: string
 }
-
-export interface JsonValidator {
-  moniker: string
-  identity: string
-  operatorAddress: string
-  image: string
-}
