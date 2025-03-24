@@ -22,6 +22,8 @@ export type JsonStoreState = {
   spotMarkets: SpotMarket[]
   swapRoutes: JsonSwapRoute[]
   validators: JsonValidator[]
+  restrictedCountries: string[]
+  blacklistedAddresses: string[]
   spotGridMarkets: JsonGridMarket[]
   wasmQuery: Record<string, string[]>
   wasmExecute: Record<string, string[]>
@@ -56,6 +58,8 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     spotGridMarkets: [],
     expiryMarketMap: {},
     derivativeMarkets: [],
+    restrictedCountries: [],
+    blacklistedAddresses: [],
     verifiedSpotMarketMap: {},
     derivativeGridMarkets: [],
     verifiedDerivativeMarketMap: {},
@@ -250,6 +254,30 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       jsonStore.helixMarketCategory = data.data
+    },
+
+    async fetchRestrictedCountries() {
+      const jsonStore = useSharedJsonStore()
+
+      const data = (await client.get(
+        `json/geo/restrictedCountries/${getNetworkName()}`
+      )) as {
+        data: string[]
+      }
+
+      jsonStore.restrictedCountries = data.data
+    },
+
+    async fetchBlacklistedAddresses() {
+      const jsonStore = useSharedJsonStore()
+
+      const data = (await client.get(
+        `json/wallets/blacklistedAddresses/${getNetworkName()}`
+      )) as {
+        data: string[]
+      }
+
+      jsonStore.blacklistedAddresses = data.data
     }
   }
 })

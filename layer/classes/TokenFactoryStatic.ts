@@ -70,12 +70,8 @@ export class TokenFactoryStatic {
         // }
 
         this.denomVerifiedMap[denom] = token
-      }
-
-      if (
-        tokenVerification === TokenVerification.Unverified ||
-        tokenVerification === TokenVerification.Blacklisted
-      ) {
+        this.symbolTokensMap[symbol.toLowerCase()] = token
+      } else {
         this.denomUnverifiedMap[denom] = token
       }
 
@@ -87,10 +83,6 @@ export class TokenFactoryStatic {
 
       //   tokenByDenomBlacklisted[denom] = token
       // }
-
-      if (tokenType === TokenType.Symbol) {
-        this.symbolTokensMap[symbol.toLowerCase()] = token
-      }
 
       if (tokenType === TokenType.InsuranceFund) {
         this.insuranceTokensMap[symbol.toLowerCase()] = token

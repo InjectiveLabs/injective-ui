@@ -105,8 +105,6 @@ export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
 export const pythService = new PythService()
 export const cachePythService = new CachePythService()
 
-export const tokenStaticFactory = new TokenStaticFactory([])
-
 export const tokenPriceService = new TokenPriceService(NETWORK, {
   apiKey: COINGECKO_KEY as string,
   baseUrl: COINGECKO_KEY
@@ -141,3 +139,5 @@ export const web3Client = new Web3Client({
   network: NETWORK,
   rpc: alchemyRpcEndpoint
 })
+
+export const tokenStaticFactory = new TokenStaticFactory([])
