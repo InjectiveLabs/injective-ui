@@ -259,9 +259,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     async fetchRestrictedCountries() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
-        `json/geo/restrictedCountries/${getNetworkName()}`
-      )) as {
+      const data = (await client.get('json/geo/countries.json')) as {
         data: string[]
       }
 
@@ -272,7 +270,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       const jsonStore = useSharedJsonStore()
 
       const data = (await client.get(
-        `json/wallets/blacklistedAddresses/${getNetworkName()}`
+        'json/wallets/ofacAndRestricted.json'
       )) as {
         data: string[]
       }
