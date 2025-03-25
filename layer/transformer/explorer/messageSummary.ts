@@ -34,12 +34,11 @@ const exchangeMsgSummaryMap: Partial<
   [MsgType.MsgCreateSpotMarketOrder]: (value: Message, _) => {
     const { sender, order } = value.message
 
-    const { quantity, price } = order.order_info
-
+    const { quantity } = order.order_info
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in {{market:${marketId}}}`
+      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} in {{market:${marketId}}}`
     ]
   },
 
@@ -47,7 +46,6 @@ const exchangeMsgSummaryMap: Partial<
     const { sender, order } = value.message
 
     const { quantity, price } = order.order_info
-
     const { market_id: marketId } = order
 
     return [
@@ -58,12 +56,11 @@ const exchangeMsgSummaryMap: Partial<
   [MsgType.MsgCreateDerivativeMarketOrder]: (value: Message, _) => {
     const { sender, order } = value.message
 
-    const { quantity, price } = order.order_info
-
+    const { quantity } = order.order_info
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in {{market:${marketId}}}`
+      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} in {{market:${marketId}}}`
     ]
   },
 
@@ -417,6 +414,7 @@ const insuranceMsgSummaryMap: Partial<
       `{{account:${sender}}} created an insurance fund with an initial deposit of {{denom:${denom}-${amount}}} for the ${ticker} market`
     ]
   },
+
   [MsgType.MsgRequestRedemption]: (value: Message, _) => {
     const {
       sender,
@@ -430,6 +428,7 @@ const insuranceMsgSummaryMap: Partial<
       )} ${denom} from the {{market:${marketId}}} Insurance Fund`
     ]
   },
+
   [MsgType.MsgUnderwrite]: (value: Message, _) => {
     const {
       sender,
@@ -451,16 +450,19 @@ const peggyMsgSummaryMap: Partial<
 
     return [`${orchestrator} confirmed a batch request`]
   },
+
   [MsgType.MsgRequestBatch]: (value: Message, _) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} sent a batch request`]
   },
+
   [MsgType.MsgValsetConfirm]: (value: Message, _) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} confirmed the Valset`]
   },
+
   [MsgType.MsgSetOrchestratorAddresses]: (value: Message, _) => {
     const { sender, orchestrator } = value.message
 
@@ -468,6 +470,7 @@ const peggyMsgSummaryMap: Partial<
       `{{account:${sender}}} set the orchestrator address to {{account:${orchestrator}}}`
     ]
   },
+
   [MsgType.MsgSendToEth]: (value: Message, _) => {
     const { amount, sender, eth_dest: receiver } = value.message
 
@@ -510,6 +513,7 @@ const govMsgSummaryMap: Partial<
       `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
     ]
   },
+
   [MsgType.MsgVote]: (value: Message, _) => {
     const { voter, option: optionRaw, proposal_id: proposalId } = value.message
 
@@ -531,6 +535,7 @@ const govMsgSummaryMap: Partial<
       `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
     ]
   },
+
   [MsgType.MsgSubmitProposal]: (value: Message, _) => {
     const { proposer, initial_deposit: amount } = value.message
 
