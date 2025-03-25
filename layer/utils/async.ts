@@ -1,4 +1,4 @@
-const sleep = (timeout: number): Promise<void> =>
+export const sleep = (timeout: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, timeout))
 
 export const sharedDelayPromiseCall = async <T>(

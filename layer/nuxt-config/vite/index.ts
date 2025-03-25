@@ -3,7 +3,7 @@ import { ViteConfig } from '@nuxt/schema'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
-import { IS_HELIX } from './../../utils/constant'
+import { IS_HELIX, IS_EXPLORER } from './../../utils/constant'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
@@ -109,6 +109,14 @@ export default defineConfig({
                 'gsap/ScrollTrigger',
                 'gsap/ScrollToPlugin',
                 'html-to-image'
+              ]
+            : []),
+          ...(IS_EXPLORER
+            ? [
+                'v-calendar',
+                'vue3-ace-editor',
+                'ace-builds/src-noconflict/mode-json',
+                'ace-builds/src-noconflict/theme-chrome'
               ]
             : [])
         ],

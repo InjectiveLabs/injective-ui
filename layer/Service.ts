@@ -8,6 +8,7 @@ import {
   IndexerGrpcMitoApi,
   IndexerGrpcSpotApi,
   ChainGrpcOracleApi,
+  // TokenStaticFactory,
   ChainGrpcAuctionApi,
   ChainGrpcStakingApi,
   ChainGrpcExchangeApi,
@@ -49,6 +50,7 @@ import { CoinGeckoApiService } from './services/CoinGeckoApi'
 import { StakingCacheApi } from './providers/cacheApi/staking'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
+import { TokenFactoryStatic } from './classes/TokenFactoryStatic'
 
 // Services
 export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)
@@ -138,3 +140,5 @@ export const web3Client = new Web3Client({
   network: NETWORK,
   rpc: alchemyRpcEndpoint
 })
+
+export const tokenStaticFactory = new TokenFactoryStatic([])
