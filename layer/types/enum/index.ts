@@ -98,6 +98,7 @@ export enum NuxtUiIcons {
   Gas = 'material-symbols:local-gas-station',
   Globe = 'bi:globe',
   Globe2 = 'vaadin:globe',
+  Globe3 = 'proicons:globe',
   Google = 'ri:google-fill',
   GoogleColor = 'devicon:google',
   Info = 'entypo:info-with-circle',
