@@ -152,7 +152,8 @@ export enum NuxtUiIcons {
   Wallet2 = 'bxs:wallet',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet',
-  Youtube = 'mdi:youtube'
+  Youtube = 'mdi:youtube',
+  LoadingRotateDots = 'svg-spinners:8-dots-rotate'
 }
 
 export enum UIBreakpoints {
