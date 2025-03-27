@@ -28,6 +28,7 @@ export const env = {
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
+export const IS_PREVIEW = import.meta.env.VITE_PREVIEW === 'true'
 
 export const NETWORK: Network =
   (import.meta.env.VITE_NETWORK as Network) || Network.Devnet

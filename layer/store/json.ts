@@ -5,7 +5,7 @@ import {
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
 import { HttpClient } from '@injectivelabs/utils'
-import { IS_MAINNET, IS_MAINNET_STAGING, IS_TESTNET } from '../utils/constant'
+import { IS_MAINNET, IS_PREVIEW, IS_TESTNET } from '../utils/constant'
 import { tokenStaticFactory } from '../Service'
 import {
   type JsonValidator,
@@ -210,7 +210,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         slug: 'itsla-usdt-perp'
       }
 
-      if (IS_MAINNET_STAGING) {
+      if (IS_PREVIEW && IS_MAINNET) {
         data.data.push(itslaGridMarket)
       }
 
