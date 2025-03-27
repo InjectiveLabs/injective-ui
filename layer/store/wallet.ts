@@ -54,6 +54,7 @@ type WalletStoreState = {
   trustWalletInstalled: boolean
   wallet: Wallet
   queueStatus: StatusType
+  isDev: boolean
 
   authZ: {
     address: string
@@ -80,6 +81,7 @@ const initialStateFactory = (): WalletStoreState => ({
   metamaskInstalled: false,
   okxWalletInstalled: false,
   trustWalletInstalled: false,
+  isDev: false,
   queueStatus: StatusType.Idle,
 
   authZ: {
@@ -706,7 +708,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         addresses,
         injectiveAddress,
         addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        session
+        session,
+        isDev: true
       })
 
       await walletStore.onConnect()
