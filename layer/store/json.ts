@@ -5,7 +5,7 @@ import {
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
 import { HttpClient } from '@injectivelabs/utils'
-import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
+import { IS_MAINNET, IS_MAINNET_STAGING, IS_TESTNET } from '../utils/constant'
 import { tokenStaticFactory } from '../Service'
 import {
   type JsonValidator,
@@ -203,6 +203,15 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         `json/helix/trading/gridMarkets/derivative/${getNetworkName()}`
       )) as {
         data: JsonGridMarket[]
+      }
+
+      const itslaGridMarket = {
+        contractAddress: 'inj12l7llh5am4w4ecx87an6wsq97eyd0auj5cefcq',
+        slug: 'itsla-usdt-perp'
+      }
+
+      if (IS_MAINNET_STAGING) {
+        data.data.push(itslaGridMarket)
       }
 
       jsonStore.derivativeGridMarkets = data.data
