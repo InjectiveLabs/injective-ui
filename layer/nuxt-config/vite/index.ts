@@ -3,7 +3,7 @@ import { ViteConfig } from '@nuxt/schema'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
-import { IS_HELIX, IS_EXPLORER } from './../../utils/constant'
+import { IS_BRIDGE, IS_HELIX, IS_EXPLORER } from './../../utils/constant'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
@@ -103,6 +103,23 @@ export default defineConfig({
           '@injectivelabs/wallet-cosmostation',
           '@injectivelabs/wallet-cosmos-strategy',
           ...(isLocalLayer ? [] : additionalDeps),
+          ...(IS_BRIDGE
+            ? [
+                'axios',
+                'ethers',
+                'js-sha3',
+                'js-base64',
+                'alchemy-sdk',
+                '@solana/web3.js',
+                '@ethersproject/bytes',
+                '@wormhole-foundation/sdk',
+                '@bangjelkoski/ens-validation',
+                '@injectivelabs/sdk-ts/cosmjs',
+                '@wormhole-foundation/sdk/evm',
+                '@wormhole-foundation/sdk/solana',
+                '@wormhole-foundation/sdk/cosmwasm'
+              ]
+            : []),
           ...(IS_HELIX
             ? [
                 'gsap',
