@@ -155,4 +155,5 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
 }
 
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
+export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
 export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
