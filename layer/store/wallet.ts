@@ -4,7 +4,8 @@ import {
   isEvmWallet,
   MagicProvider,
   isCosmosWallet,
-  type ConcreteWalletStrategyOptions
+  type ConcreteWalletStrategyOptions,
+  type WalletConnectMetadata
 } from '@injectivelabs/wallet-base'
 import {
   MsgGrant,
@@ -585,10 +586,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async connectWalletConnect() {
+    async connectWalletConnect(
+      metadata: { projectId: string } & WalletConnectMetadata
+    ) {
       const walletStore = useSharedWalletStore()
 
-      await walletStore.connectWallet(Wallet.WalletConnect)
+      await walletStore.connectWallet(Wallet.WalletConnect, {
+        metadata: metadata as Record<string, string | Record<string, string>>
+      })
 
       const addresses = await getAddresses()
 
