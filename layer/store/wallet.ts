@@ -3,7 +3,8 @@ import {
   Wallet,
   isEvmWallet,
   MagicProvider,
-  isCosmosWallet
+  isCosmosWallet,
+  type ConcreteWalletStrategyOptions
 } from '@injectivelabs/wallet-base'
 import {
   MsgGrant,
@@ -312,7 +313,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
     },
 
-    async connectWallet(wallet: Wallet, options?: { privateKey: string }) {
+    async connectWallet(
+      wallet: Wallet,
+      options?: ConcreteWalletStrategyOptions
+    ) {
       const walletStore = useSharedWalletStore()
 
       /**
@@ -326,8 +330,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.setWallet(wallet)
 
-      if (options?.privateKey) {
-        walletStrategy.setOptions({ privateKey: options.privateKey })
+      if (options) {
+        walletStrategy.setOptions(options)
       }
 
       walletStore.$patch({
