@@ -210,8 +210,13 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         slug: 'itsla-usdt-perp'
       }
 
+      const imcdGridMarket = {
+        contractAddress: 'inj1r96zu3wgcnwvdvhmz73sxqz430luaudmddf7ua',
+        slug: 'imcd-usdt-perp'
+      }
+
       if (IS_PREVIEW && IS_MAINNET) {
-        data.data.push(itslaGridMarket)
+        data.data.push(itslaGridMarket, imcdGridMarket)
       }
 
       jsonStore.derivativeGridMarkets = data.data
