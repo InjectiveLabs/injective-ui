@@ -215,8 +215,13 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         slug: 'imcd-usdt-perp'
       }
 
+      const opGridMarket = {
+        contractAddress: 'inj1nm4ajyrlyqqhgzf32dvywgvshewyaw53rlwdfg',
+        slug: 'op-usdt-perp'
+      }
+
       if (IS_PREVIEW && IS_MAINNET) {
-        data.data.push(itslaGridMarket, imcdGridMarket)
+        data.data.push(itslaGridMarket, imcdGridMarket, opGridMarket)
       }
 
       jsonStore.derivativeGridMarkets = data.data
