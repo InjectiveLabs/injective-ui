@@ -37,10 +37,6 @@ export default defineNuxtConfig({
 
   bugsnag,
 
-  typescript: {
-    typeCheck: 'build'
-  },
-
   sourcemap: {
     server: false,
     client: true
