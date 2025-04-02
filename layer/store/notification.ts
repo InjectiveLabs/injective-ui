@@ -19,7 +19,8 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
 
       const notificationTitleAlreadyExist =
         notificationStore.notifications.some(
-          (notification) => notification.title === options.title
+          (notification) =>
+            notification.title.toLowerCase() === options.title.toLowerCase()
         )
 
       if (notificationTitleAlreadyExist) {
@@ -32,7 +33,8 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
           {
             type,
             id: Date.now(),
-            title: options.title,
+            title:
+              options.title.charAt(0).toUpperCase() + options.title.slice(1),
             context: options.context,
             actions: options.actions,
             description: options.description,
