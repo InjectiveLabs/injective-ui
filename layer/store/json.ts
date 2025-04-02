@@ -193,6 +193,15 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         data: JsonGridMarket[]
       }
 
+      const sagaUsdtGridMarket = {
+        contractAddress: 'inj17z9n57akgmuas32g5ejq06t0up4qn0qft6j5um',
+        slug: 'saga-usdt'
+      }
+
+      if (IS_PREVIEW && IS_MAINNET) {
+        data.data.push(sagaUsdtGridMarket)
+      }
+
       jsonStore.spotGridMarkets = data.data
     },
 
