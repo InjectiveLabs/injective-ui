@@ -5,7 +5,7 @@ import {
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
 import { HttpClient } from '@injectivelabs/utils'
-import { IS_MAINNET, IS_PREVIEW, IS_TESTNET } from '../utils/constant'
+import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
 import { tokenStaticFactory } from '../Service'
 import {
   type JsonValidator,
@@ -193,15 +193,6 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         data: JsonGridMarket[]
       }
 
-      const sagaUsdtGridMarket = {
-        contractAddress: 'inj17z9n57akgmuas32g5ejq06t0up4qn0qft6j5um',
-        slug: 'saga-usdt'
-      }
-
-      if (IS_PREVIEW && IS_MAINNET) {
-        data.data.push(sagaUsdtGridMarket)
-      }
-
       jsonStore.spotGridMarkets = data.data
     },
 
@@ -212,25 +203,6 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         `json/helix/trading/gridMarkets/derivative/${getNetworkName()}`
       )) as {
         data: JsonGridMarket[]
-      }
-
-      const itslaGridMarket = {
-        contractAddress: 'inj12l7llh5am4w4ecx87an6wsq97eyd0auj5cefcq',
-        slug: 'itsla-usdt-perp'
-      }
-
-      const imcdGridMarket = {
-        contractAddress: 'inj1r96zu3wgcnwvdvhmz73sxqz430luaudmddf7ua',
-        slug: 'imcd-usdt-perp'
-      }
-
-      const opGridMarket = {
-        contractAddress: 'inj1nm4ajyrlyqqhgzf32dvywgvshewyaw53rlwdfg',
-        slug: 'op-usdt-perp'
-      }
-
-      if (IS_PREVIEW && IS_MAINNET) {
-        data.data.push(itslaGridMarket, imcdGridMarket, opGridMarket)
       }
 
       jsonStore.derivativeGridMarkets = data.data
