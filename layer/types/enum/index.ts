@@ -50,6 +50,7 @@ export enum NuxtUiIcons {
   Bank = 'bi:bank',
   BarChart = 'bi:bar-chart-line',
   BarChart2 = 'heroicons:chart-bar-16-solid',
+  Bell = 'tabler:bell',
   Bitcoin = 'hugeicons:bitcoin-04',
   Box = 'mynaui:box-solid',
   BoxCircle = 'bi:bounding-box-circles',

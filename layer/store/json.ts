@@ -1,16 +1,17 @@
 import { defineStore } from 'pinia'
-import {
+import type {
   SpotMarket,
   TokenStatic,
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
-import { HttpClient } from '@injectivelabs/utils'
-import { tokenStaticFactory } from '../Service'
-import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
+import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
+import { tokenStaticFactory, indexerRestExplorerApi } from '../Service'
+import { IS_MAINNET, IS_TESTNET, MAINTENANCE_DISABLED } from '../utils/constant'
 import type {
   JsonValidator,
   JsonSwapRoute,
   JsonGridMarket,
+  JsonChainUpgrade,
   JsonHelixCategory
 } from './../types'
 
@@ -19,12 +20,14 @@ const client = new HttpClient(CLOUD_FRONT_URL)
 
 export type JsonStoreState = {
   verifiedDenoms: string[]
+  latestBlockHeight: number
   spotMarkets: SpotMarket[]
   swapRoutes: JsonSwapRoute[]
   validators: JsonValidator[]
   restrictedCountries: string[]
   blacklistedAddresses: string[]
   spotGridMarkets: JsonGridMarket[]
+  chainUpgradeConfig: JsonChainUpgrade
   wasmQuery: Record<string, string[]>
   wasmExecute: Record<string, string[]>
   derivativeMarkets: DerivativeMarket[]
@@ -33,6 +36,7 @@ export type JsonStoreState = {
   helixMarketCategory: JsonHelixCategory
   verifiedSpotMarketMap: Record<string, string>
   verifiedDerivativeMarketMap: Record<string, string>
+  blockHeightPollingMap: Record<number, NodeJS.Timeout | null>
 }
 
 const getNetworkName = () => {
@@ -57,12 +61,15 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     verifiedDenoms: [],
     spotGridMarkets: [],
     expiryMarketMap: {},
+    latestBlockHeight: 0,
     derivativeMarkets: [],
     restrictedCountries: [],
     blacklistedAddresses: [],
     verifiedSpotMarketMap: {},
     derivativeGridMarkets: [],
+    blockHeightPollingMap: {},
     verifiedDerivativeMarketMap: {},
+    chainUpgradeConfig: {} as JsonChainUpgrade,
     helixMarketCategory: {} as JsonHelixCategory
   }),
 
@@ -73,6 +80,50 @@ export const useSharedJsonStore = defineStore('sharedJson', {
           ...state.helixMarketCategory.rwa,
           ...state.helixMarketCategory.iAssets
         ].find((market) => market.marketId === marketId) !== undefined
+      )
+    },
+    isMaintenanceMode: (state) => {
+      const blockHeightInBigNumber = new BigNumberInBase(
+        state.chainUpgradeConfig?.blockHeight || 0
+      )
+
+      if (blockHeightInBigNumber.isZero()) {
+        return false
+      }
+
+      if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
+        return false
+      }
+
+      return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
+        .minus(500)
+        .lte(state.latestBlockHeight)
+    },
+
+    hasUpcomingChainUpgrade: (state) => {
+      const blockHeightInBigNumber = new BigNumberInBase(
+        state.chainUpgradeConfig?.blockHeight || 0
+      )
+
+      if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
+        return false
+      }
+
+      return (
+        blockHeightInBigNumber.gt(0) &&
+        blockHeightInBigNumber.gt(state.latestBlockHeight)
+      )
+    },
+
+    isPostUpgradeMode: (state) => {
+      const blockHeightInBigNumber = new BigNumberInBase(
+        state.chainUpgradeConfig?.blockHeight || 0
+      )
+
+      return (
+        blockHeightInBigNumber.gt(0) &&
+        blockHeightInBigNumber.lt(state.latestBlockHeight) &&
+        blockHeightInBigNumber.plus(2000).gte(state.latestBlockHeight)
       )
     },
 
@@ -285,6 +336,82 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       jsonStore.blacklistedAddresses = data.data
+    },
+
+    async fetchChainUpgradeConfig() {
+      if (!IS_MAINNET) {
+        return
+      }
+
+      const jsonStore = useSharedJsonStore()
+
+      const {
+        paging: { total: latestBlockHeight }
+      } = await indexerRestExplorerApi.fetchBlocks({
+        limit: 1
+      })
+
+      jsonStore.latestBlockHeight = latestBlockHeight
+
+      // todo: replace with cloudfront link when features is ready to roll out to prod
+      // @ts-ignore
+      const client = new HttpClient(
+        'https://raw.githubusercontent.com/InjectiveLabs/injective-lists/feat/chain-upgrade/json/config'
+      )
+
+      const { data: config } = (await client.get('chainUpgrade.json')) as {
+        data: JsonChainUpgrade
+      }
+
+      console.log('fetchChainUpgradeConfig', { config, latestBlockHeight })
+
+      const isValidChainUpgradeConfig =
+        typeof config === 'object' &&
+        typeof config.proposalId === 'number' &&
+        config.proposalId > 0 &&
+        typeof config.proposalMsg === 'string' &&
+        config.proposalMsg.trim().length > 0 &&
+        typeof config.blockHeight === 'number' &&
+        config.blockHeight > 0
+
+      if (!isValidChainUpgradeConfig) {
+        return
+      }
+
+      if (config.blockHeight > latestBlockHeight) {
+        jsonStore.pollBlockHeight(config.blockHeight + 2000)
+      }
+
+      jsonStore.chainUpgradeConfig = config
+    },
+
+    pollBlockHeight(heightToPoll: number) {
+      const jsonStore = useSharedJsonStore()
+      const POLL_INTERVAL = 10 * 1000
+
+      const stopPolling = () => {
+        if (jsonStore.blockHeightPollingMap[heightToPoll]) {
+          clearInterval(jsonStore.blockHeightPollingMap[heightToPoll])
+          jsonStore.blockHeightPollingMap[heightToPoll] = null
+        }
+      }
+
+      const poll = async () => {
+        const {
+          paging: { total: latestBlockHeight }
+        } = await indexerRestExplorerApi.fetchBlocks({ limit: 1 })
+
+        jsonStore.latestBlockHeight = latestBlockHeight
+
+        if (latestBlockHeight >= heightToPoll) {
+          stopPolling()
+        }
+      }
+
+      jsonStore.blockHeightPollingMap[heightToPoll] = setInterval(
+        async () => await poll(),
+        POLL_INTERVAL
+      )
     }
   }
 })
