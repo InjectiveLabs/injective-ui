@@ -54,6 +54,12 @@ watch(
     }
   }
 )
+
+onMounted(() => {
+  if (props.modelValue) {
+    emit('on:open')
+  }
+})
 </script>
 
 <template>
