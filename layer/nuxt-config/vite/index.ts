@@ -3,7 +3,12 @@ import { ViteConfig } from '@nuxt/schema'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
-import { IS_BRIDGE, IS_HELIX, IS_EXPLORER } from './../../utils/constant'
+import {
+  IS_HELIX,
+  IS_BRIDGE,
+  IS_EXPLORER,
+  IS_ADMIN_UI
+} from './../../utils/constant'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
@@ -118,6 +123,15 @@ export default defineConfig({
                 '@wormhole-foundation/sdk/evm',
                 '@wormhole-foundation/sdk/solana',
                 '@wormhole-foundation/sdk/cosmwasm'
+              ]
+            : []),
+          ...(IS_ADMIN_UI
+            ? [
+                'axios',
+                'js-sha3',
+                'alchemy-sdk',
+                '@vuepic/vue-datepicker',
+                '@bangjelkoski/ens-validation'
               ]
             : []),
           ...(IS_HELIX

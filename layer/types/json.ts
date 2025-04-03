@@ -35,3 +35,10 @@ export type JsonSwapRoute = {
   source_denom: string
   target_denom: string
 }
+
+export type JsonChainUpgrade = {
+  proposalId: number
+  proposalMsg: string
+  blockHeight: number
+  disableMaintenance: boolean
+}

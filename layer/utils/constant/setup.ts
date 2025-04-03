@@ -137,6 +137,8 @@ export const VPN_CHECKS_ENABLED: boolean =
   import.meta.env.VITE_VPN_CHECKS_ENABLED === 'true'
 export const MAINTENANCE_ENABLED =
   import.meta.env.VITE_MAINTENANCE_ENABLED === 'true'
+export const MAINTENANCE_DISABLED =
+  import.meta.env.VITE_MAINTENANCE_DISABLED === 'true'
 export const GEO_IP_RESTRICTIONS_ENABLED: boolean =
   import.meta.env.VITE_GEO_IP_RESTRICTIONS_ENABLED === 'true'
 
@@ -156,4 +158,5 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
 
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
 export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
+export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'
 export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
