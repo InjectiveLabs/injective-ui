@@ -1,7 +1,7 @@
-import { createResolver } from '@nuxt/kit'
-import { defineNuxtConfig } from 'nuxt/config'
 import { vite } from './nuxt-config'
+import { createResolver } from '@nuxt/kit'
 import bugsnag from './nuxt-config/bugsnag'
+import { defineNuxtConfig } from 'nuxt/config'
 import { vitePlugins } from './nuxt-config/vite'
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -10,39 +10,40 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   vite,
+  bugsnag,
   plugins: vitePlugins,
   devtools: { enabled: true },
+
   alias: { '@shared': resolve('./') },
 
-  imports: {
-    dirs: ['composables/**', 'store/**', 'store/**/index.ts']
+  typescript: {
+    typeCheck: 'build'
+  },
+
+  pinia: {
+    autoImports: ['defineStore']
   },
 
   ignore: isProduction ? ['pages/sandbox.vue'] : [],
 
-  components: [{ path: resolve('./components'), prefix: 'Shared' }],
+  sourcemap: {
+    client: true,
+    server: false
+  },
 
-  pinia: {
-    autoImports: ['defineStore']
+  components: [{ prefix: 'Shared', path: resolve('./components') }],
+
+  imports: {
+    dirs: ['composables/**', 'store/**', 'store/**/index.ts']
   },
 
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
+    '@nuxt/eslint',
     '@nuxt/devtools',
     'nuxt-vitalizer',
     '@injectivelabs/nuxt-bugsnag'
-  ],
-
-  bugsnag,
-
-  typescript: {
-    typeCheck: 'build'
-  },
-
-  sourcemap: {
-    server: false,
-    client: true
-  }
+  ]
 })
