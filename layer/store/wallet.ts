@@ -1,124 +1,117 @@
 import { defineStore } from 'pinia'
+import { StatusType } from '@injectivelabs/utils'
+import { GeneralException } from '@injectivelabs/exceptions'
+import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {
   Wallet,
   isEvmWallet,
-  MagicProvider,
   isCosmosWallet
 } from '@injectivelabs/wallet-base'
 import {
   MsgGrant,
-  type Msgs,
   PrivateKey,
   msgsOrMsgExecMsgs,
   getEthereumAddress,
   getInjectiveAddress,
   getDefaultSubaccountId,
   MsgGrantWithAuthorization,
-  ContractExecutionCompatAuthz,
   getGenericAuthorizationFromMessageType
-  // NEPTUNE_USDT_CW20_CONTRACT
 } from '@injectivelabs/sdk-ts'
-import { StatusType } from '@injectivelabs/utils'
-import { GeneralException } from '@injectivelabs/exceptions'
 import {
   getAddresses,
   walletStrategy,
   msgBroadcaster,
   validateEvmWallet,
   validateCosmosWallet,
-  confirmCosmosWalletAddress,
+  getEvmWalletProvider,
   autoSignWalletStrategy,
   autoSignMsgBroadcaster,
-  getEvmWalletProvider
+  confirmCosmosWalletAddress
 } from '../WalletService'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {
   EventBus,
-  type AutoSign,
   GrantDirection,
   WalletConnectStatus
 } from '../types'
+import type { AutoSign } from '../types';
+import type { MagicProvider } from '@injectivelabs/wallet-base';
+import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts';
 
 type WalletStoreState = {
-  walletConnectStatus: WalletConnectStatus
+  wallet: Wallet
+  isDev: boolean
   address: string
-  injectiveAddress: string
-  addressConfirmation: string
   session: string
+  privateKey: string
   addresses: string[]
+  autoSign?: AutoSign
   hwAddresses: string[]
+  queueStatus: StatusType
+  injectiveAddress: string
   bitGetInstalled: boolean
   phantomInstalled: boolean
   metamaskInstalled: boolean
+  addressConfirmation: string
   okxWalletInstalled: boolean
-  trustWalletInstalled: boolean
-  wallet: Wallet
-  queueStatus: StatusType
-  isDev: boolean
 
+  trustWalletInstalled: boolean
+
+  walletConnectStatus: WalletConnectStatus
   authZ: {
     address: string
-    direction: GrantDirection
     injectiveAddress: string
+    direction: GrantDirection
     defaultSubaccountId: string
   }
-
-  autoSign?: AutoSign
-  privateKey: string
 }
 
 const initialStateFactory = (): WalletStoreState => ({
-  walletConnectStatus: WalletConnectStatus.idle,
   address: '',
-  injectiveAddress: '',
-  addressConfirmation: '',
   session: '',
+  isDev: false,
   addresses: [],
+  privateKey: '',
   hwAddresses: [],
-  wallet: Wallet.Metamask,
+  injectiveAddress: '',
   bitGetInstalled: false,
+  addressConfirmation: '',
+  wallet: Wallet.Metamask,
   phantomInstalled: false,
   metamaskInstalled: false,
   okxWalletInstalled: false,
   trustWalletInstalled: false,
-  isDev: false,
   queueStatus: StatusType.Idle,
+
+  walletConnectStatus: WalletConnectStatus.idle,
+
+  autoSign: {
+    duration: 0,
+    expiration: 0,
+    privateKey: '',
+    injectiveAddress: ''
+  },
 
   authZ: {
     address: '',
-    direction: GrantDirection.Grantee,
     injectiveAddress: '',
-    defaultSubaccountId: ''
-  },
-
-  autoSign: {
-    privateKey: '',
-    injectiveAddress: '',
-    expiration: 0,
-    duration: 0
-  },
-
-  privateKey: ''
+    defaultSubaccountId: '',
+    direction: GrantDirection.Grantee
+  }
 })
 
 export const useSharedWalletStore = defineStore('sharedWallet', {
   state: (): WalletStoreState => initialStateFactory(),
   getters: {
-    isUserConnected: (state) => {
-      const addressConnectedAndConfirmed =
-        !!state.address && !!state.addressConfirmation && !!state.session
-      const hasAddresses = state.addresses.length > 0
-
-      return (
-        state.walletConnectStatus !== WalletConnectStatus.connecting &&
-        hasAddresses &&
-        addressConnectedAndConfirmed &&
-        !!state.injectiveAddress
-      )
+    authZOrAddress: (state) => {
+      return state.authZ.address || state.address
     },
 
     isWalletExemptFromGasFee: (state) => {
       return !isCosmosWallet(state.wallet) && !IS_DEVNET
+    },
+
+    authZOrInjectiveAddress: (state) => {
+      return state.authZ.injectiveAddress || state.injectiveAddress
     },
 
     defaultSubaccountId: (state) => {
@@ -129,24 +122,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return getDefaultSubaccountId(state.injectiveAddress)
     },
 
-    isAuthzWalletConnected: (state) => {
-      const addressConnectedAndConfirmed =
-        !!state.address && !!state.addressConfirmation
-      const hasAddresses = state.addresses.length > 0
-      const isUserWalletConnected =
-        hasAddresses && addressConnectedAndConfirmed && !!state.injectiveAddress
-
-      return (
-        isUserWalletConnected &&
-        !!state.authZ.address &&
-        !!state.authZ.injectiveAddress
-      )
-    },
-
-    authZOrInjectiveAddress: (state) => {
-      return state.authZ.injectiveAddress || state.injectiveAddress
-    },
-
     authZOrDefaultSubaccountId: (state) => {
       return (
         state.authZ.defaultSubaccountId ||
@@ -154,10 +129,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           getDefaultSubaccountId(state.injectiveAddress)) ||
         ''
       )
-    },
-
-    authZOrAddress: (state) => {
-      return state.authZ.address || state.address
     },
 
     isAutoSignEnabled: (state) => {
@@ -174,9 +145,509 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       return true
+    },
+
+    isUserConnected: (state) => {
+      const addressConnectedAndConfirmed =
+        !!state.address && !!state.addressConfirmation && !!state.session
+      const hasAddresses = state.addresses.length > 0
+
+      return (
+        state.walletConnectStatus !== WalletConnectStatus.connecting &&
+        hasAddresses &&
+        addressConnectedAndConfirmed &&
+        !!state.injectiveAddress
+      )
+    },
+
+    isAuthzWalletConnected: (state) => {
+      const addressConnectedAndConfirmed =
+        !!state.address && !!state.addressConfirmation
+      const hasAddresses = state.addresses.length > 0
+      const isUserWalletConnected =
+        hasAddresses && addressConnectedAndConfirmed && !!state.injectiveAddress
+
+      return (
+        isUserWalletConnected &&
+        !!state.authZ.address &&
+        !!state.authZ.injectiveAddress
+      )
     }
   },
   actions: {
+    async validateAndQueue() {
+      const sharedWalletStore = useSharedWalletStore()
+
+      await sharedWalletStore.validate()
+
+      sharedWalletStore.queue()
+    },
+
+    async checkIsBitGetInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        bitGetInstalled: await !!getEvmWalletProvider(Wallet.BitGet)
+      })
+    },
+
+    async disconnectAutoSign() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        autoSign: undefined
+      })
+
+      await autoSignWalletStrategy.disconnect()
+    },
+
+    async checkIsMetamaskInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        metamaskInstalled: await !!getEvmWalletProvider(Wallet.Metamask)
+      })
+    },
+
+    async checkIsOkxWalletInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        okxWalletInstalled: await !!getEvmWalletProvider(Wallet.OkxWallet)
+      })
+    },
+
+    async checkIsPhantomWalletInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        phantomInstalled: await !!getEvmWalletProvider(Wallet.Phantom)
+      })
+    },
+
+    async checkIsTrustWalletInstalled() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        trustWalletInstalled: await !!getEvmWalletProvider(Wallet.TrustWallet)
+      })
+    },
+
+    onConnect() {
+      const modalStore = useSharedModalStore()
+      const walletStore = useSharedWalletStore()
+
+      modalStore.closeAll()
+
+      walletStore.$patch({
+        walletConnectStatus: WalletConnectStatus.connected
+      })
+
+      useEventBus(EventBus.WalletConnected).emit()
+    },
+
+    resetAuthZ() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        authZ: {
+          address: '',
+          injectiveAddress: '',
+          defaultSubaccountId: '',
+          direction: GrantDirection.Granter
+        }
+      })
+
+      walletStore.onConnect()
+    },
+
+    queue() {
+      const walletStore = useSharedWalletStore()
+
+      if (walletStore.queueStatus === StatusType.Loading) {
+        throw new GeneralException(new Error('You have a pending transaction.'))
+      } else {
+        walletStore.$patch({
+          queueStatus: StatusType.Loading
+        })
+      }
+    },
+
+    connectAuthZ(
+      injectiveAddress: string,
+      direction: GrantDirection = GrantDirection.Granter
+    ) {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.$patch({
+        authZ: {
+          direction,
+          injectiveAddress,
+          address: getEthereumAddress(injectiveAddress),
+          defaultSubaccountId: getDefaultSubaccountId(injectiveAddress)
+        }
+      })
+
+      walletStore.onConnect()
+    },
+
+    async connectBitGet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.BitGet)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectMetamask() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Metamask)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectOkxWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.OkxWallet)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectPhantomWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Phantom)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectTrustWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.TrustWallet)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectWalletConnect() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.WalletConnect)
+
+      const addresses = await getAddresses()
+
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectAddress(injectiveAddress: string) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Metamask)
+
+      const addresses = [getEthereumAddress(injectiveAddress)]
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        isDev: true,
+        injectiveAddress,
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectLedgerCosmos(injectiveAddress: string) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.LedgerCosmos)
+
+      const ethereumAddress = getEthereumAddress(injectiveAddress)
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      walletStore.$patch({
+        session,
+        injectiveAddress,
+        address: ethereumAddress,
+        addresses: [ethereumAddress],
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          injectiveAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectLeap() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Leap)
+
+      const injectiveAddresses = await getAddresses()
+      const [injectiveAddress] = injectiveAddresses
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      walletStore.$patch({
+        session,
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          injectiveAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectNinji() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Ninji)
+
+      const injectiveAddresses = await getAddresses()
+      const [injectiveAddress] = injectiveAddresses
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      walletStore.$patch({
+        session,
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          injectiveAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectCosmosStation() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Cosmostation)
+
+      const injectiveAddresses = await getAddresses()
+      const [injectiveAddress] = injectiveAddresses
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      walletStore.$patch({
+        session,
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          injectiveAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async init() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.walletConnectStatus = WalletConnectStatus.idle
+
+      await walletStrategy.setWallet(walletStore.wallet)
+
+      if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
+        await walletStore.connectMagic()
+      }
+
+      if (walletStore.autoSign) {
+        autoSignWalletStrategy.setOptions({
+          privateKey: walletStore.autoSign.privateKey as string
+        })
+      }
+
+      if (walletStore.privateKey) {
+        walletStore.connectWallet(Wallet.PrivateKey, {
+          privateKey: walletStore.privateKey
+        })
+      }
+    },
+
+    async connectLedger({
+      wallet,
+      address
+    }: {
+      wallet: Wallet
+      address: string
+    }) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(wallet)
+
+      const ethereumAddress = getEthereumAddress(address)
+      const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
+
+      walletStore.$patch({
+        session,
+        address: ethereumAddress,
+        injectiveAddress: address,
+        addresses: [ethereumAddress],
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          ethereumAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectTrezor({
+      wallet,
+      address
+    }: {
+      wallet: Wallet
+      address: string
+    }) {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(wallet)
+
+      const ethereumAddress = getEthereumAddress(address)
+      const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
+
+      walletStore.$patch({
+        session,
+        address: ethereumAddress,
+        injectiveAddress: address,
+        addresses: [ethereumAddress],
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          ethereumAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectKeplr() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.Keplr)
+
+      const injectiveAddresses = await getAddresses()
+      const [injectiveAddress] = injectiveAddresses
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      await confirmCosmosWalletAddress(Wallet.Keplr, injectiveAddress)
+
+      walletStore.$patch({
+        session,
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(
+          injectiveAddress
+        )
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectPrivateKey(privateKeyHash: string) {
+      const walletStore = useSharedWalletStore()
+
+      const pk = PrivateKey.fromHex(privateKeyHash)
+      const injectiveAddress = pk.toBech32()
+
+      await walletStore.connectWallet(Wallet.PrivateKey, {
+        privateKey: privateKeyHash
+      })
+
+      const address = getEthereumAddress(injectiveAddress)
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        injectiveAddress,
+        addresses: [address],
+        wallet: Wallet.PrivateKey,
+        privateKey: privateKeyHash,
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
     async validate() {
       const walletStore = useSharedWalletStore()
 
@@ -215,103 +686,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    queue() {
-      const walletStore = useSharedWalletStore()
-
-      if (walletStore.queueStatus === StatusType.Loading) {
-        throw new GeneralException(new Error('You have a pending transaction.'))
-      } else {
-        walletStore.$patch({
-          queueStatus: StatusType.Loading
-        })
-      }
-    },
-
-    async validateAndQueue() {
-      const sharedWalletStore = useSharedWalletStore()
-
-      await sharedWalletStore.validate()
-
-      sharedWalletStore.queue()
-    },
-
-    async init() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.walletConnectStatus = WalletConnectStatus.idle
-
-      await walletStrategy.setWallet(walletStore.wallet)
-
-      if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
-        await walletStore.connectMagic()
-      }
-
-      if (walletStore.autoSign) {
-        autoSignWalletStrategy.setOptions({
-          privateKey: walletStore.autoSign.privateKey as string
-        })
-      }
-
-      if (walletStore.privateKey) {
-        walletStore.connectWallet(Wallet.PrivateKey, {
-          privateKey: walletStore.privateKey
-        })
-      }
-    },
-
-    onConnect() {
-      const modalStore = useSharedModalStore()
-      const walletStore = useSharedWalletStore()
-
-      modalStore.closeAll()
-
-      walletStore.$patch({
-        walletConnectStatus: WalletConnectStatus.connected
-      })
-
-      useEventBus(EventBus.WalletConnected).emit()
-    },
-
-    async checkIsMetamaskInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        metamaskInstalled: await !!getEvmWalletProvider(Wallet.Metamask)
-      })
-    },
-
-    async checkIsTrustWalletInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        trustWalletInstalled: await !!getEvmWalletProvider(Wallet.TrustWallet)
-      })
-    },
-
-    async checkIsOkxWalletInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        okxWalletInstalled: await !!getEvmWalletProvider(Wallet.OkxWallet)
-      })
-    },
-
-    async checkIsBitGetInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        bitGetInstalled: await !!getEvmWalletProvider(Wallet.BitGet)
-      })
-    },
-
-    async checkIsPhantomWalletInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        phantomInstalled: await !!getEvmWalletProvider(Wallet.Phantom)
-      })
-    },
-
     async connectWallet(wallet: Wallet, options?: { privateKey: string }) {
       const walletStore = useSharedWalletStore()
 
@@ -339,6 +713,34 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           walletConnectStatus: WalletConnectStatus.connecting
         })
       }
+    },
+
+    async logout() {
+      const walletStore = useSharedWalletStore()
+
+      walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
+
+      await walletStrategy.disconnect()
+
+      walletStore.$patch({
+        ...initialStateFactory(),
+        autoSign: undefined,
+        queueStatus: StatusType.Idle,
+        bitGetInstalled: walletStore.bitGetInstalled,
+        phantomInstalled: walletStore.phantomInstalled,
+        metamaskInstalled: walletStore.metamaskInstalled,
+        okxWalletInstalled: walletStore.okxWalletInstalled,
+        walletConnectStatus: WalletConnectStatus.disconnected,
+        trustWalletInstalled: walletStore.trustWalletInstalled,
+        authZ: {
+          address: '',
+          injectiveAddress: '',
+          defaultSubaccountId: '',
+          direction: GrantDirection.Granter
+        }
+      })
+
+      useEventBus(EventBus.WalletDisconnected).emit()
     },
 
     async getHWAddresses(wallet: Wallet) {
@@ -376,292 +778,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async connectCosmosStation() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Cosmostation)
-
-      const injectiveAddresses = await getAddresses()
-      const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
-
-      walletStore.$patch({
-        injectiveAddress,
-        addresses: injectiveAddresses,
-        address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectNinji() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Ninji)
-
-      const injectiveAddresses = await getAddresses()
-      const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
-
-      walletStore.$patch({
-        injectiveAddress,
-        addresses: injectiveAddresses,
-        address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectKeplr() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Keplr)
-
-      const injectiveAddresses = await getAddresses()
-      const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
-
-      await confirmCosmosWalletAddress(Wallet.Keplr, injectiveAddress)
-
-      walletStore.$patch({
-        injectiveAddress,
-        addresses: injectiveAddresses,
-        address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectLedger({
-      wallet,
-      address
-    }: {
-      wallet: Wallet
-      address: string
-    }) {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(wallet)
-
-      const ethereumAddress = getEthereumAddress(address)
-      const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
-
-      walletStore.$patch({
-        address: ethereumAddress,
-        injectiveAddress: address,
-        addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          ethereumAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectLedgerCosmos(injectiveAddress: string) {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.LedgerCosmos)
-
-      const ethereumAddress = getEthereumAddress(injectiveAddress)
-      const session = await walletStrategy.getSessionOrConfirm()
-
-      walletStore.$patch({
-        injectiveAddress,
-        address: ethereumAddress,
-        addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectLeap() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Leap)
-
-      const injectiveAddresses = await getAddresses()
-      const [injectiveAddress] = injectiveAddresses
-      const session = await walletStrategy.getSessionOrConfirm()
-
-      walletStore.$patch({
-        injectiveAddress,
-        addresses: injectiveAddresses,
-        address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectMetamask() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Metamask)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        addresses,
-        address,
-        injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectTrezor({
-      wallet,
-      address
-    }: {
-      wallet: Wallet
-      address: string
-    }) {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(wallet)
-
-      const ethereumAddress = getEthereumAddress(address)
-      const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
-
-      walletStore.$patch({
-        address: ethereumAddress,
-        injectiveAddress: address,
-        addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          ethereumAddress
-        ),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectTrustWallet() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.TrustWallet)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        addresses,
-        injectiveAddress: getInjectiveAddress(address),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectWalletConnect() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.WalletConnect)
-
-      const addresses = await getAddresses()
-
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        injectiveAddress: getInjectiveAddress(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectOkxWallet() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.OkxWallet)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        injectiveAddress: getInjectiveAddress(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectPhantomWallet() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Phantom)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        injectiveAddress: getInjectiveAddress(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
-    async connectBitGet() {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.BitGet)
-
-      const addresses = await getAddresses()
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        addresses,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        injectiveAddress: getInjectiveAddress(address),
-        session
-      })
-
-      await walletStore.onConnect()
-    },
-
     async connectMagic(provider?: MagicProvider, email?: string) {
       const walletStore = useSharedWalletStore()
 
@@ -678,13 +794,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         const session = await walletStrategy.getSessionOrConfirm(address)
 
         walletStore.$patch({
+          session,
           address: ethereumAddress,
+          injectiveAddress: address,
           addresses: [ethereumAddress],
           addressConfirmation: await walletStrategy.getSessionOrConfirm(
             address
-          ),
-          injectiveAddress: address,
-          session
+          )
         })
 
         await walletStore.onConnect()
@@ -694,51 +810,42 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async connectAddress(injectiveAddress: string) {
+    async broadcastMessages(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
+      const broadcastOptions = await walletStore.prepareBroadcastMessages(
+        messages,
+        memo
+      )
 
-      await walletStore.connectWallet(Wallet.Metamask)
+      if (!broadcastOptions) {
+        return
+      }
 
-      const addresses = [getEthereumAddress(injectiveAddress)]
-      const [address] = addresses
-      const session = await walletStrategy.getSessionOrConfirm(address)
+      const msgs = Array.isArray(messages) ? messages : [messages]
 
-      walletStore.$patch({
-        address,
-        addresses,
-        injectiveAddress,
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        session,
-        isDev: true
-      })
+      const hasMsgExecuteContract = msgs.some(
+        (msg) =>
+          JSON.parse(msg.toJSON())['@type'] ===
+          MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
+      )
 
-      await walletStore.onConnect()
-    },
+      if (
+        walletStore.autoSign &&
+        !hasMsgExecuteContract &&
+        walletStore.isAutoSignEnabled
+      ) {
+        const response = await autoSignMsgBroadcaster.broadcastV2({
+          memo,
+          injectiveAddress: walletStore.autoSign.injectiveAddress,
+          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress)
+        })
 
-    async connectPrivateKey(privateKeyHash: string) {
-      const walletStore = useSharedWalletStore()
+        return response
+      }
 
-      const pk = PrivateKey.fromHex(privateKeyHash)
-      const injectiveAddress = pk.toBech32()
+      const response = await msgBroadcaster.broadcast(broadcastOptions)
 
-      await walletStore.connectWallet(Wallet.PrivateKey, {
-        privateKey: privateKeyHash
-      })
-
-      const address = getEthereumAddress(injectiveAddress)
-      const session = await walletStrategy.getSessionOrConfirm(address)
-
-      walletStore.$patch({
-        address,
-        session,
-        injectiveAddress,
-        addresses: [address],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(address),
-        wallet: Wallet.PrivateKey,
-        privateKey: privateKeyHash
-      })
-
-      await walletStore.onConnect()
+      return response
     },
 
     prepareBroadcastMessages(messages: Msgs | Msgs[], memo?: string) {
@@ -769,58 +876,20 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const broadcastOptions = {
+        memo,
         msgs: actualMessage,
-        injectiveAddress: walletStore.injectiveAddress,
-        memo
+        injectiveAddress: walletStore.injectiveAddress
       }
 
       return broadcastOptions
     },
 
-    async broadcastMessages(messages: Msgs | Msgs[], memo?: string) {
-      const walletStore = useSharedWalletStore()
-      const broadcastOptions = await walletStore.prepareBroadcastMessages(
-        messages,
-        memo
-      )
-
-      if (!broadcastOptions) {
-        return
-      }
-
-      const msgs = Array.isArray(messages) ? messages : [messages]
-
-      const hasMsgExecuteContract = msgs.some(
-        (msg) =>
-          JSON.parse(msg.toJSON())['@type'] ===
-          MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-      )
-
-      if (
-        walletStore.autoSign &&
-        !hasMsgExecuteContract &&
-        walletStore.isAutoSignEnabled
-      ) {
-        const response = await autoSignMsgBroadcaster.broadcastV2({
-          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress),
-          memo,
-          injectiveAddress: walletStore.autoSign.injectiveAddress
-        })
-
-        return response
-      }
-
-      const response = await msgBroadcaster.broadcast(broadcastOptions)
-
-      return response
-    },
-
     async broadcastWithFeeDelegation({
-      messages,
-      memo
+      memo,
+      messages
     }: {
-      messages: Msgs | Msgs[]
       memo?: string
+      messages: Msgs | Msgs[]
     }) {
       const walletStore = useSharedWalletStore()
 
@@ -869,79 +938,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       )
 
       return response
-    },
-
-    connectAuthZ(
-      injectiveAddress: string,
-      direction: GrantDirection = GrantDirection.Granter
-    ) {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        authZ: {
-          direction,
-          injectiveAddress,
-          address: getEthereumAddress(injectiveAddress),
-          defaultSubaccountId: getDefaultSubaccountId(injectiveAddress)
-        }
-      })
-
-      walletStore.onConnect()
-    },
-
-    async connectAutoSign(
-      msgsType: string[] = [],
-      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[] = []
-    ) {
-      if (msgsType.length === 0 && contractExecutionCompatAuthz.length === 0) {
-        throw new GeneralException(new Error('No messages provided'))
-      }
-
-      const walletStore = useSharedWalletStore()
-
-      const { privateKey } = PrivateKey.generate()
-      const injectiveAddress = privateKey.toBech32()
-
-      const nowInSeconds = Math.floor(Date.now() / 1000)
-      const expirationInSeconds = 60 * 60 * 24 * 3 // 3 days
-
-      const grantWithAuthorization = contractExecutionCompatAuthz.map(
-        (authorization) =>
-          MsgGrantWithAuthorization.fromJSON({
-            authorization,
-            grantee: injectiveAddress,
-            granter: walletStore.injectiveAddress,
-            expiration: nowInSeconds + expirationInSeconds
-          })
-      )
-
-      const authZMsgs = msgsType.map((messageType) =>
-        MsgGrant.fromJSON({
-          grantee: injectiveAddress,
-          granter: walletStore.injectiveAddress,
-          expiration: nowInSeconds + expirationInSeconds,
-          authorization: getGenericAuthorizationFromMessageType(messageType)
-        })
-      )
-
-      await walletStore.broadcastWithFeeDelegation({
-        messages: [...authZMsgs, ...grantWithAuthorization]
-      })
-
-      const autoSign = {
-        injectiveAddress,
-        privateKey: privateKey.toPrivateKeyHex(),
-        expiration: nowInSeconds + expirationInSeconds,
-        duration: expirationInSeconds
-      }
-
-      walletStore.$patch({
-        autoSign
-      })
-
-      autoSignWalletStrategy.setOptions({
-        privateKey: autoSign.privateKey
-      })
     },
 
     async validateAutoSign(
@@ -1000,57 +996,59 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
     },
 
-    resetAuthZ() {
+    async connectAutoSign(
+      msgsType: string[] = [],
+      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[] = []
+    ) {
+      if (msgsType.length === 0 && contractExecutionCompatAuthz.length === 0) {
+        throw new GeneralException(new Error('No messages provided'))
+      }
+
       const walletStore = useSharedWalletStore()
 
-      walletStore.$patch({
-        authZ: {
-          address: '',
-          defaultSubaccountId: '',
-          direction: GrantDirection.Granter,
-          injectiveAddress: ''
-        }
+      const { privateKey } = PrivateKey.generate()
+      const injectiveAddress = privateKey.toBech32()
+
+      const nowInSeconds = Math.floor(Date.now() / 1000)
+      const expirationInSeconds = 60 * 60 * 24 * 3 // 3 days
+
+      const grantWithAuthorization = contractExecutionCompatAuthz.map(
+        (authorization) =>
+          MsgGrantWithAuthorization.fromJSON({
+            authorization,
+            grantee: injectiveAddress,
+            granter: walletStore.injectiveAddress,
+            expiration: nowInSeconds + expirationInSeconds
+          })
+      )
+
+      const authZMsgs = msgsType.map((messageType) =>
+        MsgGrant.fromJSON({
+          grantee: injectiveAddress,
+          granter: walletStore.injectiveAddress,
+          expiration: nowInSeconds + expirationInSeconds,
+          authorization: getGenericAuthorizationFromMessageType(messageType)
+        })
+      )
+
+      await walletStore.broadcastWithFeeDelegation({
+        messages: [...authZMsgs, ...grantWithAuthorization]
       })
 
-      walletStore.onConnect()
-    },
-
-    async disconnectAutoSign() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        autoSign: undefined
-      })
-
-      await autoSignWalletStrategy.disconnect()
-    },
-
-    async logout() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
-
-      await walletStrategy.disconnect()
+      const autoSign = {
+        injectiveAddress,
+        duration: expirationInSeconds,
+        privateKey: privateKey.toPrivateKeyHex(),
+        expiration: nowInSeconds + expirationInSeconds
+      }
 
       walletStore.$patch({
-        ...initialStateFactory(),
-        authZ: {
-          address: '',
-          defaultSubaccountId: '',
-          direction: GrantDirection.Granter,
-          injectiveAddress: ''
-        },
-        autoSign: undefined,
-        queueStatus: StatusType.Idle,
-        bitGetInstalled: walletStore.bitGetInstalled,
-        phantomInstalled: walletStore.phantomInstalled,
-        metamaskInstalled: walletStore.metamaskInstalled,
-        okxWalletInstalled: walletStore.okxWalletInstalled,
-        walletConnectStatus: WalletConnectStatus.disconnected,
-        trustWalletInstalled: walletStore.trustWalletInstalled
+        autoSign
       })
 
-      useEventBus(EventBus.WalletDisconnected).emit()
+      autoSignWalletStrategy.setOptions({
+        privateKey: autoSign.privateKey
+      })
     }
   }
 })

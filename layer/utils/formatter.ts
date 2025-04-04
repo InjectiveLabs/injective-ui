@@ -3,8 +3,8 @@ import {
   BigNumberInWei,
   BigNumberInBase
 } from '@injectivelabs/utils'
-import { Coin } from '@injectivelabs/sdk-ts'
 import { TimeDuration } from './../types'
+import type { Coin } from '@injectivelabs/sdk-ts'
 
 export const sharedToBalanceInWei = ({
   value,
@@ -28,8 +28,8 @@ export const sharedToBalanceInTokenInBase = ({
 
 export const sharedToBalanceInToken = ({
   value,
-  fixedDecimals,
   roundingMode,
+  fixedDecimals,
   decimalPlaces = 18
 }: {
   value: string | number
@@ -64,10 +64,10 @@ export const sharedFormatSecondsToDisplay = ({
   }
 
   const output = {
+    [TimeDuration.Second]: Math.floor(value % 60),
     [TimeDuration.Day]: Math.floor(value / (3600 * 24)),
-    [TimeDuration.Hour]: Math.floor((value % (3600 * 24)) / 3600),
     [TimeDuration.Minute]: Math.floor((value % 3600) / 60),
-    [TimeDuration.Second]: Math.floor(value % 60)
+    [TimeDuration.Hour]: Math.floor((value % (3600 * 24)) / 3600)
   } as Record<string, number>
 
   if (!roundUp) {
@@ -174,8 +174,8 @@ export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
     const [amount, ...denom] = coin.split(/(\d+)/).filter(Boolean)
 
     return {
-      denom: denom.join(''),
-      amount
+      amount,
+      denom: denom.join('')
     }
   })
 }
