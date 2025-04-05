@@ -128,7 +128,7 @@ export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
 export const PROXY_DETECTION_API_KEY =
   import.meta.env.VITE_PROXY_DETECTION_API_KEY || ''
-export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY_DEV as string
+export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY as string
 export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
 export const MAGIC_APK_KEY = import.meta.env.VITE_MAGIC_APK_KEY || ''
 export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
