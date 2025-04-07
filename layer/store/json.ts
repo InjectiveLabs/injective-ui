@@ -5,8 +5,8 @@ import {
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
 import { HttpClient } from '@injectivelabs/utils'
-import { tokenStaticFactory, tokenStaticFactory } from '../Service'
-import { IS_MAINNET, IS_TESTNET, IS_PREVIEW } from '../utils/constant'
+import { tokenStaticFactory } from '../Service'
+import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
 import type {
   JsonValidator,
   JsonSwapRoute,
