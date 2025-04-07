@@ -19,7 +19,6 @@ export type JsonHelixCategory = {
   newMarkets: JsonSlugMarketId[]
   iAssets: JsonSlugMarketId[]
   rwa: JsonSlugMarketId[]
-  tradfiMarkets: JsonSlugMarketId[]
   deprecated: JsonSlugMarketId[]
   trending: JsonSlugMarketId[]
   injective: JsonSlugMarketId[]

@@ -5,13 +5,13 @@ import {
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
 import { HttpClient } from '@injectivelabs/utils'
-import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
-import { tokenStaticFactory } from '../Service'
-import {
-  type JsonValidator,
-  type JsonSwapRoute,
-  type JsonGridMarket,
-  type JsonHelixCategory
+import { tokenStaticFactory, tokenStaticFactory } from '../Service'
+import { IS_MAINNET, IS_TESTNET, IS_PREVIEW } from '../utils/constant'
+import type {
+  JsonValidator,
+  JsonSwapRoute,
+  JsonGridMarket,
+  JsonHelixCategory
 } from './../types'
 
 const CLOUD_FRONT_URL = 'https://d36789lqgasyke.cloudfront.net'
@@ -67,6 +67,15 @@ export const useSharedJsonStore = defineStore('sharedJson', {
   }),
 
   getters: {
+    isTradeFiMarket: (state) => (marketId: string) => {
+      return (
+        [
+          ...state.helixMarketCategory.rwa,
+          ...state.helixMarketCategory.iAssets
+        ].find((market) => market.marketId === marketId) !== undefined
+      )
+    },
+
     verifiedSpotMarketIds: (state) =>
       Object.values(state.verifiedSpotMarketMap),
     verifiedSpotSlugs: (state) => Object.keys(state.verifiedSpotMarketMap),
