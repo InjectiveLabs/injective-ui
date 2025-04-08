@@ -7,3 +7,7 @@ export const dataCyTag = (tag: string): string => {
 
   return `${routeName}-${tag}`
 }
+
+export const commonCyTag = (tag: string): string => {
+  return `common-${tag}`
+}
