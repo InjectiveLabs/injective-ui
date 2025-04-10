@@ -76,7 +76,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
   getters: {
     expirySlugs: (state) => Object.keys(state.expiryMarketMap),
-    
+
     expiryMarketIds: (state) => Object.values(state.expiryMarketMap),
 
     verifiedSpotSlugs: (state) => Object.keys(state.verifiedSpotMarketMap),
@@ -407,7 +407,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       // todo: replace with cloudfront link when features is ready to roll out to prod
       // @ts-ignore
       const client = new HttpClient(
-        'https://raw.githubusercontent.com/InjectiveLabs/injective-lists/feat/chain-upgrade/json/config'
+        'https://raw.githubusercontent.com/InjectiveLabs/injective-lists/master/json/config'
       )
 
       const { data: config } = (await client.get('chainUpgrade.json')) as {
