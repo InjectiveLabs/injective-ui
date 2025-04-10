@@ -90,20 +90,20 @@ const MITO_MAINNET_API_ENDPOINT =
 export const MITO_API_ENDPOINTS: Record<Network, string> = {
   [Network.Local]: MITO_DEVNET_API_ENDPOINT,
   [Network.Devnet]: MITO_DEVNET_API_ENDPOINT,
-  [Network.Devnet1]: 'https://devnet-1.api.ninja.injective.dev',
-  [Network.Devnet2]: 'https://devnet-2.api.ninja.injective.dev',
-  [Network.Devnet3]: 'https://devnet-3.api.ninja.injective.dev',
   [Network.Testnet]: MITO_TESTNET_API_ENDPOINT,
-  [Network.TestnetSentry]: MITO_TESTNET_API_ENDPOINT,
-  [Network.TestnetOld]: MITO_TESTNET_API_ENDPOINT,
-  [Network.TestnetK8s]: MITO_TESTNET_API_ENDPOINT,
-  [Network.Staging]: 'https://staging.api.mito.injective.network',
   [Network.Mainnet]: MITO_MAINNET_API_ENDPOINT,
   [Network.Internal]: MITO_MAINNET_API_ENDPOINT,
   [Network.MainnetLB]: MITO_MAINNET_API_ENDPOINT,
+  [Network.TestnetOld]: MITO_TESTNET_API_ENDPOINT,
+  [Network.TestnetK8s]: MITO_TESTNET_API_ENDPOINT,
   [Network.MainnetK8s]: MITO_MAINNET_API_ENDPOINT,
   [Network.MainnetOld]: MITO_MAINNET_API_ENDPOINT,
-  [Network.MainnetSentry]: MITO_MAINNET_API_ENDPOINT
+  [Network.TestnetSentry]: MITO_TESTNET_API_ENDPOINT,
+  [Network.MainnetSentry]: MITO_MAINNET_API_ENDPOINT,
+  [Network.Devnet1]: 'https://devnet-1.api.ninja.injective.dev',
+  [Network.Devnet2]: 'https://devnet-2.api.ninja.injective.dev',
+  [Network.Devnet3]: 'https://devnet-3.api.ninja.injective.dev',
+  [Network.Staging]: 'https://staging.api.mito.injective.network'
 }
 
 export const MITO_API_ENDPOINT =
@@ -135,8 +135,8 @@ export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
 
 export const VPN_CHECKS_ENABLED: boolean =
   import.meta.env.VITE_VPN_CHECKS_ENABLED === 'true'
-export const MAINTENANCE_ENABLED =
-  import.meta.env.VITE_MAINTENANCE_ENABLED === 'true'
+export const MAINTENANCE_DISABLED =
+  import.meta.env.VITE_MAINTENANCE_DISABLED === 'true'
 export const GEO_IP_RESTRICTIONS_ENABLED: boolean =
   import.meta.env.VITE_GEO_IP_RESTRICTIONS_ENABLED === 'true'
 
@@ -156,4 +156,6 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
 
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
 export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
+export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'
 export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
+export const IS_TRADING_UI = import.meta.env.VITE_PRODUCT === 'trading'

@@ -39,3 +39,5 @@ export const MSG_TYPE_URL_MSG_EXECUTE_CONTRACT =
   '/injective.wasmx.v1.MsgExecuteContractCompat'
 
 export const JSON_POLL_INTERVAL = 1000 * 60 * 10 // 10 minutes
+
+export const NOTIFI_LINK = 'https://injective.notifi.network'

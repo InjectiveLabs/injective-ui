@@ -1,9 +1,15 @@
 import { defineConfig } from 'vite'
-import { ViteConfig } from '@nuxt/schema'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
-import { IS_BRIDGE, IS_HELIX, IS_EXPLORER } from './../../utils/constant'
+import {
+  IS_HELIX,
+  IS_BRIDGE,
+  IS_EXPLORER,
+  IS_ADMIN_UI,
+  IS_TRADING_UI
+} from './../../utils/constant'
+import type { ViteConfig } from '@nuxt/schema'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
@@ -36,6 +42,17 @@ const additionalDeps = [
 export default defineConfig({
   plugins: [tsconfigPaths(), nodePolyfills({ protocolImports: true })],
 
+  server: {
+    watch: {
+      usePolling: true
+    },
+
+    fs: {
+      // Allow serving files from one level up to the project root
+      allow: ['..']
+    }
+  },
+
   build: {
     sourcemap: buildSourceMap,
 
@@ -63,18 +80,8 @@ export default defineConfig({
     }
   },
 
-  server: {
-    watch: {
-      usePolling: true
-    },
-
-    fs: {
-      // Allow serving files from one level up to the project root
-      allow: ['..']
-    }
-  },
-
   optimizeDeps: {
+    exclude: ['fsevents'],
     include: isProduction
       ? []
       : [
@@ -120,12 +127,21 @@ export default defineConfig({
                 '@wormhole-foundation/sdk/cosmwasm'
               ]
             : []),
+          ...(IS_ADMIN_UI
+            ? [
+                'axios',
+                'js-sha3',
+                'alchemy-sdk',
+                '@vuepic/vue-datepicker',
+                '@bangjelkoski/ens-validation'
+              ]
+            : []),
           ...(IS_HELIX
             ? [
                 'gsap',
+                'html-to-image',
                 'gsap/ScrollTrigger',
-                'gsap/ScrollToPlugin',
-                'html-to-image'
+                'gsap/ScrollToPlugin'
               ]
             : []),
           ...(IS_EXPLORER
@@ -135,12 +151,19 @@ export default defineConfig({
                 'ace-builds/src-noconflict/mode-json',
                 'ace-builds/src-noconflict/theme-chrome'
               ]
-            : [])
-        ],
-    exclude: ['fsevents']
+            : []),
+            ...(IS_TRADING_UI ? [
+              '@shared/types', 
+              '@shared/data/token', 
+              '@shared/WalletService', 
+              '@shared/utils/formatter', 
+              '@shared/transformer/market', 
+              '@shared/transformer/oracle'
+            ] : [])
+        ]
   }
 }) as ViteConfig
 
 export const vitePlugins = [
-  { src: resolve('./../../nuxt-config/buffer.ts'), ssr: false }
+  { ssr: false, src: resolve('./../../nuxt-config/buffer.ts') }
 ]
