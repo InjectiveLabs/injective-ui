@@ -404,17 +404,11 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       jsonStore.latestBlockHeight = latestBlockHeight
 
-      // todo: replace with cloudfront link when features is ready to roll out to prod
-      // @ts-ignore
-      const client = new HttpClient(
-        'https://raw.githubusercontent.com/InjectiveLabs/injective-lists/master/json/config'
-      )
-
-      const { data: config } = (await client.get('chainUpgrade.json')) as {
+      const {data : config } = (await client.get(
+        `json/config/chainUpgrade.json`
+      )) as {
         data: JsonChainUpgrade
       }
-
-      console.log('fetchChainUpgradeConfig', { config, latestBlockHeight })
 
       const isValidChainUpgradeConfig =
         typeof config === 'object' &&
