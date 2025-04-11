@@ -79,6 +79,7 @@ export enum NuxtUiIcons {
   Copy = 'bxs:copy-alt',
   Copy2 = 'clarity:copy-line',
   Copy3 = 'ic:baseline-content-copy',
+  ContractEdit = 'material-symbols-light:contract-edit-outline',
   Database = 'fa-solid:database',
   DashCircle = 'bi:dash-circle',
   Discord = 'ic:baseline-discord',
