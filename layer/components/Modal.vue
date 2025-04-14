@@ -80,7 +80,7 @@ onMounted(() => {
         v-if="!isHideCloseButton && !preventClose"
         :class="[
           $slots.header ? 'top-5' : 'top-6',
-          'absolute max-sm:right-4 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent'
+          'absolute max-sm:right-4 right-6 z-10 text-white hover:text-gray-300 dark:text-white dark:hover:text-gray-300 transition p-0 hover:bg-transparent hover:dark:bg-transparent focus-visible:ring-0'
         ]"
         variant="ghost"
         @click="onClose"
