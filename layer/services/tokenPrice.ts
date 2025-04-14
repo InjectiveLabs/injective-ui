@@ -36,7 +36,7 @@ const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
   }
 
   if (isDevnet(network)) {
-    return DEVNET_ASSET_PRICE_SERVICE_URL
+    return ASSET_PRICE_SERVICE_URL
   }
 
   return ASSET_PRICE_SERVICE_URL
