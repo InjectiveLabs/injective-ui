@@ -1,11 +1,11 @@
+import { CoinGeckoApiService } from './CoinGeckoApi'
+import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
 import {
   sleep,
   HttpRestClient,
   BigNumberInBase,
   splitArrayToChunks
 } from '@injectivelabs/utils'
-import { CoinGeckoApiService } from './CoinGeckoApi'
-import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
 
 interface TokenStaticWithPrice {
   denom: string
@@ -14,9 +14,9 @@ interface TokenStaticWithPrice {
     price: number
     metadata: {
       source: string
+      height: number
       market_id: string
       market_price: number
-      height: number
     }
   }
 }
@@ -43,14 +43,14 @@ const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
 }
 
 export class TokenPrice {
-  private coinGeckoApi: CoinGeckoApiService | undefined
+  private coinGeckoApi: undefined | CoinGeckoApiService
   private client: HttpRestClient
 
   constructor(
     network: Network,
     coinGeckoOptions: {
-      baseUrl: string
       apiKey: string
+      baseUrl: string
     }
   ) {
     this.coinGeckoApi = new CoinGeckoApiService(coinGeckoOptions)
@@ -62,7 +62,7 @@ export class TokenPrice {
   async fetchUsdTokensPrice(coinGeckoIds: string[] = []) {
     const response = await this.client.retry<{
       data: Record<string, TokenStaticWithPrice>
-    }>(() => this.client.get(`denoms?withPrice=true`))
+    }>(() => this.client.get(`denoms?withPrice=true&onlyActive=true`))
 
     const tokenPriceMap: Record<string, number> = Object.values(
       response.data
@@ -110,8 +110,8 @@ export class TokenPrice {
         }
       },
       { denomPriceMap: {}, coinGeckoIdList: [] } as {
-        denomPriceMap: Record<string, number>
         coinGeckoIdList: string[]
+        denomPriceMap: Record<string, number>
       }
     )
 
@@ -135,28 +135,6 @@ export class TokenPrice {
       ...tokenPriceMap,
       ...formattedCoinGeckoIdsPriceMap,
       ...denomPriceMap
-    }
-  }
-
-  private fetchUsdTokenPriceFromCoinGeckoNoThrow = async (coinId: string) => {
-    if (!coinId) {
-      return 0
-    }
-
-    if (!this.coinGeckoApi) {
-      return 0
-    }
-
-    try {
-      const priceInUsd = await this.coinGeckoApi.fetchUsdPrice(coinId)
-
-      if (!priceInUsd) {
-        return 0
-      }
-
-      return new BigNumberInBase(priceInUsd).toNumber()
-    } catch (e: unknown) {
-      return 0
     }
   }
 
@@ -202,5 +180,27 @@ export class TokenPrice {
     )
 
     return prices
+  }
+
+  private fetchUsdTokenPriceFromCoinGeckoNoThrow = async (coinId: string) => {
+    if (!coinId) {
+      return 0
+    }
+
+    if (!this.coinGeckoApi) {
+      return 0
+    }
+
+    try {
+      const priceInUsd = await this.coinGeckoApi.fetchUsdPrice(coinId)
+
+      if (!priceInUsd) {
+        return 0
+      }
+
+      return new BigNumberInBase(priceInUsd).toNumber()
+    } catch (e: unknown) {
+      return 0
+    }
   }
 }
