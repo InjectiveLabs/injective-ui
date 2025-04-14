@@ -1,20 +1,21 @@
-import { Network, isTestnetOrDevnet } from '@injectivelabs/networks'
 import { BigNumberInWei } from '@injectivelabs/utils'
 import { Web3Exception } from '@injectivelabs/exceptions'
+import { isTestnetOrDevnet } from '@injectivelabs/networks'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
-import { injToken, injErc20Token, injectivePeggyAddress } from '../data/token'
 import { getKeyFromRpcUrl, peggyDenomToContractAddress } from './utils'
+import { injToken, injErc20Token, injectivePeggyAddress } from '../data/token'
+import type { Network} from '@injectivelabs/networks';
 
 /**
  * Preparing and broadcasting
  * Ethereum transactions
  */
 export class Web3Client {
+  private alchemy: Alchemy | undefined
+
   private network: Network
 
   private rpc: string
-
-  private alchemy: Alchemy | undefined
 
   constructor({ rpc, network }: { rpc: string; network: Network }) {
     this.rpc = rpc
@@ -72,21 +73,11 @@ export class Web3Client {
         balance: new BigNumberInWei(balance || 0).toFixed(),
         allowance: new BigNumberInWei(allowance || 0).toFixed()
       }
-    } catch (e) {
+    } catch {
       return {
         balance: new BigNumberInWei(0).toFixed(),
         allowance: new BigNumberInWei(0).toFixed()
       }
-    }
-  }
-
-  async fetchTokenMetaData(address: string) {
-    const alchemy = await this.getAlchemy()
-
-    try {
-      return await alchemy.core.getTokenMetadata(address)
-    } catch (e: unknown) {
-      throw new Web3Exception(new Error(e as any))
     }
   }
 
@@ -97,6 +88,16 @@ export class Web3Client {
       const ethBalance = await alchemy.core.getBalance(address, 'latest')
 
       return ethBalance.toString()
+    } catch (e: unknown) {
+      throw new Web3Exception(new Error(e as any))
+    }
+  }
+
+  async fetchTokenMetaData(address: string) {
+    const alchemy = await this.getAlchemy()
+
+    try {
+      return await alchemy.core.getTokenMetadata(address)
     } catch (e: unknown) {
       throw new Web3Exception(new Error(e as any))
     }

@@ -5,7 +5,7 @@ import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
 import {
   Wallet,
   isEvmWallet,
-  isCosmosWallet
+  isCosmosWallet,
 } from '@injectivelabs/wallet-base'
 import {
   MsgGrant,
@@ -17,6 +17,7 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
+import { web3GatewayService } from './../Service'
 import {
   getAddresses,
   walletStrategy,
@@ -33,15 +34,17 @@ import {
   GrantDirection,
   WalletConnectStatus
 } from '../types'
-import type { AutoSign } from '../types';
 import type { MagicProvider } from '@injectivelabs/wallet-base';
+import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts';
+import type { AutoSign } from '../types';
 
 type WalletStoreState = {
   wallet: Wallet
   isDev: boolean
   address: string
   session: string
+  isEip712: boolean
   privateKey: string
   addresses: string[]
   autoSign?: AutoSign
@@ -72,6 +75,7 @@ const initialStateFactory = (): WalletStoreState => ({
   addresses: [],
   privateKey: '',
   hwAddresses: [],
+  isEip712: true,
   injectiveAddress: '',
   bitGetInstalled: false,
   addressConfirmation: '',
@@ -804,7 +808,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         })
 
         await walletStore.onConnect()
-      } catch (e: any) {
+      } catch {
         walletStore.wallet = initialStateFactory().wallet
         walletStore.walletConnectStatus = WalletConnectStatus.idle
       }
@@ -914,6 +918,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       if (
+        !walletStore.isEip712 &&
         walletStore.autoSign &&
         !hasMsgExecuteContract &&
         walletStore.isAutoSignEnabled
@@ -933,9 +938,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return response
       }
 
-      const response = await msgBroadcaster.broadcastWithFeeDelegation(
-        broadcastOptions
-      )
+      const action = walletStore.isEip712 
+          ? (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastV2(params)
+          : (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastWithFeeDelegation(params);
+
+      const response = await action(broadcastOptions)
 
       return response
     },
@@ -1048,6 +1055,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       autoSignWalletStrategy.setOptions({
         privateKey: autoSign.privateKey
+      })
+    },
+
+    async fetchWeb3GatewayStatus() {
+      const walletStore = useSharedWalletStore()
+
+      const status = await web3GatewayService.healthCheck()
+      
+      walletStore.$patch({
+        isEip712: !status
       })
     }
   }
