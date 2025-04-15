@@ -14,6 +14,11 @@ export enum EventBus {
   WalletDisconnected = 'wallet-disconnected'
 }
 
+export enum CommonCyTags {
+  NotificationTitle = 'notification-title',
+  NotificationDescription = 'notification-description',
+}
+
 export enum WalletConnectStatus {
   idle = 'Idle',
   connected = 'Connected',
@@ -141,7 +146,6 @@ export enum NuxtUiIcons {
   TelegramCircle = 'cib:telegram',
   Trash = 'mdi:bin-outline',
   Trash2 = 'bi:trash',
-  Triangle = 'bi:caret-down-fill',
   TriangleDown = 'bi:caret-down-fill',
   TriangleUp = 'bi:caret-up-fill',
   Trophy = 'bi:trophy-fill',

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import { CommonCyTags, NotificationType } from './../types'
 import type { PropType } from 'vue'
-import { type Notification, NotificationType } from './../types'
+import type {  Notification } from './../types'
 
 const notificationStore = useSharedNotificationStore()
 const { copy } = useClipboard()
@@ -33,6 +34,10 @@ function onCopy() {
   copy(props.notification.context)
 }
 
+function onResume() {
+  timeout.value = setTimeout(onClose, remainingTimeout.value)
+}
+
 function onClose() {
   notificationStore.clear(props.notification.id)
   clearTimeout(timeout.value)
@@ -41,10 +46,6 @@ function onClose() {
 function onPause() {
   clearTimeout(timeout.value)
   remainingTimeout.value -= Date.now() - props.notification.id
-}
-
-function onResume() {
-  timeout.value = setTimeout(onClose, remainingTimeout.value)
 }
 </script>
 
@@ -89,7 +90,7 @@ function onResume() {
           </slot>
         </div>
         <div class="flex flex-col gap-2" :class="contentClass">
-          <span class="text-sm font-semibold">
+          <span class="text-sm font-semibold" :data-cy="commonCyTag(CommonCyTags.NotificationTitle)">
             <slot name="custom">
               {{ notification.title }}
             </slot>
@@ -98,6 +99,7 @@ function onResume() {
           <span
             v-if="notification.description"
             class="text-xs text-gray-400 flex items-center ui-notification-description"
+            :data-cy="commonCyTag(CommonCyTags.NotificationDescription)"
           >
             {{ notification.description }}
           </span>
