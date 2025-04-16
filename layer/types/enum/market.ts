@@ -1,23 +1,23 @@
-export enum SharedMarketType {
-  Favorite = 'Favorite',
-  Spot = 'Spot',
-  Derivative = 'Derivative',
-  Perpetual = 'Perpetual',
-  Futures = 'Futures',
-  BinaryOptions = 'BinaryOptions'
-}
-
 export enum SharedMarketChange {
   New = 'new',
-  NoChange = 'no-change',
   Increase = 'increase',
-  Decrease = 'decrease'
+  Decrease = 'decrease',
+  NoChange = 'no-change'
 }
 
 export enum SharedMarketStatus {
-  Unspecified = 'unspecified',
-  Active = 'active',
-  Paused = 'paused',
-  Demolished = 'demolished',
-  Expired = 'expired'
+  Active = 'Active',
+  Paused = 'Paused',
+  Expired = 'Expired',
+  Demolished = 'Demolished',
+  Unspecified = 'Unspecified'
+}
+
+export enum SharedMarketType {
+  Spot = 'Spot',
+  Futures = 'Futures',
+  Favorite = 'Favorite',
+  Perpetual = 'Perpetual',
+  Derivative = 'Derivative',
+  BinaryOptions = 'BinaryOptions'
 }

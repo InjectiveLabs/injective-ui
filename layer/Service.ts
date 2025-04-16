@@ -1,3 +1,26 @@
+import { Web3Client } from './services/Web3Client'
+import { PythService } from './services/pythClient'
+import { alchemyRpcEndpoint } from './wallet/alchemy'
+import { InjNameService } from './services/nameService'
+import { SpotCacheApi } from './providers/cacheApi/spot'
+import { InjBonfidaNameService } from './services/bonfida'
+import { SharedTokenClient } from './services/tokenClient'
+import { TokenCacheApi } from './providers/cacheApi/token'
+import { CachePythService } from './services/cachePythClient'
+import { CoinGeckoApiService } from './services/CoinGeckoApi'
+import { StakingCacheApi } from './providers/cacheApi/staking'
+import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
+import { DerivativeCacheApi } from './providers/cacheApi/derivative'
+import { TokenPrice as TokenPriceService } from './services/tokenPrice'
+import {
+  NETWORK,
+  ENDPOINTS,
+  IS_MAINNET,
+  ALCHEMY_KEY,
+  COINGECKO_KEY,
+  MITO_API_ENDPOINT,
+  ALCHEMY_SEPOLIA_KEY
+} from './utils/constant'
 import {
   ChainGrpcGovApi,
   ChainGrpcIbcApi,
@@ -27,29 +50,6 @@ import {
   IndexerGrpcAccountPortfolioApi,
   IndexerRestDerivativesChronosApi
 } from '@injectivelabs/sdk-ts'
-import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
-import {
-  NETWORK,
-  ENDPOINTS,
-  IS_MAINNET,
-  ALCHEMY_KEY,
-  COINGECKO_KEY,
-  MITO_API_ENDPOINT,
-  ALCHEMY_SEPOLIA_KEY
-} from './utils/constant'
-import { Web3Client } from './services/Web3Client'
-import { PythService } from './services/pythClient'
-import { alchemyRpcEndpoint } from './wallet/alchemy'
-import { InjNameService } from './services/nameService'
-import { SpotCacheApi } from './providers/cacheApi/spot'
-import { InjBonfidaNameService } from './services/bonfida'
-import { SharedTokenClient } from './services/tokenClient'
-import { TokenCacheApi } from './providers/cacheApi/token'
-import { CachePythService } from './services/cachePythClient'
-import { CoinGeckoApiService } from './services/CoinGeckoApi'
-import { StakingCacheApi } from './providers/cacheApi/staking'
-import { DerivativeCacheApi } from './providers/cacheApi/derivative'
-import { TokenPrice as TokenPriceService } from './services/tokenPrice'
 
 // Services
 export const ibcApi = new ChainGrpcIbcApi(ENDPOINTS.grpc)

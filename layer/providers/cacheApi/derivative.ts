@@ -1,18 +1,18 @@
+import { BaseCacheApi } from './base'
+import { IS_MAINNET } from './../../utils/constant'
 import {
+  indexerDerivativesApi,
+  indexerRestDerivativeChronosApi
+} from '../../Service'
+import type {
   PerpetualMarket,
   DerivativeMarket,
   ExpiryFuturesMarket,
   AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
-import {
-  indexerDerivativesApi,
-  indexerRestDerivativeChronosApi
-} from '../../Service'
-import { BaseCacheApi } from './base'
-import { IS_MAINNET } from './../../utils/constant'
 
 export class DerivativeCacheApi extends BaseCacheApi {
-  async fetchMarkets(props?: { marketStatus?: string }) {
+  async fetchMarkets() {
     const fetchFromExchange = async () => {
       const markets = (await indexerDerivativesApi.fetchMarkets()) as Array<
         PerpetualMarket | ExpiryFuturesMarket
@@ -27,12 +27,11 @@ export class DerivativeCacheApi extends BaseCacheApi {
 
     try {
       const response = await this.client.get<DerivativeMarket[]>(
-        '/derivatives/markets',
-        { params: { marketStatus: props?.marketStatus } }
+        '/v1/cache/derivatives/markets'        
       )
 
       return response.data
-    } catch (e) {
+    } catch{
       return fetchFromExchange()
     }
   }
@@ -52,10 +51,10 @@ export class DerivativeCacheApi extends BaseCacheApi {
     try {
       const response = await this.client.get<
         AllChronosDerivativeMarketSummary[]
-      >('/derivatives/summary')
+      >('/v1/cache/derivatives/summary')
 
       return response.data
-    } catch (e) {
+    } catch{
       return fetchFromExchange()
     }
   }
