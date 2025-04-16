@@ -78,7 +78,7 @@ export const ENDPOINTS = {
   explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
   cacheRest:
     env.VITE_CACHE_REST_API_ENDPOINT ||
-    'https://injective-nuxt-api-staging.vercel.app/api'
+    'https://injective-nuxt-api.vercel.app/api'
 }
 
 const MITO_DEVNET_API_ENDPOINT = 'https://devnet.api.ninja.injective.dev'
