@@ -6,11 +6,11 @@ export enum SharedMarketChange {
 }
 
 export enum SharedMarketStatus {
-  Active = 'Active',
-  Paused = 'Paused',
-  Expired = 'Expired',
-  Demolished = 'Demolished',
-  Unspecified = 'Unspecified'
+  Active = 'active',
+  Paused = 'paused',
+  Expired = 'expired',
+  Demolished = 'demolished',
+  Unspecified = 'unspecified'
 }
 
 export enum SharedMarketType {
