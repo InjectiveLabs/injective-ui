@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
+import type { AxiosInstance } from 'axios';
 
 export class BaseCacheApi {
   client: AxiosInstance
