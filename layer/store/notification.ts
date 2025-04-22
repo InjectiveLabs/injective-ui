@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { Notification, NotificationType, NotificationOptions } from './../types'
-
-const DEFAULT_TIMEOUT = 6 * 1000
+import { DEFAULT_NOTIFICATION_TIMEOUT } from '../utils/constant/index'
 
 type NotificationStoreState = {
   notifications: Notification[]
@@ -39,7 +38,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
             actions: options.actions,
             description: options.description,
             isTemplateString: options.isTemplateString,
-            timeout: options.timeout || DEFAULT_TIMEOUT
+            timeout: options.timeout || DEFAULT_NOTIFICATION_TIMEOUT
           }
         ]
       })

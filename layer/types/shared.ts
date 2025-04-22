@@ -1,9 +1,10 @@
 import { NotificationType } from './enum'
 
 export interface NotificationAction {
-  key: string
+  key?: string
   label: string
   callback: Function
+  class?: string
 }
 
 export interface Notification {
