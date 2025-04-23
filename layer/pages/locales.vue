@@ -37,8 +37,8 @@ function compareLocales(
       const sourceValue = source[key]
       const targetValue = target?.[key]
 
-      const isObject = typeof sourceValue === 'object' && 
-                        sourceValue !== null && 
+      const isObject = typeof sourceValue === 'object' &&
+                        sourceValue !== null &&
                         !Array.isArray(sourceValue)
 
       if (!(key in target)) {
@@ -74,8 +74,8 @@ function compareLocales(
         </button>
     </article>
 
-    <div class="flex items-start gap-2">
-      <pre>{{ differences }}</pre>
+    <div class="flex items-start gap-2 text-sm mt-4">
+      <pre class="text-wrap">{{ differences }}</pre>
     </div>
   </div>
 </template>
