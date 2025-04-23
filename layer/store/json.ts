@@ -405,7 +405,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       jsonStore.latestBlockHeight = latestBlockHeight
 
       const {data : config } = (await client.get(
-        `json/config/chainUpgrade.json`
+        `json/config/chainUpgrade.json?${Date.now()}`
       )) as {
         data: JsonChainUpgrade
       }
