@@ -21,7 +21,7 @@ export class StakingCacheApi extends BaseCacheApi {
       const response = await this.client.get<{
         pagination: Pagination
         validators: Validator[]
-      }>('/v1/cache/validators')
+      }>('cache/validators')
 
       return response.data
     } catch{
@@ -43,7 +43,7 @@ export class StakingCacheApi extends BaseCacheApi {
     try {
       const response = await this.client.get<{
         validators: ExplorerValidator[]
-      }>('/v1/cache/explorer-validators')
+      }>('cache/explorer-validators')
 
       return response.data.validators
     } catch{

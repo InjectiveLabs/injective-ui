@@ -1,8 +1,8 @@
 /* eslint-disable camelcase, no-console */
+import { ENDPOINTS } from '../utils/constant/setup'
 import { HttpRestClient } from '@injectivelabs/utils'
 
-const NUXT_CACHE_PYTH_SERVICE_URL =
-  'https://injective-nuxt-api.vercel.app/api/v1/'
+const NUXT_CACHE_PYTH_SERVICE_URL = ENDPOINTS.uiApi
 
 export class CachePythService {
   private restClient: HttpRestClient
