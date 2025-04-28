@@ -21,7 +21,7 @@ export class TokenCacheApi extends BaseCacheApi {
       const response = await this.client.get<{
         supply: TotalSupply
         pagination: Pagination
-      }>('/v1/cache/tokens')
+      }>('cache/tokens')
 
       return response.data
     } catch {

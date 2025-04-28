@@ -17,7 +17,7 @@ export class SpotCacheApi extends BaseCacheApi {
 
     try {
       const response = await this.client.get<AllChronosSpotMarketSummary[]>(
-        '/v1/cache/spot/summary'
+        'cache/spot/summary'
       )
 
       return response.data
@@ -38,7 +38,7 @@ export class SpotCacheApi extends BaseCacheApi {
     }
 
     try {
-      const response = await this.client.get<SpotMarket[]>('/v1/cache/spot/markets')
+      const response = await this.client.get<SpotMarket[]>('cache/spot/markets')
 
       return response.data
     } catch {

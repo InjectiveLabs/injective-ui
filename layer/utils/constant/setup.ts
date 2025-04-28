@@ -79,7 +79,7 @@ export const ENDPOINTS = {
   indexer: env.VITE_INDEXER_API_ENDPOINT || endpoints.indexer,
   chronos: env.VITE_CHRONOS_API_ENDPOINT || endpoints.chronos,
   explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
-  uiApi: env.VITE_UI_API_ENDPOINT || 'https://api.ui.injective.network',
+  uiApi: env.VITE_UI_API_ENDPOINT || 'https://api.ui.injective.network/api/v1',
   cacheRest:
     env.VITE_CACHE_REST_API_ENDPOINT || endpoints.cacheRest
 }
