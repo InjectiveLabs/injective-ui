@@ -1,13 +1,26 @@
 <script lang="ts" setup>
-const { messages } = useI18n()
+const route = useRoute()
+const sharedNotificationStore = useSharedNotificationStore()
 const { copy } = useClipboard()
+const { locales, messages } = useI18n()
+
+const localeOptions = locales.value.filter((item) => item.code !== "en");
 
 const differences = ref<Record<string, any>>({})
 
-const languages = computed(() => Object.keys(messages.value).filter((lang) => !['en', 'enOnly'].includes(lang)))
+definePageMeta({
+  middleware: [
+    (to) => {
+      if (to.path.includes("/locales") && to.query.devMode !== "true") {
+        return navigateTo("/");
+      }
+    },
+  ],
+});
 
 function copyContent() {
   copy(JSON.stringify(differences.value, null, 2))
+  sharedNotificationStore.info({title: 'Differences copied'})
 }
 
 function findMissingLocales(lang: string) {
@@ -41,10 +54,9 @@ function compareLocales(
                         sourceValue !== null &&
                         !Array.isArray(sourceValue)
 
-      if (!(key in target)) {
+      if (target && !(key in target)) {
         missing[key] = isObject ? deepClone(sourceValue) : sourceValue
-      }
-      else if (isObject) {
+      } else if (isObject) {
         const nestedMissing = compareLocales(sourceValue, targetValue)
         if (Object.keys(nestedMissing).length > 0) {
             missing[key] = nestedMissing
@@ -60,21 +72,21 @@ function compareLocales(
   <div>
     <article class="flex items-center justify-between">
       <div class="flex items-center gap-2">
-        <button v-for="(lang, index) in languages" :key="index" type="button" class="flex items-center rounded-lg font-semibold outline-none justify-center p-2 text-sm h-[30px] max-h-[30px] bg-brand-600 hover:bg-opacity-80" @click="findMissingLocales(lang)">
+        <button v-for="(item, index) in localeOptions" :key="index" type="button" class="flex items-center rounded-lg font-semibold outline-none justify-center py-2 px-4 text-sm h-[30px] max-h-[30px] bg-ocean-500 hover:bg-opacity-80" @click="findMissingLocales(item.code)">
           <div class="flex items-center gap-1">
-            <span>{{ lang }}</span>
+            <span>{{ item.longName }}</span>
           </div>
         </button>
       </div>
 
-      <button v-if="Object.keys(differences).length > 0" type="button" class="flex items-center rounded-lg font-semibold outline-none justify-center p-2 text-sm h-[30px] max-h-[30px] bg-brand-600 hover:bg-opacity-80" @click="copyContent">
+      <button v-if="Object.keys(differences).length > 0" type="button" class="flex items-center rounded-lg font-semibold outline-none justify-center py-2 px-4 text-sm h-[30px] max-h-[30px] bg-ocean-500 hover:bg-opacity-80" @click="copyContent">
           <div class="flex items-center gap-1">
             <span>Copy</span>
           </div>
         </button>
     </article>
 
-    <div class="flex items-start gap-2 text-sm mt-4">
+    <div class="flex items-start gap-2 text-xs mt-4">
       <pre class="text-wrap">{{ differences }}</pre>
     </div>
   </div>
