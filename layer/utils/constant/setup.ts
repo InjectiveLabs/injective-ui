@@ -14,9 +14,12 @@ export const env = {
   VITE_ENV: import.meta.env.VITE_ENV,
   VITE_NAME: import.meta.env.VITE_NAME,
   VITE_BASE_URL: import.meta.env.VITE_BASE_URL,
+
   // endpoints
   VITE_INDEXER_API_ENDPOINT: import.meta.env
     .VITE_INDEXER_API_ENDPOINT as string,
+  VITE_UI_API_ENDPOINT: import.meta.env
+    .VITE_UI_API_ENDPOINT as string,
   VITE_CHRONOS_API_ENDPOINT: import.meta.env
     .VITE_CHRONOS_API_ENDPOINT as string,
   VITE_SENTRY_GRPC_ENDPOINT: import.meta.env
@@ -76,9 +79,9 @@ export const ENDPOINTS = {
   indexer: env.VITE_INDEXER_API_ENDPOINT || endpoints.indexer,
   chronos: env.VITE_CHRONOS_API_ENDPOINT || endpoints.chronos,
   explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
+  uiApi: env.VITE_UI_API_ENDPOINT || 'https://api.ui.injective.network',
   cacheRest:
-    env.VITE_CACHE_REST_API_ENDPOINT ||
-    'https://injective-nuxt-api.vercel.app/api'
+    env.VITE_CACHE_REST_API_ENDPOINT || endpoints.cacheRest
 }
 
 const MITO_DEVNET_API_ENDPOINT = 'https://devnet.api.ninja.injective.dev'

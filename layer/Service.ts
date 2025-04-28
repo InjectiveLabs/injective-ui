@@ -97,10 +97,10 @@ export const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(
 )
 
 export const indexerAuctionApi = new IndexerGrpcAuctionApi(ENDPOINTS.indexer)
-export const spotCacheApi = new SpotCacheApi(ENDPOINTS.cacheRest)
-export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.cacheRest)
-export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.cacheRest)
-export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.cacheRest)
+export const spotCacheApi = new SpotCacheApi(ENDPOINTS.uiApi)
+export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.uiApi)
+export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.uiApi)
+export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.uiApi)
 
 export const pythService = new PythService()
 export const cachePythService = new CachePythService()
