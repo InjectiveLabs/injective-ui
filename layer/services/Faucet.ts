@@ -9,7 +9,7 @@ export class FaucetService {
 
   constructor(
   ) {
-    this.restClient = new HttpRestClient(ENDPOINTS.cacheRest)
+    this.restClient = new HttpRestClient(ENDPOINTS.uiApi)
   }
 
   async fundInjectiveAddress(injectiveAddress: string ) {

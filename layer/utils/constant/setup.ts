@@ -136,8 +136,6 @@ export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
 export const MAGIC_APK_KEY = import.meta.env.VITE_MAGIC_APK_KEY || ''
 export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
 
-// todo: remove this after merging the maintenance prs
-export const MAINTENANCE_ENABLED: boolean = false
 export const VPN_CHECKS_ENABLED: boolean =
   import.meta.env.VITE_VPN_CHECKS_ENABLED === 'true'
 export const MAINTENANCE_DISABLED =
