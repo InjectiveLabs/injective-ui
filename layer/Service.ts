@@ -1,3 +1,4 @@
+import { FaucetService } from './services/Faucet'
 import { Web3Client } from './services/Web3Client'
 import { PythService } from './services/pythClient'
 import { alchemyRpcEndpoint } from './wallet/alchemy'
@@ -6,6 +7,7 @@ import { SpotCacheApi } from './providers/cacheApi/spot'
 import { InjBonfidaNameService } from './services/bonfida'
 import { SharedTokenClient } from './services/tokenClient'
 import { TokenCacheApi } from './providers/cacheApi/token'
+import { Web3GatewayService } from './services/Web3Gateway'
 import { CachePythService } from './services/cachePythClient'
 import { CoinGeckoApiService } from './services/CoinGeckoApi'
 import { StakingCacheApi } from './providers/cacheApi/staking'
@@ -140,4 +142,6 @@ export const web3Client = new Web3Client({
   rpc: alchemyRpcEndpoint
 })
 
+export const faucetService = new FaucetService()
+export const web3GatewayService = new Web3GatewayService()
 export const tokenStaticFactory = new TokenStaticFactory([])

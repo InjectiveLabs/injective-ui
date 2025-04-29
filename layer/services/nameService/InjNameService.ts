@@ -1,11 +1,5 @@
+import { nameToNode, normalizeName } from './utils'
 import { GeneralException } from '@injectivelabs/exceptions'
-import {
-  Network,
-  NetworkEndpoints,
-  getNetworkEndpoints,
-  getInjNameRegistryContractForNetwork,
-  getInjNameReverseResolverContractForNetwork
-} from '@injectivelabs/networks'
 import {
   QueryInjName,
   ChainGrpcWasmApi,
@@ -13,14 +7,21 @@ import {
   QueryInjectiveAddress,
   InjNameServiceQueryTransformer
 } from '@injectivelabs/sdk-ts'
-import { nameToNode, normalizeName } from './utils'
+import {
+  Network,
+  getNetworkEndpoints,
+  getInjNameRegistryContractForNetwork,
+  getInjNameReverseResolverContractForNetwork
+} from '@injectivelabs/networks'
+import type {
+  NetworkEndpoints} from '@injectivelabs/networks';
 
 export class InjNameService {
   protected client: ChainGrpcWasmApi
 
-  private registryAddress: string
-
   private reverseResolverAddress: string
+
+  private registryAddress: string
 
   constructor(
     network: Network = Network.MainnetSentry,
@@ -34,17 +35,30 @@ export class InjNameService {
       getInjNameReverseResolverContractForNetwork(network)
   }
 
-  private async fetchResolverAddress(node: number[]) {
-    const query = new QueryResolverAddress({ node }).toPayload()
+  async fetchInjName(address: string) {
+    const query = new QueryInjName({ address }).toPayload()
 
     const response = await this.client.fetchSmartContractState(
-      this.registryAddress,
+      this.reverseResolverAddress,
       query
     )
 
-    return InjNameServiceQueryTransformer.resolverAddressResponseToResolverAddress(
-      response
-    )
+    const name =
+      InjNameServiceQueryTransformer.injectiveNameResponseToInjectiveName(
+        response
+      )
+
+    if (!name) {
+      throw new GeneralException(new Error(`.inj not found for ${address}`))
+    }
+
+    const addressFromName = await this.fetchInjAddress(name)
+
+    if (addressFromName.toLowerCase() !== address.toLowerCase()) {
+      throw new GeneralException(new Error(`.inj not found for ${address}`))
+    }
+
+    return name
   }
 
   async fetchInjAddress(name: string) {
@@ -72,29 +86,16 @@ export class InjNameService {
     )
   }
 
-  async fetchInjName(address: string) {
-    const query = new QueryInjName({ address }).toPayload()
+  private async fetchResolverAddress(node: number[]) {
+    const query = new QueryResolverAddress({ node }).toPayload()
 
     const response = await this.client.fetchSmartContractState(
-      this.reverseResolverAddress,
+      this.registryAddress,
       query
     )
 
-    const name =
-      InjNameServiceQueryTransformer.injectiveNameResponseToInjectiveName(
-        response
-      )
-
-    if (!name) {
-      throw new GeneralException(new Error(`.inj not found for ${address}`))
-    }
-
-    const addressFromName = await this.fetchInjAddress(name)
-
-    if (addressFromName.toLowerCase() !== address.toLowerCase()) {
-      throw new GeneralException(new Error(`.inj not found for ${address}`))
-    }
-
-    return name
+    return InjNameServiceQueryTransformer.resolverAddressResponseToResolverAddress(
+      response
+    )
   }
 }
