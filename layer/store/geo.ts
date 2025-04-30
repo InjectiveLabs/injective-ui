@@ -182,7 +182,7 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       sharedNotificationStore.info({
         title: 'VPN or proxy detected',
         description:
-          'Please make sure that you have allowed location access in your browser and system settings.',
+          'Allow location access in browser and system settings',
         timeout: 10 * 1000,
         ...(docLink
           ? {
