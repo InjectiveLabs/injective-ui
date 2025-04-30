@@ -9,6 +9,7 @@ export interface NotificationAction {
 
 export interface Notification {
   id: number
+  key?: string
   title: string
   timeout: number
   createdAt: number
@@ -21,6 +22,7 @@ export interface Notification {
 }
 
 export interface NotificationOptions {
+  key?: string
   title: string
   timeout?: number
   description?: string

@@ -16,6 +16,8 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
     notify(options: NotificationOptions, type: NotificationType) {
       const notificationStore = useSharedNotificationStore()
 
+      const defaultTimeout = options.title.length > 25 ? DEFAULT_NOTIFICATION_TIMEOUT : 4000
+
       const notificationTitleAlreadyExist =
         notificationStore.notifications.some(
           (notification) =>
@@ -34,11 +36,12 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
             id: Date.now(),
             title:
               options.title.charAt(0).toUpperCase() + options.title.slice(1),
+            key: options.key,
             context: options.context,
             actions: options.actions,
             description: options.description,
             isTemplateString: options.isTemplateString,
-            timeout: options.timeout || DEFAULT_NOTIFICATION_TIMEOUT
+            timeout: options.timeout || defaultTimeout
           }
         ]
       })
