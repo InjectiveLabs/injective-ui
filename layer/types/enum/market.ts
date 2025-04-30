@@ -9,6 +9,7 @@ export enum SharedMarketStatus {
   Active = 'active',
   Paused = 'paused',
   Expired = 'expired',
+  Suspended = 'suspended',
   Demolished = 'demolished',
   Unspecified = 'unspecified'
 }
