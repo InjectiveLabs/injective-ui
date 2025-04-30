@@ -14,7 +14,7 @@ export class FaucetService {
 
   async fundInjectiveAddress(injectiveAddress: string ) {
     try {
-      await this.restClient.get(`v1/faucet?address=${injectiveAddress}&chainId=${CHAIN_ID}`)
+      await this.restClient.get(`faucet?address=${injectiveAddress}&chainId=${CHAIN_ID}`)
     } catch (e) {
       console.log(e)
     }
