@@ -17,7 +17,11 @@ import type {
 
 const CLOUD_FRONT_URL = 'https://d36789lqgasyke.cloudfront.net'
 // const STAGING_CLOUD_FRONT_URL = 'https://d1baot60r65stl.cloudfront.net'
-const client = new HttpClient(CLOUD_FRONT_URL)
+const client = new HttpClient(CLOUD_FRONT_URL, {
+  headers: {
+    'Cache-Control': 'max-age=0'
+  }
+})
 
 export type JsonStoreState = {
   verifiedDenoms: string[]
@@ -50,6 +54,12 @@ const getNetworkName = () => {
   }
 
   return 'devnet.json'
+}
+
+const getNearestIntervalTimestamp = (interval:number = 10) => {
+  const seconds = interval * 60 * 1000
+
+  return Math.floor(Date.now() / seconds) * seconds
 }
 
 export const useSharedJsonStore = defineStore('sharedJson', {
@@ -166,7 +176,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     async fetchRestrictedCountries() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get('json/geo/countries.json')) as {
+      const data = (await client.get(`json/geo/countries.json`)) as {
         data: string[]
       }
 
@@ -237,7 +247,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       const jsonStore = useSharedJsonStore()
 
       const data = (await client.get(
-        'json/wallets/ofacAndRestricted.json'
+        `json/wallets/ofacAndRestricted.json`
       )) as {
         data: string[]
       }
@@ -405,7 +415,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       jsonStore.latestBlockHeight = latestBlockHeight
 
       const {data : config } = (await client.get(
-        `json/config/chainUpgrade.json?${Date.now()}`
+        `json/config/chainUpgrade.json??${getNearestIntervalTimestamp(5)}`
       )) as {
         data: JsonChainUpgrade
       }
