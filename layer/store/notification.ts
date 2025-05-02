@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { Notification, NotificationType, NotificationOptions } from './../types'
 import { DEFAULT_NOTIFICATION_TIMEOUT } from '../utils/constant/index'
+import { NotificationType } from './../types'
+import type { Notification, NotificationOptions } from './../types';
 
 type NotificationStoreState = {
   notifications: Notification[]
@@ -37,6 +38,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
             title:
               options.title.charAt(0).toUpperCase() + options.title.slice(1),
             key: options.key,
+            icon: options.icon,
             context: options.context,
             actions: options.actions,
             description: options.description,
