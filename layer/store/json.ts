@@ -295,15 +295,20 @@ export const useSharedJsonStore = defineStore('sharedJson', {
           if (!shouldOverride) {
             return item
           }
+
+          console.log('wtf', {
+            slug: item.slug,
+            contractAddress: 'inj14zykjnz94dr9nj4v2yzpvnlrw5uurk5hhea8xw'
+          })
           
           return {
             slug: item.slug,
             contractAddress: 'inj14zykjnz94dr9nj4v2yzpvnlrw5uurk5hhea8xw'
           }
         })
+      } else {
+        jsonStore.spotGridMarkets = data.data
       }
-
-      jsonStore.spotGridMarkets = data.data
     },
 
     async fetchVerifiedDenoms() {
