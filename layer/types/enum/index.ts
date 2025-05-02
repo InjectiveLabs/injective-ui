@@ -1,6 +1,18 @@
 export * from './market'
 export * from './explorer'
 
+export enum GrantDirection {
+  Grantee = 'grantee',
+  Granter = 'granter'
+}
+
+export enum TimeDuration {
+  Day = 'day',
+  Hour = 'hour',
+  Minute = 'minute',
+  Second = 'second'
+}
+
 export enum NotificationType {
   Info = 'info',
   Error = 'error',
@@ -8,15 +20,21 @@ export enum NotificationType {
   Success = 'success'
 }
 
-export enum EventBus {
-  WalletConnected = 'wallet-connected',
-  SubaccountChange = 'subaccount-change',
-  WalletDisconnected = 'wallet-disconnected'
+export enum SharedAmplitudeEvent {
+  Login = 'Login',
+  Logout = 'Logout',
+  WalletSelected = 'Wallet Selected'
 }
 
 export enum CommonCyTags {
   NotificationTitle = 'notification-title',
   NotificationDescription = 'notification-description',
+}
+
+export enum EventBus {
+  WalletConnected = 'wallet-connected',
+  SubaccountChange = 'subaccount-change',
+  WalletDisconnected = 'wallet-disconnected'
 }
 
 export enum WalletConnectStatus {
@@ -27,22 +45,20 @@ export enum WalletConnectStatus {
   disconnecting = 'disconnecting'
 }
 
-export enum SharedAmplitudeEvent {
-  Login = 'Login',
-  Logout = 'Logout',
-  WalletSelected = 'Wallet Selected'
-}
-
-export enum TimeDuration {
-  Day = 'day',
-  Hour = 'hour',
-  Minute = 'minute',
-  Second = 'second'
-}
-
-export enum GrantDirection {
-  Grantee = 'grantee',
-  Granter = 'granter'
+export enum UIBreakpoints {
+  '2xs' = 375,
+  xs = 480,
+  sm = 640,
+  md = 768,
+  '2md' = 800,
+  '3md' = 840,
+  lg = 1024,
+  xl = 1280,
+  '2xl' = 1366,
+  '3xl' = 1440,
+  '4xl' = 1536,
+  '5xl' = 1681,
+  '6xl' = 1920
 }
 
 export enum NuxtUiIcons {
@@ -91,10 +107,12 @@ export enum NuxtUiIcons {
   DiscordWithBg = 'jam:discord',
   Download = 'fa6-solid:download',
   Download2 = 'material-symbols:download',
+  ExitOutline = 'ion:exit-outline',
   Edit = 'material-symbols:edit-outline-rounded',
   EmptyData = 'i-heroicons-circle-stack-20-solid',
   Exit = 'bx:exit',
   ExternalLink = 'ooui:link-external-ltr',
+  ExternalLink2 = 'mdi:external-link',
   Eye = 'heroicons:eye-16-solid',
   EyeSlash = 'heroicons:eye-slash-solid',
   Facebook = 'ic:baseline-facebook',
@@ -126,7 +144,7 @@ export enum NuxtUiIcons {
   PortfolioHistory = 'bi:clock',
   Position = 'bi:graph-up-arrow',
   PottedPlant = 'material-symbols:potted-plant-outline-rounded',
-  QrCode = 'f7:qrcode',
+  QrCode = 'bx:qr',
   Refresh = 'el:refresh',
   Robot = 'bi:robot',
   Rocket = 'material-symbols-light:rocket',
@@ -163,20 +181,4 @@ export enum NuxtUiIcons {
   WaterDrop = 'bi:droplet',
   Youtube = 'mdi:youtube',
   LoadingRotateDots = 'svg-spinners:8-dots-rotate'
-}
-
-export enum UIBreakpoints {
-  '2xs' = 375,
-  xs = 480,
-  sm = 640,
-  md = 768,
-  '2md' = 800,
-  '3md' = 840,
-  lg = 1024,
-  xl = 1280,
-  '2xl' = 1366,
-  '3xl' = 1440,
-  '4xl' = 1536,
-  '5xl' = 1681,
-  '6xl' = 1920
 }
