@@ -81,6 +81,18 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
       const notificationStore = useSharedNotificationStore()
 
       notificationStore.notify(options, NotificationType.Warning)
+    },
+
+    close(key: string) {
+      const notificationStore = useSharedNotificationStore()
+
+      const selectedNotification = notificationStore.notifications.find(
+        (notification) => notification.key === key
+      )
+
+      if (selectedNotification) {
+        notificationStore.clear(selectedNotification.id)
+      }
     }
   }
 })
