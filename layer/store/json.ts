@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
-import { IS_MAINNET, IS_TESTNET, MAINTENANCE_DISABLED } from '../utils/constant'
+import { IS_DEVNET, IS_MAINNET, IS_TESTNET, MAINTENANCE_DISABLED } from '../utils/constant'
 import { tokenStaticFactory, indexerRestExplorerApi } from '../Service'
 import type {
   SpotMarket,
@@ -286,6 +286,21 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         `json/helix/trading/gridMarkets/spot/${getNetworkName()}`
       )) as {
         data: JsonGridMarket[]
+      }
+
+      if (IS_DEVNET) {
+        jsonStore.spotGridMarkets = data.data.map((item) => {
+          const shouldOverride = item.slug === 'inj-usdt'
+
+          if (!shouldOverride) {
+            return item
+          }
+          
+          return {
+            slug: item.slug,
+            contractAddress: 'inj14zykjnz94dr9nj4v2yzpvnlrw5uurk5hhea8xw'
+          }
+        })
       }
 
       jsonStore.spotGridMarkets = data.data
