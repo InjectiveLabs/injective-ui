@@ -98,11 +98,11 @@ export const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(
   `${ENDPOINTS.chronos}/api/chronos/v1/market`
 )
 
-export const indexerAuctionApi = new IndexerGrpcAuctionApi(ENDPOINTS.indexer)
 export const spotCacheApi = new SpotCacheApi(ENDPOINTS.uiApi)
 export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.uiApi)
 export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.uiApi)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.uiApi)
+export const indexerAuctionApi = new IndexerGrpcAuctionApi(ENDPOINTS.indexer)
 
 export const pythService = new PythService()
 export const cachePythService = new CachePythService()

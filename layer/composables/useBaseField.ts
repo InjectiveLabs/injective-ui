@@ -1,35 +1,27 @@
 import { useField } from 'vee-validate'
 import { computed, type Ref } from 'vue'
 
-export function useStringField({
+export function useBooleanField({
   name,
   dynamicRule,
   initialValue,
   rule = 'required',
   label
 }: {
-  dynamicRule?: Ref<string>
-  initialValue?: string
   name: string
   rule?: string
   label?: string
+  initialValue?: boolean
+  dynamicRule?: Ref<string>
 }) {
   const validation = computed(() =>
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
   )
 
-  return useField<string>(
-    name,
-    validation,
-    typeof initialValue === 'string'
-      ? {
-          initialValue,
-          label
-        }
-      : {
-          label
-        }
-  )
+  return useField<boolean>(name, validation, {
+    initialValue: initialValue || false,
+    label
+  })
 }
 
 export function useNumberField({
@@ -39,11 +31,11 @@ export function useNumberField({
   rule = 'required',
   label
 }: {
-  dynamicRule?: Ref<string>
-  initialValue?: number
   name: string
   rule?: string
   label?: string
+  initialValue?: number
+  dynamicRule?: Ref<string>
 }) {
   const validation = computed(() =>
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
@@ -63,25 +55,33 @@ export function useNumberField({
   )
 }
 
-export function useBooleanField({
+export function useStringField({
   name,
   dynamicRule,
   initialValue,
   rule = 'required',
   label
 }: {
-  dynamicRule?: Ref<string>
-  initialValue?: boolean
   name: string
   rule?: string
   label?: string
+  initialValue?: string
+  dynamicRule?: Ref<string>
 }) {
   const validation = computed(() =>
     [rule, dynamicRule?.value].filter((rule) => rule).join('|')
   )
 
-  return useField<boolean>(name, validation, {
-    initialValue: initialValue || false,
-    label
-  })
+  return useField<string>(
+    name,
+    validation,
+    typeof initialValue === 'string'
+      ? {
+          initialValue,
+          label
+        }
+      : {
+          label
+        }
+  )
 }

@@ -1,6 +1,6 @@
 import { HttpRestClient } from '@injectivelabs/utils'
 import { HttpRequestException } from '@injectivelabs/exceptions'
-import {
+import type {
   CoinGeckoCoin,
   CoinGeckoReturnObject,
   CoinGeckoCoinResponse,
@@ -27,9 +27,69 @@ export class CoinGeckoApiService {
     })
   }
 
+  async fetchUsdPrice(
+    coinId: string,
+    options: undefined | Record<string, any> = {}
+  ) {
+    try {
+      const actualParams = {
+        localization: false,
+        community_data: false,
+        tickers: false,
+        sparkline: false,
+        developer_data: false,
+        x_cg_pro_api_key: this.apiKey,
+        ...options
+      }
+
+      const { data } = (await this.httpClient.get(
+        `/coins/${coinId}`,
+        actualParams
+      )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
+
+      return data?.market_data?.current_price?.usd
+    } catch (e: unknown) {
+      if (e instanceof HttpRequestException) {
+        throw e
+      }
+
+      throw new HttpRequestException(new Error(e as any))
+    }
+  }
+
+  async fetchPrice(
+    coinId: string,
+    options: undefined | Record<string, any> = {}
+  ) {
+    try {
+      const actualParams = {
+        localization: false,
+        community_data: false,
+        tickers: false,
+        sparkline: false,
+        developer_data: false,
+        x_cg_pro_api_key: this.apiKey,
+        ...options
+      }
+
+      const { data } = (await this.httpClient.get(
+        `/coins/${coinId}`,
+        actualParams
+      )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
+
+      return data?.market_data?.current_price
+    } catch (e: unknown) {
+      if (e instanceof HttpRequestException) {
+        throw e
+      }
+
+      throw new HttpRequestException(new Error(e as any))
+    }
+  }
+
   async fetchCoin(
     coinId: string,
-    options: Record<string, any> | undefined = {}
+    options: undefined | Record<string, any> = {}
   ) {
     try {
       const actualParams = {
@@ -59,7 +119,7 @@ export class CoinGeckoApiService {
 
   async fetchErc20TokenCoinId(
     tokenAddress: string,
-    options: Record<string, any> | undefined = {}
+    options: undefined | Record<string, any> = {}
   ) {
     try {
       const actualParams = {
@@ -82,88 +142,7 @@ export class CoinGeckoApiService {
     }
   }
 
-  async fetchPrice(
-    coinId: string,
-    options: Record<string, any> | undefined = {}
-  ) {
-    try {
-      const actualParams = {
-        localization: false,
-        community_data: false,
-        tickers: false,
-        sparkline: false,
-        developer_data: false,
-        x_cg_pro_api_key: this.apiKey,
-        ...options
-      }
-
-      const { data } = (await this.httpClient.get(
-        `/coins/${coinId}`,
-        actualParams
-      )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
-
-      return data?.market_data?.current_price
-    } catch (e: unknown) {
-      if (e instanceof HttpRequestException) {
-        throw e
-      }
-
-      throw new HttpRequestException(new Error(e as any))
-    }
-  }
-
-  async fetchUsdPrice(
-    coinId: string,
-    options: Record<string, any> | undefined = {}
-  ) {
-    try {
-      const actualParams = {
-        localization: false,
-        community_data: false,
-        tickers: false,
-        sparkline: false,
-        developer_data: false,
-        x_cg_pro_api_key: this.apiKey,
-        ...options
-      }
-
-      const { data } = (await this.httpClient.get(
-        `/coins/${coinId}`,
-        actualParams
-      )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
-
-      return data?.market_data?.current_price?.usd
-    } catch (e: unknown) {
-      if (e instanceof HttpRequestException) {
-        throw e
-      }
-
-      throw new HttpRequestException(new Error(e as any))
-    }
-  }
-
-  async fetchCoins(params: Record<string, any> | undefined = {}) {
-    try {
-      const actualParams = {
-        include_platform: false,
-        x_cg_pro_api_key: this.apiKey,
-        ...params
-      }
-
-      return (await this.httpClient.get(
-        '/coins/list',
-        actualParams
-      )) as CoinGeckoReturnObject<CoinGeckoCoin[]>
-    } catch (e: unknown) {
-      if (e instanceof HttpRequestException) {
-        throw e
-      }
-
-      throw new HttpRequestException(new Error(e as any))
-    }
-  }
-
-  async fetchChart(id: string, params: Record<string, any> | undefined = {}) {
+  async fetchChart(id: string, params: undefined | Record<string, any> = {}) {
     try {
       const actualParams = {
         ...params,
@@ -185,7 +164,7 @@ export class CoinGeckoApiService {
     }
   }
 
-  async fetchHistory(id: string, params: Record<string, any> | undefined = {}) {
+  async fetchHistory(id: string, params: undefined | Record<string, any> = {}) {
     try {
       const actualParams = {
         ...params,
@@ -198,6 +177,27 @@ export class CoinGeckoApiService {
       )) as CoinGeckoReturnObject<CoinGeckoCoinResponse>
 
       return data
+    } catch (e: unknown) {
+      if (e instanceof HttpRequestException) {
+        throw e
+      }
+
+      throw new HttpRequestException(new Error(e as any))
+    }
+  }
+
+  async fetchCoins(params: undefined | Record<string, any> = {}) {
+    try {
+      const actualParams = {
+        include_platform: false,
+        x_cg_pro_api_key: this.apiKey,
+        ...params
+      }
+
+      return (await this.httpClient.get(
+        '/coins/list',
+        actualParams
+      )) as CoinGeckoReturnObject<CoinGeckoCoin[]>
     } catch (e: unknown) {
       if (e instanceof HttpRequestException) {
         throw e

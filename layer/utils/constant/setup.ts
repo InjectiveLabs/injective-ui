@@ -157,6 +157,7 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
   throw new Error('PROXY_DETECTION_API_KEY is required when VPN_CHECKS_ENABLED')
 }
 
+export const IS_HUB = import.meta.env.VITE_PRODUCT === 'hub'
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
 export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
 export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'

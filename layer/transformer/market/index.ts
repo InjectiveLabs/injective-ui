@@ -1,3 +1,12 @@
+import { injToken } from '../../data/token'
+import { derivativeMarketIdMap } from '../../data/derivative'
+import { spotDenomMap, spotMarketIdMap } from '../../data/spot'
+import {
+  sharedToBalanceInWei,
+  sharedToBalanceInToken,
+  sharedGetTensMultiplier,
+  sharedGetExactDecimalsFromNumber
+} from '../../utils/formatter'
 import {
   TokenType,
   type SpotMarket,
@@ -6,15 +15,6 @@ import {
   type BinaryOptionsMarket,
   type ExpiryFuturesMarket
 } from '@injectivelabs/sdk-ts'
-import {
-  sharedToBalanceInWei,
-  sharedToBalanceInToken,
-  sharedGetTensMultiplier,
-  sharedGetExactDecimalsFromNumber
-} from '../../utils/formatter'
-import { injToken } from '../../data/token'
-import { spotMarketIdMap, spotDenomMap } from '../../data/spot'
-import { derivativeMarketIdMap } from '../../data/derivative'
 import {
   SharedMarketType,
   type SharedUiSpotMarket,
@@ -45,9 +45,9 @@ export const sharedSpotGetSlugAndTicket = ({
   baseDenom,
   quoteDenom
 }: {
-  marketId: string
   slug: string
   ticker: string
+  marketId: string
   baseDenom: string
   quoteDenom: string
 }): { slug: string; ticker: string } => {
@@ -71,9 +71,9 @@ export const sharedDerivativeGetSlugAndTicket = ({
   slug,
   ticker
 }: {
-  marketId: string
   slug: string
   ticker: string
+  marketId: string
 }): { slug: string; ticker: string } => {
   if (derivativeMarketIdMap[marketId]) {
     return derivativeMarketIdMap[marketId]
@@ -118,6 +118,7 @@ export const toUiSpotMarket = ({
     }),
     baseToken,
     quoteToken,
+    isVerified: false,
     type: SharedMarketType.Spot,
     subType: SharedMarketType.Spot,
     priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
@@ -138,9 +139,9 @@ export const toUiDerivativeMarket = ({
   quoteToken
 }: {
   slug: string
-  market: PerpetualMarket | ExpiryFuturesMarket
   baseToken: TokenStatic
   quoteToken: TokenStatic
+  market: PerpetualMarket | ExpiryFuturesMarket
 }): SharedUiDerivativeMarket => {
   const minPriceTickSize = sharedToBalanceInWei({
     value: market.minPriceTickSize,
@@ -151,6 +152,7 @@ export const toUiDerivativeMarket = ({
     ...market,
     baseToken,
     quoteToken,
+    isVerified: false,
     ...sharedDerivativeGetSlugAndTicket({
       slug,
       ticker: market.ticker,
@@ -177,8 +179,8 @@ export const toUiBinaryOptionsMarket = ({
   market,
   quoteToken
 }: {
-  market: BinaryOptionsMarket
   quoteToken: TokenStatic
+  market: BinaryOptionsMarket
 }): SharedUiBinaryOptionsMarket => {
   const slug = market.ticker
     .replaceAll('/', '-')

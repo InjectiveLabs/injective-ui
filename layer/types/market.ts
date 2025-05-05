@@ -1,74 +1,18 @@
-import {
-  type SpotMarket,
-  type TokenStatic,
-  type PerpetualMarket,
-  type ExpiryFuturesMarket,
-  type BinaryOptionsMarket,
-  type AllChronosDerivativeMarketSummary
+import type { BigNumberInBase } from '@injectivelabs/utils'
+import type {
+  SpotMarket,
+  TokenStatic,
+  PerpetualMarket,
+  ExpiryFuturesMarket,
+  BinaryOptionsMarket,
+  AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
-import { BigNumberInBase } from '@injectivelabs/utils'
-import { SharedMarketType, SharedMarketChange } from './enum'
+import type { SharedMarketType, SharedMarketChange } from './enum'
 
-export interface SharedUiSpotMarket
-  extends Omit<SpotMarket, 'quoteToken' | 'baseToken'> {
-  baseToken: TokenStatic
-  quoteToken: TokenStatic
-  slug: string
-  priceDecimals: number
-  quantityDecimals: number
-  priceTensMultiplier: number
-  quantityTensMultiplier: number
-  type: SharedMarketType
-  subType: SharedMarketType
-  upcoming?: boolean
-  minNotionalInToken: string
-}
-
-export interface SharedUiDerivativeMarket
-  extends Omit<PerpetualMarket, 'quoteToken'> {
-  baseToken: TokenStatic
-  quoteToken: TokenStatic
-  // estFundingRate: BigNumberInBase
-  slug: string
-  priceDecimals: number
-  quantityDecimals: number
-  priceTensMultiplier: number
-  quantityTensMultiplier: number
-  minNotionalInToken: string
-  type: SharedMarketType
-  subType: SharedMarketType
-  upcoming?: boolean
-}
-
-export interface SharedUiExpiryFuturesMarket
-  extends Omit<ExpiryFuturesMarket, 'quoteToken'> {
-  baseToken: TokenStatic
-  quoteToken: TokenStatic
-  estFundingRate: BigNumberInBase
-  slug: string
-  priceDecimals: number
-  quantityDecimals: number
-  priceTensMultiplier: number
-  quantityTensMultiplier: number
-  minNotionalInToken: string
-  type: SharedMarketType
-  subType: SharedMarketType
-  upcoming?: boolean
-}
-
-export interface SharedUiBinaryOptionsMarket
-  extends Omit<BinaryOptionsMarket, 'quoteToken'> {
-  baseToken: TokenStatic
-  quoteToken: TokenStatic
-  slug: string
-  priceDecimals: number
-  quantityDecimals: number
-  priceTensMultiplier: number
-  quantityTensMultiplier: number
-  minNotionalInToken: string
-  type: SharedMarketType
-  subType: SharedMarketType
-  upcoming?: boolean
+export type SharedUiMarketMarkPrice = {
+  price: string
+  marketId: string
+  timestamp?: number
 }
 
 export interface SharedUiMarketSummary
@@ -78,18 +22,76 @@ export interface SharedUiMarketSummary
 }
 
 export interface SharedUiMarketHistory {
-  marketId: string
-  resolution: string
   time: number[]
+  marketId: string
   volume: number[]
-  closePrice: number[]
-  highPrice: number[]
+  resolution: string
   lowPrice: number[]
+  highPrice: number[]
   openPrice: number[]
+  closePrice: number[]
 }
 
-export type SharedUiMarketMarkPrice = {
-  price: string
-  marketId: string
-  timestamp?: number
+export interface SharedUiBinaryOptionsMarket
+  extends Omit<BinaryOptionsMarket, 'quoteToken'> {
+  slug: string
+  upcoming?: boolean
+  priceDecimals: number
+  baseToken: TokenStatic
+  type: SharedMarketType
+  quoteToken: TokenStatic
+  quantityDecimals: number
+  subType: SharedMarketType
+  minNotionalInToken: string
+  priceTensMultiplier: number
+  quantityTensMultiplier: number
+}
+
+export interface SharedUiSpotMarket
+  extends Omit<SpotMarket, 'baseToken' | 'quoteToken'> {
+  slug: string
+  upcoming?: boolean
+  isVerified: boolean
+  priceDecimals: number
+  baseToken: TokenStatic
+  type: SharedMarketType
+  quoteToken: TokenStatic
+  quantityDecimals: number
+  subType: SharedMarketType
+  minNotionalInToken: string
+  priceTensMultiplier: number
+  quantityTensMultiplier: number
+}
+
+export interface SharedUiExpiryFuturesMarket
+  extends Omit<ExpiryFuturesMarket, 'quoteToken'> {
+  slug: string
+  upcoming?: boolean
+  priceDecimals: number
+  baseToken: TokenStatic
+  type: SharedMarketType
+  quoteToken: TokenStatic
+  quantityDecimals: number
+  subType: SharedMarketType
+  minNotionalInToken: string
+  priceTensMultiplier: number
+  quantityTensMultiplier: number
+  estFundingRate: BigNumberInBase
+}
+
+export interface SharedUiDerivativeMarket
+  extends Omit<PerpetualMarket, 'quoteToken'> {
+  // estFundingRate: BigNumberInBase
+  slug: string
+  upcoming?: boolean
+  isVerified: boolean
+  priceDecimals: number
+  baseToken: TokenStatic
+  type: SharedMarketType
+  quoteToken: TokenStatic
+  quantityDecimals: number
+  subType: SharedMarketType
+  minNotionalInToken: string
+  priceTensMultiplier: number
+  quantityTensMultiplier: number
 }
