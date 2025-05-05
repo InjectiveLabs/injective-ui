@@ -10,8 +10,6 @@ export class Web3GatewayService {
   }
 
   async healthCheck(): Promise<boolean> {
-    console.log('fetching!')
-
     if (NETWORK !== Network.Internal) {
       return true
     }

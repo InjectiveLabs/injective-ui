@@ -1,10 +1,6 @@
-import { TokenStatic } from '@injectivelabs/sdk-ts'
+import type { TokenStatic } from '@injectivelabs/sdk-ts'
 
-export interface SharedDropdownOptionWithToken {
-  value: string
-  display: string
-  token?: TokenStatic
-}
+export type SharedTokenUsdPriceMap = Record<string, number>
 
 export interface SharedBalanceWithToken {
   denom: string
@@ -16,14 +12,20 @@ export interface SharedBalanceWithTokenAndPrice extends SharedBalanceWithToken {
   usdPrice: number
 }
 
+export interface SharedDropdownOptionWithToken {
+  value: string
+  display: string
+  token?: TokenStatic
+}
+
 export interface SharedBalanceInUsdWithTokenAndPrice
   extends SharedBalanceWithTokenAndPrice {
   balanceInUsd: string
 }
 
 export interface SharedSubaccountBalanceWithToken {
-  availableBalance: string
-  totalBalance: string
   denom: string
   token: TokenStatic
+  totalBalance: string
+  availableBalance: string
 }

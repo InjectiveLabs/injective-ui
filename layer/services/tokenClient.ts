@@ -1,12 +1,8 @@
+import { injToken, unknownToken } from '../data/token'
 import {
-  Metadata,
   TokenType,
-  TokenStatic,
-  ContractInfo,
-  InsuranceFund,
   TokenVerification,
-  isCw20ContractAddress,
-  ContractStateWithPagination
+  isCw20ContractAddress
 } from '@injectivelabs/sdk-ts'
 import {
   ibcApi,
@@ -15,22 +11,20 @@ import {
   alchemyClient,
   insuranceFundsApi
 } from '../Service'
-import { unknownToken, injToken } from '../data/token'
+import type {
+  Metadata,
+  TokenStatic,
+  ContractInfo,
+  InsuranceFund,
+  ContractStateWithPagination
+} from '@injectivelabs/sdk-ts';
 
 export class SharedTokenClient {
-  private cachedBankMetadatas: Metadata[] = []
-  private cachedInsuranceFunds: InsuranceFund[] = []
   private cachedTokens: Record<string, TokenStatic> = {}
+  private cachedInsuranceFunds: InsuranceFund[] = []
+  private cachedBankMetadatas: Metadata[] = []
 
-  async queryTokens(denoms: string[]): Promise<TokenStatic[]> {
-    const tokens = await Promise.all(
-      denoms.map(async (denom) => await this.queryToken(denom))
-    )
-
-    return tokens.filter((token) => token !== undefined)
-  }
-
-  async queryToken(denom: string): Promise<TokenStatic | undefined> {
+  async queryToken(denom: string): Promise<undefined | TokenStatic> {
     const cachedToken = this.cachedTokens[denom.toLowerCase()]
 
     if (cachedToken) {
@@ -64,75 +58,15 @@ export class SharedTokenClient {
     }
   }
 
-  async #getIbcToken(denom: string): Promise<TokenStatic | undefined> {
-    if (!denom.startsWith('ibc/')) {
-      return
-    }
+  async queryTokens(denoms: string[]): Promise<TokenStatic[]> {
+    const tokens = await Promise.all(
+      denoms.map(async (denom) => await this.queryToken(denom))
+    )
 
-    const hash = denom.replace('ibc/', '')
-    const data = await ibcApi.fetchDenomTrace(hash)
-
-    if (!data) {
-      return {
-        ...unknownToken,
-        denom,
-        hash,
-        address: denom
-      }
-    }
-
-    const token = {
-      ...unknownToken,
-      hash,
-      denom,
-      path: data.path,
-      baseDenom: data.baseDenom,
-      channelId: data.path.split('/').pop() as string
-    }
-
-    this.cachedTokens[denom.toLowerCase()] = token
-
-    return token
+    return tokens.filter((token) => token !== undefined)
   }
 
-  async #getPeggyToken(denom: string): Promise<TokenStatic | undefined> {
-    if (!denom.startsWith('0x') && !denom.startsWith('peggy')) {
-      return
-    }
-
-    const address = denom.replace('peggy', '')
-    const defaultToken = {
-      ...unknownToken,
-      denom,
-      address
-    }
-
-    const alchemyToken = (await alchemyClient.core.getTokenMetadata(
-      address
-    )) as
-      | { decimals: number; logo: string; name: string; symbol: string }
-      | undefined
-
-    if (!alchemyToken || !alchemyToken.name || !alchemyToken.symbol) {
-      return defaultToken
-    }
-
-    const token = {
-      ...defaultToken,
-      name: alchemyToken.name,
-      tokenType: TokenType.Erc20,
-      symbol: alchemyToken.symbol,
-      decimals: alchemyToken.decimals,
-      externalLogo: alchemyToken.logo,
-      tokenVerification: TokenVerification.External
-    }
-
-    this.cachedTokens[denom.toLowerCase()] = token
-
-    return token
-  }
-
-  async #getCw20Token(denom: string): Promise<TokenStatic | undefined> {
+  async #getCw20Token(denom: string): Promise<undefined | TokenStatic> {
     if (!denom.startsWith('factory')) {
       return
     }
@@ -151,7 +85,7 @@ export class SharedTokenClient {
 
     const contractInfo = (await wasmApi.fetchContractInfo(address).catch(() => {
       // silently fail
-    })) as ContractInfo | undefined
+    })) as undefined | ContractInfo
 
     const contractStateResponse = (await wasmApi
       .fetchContractState({
@@ -160,7 +94,7 @@ export class SharedTokenClient {
       })
       .catch(() => {
         // silently fail
-      })) as ContractStateWithPagination | undefined
+      })) as undefined | ContractStateWithPagination
 
     if (
       !contractStateResponse ||
@@ -190,7 +124,44 @@ export class SharedTokenClient {
     return token
   }
 
-  async #getInsuranceToken(denom: string): Promise<TokenStatic | undefined> {
+  async #getTokenFactoryToken(denom: string): Promise<undefined | TokenStatic> {
+    if (!denom.startsWith('factory')) {
+      return
+    }
+
+    await this.#fetchBankMetadatas()
+
+    const metadata = this.cachedBankMetadatas.find(
+      (metadata) => metadata.base === denom
+    )
+
+    if (!metadata) {
+      return {
+        ...unknownToken,
+        denom,
+        address: denom,
+        tokenType: TokenType.TokenFactory
+      }
+    }
+
+    const token = {
+      ...unknownToken,
+      name: metadata.name || unknownToken.name,
+      denom: metadata.base || denom,
+      address: metadata.base || denom,
+      symbol: metadata.symbol || unknownToken.symbol,
+      externalLogo: metadata.uri || unknownToken.logo,
+      tokenType: TokenType.TokenFactory,
+      tokenVerification: TokenVerification.Internal,
+      decimals: metadata.denomUnits.pop()?.exponent || unknownToken.decimals
+    }
+
+    this.cachedTokens[denom.toLowerCase()] = token
+
+    return token
+  }
+
+  async #getInsuranceToken(denom: string): Promise<undefined | TokenStatic> {
     if (!denom.startsWith('share')) {
       return
     }
@@ -231,36 +202,36 @@ export class SharedTokenClient {
     return token
   }
 
-  async #getTokenFactoryToken(denom: string): Promise<TokenStatic | undefined> {
-    if (!denom.startsWith('factory')) {
+  async #getPeggyToken(denom: string): Promise<undefined | TokenStatic> {
+    if (!denom.startsWith('0x') && !denom.startsWith('peggy')) {
       return
     }
 
-    await this.#fetchBankMetadatas()
+    const address = denom.replace('peggy', '')
+    const defaultToken = {
+      ...unknownToken,
+      denom,
+      address
+    }
 
-    const metadata = this.cachedBankMetadatas.find(
-      (metadata) => metadata.base === denom
-    )
+    const alchemyToken = (await alchemyClient.core.getTokenMetadata(
+      address
+    )) as
+      | undefined
+      | { logo: string; name: string; symbol: string; decimals: number; }
 
-    if (!metadata) {
-      return {
-        ...unknownToken,
-        denom,
-        address: denom,
-        tokenType: TokenType.TokenFactory
-      }
+    if (!alchemyToken || !alchemyToken.name || !alchemyToken.symbol) {
+      return defaultToken
     }
 
     const token = {
-      ...unknownToken,
-      name: metadata.name || unknownToken.name,
-      denom: metadata.base || denom,
-      address: metadata.base || denom,
-      symbol: metadata.symbol || unknownToken.symbol,
-      externalLogo: metadata.uri || unknownToken.logo,
-      tokenType: TokenType.TokenFactory,
-      tokenVerification: TokenVerification.Internal,
-      decimals: metadata.denomUnits.pop()?.exponent || unknownToken.decimals
+      ...defaultToken,
+      name: alchemyToken.name,
+      tokenType: TokenType.Erc20,
+      symbol: alchemyToken.symbol,
+      decimals: alchemyToken.decimals,
+      externalLogo: alchemyToken.logo,
+      tokenVerification: TokenVerification.External
     }
 
     this.cachedTokens[denom.toLowerCase()] = token
@@ -268,12 +239,35 @@ export class SharedTokenClient {
     return token
   }
 
-  async #fetchInsuranceFunds() {
-    if (this.cachedInsuranceFunds.length !== 0) {
+  async #getIbcToken(denom: string): Promise<undefined | TokenStatic> {
+    if (!denom.startsWith('ibc/')) {
       return
     }
 
-    this.cachedInsuranceFunds = await insuranceFundsApi.fetchInsuranceFunds()
+    const hash = denom.replace('ibc/', '')
+    const data = await ibcApi.fetchDenomTrace(hash)
+
+    if (!data) {
+      return {
+        ...unknownToken,
+        denom,
+        hash,
+        address: denom
+      }
+    }
+
+    const token = {
+      ...unknownToken,
+      hash,
+      denom,
+      path: data.path,
+      baseDenom: data.baseDenom,
+      channelId: data.path.split('/').pop() as string
+    }
+
+    this.cachedTokens[denom.toLowerCase()] = token
+
+    return token
   }
 
   async #fetchBankMetadatas() {
@@ -286,5 +280,13 @@ export class SharedTokenClient {
     })
 
     this.cachedBankMetadatas = metadatas
+  }
+
+  async #fetchInsuranceFunds() {
+    if (this.cachedInsuranceFunds.length !== 0) {
+      return
+    }
+
+    this.cachedInsuranceFunds = await insuranceFundsApi.fetchInsuranceFunds()
   }
 }
