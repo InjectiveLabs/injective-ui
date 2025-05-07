@@ -1,32 +1,11 @@
-export type JsonValidator = {
-  moniker: string
-  identity: string
-  operatorAddress: string
-  image: string
-}
-
-export type JsonGridMarket = {
-  slug: string
-  contractAddress: string
-}
-
 export type JsonSlugMarketId = {
   slug: string
   marketId: string
 }
 
-export type JsonHelixCategory = {
-  newMarkets: JsonSlugMarketId[]
-  iAssets: JsonSlugMarketId[]
-  rwa: JsonSlugMarketId[]
-  deprecated: JsonSlugMarketId[]
-  trending: JsonSlugMarketId[]
-  injective: JsonSlugMarketId[]
-  layer1: JsonSlugMarketId[]
-  layer2: JsonSlugMarketId[]
-  defi: JsonSlugMarketId[]
-  ai: JsonSlugMarketId[]
-  meme: JsonSlugMarketId[]
+export type JsonGridMarket = {
+  slug: string
+  contractAddress: string
 }
 
 export type JsonSwapRoute = {
@@ -35,9 +14,28 @@ export type JsonSwapRoute = {
   target_denom: string
 }
 
+export type JsonValidator = {
+  image: string
+  moniker: string
+  identity: string
+  operatorAddress: string
+}
+
 export type JsonChainUpgrade = {
   proposalId: number
   proposalMsg: string
   blockHeight: number
   disableMaintenance: boolean
+}
+
+export type JsonHelixCategory = {
+  ai: JsonSlugMarketId[]
+  rwa: JsonSlugMarketId[]
+  defi: JsonSlugMarketId[]
+  layer1: JsonSlugMarketId[]
+  iAssets: JsonSlugMarketId[]
+  trending: JsonSlugMarketId[]
+  injective: JsonSlugMarketId[]
+  newMarkets: JsonSlugMarketId[]
+  deprecated: JsonSlugMarketId[]
 }
