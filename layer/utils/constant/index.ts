@@ -43,3 +43,4 @@ export const JSON_POLL_INTERVAL = 1000 * 60 * 10 // 10 minutes
 export const DEFAULT_NOTIFICATION_TIMEOUT = 6 * 1000
 
 export const NOTIFI_LINK = 'https://injective.notifi.network'
+export const TURNKEY_CONTAINER_ID = 'turnkey-auth-iframe-container-id'

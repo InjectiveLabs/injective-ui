@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PasteEvent } from './../types'
+import type { PasteEvent } from './../types'
 
 const props = defineProps({
   isClearedOnPaste: Boolean,
@@ -11,14 +11,24 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  pasted: [value: string]
-  'input:changed': [value: string]
-  'update:modelValue': [state: string]
-
   // Legacy
   paste: []
   input: [value: string]
+  pasted: [value: string]
+
+  'input:changed': [value: string]
+  'update:modelValue': [state: string]
 }>()
+
+function onChange(event: any) {
+  const { value } = event.target
+
+  emit('update:modelValue', value)
+  emit('input:changed', value)
+
+  // Legacy
+  emit('input', value)
+}
 
 function onPaste(payload: ClipboardEvent) {
   const event = payload as PasteEvent<HTMLInputElement>
@@ -42,16 +52,6 @@ function onPaste(payload: ClipboardEvent) {
 
   // Legacy
   emit('paste')
-}
-
-function onChange(event: any) {
-  const { value } = event.target
-
-  emit('update:modelValue', value)
-  emit('input:changed', value)
-
-  // Legacy
-  emit('input', value)
 }
 </script>
 

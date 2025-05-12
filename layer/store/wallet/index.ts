@@ -1,12 +1,18 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
+import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../../utils/constant'
 import {
   Wallet,
   isEvmWallet,
   isCosmosWallet,
 } from '@injectivelabs/wallet-base'
+import { 
+  submitTurnkeyOTP, 
+  initTurnkeyGoogle,
+  getEmailTurnkeyOTP,
+  connectTurnkeyGoogle
+} from './turnkey'
 import {
   MsgGrant,
   PrivateKey,
@@ -17,7 +23,12 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
-import { web3GatewayService } from './../Service'
+import { web3GatewayService } from '../../Service'
+import {
+  EventBus,
+  GrantDirection,
+  WalletConnectStatus
+} from '../../types'
 import {
   getAddresses,
   walletStrategy,
@@ -28,16 +39,11 @@ import {
   autoSignWalletStrategy,
   autoSignMsgBroadcaster,
   confirmCosmosWalletAddress
-} from '../WalletService'
-import {
-  EventBus,
-  GrantDirection,
-  WalletConnectStatus
-} from '../types'
+} from '../../WalletService'
 import type { MagicProvider } from '@injectivelabs/wallet-base';
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts';
-import type { AutoSign } from '../types';
+import type { AutoSign } from '../../types';
 
 type WalletStoreState = {
   wallet: Wallet
@@ -179,6 +185,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
+    submitTurnkeyOTP,
+    initTurnkeyGoogle,
+    getEmailTurnkeyOTP,
+    connectTurnkeyGoogle,
+
     async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()
 
@@ -536,7 +547,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.autoSign) {
-        autoSignWalletStrategy.setOptions({
+        autoSignWalletStrategy.setMetadata({
           privateKey: walletStore.autoSign.privateKey as string
         })
       }
@@ -705,7 +716,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
-        walletStrategy.setOptions({ privateKey: options.privateKey })
+        walletStrategy.setMetadata({ privateKey: options.privateKey })
       }
 
       walletStore.$patch({

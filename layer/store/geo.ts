@@ -8,11 +8,11 @@ import {
 } from './../utils/constant'
 
 type GeoStoreState = {
-  geoContinent: string
-  geoCountry: string
   ipAddress: string
-  browserCountry: string
+  geoCountry: string
+  geoContinent: string
   vpnDetected: boolean
+  browserCountry: string
   vpnCheckedTimestamp: number
 }
 
@@ -39,8 +39,8 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
       try {
         const { data } = (await httpClient.get('info')) as {
           data: {
-            continent: string
             country: string
+            continent: string
           }
         }
 
@@ -48,7 +48,7 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
           geoContinent: data.continent,
           geoCountry: data.country
         })
-      } catch (error: any) {
+      } catch {
         // silently throw
       }
     },
@@ -90,14 +90,14 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
           }
         )) as {
           data: {
-            security: {
-              vpn: boolean
-              proxy: boolean
-              tor: boolean
-              relay: boolean
-            }
             location: {
               country_code: string
+            }
+            security: {
+              vpn: boolean
+              tor: boolean
+              proxy: boolean
+              relay: boolean
             }
           }
         }
@@ -137,8 +137,8 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
         }
       })) as {
         coords: {
-          longitude: string
           latitude: string
+          longitude: string
         }
       }
 
