@@ -40,7 +40,6 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    '@nuxtjs/i18n',
     '@nuxt/eslint',
     '@nuxt/devtools',
     'nuxt-vitalizer',

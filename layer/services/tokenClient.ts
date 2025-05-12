@@ -1,12 +1,12 @@
 import {
-  Metadata,
+  type Metadata,
   TokenType,
-  TokenStatic,
-  ContractInfo,
-  InsuranceFund,
+  type TokenStatic,
+  type ContractInfo,
+  type InsuranceFund,
   TokenVerification,
   isCw20ContractAddress,
-  ContractStateWithPagination
+  type ContractStateWithPagination
 } from '@injectivelabs/sdk-ts'
 import {
   ibcApi,

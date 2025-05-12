@@ -1,7 +1,7 @@
 import { GeneralException } from '@injectivelabs/exceptions'
 import {
   Network,
-  NetworkEndpoints,
+  type NetworkEndpoints,
   getNetworkEndpoints
 } from '@injectivelabs/networks'
 import {

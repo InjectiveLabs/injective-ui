@@ -1,4 +1,4 @@
-import { TokenStatic } from '@injectivelabs/sdk-ts'
+import { type TokenStatic } from '@injectivelabs/sdk-ts'
 
 export interface SharedDropdownOptionWithToken {
   value: string

@@ -1,4 +1,4 @@
-import { Orderbook, SpotTrade, DerivativeTrade } from '@injectivelabs/sdk-ts'
+import type { Orderbook, SpotTrade, DerivativeTrade } from '@injectivelabs/sdk-ts'
 import { BigNumberInBase, BigNumberInWei } from '@injectivelabs/utils'
 
 export interface SharedUiSpotTrade extends SpotTrade {

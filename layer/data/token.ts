@@ -1,6 +1,6 @@
 import {
   TokenType,
-  TokenStatic,
+  type TokenStatic,
   TokenVerification
 } from '@injectivelabs/sdk-ts'
 import { Network } from '@injectivelabs/networks'

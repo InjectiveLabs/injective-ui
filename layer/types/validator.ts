@@ -1,7 +1,7 @@
 import {
   BondStatus,
-  ValidatorCommission,
-  ValidatorDescription
+  type ValidatorCommission,
+  type ValidatorDescription
 } from '@injectivelabs/sdk-ts'
 
 export interface SharedUiValidator {
