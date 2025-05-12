@@ -85,6 +85,7 @@ export enum NuxtUiIcons {
   CheckmarkOutline = 'solar:check-circle-outline',
   CheckShieldOutline = 'stash:shield-check',
   ChevronDown = 'bi:chevron-down',
+  ChevronDownCircle = 'fluent:chevron-circle-down-28-regular',
   ChevronLeft = 'bi:chevron-left',
   ChevronLeft2 = 'fa-solid:chevron-left',
   ChevronRight = 'bi:chevron-right',
