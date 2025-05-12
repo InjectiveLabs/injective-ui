@@ -157,6 +157,9 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
   throw new Error('PROXY_DETECTION_API_KEY is required when VPN_CHECKS_ENABLED')
 }
 
+export const TURNKEY_ORGID = import.meta.env.VITE_TURNKEY_ORGID
+export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env.VITE_TURNKEY_GOOGLE_CLIENT_ID
+
 export const IS_HUB = import.meta.env.VITE_PRODUCT === 'hub'
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
 export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'

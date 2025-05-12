@@ -86,6 +86,7 @@ export default defineConfig({
     include: isProduction
       ? []
       : [
+          'ethers',
           'date-fns',
           'vue-imask',
           'vue-hotjar',
@@ -101,6 +102,7 @@ export default defineConfig({
           '@injectivelabs/utils',
           '@injectivelabs/sdk-ts',
           'qr-code-generator-vue3',
+          '@metamask/eth-sig-util',
           'class-variance-authority',
           '@injectivelabs/wallet-evm',
           '@injectivelabs/wallet-base',

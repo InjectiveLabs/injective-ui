@@ -1,15 +1,16 @@
-import { Wallet } from '@injectivelabs/wallet-base'
+import { alchemyRpcEndpoint } from './alchemy'
 import { WalletStrategy } from '@injectivelabs/wallet-strategy'
+import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
 import {
   CHAIN_ID,
-  APP_NAME,
   ENDPOINTS,
-  APP_BASE_URL,
+  TURNKEY_ORGID,
   MAGIC_APK_KEY,
   ETHEREUM_CHAIN_ID,
+  TURNKEY_CONTAINER_ID,
+  TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
-import { alchemyRpcEndpoint } from './alchemy'
 
 export const walletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,
@@ -17,17 +18,25 @@ export const walletStrategy = new WalletStrategy({
     ethereumChainId: ETHEREUM_CHAIN_ID,
     rpcUrl: alchemyRpcEndpoint
   },
-  options: {
-    metadata: {
-      magic: {
-        apiKey: MAGIC_APK_KEY as string,
-        rpcEndpoint: ENDPOINTS.rpc as string
-      },
-      name: APP_NAME,
-      url: APP_BASE_URL,
-      projectId: WALLET_CONNECT_PROJECT_ID,
-      description: ''
-    }
+  metadata: {
+    magic: {
+      apiKey: MAGIC_APK_KEY as string,
+      rpcEndpoint: ENDPOINTS.rpc as string
+    },
+    walletConnect: {
+      projectId: WALLET_CONNECT_PROJECT_ID
+    },
+    ...(TURNKEY_ORGID &&{
+      turnkey: {
+        provider: TurnkeyProvider.Google,
+        defaultOrganizationId: TURNKEY_ORGID,
+        apiBaseUrl: "https://api.turnkey.com",
+        iframeContainerId: TURNKEY_CONTAINER_ID,
+        googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
+        googleRedirectUri: window.location.origin,
+        apiServerEndpoint: "https://api.ui.injective.network/api/v1"
+      }
+    })
   },
   strategies: {}
 })
@@ -39,8 +48,10 @@ export const autoSignWalletStrategy = new WalletStrategy({
     ethereumChainId: ETHEREUM_CHAIN_ID,
     rpcUrl: alchemyRpcEndpoint
   },
-  options: {
-    privateKey: ''
+  metadata: {
+    privateKey: {
+      privateKey: ''
+    }
   },
   strategies: {}
 })

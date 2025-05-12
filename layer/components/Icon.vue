@@ -1,5 +1,6 @@
+
 <script setup lang="ts">
-import { computed, defineAsyncComponent, useAttrs } from 'vue'
+import { computed, useAttrs, defineAsyncComponent } from 'vue'
 
 const attrs = useAttrs()
 
@@ -65,6 +66,10 @@ const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
     name = 'wallet/ledger'
   }
 
+  if (name.includes('turnkey')) {
+    name = 'wallet/turnkey'
+  }
+
   return new Promise((resolve, _reject) => {
     const comps = import.meta.glob('./../icons/**/*.vue')
 
@@ -73,7 +78,7 @@ const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
         resolve(component.default)
       )
     } catch (e) {
-      // eslint-disable-next-line no-console
+       
       console.log({ e, name })
     }
   })

@@ -11,3 +11,7 @@ export const onWalletConnected = (callback: Function) => {
 export const onWalletInitialConnected = (callback: Function) => {
   useEventBus(EventBus.WalletConnected).on(() => callback())
 }
+
+export const onHasMagicAccount = (callback: Function) => {
+  useEventBus(EventBus.HasMagicAccount).on(() => callback())
+}

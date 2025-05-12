@@ -1,12 +1,19 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../utils/constant'
+import { connectMagic, queryMagicExistingUser } from './magic'
+import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../../utils/constant'
 import {
   Wallet,
   isEvmWallet,
   isCosmosWallet,
 } from '@injectivelabs/wallet-base'
+import { 
+  submitTurnkeyOTP, 
+  initTurnkeyGoogle,
+  getEmailTurnkeyOTP,
+  connectTurnkeyGoogle
+} from './turnkey'
 import {
   MsgGrant,
   PrivateKey,
@@ -17,7 +24,12 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
-import { web3GatewayService } from './../Service'
+import { web3GatewayService } from '../../Service'
+import {
+  EventBus,
+  GrantDirection,
+  WalletConnectStatus
+} from '../../types'
 import {
   getAddresses,
   walletStrategy,
@@ -28,19 +40,14 @@ import {
   autoSignWalletStrategy,
   autoSignMsgBroadcaster,
   confirmCosmosWalletAddress
-} from '../WalletService'
-import {
-  EventBus,
-  GrantDirection,
-  WalletConnectStatus
-} from '../types'
-import type { MagicProvider } from '@injectivelabs/wallet-base';
+} from '../../WalletService'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts';
-import type { AutoSign } from '../types';
+import type { AutoSign } from '../../types';
 
 type WalletStoreState = {
   wallet: Wallet
+  email?: string
   isDev: boolean
   address: string
   session: string
@@ -56,8 +63,8 @@ type WalletStoreState = {
   metamaskInstalled: boolean
   addressConfirmation: string
   okxWalletInstalled: boolean
-
   trustWalletInstalled: boolean
+  turnkeyInjectiveAddress: string
 
   walletConnectStatus: WalletConnectStatus
   authZ: {
@@ -69,6 +76,7 @@ type WalletStoreState = {
 }
 
 const initialStateFactory = (): WalletStoreState => ({
+  email: '',
   address: '',
   session: '',
   isDev: false,
@@ -84,6 +92,7 @@ const initialStateFactory = (): WalletStoreState => ({
   metamaskInstalled: false,
   okxWalletInstalled: false,
   trustWalletInstalled: false,
+  turnkeyInjectiveAddress: '',
   queueStatus: StatusType.Idle,
 
   walletConnectStatus: WalletConnectStatus.idle,
@@ -179,6 +188,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
+    connectMagic,
+    submitTurnkeyOTP,
+    initTurnkeyGoogle,
+    getEmailTurnkeyOTP,
+    connectTurnkeyGoogle,
+    queryMagicExistingUser,
+
     async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()
 
@@ -536,8 +552,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.autoSign) {
-        autoSignWalletStrategy.setOptions({
-          privateKey: walletStore.autoSign.privateKey as string
+        autoSignWalletStrategy.setMetadata({
+          privateKey: {
+            privateKey: walletStore.autoSign.privateKey as string
+          }
         })
       }
 
@@ -705,7 +723,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
-        walletStrategy.setOptions({ privateKey: options.privateKey })
+        walletStrategy.setMetadata({
+          privateKey: {
+            privateKey: options.privateKey 
+          }
+        })
       }
 
       walletStore.$patch({
@@ -779,38 +801,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.$patch({
           hwAddresses: [...walletStore.hwAddresses, ...injectiveAddresses]
         })
-      }
-    },
-
-    async connectMagic(provider?: MagicProvider, email?: string) {
-      const walletStore = useSharedWalletStore()
-
-      await walletStore.connectWallet(Wallet.Magic)
-
-      try {
-        const [address] = await getAddresses({ email, provider })
-
-        if (!address) {
-          return
-        }
-
-        const ethereumAddress = getEthereumAddress(address)
-        const session = await walletStrategy.getSessionOrConfirm(address)
-
-        walletStore.$patch({
-          session,
-          address: ethereumAddress,
-          injectiveAddress: address,
-          addresses: [ethereumAddress],
-          addressConfirmation: await walletStrategy.getSessionOrConfirm(
-            address
-          )
-        })
-
-        await walletStore.onConnect()
-      } catch {
-        walletStore.wallet = initialStateFactory().wallet
-        walletStore.walletConnectStatus = WalletConnectStatus.idle
       }
     },
 
