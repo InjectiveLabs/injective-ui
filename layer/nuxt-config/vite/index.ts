@@ -3,6 +3,7 @@ import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
 import {
+  IS_HUB,
   IS_HELIX,
   IS_BRIDGE,
   IS_EXPLORER,
@@ -152,6 +153,13 @@ export default defineConfig({
                 'ace-builds/src-noconflict/theme-chrome'
               ]
             : []),
+            ...(IS_HUB ? [
+              'highcharts',
+              'ace-builds',
+              'vue3-ace-editor',
+              'ace-builds/src-noconflict/mode-json',
+              'ace-builds/src-noconflict/theme-solarized_dark'
+            ] : []),
             ...(IS_TRADING_UI ? [
               '@shared/types', 
               '@shared/data/token', 

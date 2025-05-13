@@ -166,6 +166,14 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
   actions: {
     async fetchToken() {
+      const data = (await client.get(`json/tokens/verified/${getNetworkName()}`)) as {
+        data: TokenStatic[]
+      }
+
+      tokenStaticFactory.mapRegistry(data.data)
+    },
+
+    async fetchFullTokenList() {
       const data = (await client.get(`json/tokens/${getNetworkName()}`)) as {
         data: TokenStatic[]
       }
