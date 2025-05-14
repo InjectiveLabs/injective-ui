@@ -74,7 +74,10 @@ const subscriptedAmount = computed(() => {
     }
   }
 
-  if (nOfZeros > props.subscriptThresholdDecimals) {
+  if (
+    nOfZeros > props.subscriptThresholdDecimals ||
+    nOfZeros > props.decimals
+  ) {
     const subscriptAmount = new BigNumberInBase(decimalPart.replace(/^0+/, ""))
       .toFixed(0)
       .slice(0, props.subscriptDecimals);
