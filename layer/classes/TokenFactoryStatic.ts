@@ -58,12 +58,6 @@ export class TokenStaticFactory {
 
   mapRegistry(registry: TokenStatic[]) {
     for (const token of registry) {
-      const existingToken = this.toToken(token.denom)
-
-      if (existingToken) {
-        continue
-      }
-
       const {
         denom,
         baseDenom,

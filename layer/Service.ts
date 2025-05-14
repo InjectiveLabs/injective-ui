@@ -88,14 +88,14 @@ export const indexerRestExplorerApi = new IndexerRestExplorerApi(
 )
 export const indexerRestDerivativeChronosApi =
   new IndexerRestDerivativesChronosApi(
-    `${ENDPOINTS.chronos}/api/chronos/v1/derivative`
+    `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/derivative`
   )
 export const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
-  `${ENDPOINTS.chronos}/api/chronos/v1/spot`
+  `${ENDPOINTS.chronos || ENDPOINTS.chronos}/api/chart/v1/spot`
 )
 
 export const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(
-  `${ENDPOINTS.chronos}/api/chronos/v1/market`
+  `${ENDPOINTS.chronos || ENDPOINTS.chronos}/api/chart/v1/market`
 )
 
 export const spotCacheApi = new SpotCacheApi(ENDPOINTS.uiApi)

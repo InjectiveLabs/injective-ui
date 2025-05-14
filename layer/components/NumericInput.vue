@@ -5,7 +5,7 @@ import {
   convertToNumericValue,
   passNumericInputValidation
 } from './../utils/input'
-import { KeydownEvent, PasteEvent } from './../types'
+import type { PasteEvent, KeydownEvent } from './../types'
 
 const props = defineProps({
   modelValue: {
@@ -36,6 +36,13 @@ function onWheel(event: WheelEvent) {
   event.preventDefault()
 }
 
+function onChange(event: any) {
+  const { value } = event.target
+
+  emit('update:modelValue', value)
+  debounceSanitizeDecimalPlace(value)
+}
+
 function onKeyDown(payload: KeyboardEvent) {
   const event = payload as KeydownEvent<HTMLInputElement>
 
@@ -62,13 +69,6 @@ function onPaste(payload: ClipboardEvent) {
 
     emit('update:modelValue', `${formattedValue}`)
   }
-}
-
-function onChange(event: any) {
-  const { value } = event.target
-
-  emit('update:modelValue', value)
-  debounceSanitizeDecimalPlace(value)
 }
 </script>
 
