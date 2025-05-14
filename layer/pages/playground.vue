@@ -10,6 +10,7 @@ const values = reactive({
 const testNumbers = [
   "0.0000001",
   "0.01",
+  "1.1",
   "1000",
   "1000000",
   "1000000000.123",
@@ -65,6 +66,30 @@ const testNumbers = [
         </div>
       </UCard>
     </div>
+
+    <UCard class="mt-5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <UCard class="flex flex-col">
+          <div class="flex-1 h-full">
+            <p class="text-lg font-bold">Usd Amount</p>
+          </div>
+          <SharedAmountUsdDisplay :amount="values.amount" />
+        </UCard>
+
+        <UCard class="flex flex-col">
+          <div class="flex-1">
+            <p class="text-lg font-bold">Amount</p>
+            <p class="text-xs text-gray-500">
+              (with no trailing zeros & we dont show decimals if the number is
+              bigger than 1M)
+            </p>
+          </div>
+          <div class="mt-2">
+            <SharedAmountFormatted :amount="values.amount" /> INJ
+          </div>
+        </UCard>
+      </div>
+    </UCard>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
       <template
