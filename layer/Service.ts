@@ -1,3 +1,4 @@
+import { UiApiService } from './providers/uiApi'
 import { FaucetService } from './services/Faucet'
 import { Web3Client } from './services/Web3Client'
 import { PythService } from './services/pythClient'
@@ -91,15 +92,15 @@ export const indexerRestDerivativeChronosApi =
     `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/derivative`
   )
 export const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
-  `${ENDPOINTS.chronos || ENDPOINTS.chronos}/api/chart/v1/spot`
+  `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/spot`
 )
-
 export const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(
   IS_MAINNET
   ? `https://k8s.global.mainnet.chart.grpc-web.injective.network/api/chart/v1/market`
-  : `${ENDPOINTS.chronos || ENDPOINTS.chronos}/api/chart/v1/market`
+  : `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/market`
 )
 
+export const uiApi = new UiApiService(ENDPOINTS.uiApi)
 export const spotCacheApi = new SpotCacheApi(ENDPOINTS.uiApi)
 export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.uiApi)
 export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.uiApi)

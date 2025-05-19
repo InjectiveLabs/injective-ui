@@ -31,18 +31,19 @@ export enum CommonCyTags {
   NotificationDescription = 'notification-description',
 }
 
-export enum EventBus {
-  WalletConnected = 'wallet-connected',
-  SubaccountChange = 'subaccount-change',
-  WalletDisconnected = 'wallet-disconnected'
-}
-
 export enum WalletConnectStatus {
   idle = 'Idle',
   connected = 'Connected',
   connecting = 'Connecting',
   disconnected = 'Disconnected',
   disconnecting = 'disconnecting'
+}
+
+export enum EventBus {
+  HasMagicAccount= 'has-magic-account',
+  WalletConnected = 'wallet-connected',
+  SubaccountChange = 'subaccount-change',
+  WalletDisconnected = 'wallet-disconnected'
 }
 
 export enum UIBreakpoints {
