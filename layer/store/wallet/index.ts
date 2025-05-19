@@ -1043,7 +1043,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign
       })
 
-      autoSignWalletStrategy.setOptions({
+      autoSignWalletStrategy.setMetadata({
         privateKey: {
           privateKey: autoSign.privateKey
         }
