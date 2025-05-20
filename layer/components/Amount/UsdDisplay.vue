@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import type { BigNumberInBase } from "@injectivelabs/utils";
+import { DEFAULT_ABBREVIATION_THRESHOLD } from "../../utils/constant";
 
 withDefaults(
   defineProps<{
-    amount: string | number | BigNumberInBase;
     showSign?: boolean;
+    abbreviationThreshold?: number;
+    amount: string | number | BigNumberInBase;
   }>(),
   {
     showSign: true,
+    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
   },
 );
 </script>
@@ -15,6 +18,12 @@ withDefaults(
 <template>
   <span>
     <span v-if="showSign">$ </span>
-    <SharedAmountDisplay :amount="amount" :decimals="2" use-abbreviation />
+    <SharedAmountDisplay
+      v-bind="{
+        amount,
+        decimals: 2,
+        abbreviationThreshold,
+      }"
+    />
   </span>
 </template>

@@ -1,37 +1,25 @@
 <script setup lang="ts">
 import { BigNumberInBase } from "@injectivelabs/utils";
+import { abbreviateNumber } from "../../utils/helper";
+import { DEFAULT_ABBREVIATION_THRESHOLD } from "../../utils/constant";
 
 const props = withDefaults(
   defineProps<{
-    amount: string | number | BigNumberInBase;
     decimals?: number;
     useSubscript?: boolean;
-    useAbbreviation?: boolean;
-    abbreviationThreshold?: number;
     noTrailingZeros?: boolean;
-    subscriptThresholdDecimals?: number;
     subscriptDecimals?: number;
+    abbreviationThreshold?: number;
+    subscriptThresholdDecimals?: number;
+    amount: string | number | BigNumberInBase;
   }>(),
   {
-    decimals: 6,
-    useSubscript: false,
-    useAbbreviation: false,
-    abbreviationThreshold: 1_000_000,
-    noTrailingZeros: false,
-    subscriptThresholdDecimals: 4,
+    decimals: 8,
     subscriptDecimals: 4,
+    subscriptThresholdDecimals: 4,
+    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
   },
 );
-
-function abbreviateNumber(num: number, decimals: number = 2): string {
-  const suffixes = ["", "K", "M", "B", "T", "Q", "R", "S", "D", "N"];
-  const tier = (Math.log10(Math.abs(num)) / 3) | 0;
-  const suffix = suffixes[tier];
-  const scale = Math.pow(10, tier * 3);
-
-  const scaled = num / scale;
-  return scaled.toFixed(decimals) + (suffix || "");
-}
 
 const abbreviatedAmount = computed(() => {
   const amount = new BigNumberInBase(props.amount || 0);
@@ -44,11 +32,11 @@ const abbreviatedAmount = computed(() => {
 
   const nIsLowerThanDecimalThreshold = amount.lt(minDecimalThreshold);
 
-  if (props.useAbbreviation && nIsBiggerThanThreshold) {
-    return "~" + abbreviateNumber(Number(props.amount || 0));
+  if (!!props.abbreviationThreshold && nIsBiggerThanThreshold) {
+    return abbreviateNumber(Number(props.amount || 0));
   }
 
-  if (props.useAbbreviation && nIsLowerThanDecimalThreshold && amount.gt(0)) {
+  if (nIsLowerThanDecimalThreshold && amount.gt(0)) {
     return "<" + minDecimalThreshold.toFormat();
   }
 
@@ -92,16 +80,23 @@ const subscriptedAmount = computed(() => {
 
 const formattedAmount = computed(() => {
   const amount = new BigNumberInBase(props.amount || 0);
+  const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN;
 
   if (props.noTrailingZeros) {
-    return amount.toFormat(props.decimals).replace(/\.?0+$/, "");
+    return amount
+      .toFormat(props.decimals, DEFAULT_ROUNDING_MODE)
+      .replace(/\.?0+$/, "");
   }
 
-  const formattedAmount = amount.toFormat(props.decimals);
+  const formattedAmount = amount.toFormat(
+    props.decimals,
+    DEFAULT_ROUNDING_MODE,
+  );
 
   return formattedAmount;
 });
 </script>
+
 <template>
   <span v-if="abbreviatedAmount">{{ abbreviatedAmount }}</span>
   <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>

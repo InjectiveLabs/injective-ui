@@ -3,6 +3,7 @@ import {
   BigNumberInBase,
   getExactDecimalsFromNumber
 } from '@injectivelabs/utils'
+import { abbreviateNumber } from '../utils/helper'
 
 const ZERO_IN_BASE = new BigNumberInBase(0)
 const DEFAULT_DECIMAL_PLACES = 2
@@ -17,40 +18,6 @@ const getFormattedZeroValue = (decimalPlaces: number) => {
   }
 
   return '0.0'
-}
-
-const unAbbreviateNumber = (value: string): BigNumberInBase | undefined => {
-  const units = {
-    K: Number(`1${'0'.repeat(3)}`),
-    M: Number(`1${'0'.repeat(6)}`),
-    B: Number(`1${'0'.repeat(9)}`),
-    T: Number(`1${'0'.repeat(12)}`)
-  } as Record<string, number>
-
-  const unit = value.at(-1)
-
-  if (!unit || !units[unit]) {
-    return
-  }
-
-  const formattedValue = value.replaceAll(',', '').slice(0, -1)
-
-  return new BigNumberInBase(formattedValue).multipliedBy(units[unit])
-}
-
-const abbreviateNumber = (number: number) => {
-  const abbreviatedValue = new Intl.NumberFormat('en-US', {
-    notation: 'compact',
-    compactDisplay: 'short'
-  }).format(number)
-
-  const abbreviatedValueMatchesInput = new BigNumberInBase(number).eq(
-    unAbbreviateNumber(abbreviatedValue) || '0'
-  )
-
-  return abbreviatedValueMatchesInput
-    ? abbreviatedValue
-    : `≈${abbreviatedValue}`
 }
 
 const getNumberMinimalDecimals = (
