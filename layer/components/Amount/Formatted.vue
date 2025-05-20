@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import { BigNumberInBase } from "@injectivelabs/utils";
+import { DEFAULT_ABBREVIATION_THRESHOLD } from "../../utils/constant";
 
 const props = withDefaults(
   defineProps<{
-    amount: string | number | BigNumberInBase;
     decimals?: number;
+    useSubscript?: boolean;
     noTrailingZeros?: boolean;
+    abbreviationThreshold?: number;
+    amount: string | number | BigNumberInBase;
   }>(),
   {
-    decimals: 6,
+    decimals: 8,
     noTrailingZeros: true,
+    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
   },
 );
 
 const decimals = computed(() => {
-  if (new BigNumberInBase(props.amount || 0).gt(1_000_000)) {
+  if (
+    !!props.abbreviationThreshold &&
+    new BigNumberInBase(props.amount || 0).gt(props.abbreviationThreshold)
+  ) {
     return 2;
   }
 
@@ -27,8 +34,9 @@ const decimals = computed(() => {
     v-bind="{
       amount,
       decimals,
-      useSubscript: true,
+      useSubscript,
       noTrailingZeros,
+      abbreviationThreshold,
     }"
   />
 </template>

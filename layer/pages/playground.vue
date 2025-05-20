@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const values = reactive({
   amount: "1",
-  decimals: 6,
+  decimals: 8,
   abbreviateThreshold: 1000000,
   subscriptThresholdDecimals: 4,
   subscriptDecimals: 4,
@@ -10,12 +10,13 @@ const values = reactive({
 const testNumbers = [
   "0.0000001",
   "0.01",
+  "0.0110000",
   "1.1",
   "1000",
   "1000000",
   "1000000000.123",
   "1000.000000000123",
-  "1000.123",
+  "1000.1234567891",
   "1580000.123",
   "1230000000.123",
 
@@ -93,68 +94,50 @@ const testNumbers = [
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
       <template
-        v-for="useAbbreviation in [false, true]"
-        :key="useAbbreviation.toString()"
+        v-for="noTrailingZeros in [false, true]"
+        :key="noTrailingZeros.toString()"
       >
         <template
-          v-for="noTrailingZeros in [false, true]"
-          :key="noTrailingZeros.toString()"
+          v-for="useSubscript in [false, true]"
+          :key="useSubscript.toString()"
         >
-          <template
-            v-for="useSubscript in [false, true]"
-            :key="useSubscript.toString()"
-          >
-            <UCard>
-              <div class="text-xs">
-                <p>
-                  Should Abbreviate:
-                  <span
-                    class="font-bold"
-                    :class="[
-                      useAbbreviation ? 'text-green-500' : 'text-red-500',
-                    ]"
-                    >{{ useAbbreviation }}</span
-                  >
-                </p>
-                <p>
-                  No Trailing Zeros:
-                  <span
-                    class="font-bold"
-                    :class="[
-                      noTrailingZeros ? 'text-green-500' : 'text-red-500',
-                    ]"
-                    >{{ noTrailingZeros }}</span
-                  >
-                </p>
-                <p>
-                  Use Subscript:
-                  <span
-                    class="font-bold"
-                    :class="[useSubscript ? 'text-green-500' : 'text-red-500']"
-                    >{{ useSubscript }}</span
-                  >
-                </p>
+          <UCard>
+            <div class="text-xs">
+              <p>
+                No Trailing Zeros:
+                <span
+                  class="font-bold"
+                  :class="[noTrailingZeros ? 'text-green-500' : 'text-red-500']"
+                  >{{ noTrailingZeros }}</span
+                >
+              </p>
+              <p>
+                Use Subscript:
+                <span
+                  class="font-bold"
+                  :class="[useSubscript ? 'text-green-500' : 'text-red-500']"
+                  >{{ useSubscript }}</span
+                >
+              </p>
 
-                <p class="text-right border-t pt-2 mt-2">
-                  <SharedAmountDisplay
-                    class="text-2xl"
-                    v-bind="{
-                      amount: values.amount,
-                      abbreviationThreshold: Number(values.abbreviateThreshold),
-                      decimals: Number(values.decimals),
-                      subscriptDecimals: Number(values.subscriptDecimals),
-                      subscriptThresholdDecimals: Number(
-                        values.subscriptThresholdDecimals,
-                      ),
-                      useAbbreviation,
-                      noTrailingZeros,
-                      useSubscript,
-                    }"
-                  />
-                </p>
-              </div>
-            </UCard>
-          </template>
+              <p class="text-right border-t pt-2 mt-2">
+                <SharedAmountDisplay
+                  class="text-2xl"
+                  v-bind="{
+                    useSubscript,
+                    noTrailingZeros,
+                    amount: values.amount,
+                    decimals: Number(values.decimals),
+                    subscriptDecimals: Number(values.subscriptDecimals),
+                    abbreviationThreshold: Number(values.abbreviateThreshold),
+                    subscriptThresholdDecimals: Number(
+                      values.subscriptThresholdDecimals,
+                    ),
+                  }"
+                />
+              </p>
+            </div>
+          </UCard>
         </template>
       </template>
     </div>
