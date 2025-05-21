@@ -1,6 +1,6 @@
 import { alchemyRpcEndpoint } from './alchemy'
+import { Wallet } from '@injectivelabs/wallet-base'
 import { WalletStrategy } from '@injectivelabs/wallet-strategy'
-import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
 import {
   CHAIN_ID,
   ENDPOINTS,
@@ -28,7 +28,6 @@ export const walletStrategy = new WalletStrategy({
     },
     ...(TURNKEY_ORGID &&{
       turnkey: {
-        provider: TurnkeyProvider.Google,
         defaultOrganizationId: TURNKEY_ORGID,
         apiBaseUrl: "https://api.turnkey.com",
         iframeContainerId: TURNKEY_CONTAINER_ID,

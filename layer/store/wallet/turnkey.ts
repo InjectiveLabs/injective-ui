@@ -1,5 +1,5 @@
-import { Wallet } from '@injectivelabs/wallet-base'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts'
+import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
 import {
   ErrorType,
   WalletException,
@@ -27,80 +27,59 @@ function getEmailFromOidcToken(token: string): string {
 export const getEmailTurnkeyOTP = async (email: string) => {
   const walletStore = useSharedWalletStore()
 
-  await walletStore.connectWallet(Wallet.TurnkeyOtp)
-
-  walletStrategy.setMetadata({
-    turnkey: {
-      email: email,
-    },
-  });
+  await walletStore.connectWallet(Wallet.Turnkey)
+  const turnkeyWallet = await walletStrategy.getWalletClient()
+  await turnkeyWallet.initOTP(email)
 
   walletStore.$patch({
     email
   })
-
-  try {
-    const otpId = await walletStrategy.getSessionOrConfirm();
-
-    walletStrategy.setMetadata({
-      turnkey: {
-        otpId
-      },
-    });
-  } catch (e: any) {
-    throw new WalletException(
-      new Error(e.message),
-        {
-          code: UnspecifiedErrorCode,
-          type: ErrorType.WalletNotInstalledError
-        }
-      )
-   }
 }
+
 
 export const submitTurnkeyOTP = async (otpCode: string) => {
   const walletStore = useSharedWalletStore()
+  const turnkeyWallet = await walletStrategy.getWalletClient()
 
-  walletStrategy.setMetadata({
-    turnkey: {
-      otpCode
-    },
-  });
-
-  const addresses = await walletStrategy.getAddresses();
-  const [address] = addresses
-
-  const ethereumAddress = getEthereumAddress(address)
-  const session = await walletStrategy.getSessionOrConfirm(address)
+  try {
+    await turnkeyWallet.confirmOTP(otpCode)
+    const addresses = await walletStrategy.getAddresses()
   
-  walletStore.$patch({
-    session,
-    address: ethereumAddress,
-    injectiveAddress: address,
-    addresses: [ethereumAddress],
-    addressConfirmation: await walletStrategy.getSessionOrConfirm(
-      address
+    const [address] = addresses
+    const session = await walletStrategy.getSessionOrConfirm(address)
+    
+    walletStore.$patch({
+      session,
+      addresses,
+      injectiveAddress: address,
+      addressConfirmation: session,
+      turnkeyInjectiveAddress: address,
+      address: getEthereumAddress(address),
+    })
+
+    await walletStore.onConnect()
+    const isExistingMagicUser = await walletStore.queryMagicExistingUser(walletStore.email)
+
+    if (isExistingMagicUser) {
+      useEventBus(EventBus.HasMagicAccount).emit()
+    }
+  } catch (e: any) {
+     throw new WalletException(
+      new Error(e.message),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletNotInstalledError
+      }
     )
-  })
-
-  await walletStore.onConnect()
-  const isExistingMagicUser = await walletStore.queryMagicExistingUser(walletStore.email)
-
-  if (isExistingMagicUser) {
-    useEventBus(EventBus.HasMagicAccount).emit()
   }
 }
 
 export const connectTurnkeyGoogle = async () => {
   const walletStore = useSharedWalletStore()
 
-  await walletStore.connectWallet(Wallet.TurnkeyOauth)
-
-  const urlOrSession = await walletStrategy.getSessionOrConfirm();
-
-  if (!urlOrSession) {
-    throw new Error("Error connecting via Google, please try again.");
-  }
+  await walletStore.connectWallet(Wallet.Turnkey)
+  const turnkeyWallet = await walletStrategy.getWalletClient()
+  const urlOrSession = await turnkeyWallet.initOAuth(TurnkeyProvider.Google)
 
   if (urlOrSession.startsWith('http')) {
     window.location.href = urlOrSession;
@@ -111,17 +90,15 @@ export const connectTurnkeyGoogle = async () => {
   const addresses = await walletStrategy.getAddresses();
   const [address] = addresses
 
-  const ethereumAddress = getEthereumAddress(address)
+  
   
   walletStore.$patch({
-    address: ethereumAddress,
-    injectiveAddress: address,
-    addresses: addresses,
+    addresses,
     session: urlOrSession,
+    injectiveAddress: address,
     turnkeyInjectiveAddress: address,
-    addressConfirmation: await walletStrategy.getSessionOrConfirm(
-      address
-    )
+    addressConfirmation: urlOrSession,
+    address: getEthereumAddress(address),
   })
 
   await walletStore.onConnect()
@@ -130,34 +107,23 @@ export const connectTurnkeyGoogle = async () => {
 export const initTurnkeyGoogle = async (oidcToken: string) => {
   const walletStore = useSharedWalletStore()
 
-  await walletStore.connectWallet(Wallet.TurnkeyOauth)
+  await walletStore.connectWallet(Wallet.Turnkey)
 
-  walletStrategy.setMetadata({
-    turnkey: {
-      oidcToken: oidcToken
-    },
-  })
+  const turnkeyWallet = await walletStrategy.getWalletClient()
+  const session = await turnkeyWallet.confirmOAuth(TurnkeyProvider.Google, oidcToken)
 
   const email = getEmailFromOidcToken(oidcToken)
-
-  const session = await walletStrategy.getSessionOrConfirm()
-  
-  const addresses = await walletStrategy.getAddresses();
-
+  const addresses = await walletStrategy.getAddresses()
   const [address] = addresses
-
-  const ethereumAddress = getEthereumAddress(address)
   
   walletStore.$patch({
     email,
     session,
     addresses: addresses,
-    address: ethereumAddress,
     injectiveAddress: address,
+    addressConfirmation: session,
     turnkeyInjectiveAddress: address,
-    addressConfirmation: await walletStrategy.getSessionOrConfirm(
-      address
-    )
+    address: getEthereumAddress(address),
   })
 
   await walletStore.onConnect()

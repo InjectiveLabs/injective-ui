@@ -551,6 +551,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         await walletStore.connectMagic()
       }
 
+      if (walletStore.isUserConnected && walletStore.wallet === Wallet.Turnkey) {
+        // refresh session
+        await walletStrategy.getSessionOrConfirm()
+      }
+
       if (walletStore.autoSign) {
         autoSignWalletStrategy.setMetadata({
           privateKey: {
@@ -751,6 +756,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.$patch({
         ...initialStateFactory(),
         autoSign: undefined,
+        turnkeyInjectiveAddress: '',
         queueStatus: StatusType.Idle,
         bitGetInstalled: walletStore.bitGetInstalled,
         phantomInstalled: walletStore.phantomInstalled,

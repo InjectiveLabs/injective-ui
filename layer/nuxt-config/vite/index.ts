@@ -109,6 +109,7 @@ export default defineConfig({
           '@injectivelabs/wallet-core',
           '@injectivelabs/wallet-ledger',
           '@injectivelabs/wallet-cosmos',
+          '@injectivelabs/wallet-turnkey',
           '@injectivelabs/wallet-strategy',
           '@injectivelabs/wallet-cosmostation',
           '@injectivelabs/wallet-cosmos-strategy',
