@@ -9,6 +9,7 @@ import { EventBus } from '../../types'
 import {
   walletStrategy,
 } from '../../WalletService'
+import type { TurnkeyWallet } from '@injectivelabs/wallet-turnkey'
 
 function getEmailFromOidcToken(token: string): string {
   try {
@@ -28,7 +29,7 @@ export const getEmailTurnkeyOTP = async (email: string) => {
   const walletStore = useSharedWalletStore()
 
   await walletStore.connectWallet(Wallet.Turnkey)
-  const turnkeyWallet = await walletStrategy.getWalletClient()
+  const turnkeyWallet = await walletStrategy.getWalletClient() as TurnkeyWallet
   await turnkeyWallet.initOTP(email)
 
   walletStore.$patch({
@@ -39,7 +40,7 @@ export const getEmailTurnkeyOTP = async (email: string) => {
 
 export const submitTurnkeyOTP = async (otpCode: string) => {
   const walletStore = useSharedWalletStore()
-  const turnkeyWallet = await walletStrategy.getWalletClient()
+  const turnkeyWallet = await walletStrategy.getWalletClient() as TurnkeyWallet
 
   try {
     await turnkeyWallet.confirmOTP(otpCode)
@@ -78,7 +79,7 @@ export const connectTurnkeyGoogle = async () => {
   const walletStore = useSharedWalletStore()
 
   await walletStore.connectWallet(Wallet.Turnkey)
-  const turnkeyWallet = await walletStrategy.getWalletClient()
+  const turnkeyWallet = await walletStrategy.getWalletClient() as TurnkeyWallet
   const urlOrSession = await turnkeyWallet.initOAuth(TurnkeyProvider.Google)
 
   if (urlOrSession.startsWith('http')) {
@@ -109,7 +110,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
 
   await walletStore.connectWallet(Wallet.Turnkey)
 
-  const turnkeyWallet = await walletStrategy.getWalletClient()
+  const turnkeyWallet = await walletStrategy.getWalletClient() as TurnkeyWallet
   const session = await turnkeyWallet.confirmOAuth(TurnkeyProvider.Google, oidcToken)
 
   const email = getEmailFromOidcToken(oidcToken)
