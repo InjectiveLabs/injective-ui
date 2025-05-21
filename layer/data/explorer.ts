@@ -93,5 +93,6 @@ export const msgTypeMap = {
   'injective.oracle.v1beta1.MsgRelayStorkPrices': 'Relay Stork Prices',
   'injective.exchange.v1beta1.MsgDecreasePositionMargin':
     'Decrease Position Margin',
-  'cosmos.distribution.v1beta1.MsgFundCommunityPool': 'Fund Community Pool'
+  'cosmos.distribution.v1beta1.MsgFundCommunityPool': 'Fund Community Pool',
+  'cosmos.distribution.v1beta1.MsgSetWithdrawAddress': 'MsgSetWithdrawAddress'
 } as Record<string | MsgType, string>
