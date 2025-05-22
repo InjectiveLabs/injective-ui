@@ -20,7 +20,6 @@ export interface NotificationOptions {
   timeout?: number
   context?: string // (longer description)
   description?: string
-  isTemplateString?: boolean
   actions?: NotificationAction[]
 }
 
@@ -34,7 +33,5 @@ export interface Notification {
   createdAt: number
   description: string
   type: NotificationType
-
-  isTemplateString?: boolean
   actions: undefined | NotificationAction[]
 }
