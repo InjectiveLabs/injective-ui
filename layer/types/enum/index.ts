@@ -185,3 +185,7 @@ export enum NuxtUiIcons {
   Youtube = 'mdi:youtube',
   LoadingRotateDots = 'svg-spinners:8-dots-rotate'
 }
+
+export enum CtaToast {
+  Telemetry = 'telemetry',
+}

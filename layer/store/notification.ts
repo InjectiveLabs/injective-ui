@@ -29,6 +29,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
         return
       }
 
+
       notificationStore.$patch({
         notifications: [
           ...notificationStore.notifications,
@@ -39,9 +40,11 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
               options.title.charAt(0).toUpperCase() + options.title.slice(1),
             key: options.key,
             icon: options.icon,
+            data: options.data,
             context: options.context,
             actions: options.actions,
             description: options.description,
+            isTelemetry: options.isTelemetry,
             timeout: options.timeout || defaultTimeout
           }
         ]
@@ -91,6 +94,18 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
 
       if (selectedNotification) {
         notificationStore.clear(selectedNotification.id)
+      }
+    },
+
+    update(key: string, options: Partial<NotificationOptions>) {
+      const notificationStore = useSharedNotificationStore()
+
+      const selectedNotification = notificationStore.notifications.find(
+        (notification) => notification.key === key
+      )
+
+      if (selectedNotification) {
+        Object.assign(selectedNotification, options)
       }
     }
   }
