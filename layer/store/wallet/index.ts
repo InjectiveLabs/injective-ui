@@ -2,14 +2,14 @@ import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { connectMagic, queryMagicExistingUser } from './magic'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../../utils/constant'
+import { IS_DEVNET, DEFAULT_NOTIFICATION_TIMEOUT, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../../utils/constant'
 import {
   Wallet,
   isEvmWallet,
   isCosmosWallet,
 } from '@injectivelabs/wallet-base'
-import { 
-  submitTurnkeyOTP, 
+import {
+  submitTurnkeyOTP,
   initTurnkeyGoogle,
   getEmailTurnkeyOTP,
   connectTurnkeyGoogle
@@ -26,6 +26,7 @@ import {
 } from '@injectivelabs/sdk-ts'
 import { web3GatewayService } from '../../Service'
 import {
+  CtaToast,
   EventBus,
   GrantDirection,
   WalletConnectStatus
@@ -42,7 +43,7 @@ import {
   confirmCosmosWalletAddress
 } from '../../WalletService'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
-import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts';
+import type { Msgs, ContractExecutionCompatAuthz, TxResponseWithElapsedtime } from '@injectivelabs/sdk-ts';
 import type { AutoSign } from '../../types';
 
 type WalletStoreState = {
@@ -730,7 +731,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (options?.privateKey) {
         walletStrategy.setMetadata({
           privateKey: {
-            privateKey: options.privateKey 
+            privateKey: options.privateKey
           }
         })
       }
@@ -840,7 +841,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress)
         })
 
-        return response
+        return response?.txResponse
       }
 
       const response = await msgBroadcaster.broadcast(broadcastOptions)
@@ -892,6 +893,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       messages: Msgs | Msgs[]
     }) {
       const walletStore = useSharedWalletStore()
+      const sharedNotificationStore = useSharedNotificationStore()
 
       const broadcastOptions = await walletStore.prepareBroadcastMessages(
         messages,
@@ -930,17 +932,37 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             msgs: msgExecMsgs,
             injectiveAddress: walletStore.autoSign.injectiveAddress
           })
+        const timeElapsed = (response.timeElapsed / 1000).toFixed(2)
 
-        return response
+        console.log('autosign - layer', {response});
+
+        sharedNotificationStore.update(CtaToast.Telemetry, {
+          isTelemetry: false,
+          timeout: DEFAULT_NOTIFICATION_TIMEOUT,
+          title: `Transaction finalized in ${timeElapsed} sec.`,
+          data: {txHash: response?.txResponse?.txHash || ''}
+        })
+
+        return response?.txResponse
       }
 
-      const action = walletStore.isEip712 
+      const action = walletStore.isEip712
           ? (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastV2(params)
           : (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastWithFeeDelegation(params);
 
       const response = await action(broadcastOptions)
+      const timeElapsed = (response.timeElapsed / 1000).toFixed(2)
 
-      return response
+      console.log('layer', {response});
+
+      sharedNotificationStore.update(CtaToast.Telemetry, {
+        isTelemetry: false,
+        timeout: DEFAULT_NOTIFICATION_TIMEOUT,
+        title: `Transaction finalized in ${timeElapsed} sec.`,
+        data: {txHash: response?.txResponse?.txHash || ''}
+      })
+
+      return response?.txResponse
     },
 
     async validateAutoSign(
@@ -1060,7 +1082,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       const status = await web3GatewayService.healthCheck()
-      
+
       walletStore.$patch({
         isEip712: !status
       })
