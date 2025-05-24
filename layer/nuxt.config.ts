@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     autoImports: ["defineStore"],
   },
 
-  ignore: isProduction ? ["pages/sandbox.vue", "pages/playground.vue"] : [],
+  ignore: isProduction ? ["pages/sandbox.vue"] : [],
 
   sourcemap: {
     client: true,

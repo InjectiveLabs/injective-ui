@@ -1,4 +1,14 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: [
+    (to) => {
+      if (to.query.devMode !== "true") {
+        return navigateTo("/");
+      }
+    },
+  ],
+});
+
 const values = reactive({
   amount: "1",
   decimals: 8,
