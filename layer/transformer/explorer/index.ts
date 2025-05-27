@@ -1,21 +1,20 @@
-import {
+import { unknownToken } from '../../data/token'
+import { msgTypeMap } from '../../data/explorer'
+import { MsgType } from '@injectivelabs/ts-types'
+import { BigNumberInBase } from '@injectivelabs/utils'
+import { getHumanReadableMessage } from './messageSummary'
+import { sharedCoinStringToCoins } from './../../utils/formatter'
+import { hardCodedContractCopyMap } from './../../utils/explorer'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts'
+import type {
   Coin,
   Message,
-  TokenType,
   EventLogEvent,
-  TokenVerification,
   ContractTransaction,
   ExplorerTransaction,
   CW20BalanceExplorerApiResponse
 } from '@injectivelabs/sdk-ts'
-import { BigNumberInBase } from '@injectivelabs/utils'
-import { MsgType } from '@injectivelabs/ts-types'
-import { unknownToken } from '../../data/token'
-import { msgTypeMap } from '../../data/explorer'
-import { getHumanReadableMessage } from './messageSummary'
-import { sharedCoinStringToCoins } from './../../utils/formatter'
-import { hardCodedContractCopyMap } from './../../utils/explorer'
-import {
+import type {
   UiContractTransaction,
   UiExplorerTransaction,
   SharedBalanceWithToken
@@ -109,9 +108,9 @@ export const getCoins = ({
   attributeType
 }: {
   sender: string
-  events?: EventLogEvent[]
-  attributeType: string
   eventType: string
+  attributeType: string
+  events?: EventLogEvent[]
 }): Coin[] => {
   if (!events) {
     return []
@@ -192,11 +191,27 @@ const formatMsgType = (message: Message): string => {
   return `${formattedType} - ${suffix}`
 }
 
+const getSenderFromEvents = (events: EventLogEvent[]) => {
+  return events
+    .reduce(
+      (list, event) => {
+        return [...list, ...(event.attributes || [])]
+      },
+      [] as { key: string; value: string }[]
+    )
+    .find(({ key, value }) => key === 'sender' && value.startsWith('inj'))
+    ?.value
+}
+
 const getTypesAndCoins = (
   transaction: ExplorerTransaction | ContractTransaction
 ) => {
+  console.log(transaction)
+
   const events = (transaction.logs || []).flatMap(({ events }) => events)
-  const sender = transaction.signatures[0].address
+  const sender =
+    transaction?.signatures?.[0]?.address ||
+    (getSenderFromEvents(events) as string)
 
   return {
     types: transaction.messages.map(formatMsgType),
