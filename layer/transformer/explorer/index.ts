@@ -206,8 +206,6 @@ const getSenderFromEvents = (events: EventLogEvent[]) => {
 const getTypesAndCoins = (
   transaction: ExplorerTransaction | ContractTransaction
 ) => {
-  console.log(transaction)
-
   const events = (transaction.logs || []).flatMap(({ events }) => events)
   const sender =
     transaction?.signatures?.[0]?.address ||
