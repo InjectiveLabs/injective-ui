@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 import { MARKET_IDS_TO_HIDE } from './../data/market'
-import { toUiMarketSummary, toUiDerivativeMarket, toZeroUiMarketSummary, sharedGetDerivativeSlugOverride } from './../transformer/market'
+import {
+  toUiMarketSummary,
+  toUiDerivativeMarket,
+  toZeroUiMarketSummary,
+  sharedGetDerivativeSlugOverride
+} from './../transformer/market'
+import { SharedMarketStatus } from './../types'
 import { derivativeCacheApi } from './../Service'
-import type {
-  PerpetualMarket
-} from '@injectivelabs/sdk-ts'
+import type { PerpetualMarket } from '@injectivelabs/sdk-ts'
 import type { SharedUiMarketSummary, SharedUiDerivativeMarket } from '../types'
-
 
 export type derivativeStore = {
   markets: PerpetualMarket[]
@@ -16,7 +19,7 @@ export type derivativeStore = {
 export const useSharedDerivativeStore = defineStore('sharedDerivative', {
   state: (): derivativeStore => ({
     markets: [] as PerpetualMarket[],
-    marketsSummary: [],
+    marketsSummary: []
   }),
 
   getters: {
@@ -24,42 +27,44 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
       const jsonStore = useSharedJsonStore()
       const tokenStore = useSharedTokenStore()
 
-      const uiMarkets = state.markets
-        .map((market) => {
-          const slug = sharedGetDerivativeSlugOverride({
-            ticker: market.ticker,
-            marketId: market.marketId
-          })
-
-          const [baseTokenSymbol] = slug.split('-')
-          const baseToken = tokenStore.tokenByDenomOrSymbol(
-            baseTokenSymbol.toUpperCase()
-          )
-          const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
-
-          if (!baseToken || !quoteToken) {
-            return undefined
-          }
-
-          const formattedMarket = toUiDerivativeMarket({
-            slug,
-            market,
-            baseToken,
-            quoteToken
-          })
-
-          return {
-            ...formattedMarket,
-            isVerified: [
-              ...jsonStore.expiryMarketIds,
-              ...jsonStore.verifiedDerivativeMarketIds
-            ].includes(market.marketId)
-          }
+      const uiMarkets = state.markets.map((market) => {
+        const slug = sharedGetDerivativeSlugOverride({
+          ticker: market.ticker,
+          marketId: market.marketId
         })
 
-      return uiMarkets.filter((market) => 
-        market && !MARKET_IDS_TO_HIDE.includes(market.marketId)
-      ) as SharedUiDerivativeMarket[] 
+        const [baseTokenSymbol] = slug.split('-')
+        const baseToken = tokenStore.tokenByDenomOrSymbol(
+          baseTokenSymbol.toUpperCase()
+        )
+        const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
+
+        if (!baseToken || !quoteToken) {
+          return undefined
+        }
+
+        const formattedMarket = toUiDerivativeMarket({
+          slug,
+          market,
+          baseToken,
+          quoteToken
+        })
+
+        return {
+          ...formattedMarket,
+          isVerified: [
+            ...jsonStore.expiryMarketIds,
+            ...jsonStore.verifiedDerivativeMarketIds
+          ].includes(market.marketId)
+        }
+      })
+
+      return uiMarkets.filter(
+        (market) =>
+          market &&
+          !MARKET_IDS_TO_HIDE.includes(market.marketId) &&
+          market.marketStatus === SharedMarketStatus.Active
+      ) as SharedUiDerivativeMarket[]
     }
   },
 
@@ -67,7 +72,8 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
     async fetchMarkets() {
       const derivativeStore = useSharedDerivativeStore()
 
-      const markets = await derivativeCacheApi.fetchMarkets() as PerpetualMarket[]
+      const markets =
+        (await derivativeCacheApi.fetchMarkets()) as PerpetualMarket[]
 
       derivativeStore.markets = markets
     },
@@ -95,6 +101,6 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
       } catch {
         //
       }
-    },
+    }
   }
 })

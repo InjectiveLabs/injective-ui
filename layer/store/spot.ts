@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { MARKET_IDS_TO_HIDE } from './../data/market'
-import { toUiSpotMarket, toUiMarketSummary, toZeroUiMarketSummary } from './../transformer/market'
+import {
+  toUiSpotMarket,
+  toUiMarketSummary,
+  toZeroUiMarketSummary
+} from './../transformer/market'
 import { spotCacheApi } from './../Service'
+import { SharedMarketStatus } from './../types'
 import type { SpotMarket } from '@injectivelabs/sdk-ts'
 import type { SharedUiSpotMarket, SharedUiMarketSummary } from './../types'
 
@@ -21,31 +26,31 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
       const jsonStore = useSharedJsonStore()
       const tokenStore = useSharedTokenStore()
 
-      const uiMarkets = state.markets
-        .map((market) => {
-          const baseToken = tokenStore.tokenByDenomOrSymbol(market.baseDenom)
-          const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
+      const uiMarkets = state.markets.map((market) => {
+        const baseToken = tokenStore.tokenByDenomOrSymbol(market.baseDenom)
+        const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
 
-          if (!baseToken || !quoteToken) {
-            return undefined
-          }
+        if (!baseToken || !quoteToken) {
+          return undefined
+        }
 
-          const formattedMarket = toUiSpotMarket({
-            market,
-            baseToken,
-            quoteToken
-          })
-
-          return {
-            ...formattedMarket,
-            isVerified: jsonStore.verifiedSpotMarketIds.includes(
-              market.marketId
-            )
-          } as SharedUiSpotMarket
+        const formattedMarket = toUiSpotMarket({
+          market,
+          baseToken,
+          quoteToken
         })
 
-      return uiMarkets.filter((market) => 
-        market && !MARKET_IDS_TO_HIDE.includes(market.marketId)
+        return {
+          ...formattedMarket,
+          isVerified: jsonStore.verifiedSpotMarketIds.includes(market.marketId)
+        } as SharedUiSpotMarket
+      })
+
+      return uiMarkets.filter(
+        (market) =>
+          market &&
+          !MARKET_IDS_TO_HIDE.includes(market.marketId) &&
+          market.marketStatus === SharedMarketStatus.Active
       ) as SharedUiSpotMarket[]
     }
   },
@@ -75,6 +80,6 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
       })
 
       sharedSpotStore.marketsSummary = uiMarketSummaries
-    },
+    }
   }
 })

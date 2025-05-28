@@ -1,22 +1,22 @@
-import {
+import type {
   BondStatus,
   ValidatorCommission,
   ValidatorDescription
 } from '@injectivelabs/sdk-ts'
 
 export interface SharedUiValidator {
+  name: string
+  tokens: string
   jailed: boolean
+  address: string
   status: BondStatus
   unbondingTime: number
-  unbondingHeight: number
   commissionRate: string
-  minSelfDelegation: string
+  unbondingHeight: number
   delegatorShares: string
-  tokens: string
   operatorAddress: string
   consensusPubKey?: string
-  description: ValidatorDescription
+  minSelfDelegation: string
   commission: ValidatorCommission
-  name: string
-  address: string
+  description: ValidatorDescription
 }
