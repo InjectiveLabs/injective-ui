@@ -20,6 +20,8 @@ export interface NotificationOptions {
   timeout?: number
   context?: string // (longer description)
   description?: string
+  isTelemetry?: boolean
+  data?: Record<string, any>
   actions?: NotificationAction[]
 }
 
@@ -32,6 +34,8 @@ export interface Notification {
   context: string /** a longer version of a description */
   createdAt: number
   description: string
+  isTelemetry?: boolean
   type: NotificationType
+  data?: Record<string, any>
   actions: undefined | NotificationAction[]
 }

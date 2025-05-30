@@ -28,7 +28,7 @@ export enum SharedAmplitudeEvent {
 
 export enum CommonCyTags {
   NotificationTitle = 'notification-title',
-  NotificationDescription = 'notification-description',
+  NotificationDescription = 'notification-description'
 }
 
 export enum WalletConnectStatus {
@@ -40,7 +40,7 @@ export enum WalletConnectStatus {
 }
 
 export enum EventBus {
-  HasMagicAccount= 'has-magic-account',
+  HasMagicAccount = 'has-magic-account',
   WalletConnected = 'wallet-connected',
   SubaccountChange = 'subaccount-change',
   WalletDisconnected = 'wallet-disconnected'

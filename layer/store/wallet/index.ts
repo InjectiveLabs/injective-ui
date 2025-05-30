@@ -8,8 +8,8 @@ import {
   isEvmWallet,
   isCosmosWallet,
 } from '@injectivelabs/wallet-base'
-import { 
-  submitTurnkeyOTP, 
+import {
+  submitTurnkeyOTP,
   initTurnkeyGoogle,
   getEmailTurnkeyOTP,
   connectTurnkeyGoogle
@@ -730,7 +730,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (options?.privateKey) {
         walletStrategy.setMetadata({
           privateKey: {
-            privateKey: options.privateKey 
+            privateKey: options.privateKey
           }
         })
       }
@@ -934,7 +934,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return response
       }
 
-      const action = walletStore.isEip712 
+      const action = walletStore.isEip712
           ? (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastV2(params)
           : (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastWithFeeDelegation(params);
 
@@ -1060,7 +1060,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       const status = await web3GatewayService.healthCheck()
-      
+
       walletStore.$patch({
         isEip712: !status
       })
