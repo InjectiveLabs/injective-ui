@@ -1,5 +1,7 @@
 import { MsgType } from '@injectivelabs/ts-types'
 
+// https://raw.githubusercontent.com/InjectiveLabs/sdk-go/refs/heads/dev/injective_data/chain_messages_list.json
+
 function breakCamelCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, '$1 $2')
 }

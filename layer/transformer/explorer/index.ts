@@ -211,20 +211,29 @@ const getTypesAndCoins = (
     transaction?.signatures?.[0]?.address ||
     (getSenderFromEvents(events) as string)
 
-  return {
-    types: transaction.messages.map(formatMsgType),
-    coinReceived: getCoins({
-      events,
-      sender,
-      attributeType: 'receiver',
-      eventType: 'coin_received'
-    }),
-    coinSpent: getCoins({
-      events,
-      sender,
-      attributeType: 'spender',
-      eventType: 'coin_spent'
-    })
+  try {
+    return {
+      types: transaction.messages.map(formatMsgType),
+      coinReceived: getCoins({
+        events,
+        sender,
+        attributeType: 'receiver',
+        eventType: 'coin_received'
+      }),
+      coinSpent: getCoins({
+        events,
+        sender,
+        attributeType: 'spender',
+        eventType: 'coin_spent'
+      })
+    }
+  } catch (error) {
+    console.error('Error getting types and coins:', error, transaction)
+    return {
+      types: [],
+      coinReceived: [],
+      coinSpent: []
+    }
   }
 }
 
