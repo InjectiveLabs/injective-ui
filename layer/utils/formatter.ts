@@ -64,8 +64,8 @@ export const sharedFormatSecondsToDisplay = ({
   }
 
   const output = {
-    [TimeDuration.Hour]: Math.floor((value % (3600 * 24)) / 3600),
     [TimeDuration.Day]: Math.floor(value / (3600 * 24)),
+    [TimeDuration.Hour]: Math.floor((value % (3600 * 24)) / 3600),
     [TimeDuration.Minute]: Math.floor((value % 3600) / 60),
     [TimeDuration.Second]: Math.floor(value % 60)
   } as Record<string, number>
