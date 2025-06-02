@@ -10,7 +10,7 @@ export const queryMagicExistingUser = async (email?: string) => {
     return
   }
 
-  const response = await uiApi.client.post('api/v1/magic', {
+  const response = await uiApi.client.post('/magic', {
     email
   })
 

@@ -166,6 +166,7 @@ export enum NuxtUiIcons {
   TelegramCircle = 'cib:telegram',
   Trash = 'mdi:bin-outline',
   Trash2 = 'bi:trash',
+  Trash3 = 'material-symbols:delete-outline',
   TriangleDown = 'bi:caret-down-fill',
   TriangleUp = 'bi:caret-up-fill',
   Trophy = 'bi:trophy-fill',
