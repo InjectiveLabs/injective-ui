@@ -1,8 +1,13 @@
-export enum EventMessageType {
-  CancelSpotOrder = 'cancelSpotOrder',
-  BatchCancelSpotOrders = 'batchCancelSpotOrders',
-  CancelDerivativeOrder = 'cancelDerivativeOrder',
-  BatchCancelDerivativeOrders = 'batchCancelDerivativeOrders'
+export enum ContractMsgType {
+  Swap = 'swap'
+}
+
+export enum DevnetWasmContractAddress {
+  HelixSwap = 'inj1qk00h5atutpsv900x202pxx42npjr9thrzhgxn'
+}
+
+export enum TestnetWasmContractAddress {
+  HelixSwap = 'inj14d7h5j6ddq6pqppl65z24w7xrtmpcrqjxj8d43'
 }
 
 export enum MainnetWasmContractAddress {
@@ -10,14 +15,9 @@ export enum MainnetWasmContractAddress {
   MitoSwap = 'inj1j5mr2hmv7y2z7trazganj75u8km8jvdfuxncsp'
 }
 
-export enum TestnetWasmContractAddress {
-  HelixSwap = 'inj14d7h5j6ddq6pqppl65z24w7xrtmpcrqjxj8d43'
-}
-
-export enum DevnetWasmContractAddress {
-  HelixSwap = 'inj1qk00h5atutpsv900x202pxx42npjr9thrzhgxn'
-}
-
-export enum ContractMsgType {
-  Swap = 'swap'
+export enum EventMessageType {
+  CancelSpotOrder = 'cancelSpotOrder',
+  BatchCancelSpotOrders = 'batchCancelSpotOrders',
+  CancelDerivativeOrder = 'cancelDerivativeOrder',
+  BatchCancelDerivativeOrders = 'batchCancelDerivativeOrders'
 }
