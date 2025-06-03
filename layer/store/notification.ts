@@ -1,13 +1,21 @@
 import { defineStore } from 'pinia'
-import { DEFAULT_NOTIFICATION_TIMEOUT } from '../utils/constant/index'
-import { NotificationType } from './../types'
-import type { Notification, NotificationOptions } from './../types';
+import {
+  ENDPOINTS,
+  LONG_TOAST_TEXT,
+  MAX_TOAST_TIMEOUT,
+  DEFAULT_NOTIFICATION_TIMEOUT
+} from '../utils/constant/index'
+import { CtaToast, NotificationType } from './../types'
+import type { Notification, NotificationOptions } from './../types'
+import { ChainGrpcTendermintApi, type TxResponse } from '@injectivelabs/sdk-ts'
 
 type NotificationStoreState = {
   notifications: Notification[]
+  txResponse: TxResponse | null
 }
 
 const initialStateFactory = (): NotificationStoreState => ({
+  txResponse: null,
   notifications: []
 })
 
@@ -17,7 +25,10 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
     notify(options: NotificationOptions, type: NotificationType) {
       const notificationStore = useSharedNotificationStore()
 
-      const defaultTimeout = options.title.length > 25 ? DEFAULT_NOTIFICATION_TIMEOUT : 4000
+      const defaultTimeout =
+        options.title.length > LONG_TOAST_TEXT
+          ? DEFAULT_NOTIFICATION_TIMEOUT
+          : 4000
 
       const notificationTitleAlreadyExist =
         notificationStore.notifications.some(
@@ -29,7 +40,6 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
         return
       }
 
-
       notificationStore.$patch({
         notifications: [
           ...notificationStore.notifications,
@@ -40,7 +50,6 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
               options.title.charAt(0).toUpperCase() + options.title.slice(1),
             key: options.key,
             icon: options.icon,
-            data: options.data,
             context: options.context,
             actions: options.actions,
             description: options.description,
@@ -55,6 +64,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
       const notificationStore = useSharedNotificationStore()
 
       notificationStore.$patch({
+        txResponse: null,
         notifications: notificationStore.notifications.filter(
           (notification) => notification.id !== id
         )
@@ -97,16 +107,65 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
       }
     },
 
-    update(key: string, options: Partial<NotificationOptions>) {
+    async update(
+      options: Partial<NotificationOptions>,
+      key: string = CtaToast.Telemetry
+    ) {
       const notificationStore = useSharedNotificationStore()
 
-      const selectedNotification = notificationStore.notifications.find(
-        (notification) => notification.key === key
-      )
+      const selectedNotification = [...notificationStore.notifications]
+        .reverse()
+        .find((notification) => notification.key === key)
 
       if (selectedNotification) {
-        Object.assign(selectedNotification, options)
+        if (selectedNotification.isTelemetry && !options.actions) {
+          options.timeout = DEFAULT_NOTIFICATION_TIMEOUT
+        }
+
+        options.isTelemetry = false
+
+        try {
+          if (notificationStore.txResponse) {
+            const endTimeTx = notificationStore.txResponse.timestamp
+              ? new Date(notificationStore.txResponse.timestamp).getTime()
+              : 0
+
+            const txBlock = await new ChainGrpcTendermintApi(
+              ENDPOINTS.grpc
+            ).fetchBlock(notificationStore.txResponse.height)
+
+            const endTimeTxBlock = txBlock?.header?.time
+              ? new Date(txBlock?.header?.time).getTime()
+              : 0
+
+            const timeElapsed = endTimeTxBlock - endTimeTx
+            const formattedTimeElapsed = (timeElapsed / 1000)
+              .toFixed(2)
+              .replace(/\.?0+$/, '')
+
+            options.timeElapsed = formattedTimeElapsed
+            options.txHash = notificationStore.txResponse.txHash
+          }
+
+          Object.assign(selectedNotification, options)
+        } catch (error) {
+          Object.assign(selectedNotification, options)
+        }
       }
+    },
+
+    initTelemetry() {
+      const notificationStore = useSharedNotificationStore()
+
+      notificationStore.notify(
+        {
+          isTelemetry: true,
+          key: CtaToast.Telemetry,
+          timeout: MAX_TOAST_TIMEOUT,
+          title: 'Broadcasting transaction...'
+        },
+        NotificationType.Success
+      )
     }
   }
 })

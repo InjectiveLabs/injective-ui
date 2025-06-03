@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { connectMagic, queryMagicExistingUser } from './magic'
-import { IS_DEVNET, MSG_TYPE_URL_MSG_EXECUTE_CONTRACT } from '../../utils/constant'
 import {
-  Wallet,
-  isEvmWallet,
-  isCosmosWallet,
-} from '@injectivelabs/wallet-base'
+  IS_HELIX,
+  IS_DEVNET,
+  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
+} from '../../utils/constant'
+import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   submitTurnkeyOTP,
   initTurnkeyGoogle,
@@ -25,11 +25,7 @@ import {
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
 import { web3GatewayService } from '../../Service'
-import {
-  EventBus,
-  GrantDirection,
-  WalletConnectStatus
-} from '../../types'
+import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import {
   getAddresses,
   walletStrategy,
@@ -42,8 +38,8 @@ import {
   confirmCosmosWalletAddress
 } from '../../WalletService'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
-import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts';
-import type { AutoSign } from '../../types';
+import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
+import type { AutoSign } from '../../types'
 
 type WalletStoreState = {
   wallet: Wallet
@@ -466,9 +462,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         address: ethereumAddress,
         addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
       })
 
       await walletStore.onConnect()
@@ -488,9 +483,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
       })
 
       await walletStore.onConnect()
@@ -510,9 +504,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
       })
 
       await walletStore.onConnect()
@@ -532,9 +525,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
       })
 
       await walletStore.onConnect()
@@ -551,7 +543,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         await walletStore.connectMagic()
       }
 
-      if (walletStore.isUserConnected && walletStore.wallet === Wallet.Turnkey) {
+      if (
+        walletStore.isUserConnected &&
+        walletStore.wallet === Wallet.Turnkey
+      ) {
         // refresh session
         await walletStrategy.getSessionOrConfirm()
       }
@@ -590,9 +585,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         address: ethereumAddress,
         injectiveAddress: address,
         addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          ethereumAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(ethereumAddress)
       })
 
       await walletStore.onConnect()
@@ -617,9 +611,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         address: ethereumAddress,
         injectiveAddress: address,
         addresses: [ethereumAddress],
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          ethereumAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(ethereumAddress)
       })
 
       await walletStore.onConnect()
@@ -641,9 +634,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress,
         addresses: injectiveAddresses,
         address: getEthereumAddress(injectiveAddress),
-        addressConfirmation: await walletStrategy.getSessionOrConfirm(
-          injectiveAddress
-        )
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
       })
 
       await walletStore.onConnect()
@@ -892,6 +884,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       messages: Msgs | Msgs[]
     }) {
       const walletStore = useSharedWalletStore()
+      const notificationStore = useSharedNotificationStore()
 
       const broadcastOptions = await walletStore.prepareBroadcastMessages(
         messages,
@@ -931,14 +924,26 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             injectiveAddress: walletStore.autoSign.injectiveAddress
           })
 
+        if (IS_HELIX) {
+          notificationStore.$patch({ txResponse: response })
+          notificationStore.initTelemetry()
+        }
+
         return response
       }
 
       const action = walletStore.isEip712
-          ? (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastV2(params)
-          : (params: MsgBroadcasterTxOptions) => msgBroadcaster.broadcastWithFeeDelegation(params);
+        ? (params: MsgBroadcasterTxOptions) =>
+            msgBroadcaster.broadcastV2(params)
+        : (params: MsgBroadcasterTxOptions) =>
+            msgBroadcaster.broadcastWithFeeDelegation(params)
 
       const response = await action(broadcastOptions)
+
+      if (IS_HELIX) {
+        notificationStore.$patch({ txResponse: response })
+        notificationStore.initTelemetry()
+      }
 
       return response
     },

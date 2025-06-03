@@ -18,10 +18,11 @@ export interface NotificationOptions {
   title: string
   icon?: string
   timeout?: number
+  txHash?: string
   context?: string // (longer description)
+  timeElapsed?: string
   description?: string
   isTelemetry?: boolean
-  data?: Record<string, any>
   actions?: NotificationAction[]
 }
 
@@ -31,11 +32,12 @@ export interface Notification {
   icon?: string
   title: string
   timeout: number
+  txHash?: string
   context: string /** a longer version of a description */
   createdAt: number
   description: string
+  timeElapsed?: string
   isTelemetry?: boolean
   type: NotificationType
-  data?: Record<string, any>
   actions: undefined | NotificationAction[]
 }
