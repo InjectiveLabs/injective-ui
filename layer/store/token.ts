@@ -57,6 +57,25 @@ export const useSharedTokenStore = defineStore('sharedToken', {
 
     verifiedTokens: (_): TokenStatic[] => {
       return Object.values(tokenStaticFactory.denomVerifiedMap)
+    },
+
+    tradableDenomTokenMap: (_) => {
+      const sharedSpotStore = useSharedSpotStore()
+
+      return sharedSpotStore.marketsWithToken.reduce(
+        (denomTokenMap, market) => {
+          if (!market.isVerified) {
+            return denomTokenMap
+          }
+
+          return {
+            ...denomTokenMap,
+            [market.baseDenom]: market.baseToken,
+            [market.quoteDenom]: market.quoteToken
+          }
+        },
+        {} as Record<string, TokenStatic>
+      )
     }
   },
   actions: {
@@ -87,8 +106,7 @@ export const useSharedTokenStore = defineStore('sharedToken', {
     async fetchTokensUsdPriceMap() {
       const sharedTokenStore = useSharedTokenStore()
 
-      const tokenUsdPriceMap =
-        await tokenPriceService.fetchUsdTokensPrice()
+      const tokenUsdPriceMap = await tokenPriceService.fetchUsdTokensPrice()
 
       sharedTokenStore.tokenUsdPriceMap = tokenUsdPriceMap
     },
