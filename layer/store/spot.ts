@@ -65,21 +65,21 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
     },
 
     async fetchMarketsSummary() {
-      const sharedSpotStore = useSharedSpotStore()
+      const spotStore = useSharedSpotStore()
 
       const marketsSummaries = (await spotCacheApi.fetchMarketsSummary()) || []
 
-      const uiMarketSummaries = marketsSummaries.map((marketSummary) => {
-        const marketExistInStore = sharedSpotStore.marketsWithToken.some(
-          (market) => market.marketId === marketSummary.marketId
+      const marketsWithoutMarketSummaries = spotStore.markets.filter(
+        ({ marketId }) =>
+          !marketsSummaries.some(({ marketId: id }) => id === marketId)
+      )
+
+      spotStore.marketsSummary = [
+        ...marketsSummaries.map(toUiMarketSummary),
+        ...marketsWithoutMarketSummaries.map(({ marketId }) =>
+          toZeroUiMarketSummary(marketId)
         )
-
-        return marketExistInStore
-          ? toUiMarketSummary(marketSummary)
-          : toZeroUiMarketSummary(marketSummary.marketId)
-      })
-
-      sharedSpotStore.marketsSummary = uiMarketSummaries
+      ]
     }
   }
 })

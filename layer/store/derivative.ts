@@ -80,27 +80,22 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
 
     async fetchMarketsSummary() {
       const derivativeStore = useSharedDerivativeStore()
-      const { markets } = derivativeStore
 
-      try {
-        const marketSummaries = await derivativeCacheApi.fetchMarketsSummary()
+      const marketSummaries = await derivativeCacheApi.fetchMarketsSummary()
 
-        const marketsWithoutMarketSummaries = marketSummaries.filter(
-          ({ marketId }) =>
-            !markets.some((market) => market.marketId === marketId)
-        )
+      const marketsWithoutMarketSummaries = derivativeStore.markets.filter(
+        ({ marketId }) =>
+          !marketSummaries.some(({ marketId: id }) => id === marketId)
+      )
 
-        derivativeStore.$patch({
-          marketsSummary: [
-            ...marketSummaries.map(toUiMarketSummary),
-            ...marketsWithoutMarketSummaries.map(({ marketId }) =>
-              toZeroUiMarketSummary(marketId)
-            )
-          ]
-        })
-      } catch {
-        //
-      }
+      derivativeStore.$patch({
+        marketsSummary: [
+          ...marketSummaries.map(toUiMarketSummary),
+          ...marketsWithoutMarketSummaries.map(({ marketId }) =>
+            toZeroUiMarketSummary(marketId)
+          )
+        ]
+      })
     }
   }
 })
