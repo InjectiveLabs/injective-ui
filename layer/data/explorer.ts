@@ -1,5 +1,7 @@
 import { MsgType } from '@injectivelabs/ts-types'
 
+// https://raw.githubusercontent.com/InjectiveLabs/sdk-go/refs/heads/dev/injective_data/chain_messages_list.json
+
 function breakCamelCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, '$1 $2')
 }
@@ -40,7 +42,7 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgConfirmBatch]: 'Confirm Batch',
     [MsgType.MsgDepositClaim]: 'Deposit Claim',
     [MsgType.MsgRequestBatch]: 'Request Batch',
-    [MsgType.MsgUpdateParams]: 'Update Params',
+    [MsgType.MsgAuctionUpdateParams]: 'Update Params',
     [MsgType.MsgClaimVoucher]: 'Claim Voucher',
     [MsgType.MsgDepositCosmos]: 'Deposit Cosmos',
     [MsgType.MsgEditValidator]: 'Edit Validator',
@@ -86,7 +88,7 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgPermissionsUpdateParams]: 'Update Params',
     [MsgType.MsgSubaccountTransfer]: 'Subaccount Transfer',
     [MsgType.MsgExecuteContractCompat]: 'Execute Contract',
-    [MsgType.MsgTokenfactoryUpdateParams]: 'Update Params',
+    [MsgType.MsgTokenFactoryUpdateParams]: 'Update Params',
     [MsgType.MsgDeactivateContract]: 'Deactivate Contract',
     [MsgType.MsgChannelOpenConfirm]: 'Channel Open Confirm',
     [MsgType.MsgConnectionOpenInit]: 'Connection Open Init',

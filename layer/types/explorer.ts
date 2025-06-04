@@ -1,36 +1,36 @@
-import {
-  type Coin,
-  type BlockWithTxs,
-  type ContractTransaction,
-  type ExplorerTransaction
+import type {
+  Coin,
+  BlockWithTxs,
+  ContractTransaction,
+  ExplorerTransaction
 } from '@injectivelabs/sdk-ts'
+
+export type SharedEventAttribute = {
+  key: string
+  value: string
+}
 
 export interface UIMessageTemplateSummary {
   type: string
   summary: string[]
 }
 
+export interface UiExplorerBlockWithTxs extends Omit<BlockWithTxs, 'txs'> {
+  txs: UiExplorerTransaction[]
+}
+
 export interface UiExplorerTransaction extends ExplorerTransaction {
   types: string[]
-  coinReceived: Coin[]
   coinSpent: Coin[]
+  coinReceived: Coin[]
   templateSummaries: UIMessageTemplateSummary[]
 }
 
 export interface UiContractTransaction extends ContractTransaction {
   hash: string
-  blockNumber: number
-  blockTimestamp: number
   types: string[]
-  coinReceived: Coin[]
   coinSpent: Coin[]
-}
-
-export interface UiExplorerBlockWithTxs extends Omit<BlockWithTxs, 'txs'> {
-  txs: UiExplorerTransaction[]
-}
-
-export type SharedEventAttribute = {
-  key: string
-  value: string
+  blockNumber: number
+  coinReceived: Coin[]
+  blockTimestamp: number
 }

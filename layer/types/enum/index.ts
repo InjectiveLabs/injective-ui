@@ -82,6 +82,7 @@ export enum NuxtUiIcons {
   Chain = 'akar-icons:link-chain',
   Checkmark = 'material-symbols:check-circle',
   Checkmark2 = 'icomoon-free:checkmark',
+  CheckmarkCircle = 'material-symbols:check-circle',
   CheckmarkThin = 'fluent:checkmark-20-filled',
   CheckmarkOutline = 'solar:check-circle-outline',
   CheckShieldOutline = 'stash:shield-check',

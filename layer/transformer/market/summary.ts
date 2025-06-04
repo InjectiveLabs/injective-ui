@@ -1,6 +1,6 @@
 import { BigNumberInBase } from '@injectivelabs/utils'
-import { type AllChronosDerivativeMarketSummary } from '@injectivelabs/sdk-ts'
 import { SharedMarketChange, type SharedUiMarketSummary } from './../../types'
+import type { AllChronosDerivativeMarketSummary } from '@injectivelabs/sdk-ts'
 
 export const toZeroUiMarketSummary = (
   marketId: string
