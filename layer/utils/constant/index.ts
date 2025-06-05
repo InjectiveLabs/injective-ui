@@ -41,7 +41,9 @@ export const MSG_TYPE_URL_MSG_EXECUTE_CONTRACT =
 
 export const JSON_POLL_INTERVAL = 1000 * 60 * 10 // 10 minutes
 
+export const LONG_TOAST_TEXT = 25
 export const DEFAULT_NOTIFICATION_TIMEOUT = 6 * 1000
+export const MAX_TOAST_TIMEOUT = 10 * 24 * 60 * 60 * 1000 // 10 days
 
 export const NOTIFI_LINK = 'https://injective.notifi.network'
 export const TURNKEY_CONTAINER_ID = 'turnkey-auth-iframe-container-id'
