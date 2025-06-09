@@ -28,7 +28,7 @@ export enum SharedAmplitudeEvent {
 
 export enum CommonCyTags {
   NotificationTitle = 'notification-title',
-  NotificationDescription = 'notification-description',
+  NotificationDescription = 'notification-description'
 }
 
 export enum WalletConnectStatus {
@@ -40,7 +40,7 @@ export enum WalletConnectStatus {
 }
 
 export enum EventBus {
-  HasMagicAccount= 'has-magic-account',
+  HasMagicAccount = 'has-magic-account',
   WalletConnected = 'wallet-connected',
   SubaccountChange = 'subaccount-change',
   WalletDisconnected = 'wallet-disconnected'
@@ -82,6 +82,7 @@ export enum NuxtUiIcons {
   Chain = 'akar-icons:link-chain',
   Checkmark = 'material-symbols:check-circle',
   Checkmark2 = 'icomoon-free:checkmark',
+  CheckmarkCircle = 'material-symbols:check-circle',
   CheckmarkThin = 'fluent:checkmark-20-filled',
   CheckmarkOutline = 'solar:check-circle-outline',
   CheckShieldOutline = 'stash:shield-check',
@@ -184,4 +185,8 @@ export enum NuxtUiIcons {
   WaterDrop = 'bi:droplet',
   Youtube = 'mdi:youtube',
   LoadingRotateDots = 'svg-spinners:8-dots-rotate'
+}
+
+export enum CtaToast {
+  Telemetry = 'telemetry'
 }

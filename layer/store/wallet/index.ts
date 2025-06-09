@@ -4,6 +4,7 @@ import { GeneralException } from '@injectivelabs/exceptions'
 import { connectMagic, queryMagicExistingUser } from './magic'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
+  IS_HELIX,
   IS_DEVNET,
   MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
 } from '../../utils/constant'
@@ -601,6 +602,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       messages: Msgs | Msgs[]
     }) {
       const walletStore = useSharedWalletStore()
+      const notificationStore = useSharedNotificationStore()
 
       const broadcastOptions = await walletStore.prepareBroadcastMessages(
         messages,
@@ -640,6 +642,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             injectiveAddress: walletStore.autoSign.injectiveAddress
           })
 
+        if (IS_HELIX) {
+          notificationStore.$patch({ txResponse: response })
+          notificationStore.initTelemetry()
+        }
+
         return response
       }
 
@@ -650,6 +657,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             msgBroadcaster.broadcastWithFeeDelegation(params)
 
       const response = await action(broadcastOptions)
+
+      if (IS_HELIX) {
+        notificationStore.$patch({ txResponse: response })
+        notificationStore.initTelemetry()
+      }
 
       return response
     },
