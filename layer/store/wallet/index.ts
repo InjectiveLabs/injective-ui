@@ -358,7 +358,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.setWallet(walletStore.wallet)
 
-      if (walletStore.wallet === Wallet.Magic && !walletStore.isUserConnected) {
+      if (
+        walletStore.wallet === Wallet.Magic &&
+        (!walletStore.isUserConnected || walletStore.turnkeyInjectiveAddress)
+      ) {
         await walletStore.connectMagic()
       }
 

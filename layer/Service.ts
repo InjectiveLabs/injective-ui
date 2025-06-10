@@ -96,8 +96,8 @@ export const indexerRestSpotChronosApi = new IndexerRestSpotChronosApi(
 )
 export const indexerRestMarketChronosApi = new IndexerRestMarketChronosApi(
   IS_MAINNET
-  ? `https://k8s.global.mainnet.chart.grpc-web.injective.network/api/chart/v1/market`
-  : `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/market`
+    ? `https://k8s.global.mainnet.chart.grpc-web.injective.network/api/chart/v1/market`
+    : `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/market`
 )
 
 export const uiApi = new UiApiService(ENDPOINTS.uiApi)
