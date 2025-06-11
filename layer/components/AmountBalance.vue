@@ -8,6 +8,7 @@ const props = withDefaults(
     decimalPlaces?: number
     abbreviationFloor?: number
     showZeroAsEmDash?: boolean
+    showTrailingZeros?: boolean
   }>(),
   {
     decimalPlaces: 8,
@@ -40,6 +41,9 @@ const amountWithoutTrailingZeros = computed(() => {
 <template>
   <span>
     <span v-if="showZeroAsEmDash && amountInBigNumber.eq(0)"> &mdash; </span>
+    <span v-else-if="showTrailingZeros">
+      {{ amountToString }}
+    </span>
     <span v-else>
       {{ amountWithoutTrailingZeros }}
     </span>
