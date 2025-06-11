@@ -2064,10 +2064,10 @@
     protobufjs "^7.4.0"
     rxjs "^7.4.0"
 
-"@injectivelabs/exceptions@^1.15.22":
-  version "1.15.22"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/exceptions/-/exceptions-1.15.22.tgz#d9ec5d23f6526bdb05d8239803ead2c6a3675add"
-  integrity sha512-sPHApl5aaBPXCgwp6hSF663tGReRcaLcOHSsWp9s2WUP01EPhUimQn2XaEKiE4fKzFmL/U2evylGErXgXHMNhg==
+"@injectivelabs/exceptions@^1.15.25":
+  version "1.15.25"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/exceptions/-/exceptions-1.15.25.tgz#afabb076266b4c79a242174c632f37ff2bdf1dfb"
+  integrity sha512-ymUFtKow6g9dv8d95igpuuntzhICWiLnIWzQmYdT4Ej+akIVIeGXBfYdzWjoQJ6aHspwiX1TspGFKlniZ2MLFw==
   dependencies:
     http-status-codes "^2.3.0"
 
@@ -2088,10 +2088,10 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@injectivelabs/indexer-proto-ts@1.13.12":
-  version "1.13.12"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/indexer-proto-ts/-/indexer-proto-ts-1.13.12.tgz#795e1144cece90afe73c25942ffc44aa1a4bde48"
-  integrity sha512-RuiB/zkDMXiF7DtSIfTkKyaaeO3vp98eznzZKNc7WXdRcEQwqCR68mQaN6riEjBZ74RfuWxYXFr92V7q4vrGRg==
+"@injectivelabs/indexer-proto-ts@1.13.13":
+  version "1.13.13"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/indexer-proto-ts/-/indexer-proto-ts-1.13.13.tgz#916bfc96dcded6a68ddc328efe552a3d46f28295"
+  integrity sha512-jRp9Oq3iW5x9wnH70It8EiPU5UFV2stTT1LOSa5Nu0v3B//xKwAwIacjjRiWUkZJV0QLzUCUDMiij6bKx/iK1g==
   dependencies:
     "@injectivelabs/grpc-web" "^0.0.1"
     google-protobuf "^3.14.0"
@@ -2108,12 +2108,12 @@
     protobufjs "^7.0.0"
     rxjs "^7.4.0"
 
-"@injectivelabs/networks@^1.15.23":
-  version "1.15.23"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/networks/-/networks-1.15.23.tgz#b4d804631e6ae8df56e978f28f5c472836113c75"
-  integrity sha512-Auue72wjua8cJkhyLVz5VYDdfh11a+ouRD6PB4tKRUcPoFiIPxFrygDFLAO3GZkUbS5a8l/SUlnrfub6CB+d9Q==
+"@injectivelabs/networks@^1.15.26":
+  version "1.15.26"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/networks/-/networks-1.15.26.tgz#4a6f7ec7291f18cc928fdf70a92151b71ef9aca0"
+  integrity sha512-+ptpQjBwYlc13SD7hZAxO7c1o0xamEpqOkx3r+v77DeQ30ne55d7Di1rKGHpANpIkl48cRmAOmTtaMC6SO9lVw==
   dependencies:
-    "@injectivelabs/ts-types" "^1.15.23"
+    "@injectivelabs/ts-types" "^1.15.26"
 
 "@injectivelabs/nuxt-bugsnag@0.0.12":
   version "0.0.12"
@@ -2138,10 +2138,10 @@
     protobufjs "^7.0.0"
     rxjs "^7.4.0"
 
-"@injectivelabs/sdk-ts@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ts/-/sdk-ts-1.15.25.tgz#6ee543c48118bf3fe06a757429e55f9444176865"
-  integrity sha512-Al6WO0FoDEFjdGOIgEA96Tf8APcFTRmbj56pbzji3bZ0DKIPVu1Zi/TLJ3o8eZxXNmiTOJ8AnXDRY1Zl/46BsA==
+"@injectivelabs/sdk-ts@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/sdk-ts/-/sdk-ts-1.15.28.tgz#82114e0e0bf52d29e870ba5002c9a4d9621eb8ae"
+  integrity sha512-i6gS5FUOeuyXiNGVPctCo1F/0c1cVa2rNZwtxe0xxkcSR6EfA+8P+PYCLyvLXGfQ06bqmOukVGMnbjDbqN499w==
   dependencies:
     "@apollo/client" "^3.13.1"
     "@cosmjs/amino" "^0.33.0"
@@ -2149,16 +2149,16 @@
     "@cosmjs/stargate" "^0.33.0"
     "@injectivelabs/abacus-proto-ts" "1.14.0"
     "@injectivelabs/core-proto-ts" "1.14.3"
-    "@injectivelabs/exceptions" "^1.15.22"
+    "@injectivelabs/exceptions" "^1.15.25"
     "@injectivelabs/grpc-web" "^0.0.1"
     "@injectivelabs/grpc-web-node-http-transport" "^0.0.2"
     "@injectivelabs/grpc-web-react-native-transport" "^0.0.2"
-    "@injectivelabs/indexer-proto-ts" "1.13.12"
+    "@injectivelabs/indexer-proto-ts" "1.13.13"
     "@injectivelabs/mito-proto-ts" "1.13.2"
-    "@injectivelabs/networks" "^1.15.23"
+    "@injectivelabs/networks" "^1.15.26"
     "@injectivelabs/olp-proto-ts" "1.13.4"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
     "@metamask/eth-sig-util" "^8.2.0"
     "@noble/curves" "^1.8.1"
     "@noble/hashes" "^1.7.1"
@@ -2177,104 +2177,104 @@
     shx "^0.3.4"
     snakecase-keys "^5.4.1"
 
-"@injectivelabs/ts-types@^1.15.23":
-  version "1.15.23"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/ts-types/-/ts-types-1.15.23.tgz#df849e432192c6496d21a8dd17aa7652222a3ec4"
-  integrity sha512-TSU0B8QUKsb49qtSzJ6S94/y+yrPVU09WTa4ES2xqQinOt+wrcgX8lW1fBXQsFEa3qdf2SE6OEPoMmbQLcYnlA==
+"@injectivelabs/ts-types@^1.15.26":
+  version "1.15.26"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/ts-types/-/ts-types-1.15.26.tgz#87f15c9d0d7162e4c834929220f711a6ee22bf46"
+  integrity sha512-Il9PdHjHZctkaA4dmXWPwrsW7rJRD1LaRQEqKC2HBddpvJB9iI80p29EOBmas2rXUzR3mNBezmAC5fJakwC0Dg==
 
-"@injectivelabs/utils@^1.15.23":
-  version "1.15.23"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/utils/-/utils-1.15.23.tgz#f34f296d2098ca453f2fd5be24f5739f78980da0"
-  integrity sha512-g63yfZPJ4MoVd+a6WTLCFRAFp8WVgu4W1/nMDd1P7412sEoHeWmVAAYy99rrQn0CMbP4iStobAf8odw4otrPbg==
+"@injectivelabs/utils@^1.15.26":
+  version "1.15.26"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/utils/-/utils-1.15.26.tgz#4e6534661d198771f113e7b3f113443ff87f1f64"
+  integrity sha512-m/dXeuHfNS2K0+SldJ8e9m0oZdotOjBxYiFBeQtrqzTNi5C2x+pd1eefKmj40+UjmgwBBGsfEBbJvQnPTd+68w==
   dependencies:
     "@bangjelkoski/store2" "^2.14.3"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/networks" "^1.15.23"
-    "@injectivelabs/ts-types" "^1.15.23"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/networks" "^1.15.26"
+    "@injectivelabs/ts-types" "^1.15.26"
     axios "^1.8.1"
     bignumber.js "^9.1.2"
     http-status-codes "^2.3.0"
 
-"@injectivelabs/wallet-base@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-base/-/wallet-base-1.15.25.tgz#cb207252ce46eb4c50e76b9dc221452312db3b2a"
-  integrity sha512-9+kGG4+iWdH2ca/sloIzSaHDBjpIE2b/OQ8e6XQW5NBNaSIaKkIEygJxy6DsfJY4eN8vDEDtOtX1eRmJo2t2xA==
+"@injectivelabs/wallet-base@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-base/-/wallet-base-1.15.28.tgz#5824d6352ebd83b2aa4dcb42aa8017091650d537"
+  integrity sha512-TwwIYXQUhHfjGlBwbp8WMFplZCTGaowGGUAcTNQguQI9V4LOcMsU5eXd0Vxmci/NNK6erFtX84uoz6kPyOaeJw==
   dependencies:
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/networks" "^1.15.23"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/networks" "^1.15.26"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
     eip1193-provider "^1.0.1"
 
-"@injectivelabs/wallet-core@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-core/-/wallet-core-1.15.25.tgz#88820e8109495456877b73aaa4d818bdd85cf97d"
-  integrity sha512-2nfTWFWv+HTQ+2R2mMuinXgwfg2+BCRHT84INTOJw4apqFvP7H6wX2KvzDVTVRh0y81tBKecHjgoIVoRrbn2/g==
+"@injectivelabs/wallet-core@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-core/-/wallet-core-1.15.28.tgz#8cb95304ae3061117a4d7290b57dbda3f9e7f8e0"
+  integrity sha512-kIG+MjC2ZsBZ6fRgLrPLTh0cfMnLU+h0KjXoLGXZqkm+ds1w/Wkjm7xaI8L7duxQeurBcc4biR4PyKgHVC94bQ==
   dependencies:
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/networks" "^1.15.23"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/networks" "^1.15.26"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     "@keplr-wallet/types" "^0.12.159"
     eventemitter3 "^5.0.1"
 
-"@injectivelabs/wallet-cosmos-strategy@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-cosmos-strategy/-/wallet-cosmos-strategy-1.15.25.tgz#3eb0c5438426fa2603a315caf7aa77abaf382d8d"
-  integrity sha512-vSbMqHIMuiSng+hZ65uxEFIRlBZoux0ymvvRxnicmkHhJW4+PZcAQ+ycY6CfTw/XW9K6bVYNy05rX++OCe6jvw==
+"@injectivelabs/wallet-cosmos-strategy@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-cosmos-strategy/-/wallet-cosmos-strategy-1.15.28.tgz#3874ee4d6c4453d406700df51f8c549ab493de0a"
+  integrity sha512-k4EchfV4M6ktADPbKYS7VLaGxxHqJJ3Dr65tlmaNfL5NSfYi6lPdVnaWP9wZH5qJylAZFC8u6td16PpyGaJhLw==
   dependencies:
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
-    "@injectivelabs/wallet-core" "^1.15.25"
-    "@injectivelabs/wallet-cosmos" "^1.15.25"
-    "@injectivelabs/wallet-cosmostation" "^1.15.25"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
+    "@injectivelabs/wallet-core" "^1.15.28"
+    "@injectivelabs/wallet-cosmos" "^1.15.28"
+    "@injectivelabs/wallet-cosmostation" "^1.15.28"
 
-"@injectivelabs/wallet-cosmos@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-cosmos/-/wallet-cosmos-1.15.25.tgz#7a181944ea0df36cddc59885dcbd5c9652be95b9"
-  integrity sha512-TJugO0M7Dqt/pv52jtQOA8n6h7fIvAGYMq9oyLhyqervMaPdP9c4nuNz1NZzzPgNo8xVEXDVI3ITZj/UBiddlA==
+"@injectivelabs/wallet-cosmos@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-cosmos/-/wallet-cosmos-1.15.28.tgz#e29fa029c8032e4e4e78e43ec9f4dd16003b4695"
+  integrity sha512-zU3g9sp/spkmM4ongKxbY5svCmsj3qSjxLMfeb/O+az4oBPOrR63O3Th23eQilnLEVMZsm+syiebEEWdyTP4xg==
   dependencies:
     "@cosmjs/proto-signing" "^0.32.3"
     "@cosmjs/stargate" "^0.32.3"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     "@keplr-wallet/types" "^0.12.71"
 
-"@injectivelabs/wallet-cosmostation@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-cosmostation/-/wallet-cosmostation-1.15.25.tgz#2089f3da24446d2bfb8545c63931975d2b946ba2"
-  integrity sha512-AC5184m7Uggg1rkkTH2mk79czNy6FRhVme7g2b0Z6bI2rzL5GlalvSYCm/LURceWZy0PA+JovQq+Rk9IJinptg==
+"@injectivelabs/wallet-cosmostation@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-cosmostation/-/wallet-cosmostation-1.15.28.tgz#74366e1952654cebaacea183198f698a49787211"
+  integrity sha512-/dykhpxXu7e/UAxBLC6XHYbF0tntCkhEA9hUBORyxt0l280LKkNYvc1+OWCmueC0Uiyeas2EoeAp5I+uskp92w==
   dependencies:
     "@cosmjs/proto-signing" "^0.32.3"
     "@cosmostation/extension-client" "^0.1.15"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     "@walletconnect/ethereum-provider" "2.18.1"
 
-"@injectivelabs/wallet-evm@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-evm/-/wallet-evm-1.15.25.tgz#7137213f2ceb172522d73845c7c36c4648d46e40"
-  integrity sha512-meyv352EU367js8jvB10oKDqvfXLFkOvmDniQyMh+kWz1Qq6mvSZfdW0O1+164S170eSKsUPoNZxEsgvsLAnug==
+"@injectivelabs/wallet-evm@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-evm/-/wallet-evm-1.15.28.tgz#932d7da32c690718c57fc3debc36d041badfd1c5"
+  integrity sha512-nloTsJPyslUHGDu9rp/pSUedBiubY+jYgEslyGYIodCJIfDuDJRdgXnETDJ5mVHBi6a5ohvBfnio1eugfzFZ+Q==
   dependencies:
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/networks" "^1.15.23"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/networks" "^1.15.26"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
 
-"@injectivelabs/wallet-ledger@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-ledger/-/wallet-ledger-1.15.25.tgz#7aae646bfc874e41d4b8548fc8499eb7ed83319d"
-  integrity sha512-PmvLTklB7wpi+RoBnLGcfuWCgQBjvkALYbPn8knGGXu4/vV8uGFAC3Nghs4wo2x0xN5aOFhzp4YOQNrDRmlf0w==
+"@injectivelabs/wallet-ledger@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-ledger/-/wallet-ledger-1.15.28.tgz#ec47dbceae75fafd751642dfe9c3f55825bb8a46"
+  integrity sha512-Klz3+x3+EQfaWclx/fEUD4kHOqzyQ1XxBG0w/cVKUA8DqH6PgWEc52t9Zqvk3Yhlnvaww5DjCLAqWNepA9k65A==
   dependencies:
     "@bangjelkoski/ledgerhq-hw-app-cosmos" "6.30.4-beta.0"
     "@bangjelkoski/ledgerhq-hw-app-eth" "6.42.6-beta.0"
@@ -2283,62 +2283,62 @@
     "@bangjelkoski/ledgerhq-hw-transport-webusb" "6.29.4-beta.0"
     "@ethereumjs/common" "^3.1.1"
     "@ethereumjs/tx" "^4.1.1"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     alchemy-sdk "^3.4.7"
     eth-sig-util "^3.0.1"
     ethereumjs-util "^7.1.0"
     hdkey "^2.1.0"
 
-"@injectivelabs/wallet-magic@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-magic/-/wallet-magic-1.15.25.tgz#3c349f7307c1009add2cf1c483c7c30a354fa70e"
-  integrity sha512-Nu0LhuKLRMpCvBxqHsno/cy++xuzHfmC/bfhT4WAVzyaW3rXQt/zhFok5S4h348W+hmp4m2X3hT6WTocjXTieQ==
+"@injectivelabs/wallet-magic@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-magic/-/wallet-magic-1.15.28.tgz#d6a14083dc690ab9ea2a3407caaee18d1037b650"
+  integrity sha512-wPrIWOk+L0fmMyCWcKBje5JRtv6DKpeVHlxgWD4Z9xU734E8yeU7DK7rfXtABEYvQO4YW9vpGi8x/ep076hRew==
   dependencies:
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     "@magic-ext/cosmos" "23.9.1"
     "@magic-ext/oauth2" "9.9.0"
     magic-sdk "28.9.0"
 
-"@injectivelabs/wallet-private-key@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-private-key/-/wallet-private-key-1.15.25.tgz#ad71938ed4a2681595d22a770f3671ef4a5aafff"
-  integrity sha512-Y08PGJE6tfbq5Q2j24X+FERp7gx5lxZZPvCzS2V2YmInof0q+sWmFtATDVsb0zMTOELLP//EPOA8tWmYe98XIQ==
+"@injectivelabs/wallet-private-key@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-private-key/-/wallet-private-key-1.15.28.tgz#095e2e3b59fc52e1c024bc53a819bc499d0040ca"
+  integrity sha512-wGqodJAiYHzYoumYRXP6qKbq8L8y9WgsOG1LBfxXC8Q9B+74Ly/u0Q0FK+XGg7x4edyStoJk1raEnCJEj+dSDg==
   dependencies:
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
 
-"@injectivelabs/wallet-strategy@^1.15.26":
-  version "1.15.26"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-strategy/-/wallet-strategy-1.15.26.tgz#b5af25c0ba437e3d6e5335ffda5541fbf89884af"
-  integrity sha512-gHWxJYBUwsgW9qAitzEBL5mTHMdOfBMiMRLcBymIaAoyGyNKqijNBfa0gVKGl0TRXDDJxpPa1TvV/d9GVma9MQ==
+"@injectivelabs/wallet-strategy@^1.15.29":
+  version "1.15.29"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-strategy/-/wallet-strategy-1.15.29.tgz#c86aebc8a62ca0c804671d648f88819445145092"
+  integrity sha512-vD1Tf7oXdv5lAl0O4NWbKrYU0xkdzAG5Om92Y3xmoJnZXNTYdjmJL4yCtcn0nw+8tzENLxjWJUrhLZq0Kk7SZQ==
   dependencies:
     "@ethereumjs/common" "^3.1.1"
     "@ethereumjs/tx" "^4.1.1"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/networks" "^1.15.23"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
-    "@injectivelabs/wallet-core" "^1.15.25"
-    "@injectivelabs/wallet-cosmos" "^1.15.25"
-    "@injectivelabs/wallet-cosmostation" "^1.15.25"
-    "@injectivelabs/wallet-evm" "^1.15.25"
-    "@injectivelabs/wallet-ledger" "^1.15.25"
-    "@injectivelabs/wallet-magic" "^1.15.25"
-    "@injectivelabs/wallet-private-key" "^1.15.25"
-    "@injectivelabs/wallet-trezor" "^1.15.25"
-    "@injectivelabs/wallet-turnkey" "^1.15.25"
-    "@injectivelabs/wallet-wallet-connect" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/networks" "^1.15.26"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
+    "@injectivelabs/wallet-core" "^1.15.28"
+    "@injectivelabs/wallet-cosmos" "^1.15.28"
+    "@injectivelabs/wallet-cosmostation" "^1.15.28"
+    "@injectivelabs/wallet-evm" "^1.15.28"
+    "@injectivelabs/wallet-ledger" "^1.15.28"
+    "@injectivelabs/wallet-magic" "^1.15.28"
+    "@injectivelabs/wallet-private-key" "^1.15.28"
+    "@injectivelabs/wallet-trezor" "^1.15.28"
+    "@injectivelabs/wallet-turnkey" "^1.15.28"
+    "@injectivelabs/wallet-wallet-connect" "^1.15.28"
     alchemy-sdk "^3.4.7"
     eip1193-provider "^1.0.1"
     eth-sig-util "^3.0.1"
@@ -2346,46 +2346,46 @@
     ethers "^6.5.1"
     hdkey "^2.1.0"
 
-"@injectivelabs/wallet-trezor@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-trezor/-/wallet-trezor-1.15.25.tgz#a1e11c6ff2a0c0784a275d2d86dd24da578cd09f"
-  integrity sha512-GaHgz+fMNO3LMQHcTJ/UYgX5NbuTxF3lcdp2IPn9NQjokpQC1zPv9jm/VH7mW7WcTXPJvJCpvR1EwvX77zhUOg==
+"@injectivelabs/wallet-trezor@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-trezor/-/wallet-trezor-1.15.28.tgz#c47ed438eec97b083e2b27395186695298fd8a48"
+  integrity sha512-oggZc6FC6fp4J+wGdSm12WJzDc9f6PdRsZDeUapQNsSy1NDSpFUnHnpG8eJjBgoMOyRxobL6hM9/T49JhY9aBA==
   dependencies:
     "@bangjelkoski/trezor-connect-web" "^9.4.7-beta.1"
     "@ethereumjs/common" "3.1.1"
     "@ethereumjs/tx" "^4.1.1"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     alchemy-sdk "^3.4.7"
     hdkey "^2.1.0"
 
-"@injectivelabs/wallet-turnkey@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-turnkey/-/wallet-turnkey-1.15.25.tgz#bb8b2328ac95da520b812b84b77ff0f3f4c4295d"
-  integrity sha512-6yjatbHOPoHLIQi8oqUKOEsFBszEhpOolHWgYB39F10Rrvn0NIsR77zKtVW4BOWRW1pdO318wZpUwoyCb7N8bw==
+"@injectivelabs/wallet-turnkey@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-turnkey/-/wallet-turnkey-1.15.28.tgz#2d164e33462811ab82e950c723ef19ccfa80367a"
+  integrity sha512-8C0n+b6FAJbEOwtPYVtWGbnGc75QMaueLRY6BNw/g9c+kInOfYjO5Cpco8S0gyNyOt/VihnAiDPd/nl9/3cyDA==
   dependencies:
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/utils" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/utils" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
     "@turnkey/sdk-browser" "^4.1.0"
     "@turnkey/viem" "^0.9.0"
     viem "^2.28.1"
 
-"@injectivelabs/wallet-wallet-connect@^1.15.25":
-  version "1.15.25"
-  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-wallet-connect/-/wallet-wallet-connect-1.15.25.tgz#f99f60c2594ac7f6c3538e4ea459faea59a4c2f1"
-  integrity sha512-4wM1atilOOmnopClrRP7fVRtMvZmnLld8IoyM7kMydUu+9RyGeLMp9zon+XIYbSAPxnYU7wynZQlujLOwSYPsw==
+"@injectivelabs/wallet-wallet-connect@^1.15.28":
+  version "1.15.28"
+  resolved "https://registry.yarnpkg.com/@injectivelabs/wallet-wallet-connect/-/wallet-wallet-connect-1.15.28.tgz#95994846affb608e59507f36418d170807033b49"
+  integrity sha512-mqBxdiDqe3h5fMob62E7Ksy8cHIPji1vFfMqNr2mzgqB1A3/e0oFih9czkSbd0so1ZuQuw1SiOqMXW6Cg18UjQ==
   dependencies:
     "@bangjelkoski/wallet-connect-ethereum-provider" "2.17.2"
     "@bangjelkoski/wc-ethereum-provider" "2.18.1"
-    "@injectivelabs/exceptions" "^1.15.22"
-    "@injectivelabs/sdk-ts" "^1.15.25"
-    "@injectivelabs/ts-types" "^1.15.23"
-    "@injectivelabs/wallet-base" "^1.15.25"
+    "@injectivelabs/exceptions" "^1.15.25"
+    "@injectivelabs/sdk-ts" "^1.15.28"
+    "@injectivelabs/ts-types" "^1.15.26"
+    "@injectivelabs/wallet-base" "^1.15.28"
 
 "@intlify/bundle-utils@^7.4.0":
   version "7.5.1"
