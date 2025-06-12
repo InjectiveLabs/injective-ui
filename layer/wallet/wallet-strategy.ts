@@ -1,4 +1,5 @@
 import { alchemyRpcEndpoint } from './alchemy'
+import { ChainId } from '@injectivelabs/ts-types'
 import { Wallet } from '@injectivelabs/wallet-base'
 import { WalletStrategy } from '@injectivelabs/wallet-strategy'
 import {
@@ -11,12 +12,13 @@ import {
   TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
+import type { EthereumChainId } from '@injectivelabs/ts-types'
 
 export const walletStrategy = new WalletStrategy({
-  chainId: CHAIN_ID,
+  chainId: ChainId.Devnet,
   ethereumOptions: {
-    ethereumChainId: ETHEREUM_CHAIN_ID,
-    rpcUrl: alchemyRpcEndpoint
+    ethereumChainId: 1439 as EthereumChainId,
+    rpcUrl: 'https://devnet.json-rpc.injective.dev' // 'https://k8s.testnet.json-rpc.injective.network/'
   },
   metadata: {
     magic: {
@@ -26,14 +28,14 @@ export const walletStrategy = new WalletStrategy({
     walletConnect: {
       projectId: WALLET_CONNECT_PROJECT_ID
     },
-    ...(TURNKEY_ORGID &&{
+    ...(TURNKEY_ORGID && {
       turnkey: {
         defaultOrganizationId: TURNKEY_ORGID,
-        apiBaseUrl: "https://api.turnkey.com",
+        apiBaseUrl: 'https://api.turnkey.com',
         iframeContainerId: TURNKEY_CONTAINER_ID,
         googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
         googleRedirectUri: window.location.origin,
-        apiServerEndpoint: "https://api.ui.injective.network/api/v1"
+        apiServerEndpoint: 'https://api.ui.injective.network/api/v1'
       }
     })
   },
