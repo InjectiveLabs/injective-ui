@@ -30,7 +30,7 @@ const decimals = computed(() => {
 </script>
 
 <template>
-  <SharedAmountDisplay
+  <SharedAmountBase
     v-bind="{
       amount,
       decimals,

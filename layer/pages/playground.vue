@@ -84,7 +84,7 @@ const testNumbers = [
           <div class="flex-1 h-full">
             <p class="text-lg font-bold">Usd Amount</p>
           </div>
-          <SharedAmountUsdDisplay :amount="values.amount" />
+          <SharedAmountUsd :amount="values.amount" />
         </UCard>
 
         <UCard class="flex flex-col">
@@ -96,7 +96,7 @@ const testNumbers = [
             </p>
           </div>
           <div class="mt-2">
-            <SharedAmountFormatted :amount="values.amount" /> INJ
+            <SharedAmount :amount="values.amount" /> INJ
           </div>
         </UCard>
       </div>
@@ -131,7 +131,7 @@ const testNumbers = [
               </p>
 
               <p class="text-right border-t pt-2 mt-2">
-                <SharedAmountDisplay
+                <SharedAmountBase
                   class="text-2xl"
                   v-bind="{
                     useSubscript,

@@ -18,7 +18,7 @@ withDefaults(
 <template>
   <span>
     <span v-if="showSign">$ </span>
-    <SharedAmountDisplay
+    <SharedAmountBase
       v-bind="{
         amount,
         decimals: 2,
