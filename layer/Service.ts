@@ -83,10 +83,15 @@ export const indexerFundsApi = new IndexerGrpcInsuranceFundApi(
 )
 export const tokenFactoryApi = new ChainGrpcTokenFactoryApi(ENDPOINTS.grpc)
 export const indexerOracleApi = new IndexerGrpcOracleApi(ENDPOINTS.indexer)
-export const indexerExplorerApi = new IndexerGrpcExplorerApi(ENDPOINTS.indexer)
-export const indexerRestExplorerApi = new IndexerRestExplorerApi(
-  `${ENDPOINTS.explorer}/api/explorer/v1`
+export const indexerExplorerApi = new IndexerGrpcExplorerApi(
+  IS_MAINNET
+    ? 'https://k8s.global.mainnet.explorer.grpc.injective.network'
+    : ENDPOINTS.indexer
 )
+export const indexerRestExplorerApi = new IndexerRestExplorerApi(
+  `${IS_MAINNET ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network' : ENDPOINTS.explorer}/api/explorer/v1`
+)
+
 export const indexerRestDerivativeChronosApi =
   new IndexerRestDerivativesChronosApi(
     `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/derivative`
