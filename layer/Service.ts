@@ -85,7 +85,7 @@ export const tokenFactoryApi = new ChainGrpcTokenFactoryApi(ENDPOINTS.grpc)
 export const indexerOracleApi = new IndexerGrpcOracleApi(ENDPOINTS.indexer)
 export const indexerExplorerApi = new IndexerGrpcExplorerApi(
   IS_MAINNET
-    ? 'https://k8s.global.mainnet.explorer.grpc.injective.network'
+    ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network'
     : ENDPOINTS.indexer
 )
 export const indexerRestExplorerApi = new IndexerRestExplorerApi(
