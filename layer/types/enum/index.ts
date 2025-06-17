@@ -1,6 +1,10 @@
 export * from './market'
 export * from './explorer'
 
+export enum CtaToast {
+  Telemetry = 'telemetry'
+}
+
 export enum GrantDirection {
   Grantee = 'grantee',
   Granter = 'granter'
@@ -185,8 +189,4 @@ export enum NuxtUiIcons {
   WaterDrop = 'bi:droplet',
   Youtube = 'mdi:youtube',
   LoadingRotateDots = 'svg-spinners:8-dots-rotate'
-}
-
-export enum CtaToast {
-  Telemetry = 'telemetry'
 }

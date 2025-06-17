@@ -35,7 +35,8 @@ export const CosmosChainId = {
   [Network.Juno]: 'juno-1',
   [Network.Terra]: 'columbus-5',
   [Network.InjectiveDevnet]: 'injective-777',
-  [Network.InjectiveTestnet]: 'injective-888'
+  [Network.InjectiveTestnet]: 'injective-888',
+  [Network.XRPL]: '14400001'
 }
 
 export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
@@ -218,6 +219,15 @@ export const cosmoMainnetChannel: Record<string, CosmosChannel> = {
     bToAChannelId: 'channel-387',
     bToAClientId: '07-tendermint-279',
     port: 'transfer'
+  },
+  [Network.XRPL]: {
+    aChainId: CosmosChainId[Network.XRPL],
+    bChainId: CosmosChainId[Network.Injective],
+    aToBChannelId: 'channel-0',
+    aToBClientId: '07-tendermint-0',
+    bToAChannelId: 'channel-436',
+    bToAClientId: '07-tendermint-314',
+    port: 'transfer'
   }
   // networks below are disabled
   // [Network.Noble]: {
@@ -291,8 +301,8 @@ export const cosmosTestnetChannels: Record<string, CosmosChannel> = {
 export const cosmosChannels = IS_DEVNET
   ? {}
   : IS_TESTNET
-  ? cosmosTestnetChannels
-  : cosmoMainnetChannel
+    ? cosmosTestnetChannels
+    : cosmoMainnetChannel
 
 export const IBC_COIN_CHANNEL_IDS = Object.values(cosmosChannels).map(
   (cosmosChannel: CosmosChannel) => cosmosChannel.bToAChannelId

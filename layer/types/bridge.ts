@@ -1,13 +1,3 @@
-export type CosmosChannel = {
-  aChainId: string
-  aToBChannelId: string
-  aToBClientId: string
-  bToAClientId: string
-  bToAChannelId: string
-  bChainId: string
-  port: string
-}
-
 export enum Network {
   Axelar = 'axelar',
   Canto = 'canto',
@@ -46,7 +36,18 @@ export enum Network {
   WormholeGeneric = 'wormhole-generic',
   XionTestnet = 'xion-testnet',
   Xion = 'xion',
+  XRPL = 'xrpl',
   EvmosTestnet = 'evmos-testnet',
   InjectiveDevnet = 'injective-devnet',
   InjectiveTestnet = 'injective-testnet'
+}
+
+export type CosmosChannel = {
+  port: string
+  aChainId: string
+  bChainId: string
+  aToBClientId: string
+  bToAClientId: string
+  aToBChannelId: string
+  bToAChannelId: string
 }
