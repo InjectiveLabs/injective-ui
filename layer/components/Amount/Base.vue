@@ -87,9 +87,11 @@ const formattedAmount = computed(() => {
   const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN;
 
   if (props.noTrailingZeros) {
-    return amount
+    const result = amount
       .toFormat(props.decimals, DEFAULT_ROUNDING_MODE)
       .replace(/\.?0+$/, "");
+
+    return result || "0";
   }
 
   const formattedAmount = amount.toFormat(
