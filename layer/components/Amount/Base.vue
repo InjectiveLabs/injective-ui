@@ -21,8 +21,12 @@ const props = withDefaults(
   },
 );
 
+const amountToBigNumber = computed(() => new BigNumberInBase(props.amount || 0));
+const isNegative = computed(() => amountToBigNumber.value.lt(0));
+const absoluteAmount = computed(() => amountToBigNumber.value.abs());
+
 const abbreviatedAmount = computed(() => {
-  const amount = new BigNumberInBase(props.amount || 0);
+  const amount = absoluteAmount.value;
 
   const nIsBiggerThanThreshold = amount.gte(props.abbreviationThreshold);
 
@@ -33,7 +37,7 @@ const abbreviatedAmount = computed(() => {
   const nIsLowerThanDecimalThreshold = amount.lt(minDecimalThreshold);
 
   if (!!props.abbreviationThreshold && nIsBiggerThanThreshold) {
-    return abbreviateNumber(Number(props.amount || 0));
+    return abbreviateNumber(amount.toNumber());
   }
 
   if (nIsLowerThanDecimalThreshold && amount.gt(0)) {
@@ -44,7 +48,7 @@ const abbreviatedAmount = computed(() => {
 });
 
 const subscriptedAmount = computed(() => {
-  const [integerPart, decimalPart] = new BigNumberInBase(props.amount || 0)
+  const [integerPart, decimalPart] = absoluteAmount.value
     .toFixed()
     .split(".");
 
@@ -79,7 +83,7 @@ const subscriptedAmount = computed(() => {
 });
 
 const formattedAmount = computed(() => {
-  const amount = new BigNumberInBase(props.amount || 0);
+  const amount = absoluteAmount.value;
   const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN;
 
   if (props.noTrailingZeros) {
@@ -95,9 +99,16 @@ const formattedAmount = computed(() => {
 
   return formattedAmount;
 });
+
+const shouldShowMinusBeforePrefix = computed(() =>
+  (abbreviatedAmount.value && abbreviatedAmount.value.startsWith("<"))
+);
 </script>
 
 <template>
+  <span v-if="isNegative && shouldShowMinusBeforePrefix">-</span>
+  <slot name="prefix" />
+  <span v-if="isNegative && !shouldShowMinusBeforePrefix">-</span>
   <span v-if="abbreviatedAmount">{{ abbreviatedAmount }}</span>
   <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>
   <span v-else>{{ formattedAmount }}</span>

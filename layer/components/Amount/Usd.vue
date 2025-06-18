@@ -17,13 +17,16 @@ withDefaults(
 
 <template>
   <span>
-    <span v-if="showSign">$ </span>
     <SharedAmountBase
       v-bind="{
         amount,
         decimals: 2,
         abbreviationThreshold,
       }"
-    />
+    >
+      <template #prefix>
+        <span v-if="showSign">$ </span>
+      </template>
+    </SharedAmountBase>
   </span>
 </template>
