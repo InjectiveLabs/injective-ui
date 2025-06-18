@@ -99,16 +99,11 @@ const formattedAmount = computed(() => {
 
   return formattedAmount;
 });
-
-const shouldShowMinusBeforePrefix = computed(() =>
-  (abbreviatedAmount.value && abbreviatedAmount.value.startsWith("<"))
-);
 </script>
 
 <template>
-  <span v-if="isNegative && shouldShowMinusBeforePrefix">-</span>
+  <span v-if="isNegative">-</span>
   <slot name="prefix" />
-  <span v-if="isNegative && !shouldShowMinusBeforePrefix">-</span>
   <span v-if="abbreviatedAmount">{{ abbreviatedAmount }}</span>
   <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>
   <span v-else>{{ formattedAmount }}</span>
