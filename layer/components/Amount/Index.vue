@@ -7,12 +7,14 @@ const props = withDefaults(
     decimals?: number;
     useSubscript?: boolean;
     noTrailingZeros?: boolean;
+    shouldAbbreviate?: boolean;
     abbreviationThreshold?: number;
     amount: string | number | BigNumberInBase;
   }>(),
   {
     decimals: 8,
     noTrailingZeros: true,
+    shouldAbbreviate: true,
     abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
   },
 );
@@ -36,7 +38,12 @@ const decimals = computed(() => {
       decimals,
       useSubscript,
       noTrailingZeros,
+      shouldAbbreviate,
       abbreviationThreshold,
     }"
-  />
+  >
+    <template #prefix>
+      <slot name="prefix" />
+    </template>
+  </SharedAmountBase>
 </template>

@@ -11,17 +11,15 @@ withDefaults(
 </script>
 
 <template>
-  <span>
-    <SharedAmountBase
-      v-bind="{
-        amount,
-        decimals: 2,
-        shouldAbbreviate
-      }"
-    >
-      <template #prefix>
-        <slot name="prefix" />
-      </template>
-    </SharedAmountBase>
-  </span>
+  <SharedAmountBase
+    v-bind="{
+      amount,
+      decimals: 2,
+      shouldAbbreviate
+    }"
+  >
+    <template #prefix>
+      <slot name="prefix" />
+    </template>
+  </SharedAmountBase>
 </template>
