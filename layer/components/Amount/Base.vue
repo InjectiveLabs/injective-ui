@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { BigNumberInBase } from '@injectivelabs/utils'
 import { abbreviateNumber } from '../../utils/helper'
+import { BigNumberInBase } from '@injectivelabs/utils'
 import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant'
 
 const props = withDefaults(
@@ -26,24 +26,28 @@ const amountToBigNumber = computed(() => new BigNumberInBase(props.amount || 0))
 const isNegative = computed(() => amountToBigNumber.value.lt(0))
 const absoluteAmount = computed(() => amountToBigNumber.value.abs())
 
+const minDecimalThreshold = computed(() =>
+  new BigNumberInBase(1).div(Math.pow(10, props.decimals))
+)
+
+const shouldHaveSmallerThan = computed(() => {
+  const amount = absoluteAmount.value
+  const nIsLowerThanDecimalThreshold = amount.lt(minDecimalThreshold.value)
+
+  return nIsLowerThanDecimalThreshold && amount.gt(0)
+})
+
 const abbreviatedAmount = computed(() => {
+  if (!props.shouldAbbreviate) {
+    return false
+  }
+
   const amount = absoluteAmount.value
 
   const nIsBiggerThanThreshold = amount.gte(props.abbreviationThreshold)
 
-  const minDecimalThreshold = new BigNumberInBase(1).div(
-    Math.pow(10, props.decimals)
-  )
-
-  const nIsLowerThanDecimalThreshold = amount.lt(minDecimalThreshold)
-
   if (!!props.abbreviationThreshold && nIsBiggerThanThreshold) {
     return abbreviateNumber(amount.toNumber())
-  }
-
-  // Arthur: lets move this "<" to the html
-  if (nIsLowerThanDecimalThreshold && amount.gt(0)) {
-    return '<' + minDecimalThreshold.toFormat()
   }
 
   return false
@@ -103,7 +107,10 @@ const formattedAmount = computed(() => {
 <template>
   <span v-if="isNegative">-</span>
   <slot name="prefix" />
-  <span v-if="shouldAbbreviate && abbreviatedAmount">
+  <span v-if="shouldHaveSmallerThan">
+    &lt;{{ minDecimalThreshold.toFormat() }}
+  </span>
+  <span v-else-if="abbreviatedAmount">
     {{ abbreviatedAmount }}
   </span>
   <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>

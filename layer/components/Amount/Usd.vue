@@ -3,9 +3,7 @@ import type { BigNumberInBase } from '@injectivelabs/utils'
 
 withDefaults(
   defineProps<{
-    prefix?: string
     shouldAbbreviate?: boolean
-    abbreviationThreshold?: number
     amount: string | number | BigNumberInBase
   }>(),
   {}
@@ -18,8 +16,7 @@ withDefaults(
       v-bind="{
         amount,
         decimals: 2,
-        shouldAbbreviate,
-        abbreviationThreshold
+        shouldAbbreviate
       }"
     >
       <template #prefix>
