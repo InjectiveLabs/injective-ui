@@ -15,6 +15,25 @@ export type SpotStoreState = {
   marketsSummary: SharedUiMarketSummary[]
 }
 
+const transformMarket = (
+  market: SpotMarket
+): undefined | SharedUiSpotMarket => {
+  const tokenStore = useSharedTokenStore()
+
+  const baseToken = tokenStore.tokenByDenomOrSymbol(market.baseDenom)
+  const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
+
+  if (!baseToken || !quoteToken) {
+    return undefined
+  }
+
+  return toUiSpotMarket({
+    market,
+    baseToken,
+    quoteToken
+  })
+}
+
 export const useSharedSpotStore = defineStore('sharedSpot', {
   state: (): SpotStoreState => ({
     markets: [] as SpotMarket[],
@@ -22,23 +41,36 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
   }),
 
   getters: {
-    marketsWithToken: (state): SharedUiSpotMarket[] => {
+    allMarketsWithToken: (state): SharedUiSpotMarket[] => {
       const jsonStore = useSharedJsonStore()
-      const tokenStore = useSharedTokenStore()
 
       const uiMarkets = state.markets.map((market) => {
-        const baseToken = tokenStore.tokenByDenomOrSymbol(market.baseDenom)
-        const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
+        const formattedMarket = transformMarket(market)
 
-        if (!baseToken || !quoteToken) {
+        if (!formattedMarket) {
           return undefined
         }
 
-        const formattedMarket = toUiSpotMarket({
-          market,
-          baseToken,
-          quoteToken
-        })
+        return {
+          ...formattedMarket,
+          isVerified: jsonStore.verifiedSpotMarketIds.includes(market.marketId)
+        } as SharedUiSpotMarket
+      })
+
+      return uiMarkets.filter(
+        (market) => market && !MARKET_IDS_TO_HIDE.includes(market.marketId)
+      ) as SharedUiSpotMarket[]
+    },
+
+    marketsWithToken: (state): SharedUiSpotMarket[] => {
+      const jsonStore = useSharedJsonStore()
+
+      const uiMarkets = state.markets.map((market) => {
+        const formattedMarket = transformMarket(market)
+
+        if (!formattedMarket) {
+          return undefined
+        }
 
         return {
           ...formattedMarket,
@@ -60,6 +92,21 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
       const spotStore = useSharedSpotStore()
 
       const markets = await spotCacheApi.fetchMarkets()
+
+      spotStore.markets = markets
+    },
+
+    async fetchAllMarkets() {
+      const spotStore = useSharedSpotStore()
+
+      const markets = await spotCacheApi.fetchMarkets([
+        SharedMarketStatus.Active,
+        SharedMarketStatus.Paused,
+        SharedMarketStatus.Expired,
+        SharedMarketStatus.Expired,
+        SharedMarketStatus.Suspended,
+        SharedMarketStatus.Demolished
+      ])
 
       spotStore.markets = markets
     },

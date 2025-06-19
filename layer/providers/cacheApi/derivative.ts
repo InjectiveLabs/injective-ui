@@ -10,13 +10,14 @@ import type {
   ExpiryFuturesMarket,
   AllChronosDerivativeMarketSummary
 } from '@injectivelabs/sdk-ts'
+import type { SharedMarketStatus } from '../../types'
 
 export class DerivativeCacheApi extends BaseCacheApi {
-  async fetchMarkets() {
+  async fetchMarkets(marketStatuses?: SharedMarketStatus[]) {
     const fetchFromExchange = async () => {
-      const markets = (await indexerDerivativesApi.fetchMarkets()) as Array<
-        PerpetualMarket | ExpiryFuturesMarket
-      >
+      const markets = (await indexerDerivativesApi.fetchMarkets(
+        marketStatuses ? { marketStatuses } : undefined
+      )) as Array<PerpetualMarket | ExpiryFuturesMarket>
 
       return markets
     }
@@ -27,11 +28,12 @@ export class DerivativeCacheApi extends BaseCacheApi {
 
     try {
       const response = await this.client.get<DerivativeMarket[]>(
-        'cache/derivatives/markets'        
+        'cache/derivatives/markets',
+        marketStatuses ? { params: { marketStatuses } } : undefined
       )
 
       return response.data
-    } catch{
+    } catch {
       return fetchFromExchange()
     }
   }
@@ -54,7 +56,7 @@ export class DerivativeCacheApi extends BaseCacheApi {
       >('cache/derivatives/summary')
 
       return response.data
-    } catch{
+    } catch {
       return fetchFromExchange()
     }
   }
