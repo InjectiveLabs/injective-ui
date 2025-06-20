@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { abbreviateNumber } from '../../utils/helper'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant'
 
 const props = withDefaults(
@@ -12,12 +12,14 @@ const props = withDefaults(
     shouldAbbreviate?: boolean
     abbreviationThreshold?: number
     subscriptThresholdDecimals?: number
+    roundingMode?: BigNumber.RoundingMode
     amount: string | number | BigNumberInBase
   }>(),
   {
     decimals: 8,
     subscriptDecimals: 4,
     subscriptThresholdDecimals: 4,
+    roundingMode: BigNumber.ROUND_DOWN,
     abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD
   }
 )
@@ -88,17 +90,16 @@ const subscriptedAmount = computed(() => {
 
 const formattedAmount = computed(() => {
   const amount = absoluteAmount.value
-  const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
 
   if (props.noTrailingZeros) {
     const result = amount
-      .toFormat(props.decimals, DEFAULT_ROUNDING_MODE)
+      .toFormat(props.decimals, props.roundingMode)
       .replace(/\.?0+$/, '')
 
     return result || '0'
   }
 
-  const formattedAmount = amount.toFormat(props.decimals, DEFAULT_ROUNDING_MODE)
+  const formattedAmount = amount.toFormat(props.decimals, props.roundingMode)
 
   return formattedAmount
 })

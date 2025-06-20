@@ -1,34 +1,36 @@
 <script setup lang="ts">
-import { BigNumberInBase } from "@injectivelabs/utils";
-import { DEFAULT_ABBREVIATION_THRESHOLD } from "../../utils/constant";
+import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
+import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant'
 
 const props = withDefaults(
   defineProps<{
-    decimals?: number;
-    useSubscript?: boolean;
-    noTrailingZeros?: boolean;
-    shouldAbbreviate?: boolean;
-    abbreviationThreshold?: number;
-    amount: string | number | BigNumberInBase;
+    decimals?: number
+    useSubscript?: boolean
+    noTrailingZeros?: boolean
+    shouldAbbreviate?: boolean
+    abbreviationThreshold?: number
+    roundingMode?: BigNumber.RoundingMode
+    amount: string | number | BigNumberInBase
   }>(),
   {
     decimals: 8,
     noTrailingZeros: true,
     shouldAbbreviate: true,
-    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
-  },
-);
+    roundingMode: BigNumber.ROUND_DOWN,
+    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD
+  }
+)
 
 const decimals = computed(() => {
   if (
     !!props.abbreviationThreshold &&
     new BigNumberInBase(props.amount || 0).gt(props.abbreviationThreshold)
   ) {
-    return 2;
+    return 2
   }
 
-  return props.decimals;
-});
+  return props.decimals
+})
 </script>
 
 <template>
@@ -36,10 +38,11 @@ const decimals = computed(() => {
     v-bind="{
       amount,
       decimals,
+      roundingMode,
       useSubscript,
       noTrailingZeros,
       shouldAbbreviate,
-      abbreviationThreshold,
+      abbreviationThreshold
     }"
   >
     <template #prefix>
