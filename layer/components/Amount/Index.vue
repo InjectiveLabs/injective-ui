@@ -8,12 +8,14 @@ const props = withDefaults(
     useSubscript?: boolean
     noTrailingZeros?: boolean
     shouldAbbreviate?: boolean
+    showZeroAsEmDash?: boolean
     abbreviationThreshold?: number
     roundingMode?: BigNumber.RoundingMode
     amount: string | number | BigNumberInBase
   }>(),
   {
-    decimals: 8,
+    decimals: 6,
+    useSubscript: true,
     noTrailingZeros: true,
     shouldAbbreviate: true,
     roundingMode: BigNumber.ROUND_DOWN,
@@ -42,6 +44,7 @@ const decimals = computed(() => {
       useSubscript,
       noTrailingZeros,
       shouldAbbreviate,
+      showZeroAsEmDash,
       abbreviationThreshold
     }"
   >

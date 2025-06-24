@@ -9,6 +9,7 @@ withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
+    shouldAbbreviate: true,
     roundingMode: BigNumber.ROUND_DOWN
   }
 )

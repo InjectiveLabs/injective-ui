@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { abbreviateNumber } from '../../utils/helper'
 import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
+import { abbreviateNumber } from '../../utils/helper'
 import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant'
 
 const props = withDefaults(
@@ -10,6 +10,7 @@ const props = withDefaults(
     noTrailingZeros?: boolean
     subscriptDecimals?: number
     shouldAbbreviate?: boolean
+    showZeroAsEmDash?: boolean
     abbreviationThreshold?: number
     subscriptThresholdDecimals?: number
     roundingMode?: BigNumber.RoundingMode
@@ -108,12 +109,14 @@ const formattedAmount = computed(() => {
 <template>
   <span v-if="isNegative">-</span>
   <slot name="prefix" />
-  <span v-if="shouldHaveSmallerThan">
+
+  <span v-if="showZeroAsEmDash && amountToBigNumber.eq(0)"> &mdash; </span>
+  <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>
+  <span v-else-if="shouldHaveSmallerThan">
     &lt;{{ minDecimalThreshold.toFormat() }}
   </span>
   <span v-else-if="abbreviatedAmount">
     {{ abbreviatedAmount }}
   </span>
-  <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>
   <span v-else>{{ formattedAmount }}</span>
 </template>

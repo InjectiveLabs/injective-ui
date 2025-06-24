@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Amount/Index.vue > formats small number -0.0000001 with subscripts 1`] = `
+"<span>-</span>
+<span>0.0<sub>6</sub>1</span>"
+`;
+
+exports[`Amount/Index.vue > formats small number 0.000000000001 with subscripts 1`] = `
+"<!--v-if-->
+<span>0.0<sub>11</sub>1</span>"
+`;
+
+exports[`Amount/Index.vue > formats small number 0.0000001 with subscripts 1`] = `
+"<!--v-if-->
+<span>0.0<sub>6</sub>1</span>"
+`;
