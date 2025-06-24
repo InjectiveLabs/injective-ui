@@ -52,6 +52,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
             icon: options.icon,
             context: options.context,
             actions: options.actions,
+            txHash: options.txHash || '',
             description: options.description,
             isTelemetry: options.isTelemetry,
             timeout: options.timeout || defaultTimeout
