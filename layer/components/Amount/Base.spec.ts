@@ -178,6 +178,42 @@ describe('Amount/Base.vue', () => {
 
       expect(component.text()).toBe('123')
     })
+
+    it('should not remove trailing zeros from integer part when decimals is 0', async () => {
+      const component = await mountSuspended(Base, {
+        props: {
+          amount: '100000',
+          decimals: 0,
+          noTrailingZeros: true
+        }
+      })
+
+      expect(component.text()).toBe('100,000')
+    })
+
+    it('should not remove trailing zeros from integer part with different number', async () => {
+      const component = await mountSuspended(Base, {
+        props: {
+          amount: '50000',
+          decimals: 0,
+          noTrailingZeros: true
+        }
+      })
+
+      expect(component.text()).toBe('50,000')
+    })
+
+    it('should handle large numbers with trailing zeros when decimals is 0', async () => {
+      const component = await mountSuspended(Base, {
+        props: {
+          amount: '1200000',
+          decimals: 0,
+          noTrailingZeros: true
+        }
+      })
+
+      expect(component.text()).toBe('1,200,000')
+    })
   })
 
   describe('rounding', () => {
