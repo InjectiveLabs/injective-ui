@@ -13,7 +13,7 @@ const values = reactive({
   amount: '1',
   decimals: 6,
   abbreviateThreshold: 1_000_000,
-  subscriptThresholdDecimals: 4,
+  subscriptThresholdDecimals: 3,
   subscriptDecimals: 4
 })
 
