@@ -94,10 +94,7 @@ describe('Amount/Base.vue', () => {
         }
       })
 
-      expect(component.html()).toMatchInlineSnapshot(`
-        "<!--v-if-->
-        <span>0.0<sub>5</sub>123</span>"
-      `)
+      expect(component.html()).toMatchInlineSnapshot(`"<span><!--v-if--><span>0.0<sub>5</sub>123</span></span>"`)
     })
 
     it('should use subscript for negative small numbers', async () => {
@@ -108,10 +105,7 @@ describe('Amount/Base.vue', () => {
         }
       })
 
-      expect(component.html()).toMatchInlineSnapshot(`
-        "<span>-</span>
-        <span>0.0<sub>5</sub>123</span>"
-      `)
+      expect(component.html()).toMatchInlineSnapshot(`"<span><span>-</span><span>0.0<sub>5</sub>123</span></span>"`)
     })
 
     it('should respect subscriptDecimals', async () => {
@@ -123,10 +117,7 @@ describe('Amount/Base.vue', () => {
         }
       })
 
-      expect(component.html()).toMatchInlineSnapshot(`
-        "<!--v-if-->
-        <span>0.0<sub>5</sub>12</span>"
-      `)
+      expect(component.html()).toMatchInlineSnapshot(`"<span><!--v-if--><span>0.0<sub>5</sub>12</span></span>"`)
     })
 
     it('should not use subscript if decimal zeros are not over threshold', async () => {
