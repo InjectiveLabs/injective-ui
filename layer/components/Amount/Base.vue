@@ -59,7 +59,7 @@ const abbreviatedAmount = computed(() => {
 const subscriptedAmount = computed(() => {
   const [integerPart, decimalPart] = absoluteAmount.value.toFixed().split('.')
 
-  if (!decimalPart || !props.useSubscript) {
+  if (!decimalPart || !props.useSubscript || absoluteAmount.value.gte(1)) {
     return false
   }
 

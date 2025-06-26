@@ -10,7 +10,17 @@ exports[`Amount/Index.vue > formats small number 0.000000000001 with subscripts 
 <span>0.0<sub>11</sub>1</span>"
 `;
 
+exports[`Amount/Index.vue > formats small number 0.000000000001234 with subscripts 1`] = `
+"<!--v-if-->
+<span>0.0<sub>11</sub>1234</span>"
+`;
+
 exports[`Amount/Index.vue > formats small number 0.0000001 with subscripts 1`] = `
 "<!--v-if-->
 <span>0.0<sub>6</sub>1</span>"
+`;
+
+exports[`Amount/Index.vue > formats small number 1.000000000001234 with subscripts 1`] = `
+"<!--v-if-->
+<span>1</span>"
 `;

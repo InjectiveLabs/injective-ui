@@ -16,7 +16,9 @@ describe('Amount/Usd.vue', () => {
     { input: '1.00030004', output: '$1.00' },
     { input: '1234.1234565253', output: '$1,234.12' },
     { input: '1234567', output: '$≈1.2M' },
-    { input: '0.000000000001', output: '$<0.01' }
+    { input: '0.000000000001', output: '$<0.01' },
+    { input: '0.000000000001234', output: '$<0.01' },
+    { input: '1.000000000001234', output: '$1.00' }
   ]
 
   test.each(testCases)(

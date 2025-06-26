@@ -11,8 +11,8 @@ definePageMeta({
 
 const values = reactive({
   amount: '1',
-  decimals: 8,
-  abbreviateThreshold: 1000000,
+  decimals: 6,
+  abbreviateThreshold: 1_000_000,
   subscriptThresholdDecimals: 4,
   subscriptDecimals: 4
 })

@@ -29,7 +29,13 @@ describe('Amount/Index.vue', () => {
     }
   )
 
-  const smallNumberCases = ['0.0000001', '-0.0000001', '0.000000000001']
+  const smallNumberCases = [
+    '0.0000001',
+    '-0.0000001',
+    '0.000000000001',
+    '0.000000000001234',
+    '1.000000000001234'
+  ]
   test.each(smallNumberCases)(
     'formats small number %s with subscripts',
     async (amount) => {
