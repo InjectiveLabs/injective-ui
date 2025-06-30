@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { BigNumber } from '@injectivelabs/utils'
-import type { BigNumberInBase } from '@injectivelabs/utils'
+import { BigNumber, type BigNumberInBase } from '@injectivelabs/utils'
+import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
 
 withDefaults(
   defineProps<{
@@ -19,9 +19,9 @@ withDefaults(
   <SharedAmountBase
     v-bind="{
       amount,
-      decimals: 2,
       roundingMode,
-      shouldAbbreviate
+      shouldAbbreviate,
+      decimals: DEFAULT_USD_DECIMALS
     }"
   >
     <template #prefix>

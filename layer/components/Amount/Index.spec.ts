@@ -1,5 +1,4 @@
 import { mountSuspended } from '@nuxt/test-utils/runtime'
-import { BigNumberInBase } from '@injectivelabs/utils'
 import { describe, expect, test } from 'vitest'
 import Index from './Index.vue'
 
@@ -21,7 +20,7 @@ describe('Amount/Index.vue', () => {
     async ({ input, output }) => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: new BigNumberInBase(input)
+          amount: input
         }
       })
 

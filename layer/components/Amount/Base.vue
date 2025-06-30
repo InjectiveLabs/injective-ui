@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { abbreviateNumber } from '../../utils/helper'
 import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
-import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant'
+import { abbreviateNumber } from '../../utils/helper'
+import {
+  DEFAULT_DISPLAY_DECIMALS,
+  DEFAULT_SUBSCRIPT_DECIMALS,
+  DEFAULT_ABBREVIATION_THRESHOLD,
+  DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS
+} from '../../utils/constant'
 
 const props = withDefaults(
   defineProps<{
@@ -17,11 +22,11 @@ const props = withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
-    decimals: 8,
-    subscriptDecimals: 4,
-    subscriptThresholdDecimals: 3,
     roundingMode: BigNumber.ROUND_DOWN,
-    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD
+    decimals: DEFAULT_DISPLAY_DECIMALS,
+    subscriptDecimals: DEFAULT_SUBSCRIPT_DECIMALS,
+    abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
+    subscriptThresholdDecimals: DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS
   }
 )
 
