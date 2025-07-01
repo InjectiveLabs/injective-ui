@@ -1,11 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Amount/Index.vue > formats small number -0.0000001 with subscripts 1`] = `"<span><span>-</span><span>0.0<sub>6</sub>1</span></span>"`;
+exports[`Amount/Index.vue > formats small number -0.0000001 with subscripts 1`] = `"<span><span>-</span><span> &lt;0.000001</span></span>"`;
 
-exports[`Amount/Index.vue > formats small number 0.000000000001 with subscripts 1`] = `"<span><!--v-if--><span>0.0<sub>11</sub>1</span></span>"`;
+exports[`Amount/Index.vue > formats small number 0.000000000001 with subscripts 1`] = `"<span><!--v-if--><span> &lt;0.000001</span></span>"`;
 
-exports[`Amount/Index.vue > formats small number 0.000000000001234 with subscripts 1`] = `"<span><!--v-if--><span>0.0<sub>11</sub>1234</span></span>"`;
+exports[`Amount/Index.vue > formats small number 0.000000000001234 with subscripts 1`] = `"<span><!--v-if--><span> &lt;0.000001</span></span>"`;
 
-exports[`Amount/Index.vue > formats small number 0.0000001 with subscripts 1`] = `"<span><!--v-if--><span>0.0<sub>6</sub>1</span></span>"`;
+exports[`Amount/Index.vue > formats small number 0.0000001 with subscripts 1`] = `"<span><!--v-if--><span> &lt;0.000001</span></span>"`;
 
 exports[`Amount/Index.vue > formats small number 1.000000000001234 with subscripts 1`] = `"<span><!--v-if--><span>1</span></span>"`;
