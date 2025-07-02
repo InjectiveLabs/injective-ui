@@ -24,7 +24,7 @@ export const walletStrategy = new WalletStrategy({
       [EthereumChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
       [EthereumChainId.DevnetEvm]: 'https://devnet.json-rpc.injective.dev/',
       [EthereumChainId.TestnetEvm]:
-        'https://testnet.sentry.chain.json-rpc.injective.network/'
+        'https://k8s.testnet.json-rpc.injective.network/'
     }
   },
   metadata: {
