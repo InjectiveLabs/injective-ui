@@ -4,8 +4,8 @@ import Usd from './Usd.vue'
 
 describe('Amount/Usd.vue', () => {
   const testCases = [
-    { input: '0.0000001', output: '$ <0.01' },
-    { input: '-0.0000001', output: '-$ <0.01' },
+    { input: '0.0000001', output: '$<0.01' },
+    { input: '-0.0000001', output: '-$<0.01' },
     { input: '0.01100000', output: '$0.01' },
     { input: '1234.12345678', output: '$1,234.12' },
     { input: '1.01', output: '$1.01' },
@@ -15,8 +15,8 @@ describe('Amount/Usd.vue', () => {
     { input: '1.00030004', output: '$1.00' },
     { input: '1234.1234565253', output: '$1,234.12' },
     { input: '1234567', output: '$≈1.2M' },
-    { input: '0.000000000001', output: '$ <0.01' },
-    { input: '0.000000000001234', output: '$ <0.01' },
+    { input: '0.000000000001', output: '$<0.01' },
+    { input: '0.000000000001234', output: '$<0.01' },
     { input: '1.000000000001234', output: '$1.00' }
   ]
 
