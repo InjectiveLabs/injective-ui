@@ -4,11 +4,13 @@ import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
 
 withDefaults(
   defineProps<{
+    showSmallerThan?: boolean
     shouldAbbreviate?: boolean
     roundingMode?: BigNumber.RoundingMode
     amount: string | number | BigNumberInBase
   }>(),
   {
+    showSmallerThan: true,
     shouldAbbreviate: true,
     roundingMode: BigNumber.ROUND_DOWN
   }
@@ -20,6 +22,7 @@ withDefaults(
     v-bind="{
       amount,
       roundingMode,
+      showSmallerThan,
       shouldAbbreviate,
       decimals: DEFAULT_USD_DECIMALS
     }"

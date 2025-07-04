@@ -11,6 +11,7 @@ const props = withDefaults(
     decimals?: number
     useSubscript?: boolean
     noTrailingZeros?: boolean
+    showSmallerThan?: boolean
     shouldAbbreviate?: boolean
     showZeroAsEmDash?: boolean
     abbreviationThreshold?: number
@@ -19,16 +20,18 @@ const props = withDefaults(
   }>(),
   {
     useSubscript: true,
+    showSmallerThan: true,
     noTrailingZeros: true,
     shouldAbbreviate: true,
-    roundingMode: BigNumber.ROUND_DOWN,
     decimals: DEFAULT_ASSET_DECIMALS,
+    roundingMode: BigNumber.ROUND_DOWN,
     abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD
   }
 )
 
 const decimals = computed(() => {
   if (
+    props.shouldAbbreviate &&
     !!props.abbreviationThreshold &&
     new BigNumberInBase(props.amount || 0).gt(props.abbreviationThreshold)
   ) {
@@ -46,6 +49,7 @@ const decimals = computed(() => {
       decimals,
       roundingMode,
       useSubscript,
+      showSmallerThan,
       noTrailingZeros,
       shouldAbbreviate,
       showZeroAsEmDash,

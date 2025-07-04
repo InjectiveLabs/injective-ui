@@ -13,6 +13,7 @@ const props = withDefaults(
     decimals?: number
     useSubscript?: boolean
     noTrailingZeros?: boolean
+    showSmallerThan?: boolean
     subscriptDecimals?: number
     shouldAbbreviate?: boolean
     showZeroAsEmDash?: boolean
@@ -22,8 +23,9 @@ const props = withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
-    roundingMode: BigNumber.ROUND_DOWN,
+    showSmallerThan: true,
     decimals: DEFAULT_DISPLAY_DECIMALS,
+    roundingMode: BigNumber.ROUND_DOWN,
     subscriptDecimals: DEFAULT_SUBSCRIPT_DECIMALS,
     abbreviationThreshold: DEFAULT_ABBREVIATION_THRESHOLD,
     subscriptThresholdDecimals: DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS
@@ -118,7 +120,7 @@ const formattedAmount = computed(() => {
     <slot name="prefix" />
 
     <span v-if="showZeroAsEmDash && amountToBigNumber.eq(0)"> &mdash; </span>
-    <span v-else-if="shouldHaveSmallerThan"
+    <span v-else-if="showSmallerThan && shouldHaveSmallerThan"
       >&lt;{{ minDecimalThreshold.toFormat() }}
     </span>
     <span v-else-if="subscriptedAmount" v-html="subscriptedAmount"></span>
