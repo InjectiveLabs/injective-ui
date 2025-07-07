@@ -1,5 +1,9 @@
-import { SigningKey, BaseWallet, type Eip1193Provider } from 'ethers'
-import { signTypedData, SignTypedDataVersion } from '@metamask/eth-sig-util'
+import {
+  loadEthersSigningType,
+  loadEthersBaseWalletType,
+  loadSigUtilSignedTypedData
+} from './../utils/lib'
+import type { BaseWallet, Eip1193Provider } from 'ethers'
 
 const SEPOLIA_CHAIN_ID = 11155111
 
@@ -16,24 +20,19 @@ const methodMap: Record<
     return [_baseWallet.address]
   },
   eth_signTypedData_v4: async (params, pk) => {
+    const signTypedData = await loadSigUtilSignedTypedData()
     const _pk = pk.slice(2)
-
-    console.log('eth_signTypedData_v4', params)
 
     const [_address, typedData] = params
 
-    console.log('typedData', typedData, typeof typedData)
-
     const typedDataObj = JSON.parse(typedData) as any
-
-    console.log(typedDataObj)
 
     const { domain, types, message, primaryType } = typedDataObj
 
     const signature = signTypedData({
       data: { domain, message, primaryType, types },
       privateKey: Buffer.from(_pk, 'hex'),
-      version: SignTypedDataVersion.V4
+      version: 'v4' as any
     })
 
     return signature
@@ -60,27 +59,19 @@ const methodMap: Record<
 export class CustomEip1193Provider implements Eip1193Provider {
   isMetaMask: boolean
   chainId: number
-  private baseWallet: BaseWallet | undefined
+
+  private baseWallet: undefined | BaseWallet
   private pk: string | undefined
-  constructor(pk?: string, chainId: number = SEPOLIA_CHAIN_ID) {
+
+  constructor(chainId: number = SEPOLIA_CHAIN_ID) {
     this.isMetaMask = true
 
     this.chainId = chainId
 
-    if (pk) {
-      this.setPrivateKey(pk)
-    }
-
-    const windowOrGlobal = typeof window !== 'undefined' ? window : globalThis as any
+    const windowOrGlobal =
+      typeof window !== 'undefined' ? window : (globalThis as any)
 
     windowOrGlobal.setPrivateKey = this.setPrivateKey.bind(this)
-  }
-
-  setPrivateKey(pk: string) {
-    this.pk = pk
-    console.log('setPrivateKey', pk)
-    const signingKey = new SigningKey(pk)
-    this.baseWallet = new BaseWallet(signingKey)
   }
 
   async request({ method, params }: { params?: any; method: string }) {
@@ -93,5 +84,15 @@ export class CustomEip1193Provider implements Eip1193Provider {
     }
 
     throw new Error(`Method ${method} not found`)
+  }
+
+  async setPrivateKey(pk: string) {
+    const SigningKey = await loadEthersSigningType()
+    const BaseWallet = await loadEthersBaseWalletType()
+
+    this.pk = pk
+
+    const signingKey = new SigningKey(pk)
+    this.baseWallet = new BaseWallet(signingKey)
   }
 }

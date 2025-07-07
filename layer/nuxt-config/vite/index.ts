@@ -102,6 +102,8 @@ export default defineConfig({
           '@injectivelabs/sdk-ts',
           'qr-code-generator-vue3',
           '@metamask/eth-sig-util',
+          '@injectivelabs/ts-types',
+          '@injectivelabs/networks',
           'class-variance-authority',
           '@injectivelabs/wallet-evm',
           '@injectivelabs/wallet-base',
@@ -116,7 +118,6 @@ export default defineConfig({
           ...(IS_BRIDGE
             ? [
                 'axios',
-                'ethers',
                 'js-sha3',
                 'js-base64',
                 'alchemy-sdk',
@@ -143,6 +144,7 @@ export default defineConfig({
             ? [
                 'gsap',
                 'html-to-image',
+                'embla-carousel-vue',
                 'gsap/ScrollTrigger',
                 'gsap/ScrollToPlugin'
               ]

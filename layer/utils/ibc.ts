@@ -1,8 +1,9 @@
-import { TokenStatic, TokenType } from '@injectivelabs/sdk-ts'
+import { TokenType } from '@injectivelabs/sdk-ts'
 import {
   canonicalChannelIds,
   canonicalChannelsToChainList
 } from './../data/ibc'
+import type { TokenStatic } from '@injectivelabs/sdk-ts'
 
 export const isIbcTokenCanonical = (token: TokenStatic) => {
   const { denom } = token
@@ -32,10 +33,10 @@ export const getIbcDestinationChain = ({
   index,
   token
 }: {
-  channelPaths: string[]
-  channel: string
   index: number
+  channel: string
   token: TokenStatic
+  channelPaths: string[]
 }) => {
   if (token.tokenType !== TokenType.Ibc) {
     return ''

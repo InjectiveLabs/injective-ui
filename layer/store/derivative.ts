@@ -11,7 +11,7 @@ import { derivativeCacheApi } from './../Service'
 import type { PerpetualMarket } from '@injectivelabs/sdk-ts'
 import type { SharedUiMarketSummary, SharedUiDerivativeMarket } from '../types'
 
-export type derivativeStore = {
+type derivativeStore = {
   markets: PerpetualMarket[]
   marketsSummary: SharedUiMarketSummary[]
 }

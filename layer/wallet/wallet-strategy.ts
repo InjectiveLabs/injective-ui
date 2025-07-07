@@ -1,6 +1,6 @@
 import { alchemyRpcEndpoint } from './alchemy'
 import { Wallet } from '@injectivelabs/wallet-base'
-import { EthereumChainId } from '@injectivelabs/ts-types'
+import { EvmChainId } from '@injectivelabs/ts-types'
 import { WalletStrategy } from '@injectivelabs/wallet-strategy'
 import {
   CHAIN_ID,
@@ -17,14 +17,13 @@ import {
 
 export const walletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,
-  ethereumOptions: {
-    ethereumChainId: ETHEREUM_CHAIN_ID,
+  evmOptions: {
+    evmChainId: ETHEREUM_CHAIN_ID,
     rpcUrls: {
-      [EthereumChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-      [EthereumChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
-      [EthereumChainId.DevnetEvm]: 'https://devnet.json-rpc.injective.dev/',
-      [EthereumChainId.TestnetEvm]:
-        'https://k8s.testnet.json-rpc.injective.network/'
+      [EvmChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
+      [EvmChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
+      [EvmChainId.DevnetEvm]: 'https://devnet.json-rpc.injective.dev/',
+      [EvmChainId.TestnetEvm]: 'https://k8s.testnet.json-rpc.injective.network/'
     }
   },
   metadata: {
@@ -52,8 +51,8 @@ export const walletStrategy = new WalletStrategy({
 export const autoSignWalletStrategy = new WalletStrategy({
   chainId: CHAIN_ID,
   wallet: Wallet.PrivateKey,
-  ethereumOptions: {
-    ethereumChainId: ETHEREUM_CHAIN_ID,
+  evmOptions: {
+    evmChainId: ETHEREUM_CHAIN_ID,
     rpcUrl: alchemyRpcEndpoint
   },
   metadata: {

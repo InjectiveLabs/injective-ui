@@ -1,12 +1,12 @@
-import { EventLog } from '@injectivelabs/sdk-ts'
-import { SharedEventAttribute } from './../types'
+import type { EventLog } from '@injectivelabs/sdk-ts'
+import type { SharedEventAttribute } from './../types'
 
 export const filterEventLogs = ({
   logs,
   filter
 }: {
-  logs: EventLog[]
   filter: string
+  logs: EventLog[]
 }): EventLog | undefined =>
   logs.find((log) => log.events.find((event) => event.type === filter))
 
@@ -16,7 +16,7 @@ export const filterAttributeValue = ({
 }: {
   filter: string
   attributes: SharedEventAttribute[]
-}): SharedEventAttribute | undefined =>
+}): undefined | SharedEventAttribute =>
   attributes.find(({ key }) => key === filter)
 
 export const checkAttributeExist = ({

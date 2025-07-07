@@ -36,5 +36,5 @@ export const autoSignMsgBroadcaster = new MsgBroadcaster({
 export const web3Broadcaster = new Web3Broadcaster({
   walletStrategy,
   network: NETWORK,
-  ethereumChainId: ETHEREUM_CHAIN_ID
+  EvmChainId: ETHEREUM_CHAIN_ID
 })
