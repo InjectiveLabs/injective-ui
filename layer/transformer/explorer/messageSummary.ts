@@ -311,6 +311,20 @@ const exchangeMsgSummaryMap: Partial<
     ]
   },
 
+  [MsgType.MsgDecreasePositionMargin]: (value: Message, _) => {
+    const {
+      sender,
+      amount,
+      market_id: marketId,
+      source_subaccount_id: sourceSubaccountId,
+      destination_subaccount_id: destinationSubaccountId
+    } = value.message
+
+    return [
+      `{{account:${sender}}} decreased position margin by {{denom:${USDT_DENOM}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
+    ]
+  },
+
   [MsgType.MsgLiquidatePosition]: (value: Message, _) => {
     const {
       sender,
