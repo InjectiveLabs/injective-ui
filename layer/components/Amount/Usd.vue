@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { BigNumber, type BigNumberInBase } from '@injectivelabs/utils'
 import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
+import { BigNumber, type BigNumberInBase } from '@injectivelabs/utils'
 
 withDefaults(
   defineProps<{
+    hideDecimals?: boolean
     showSmallerThan?: boolean
     shouldAbbreviate?: boolean
     roundingMode?: BigNumber.RoundingMode
@@ -24,7 +25,7 @@ withDefaults(
       roundingMode,
       showSmallerThan,
       shouldAbbreviate,
-      decimals: DEFAULT_USD_DECIMALS
+      decimals: hideDecimals ? 0 : DEFAULT_USD_DECIMALS
     }"
   >
     <template #prefix>

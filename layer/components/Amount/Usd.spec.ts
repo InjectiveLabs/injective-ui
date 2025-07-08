@@ -370,6 +370,135 @@ describe('Amount/Usd.vue', () => {
     })
   })
 
+  describe('hideDecimals behavior', () => {
+    test('shows decimals by default', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '123.45'
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$123.45')
+    })
+
+    test('hides decimals when hideDecimals is true', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '123.45',
+          hideDecimals: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$123')
+    })
+
+    test('rounds down when hideDecimals is true', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '123.99',
+          hideDecimals: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$123')
+    })
+
+    test('works with large numbers and hideDecimals', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '1234567.89',
+          hideDecimals: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$≈1.2M')
+    })
+
+    test('works with hideDecimals and shouldAbbreviate false', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '1234567.89',
+          hideDecimals: true,
+          shouldAbbreviate: false
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$1,234,567')
+    })
+
+    test('handles zero with hideDecimals', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '0',
+          hideDecimals: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$0')
+    })
+
+    test('handles negative numbers with hideDecimals', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '-123.45',
+          hideDecimals: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('-$123')
+    })
+
+    test('handles very small numbers with hideDecimals', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '0.99',
+          hideDecimals: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$<1')
+    })
+
+    test('respects custom rounding mode with hideDecimals', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '123.45',
+          hideDecimals: true,
+          roundingMode: BigNumber.ROUND_UP
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.text()).toBe('$124')
+    })
+  })
+
   describe('slot behavior', () => {
     test('works without prefix slot', async () => {
       const component = await mountSuspended(Usd, {
