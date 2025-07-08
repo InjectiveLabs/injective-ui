@@ -1,6 +1,7 @@
 import { MsgType } from '@injectivelabs/ts-types'
 import { eventLogsSummaryMap } from './messageEvents'
 import { contractEventSummaryMap } from './contractEvents'
+import { USDT_DENOM } from '../../utils/constant'
 import { contractMsgTypeMap } from './../../utils/explorer'
 import { getNetworkFromAddress } from './../../utils/network'
 import { sharedToBalanceInToken } from './../../utils/formatter'
@@ -306,7 +307,7 @@ const exchangeMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} increased position margin by ${amount} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
+      `{{account:${sender}}} increased position margin by {{denom:${USDT_DENOM}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
     ]
   },
 
