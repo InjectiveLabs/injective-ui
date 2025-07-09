@@ -5,13 +5,11 @@ import { BigNumber, type BigNumberInBase } from '@injectivelabs/utils'
 withDefaults(
   defineProps<{
     hideDecimals?: boolean
-    showSmallerThan?: boolean
     shouldAbbreviate?: boolean
     roundingMode?: BigNumber.RoundingMode
     amount: string | number | BigNumberInBase
   }>(),
   {
-    showSmallerThan: true,
     shouldAbbreviate: true,
     roundingMode: BigNumber.ROUND_DOWN
   }
@@ -23,8 +21,8 @@ withDefaults(
     v-bind="{
       amount,
       roundingMode,
-      showSmallerThan,
       shouldAbbreviate,
+      useSubscript: false,
       decimals: hideDecimals ? 0 : DEFAULT_USD_DECIMALS
     }"
   >
