@@ -14,6 +14,12 @@ export type JsonSwapRoute = {
   targetDenom: string
 }
 
+export type JsonSwapRouteRaw = {
+  steps: string[]
+  source_denom: string
+  target_denom: string
+}
+
 export type JsonValidator = {
   image: string
   moniker: string

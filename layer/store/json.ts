@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import camelcaseKeys from 'camelcase-keys'
 import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
 import {
   IS_DEVNET,
@@ -17,6 +16,7 @@ import type {
   JsonValidator,
   JsonSwapRoute,
   JsonGridMarket,
+  JsonSwapRouteRaw,
   JsonChainUpgrade,
   JsonHelixCategory
 } from './../types'
@@ -240,10 +240,16 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       const data = (await client.get(
         `json/helix/trading/swap/${getNetworkName()}`
       )) as {
-        data: JsonSwapRoute[]
+        data: JsonSwapRouteRaw[]
       }
 
-      jsonStore.swapRoutes = camelcaseKeys(data.data)
+      jsonStore.swapRoutes = data.data.map((route) => {
+        return {
+          ...route,
+          sourceDenom: route.source_denom,
+          targetDenom: route.target_denom
+        }
+      })
     },
 
     async fetchWasmExecute() {
