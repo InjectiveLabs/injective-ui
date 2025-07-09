@@ -118,10 +118,10 @@ const formattedAmount = computed(() => {
     <slot name="prefix" />
 
     <span v-if="showZeroAsEmDash && amountToBigNumber.isZero()"> &mdash; </span>
-    <span v-else-if="!subscriptedAmount && shouldHaveSmallerThan"
+    <span v-else-if="subscriptedAmount" v-html="subscriptedAmount" />
+    <span v-else-if="shouldHaveSmallerThan"
       >&lt;{{ minDecimalThreshold.toFormat() }}
     </span>
-    <span v-else-if="subscriptedAmount" v-html="subscriptedAmount" />
     <span v-else-if="abbreviatedAmount">{{ abbreviatedAmount }}</span>
     <span v-else>{{ formattedAmount }}</span>
   </span>
