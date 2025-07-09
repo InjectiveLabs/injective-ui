@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 import {
   DEFAULT_ASSET_DECIMALS,

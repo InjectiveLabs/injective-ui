@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
 import { BigNumber, type BigNumberInBase } from '@injectivelabs/utils'
 

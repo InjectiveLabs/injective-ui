@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 import { abbreviateNumber } from '../../utils/helper'
 import {
@@ -119,7 +119,7 @@ const formattedAmount = computed(() => {
     <span v-if="isNegative">-</span>
     <slot name="prefix" />
 
-    <span v-if="showZeroAsEmDash && amountToBigNumber.eq(0)"> &mdash; </span>
+    <span v-if="showZeroAsEmDash && amountToBigNumber.isZero()"> &mdash; </span>
     <span v-else-if="showSmallerThan && shouldHaveSmallerThan"
       >&lt;{{ minDecimalThreshold.toFormat() }}
     </span>
