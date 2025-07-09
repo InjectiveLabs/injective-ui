@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia'
+import camelcaseKeys from 'camelcase-keys'
 import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
-import { IS_DEVNET, IS_MAINNET, IS_TESTNET, MAINTENANCE_DISABLED } from '../utils/constant'
+import {
+  IS_DEVNET,
+  IS_MAINNET,
+  IS_TESTNET,
+  MAINTENANCE_DISABLED
+} from '../utils/constant'
 import { tokenStaticFactory, indexerRestExplorerApi } from '../Service'
 import type {
   SpotMarket,
@@ -56,7 +62,7 @@ const getNetworkName = () => {
   return 'devnet.json'
 }
 
-const getNearestIntervalTimestamp = (interval:number = 10) => {
+const getNearestIntervalTimestamp = (interval: number = 10) => {
   const seconds = interval * 60 * 1000
 
   return Math.floor(Date.now() / seconds) * seconds
@@ -157,7 +163,6 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         return false
       }
 
-
       return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
         .minus(500)
         .lte(state.latestBlockHeight)
@@ -166,7 +171,9 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
   actions: {
     async fetchToken() {
-      const data = (await client.get(`json/tokens/verified/${getNetworkName()}`)) as {
+      const data = (await client.get(
+        `json/tokens/verified/${getNetworkName()}`
+      )) as {
         data: TokenStatic[]
       }
 
@@ -236,7 +243,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         data: JsonSwapRoute[]
       }
 
-      jsonStore.swapRoutes = data.data
+      jsonStore.swapRoutes = camelcaseKeys(data.data)
     },
 
     async fetchWasmExecute() {
@@ -303,7 +310,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
           if (!shouldOverride) {
             return item
           }
-          
+
           return {
             slug: item.slug,
             contractAddress: 'inj14zykjnz94dr9nj4v2yzpvnlrw5uurk5hhea8xw'
@@ -437,7 +444,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       jsonStore.latestBlockHeight = latestBlockHeight
 
-      const {data : config } = (await client.get(
+      const { data: config } = (await client.get(
         `json/config/chainUpgrade.json??${getNearestIntervalTimestamp(5)}`
       )) as {
         data: JsonChainUpgrade

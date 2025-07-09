@@ -10,8 +10,8 @@ export type JsonGridMarket = {
 
 export type JsonSwapRoute = {
   steps: string[]
-  source_denom: string
-  target_denom: string
+  sourceDenom: string
+  targetDenom: string
 }
 
 export type JsonValidator = {
