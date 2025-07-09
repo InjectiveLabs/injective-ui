@@ -238,14 +238,19 @@ const getTypesAndCoins = (
 }
 
 export const toUiTransaction = (
-  transaction: ExplorerTransaction
+  transaction: ExplorerTransaction,
+  injectiveAddress?: string
 ): UiExplorerTransaction => {
   return {
     ...transaction,
     ...getTypesAndCoins(transaction),
     templateSummaries: transaction.messages.map((message) => ({
       type: message.type,
-      summary: getHumanReadableMessage(message, transaction.logs || [])
+      summary: getHumanReadableMessage({
+        value: message,
+        injectiveAddress,
+        logs: transaction.logs || []
+      })
     }))
   }
 }

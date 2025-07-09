@@ -10,6 +10,12 @@ export type JsonGridMarket = {
 
 export type JsonSwapRoute = {
   steps: string[]
+  sourceDenom: string
+  targetDenom: string
+}
+
+export type JsonSwapRouteRaw = {
+  steps: string[]
   source_denom: string
   target_denom: string
 }

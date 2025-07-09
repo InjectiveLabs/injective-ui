@@ -40,7 +40,13 @@ import {
   connectLedgerCosmos,
   connectPhantomWallet,
   connectWalletConnect,
-  connectCosmosStation
+  connectCosmosStation,
+  checkIsBitGetInstalled,
+  checkIsRainbowInstalled,
+  checkIsMetamaskInstalled,
+  checkIsOkxWalletInstalled,
+  checkIsTrustWalletInstalled,
+  checkIsPhantomWalletInstalled
 } from './connect'
 import { web3GatewayService } from '../../Service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
@@ -50,7 +56,6 @@ import {
   msgBroadcaster,
   validateEvmWallet,
   validateCosmosWallet,
-  getEvmWalletProvider,
   autoSignWalletStrategy,
   autoSignMsgBroadcaster
 } from '../../WalletService'
@@ -220,6 +225,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     connectLedgerCosmos,
     connectCosmosStation,
 
+    checkIsBitGetInstalled,
+    checkIsRainbowInstalled,
+    checkIsMetamaskInstalled,
+    checkIsOkxWalletInstalled,
+    checkIsTrustWalletInstalled,
+    checkIsPhantomWalletInstalled,
+
     connectMagic,
     submitTurnkeyOTP,
     initTurnkeyGoogle,
@@ -235,14 +247,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       sharedWalletStore.queue()
     },
 
-    async checkIsBitGetInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        bitGetInstalled: await !!getEvmWalletProvider(Wallet.BitGet)
-      })
-    },
-
     async disconnectAutoSign() {
       const walletStore = useSharedWalletStore()
 
@@ -251,46 +255,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
 
       await autoSignWalletStrategy.disconnect()
-    },
-
-    async checkIsMetamaskInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        metamaskInstalled: await !!getEvmWalletProvider(Wallet.Metamask)
-      })
-    },
-
-    async checkIsOkxWalletInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        okxWalletInstalled: await !!getEvmWalletProvider(Wallet.OkxWallet)
-      })
-    },
-
-    async checkIsPhantomWalletInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        phantomInstalled: await !!getEvmWalletProvider(Wallet.Phantom)
-      })
-    },
-
-    async checkIsTrustWalletInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        trustWalletInstalled: await !!getEvmWalletProvider(Wallet.TrustWallet)
-      })
-    },
-
-    async checkIsRainbowInstalled() {
-      const walletStore = useSharedWalletStore()
-
-      walletStore.$patch({
-        rainbowInstalled: await !!getEvmWalletProvider(Wallet.Rainbow)
-      })
     },
 
     onConnect() {

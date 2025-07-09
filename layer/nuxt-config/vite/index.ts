@@ -94,7 +94,6 @@ export default defineConfig({
           'lottie-web',
           'js-confetti',
           'date-fns-tz',
-          'floating-vue',
           'tailwind-merge',
           'canvas-confetti',
           'mixpanel-browser',
@@ -156,21 +155,25 @@ export default defineConfig({
                 'ace-builds/src-noconflict/theme-chrome'
               ]
             : []),
-            ...(IS_HUB ? [
-              'highcharts',
-              'ace-builds',
-              'vue3-ace-editor',
-              'ace-builds/src-noconflict/mode-json',
-              'ace-builds/src-noconflict/theme-solarized_dark'
-            ] : []),
-            ...(IS_TRADING_UI ? [
-              '@shared/types', 
-              '@shared/data/token', 
-              '@shared/WalletService', 
-              '@shared/utils/formatter', 
-              '@shared/transformer/market', 
-              '@shared/transformer/oracle'
-            ] : [])
+          ...(IS_HUB
+            ? [
+                'highcharts',
+                'ace-builds',
+                'vue3-ace-editor',
+                'ace-builds/src-noconflict/mode-json',
+                'ace-builds/src-noconflict/theme-solarized_dark'
+              ]
+            : []),
+          ...(IS_TRADING_UI
+            ? [
+                '@shared/types',
+                '@shared/data/token',
+                '@shared/WalletService',
+                '@shared/utils/formatter',
+                '@shared/transformer/market',
+                '@shared/transformer/oracle'
+              ]
+            : [])
         ]
   }
 }) as ViteConfig

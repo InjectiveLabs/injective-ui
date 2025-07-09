@@ -1,17 +1,21 @@
-import { type Coin, type Message, type EventLog } from '@injectivelabs/sdk-ts'
 import { MsgType } from '@injectivelabs/ts-types'
 import { eventLogsSummaryMap } from './messageEvents'
 import { contractEventSummaryMap } from './contractEvents'
+import { USDT_DENOM } from '../../utils/constant'
 import { contractMsgTypeMap } from './../../utils/explorer'
 import { getNetworkFromAddress } from './../../utils/network'
 import { sharedToBalanceInToken } from './../../utils/formatter'
 import { EventMessageType } from './../../types'
+import type { Coin, Message, EventLog } from '@injectivelabs/sdk-ts'
 
 const AUCTION_POOL_SUBACCOUNT_ID =
   '0x1111111111111111111111111111111111111111111111111111111111111111'
 
 const exchangeMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+  Record<
+    MsgType,
+    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
+  >
 > = {
   [MsgType.MsgWithdraw]: (value: Message, _) => {
     const {
@@ -303,7 +307,21 @@ const exchangeMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} increased position margin by ${amount} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
+      `{{account:${sender}}} increased position margin by {{denom:${USDT_DENOM}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
+    ]
+  },
+
+  [MsgType.MsgDecreasePositionMargin]: (value: Message, _) => {
+    const {
+      sender,
+      amount,
+      market_id: marketId,
+      source_subaccount_id: sourceSubaccountId,
+      destination_subaccount_id: destinationSubaccountId
+    } = value.message
+
+    return [
+      `{{account:${sender}}} decreased position margin by {{denom:${USDT_DENOM}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
     ]
   },
 
@@ -321,7 +339,10 @@ const exchangeMsgSummaryMap: Partial<
 }
 
 const stakingMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+  Record<
+    MsgType,
+    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
+  >
 > = {
   [MsgType.MsgDelegate]: (value: Message, _) => {
     const {
@@ -401,7 +422,10 @@ const stakingMsgSummaryMap: Partial<
 }
 
 const insuranceMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+  Record<
+    MsgType,
+    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
+  >
 > = {
   [MsgType.MsgCreateInsuranceFund]: (value: Message, _) => {
     const {
@@ -443,7 +467,10 @@ const insuranceMsgSummaryMap: Partial<
 }
 
 const peggyMsgSummaryMap: Partial<
-  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+  Record<
+    MsgType,
+    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
+  >
 > = {
   [MsgType.MsgConfirmBatch]: (value: Message, _) => {
     const { orchestrator } = value.message
@@ -481,7 +508,7 @@ const peggyMsgSummaryMap: Partial<
 }
 
 const govMsgSummaryMap: Partial<
-  Record<MsgType | string, (value: Message, logs: EventLog[]) => string[]>
+  Record<string | MsgType, (value: Message, logs: EventLog[]) => string[]>
 > = {
   [MsgType.MsgDepositCosmos]: (value: Message, _) => {
     const { amount, depositor, proposal_id: proposalId } = value.message
@@ -548,7 +575,10 @@ const govMsgSummaryMap: Partial<
 }
 
 const msgSummaryMap: Partial<
-  Record<MsgType, (value: Message, logs: EventLog[]) => string[]>
+  Record<
+    MsgType,
+    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
+  >
 > = {
   ...govMsgSummaryMap,
   ...peggyMsgSummaryMap,
@@ -556,12 +586,20 @@ const msgSummaryMap: Partial<
   ...exchangeMsgSummaryMap,
   ...insuranceMsgSummaryMap,
 
-  [MsgType.MsgSend]: (value: Message, _) => {
+  [MsgType.MsgSend]: (value: Message, _, injectiveAddress) => {
     const { amount, from_address: sender, to_address: receiver } = value.message
     const [coin] = amount as { denom: string; amount: string }[]
 
+    if (!injectiveAddress) {
+      return [
+        `{{account:${sender}}} sent {{denom:${coin.denom}-${coin.amount}}} to {{account:${receiver}}}`
+      ]
+    }
+
     return [
-      `{{account:${sender}}} sent {{denom:${coin.denom}-${coin.amount}}} to {{account:${receiver}}}`
+      injectiveAddress === sender
+        ? `Sent {{denom:${coin.denom}-${coin.amount}}} to {{account:${receiver}}}`
+        : `Received {{denom:${coin.denom}-${coin.amount}}} from {{account:${sender}}}`
     ]
   },
 
@@ -570,13 +608,13 @@ const msgSummaryMap: Partial<
 
     return [
       ...inputs.map(
-        (sender: { address: string; coins: Coin[] }) =>
+        (sender: { coins: Coin[]; address: string }) =>
           `{{account:${sender.address}}} ${sender.coins
             .map(({ denom, amount }) => `sent {{denom:${denom}-${amount}}}`)
             .join(', ')}`
       ),
       ...outputs.map(
-        (sender: { address: string; coins: Coin[] }) =>
+        (sender: { coins: Coin[]; address: string }) =>
           `{{account:${sender.address}}} ${sender.coins
             .map(({ denom, amount }) => `received {{denom:${denom}-${amount}}}`)
             .join(', ')}`
@@ -654,7 +692,9 @@ const msgSummaryMap: Partial<
       message: msg
     })) as Message[]
 
-    return execMsgs.map((msg) => getHumanReadableMessage(msg, logs)).flat()
+    return execMsgs
+      .map((msg) => getHumanReadableMessage({ value: msg, logs }))
+      .flat()
   },
 
   [MsgType.MsgBid]: (value: Message, _) => {
@@ -731,16 +771,21 @@ const msgSummaryMap: Partial<
   }
 }
 
-export const getHumanReadableMessage = (
-  value: Message,
+export const getHumanReadableMessage = ({
+  logs,
+  value,
+  injectiveAddress
+}: {
+  value: Message
   logs: EventLog[]
-): string[] => {
+  injectiveAddress?: string
+}): string[] => {
   const { type } = value
 
   const msgType = (type.startsWith('/') ? type.slice(1) : type) as MsgType
 
   if (msgSummaryMap[msgType]) {
-    return msgSummaryMap[msgType](value, logs)
+    return msgSummaryMap[msgType](value, logs, injectiveAddress)
   }
 
   return []
