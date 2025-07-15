@@ -42,7 +42,7 @@ const shouldHaveSmallerThan = computed(() => {
   const amount = absoluteAmount.value
   const nIsLowerThanDecimalThreshold = amount.lt(minDecimalThreshold.value)
 
-  return nIsLowerThanDecimalThreshold && amount.gt(0)
+  return nIsLowerThanDecimalThreshold && amount.gt(0) && !props.useSubscript
 })
 
 const abbreviatedAmount = computed(() => {
