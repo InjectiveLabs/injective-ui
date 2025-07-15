@@ -79,8 +79,8 @@ const subscriptedAmount = computed(() => {
   }
 
   if (
-    nOfZeros > props.subscriptThresholdDecimals ||
-    nOfZeros > props.decimals
+    nOfZeros > props.decimals ||
+    nOfZeros > props.subscriptThresholdDecimals
   ) {
     const subscriptAmount = new BigNumberInBase(decimalPart.replace(/^0+/, ''))
       .toFixed(0)
@@ -106,9 +106,7 @@ const formattedAmount = computed(() => {
     return result || '0'
   }
 
-  const formattedAmount = amount.toFormat(props.decimals, props.roundingMode)
-
-  return formattedAmount
+  return amount.toFormat(props.decimals, props.roundingMode)
 })
 </script>
 
