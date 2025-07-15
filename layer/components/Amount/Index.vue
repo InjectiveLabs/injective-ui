@@ -18,7 +18,6 @@ const props = withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
-    useSubscript: false,
     noTrailingZeros: true,
     shouldAbbreviate: true,
     decimals: DEFAULT_ASSET_DECIMALS,

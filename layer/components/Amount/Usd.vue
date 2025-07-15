@@ -22,7 +22,6 @@ withDefaults(
       amount,
       roundingMode,
       shouldAbbreviate,
-      useSubscript: false,
       decimals: hideDecimals ? 0 : DEFAULT_USD_DECIMALS
     }"
   >
