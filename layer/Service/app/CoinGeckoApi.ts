@@ -5,7 +5,7 @@ import type {
   CoinGeckoReturnObject,
   CoinGeckoCoinResponse,
   CoinGeckoMarketChartResponse
-} from './../types'
+} from '../../types'
 
 export class CoinGeckoApiService {
   private httpClient: HttpRestClient

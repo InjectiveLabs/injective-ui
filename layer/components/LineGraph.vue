@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { PropType, ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   color: {
@@ -23,7 +24,7 @@ const root = ref(undefined)
 const width = ref(0)
 const height = ref(0)
 const ro = ref(undefined as unknown as ResizeObserver)
-const observedElement = ref(undefined as HTMLElement | null | undefined)
+const observedElement = ref(undefined as null | undefined | HTMLElement)
 
 onMounted(() => {
   ro.value = new ResizeObserver((entries) => {
@@ -35,7 +36,7 @@ onMounted(() => {
     }
   })
 
-  const rootEl = root.value as HTMLElement | undefined
+  const rootEl = root.value as undefined | HTMLElement
 
   if (!rootEl) {
     return

@@ -1,10 +1,12 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from './../../utils/constant'
-import { bankApi } from '../../Service'
+import { getBankApi } from '../../Service'
 import type { Pagination, TotalSupply } from '@injectivelabs/sdk-ts'
 
 export class TokenCacheApi extends BaseCacheApi {
   async fetchTotalSupply() {
+    const bankApi = await getBankApi()
+
     const fetchFromBank = async () => {
       const { supply, pagination } = await bankApi.fetchAllTotalSupply({
         limit: 5000

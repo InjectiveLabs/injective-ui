@@ -1,4 +1,4 @@
-import { DEFAULT_GAS_PRICE } from '../utils/constant'
+import { DEFAULT_GAS_PRICE } from '../../utils/constant'
 import type { TransactionOptions } from '@injectivelabs/ts-types'
 
 export const TX_DEFAULTS_GAS = 80_000_000

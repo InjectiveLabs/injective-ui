@@ -1,5 +1,5 @@
 import { HttpRestClient } from '@injectivelabs/utils'
-import { CHAIN_ID, ENDPOINTS } from './../utils/constant'
+import { CHAIN_ID, ENDPOINTS } from '../../utils/constant'
 
 export class FaucetService {
   private restClient: HttpRestClient

@@ -6,7 +6,7 @@ import {
   IS_TESTNET,
   MAINTENANCE_DISABLED
 } from '../utils/constant'
-import { tokenStaticFactory, indexerRestExplorerApi } from '../Service'
+import { tokenStaticFactory, getIndexerRestExplorerApi } from '../Service'
 import type {
   SpotMarket,
   TokenStatic,
@@ -387,6 +387,8 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       const poll = async () => {
+        const indexerRestExplorerApi = await getIndexerRestExplorerApi()
+
         const {
           paging: { total: latestBlockHeight }
         } = await indexerRestExplorerApi.fetchBlocks({ limit: 1 })
@@ -439,6 +441,8 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       if (!IS_MAINNET) {
         return
       }
+
+      const indexerRestExplorerApi = await getIndexerRestExplorerApi()
 
       const jsonStore = useSharedJsonStore()
 
