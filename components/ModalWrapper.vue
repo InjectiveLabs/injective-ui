@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { onKeyStroke, onClickOutside } from '@vueuse/core'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   isLoading: Boolean,
