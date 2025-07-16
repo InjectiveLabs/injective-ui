@@ -1,5 +1,10 @@
 import { IS_DEVNET, IS_TESTNET } from '../utils/constant'
-import { Network, type CosmosChannel } from '../types'
+import {
+  CosmosChainIds,
+  Network,
+  type CosmosChannel,
+  type CosmosChannelData
+} from '../types'
 
 export const CosmosChainId = {
   [Network.Axelar]: 'axelar-dojo-1',
@@ -309,3 +314,353 @@ export const IBC_COIN_CHANNEL_IDS = Object.values(cosmosChannels).map(
 )
 
 export const GATEWAY_CHANNEL_ID = 'channel-183'
+
+export const COSMOS_CHANNEL_MAP: Partial<
+  Record<CosmosChainIds, Partial<Record<CosmosChainIds, CosmosChannelData>>>
+> = {
+  [CosmosChainIds.Axelar]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-10',
+      clientId: '07-tendermint-37',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Celestia]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-7',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.CosmosHub]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-220',
+      clientId: '07-tendermint-470',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Crescent]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-23',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Evmos]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-10',
+      clientId: '07-tendermint-19',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Injective]: {
+    [CosmosChainIds.CosmosHub]: {
+      channel: 'channel-1',
+      clientId: '07-tendermint-5',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Osmosis]: {
+      channel: 'channel-8',
+      clientId: '07-tendermint-19',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Axelar]: {
+      channel: 'channel-84',
+      clientId: '07-tendermint-113',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Evmos]: {
+      channel: 'channel-83',
+      clientId: '07-tendermint-112',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Persistence]: {
+      channel: 'channel-82',
+      clientId: '07-tendermint-110',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Secret]: {
+      channel: 'channel-88',
+      clientId: '07-tendermint-97',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Stride]: {
+      channel: 'channel-89',
+      clientId: '07-tendermint-131',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Crescent]: {
+      channel: 'channel-90',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Sommelier]: {
+      channel: 'channel-93',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Kava]: {
+      channel: 'channel-143',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Oraichain]: {
+      channel: 'channel-147',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Celestia]: {
+      channel: 'channel-152',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Migaloo]: {
+      channel: 'channel-102',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Kujira]: {
+      channel: 'channel-98',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Andromeda]: {
+      channel: 'channel-213',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Noble]: {
+      channel: 'channel-148',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Saga]: {
+      channel: 'channel-261',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Fetch]: {
+      channel: 'channel-283',
+      clientId: '07-tendermint-266',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Mantra]: {
+      channel: 'channel-363',
+      clientId: '07-tendermint-275',
+      port: 'transfer'
+    },
+    [CosmosChainIds.Xion]: {
+      channel: 'channel-387',
+      clientId: '07-tendermint-279',
+      port: 'transfer'
+    },
+    [CosmosChainIds.XRPL]: {
+      channel: 'channel-436',
+      clientId: '07-tendermint-314',
+      port: 'transfer'
+    },
+    [CosmosChainIds.CosmosHubTestnet]: {
+      channel: 'channel-1',
+      clientId: '07-tendermint-1',
+      port: 'transfer'
+    },
+    [CosmosChainIds.XionTestnet]: {
+      channel: 'channel-489',
+      clientId: '',
+      port: 'transfer'
+    },
+    [CosmosChainIds.EvmosTestnet]: {
+      channel: 'channel-76996',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Kava]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-122',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Kujira]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-54',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Migaloo]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-3',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Noble]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-31',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Oraichain]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-146',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Osmosis]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-122',
+      clientId: '07-tendermint-1703',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Persistence]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-41',
+      clientId: '07-tendermint-57',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Secret]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-23',
+      clientId: '07-tendermint-22',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Sommelier]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-1',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Stride]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-6',
+      clientId: '07-tendermint-2',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.CosmosHubTestnet]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-86',
+      clientId: '07-tendermint-107',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Andromeda]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-13',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Saga]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-25',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Fetch]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-33',
+      clientId: '07-tendermint-82',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.XionTestnet]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-487',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.EvmosTestnet]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-243',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Mantra]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-2',
+      clientId: '07-tendermint-2',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.WormholeGeneric]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-0',
+      clientId: '07-tendermint-0',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Neutron]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-0',
+      clientId: '07-tendermint-0',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Xion]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-4',
+      clientId: '07-tendermint-4',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.XRPL]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-0',
+      clientId: '07-tendermint-0',
+      port: 'transfer'
+    }
+  },
+  // Disabled networks
+  [CosmosChainIds.Canto]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-8',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Chihuahua]: {},
+  [CosmosChainIds.Juno]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-59',
+      clientId: '07-tendermint-83',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.Terra]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-12',
+      clientId: '07-tendermint-55',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.InjectiveDevnet]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-777',
+      clientId: '',
+      port: 'transfer'
+    }
+  },
+  [CosmosChainIds.InjectiveTestnet]: {
+    [CosmosChainIds.Injective]: {
+      channel: 'channel-888',
+      clientId: '',
+      port: 'transfer'
+    }
+  }
+}
+
+export function getCosmosChannel(from: CosmosChainIds, to: CosmosChainIds) {
+  return COSMOS_CHANNEL_MAP[from]?.[to]
+}

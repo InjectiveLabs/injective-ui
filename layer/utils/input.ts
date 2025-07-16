@@ -1,4 +1,4 @@
-import { KeydownEvent } from './../types'
+import type { KeydownEvent } from './../types'
 
 const MAXIMUM_ALLOWED_VALUE = 10 ** 18
 
