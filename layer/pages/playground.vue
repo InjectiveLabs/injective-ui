@@ -1,41 +1,44 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 definePageMeta({
   middleware: [
     (to) => {
-      if (to.query.devMode !== "true") {
-        return navigateTo("/");
+      if (to.query.devMode !== 'true') {
+        return navigateTo('/')
       }
-    },
-  ],
-});
+    }
+  ]
+})
 
 const values = reactive({
-  amount: "1",
-  decimals: 8,
-  abbreviateThreshold: 1000000,
-  subscriptThresholdDecimals: 4,
-  subscriptDecimals: 4,
-});
+  amount: '1',
+  decimals: 6,
+  abbreviateThreshold: 1_000_000,
+  subscriptThresholdDecimals: 3,
+  subscriptDecimals: 4
+})
 
 const testNumbers = [
-  "0.0000001",
-  "0.01",
-  "0.0110000",
-  "1.1",
-  "1000",
-  "1000000",
-  "1000000000.123",
-  "1000.000000000123",
-  "1000.1234567891",
-  "1580000.123",
-  "1230000000.123",
+  '0.0000001',
+  '-0.0000001',
+  '0.01',
+  '0.0110000',
+  '1.1',
+  '1000',
+  '1000000',
+  '1000000000.123',
+  '1000.000000000123',
+  '-1000.000000000123',
+  '1000.1234567891',
+  '-1000.1234567891',
+  '1580000.123',
+  '1230000000.123',
 
-  "12",
-  "12.34",
-  "12.12345",
-  "1234.12",
-  "1234.12345",
-];
+  '12',
+  '12.34',
+  '12.12345',
+  '1234.12',
+  '1234.12345'
+]
 </script>
 
 <template>
@@ -67,9 +70,9 @@ const testNumbers = [
       <UCard>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
           <UButton
-            variant="outline"
             v-for="testNumber in testNumbers"
             :key="testNumber"
+            variant="outline"
             @click="values.amount = testNumber"
           >
             <p>{{ testNumber }}</p>
@@ -84,7 +87,9 @@ const testNumbers = [
           <div class="flex-1 h-full">
             <p class="text-lg font-bold">Usd Amount</p>
           </div>
-          <SharedAmountUsdDisplay :amount="values.amount" />
+          <SharedAmountUsd :amount="values.amount">
+            <template #prefix>$</template>
+          </SharedAmountUsd>
         </UCard>
 
         <UCard class="flex flex-col">
@@ -95,9 +100,7 @@ const testNumbers = [
               bigger than 1M)
             </p>
           </div>
-          <div class="mt-2">
-            <SharedAmountFormatted :amount="values.amount" /> INJ
-          </div>
+          <div class="mt-2"><SharedAmount :amount="values.amount" /> INJ</div>
         </UCard>
       </div>
     </UCard>
@@ -131,7 +134,7 @@ const testNumbers = [
               </p>
 
               <p class="text-right border-t pt-2 mt-2">
-                <SharedAmountDisplay
+                <SharedAmountBase
                   class="text-2xl"
                   v-bind="{
                     useSubscript,
@@ -141,8 +144,8 @@ const testNumbers = [
                     subscriptDecimals: Number(values.subscriptDecimals),
                     abbreviationThreshold: Number(values.abbreviateThreshold),
                     subscriptThresholdDecimals: Number(
-                      values.subscriptThresholdDecimals,
-                    ),
+                      values.subscriptThresholdDecimals
+                    )
                   }"
                 />
               </p>
