@@ -1,15 +1,12 @@
+import { getBonfidaContractAddress } from './utils'
 import { GeneralException } from '@injectivelabs/exceptions'
-import {
-  Network,
-  NetworkEndpoints,
-  getNetworkEndpoints
-} from '@injectivelabs/networks'
+import { Network, getNetworkEndpoints } from '@injectivelabs/networks'
 import {
   toBase64,
   binaryToBase64,
   ChainGrpcWasmApi
 } from '@injectivelabs/sdk-ts'
-import { getBonfidaContractAddress } from './utils'
+import type { NetworkEndpoints } from '@injectivelabs/networks'
 
 export class InjBonfidaNameService {
   protected client: ChainGrpcWasmApi

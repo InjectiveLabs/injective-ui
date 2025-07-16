@@ -1,48 +1,48 @@
-import {
-  HttpClient,
-  BigNumber,
-  BigNumberInWei,
-  BigNumberInBase
-} from '@injectivelabs/utils'
-import { Network as AlchemyNetwork, Alchemy } from 'alchemy-sdk'
+import { fetchEstimatorGasPrice } from './estimator'
+import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
+import { Network, isMainnet, isTestnetOrDevnet } from '@injectivelabs/networks'
 import {
   GeneralException,
   HttpRequestException
 } from '@injectivelabs/exceptions'
-import { Network, isTestnetOrDevnet, isMainnet } from '@injectivelabs/networks'
+import {
+  BigNumber,
+  HttpClient,
+  BigNumberInWei,
+  BigNumberInBase
+} from '@injectivelabs/utils'
 import {
   GWEI_IN_WEI,
   DEFAULT_GAS_PRICE,
   DEFAULT_MAINNET_GAS_PRICE
 } from '../../utils/constant'
-import { fetchEstimatorGasPrice } from './estimator'
 
 export interface GasInfo {
   gasPrice: string
   estimatedTimeMs: number
 }
 
-export interface EthGasStationResult {
-  average: number
-  fastestWait: number
-  fastWait: number
-  fast: number
-  safeLowWait: number
-  blockNum: number
-  avgWait: number
-  block_time: number
-  speed: number
-  fastest: number
-  safeLow: number
-}
-
 export interface EtherchainResult {
-  standard: number
   fast: number
   fastest: number
   safeLow: number
+  standard: number
   currentBaseFee: number
   recommendedBaseFee: number
+}
+
+export interface EthGasStationResult {
+  fast: number
+  speed: number
+  average: number
+  avgWait: number
+  fastest: number
+  safeLow: number
+  fastWait: number
+  blockNum: number
+  block_time: number
+  fastestWait: number
+  safeLowWait: number
 }
 
 const fetchGasPriceFromAlchemy = async (
@@ -150,7 +150,7 @@ export const fetchGasPrice = async (
         return gasPrice.fast.toString()
       }
     } catch (e) {
-      //
+      console.log('error', e)
     }
 
     try {
@@ -163,7 +163,7 @@ export const fetchGasPrice = async (
         return gasPrice.toString()
       }
     } catch (e) {
-      //
+      console.log('error', e)
     }
   }
 
