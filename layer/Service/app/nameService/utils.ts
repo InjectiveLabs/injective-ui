@@ -16,7 +16,9 @@ const nameHash = (inputName: string) => {
       const normalizedLabel = normalize(labels[i])
       const labelSha = keccak256(normalizedLabel)
 
-      node = keccak256(Buffer.from(node + labelSha, 'hex'))
+      node = keccak256(
+        Buffer.from(node + labelSha, 'hex') as unknown as Uint8Array
+      )
     }
   }
 

@@ -15,6 +15,7 @@ export const lazyImportSdkTs = async <T>({
     return sdkTsApiCache.get(cacheKey) as T
   }
 
+  // todo: experiment with adding [class] here
   const module = await import('@injectivelabs/sdk-ts')
 
   const ApiClass = (module as any)[className] as ApiConstructor<T>
