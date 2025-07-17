@@ -661,6 +661,6 @@ export const COSMOS_CHANNEL_MAP: Partial<
   }
 }
 
-export function getCosmosChannel(from: CosmosChainIds, to: CosmosChainIds) {
-  return COSMOS_CHANNEL_MAP[from]?.[to]
+export function getCosmosChannel(from: string, to: string) {
+  return COSMOS_CHANNEL_MAP[from as CosmosChainIds]?.[to as CosmosChainIds]
 }
