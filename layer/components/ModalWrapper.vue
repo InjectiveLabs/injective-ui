@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, PropType, onMounted } from 'vue'
-import { onClickOutside, onKeyStroke } from '@vueuse/core'
+import { onKeyStroke, onClickOutside } from '@vueuse/core'
 
 const props = defineProps({
   isLoading: Boolean,
@@ -32,12 +31,12 @@ onMounted(() => {
 
 const modalRef = ref(null)
 
-function closeModal() {
-  emit('modal:closed')
-}
-
 function onModalClose() {
   closeModal()
+}
+
+function closeModal() {
+  emit('modal:closed')
 }
 
 onKeyStroke('Escape', closeModal)

@@ -1,14 +1,6 @@
-import {
-  ErrorType,
-  WalletException,
-  BitGetException,
-  MetamaskException,
-  type ErrorContext,
-  OkxWalletException,
-  UnspecifiedErrorCode,
-  TrustWalletException,
-  type ThrownException
-} from '@injectivelabs/exceptions'
+import { walletStrategy } from './wallet-strategy'
+import { Wallet } from '@injectivelabs/wallet-base'
+import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 import {
   updateEvmNetwork,
   getBitGetProvider,
@@ -16,10 +8,17 @@ import {
   getOkxWalletProvider,
   getTrustWalletProvider
 } from '@injectivelabs/wallet-evm'
-import { Wallet } from '@injectivelabs/wallet-base'
-import { type AccountAddress } from '@injectivelabs/ts-types'
-import { ETHEREUM_CHAIN_ID } from './../utils/constant'
-import { walletStrategy } from './wallet-strategy'
+import {
+  ErrorType,
+  WalletException,
+  BitGetException,
+  MetamaskException,
+  OkxWalletException,
+  UnspecifiedErrorCode,
+  TrustWalletException
+} from '@injectivelabs/exceptions'
+import type { AccountAddress } from '@injectivelabs/ts-types'
+import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
 
 export const getEvmWalletProvider = async (wallet: Wallet) => {
   if (wallet === Wallet.Metamask) {

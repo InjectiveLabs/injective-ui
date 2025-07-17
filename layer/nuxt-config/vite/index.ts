@@ -105,6 +105,7 @@ export default defineConfig({
           '@injectivelabs/ts-types',
           '@injectivelabs/networks',
           'class-variance-authority',
+          '@injectivelabs/exceptions',
           '@injectivelabs/wallet-evm',
           '@injectivelabs/wallet-base',
           '@injectivelabs/wallet-core',
