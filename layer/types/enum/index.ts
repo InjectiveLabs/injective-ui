@@ -87,6 +87,7 @@ export enum NuxtUiIcons {
   Checkmark = 'material-symbols:check-circle',
   Checkmark2 = 'icomoon-free:checkmark',
   CheckmarkCircle = 'material-symbols:check-circle',
+  CheckmarkCircle2 = 'fluent:checkmark-circle-48-filled',
   CheckmarkThin = 'fluent:checkmark-20-filled',
   CheckmarkOutline = 'solar:check-circle-outline',
   CheckShieldOutline = 'stash:shield-check',

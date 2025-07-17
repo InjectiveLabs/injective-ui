@@ -48,4 +48,12 @@ export const MAX_TOAST_TIMEOUT = 10 * 24 * 60 * 60 * 1000 // 10 days
 export const NOTIFI_LINK = 'https://injective.notifi.network'
 export const TURNKEY_CONTAINER_ID = 'turnkey-auth-iframe-container-id'
 
+export const DEFAULT_USD_DECIMALS = 2
+export const DEFAULT_ASSET_DECIMALS = 6
+export const DEFAULT_DISPLAY_DECIMALS = 8
+
+export const DEFAULT_ABBREVIATED_DECIMALS = 2
 export const DEFAULT_ABBREVIATION_THRESHOLD = 1_000_000
+
+export const DEFAULT_SUBSCRIPT_DECIMALS = 4
+export const DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS = 3

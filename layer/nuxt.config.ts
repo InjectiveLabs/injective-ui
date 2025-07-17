@@ -44,6 +44,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/devtools',
     'nuxt-vitalizer',
+    '@nuxt/test-utils/module',
     '@injectivelabs/nuxt-bugsnag'
   ]
 })
