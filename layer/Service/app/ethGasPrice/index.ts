@@ -1,62 +1,48 @@
-import {
-  HttpClient,
-  BigNumber,
-  BigNumberInWei,
-  BigNumberInBase
-} from '@injectivelabs/utils'
-import { Network as AlchemyNetwork, Alchemy } from 'alchemy-sdk'
+import { fetchEstimatorGasPrice } from './estimator'
+import { GWEI_IN_WEI, DEFAULT_MAINNET_GAS_PRICE } from '../../../utils/constant'
 import {
   GeneralException,
   HttpRequestException
 } from '@injectivelabs/exceptions'
-import { Network, isTestnetOrDevnet, isMainnet } from '@injectivelabs/networks'
 import {
-  GWEI_IN_WEI,
-  DEFAULT_GAS_PRICE,
-  DEFAULT_MAINNET_GAS_PRICE
-} from '../../utils/constant'
-import { fetchEstimatorGasPrice } from './estimator'
+  BigNumber,
+  HttpClient,
+  BigNumberInWei,
+  BigNumberInBase
+} from '@injectivelabs/utils'
+import { getAlchemyClient } from './../../shared'
 
 export interface GasInfo {
   gasPrice: string
   estimatedTimeMs: number
 }
 
-export interface EthGasStationResult {
-  average: number
-  fastestWait: number
-  fastWait: number
-  fast: number
-  safeLowWait: number
-  blockNum: number
-  avgWait: number
-  block_time: number
-  speed: number
-  fastest: number
-  safeLow: number
-}
-
 export interface EtherchainResult {
-  standard: number
   fast: number
   fastest: number
   safeLow: number
+  standard: number
   currentBaseFee: number
   recommendedBaseFee: number
 }
 
-const fetchGasPriceFromAlchemy = async (
-  key: string,
-  network: Network = Network.Mainnet
-): Promise<string> => {
+export interface EthGasStationResult {
+  fast: number
+  speed: number
+  average: number
+  avgWait: number
+  fastest: number
+  safeLow: number
+  fastWait: number
+  blockNum: number
+  block_time: number
+  fastestWait: number
+  safeLowWait: number
+}
+
+const fetchGasPriceFromAlchemy = async (): Promise<string> => {
   try {
-    const settings = {
-      apiKey: key,
-      network: isMainnet(network)
-        ? AlchemyNetwork.ETH_MAINNET
-        : AlchemyNetwork.ETH_SEPOLIA
-    }
-    const alchemy = new Alchemy(settings)
+    const alchemy = await getAlchemyClient()
     const response = await alchemy.core.getFeeData()
 
     if (!response) {
@@ -85,7 +71,7 @@ const fetchGasPriceFromAlchemy = async (
   }
 }
 
-const fetchGasPriceFromEtherchain = async (): Promise<string> => {
+export const fetchGasPriceFromEtherchain = async (): Promise<string> => {
   try {
     const endpoint = 'https://www.etherchain.org/api/gasPriceOracle'
     const response = (await new HttpClient(endpoint).get('')) as {
@@ -108,7 +94,7 @@ const fetchGasPriceFromEtherchain = async (): Promise<string> => {
   }
 }
 
-const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
+export const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
   try {
     const endpoint = 'https://ethgasstation.info/json/ethgasAPI.json'
     const response = (await new HttpClient(endpoint).get('')) as {
@@ -138,56 +124,24 @@ const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
   }
 }
 
-export const fetchGasPrice = async (
-  network: Network,
-  options?: { alchemyKey: string }
-): Promise<string> => {
-  if (options && options.alchemyKey) {
-    try {
-      const gasPrice = await fetchEstimatorGasPrice(options.alchemyKey, network)
-
-      if (gasPrice) {
-        return gasPrice.fast.toString()
-      }
-    } catch (e) {
-      //
-    }
-
-    try {
-      const gasPrice = await fetchGasPriceFromAlchemy(
-        options.alchemyKey,
-        network
-      )
-
-      if (gasPrice) {
-        return gasPrice.toString()
-      }
-    } catch (e) {
-      //
-    }
-  }
-
-  if (isTestnetOrDevnet(network)) {
-    return new BigNumberInWei(DEFAULT_GAS_PRICE).toFixed(0)
-  }
-
+export const fetchGasPrice = async (): Promise<string> => {
   try {
-    const gasPrice = await fetchGasPriceFromEtherchain()
+    const gasPrice = await fetchEstimatorGasPrice()
 
     if (gasPrice) {
-      return gasPrice.toString()
+      return gasPrice.fast.toString()
     }
-  } catch (e) {
+  } catch {
     //
   }
 
   try {
-    const gasPrice = await fetchGasPriceFromEthGasStation()
+    const gasPrice = await fetchGasPriceFromAlchemy()
 
     if (gasPrice) {
       return gasPrice.toString()
     }
-  } catch (e) {
+  } catch {
     //
   }
 

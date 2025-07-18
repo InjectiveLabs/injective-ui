@@ -1,4 +1,4 @@
-import { EthereumChainId } from '@injectivelabs/ts-types'
+import { EvmChainId } from '@injectivelabs/ts-types'
 import {
   IS_DEVNET,
   IS_TESTNET,
@@ -8,13 +8,13 @@ import {
 } from './../utils/constant'
 
 export const getRpcUrlsForChainIds = (): Partial<
-  Record<EthereumChainId, string>
+  Record<EvmChainId, string>
 > => {
   return {
-    [EthereumChainId.Ganache]: 'http://localhost:8545',
-    [EthereumChainId.HardHat]: 'http://localhost:8545',
-    [EthereumChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
-    [EthereumChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`
+    [EvmChainId.Ganache]: 'http://localhost:8545',
+    [EvmChainId.HardHat]: 'http://localhost:8545',
+    [EvmChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
+    [EvmChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`
   }
 }
 

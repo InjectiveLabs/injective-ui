@@ -1,8 +1,8 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from './../../utils/constant'
 import {
-  indexerDerivativesApi,
-  indexerRestDerivativeChronosApi
+  getIndexerDerivativesApi,
+  getIndexerRestDerivativeChronosApi
 } from '../../Service'
 import type {
   PerpetualMarket,
@@ -14,6 +14,8 @@ import type { SharedMarketStatus } from '../../types'
 
 export class DerivativeCacheApi extends BaseCacheApi {
   async fetchMarkets(marketStatuses?: SharedMarketStatus[]) {
+    const indexerDerivativesApi = await getIndexerDerivativesApi()
+
     const fetchFromExchange = async () => {
       const markets = (await indexerDerivativesApi.fetchMarkets(
         marketStatuses ? { marketStatuses } : undefined
@@ -39,6 +41,9 @@ export class DerivativeCacheApi extends BaseCacheApi {
   }
 
   async fetchMarketsSummary() {
+    const indexerRestDerivativeChronosApi =
+      await getIndexerRestDerivativeChronosApi()
+
     const fetchFromExchange = async () => {
       const response =
         await indexerRestDerivativeChronosApi.fetchMarketsSummary()

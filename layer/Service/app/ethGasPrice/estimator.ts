@@ -1,6 +1,6 @@
-import { Alchemy, Network } from 'alchemy-sdk'
 import { HttpClient } from '@injectivelabs/utils'
-import { Network as InjNetwork, isMainnet } from '@injectivelabs/networks'
+import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
+import { getAlchemyClient } from './../../shared'
 
 const HISTORICAL_BLOCKS = 4
 
@@ -32,21 +32,9 @@ const formatFeeHistory = (result: any) => {
   return blocks
 }
 
-export const fetchEstimatorGasPrice = async (
-  alchemyRpcUrl: string,
-  network: InjNetwork = InjNetwork.Mainnet
-) => {
-  const isMainnetNetwork = isMainnet(network)
-  const settings = {
-    apiKey: alchemyRpcUrl,
-    network: isMainnetNetwork ? Network.ETH_MAINNET : Network.ETH_SEPOLIA
-  }
-
-  const url = `https://eth-${
-    isMainnetNetwork ? 'mainnet' : 'sepolia'
-  }.alchemyapi.io/v2/`
-  const alchemy = new Alchemy(settings)
-  const httpClient = new HttpClient(url)
+export const fetchEstimatorGasPrice = async () => {
+  const alchemy = await getAlchemyClient()
+  const httpClient = new HttpClient(alchemyRpcEndpoint)
 
   const feeHistory = (await httpClient
     .setConfig({
@@ -55,7 +43,7 @@ export const fetchEstimatorGasPrice = async (
         'content-type': 'application/json'
       }
     })
-    .post(alchemyRpcUrl, {
+    .post(alchemyRpcEndpoint, {
       id: Date.now().toString(16),
       jsonrpc: '2.0',
       method: 'eth_feeHistory',

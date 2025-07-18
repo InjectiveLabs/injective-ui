@@ -1,44 +1,39 @@
 import { nameToNode, normalizeName } from './utils'
+import { lazyImportSdkTs } from '../../../utils/lib'
 import { GeneralException } from '@injectivelabs/exceptions'
+import { NETWORK, ENDPOINTS } from '../../../utils/constant'
+import {
+  getInjNameRegistryContractForNetwork,
+  getInjNameReverseResolverContractForNetwork
+} from '@injectivelabs/networks'
 import {
   QueryInjName,
-  ChainGrpcWasmApi,
   QueryResolverAddress,
   QueryInjectiveAddress,
   InjNameServiceQueryTransformer
 } from '@injectivelabs/sdk-ts'
-import {
-  Network,
-  getNetworkEndpoints,
-  getInjNameRegistryContractForNetwork,
-  getInjNameReverseResolverContractForNetwork
-} from '@injectivelabs/networks'
-import type {
-  NetworkEndpoints} from '@injectivelabs/networks';
+import type { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
 
 export class InjNameService {
-  protected client: ChainGrpcWasmApi
-
   private reverseResolverAddress: string
 
   private registryAddress: string
 
-  constructor(
-    network: Network = Network.MainnetSentry,
-    endpoints?: NetworkEndpoints
-  ) {
-    const networkEndpoints = endpoints || getNetworkEndpoints(network)
-
-    this.client = new ChainGrpcWasmApi(networkEndpoints.grpc)
-    this.registryAddress = getInjNameRegistryContractForNetwork(network)
+  constructor() {
+    this.registryAddress = getInjNameRegistryContractForNetwork(NETWORK)
     this.reverseResolverAddress =
-      getInjNameReverseResolverContractForNetwork(network)
+      getInjNameReverseResolverContractForNetwork(NETWORK)
   }
 
   async fetchInjName(address: string) {
+    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
+      endpoint: ENDPOINTS.grpc,
+      className: 'ChainGrpcWasmApi'
+    })
+
     const query = new QueryInjName({ address }).toPayload()
 
-    const response = await this.client.fetchSmartContractState(
+    const response = await client.fetchSmartContractState(
       this.reverseResolverAddress,
       query
     )
@@ -62,6 +57,11 @@ export class InjNameService {
   }
 
   async fetchInjAddress(name: string) {
+    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
+      endpoint: ENDPOINTS.grpc,
+      className: 'ChainGrpcWasmApi'
+    })
+
     const node = nameToNode(normalizeName(name))
 
     if (!node) {
@@ -76,7 +76,7 @@ export class InjNameService {
 
     const query = new QueryInjectiveAddress({ node }).toPayload()
 
-    const response = await this.client.fetchSmartContractState(
+    const response = await client.fetchSmartContractState(
       resolverAddress,
       query
     )
@@ -87,9 +87,15 @@ export class InjNameService {
   }
 
   private async fetchResolverAddress(node: number[]) {
+    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
+      endpoint: ENDPOINTS.grpc,
+      className: 'ChainGrpcWasmApi',
+      modulePath: '@injectivelabs/sdk-ts'
+    })
+
     const query = new QueryResolverAddress({ node }).toPayload()
 
-    const response = await this.client.fetchSmartContractState(
+    const response = await client.fetchSmartContractState(
       this.registryAddress,
       query
     )

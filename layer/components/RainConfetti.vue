@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { create, Options } from 'canvas-confetti'
+import { create } from 'canvas-confetti'
+import type { Options } from 'canvas-confetti'
 
 const attrs = useAttrs()
 
@@ -22,7 +23,7 @@ const props = defineProps({
 })
 
 const confetti = ref()
-const canvas = ref<HTMLCanvasElement | undefined>()
+const canvas = ref<undefined | HTMLCanvasElement>()
 
 const filteredAttrs = computed(() => {
   const filteredAttrs = { ...attrs }

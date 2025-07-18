@@ -1,10 +1,16 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from './../../utils/constant'
-import { stakingApi, indexerRestExplorerApi } from '../../Service'
-import type { Validator, Pagination, ExplorerValidator } from '@injectivelabs/sdk-ts'
+import { getStakingApi, getIndexerRestExplorerApi } from '../../Service'
+import type {
+  Validator,
+  Pagination,
+  ExplorerValidator
+} from '@injectivelabs/sdk-ts'
 
 export class StakingCacheApi extends BaseCacheApi {
   async fetchValidators(_params?: any) {
+    const stakingApi = await getStakingApi()
+
     const fetchFromSource = async () => {
       const { validators, pagination } = await stakingApi.fetchValidators({
         limit: 500
@@ -24,12 +30,14 @@ export class StakingCacheApi extends BaseCacheApi {
       }>('cache/validators')
 
       return response.data
-    } catch{
+    } catch {
       return fetchFromSource()
     }
   }
 
   async fetchExplorerValidators(_params?: any) {
+    const indexerRestExplorerApi = await getIndexerRestExplorerApi()
+
     const fetchFromSource = async () => {
       const explorerValidators = await indexerRestExplorerApi.fetchValidators()
 
@@ -46,7 +54,7 @@ export class StakingCacheApi extends BaseCacheApi {
       }>('cache/explorer-validators')
 
       return response.data.validators
-    } catch{
+    } catch {
       return fetchFromSource()
     }
   }

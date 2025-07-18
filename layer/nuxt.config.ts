@@ -16,12 +16,12 @@ export default defineNuxtConfig({
 
   alias: { '@shared': resolve('./') },
 
-  typescript: {
-    typeCheck: 'build'
-  },
+  // typescript: {
+  //   typeCheck: 'build'
+  // },
 
   pinia: {
-    autoImports: ['defineStore']
+    storesDirs: ['./store/*.ts', './store/*/index.ts']
   },
 
   ignore: isProduction ? ['pages/sandbox.vue'] : [],

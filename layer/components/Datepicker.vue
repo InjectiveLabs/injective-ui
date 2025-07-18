@@ -1,9 +1,17 @@
 <script lang="ts" setup>
-import Datepicker from '@vuepic/vue-datepicker'
+import { IS_HELIX } from './../utils/constant'
+
+let Datepicker: any = null
+if (!IS_HELIX) {
+  // @ts-ignore
+  import('@vuepic/vue-datepicker').then((module) => {
+    Datepicker = module.default
+  })
+}
 </script>
 
 <template>
-  <Datepicker v-bind="$attrs">
+  <Datepicker v-if="!IS_HELIX && Datepicker" v-bind="$attrs">
     <template #input-icon>
       <slot name="input-icon" />
     </template>

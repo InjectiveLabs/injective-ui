@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import {
+import { injToken } from './../data/token'
+import { sharedToBalanceInToken } from './../utils/formatter'
+import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
+import { getMintApi, getBankApi, getStakingApi } from './../Service'
+import type {
   Pool,
   DistributionModuleParams,
   MinModuleParams as MintModuleParams
 } from '@injectivelabs/sdk-ts'
-import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
-import { injToken } from './../data/token'
-import { mintApi, bankApi, stakingApi } from './../Service'
-import { sharedToBalanceInToken } from './../utils/formatter'
 
 const ON_CHAIN_BLOCK_TIME = 0.64
 const ON_CHAIN_BLOCKS_PER_YEAR = 63072000
@@ -15,15 +15,15 @@ const ON_CHAIN_INFLATION = 0.88
 const ON_CHAIN_COMMUNITY_TAX = 0.05
 
 type ParamStoreState = {
+  pool: Pool
   injSupply: string
   inflation: string
+  blockTime: number
   bondedTokens: string
   communityTax: string
-  blockTime: number
   blocksPerYear: string
   actualBlockTime: number
   actualBlocksPerYear: number
-  pool: Pool
   mintParams: MintModuleParams
   distributionParams: DistributionModuleParams
 }
@@ -104,6 +104,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
     },
 
     async fetchSupply() {
+      const bankApi = await getBankApi()
       const paramsStore = useSharedParamStore()
 
       const injSupply = await bankApi.fetchSupplyOf(injToken.denom)
@@ -114,6 +115,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
     },
 
     async fetchInflation() {
+      const mintApi = await getMintApi()
       const paramsStore = useSharedParamStore()
 
       try {
@@ -130,6 +132,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
     },
 
     async fetchPool() {
+      const stakingApi = await getStakingApi()
       const paramsStore = useSharedParamStore()
 
       const pool = await stakingApi.fetchPool()
@@ -141,6 +144,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
     },
 
     async fetchMintParams() {
+      const mintApi = await getMintApi()
       const paramsStore = useSharedParamStore()
 
       const mintParams = await mintApi.fetchModuleParams()
@@ -172,7 +176,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
           actualBlockTime: data.chain.params.actual_block_time,
           actualBlocksPerYear: data.chain.params.actual_blocks_per_year
         })
-      } catch (error: any) {
+      } catch {
         // silently throw
         paramStore.$patch({
           actualBlockTime: ON_CHAIN_BLOCK_TIME,

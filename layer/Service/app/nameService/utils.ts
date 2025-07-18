@@ -87,7 +87,7 @@ const normalizeName = (name: string) => {
 
   try {
     normalizedArray = labelArr.map((e) => normalize(e))
-  } catch (e) {
+  } catch {
     throw new GeneralException(new Error('Invalid Domain'), {
       context: 'Params',
       type: ErrorType.ValidationError
