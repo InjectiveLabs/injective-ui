@@ -1,6 +1,6 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from './../../utils/constant'
-import { indexerSpotApi, indexerRestSpotChronosApi } from '../../Service'
+import { getIndexerSpotApi, getIndexerRestSpotChronosApi } from '../../Service'
 import type {
   SpotMarket,
   AllChronosSpotMarketSummary
@@ -9,6 +9,8 @@ import type { SharedMarketStatus } from '../../types'
 
 export class SpotCacheApi extends BaseCacheApi {
   async fetchMarkets(marketStatuses?: SharedMarketStatus[]) {
+    const indexerSpotApi = await getIndexerSpotApi()
+
     const fetchFromExchange = async () => {
       const response = await indexerSpotApi.fetchMarkets(
         marketStatuses ? { marketStatuses } : undefined
@@ -34,6 +36,8 @@ export class SpotCacheApi extends BaseCacheApi {
   }
 
   async fetchMarketsSummary() {
+    const indexerRestSpotChronosApi = await getIndexerRestSpotChronosApi()
+
     const fetchFromExchange = async () => {
       const response = await indexerRestSpotChronosApi.fetchMarketsSummary()
 

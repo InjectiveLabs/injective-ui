@@ -1,5 +1,5 @@
 /* eslint-disable camelcase, no-console */
-import { ENDPOINTS } from '../utils/constant/setup'
+import { ENDPOINTS } from '../../utils/constant/setup'
 import { HttpRestClient } from '@injectivelabs/utils'
 
 const NUXT_CACHE_PYTH_SERVICE_URL = ENDPOINTS.uiApi

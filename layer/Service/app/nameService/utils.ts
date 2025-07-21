@@ -16,7 +16,9 @@ const nameHash = (inputName: string) => {
       const normalizedLabel = normalize(labels[i])
       const labelSha = keccak256(normalizedLabel)
 
-      node = keccak256(Buffer.from(node + labelSha, 'hex'))
+      node = keccak256(
+        Buffer.from(node + labelSha, 'hex') as unknown as Uint8Array
+      )
     }
   }
 
@@ -87,7 +89,7 @@ const normalizeName = (name: string) => {
 
   try {
     normalizedArray = labelArr.map((e) => normalize(e))
-  } catch (e) {
+  } catch {
     throw new GeneralException(new Error('Invalid Domain'), {
       context: 'Params',
       type: ErrorType.ValidationError

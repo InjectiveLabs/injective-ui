@@ -1,4 +1,4 @@
-import { ChainId, EthereumChainId } from '@injectivelabs/ts-types'
+import { ChainId, EvmChainId } from '@injectivelabs/ts-types'
 import {
   Network,
   isDevnet,
@@ -18,8 +18,7 @@ export const env = {
   // endpoints
   VITE_INDEXER_API_ENDPOINT: import.meta.env
     .VITE_INDEXER_API_ENDPOINT as string,
-  VITE_UI_API_ENDPOINT: import.meta.env
-    .VITE_UI_API_ENDPOINT as string,
+  VITE_UI_API_ENDPOINT: import.meta.env.VITE_UI_API_ENDPOINT as string,
   VITE_CHRONOS_API_ENDPOINT: import.meta.env
     .VITE_CHRONOS_API_ENDPOINT as string,
   VITE_SENTRY_GRPC_ENDPOINT: import.meta.env
@@ -43,19 +42,19 @@ export const CHAIN_ID: ChainId = (
   import.meta.env.VITE_CHAIN_ID
     ? import.meta.env.VITE_CHAIN_ID
     : IS_TESTNET
-    ? ChainId.Testnet
-    : IS_DEVNET
-    ? ChainId.Devnet
-    : ChainId.Mainnet
+      ? ChainId.Testnet
+      : IS_DEVNET
+        ? ChainId.Devnet
+        : ChainId.Mainnet
 ) as ChainId
 
-export const ETHEREUM_CHAIN_ID: EthereumChainId = import.meta.env
+export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
   .VITE_ETHEREUM_CHAIN_ID
   ? parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string)
   : parseInt(
       (IS_TESTNET || IS_DEVNET
-        ? EthereumChainId.Sepolia
-        : EthereumChainId.Mainnet
+        ? EvmChainId.Sepolia
+        : EvmChainId.Mainnet
       ).toString()
     )
 
@@ -80,8 +79,7 @@ export const ENDPOINTS = {
   chronos: env.VITE_CHRONOS_API_ENDPOINT || endpoints.chronos,
   explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
   uiApi: env.VITE_UI_API_ENDPOINT || 'https://api.ui.injective.network/api/v1',
-  cacheRest:
-    env.VITE_CACHE_REST_API_ENDPOINT || endpoints.cacheRest
+  cacheRest: env.VITE_CACHE_REST_API_ENDPOINT || endpoints.cacheRest
 }
 
 const MITO_DEVNET_API_ENDPOINT = 'https://devnet.api.ninja.injective.dev'
@@ -158,7 +156,8 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
 }
 
 export const TURNKEY_ORGID = import.meta.env.VITE_TURNKEY_ORGID
-export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env.VITE_TURNKEY_GOOGLE_CLIENT_ID
+export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
+  .VITE_TURNKEY_GOOGLE_CLIENT_ID
 
 export const IS_HUB = import.meta.env.VITE_PRODUCT === 'hub'
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
