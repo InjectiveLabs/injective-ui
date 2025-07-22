@@ -89,8 +89,7 @@ export class InjNameService {
   private async fetchResolverAddress(node: number[]) {
     const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
       endpoint: ENDPOINTS.grpc,
-      className: 'ChainGrpcWasmApi',
-      modulePath: '@injectivelabs/sdk-ts'
+      className: 'ChainGrpcWasmApi'
     })
 
     const query = new QueryResolverAddress({ node }).toPayload()
