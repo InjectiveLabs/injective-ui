@@ -1,2 +1,3 @@
 export const MARKET_IDS_TO_HIDE: string[] = [
+  '0xa64335c69ee025897d00880752971320c8bf35fa7346c58cd208bb8e996e95e3' // SBET-USDT-PERP
 ]
