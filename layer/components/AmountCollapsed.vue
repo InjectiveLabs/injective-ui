@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { BigNumber } from '@injectivelabs/utils'
 import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
+import { commonCyTag } from '../utils/ci'
+import { CommonCyTags } from '../types'
 
 const props = withDefaults(
   defineProps<{
@@ -82,7 +84,7 @@ const dustAmount = computed(() => {
 </script>
 
 <template>
-  <span>
+  <span :data-cy="commonCyTag(CommonCyTags.WalletAmountView)">
     <slot
       v-bind="{
         dustAmount,

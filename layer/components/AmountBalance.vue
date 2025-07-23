@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { BigNumber } from '@injectivelabs/utils'
+import { commonCyTag } from '../utils/ci'
+import { CommonCyTags } from '../types'
 
 const props = withDefaults(
   defineProps<{
@@ -39,7 +41,7 @@ const amountWithoutTrailingZeros = computed(() => {
 </script>
 
 <template>
-  <span>
+  <span :data-cy="commonCyTag(CommonCyTags.BalanceAmount)">
     <span v-if="showZeroAsEmDash && amountInBigNumber.eq(0)"> &mdash; </span>
     <span v-else-if="showTrailingZeros">
       {{ amountToString }}

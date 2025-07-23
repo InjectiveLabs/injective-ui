@@ -32,7 +32,9 @@ export enum SharedAmplitudeEvent {
 
 export enum CommonCyTags {
   NotificationTitle = 'notification-title',
-  NotificationDescription = 'notification-description'
+  NotificationDescription = 'notification-description',
+  WalletAmountView = 'wallet-amount-view',
+  BalanceAmount = 'balance-amount'
 }
 
 export enum WalletConnectStatus {
