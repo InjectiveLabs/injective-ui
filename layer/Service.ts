@@ -15,6 +15,7 @@ import { StakingCacheApi } from './providers/cacheApi/staking'
 import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
 import { DerivativeCacheApi } from './providers/cacheApi/derivative'
 import { TokenPrice as TokenPriceService } from './services/tokenPrice'
+import { SharedTokenClientStatic } from './services/SharedTokenClientStatic'
 import {
   NETWORK,
   ENDPOINTS,
@@ -134,6 +135,7 @@ export const injNameService = new InjNameService(NETWORK)
 export const injBonfidaNameService = new InjBonfidaNameService(NETWORK)
 
 export const sharedTokenClient = new SharedTokenClient()
+export const sharedTokenClientStatic = new SharedTokenClientStatic()
 
 export const alchemyClient = IS_MAINNET
   ? new Alchemy({
