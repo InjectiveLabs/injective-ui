@@ -6,6 +6,7 @@ import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 const props = withDefaults(
   defineProps<{
     amount: string
+    dataCyTag?: string
     shouldTruncate?: boolean
     maxTrailingZeros?: number
     showZeroAsEmDash?: boolean
@@ -82,7 +83,7 @@ const dustAmount = computed(() => {
 </script>
 
 <template>
-  <span>
+  <span :data-cy="dataCyTag">
     <slot
       v-bind="{
         dustAmount,
