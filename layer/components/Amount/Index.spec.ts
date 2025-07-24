@@ -247,5 +247,19 @@ describe('Amount/Index.vue', () => {
 
       expect(component.text()).toBe('1.5')
     })
+
+    it('trailing zeros with subscripts', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          amount: '0.00001',
+          useSubscript: true,
+          noTrailingZeros: false
+        }
+      })
+
+      expect(component.html()).toMatchInlineSnapshot(
+        `"<span><!--v-if--><span>0.0<sub>4</sub>1000</span></span>"`
+      )
+    })
   })
 })

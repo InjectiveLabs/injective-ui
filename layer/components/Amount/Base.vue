@@ -82,9 +82,13 @@ const subscriptedAmount = computed(() => {
     nOfZeros > props.decimals ||
     nOfZeros > props.subscriptThresholdDecimals
   ) {
-    const subscriptAmount = new BigNumberInBase(decimalPart.replace(/^0+/, ''))
+    let subscriptAmount = new BigNumberInBase(decimalPart.replace(/^0+/, ''))
       .toFixed(0)
       .slice(0, props.subscriptDecimals)
+
+    if (!props.noTrailingZeros) {
+      subscriptAmount = subscriptAmount.padEnd(props.subscriptDecimals, '0')
+    }
 
     const integerAmount = new BigNumberInBase(integerPart).toFormat(0)
 
