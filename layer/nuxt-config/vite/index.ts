@@ -15,6 +15,7 @@ import type { ViteConfig } from '@nuxt/schema'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
+const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
 const { resolve } = createResolver(import.meta.url)
@@ -44,7 +45,7 @@ const additionalDeps = [
 export default defineConfig({
   plugins: [
     tsconfigPaths(),
-    visualizer({ open: true }),
+    visualizer({ open: isAnalyzeBundle }),
     nodePolyfills({ protocolImports: true })
   ],
 
