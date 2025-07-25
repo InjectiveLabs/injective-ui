@@ -19,16 +19,20 @@ import { DerivativeCacheApi } from './../providers/cacheApi/derivative'
 import {
   NETWORK,
   ENDPOINTS,
+  IS_TESTNET,
   IS_MAINNET,
   COINGECKO_KEY,
   MITO_API_ENDPOINT
 } from './../utils/constant'
 import type {
+  TxGrpcApi,
   ChainGrpcIbcApi,
   ChainGrpcGovApi,
   ChainGrpcMintApi,
   ChainGrpcBankApi,
   ChainGrpcWasmApi,
+  ChainRestAuthApi,
+  ChainRestWasmApi,
   ChainGrpcPeggyApi,
   ChainGrpcOracleApi,
   IndexerGrpcMitoApi,
@@ -37,9 +41,11 @@ import type {
   ChainGrpcAuctionApi,
   ChainGrpcExchangeApi,
   IndexerGrpcOracleApi,
+  IndexerGrpcWeb3GwApi,
   IndexerGrpcAccountApi,
   IndexerGrpcAuctionApi,
   IndexerGrpcExplorerApi,
+  IndexerGrpcArchiverApi,
   IndexerRestExplorerApi,
   ChainGrpcDistributionApi,
   ChainGrpcTokenFactoryApi,
@@ -51,6 +57,12 @@ import type {
   IndexerGrpcAccountPortfolioApi,
   IndexerRestDerivativesChronosApi
 } from '@injectivelabs/sdk-ts'
+
+export const getTxGrpcApi = () =>
+  lazyImportSdkTs<TxGrpcApi>({
+    endpoint: ENDPOINTS.grpc,
+    className: 'TxGrpcApi'
+  })
 
 export const getBankApi = () =>
   lazyImportSdkTs<ChainGrpcBankApi>({
@@ -172,10 +184,38 @@ export const getIndexerOracleApi = () =>
     className: 'IndexerGrpcOracleApi'
   })
 
+export const getIndexerWeb3GwApi = () =>
+  lazyImportSdkTs<IndexerGrpcWeb3GwApi>({
+    endpoint: ENDPOINTS.indexer,
+    className: 'IndexerGrpcWeb3GwApi'
+  })
+
 export const getIndexerExplorerApi = () =>
   lazyImportSdkTs<IndexerGrpcExplorerApi>({
     endpoint: ENDPOINTS.indexer,
     className: 'IndexerGrpcExplorerApi'
+  })
+
+export const getIndexerArchiverApi = () =>
+  lazyImportSdkTs<IndexerGrpcArchiverApi>({
+    className: 'IndexerGrpcArchiverApi',
+    endpoint: IS_MAINNET
+      ? 'https://k8s.mainnet.archiver.grpc-web.injective.network'
+      : IS_TESTNET
+        ? 'https://k8s.testnet.archiver.grpc-web.injective.network'
+        : ENDPOINTS.indexer
+  })
+
+export const getRestAuthApi = () =>
+  lazyImportSdkTs<ChainRestAuthApi>({
+    endpoint: ENDPOINTS.rest,
+    className: 'ChainRestAuthApi'
+  })
+
+export const getRestWasmApi = () =>
+  lazyImportSdkTs<ChainRestWasmApi>({
+    endpoint: ENDPOINTS.rest,
+    className: 'ChainRestWasmApi'
   })
 
 export const getIndexerRestExplorerApi = () =>
