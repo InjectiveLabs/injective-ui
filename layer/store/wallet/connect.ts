@@ -7,7 +7,6 @@ import {
 import {
   getAddresses,
   walletStrategy,
-  getEvmWalletProvider,
   confirmCosmosWalletAddress
 } from '../../WalletService'
 
@@ -77,47 +76,6 @@ export const connectPhantomWallet = async () => {
   await walletStore.connectWallet(Wallet.Phantom)
 
   const addresses = await getAddresses()
-  const [address] = addresses
-  const session = await walletStrategy.getSessionOrConfirm(address)
-
-  walletStore.$patch({
-    address,
-    session,
-    addresses,
-    injectiveAddress: getInjectiveAddress(address),
-    addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
-  })
-
-  await walletStore.onConnect()
-}
-
-export const connectTrustWallet = async () => {
-  const walletStore = useSharedWalletStore()
-
-  await walletStore.connectWallet(Wallet.TrustWallet)
-
-  const addresses = await getAddresses()
-  const [address] = addresses
-  const session = await walletStrategy.getSessionOrConfirm(address)
-
-  walletStore.$patch({
-    address,
-    session,
-    addresses,
-    injectiveAddress: getInjectiveAddress(address),
-    addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
-  })
-
-  await walletStore.onConnect()
-}
-
-export const connectWalletConnect = async () => {
-  const walletStore = useSharedWalletStore()
-
-  await walletStore.connectWallet(Wallet.WalletConnect)
-
-  const addresses = await getAddresses()
-
   const [address] = addresses
   const session = await walletStrategy.getSessionOrConfirm(address)
 
@@ -355,52 +313,4 @@ export const connectRainbow = async () => {
   })
 
   await walletStore.onConnect()
-}
-
-export const checkIsBitGetInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
-  walletStore.$patch({
-    bitGetInstalled: await !!getEvmWalletProvider(Wallet.BitGet)
-  })
-}
-
-export const checkIsMetamaskInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
-  walletStore.$patch({
-    metamaskInstalled: await !!getEvmWalletProvider(Wallet.Metamask)
-  })
-}
-
-export const checkIsOkxWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
-  walletStore.$patch({
-    okxWalletInstalled: await !!getEvmWalletProvider(Wallet.OkxWallet)
-  })
-}
-
-export const checkIsPhantomWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
-  walletStore.$patch({
-    phantomInstalled: await !!getEvmWalletProvider(Wallet.Phantom)
-  })
-}
-
-export const checkIsTrustWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
-  walletStore.$patch({
-    trustWalletInstalled: await !!getEvmWalletProvider(Wallet.TrustWallet)
-  })
-}
-
-export const checkIsRainbowInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
-  walletStore.$patch({
-    rainbowInstalled: await !!getEvmWalletProvider(Wallet.Rainbow)
-  })
 }

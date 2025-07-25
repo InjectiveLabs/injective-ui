@@ -15,6 +15,14 @@ import {
   connectTurnkeyGoogle
 } from './turnkey'
 import {
+  checkIsBitGetInstalled,
+  checkIsRainbowInstalled,
+  checkIsMetamaskInstalled,
+  checkIsOkxWalletInstalled,
+  checkIsTrustWalletInstalled,
+  checkIsPhantomWalletInstalled
+} from './extensions'
+import {
   MsgGrant,
   PrivateKey,
   msgsOrMsgExecMsgs,
@@ -31,22 +39,14 @@ import {
   connectBitGet,
   connectLedger,
   connectTrezor,
-  connectRainbow,
   connectAddress,
+  connectRainbow,
   connectMetamask,
   connectOkxWallet,
   connectPrivateKey,
-  connectTrustWallet,
   connectLedgerCosmos,
   connectPhantomWallet,
-  connectWalletConnect,
-  connectCosmosStation,
-  checkIsBitGetInstalled,
-  checkIsRainbowInstalled,
-  checkIsMetamaskInstalled,
-  checkIsOkxWalletInstalled,
-  checkIsTrustWalletInstalled,
-  checkIsPhantomWalletInstalled
+  connectCosmosStation
 } from './connect'
 import { web3GatewayService } from '../../Service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
@@ -219,12 +219,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     connectMetamask,
     connectOkxWallet,
     connectPrivateKey,
-    connectTrustWallet,
-    connectPhantomWallet,
-    connectWalletConnect,
     connectLedgerCosmos,
+    connectPhantomWallet,
     connectCosmosStation,
-
     checkIsBitGetInstalled,
     checkIsRainbowInstalled,
     checkIsMetamaskInstalled,
@@ -754,6 +751,47 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       walletStore.$patch({
         isEip712: !status
       })
+    },
+
+    async connectTrustWallet() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.TrustWallet)
+
+      const addresses = await getAddresses()
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
+    },
+
+    async connectWalletConnect() {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(Wallet.WalletConnect)
+
+      const addresses = await getAddresses()
+
+      const [address] = addresses
+      const session = await walletStrategy.getSessionOrConfirm(address)
+
+      walletStore.$patch({
+        address,
+        session,
+        addresses,
+        injectiveAddress: getInjectiveAddress(address),
+        addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
+      })
+
+      await walletStore.onConnect()
     }
   }
 })
