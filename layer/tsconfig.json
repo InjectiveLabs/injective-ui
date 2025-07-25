@@ -2,9 +2,7 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "types": [
-      "@types/node"
-    ]
+    "types": []
   },
   "exclude": [
     "node_modules",
