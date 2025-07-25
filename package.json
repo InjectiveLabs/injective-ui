@@ -1,26 +1,87 @@
 {
-  "name": "root",
-  "private": true,
-  "license": "MIT",
-  "devDependencies": {
-    "@commitlint/cli": "17.7.1",
-    "@commitlint/config-conventional": "17.7.0",
-    "husky": "9.1.6",
-    "is-ci": "^3.0.1",
-    "lerna": "6.6.2"
-  },
+  "name": "@injectivelabs/ui-layer",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./nuxt.config.ts",
+  "license": "Apache-2.0",
   "scripts": {
-    "prepare": "is-ci || husky",
-    "publish": "lerna publish",
-    "build": "lerna run build"
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepare": "husky",
+    "todo:": "add && pnpm prepare below",
+    "postinstall": "pnpm upgrade '@injectivelabs/*' --latest && pnpm prepare below"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "dependencies": {
+    "@bangjelkoski/ens-validation": "^0.1.1",
+    "@injectivelabs/exceptions": "1.16.2",
+    "@injectivelabs/networks": "1.16.2",
+    "@injectivelabs/nuxt-bugsnag": "0.0.12",
+    "@injectivelabs/sdk-ts": "1.16.2",
+    "@injectivelabs/ts-types": "1.16.2",
+    "@injectivelabs/utils": "1.16.2",
+    "@injectivelabs/wallet-base": "1.16.2",
+    "@injectivelabs/wallet-core": "1.16.2",
+    "@injectivelabs/wallet-cosmos": "1.16.2",
+    "@injectivelabs/wallet-cosmos-strategy": "1.16.2",
+    "@injectivelabs/wallet-cosmostation": "1.16.2",
+    "@injectivelabs/wallet-evm": "1.16.2",
+    "@injectivelabs/wallet-ledger": "1.16.2",
+    "@injectivelabs/wallet-magic": "1.16.2",
+    "@injectivelabs/wallet-private-key": "1.16.2",
+    "@injectivelabs/wallet-strategy": "1.16.2",
+    "@injectivelabs/wallet-trezor": "1.16.2",
+    "@injectivelabs/wallet-wallet-connect": "1.16.2",
+    "@metamask/eth-sig-util": "^8.2.0",
+    "@nuxt/ui": "2.22.0",
+    "@nuxtjs/i18n": "9.5.6",
+    "@nuxtjs/sitemap": "7.2.9",
+    "@pinia/nuxt": "0.11.1",
+    "@types/canvas-confetti": "^1.6.4",
+    "@vuepic/vue-datepicker": "^5.4.0",
+    "@vueuse/integrations": "13.5.0",
+    "@vueuse/nuxt": "13.5.0",
+    "canvas-confetti": "^1.6.0",
+    "ethers": "^6.13.7",
+    "js-confetti": "^0.12.0",
+    "nuxt": "3.17.7",
+    "nuxt-vitalizer": "0.10.0",
+    "qr-code-generator-vue3": "^1.4.21",
+    "vee-validate": "4.15.1",
+    "vue-gtag": "2.0.1",
+    "vue-hotjar": "1.4.0",
+    "vue-imask": "7.6.1"
+  },
+  "devDependencies": {
+    "@bangjelkoski/vite-plugin-node-polyfills": "^0.0.2",
+    "@commitlint/cli": "19.7.1",
+    "@commitlint/config-conventional": "19.7.1",
+    "@nuxt/eslint": "1.5.2",
+    "@nuxt/test-utils": "^3.19.1",
+    "@types/fs-extra": "^11.0.1",
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "9.31.0",
+    "eslint-plugin-perfectionist": "4.15.0",
+    "happy-dom": "^18.0.1",
+    "husky": "9.1.6",
+    "lint-staged": "16.1.2",
+    "playwright-core": "^1.53.1",
+    "prettier": "3.6.2",
+    "typescript": "5.8.3",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "^3.2.4"
+  },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint"
+    "**/*.{js,ts,vue}": [
+      "eslint --max-warnings 0 --no-ignore --fix"
     ]
   },
-  "version": "0.0.1"
+  "pnpm": {
+    "overrides": {
+      "@solana/web3.js": "1.98.0",
+      "bignumber.js": "9.1.2",
+      "rpc-websockets": "9.0.4",
+      "crypto-js": "4.2.0"
+    }
+  }
 }
