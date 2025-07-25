@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { visualizer } from 'rollup-plugin-visualizer'
 import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
 import {
   IS_HUB,
@@ -41,7 +42,11 @@ const additionalDeps = [
 ]
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), nodePolyfills({ protocolImports: true })],
+  plugins: [
+    tsconfigPaths(),
+    visualizer({ open: true }),
+    nodePolyfills({ protocolImports: true })
+  ],
 
   server: {
     watch: {
