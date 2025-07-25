@@ -1,46 +1,73 @@
-# 🌟 Injective UI
+# Nuxt Layer Starter
 
-`Injective ui` is a collection of UI packages to ease development across the wide range of Injective products.
+Create Nuxt extendable layer with this GitHub template.
 
-## 📚 Overview
+## Setup
 
-[`@injectivelabs/ui-shared`](packages/ui-shared/README.md) provides a collection of re-useable fonts, render-less FE components, and tailwind configs to ease development across the wide range of Injective products.
+Make sure to install the dependencies:
 
-[`@injectivelabs/eslint-config`](packages/eslint-config/README.md) provides a set of shared eslint config rules.
+```bash
+pnpm install
+```
 
-[`@injectivelabs/prettier-config`](packages/prettier-config/README.md) provides a set of shared prettier config.
+## Working on your theme
 
-[`@injectivelabs/stylelint-config`](packages/stylelint-config/README.md) provides a set of shared stylelint config.
+Your theme is at the root of this repository, it is exactly like a regular Nuxt project, except you can publish it on NPM.
 
-## Developer guide:
+The `.playground` directory should help you on trying your theme during development.
 
-1. Create a new branch off of the master branch as to make your changes
+Running `pnpm dev` will prepare and boot `.playground` directory, which imports your theme itself.
 
-2. Links different projects within the repo so they can import each other without having to publish anything to NPM
+## Distributing your theme
 
-- `lerna boostrap`
+Your Nuxt layer is shaped exactly the same as any other Nuxt project, except you can publish it on NPM.
 
-3. Making changes to any of the packages
-- Run `git add . && git commit -m 'commit message'` which will trigger the lint-staged and vitest yarn scripts [here](injective-ui/../.husky/pre-commit)
-- Run `git push` to publish a new branch in the remote repository
-- Create a PR to merge to master. Once approved, you can move on to step 4
+To do so, you only have to check if `files` in `package.json` are valid, then run:
 
-4. Publishing the changes to npm
+```bash
+npm publish --access public
+```
 
-- `lerna version`
-- `lerna publish from-package`
+Once done, your users will only have to run:
 
-## ⛑ Support
+```bash
+npm install --save your-theme
+```
 
-Reach out to us at one of the following places!
+Then add the dependency to their `extends` in `nuxt.config`:
 
-- Website at <a href="https://injective.com" target="_blank">`injective.com`</a>
-- Twitter at <a href="https://twitter.com/injective" target="_blank">`@Injective`</a>
-- Discord at <a href="https://discord.com/invite/NK4qdbv" target="_blank">`Discord`</a>
-- Telegram at <a href="https://t.me/joininjective" target="_blank">`Telegram`</a>
+```ts
+defineNuxtConfig({
+  extends: 'your-theme'
+})
+```
 
----
+## Development Server
 
-## 🔓 License
+Start the development server on http://localhost:3000
 
-This software is licensed under the MIT license. See [LICENSE](./LICENSE) for full disclosure.
+```bash
+pnpm dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+pnpm build
+```
+
+Or statically generate it with:
+
+```bash
+pnpm generate
+```
+
+Locally preview production build:
+
+```bash
+pnpm preview
+```
+
+Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
