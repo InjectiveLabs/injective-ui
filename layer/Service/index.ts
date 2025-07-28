@@ -16,6 +16,7 @@ import { TokenCacheApi } from './../providers/cacheApi/token'
 import { StakingCacheApi } from './../providers/cacheApi/staking'
 import { TokenPrice as TokenPriceService } from './app/tokenPrice'
 import { DerivativeCacheApi } from './../providers/cacheApi/derivative'
+import { SharedTokenClientStatic } from './../Service/app/SharedTokenClientStatic'
 import {
   NETWORK,
   ENDPOINTS,
@@ -252,6 +253,7 @@ export const injNameService = new InjNameService()
 export const injBonfidaNameService = new InjBonfidaNameService()
 
 export const sharedTokenClient = new SharedTokenClient()
+export const sharedTokenClientStatic = new SharedTokenClientStatic()
 
 export const web3Client = new Web3Client({
   network: NETWORK,
