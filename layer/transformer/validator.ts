@@ -1,5 +1,5 @@
-import { Validator } from '@injectivelabs/sdk-ts'
-import { SharedUiValidator } from './../types'
+import type { Validator } from '@injectivelabs/sdk-ts'
+import type { SharedUiValidator } from '../types'
 
 export const toUiValidator = (validator: Validator): SharedUiValidator => {
   return {

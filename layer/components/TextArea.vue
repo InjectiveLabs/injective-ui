@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PasteEvent } from './../types'
+import type { PasteEvent } from '../types'
 
 defineProps({
   modelValue: {
