@@ -22,11 +22,12 @@ interface TokenStaticWithPrice {
 }
 
 const ASSET_PRICE_SERVICE_URL =
-  'https://k8s.mainnet.asset.injective.network/asset-price/v1'
+  'https://k8s.global.mainnet.asset.injective.network/asset-price/v1'
+// 'https://k8s.mainnet.asset.injective.network/asset-price/v1'
 const TESTNET_ASSET_PRICE_SERVICE_URL =
   'https://k8s.testnet.asset.injective.network/asset-price/v1'
-const DEVNET_ASSET_PRICE_SERVICE_URL =
-  'https://devnet.api.injective.dev/asset-price/v1'
+// const DEVNET_ASSET_PRICE_SERVICE_URL =
+//   'https://devnet.api.injective.dev/asset-price/v1'
 
 const whiteListedCoinGeckoIds: string[] = []
 
