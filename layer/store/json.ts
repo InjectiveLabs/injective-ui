@@ -62,12 +62,6 @@ const getNetworkName = () => {
   return 'devnet.json'
 }
 
-const getNearestIntervalTimestamp = (interval: number = 10) => {
-  const seconds = interval * 60 * 1000
-
-  return Math.floor(Date.now() / seconds) * seconds
-}
-
 export const useSharedJsonStore = defineStore('sharedJson', {
   state: (): JsonStoreState => ({
     wasmQuery: {},
@@ -155,19 +149,24 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         state.chainUpgradeConfig?.blockHeight || 0
       )
 
-      return true
+      if (blockHeightInBigNumber.isZero()) {
+        return false
+      }
 
-      // if (blockHeightInBigNumber.isZero()) {
-      //   return false
-      // }
+      if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
+        return false
+      }
 
-      // if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
-      //   return false
-      // }
+      if (
+        state.latestBlockHeight === 0 &&
+        new BigNumberInBase(state.chainUpgradeConfig.blockHeight).gt(0)
+      ) {
+        return true
+      }
 
-      // return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
-      //   .minus(500)
-      //   .lte(state.latestBlockHeight)
+      return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
+        .minus(500)
+        .lte(state.latestBlockHeight)
     }
   },
 
@@ -438,25 +437,30 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     },
 
     async fetchChainUpgradeConfig() {
+      let latestBlockHeight = 0
+
       if (!IS_MAINNET) {
         return
       }
 
       const jsonStore = useSharedJsonStore()
 
-      const {
-        paging: { total: latestBlockHeight }
-      } = await indexerRestExplorerApi.fetchBlocks({
-        limit: 1
-      })
-
-      jsonStore.latestBlockHeight = latestBlockHeight
-
       const { data: config } = (await client.get(
-        `json/config/chainUpgrade.json??${getNearestIntervalTimestamp(5)}`
+        'json/config/chainUpgrade.json'
       )) as {
         data: JsonChainUpgrade
       }
+
+      try {
+        const {
+          paging: { total }
+        } = await indexerRestExplorerApi.fetchBlocks({
+          limit: 1
+        })
+
+        latestBlockHeight = total
+        jsonStore.latestBlockHeight = latestBlockHeight
+      } catch {}
 
       const isValidChainUpgradeConfig =
         typeof config === 'object' &&
