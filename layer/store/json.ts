@@ -155,17 +155,19 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         state.chainUpgradeConfig?.blockHeight || 0
       )
 
-      if (blockHeightInBigNumber.isZero()) {
-        return false
-      }
+      return true
 
-      if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
-        return false
-      }
+      // if (blockHeightInBigNumber.isZero()) {
+      //   return false
+      // }
 
-      return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
-        .minus(500)
-        .lte(state.latestBlockHeight)
+      // if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
+      //   return false
+      // }
+
+      // return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
+      //   .minus(500)
+      //   .lte(state.latestBlockHeight)
     }
   },
 
