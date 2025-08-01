@@ -10,7 +10,6 @@ import {
   MAGIC_APK_KEY,
   ETHEREUM_CHAIN_ID,
   ALCHEMY_SEPOLIA_KEY,
-  TURNKEY_CONTAINER_ID,
   TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from './../utils/constant'
@@ -39,7 +38,6 @@ export const walletStrategy = new WalletStrategy({
       turnkey: {
         defaultOrganizationId: TURNKEY_ORGID,
         apiBaseUrl: 'https://api.turnkey.com',
-        iframeContainerId: TURNKEY_CONTAINER_ID,
         googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
         googleRedirectUri: window.location.origin,
         apiServerEndpoint: 'https://api.ui.injective.network/api/v1'
