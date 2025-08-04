@@ -1,8 +1,5 @@
 import { Network } from '@injectivelabs/networks'
-import {
-  TokenType,
-  TokenVerification
-} from '@injectivelabs/sdk-ts'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts'
 import {
   INJ_DENOM,
   IS_TESTNET,
@@ -11,8 +8,7 @@ import {
   USDT_LOGO_URL,
   UNKNOWN_LOGO_URL
 } from './../utils/constant'
-import type {
-  TokenStatic} from '@injectivelabs/sdk-ts';
+import type { TokenStatic } from '@injectivelabs/sdk-ts'
 
 export const stableCoinSymbols = ['USDT', 'USDC', 'USDCet']
 
