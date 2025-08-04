@@ -3,7 +3,8 @@ import {
   tokenCacheApi,
   tokenPriceService,
   sharedTokenClient,
-  tokenStaticFactory
+  tokenStaticFactory,
+  sharedTokenClientStatic
 } from './../Service'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
 import type { SharedTokenUsdPriceMap } from './../types'
@@ -100,6 +101,14 @@ export const useSharedTokenStore = defineStore('sharedToken', {
         {} as Record<string, string>
       )
 
+      const unknownTokens = unKnownDenoms.map((denom) => {
+        return sharedTokenClientStatic.formatToken(denom)
+      })
+
+      sharedTokenStore.unknownTokens = [
+        ...sharedTokenStore.unknownTokens,
+        ...unknownTokens
+      ]
       sharedTokenStore.supplyMap = supplyMap
     },
 

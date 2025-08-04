@@ -73,6 +73,7 @@ export enum NuxtUiIcons {
   ArrowDiagonalRight = 'eva:diagonal-arrow-right-up-fill',
   ArrowLeft = 'fluent:arrow-left-12-regular',
   ArrowSwap = 'fontisto:arrow-swap',
+  ArrowDown2 = 'bxs:down-arrow',
   Bank = 'bi:bank',
   BarChart = 'bi:bar-chart-line',
   BarChart2 = 'heroicons:chart-bar-16-solid',

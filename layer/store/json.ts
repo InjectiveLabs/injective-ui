@@ -62,12 +62,6 @@ const getNetworkName = () => {
   return 'devnet.json'
 }
 
-const getNearestIntervalTimestamp = (interval: number = 10) => {
-  const seconds = interval * 60 * 1000
-
-  return Math.floor(Date.now() / seconds) * seconds
-}
-
 export const useSharedJsonStore = defineStore('sharedJson', {
   state: (): JsonStoreState => ({
     wasmQuery: {},
@@ -161,6 +155,13 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
         return false
+      }
+
+      if (
+        state.latestBlockHeight === 0 &&
+        new BigNumberInBase(state.chainUpgradeConfig.blockHeight).gt(0)
+      ) {
+        return true
       }
 
       return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
@@ -438,6 +439,8 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     },
 
     async fetchChainUpgradeConfig() {
+      let latestBlockHeight = 0
+
       if (!IS_MAINNET) {
         return
       }
@@ -446,19 +449,22 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       const jsonStore = useSharedJsonStore()
 
-      const {
-        paging: { total: latestBlockHeight }
-      } = await indexerRestExplorerApi.fetchBlocks({
-        limit: 1
-      })
-
-      jsonStore.latestBlockHeight = latestBlockHeight
-
       const { data: config } = (await client.get(
-        `json/config/chainUpgrade.json??${getNearestIntervalTimestamp(5)}`
+        'json/config/chainUpgrade.json'
       )) as {
         data: JsonChainUpgrade
       }
+
+      try {
+        const {
+          paging: { total }
+        } = await indexerRestExplorerApi.fetchBlocks({
+          limit: 1
+        })
+
+        latestBlockHeight = total
+        jsonStore.latestBlockHeight = latestBlockHeight
+      } catch {}
 
       const isValidChainUpgradeConfig =
         typeof config === 'object' &&
