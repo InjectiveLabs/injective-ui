@@ -15,6 +15,16 @@ import {
   connectTurnkeyGoogle
 } from './turnkey'
 import {
+  connectLedger,
+  connectTrezor,
+  connectAddress,
+  connectEvmWallet,
+  connectPrivateKey,
+  connectCosmosWallet,
+  connectLedgerCosmos,
+  connectCosmosStation
+} from './connect'
+import {
   checkIsBitGetInstalled,
   checkIsRainbowInstalled,
   checkIsMetamaskInstalled,
@@ -32,22 +42,6 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
-import {
-  connectLeap,
-  connectNinji,
-  connectKeplr,
-  connectBitGet,
-  connectLedger,
-  connectTrezor,
-  connectAddress,
-  connectRainbow,
-  connectMetamask,
-  connectOkxWallet,
-  connectPrivateKey,
-  connectLedgerCosmos,
-  connectPhantomWallet,
-  connectCosmosStation
-} from './connect'
 import { web3GatewayService } from '../../Service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import {
@@ -75,6 +69,7 @@ type WalletStoreState = {
   autoSign?: AutoSign
   hwAddresses: string[]
   queueStatus: StatusType
+  rabbyInstalled: boolean
   injectiveAddress: string
   bitGetInstalled: boolean
   rainbowInstalled: boolean
@@ -107,6 +102,7 @@ const initialStateFactory = (): WalletStoreState => ({
   bitGetInstalled: false,
   addressConfirmation: '',
   wallet: Wallet.Metamask,
+  rabbyInstalled: false,
   rainbowInstalled: false,
   phantomInstalled: false,
   metamaskInstalled: false,
@@ -208,19 +204,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
-    connectLeap,
-    connectNinji,
-    connectKeplr,
-    connectBitGet,
     connectLedger,
     connectTrezor,
     connectAddress,
-    connectRainbow,
-    connectMetamask,
-    connectOkxWallet,
+    connectEvmWallet,
     connectPrivateKey,
+    connectCosmosWallet,
     connectLedgerCosmos,
-    connectPhantomWallet,
     connectCosmosStation,
     checkIsBitGetInstalled,
     checkIsRainbowInstalled,

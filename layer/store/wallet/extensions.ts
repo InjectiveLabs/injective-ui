@@ -33,6 +33,14 @@ export const checkIsPhantomWalletInstalled = async () => {
   })
 }
 
+export const checkIsRabbyWalletInstalled = async () => {
+  const walletStore = useSharedWalletStore()
+
+  walletStore.$patch({
+    rabbyInstalled: await !!getEvmWalletProvider(Wallet.Rabby)
+  })
+}
+
 export const checkIsTrustWalletInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
