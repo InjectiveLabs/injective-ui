@@ -20,7 +20,7 @@ import {
   connectAddress,
   connectEvmWallet,
   connectPrivateKey,
-  connectCosmosWallet,
+  // connectCosmosWallet,
   connectLedgerCosmos,
   connectCosmosStation
 } from './connect'
@@ -51,7 +51,8 @@ import {
   validateEvmWallet,
   validateCosmosWallet,
   autoSignWalletStrategy,
-  autoSignMsgBroadcaster
+  autoSignMsgBroadcaster,
+  confirmCosmosWalletAddress
 } from '../../WalletService'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
@@ -181,6 +182,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         !!state.address && !!state.addressConfirmation && !!state.session
       const hasAddresses = state.addresses.length > 0
 
+      console.log({
+        addressConnectedAndConfirmed,
+        hasAddresses,
+        address: state.address,
+        addressConfirmation: state.addressConfirmation,
+        session: state.session,
+        injectiveAddress: state.injectiveAddress,
+        walletConnectStatus: state.walletConnectStatus
+      })
+
       return (
         state.walletConnectStatus !== WalletConnectStatus.connecting &&
         hasAddresses &&
@@ -209,7 +220,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     connectAddress,
     connectEvmWallet,
     connectPrivateKey,
-    connectCosmosWallet,
     connectLedgerCosmos,
     connectCosmosStation,
     checkIsBitGetInstalled,
@@ -218,6 +228,38 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     checkIsOkxWalletInstalled,
     checkIsTrustWalletInstalled,
     checkIsPhantomWalletInstalled,
+    connectCosmosWallet:async (wallet: Wallet) => {
+      const walletStore = useSharedWalletStore()
+
+      await walletStore.connectWallet(wallet)
+
+      const injectiveAddresses = await getAddresses()
+      const [injectiveAddress] = injectiveAddresses
+      const session = await walletStrategy.getSessionOrConfirm()
+
+      await confirmCosmosWalletAddress(wallet, injectiveAddress)
+
+      console.log({
+        session,
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
+      })
+
+      walletStore.$patch({
+        session,
+        injectiveAddress,
+        addresses: injectiveAddresses,
+        address: getEthereumAddress(injectiveAddress),
+        addressConfirmation:
+          await walletStrategy.getSessionOrConfirm(injectiveAddress)
+      })
+
+      await walletStore.onConnect()
+    },
+
 
     connectMagic,
     submitTurnkeyOTP,

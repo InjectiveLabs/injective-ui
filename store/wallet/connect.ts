@@ -41,6 +41,15 @@ export const connectCosmosWallet = async (wallet: Wallet) => {
 
   await confirmCosmosWalletAddress(wallet, injectiveAddress)
 
+  console.log({
+    session,
+    injectiveAddress,
+    addresses: injectiveAddresses,
+    address: getEthereumAddress(injectiveAddress),
+    addressConfirmation:
+      await walletStrategy.getSessionOrConfirm(injectiveAddress)
+  })
+
   walletStore.$patch({
     session,
     injectiveAddress,
