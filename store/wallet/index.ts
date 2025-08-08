@@ -1,19 +1,22 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { connectMagic, queryMagicExistingUser } from './magic'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
-import {
-  IS_HELIX,
-  IS_DEVNET,
-  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-} from '../../utils/constant'
 import {
   submitTurnkeyOTP,
   initTurnkeyGoogle,
   getEmailTurnkeyOTP,
   connectTurnkeyGoogle
 } from './turnkey'
+import {
+  getAddresses,
+  walletStrategy,
+  msgBroadcaster,
+  validateEvmWallet,
+  validateCosmosWallet,
+  autoSignWalletStrategy,
+  autoSignMsgBroadcaster
+} from '../../WalletService'
 import {
   checkIsBitGetInstalled,
   checkIsRainbowInstalled,
@@ -22,6 +25,11 @@ import {
   checkIsTrustWalletInstalled,
   checkIsPhantomWalletInstalled
 } from './extensions'
+import {
+  IS_HELIX,
+  IS_DEVNET,
+  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
+} from '../../utils/constant'
 import {
   MsgGrant,
   PrivateKey,
@@ -33,16 +41,9 @@ import {
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
 import { web3GatewayService } from '../../Service'
+import { connectMagic, queryMagicExistingUser } from './magic'
+import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
-import {
-  getAddresses,
-  walletStrategy,
-  msgBroadcaster,
-  validateEvmWallet,
-  validateCosmosWallet,
-  autoSignWalletStrategy,
-  autoSignMsgBroadcaster
-} from '../../WalletService'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
