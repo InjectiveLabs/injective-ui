@@ -41,7 +41,8 @@ import {
   validateEvmWallet,
   validateCosmosWallet,
   autoSignWalletStrategy,
-  autoSignMsgBroadcaster
+  autoSignMsgBroadcaster,
+  confirmCosmosWalletAddress
 } from '../../WalletService'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
@@ -170,6 +171,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const addressConnectedAndConfirmed =
         !!state.address && !!state.addressConfirmation && !!state.session
       const hasAddresses = state.addresses.length > 0
+
+      console.log({
+        addressConnectedAndConfirmed,
+        hasAddresses,
+        address: state.address,
+        addressConfirmation: state.addressConfirmation,
+        session: state.session,
+        injectiveAddress: state.injectiveAddress,
+        walletConnectStatus: state.walletConnectStatus
+      })
 
       return (
         state.walletConnectStatus !== WalletConnectStatus.connecting &&
