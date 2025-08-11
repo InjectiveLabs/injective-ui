@@ -60,7 +60,7 @@ export const useSharedTokenStore = defineStore('sharedToken', {
       return Object.values(tokenStaticFactory.denomVerifiedMap)
     },
 
-    verifiedTokensFromSupply: (state) => {
+    supplyTokensWithMetadata: (state) => {
       return Object.entries(state.supplyMap).reduce((list, [denom, _]) => {
         const token = tokenStaticFactory.toToken(denom)
 
