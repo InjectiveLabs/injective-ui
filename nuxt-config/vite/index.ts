@@ -128,6 +128,7 @@ export default defineConfig({
                 'js-sha3',
                 'js-base64',
                 'alchemy-sdk',
+                'floating-vue',
                 '@solana/web3.js',
                 '@ethersproject/bytes',
                 '@wormhole-foundation/sdk',
