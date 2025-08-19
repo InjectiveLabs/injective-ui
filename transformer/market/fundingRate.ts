@@ -1,9 +1,9 @@
-import {
-  type PerpetualMarketInfo,
-  type PerpetualMarketFunding
-} from '@injectivelabs/sdk-ts'
-import { BigNumberInBase } from '@injectivelabs/utils'
 import { ZERO_IN_BASE } from './../../utils/constant'
+import { BigNumberInBase } from '@injectivelabs/utils'
+import type {
+  PerpetualMarketInfo,
+  PerpetualMarketFunding
+} from '@injectivelabs/sdk-ts'
 
 export const getTwapEst = ({
   info,

@@ -128,6 +128,7 @@ export enum NuxtUiIcons {
   Eye = 'heroicons:eye-16-solid',
   EyeSlash = 'heroicons:eye-slash-solid',
   Facebook = 'ic:baseline-facebook',
+  Fire = 'ic:outline-whatshot',
   File = 'bi:file-text-fill',
   FileOutline = 'lucide:file-text',
   Filter = 'fluent:filter-32-filled',

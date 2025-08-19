@@ -86,7 +86,7 @@ const MITO_DEVNET_API_ENDPOINT = 'https://devnet.api.ninja.injective.dev'
 const MITO_TESTNET_API_ENDPOINT =
   'https://k8s.testnet.mito.grpc-web.injective.network'
 const MITO_MAINNET_API_ENDPOINT =
-  'https://k8s.global.mainnet.mito.grpc-web.injective.network'
+  'https://k8s.mainnet.mito.grpc-web.injective.network'
 
 export const MITO_API_ENDPOINTS: Record<Network, string> = {
   [Network.Local]: MITO_DEVNET_API_ENDPOINT,
