@@ -21,9 +21,9 @@ import type {
   JsonHelixCategory
 } from './../types'
 
-const CLOUD_FRONT_URL = 'https://d36789lqgasyke.cloudfront.net'
-// const STAGING_CLOUD_FRONT_URL = 'https://d1baot60r65stl.cloudfront.net'
-const client = new HttpClient(CLOUD_FRONT_URL, {
+// const CLOUD_FRONT_URL = 'https://d36789lqgasyke.cloudfront.net'
+const STAGING_CLOUD_FRONT_URL = 'https://d1baot60r65stl.cloudfront.net'
+const client = new HttpClient(STAGING_CLOUD_FRONT_URL, {
   headers: {
     'Cache-Control': 'max-age=0'
   }
