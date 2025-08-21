@@ -1437,8 +1437,8 @@ packages:
     resolution: {integrity: sha512-HjA8x/U/Q78HRRe19yh8HVKoZ+Iaoo3YZjakJYxR+rw52NHo6jM+VE9b8+7ygkCFXl/EHID5wh/MkXaE/jGyYw==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
-  '@keplr-wallet/types@0.12.263':
-    resolution: {integrity: sha512-YUe+I4d/0N95dxRqQN3vdobKjT15FsF2PMTS0+tXoOFHC5X7TOcTLfiAF/u5LbgpdCJjcrsnUNnUgxtsbi5GLw==}
+  '@keplr-wallet/types@0.12.264':
+    resolution: {integrity: sha512-A/wbaarLQzNAc9Pv/gGuAc8ni/+rosoD4KY/9EqQ+V0Pa1wh3gTVH6P5zrqKvJFI08G3wpsXDwB706CdePYwNA==}
     peerDependencies:
       starknet: ^7
 
@@ -10441,7 +10441,7 @@ snapshots:
       '@injectivelabs/ts-types': 1.16.9
       '@injectivelabs/utils': 1.16.9
       '@injectivelabs/wallet-base': 1.16.9(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(utf-8-validate@5.0.10)
-      '@keplr-wallet/types': 0.12.263(starknet@7.6.4)
+      '@keplr-wallet/types': 0.12.264(starknet@7.6.4)
       eventemitter3: 5.0.1
     transitivePeerDependencies:
       - '@types/react'
@@ -10502,7 +10502,7 @@ snapshots:
       '@injectivelabs/ts-types': 1.16.9
       '@injectivelabs/utils': 1.16.9
       '@injectivelabs/wallet-base': 1.16.9(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(utf-8-validate@5.0.10)
-      '@keplr-wallet/types': 0.12.263(starknet@7.6.4)
+      '@keplr-wallet/types': 0.12.264(starknet@7.6.4)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -10944,7 +10944,7 @@ snapshots:
       '@json-rpc-tools/types': 1.7.6
       '@pedrouid/environment': 1.0.1
 
-  '@keplr-wallet/types@0.12.263(starknet@7.6.4)':
+  '@keplr-wallet/types@0.12.264(starknet@7.6.4)':
     dependencies:
       long: 4.0.0
       starknet: 7.6.4

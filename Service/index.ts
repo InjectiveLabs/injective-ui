@@ -202,7 +202,7 @@ export const getIndexerRestExplorerApi = () =>
 export const getIndexerRestDerivativeChronosApi = () =>
   lazyImportSdkTs<IndexerRestDerivativesChronosApi>({
     className: 'IndexerRestDerivativesChronosApi',
-    endpoint: `${ENDPOINTS.chart || ENDPOINTS.chronos},/api/chart/v1/derivative`
+    endpoint: `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/derivative`
   })
 
 export const getIndexerRestSpotChronosApi = () =>
