@@ -10,6 +10,8 @@ import {
 
 const props = withDefaults(
   defineProps<{
+    dataCy?: string
+    cyValue?: string
     decimals?: number
     useSubscript?: boolean
     noTrailingZeros?: boolean
@@ -115,7 +117,7 @@ const formattedAmount = computed(() => {
 </script>
 
 <template>
-  <span>
+  <span :data-cy="props.dataCy" :cy-value="props.cyValue">
     <span v-if="isNegative">-</span>
     <slot name="prefix" />
 

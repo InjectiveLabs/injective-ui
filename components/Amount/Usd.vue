@@ -4,6 +4,8 @@ import { BigNumber, type BigNumberInBase } from '@injectivelabs/utils'
 
 withDefaults(
   defineProps<{
+    dataCy?: string
+    cyValue?: string
     hideDecimals?: boolean
     shouldAbbreviate?: boolean
     roundingMode?: BigNumber.RoundingMode
@@ -20,6 +22,8 @@ withDefaults(
   <SharedAmountBase
     v-bind="{
       amount,
+      dataCy,
+      cyValue,
       roundingMode,
       shouldAbbreviate,
       decimals: hideDecimals ? 0 : DEFAULT_USD_DECIMALS

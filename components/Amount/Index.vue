@@ -8,6 +8,8 @@ import {
 
 const props = withDefaults(
   defineProps<{
+    dataCy?: string
+    cyValue?: string
     decimals?: number
     useSubscript?: boolean
     noTrailingZeros?: boolean
@@ -43,6 +45,8 @@ const decimals = computed(() => {
   <SharedAmountBase
     v-bind="{
       amount,
+      dataCy,
+      cyValue,
       decimals,
       roundingMode,
       useSubscript,
