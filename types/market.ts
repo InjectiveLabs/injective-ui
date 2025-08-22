@@ -94,4 +94,8 @@ export interface SharedUiDerivativeMarket
   minNotionalInToken: string
   priceTensMultiplier: number
   quantityTensMultiplier: number
+  expiryFuturesMarketInfo?: {
+    expirationTimestamp: number
+    settlementPrice: string
+  }
 }
