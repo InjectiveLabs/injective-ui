@@ -1,17 +1,11 @@
 <script lang="ts" setup>
-import { IS_HELIX } from './../utils/constant'
+import { defineAsyncComponent } from 'vue'
 
-let Datepicker: any = null
-if (!IS_HELIX) {
-  // @ts-ignore
-  import('@vuepic/vue-datepicker').then((module) => {
-    Datepicker = module.default
-  })
-}
+const Datepicker = defineAsyncComponent(() => import('@vuepic/vue-datepicker'))
 </script>
 
 <template>
-  <Datepicker v-if="!IS_HELIX && Datepicker" v-bind="$attrs">
+  <Datepicker v-bind="$attrs">
     <template #input-icon>
       <slot name="input-icon" />
     </template>
