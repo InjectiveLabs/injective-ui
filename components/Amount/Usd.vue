@@ -7,6 +7,7 @@ withDefaults(
     dataCy?: string
     cyValue?: string
     hideDecimals?: boolean
+    useSubscript?: boolean
     shouldAbbreviate?: boolean
     roundingMode?: BigNumber.RoundingMode
     amount: string | number | BigNumberInBase
@@ -24,6 +25,7 @@ withDefaults(
       amount,
       dataCy,
       cyValue,
+      useSubscript,
       roundingMode,
       shouldAbbreviate,
       decimals: hideDecimals ? 0 : DEFAULT_USD_DECIMALS
