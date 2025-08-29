@@ -96,7 +96,7 @@ describe('Amount/Index.vue', () => {
       })
 
       expect(component.html()).toMatchInlineSnapshot(
-        `"<span><!--v-if--><span>0</span></span>"`
+        `"<span><!--v-if--><span>0.0<sub>2</sub>1234</span></span>"`
       )
     })
 
@@ -112,6 +112,18 @@ describe('Amount/Index.vue', () => {
       expect(component.html()).toMatchInlineSnapshot(
         `"<span><!--v-if--><span>0.0<sub>3</sub>1234</span></span>"`
       )
+    })
+
+    it('uses a subscript for small numbers when useSubscript is true and decimals is smaller than subscriptThresholdDecimals', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          decimals: 2,
+          useSubscript: true,
+          amount: '0.001234'
+        }
+      })
+
+      expect(component.html()).toMatchInlineSnapshot(`"<span><!--v-if--><span>0.0<sub>2</sub>1234</span></span>"`)
     })
   })
 

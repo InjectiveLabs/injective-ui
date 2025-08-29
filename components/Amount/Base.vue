@@ -81,7 +81,7 @@ const subscriptedAmount = computed(() => {
   }
 
   if (
-    nOfZeros > props.decimals ||
+    nOfZeros >= props.decimals ||
     nOfZeros > props.subscriptThresholdDecimals
   ) {
     let subscriptAmount = new BigNumberInBase(decimalPart.replace(/^0+/, ''))
