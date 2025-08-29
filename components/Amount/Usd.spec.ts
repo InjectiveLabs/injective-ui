@@ -326,6 +326,50 @@ describe('Amount/Usd.vue', () => {
     })
   })
 
+  describe('subscript behavior', () => {
+    it('uses subscript for very small numbers when useSubscript is true', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '0.001234',
+          useSubscript: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.html()).toMatchInlineSnapshot(`"<span><!--v-if-->$<span>0.0<sub>2</sub>1234</span></span>"`)
+    })
+
+    it('does not use subscript when useSubscript is false', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '0.001234',
+          useSubscript: false
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.html()).toMatchInlineSnapshot(`"<span><!--v-if-->$<span>&lt;0.01</span></span>"`)
+    })
+
+    it('works with negative numbers and subscript', async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: '-0.001234',
+          useSubscript: true
+        },
+        slots: {
+          prefix: () => '$'
+        }
+      })
+
+      expect(component.html()).toMatchInlineSnapshot(`"<span><span>-</span>$<span>0.0<sub>2</sub>1234</span></span>"`)
+    })
+  })
+
   describe('slot behavior', () => {
     it('works without prefix slot', async () => {
       const component = await mountSuspended(Usd, {
