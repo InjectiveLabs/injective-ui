@@ -81,8 +81,7 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
       return uiMarkets.filter(
         (market) =>
           market &&
-          !MARKET_IDS_TO_HIDE.includes(market.marketId) &&
-          market.marketStatus === SharedMarketStatus.Active
+          !MARKET_IDS_TO_HIDE.includes(market.marketId)
       ) as SharedUiSpotMarket[]
     }
   },

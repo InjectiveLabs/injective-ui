@@ -97,8 +97,7 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
       return uiMarkets.filter(
         (market) =>
           market &&
-          !MARKET_IDS_TO_HIDE.includes(market.marketId) &&
-          market.marketStatus === SharedMarketStatus.Active
+          !MARKET_IDS_TO_HIDE.includes(market.marketId)
       ) as SharedUiDerivativeMarket[]
     }
   },
