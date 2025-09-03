@@ -150,6 +150,7 @@ export const msgTypeMap = Object.fromEntries(
       'Batch Create Derivative Limit Orders',
 
     'cosmos.gov.v1.MsgVote': 'Vote',
+    'cosmos.staking.v1beta1.MsgTransferDelegation': 'Transfer Delegation',
     'cosmos.distribution.v1beta1.MsgFundCommunityPool': 'Fund Community Pool',
     'cosmos.distribution.v1beta1.MsgSetWithdrawAddress': 'Set Withdraw Address'
   }).map(([k, v]) => [
