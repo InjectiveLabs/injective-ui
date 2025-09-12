@@ -26,7 +26,8 @@ const transformMarket = (
     marketId: market.marketId
   })
 
-  const [baseTokenSymbol] = slug.split('-')
+  const baseTokenSymbol = slug.endsWith('-usdt-perp') ? slug.replace('-usdt-perp', '') : slug.split('-')[0]
+
   const baseToken = tokenStore.tokenByDenomOrSymbol(
     baseTokenSymbol.toUpperCase()
   )
@@ -58,6 +59,8 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
         const formattedMarket = transformMarket(market)
 
         if (!formattedMarket) {
+          console.log(market)
+
           return undefined
         }
 
@@ -82,6 +85,8 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
         const formattedMarket = transformMarket(market)
 
         if (!formattedMarket) {
+          console.log(market)
+
           return undefined
         }
 
