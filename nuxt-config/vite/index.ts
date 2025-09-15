@@ -6,6 +6,7 @@ import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
 import {
   IS_HUB,
   IS_HELIX,
+  IS_MITO,
   IS_BRIDGE,
   IS_EXPLORER,
   IS_ADMIN_UI,
@@ -122,6 +123,7 @@ export default defineConfig({
           '@injectivelabs/wallet-cosmostation',
           '@injectivelabs/wallet-cosmos-strategy',
           ...(isLocalLayer ? [] : additionalDeps),
+          ...(IS_MITO ? ['floating-vue'] : []),
           ...(IS_BRIDGE
             ? [
                 'axios',

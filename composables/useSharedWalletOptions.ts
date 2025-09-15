@@ -1,8 +1,8 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { isCosmosWalletInstalled } from '@injectivelabs/wallet-cosmos'
 import { isCosmosStationWalletInstalled } from '@injectivelabs/wallet-cosmostation'
-import { IS_DEVNET, IS_HUB, IS_HELIX } from './../utils/constant'
-import type { SharedWalletOption } from './../types'
+import { IS_DEVNET, IS_MAINNET, IS_HELIX } from '../utils/constant'
+import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {
   const sharedWalletStore = useSharedWalletStore()
@@ -11,15 +11,15 @@ export function useSharedWalletOptions() {
   () =>
     [
       {
-        wallet: Wallet.Keplr,
-        downloadLink: !isCosmosWalletInstalled(Wallet.Keplr)
-          ? 'https://www.keplr.app/download'
-          : undefined
-      },
-      {
         wallet: Wallet.Metamask,
         downloadLink: !sharedWalletStore.metamaskInstalled
           ? 'https://metamask.io/download'
+          : undefined
+      },
+      {
+        wallet: Wallet.Keplr,
+        downloadLink: !isCosmosWalletInstalled(Wallet.Keplr)
+          ? 'https://www.keplr.app/download'
           : undefined
       },
       IS_DEVNET
@@ -58,21 +58,21 @@ export function useSharedWalletOptions() {
         },
         { wallet: Wallet.Ledger },
         { wallet: Wallet.TrezorBip32 },
-        {
-          wallet: Wallet.Cosmostation,
-          downloadLink: !isCosmosWalletInstalled(Wallet.Cosmostation)
-            ? 'https://www.cosmostation.io/wallet'
-            : undefined
-        },
-        { wallet: Wallet.Phantom },
+        // {
+        //   wallet: Wallet.TrustWallet,
+        //   downloadLink: !sharedWalletStore.trustWalletInstalled
+        //     ? 'https://trustwallet.com/browser-extension/'
+        //     : undefined
+        // },
         {
           wallet: Wallet.Cosmostation,
           downloadLink: !isCosmosStationWalletInstalled()
             ? 'https://www.cosmostation.io/wallet'
             : undefined
         },
-        { wallet: Wallet.WalletConnect },
-        IS_DEVNET && IS_HELIX
+        { wallet: Wallet.Phantom },
+        IS_MAINNET ? { wallet: Wallet.WalletConnect } : undefined,
+        !IS_HELIX || IS_DEVNET
           ? undefined
           : {
               beta: true,
@@ -103,7 +103,7 @@ export function useSharedWalletOptions() {
         sharedWalletStore.checkIsRainbowInstalled(),
         sharedWalletStore.checkIsMetamaskInstalled(),
         sharedWalletStore.checkIsOkxWalletInstalled(),
-        sharedWalletStore.checkIsTrustWalletInstalled(),
+        // sharedWalletStore.checkIsTrustWalletInstalled(),
         sharedWalletStore.checkIsPhantomWalletInstalled()
       ]
     )
