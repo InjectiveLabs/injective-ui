@@ -138,7 +138,7 @@ export const msgTypeMap = Object.fromEntries(
       'Create Binary Options Limit Order',
     [MsgType.MsgBatchCancelBinaryOptionsOrders]:
       'Batch Cancel Binary Options Orders',
-    [MsgType.MsgCreateBinaryOptionsMarketOrder]:
+    [MsgType.MsgCreateBinaryOptionsMarketOrderV2]:
       'Create Binary Options Market Order',
     [MsgType.MsgAdminUpdateBinaryOptionsMarket]:
       'Admin Update Binary Options Market',

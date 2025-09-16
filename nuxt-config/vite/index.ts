@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
 import {
   IS_HUB,
   IS_HELIX,
@@ -44,10 +43,13 @@ const additionalDeps = [
 ]
 
 export default defineConfig({
+  define: {
+    global: 'globalThis'
+  },
+
   plugins: [
     tsconfigPaths(),
     visualizer({ open: isAnalyzeBundle }),
-    nodePolyfills({ protocolImports: true })
   ],
 
   server: {
@@ -191,5 +193,5 @@ export default defineConfig({
 }) as ViteConfig
 
 export const vitePlugins = [
-  { ssr: false, src: resolve('./../../nuxt-config/buffer.ts') }
+  { ssr: false, src: resolve('./../../nuxt-config/polyfill.ts') }
 ]

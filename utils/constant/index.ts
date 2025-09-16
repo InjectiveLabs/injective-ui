@@ -1,5 +1,6 @@
 import {
   BigNumber,
+  toBigNumber,
   BigNumberInWei,
   BigNumberInBase
 } from '@injectivelabs/utils'
@@ -32,6 +33,7 @@ export const NUMBER_REGEX = new RegExp(/^-?(0|[1-9]\d*)?(\.\d+)?$/)
 export const GWEI_IN_WEI: BigNumber = new BigNumber(1000000000)
 export const DEFAULT_GAS_PRICE = new BigNumber(120).times(GWEI_IN_WEI)
 export const DEFAULT_MAINNET_GAS_PRICE = new BigNumber(30).times(GWEI_IN_WEI)
+export const SECONDS_IN_A_DAY = toBigNumber(60 * 60 * 24)
 export const INJ_REQUIRED_FOR_GAS = 0.005
 
 export const UTC_TIMEZONE = 'Etc/Greenwich'
