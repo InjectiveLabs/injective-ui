@@ -10,19 +10,14 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   vite,
-  bugsnag,
   plugins: vitePlugins,
   devtools: { enabled: true },
 
-  alias: { '@shared': resolve('./') },
+  alias: { '@shared': resolve('./app') },
 
   // typescript: {
   //   typeCheck: 'build'
   // },
-
-  pinia: {
-    storesDirs: ['./store/*.ts', './store/*/index.ts']
-  },
 
   ignore: isProduction ? ['pages/sandbox.vue'] : [],
 
@@ -31,20 +26,24 @@ export default defineNuxtConfig({
     server: false
   },
 
-  components: [{ prefix: 'Shared', path: resolve('./components') }],
+  components: [{ prefix: 'Shared', path: resolve('./app/components') }],
 
+  // todo: decide the solution & remove non-needed ones
   imports: {
-    dirs: ['composables/**', 'store/**', 'store/**/index.ts']
+    dirs: [
+      'app/store/**',
+      'app/composables/**',
+    ]
   },
 
   modules: [
-    '@pinia/nuxt',
+    ['@pinia/nuxt', { storesDirs: ['./app/store'] }],
+    // ['@pinia/nuxt', { storesDirs: ['./app/store/*.ts', './app/store/*/index.ts'] }],
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
-    '@nuxt/devtools',
     'nuxt-vitalizer',
     '@nuxt/test-utils/module',
-    '@injectivelabs/nuxt-bugsnag'
+    ['@injectivelabs/nuxt-bugsnag', bugsnag],
   ]
 })

@@ -10,7 +10,7 @@ import {
   IS_EXPLORER,
   IS_ADMIN_UI,
   IS_TRADING_UI
-} from './../../utils/constant'
+} from '../../app/utils/constant'
 import type { ViteConfig } from '@nuxt/schema'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
@@ -189,5 +189,5 @@ export default defineConfig({
 }) as ViteConfig
 
 export const vitePlugins = [
-  { ssr: false, src: resolve('./../../nuxt-config/buffer.ts') }
+  { ssr: false, src: resolve('../../nuxt-config/buffer.ts') }
 ]
