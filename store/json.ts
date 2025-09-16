@@ -64,7 +64,6 @@ const getNetworkName = () => {
 
 export const useSharedJsonStore = defineStore('sharedJson', {
   state: (): JsonStoreState => ({
-    counter: 0,
     wasmQuery: {},
     swapRoutes: [],
     validators: [],

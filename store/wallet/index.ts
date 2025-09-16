@@ -174,16 +174,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         !!state.address && !!state.addressConfirmation && !!state.session
       const hasAddresses = state.addresses.length > 0
 
-      console.log({
-        addressConnectedAndConfirmed,
-        hasAddresses,
-        address: state.address,
-        addressConfirmation: state.addressConfirmation,
-        session: state.session,
-        injectiveAddress: state.injectiveAddress,
-        walletConnectStatus: state.walletConnectStatus
-      })
-
       return (
         state.walletConnectStatus !== WalletConnectStatus.connecting &&
         hasAddresses &&
