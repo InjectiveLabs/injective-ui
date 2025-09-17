@@ -83,8 +83,6 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
         const formattedMarket = transformMarket(market)
 
         if (!formattedMarket) {
-          console.log(market)
-
           return undefined
         }
 

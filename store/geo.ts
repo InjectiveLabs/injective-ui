@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { HttpRequestException } from '@injectivelabs/exceptions'
-import { HttpClient, SECONDS_IN_A_DAY } from '@injectivelabs/utils'
+import { HttpClient } from '@injectivelabs/utils'
 import {
   GOOGLE_MAPS_KEY,
+  SECONDS_IN_A_DAY,
   VPN_CHECKS_ENABLED,
   PROXY_DETECTION_API_KEY
 } from './../utils/constant'
