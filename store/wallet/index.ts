@@ -45,6 +45,7 @@ import { web3GatewayService } from '../../Service'
 import { connectMagic, queryMagicExistingUser } from './magic'
 import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
+import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
@@ -332,13 +333,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        [
+        ([
           Wallet.BitGet,
           Wallet.Phantom,
           Wallet.Metamask,
           Wallet.OkxWallet,
           Wallet.TrustWallet
-        ].includes(walletStore.wallet)
+        ] as WalletType[]).includes(walletStore.wallet)
       ) {
         await validateEvmWallet({
           wallet: walletStore.wallet,
@@ -347,13 +348,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        [
+        ([
           Wallet.Leap,
           Wallet.Ninji,
           Wallet.Keplr,
           Wallet.OWallet,
           Wallet.Cosmostation
-        ].includes(walletStore.wallet)
+        ] as WalletType[]).includes(walletStore.wallet)
       ) {
         await validateCosmosWallet({
           wallet: walletStore.wallet,
