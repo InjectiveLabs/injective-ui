@@ -1,9 +1,4 @@
 {
-  "extends": "./nuxt/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "types": []
-  },
   // todo: decide if need
   // "files": [],
   // "references": [
@@ -20,8 +15,5 @@
   //     "path": "./.nuxt/tsconfig.node.json"
   //   }
   // ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "extends": "./.nuxt/tsconfig.json"
 }
