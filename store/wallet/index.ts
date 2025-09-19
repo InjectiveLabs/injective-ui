@@ -18,6 +18,7 @@ import {
   autoSignMsgBroadcaster
 } from '../../WalletService'
 import {
+  checkIsRabbyInstalled,
   checkIsBitGetInstalled,
   checkIsRainbowInstalled,
   checkIsMetamaskInstalled,
@@ -195,6 +196,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
+    checkIsRabbyInstalled,
     checkIsBitGetInstalled,
     checkIsRainbowInstalled,
     checkIsMetamaskInstalled,
