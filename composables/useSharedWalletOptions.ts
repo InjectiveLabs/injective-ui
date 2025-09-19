@@ -42,6 +42,12 @@ export function useSharedWalletOptions() {
             ? 'https://rainbow.me/download'
             : undefined
         },
+        {
+          wallet: Wallet.Rabby,
+          downloadLink: !sharedWalletStore.rabbyInstalled
+            ? 'https://rabby.io/'
+            : undefined
+        },
         IS_DEVNET
           ? undefined
           : {
@@ -103,6 +109,7 @@ export function useSharedWalletOptions() {
         sharedWalletStore.checkIsRainbowInstalled(),
         sharedWalletStore.checkIsMetamaskInstalled(),
         sharedWalletStore.checkIsOkxWalletInstalled(),
+        sharedWalletStore.checkIsRabbyWalletInstalled(),
         // sharedWalletStore.checkIsTrustWalletInstalled(),
         sharedWalletStore.checkIsPhantomWalletInstalled()
       ]

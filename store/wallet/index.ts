@@ -23,6 +23,7 @@ import {
   checkIsMetamaskInstalled,
   checkIsOkxWalletInstalled,
   checkIsTrustWalletInstalled,
+  checkIsRabbyWalletInstalled,
   checkIsPhantomWalletInstalled
 } from './extensions'
 import {
@@ -200,6 +201,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     checkIsMetamaskInstalled,
     checkIsOkxWalletInstalled,
     checkIsTrustWalletInstalled,
+    checkIsRabbyWalletInstalled,
     checkIsPhantomWalletInstalled,
 
     connectMagic,
