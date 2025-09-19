@@ -24,6 +24,7 @@ import {
   checkIsOkxWalletInstalled,
   checkIsRabbyWalletInstalled,
   checkIsTrustWalletInstalled,
+  checkIsRabbyWalletInstalled,
   checkIsPhantomWalletInstalled
 } from './extensions'
 import {
