@@ -156,7 +156,7 @@ export const sharedGetTensMultiplier = (number: number | string): number => {
 
   const [, zerosInTheNumber] = numberToBn.toFixed().split('1')
 
-  return zerosInTheNumber.length
+  return zerosInTheNumber?.length || 0
 }
 
 export const sharedEllipsisFormatText = (text: string, length = 20): string => {

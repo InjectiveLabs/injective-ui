@@ -9,7 +9,7 @@ onMounted(() => {
   height.value = childEl.value?.clientHeight || 0
 
   observer = new ResizeObserver((entries) => {
-    height.value = entries[0].contentRect.height
+    height.value = entries?.[0]?.contentRect?.height || 0
   })
 
   observer.observe(childEl.value as Element)

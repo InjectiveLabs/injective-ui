@@ -28,7 +28,6 @@ export default defineNuxtConfig({
 
   components: [{ prefix: 'Shared', path: resolve('./app/components') }],
 
-  // todo: decide the solution & remove non-needed ones
   imports: {
     dirs: [
       'app/store/**',
@@ -36,14 +35,19 @@ export default defineNuxtConfig({
     ]
   },
 
+  pinia: {
+    storesDirs: ["app/store/**"],
+  },
+
   modules: [
-    ['@pinia/nuxt', { storesDirs: ['./app/store'] }],
-    // ['@pinia/nuxt', { storesDirs: ['./app/store/*.ts', './app/store/*/index.ts'] }],
+    '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     'nuxt-vitalizer',
     '@nuxt/test-utils/module',
     ['@injectivelabs/nuxt-bugsnag', bugsnag],
-  ]
+  ],
+
+
 })
