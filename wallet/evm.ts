@@ -3,10 +3,11 @@ import { Wallet } from '@injectivelabs/wallet-base'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 import {
   updateEvmNetwork,
+  getRabbyProvider,
   getBitGetProvider,
   getMetamaskProvider,
   getOkxWalletProvider,
-  getTrustWalletProvider
+  getTrustWalletProvider,
 } from '@injectivelabs/wallet-evm'
 import {
   ErrorType,
@@ -39,6 +40,10 @@ export const getEvmWalletProvider = async (wallet: Wallet) => {
 
   if (wallet === Wallet.TrustWallet) {
     return await getTrustWalletProvider()
+  }
+
+  if (wallet === Wallet.Rabby) {
+    return await getRabbyProvider()
   }
 }
 

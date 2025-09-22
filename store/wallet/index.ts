@@ -407,6 +407,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign: undefined,
         turnkeyInjectiveAddress: '',
         queueStatus: StatusType.Idle,
+        rabbyInstalled: walletStore.rabbyInstalled,
         bitGetInstalled: walletStore.bitGetInstalled,
         phantomInstalled: walletStore.phantomInstalled,
         metamaskInstalled: walletStore.metamaskInstalled,
