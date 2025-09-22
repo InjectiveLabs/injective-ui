@@ -149,7 +149,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
           }
 
           Object.assign(selectedNotification, options)
-        } catch  {
+        } catch {
           Object.assign(selectedNotification, options)
         }
       }

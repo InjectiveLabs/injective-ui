@@ -21,7 +21,7 @@ export const isIbcTokenCanonical = (token: TokenStatic) => {
 
   const [channelId] = pathParts
 
-  return canonicalChannelIds.includes(channelId)
+  return canonicalChannelIds.includes(channelId || '')
 }
 
 export const canonicalChannelsToChainListFromInjective =

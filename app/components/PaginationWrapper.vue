@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, PropType } from 'vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   isDisabled: Boolean,

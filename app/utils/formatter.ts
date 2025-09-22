@@ -174,7 +174,7 @@ export const sharedCoinStringToCoins = (coinString: string): Coin[] => {
     const [amount, ...denom] = coin.split(/(\d+)/).filter(Boolean)
 
     return {
-      amount,
+      amount: amount || '',
       denom: denom.join('')
     }
   })

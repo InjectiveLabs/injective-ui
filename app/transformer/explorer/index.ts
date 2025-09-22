@@ -137,8 +137,10 @@ export const getCoins = ({
       const coins = sharedCoinStringToCoins(amount)
 
       coins.forEach((coin) => {
-        if (list[coin.denom]) {
-          list[coin.denom] = list[coin.denom].plus(coin.amount)
+        const listCoin = list[coin.denom]
+
+        if (listCoin) {
+          list[coin.denom] = listCoin.plus(coin.amount)
 
           return
         }

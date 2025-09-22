@@ -21,7 +21,7 @@ export const convertToNumericValue = (value: string, maxDecimals: number) => {
 
   const [wholeValue, decimalValue] = value.split('.')
 
-  const formattedWholeNumber = parseFloat(wholeValue)
+  const formattedWholeNumber = parseFloat(wholeValue || '')
 
   if (formattedWholeNumber > MAXIMUM_ALLOWED_VALUE) {
     return 0

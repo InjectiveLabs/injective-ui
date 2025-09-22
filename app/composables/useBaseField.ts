@@ -1,5 +1,5 @@
 import { useField } from 'vee-validate'
-import { computed, type Ref } from 'vue'
+import type { Ref } from 'vue'
 
 export function useBooleanField({
   name,

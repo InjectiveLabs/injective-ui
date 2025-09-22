@@ -13,7 +13,7 @@ const nameHash = (inputName: string) => {
     const labels = inputName.split('.')
 
     for (let i = labels.length - 1; i >= 0; i -= 1) {
-      const normalizedLabel = normalize(labels[i])
+      const normalizedLabel = normalize(labels[i] || '')
       const labelSha = keccak256(normalizedLabel)
 
       node = keccak256(
@@ -53,7 +53,7 @@ const validateName = (name: string) => {
   }
 
   const blackList =
-    // eslint-disable-next-line no-control-regex,no-misleading-character-class,unicorn/escape-case
+    // eslint-disable-next-line no-control-regex,no-misleading-character-class
     /[\u0000-\u002c\u002e-\u002f\u003a-\u005e\u0060\u007b-\u007f\u200b\u200c\u200d\ufeff]/g
 
   if (blackList.test(name)) {

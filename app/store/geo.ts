@@ -118,7 +118,7 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
         sharedGeoStore.$patch({
           vpnDetected
         })
-      } catch (e: unknown) {
+      } catch {
         sharedGeoStore.$patch({
           vpnDetected: false
         })
@@ -164,14 +164,14 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
 
         const [results] = response.data.results
 
-        const country = results.address_components.find((component) =>
+        const country = results?.address_components.find((component) =>
           component.types.includes('country')
         )
 
         sharedGeoStore.$patch({
           browserCountry: country?.short_name || ''
         })
-      } catch (e: unknown) {
+      } catch {
         // silently throw
       }
     },

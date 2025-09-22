@@ -1,10 +1,10 @@
+import { walletStrategy } from './wallet-strategy'
 import {
   ErrorType,
   UnspecifiedErrorCode,
   CosmosWalletException
 } from '@injectivelabs/exceptions'
-import { Wallet } from '@injectivelabs/wallet-base'
-import { walletStrategy } from './wallet-strategy'
+import type { Wallet } from '@injectivelabs/wallet-base'
 
 export const validateCosmosStationWallet = async ({
   wallet,

@@ -92,7 +92,7 @@ const subscriptedAmount = computed(() => {
       subscriptAmount = subscriptAmount.padEnd(props.subscriptDecimals, '0')
     }
 
-    const integerAmount = new BigNumberInBase(integerPart).toFormat(0)
+    const integerAmount = new BigNumberInBase(integerPart || 0).toFormat(0)
 
     return integerAmount + '.0<sub>' + nOfZeros + '</sub>' + subscriptAmount
   }

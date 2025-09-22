@@ -17,8 +17,8 @@ export interface NotificationOptions {
   key?: string
   title: string
   icon?: string
-  timeout?: number
   txHash?: string
+  timeout?: number
   context?: string // (longer description)
   timeElapsed?: string
   description?: string

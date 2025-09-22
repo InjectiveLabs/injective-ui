@@ -122,64 +122,64 @@ export const getNetworkFromAddress = (address: string): Network => {
 
 const getMainnetNetworkExplorerUrl = (network: Network): string => {
   switch (network) {
+    case Network.Persistence:
+      return 'https://www.mintscan.io/persistence'
+    case Network.EthereumWh:
+      return 'https://etherscan.io'
     case Network.Oraichain:
       return 'https://scan.orai.io'
-    case Network.Migaloo:
-      return 'https://migaloo.explorers.guru'
     case Network.CosmosHub:
       return 'https://www.mintscan.io/cosmos'
     case Network.Chihuahua:
       return 'https://www.mintscan.io/chihuahua'
-    case Network.Axelar:
-      return 'https://www.mintscan.io/axelar'
-    case Network.Evmos:
-      return 'https://www.mintscan.io/evmos'
-    case Network.Persistence:
-      return 'https://www.mintscan.io/persistence'
-    case Network.Osmosis:
-      return 'https://www.mintscan.io/osmosis'
-    case Network.Secret:
-      return 'https://www.mintscan.io/secret'
-    case Network.Stride:
-      return 'https://www.mintscan.io/stride'
-    case Network.Crescent:
-      return 'https://www.mintscan.io/crescent'
     case Network.Sommelier:
       return 'https://www.mintscan.io/sommelier'
-    case Network.Canto:
-      return 'https://www.mintscan.io/canto'
-    case Network.Kava:
-      return 'https://www.mintscan.io/kava'
-    case Network.Noble:
-      return 'https://www.mintscan.io/noble'
+    case Network.Andromeda:
+      return 'https://ping.wildsage.io/andromeda'
+    case Network.Injective:
+      return 'https://injscan.com'
+    case Network.Crescent:
+      return 'https://www.mintscan.io/crescent'
     case Network.Celestia:
       return 'https://www.mintscan.io/celestia'
     case Network.Ethereum:
       return 'https://etherscan.io'
-    case Network.EthereumWh:
-      return 'https://etherscan.io'
     case Network.Arbitrum:
       return 'https://arbiscan.io'
-    case Network.Polygon:
-      return 'https://polygonscan.com'
-    case Network.Solana:
-      return 'https://explorer.solana.com'
-    case Network.Terra:
-      return 'https://finder.terra.money/mainnet'
-    case Network.Andromeda:
-      return 'https://ping.wildsage.io/andromeda'
-    case Network.Saga:
-      return 'https://www.mintscan.io/saga'
-    case Network.Fetch:
-      return 'https://www.mintscan.io/fetchai'
-    case Network.Mantra:
-      return 'https://www.mintscan.io/mantra'
-    case Network.Xion:
-      return 'https://www.mintscan.io/xion'
-    case Network.Injective:
-      return 'https://injscan.com'
     case Network.Wormhole:
       return 'https://bigdipper.live/wormhole'
+    case Network.Migaloo:
+      return 'https://migaloo.explorers.guru'
+    case Network.Osmosis:
+      return 'https://www.mintscan.io/osmosis'
+    case Network.Polygon:
+      return 'https://polygonscan.com'
+    case Network.Axelar:
+      return 'https://www.mintscan.io/axelar'
+    case Network.Secret:
+      return 'https://www.mintscan.io/secret'
+    case Network.Stride:
+      return 'https://www.mintscan.io/stride'
+    case Network.Solana:
+      return 'https://explorer.solana.com'
+    case Network.Mantra:
+      return 'https://www.mintscan.io/mantra'
+    case Network.Evmos:
+      return 'https://www.mintscan.io/evmos'
+    case Network.Canto:
+      return 'https://www.mintscan.io/canto'
+    case Network.Noble:
+      return 'https://www.mintscan.io/noble'
+    case Network.Terra:
+      return 'https://finder.terra.money/mainnet'
+    case Network.Fetch:
+      return 'https://www.mintscan.io/fetchai'
+    case Network.Kava:
+      return 'https://www.mintscan.io/kava'
+    case Network.Saga:
+      return 'https://www.mintscan.io/saga'
+    case Network.Xion:
+      return 'https://www.mintscan.io/xion'
     default:
       return 'https://injscan.com'
   }
@@ -187,38 +187,38 @@ const getMainnetNetworkExplorerUrl = (network: Network): string => {
 
 const getTestNetworkExplorerUrl = (network: Network): string => {
   switch (network) {
-    case Network.Ethereum:
-      return 'https://sepolia.etherscan.io'
+    case Network.EvmosTestnet:
+      return 'https://www.mintscan.io/evmos-testnet'
+    case Network.Persistence:
+      return 'https://www.mintscan.io/persistence-testnet'
+    case Network.XionTestnet:
+      return 'https://explorer.burnt.com/xion-testnet-1'
     case Network.EthereumWh:
+      return 'https://sepolia.etherscan.io'
+    case Network.Injective:
+      return 'https://testnet.explorer.injective.network'
+    case Network.CosmosHub:
+      return 'https://www.mintscan.io/cosmoshub-testnet'
+    case Network.Ethereum:
       return 'https://sepolia.etherscan.io'
     case Network.Arbitrum:
       return 'https://sepolia.arbiscan.io'
     case Network.Polygon:
       return 'https://mumbai.polygonscan.com'
-    case Network.Solana:
-      return 'https://explorer.solana.com/'
-    case Network.Terra:
-      return 'https://finder.terra.money/testnet'
-    case Network.Injective:
-      return 'https://testnet.explorer.injective.network'
-    case Network.CosmosHub:
-      return 'https://www.mintscan.io/cosmoshub-testnet'
-    case Network.Axelar:
-      return 'https://www.mintscan.io/axelar-testnet'
-    case Network.Evmos:
-      return 'https://www.mintscan.io/evmos'
-    case Network.Persistence:
-      return 'https://www.mintscan.io/persistence-testnet'
     case Network.Osmosis:
       return 'https://www.mintscan.io/osmosis-testnet'
-    case Network.XionTestnet:
-      return 'https://explorer.burnt.com/xion-testnet-1'
-    case Network.Kava:
-      return 'https://www.mintscan.io/kava-testnet'
+    case Network.Solana:
+      return 'https://explorer.solana.com/'
+    case Network.Axelar:
+      return 'https://www.mintscan.io/axelar-testnet'
+    case Network.Terra:
+      return 'https://finder.terra.money/testnet'
+    case Network.Evmos:
+      return 'https://www.mintscan.io/evmos'
     case Network.Noble:
       return 'https://www.mintscan.io/noble-testnet'
-    case Network.EvmosTestnet:
-      return 'https://www.mintscan.io/evmos-testnet'
+    case Network.Kava:
+      return 'https://www.mintscan.io/kava-testnet'
     default:
       return 'https://mintscan.io/cosmoshub-testnet'
   }
@@ -234,9 +234,9 @@ export const getNetworkExplorerAccountUrl = (address: string): string => {
 
   const urlPrefix = [
     Network.Solana,
+    Network.Polygon,
     Network.Ethereum,
-    Network.EthereumWh,
-    Network.Polygon
+    Network.EthereumWh
   ].includes(network)
     ? 'address'
     : 'account'

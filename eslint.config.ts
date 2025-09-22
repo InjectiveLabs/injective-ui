@@ -56,6 +56,7 @@ export default withNuxt({
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-function-type': 'off',
     '@typescript-eslint/no-duplicate-enum-values': 'off',
+    '@typescript-eslint/no-extraneous-class': 'off',
     ...perfectionist.configs['recommended-line-length'].rules,
 
     'perfectionist/sort-enums': ['off', orderParams],

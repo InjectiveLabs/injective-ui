@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import JSConfetti from 'js-confetti'
-
 const canvas = ref<HTMLCanvasElement | undefined>()
 
 onMounted(() => {

@@ -6,8 +6,8 @@ import {
   toZeroUiMarketSummary,
   sharedGetDerivativeSlugOverride
 } from '../transformer/market'
-import { SharedMarketStatus } from '../types'
 import { derivativeCacheApi } from '../service'
+import { SharedMarketStatus } from '../types'
 import type { PerpetualMarket } from '@injectivelabs/sdk-ts'
 import type { SharedUiMarketSummary, SharedUiDerivativeMarket } from '../types'
 
@@ -29,7 +29,7 @@ const transformMarket = (
   const baseTokenSymbol = slug.endsWith('-usdt-perp') ? slug.replace('-usdt-perp', '') : slug.split('-')[0]
 
   const baseToken = tokenStore.tokenByDenomOrSymbol(
-    baseTokenSymbol.toUpperCase()
+    baseTokenSymbol ? baseTokenSymbol.toUpperCase() : ''
   )
   const quoteToken = tokenStore.tokenByDenomOrSymbol(market.quoteDenom)
 

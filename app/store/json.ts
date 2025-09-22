@@ -464,7 +464,9 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
         latestBlockHeight = total
         jsonStore.latestBlockHeight = latestBlockHeight
-      } catch {}
+      } catch {
+        // silently throw
+      }
 
       const isValidChainUpgradeConfig =
         typeof config === 'object' &&
