@@ -22,7 +22,6 @@ import {
   checkIsRainbowInstalled,
   checkIsMetamaskInstalled,
   checkIsOkxWalletInstalled,
-  checkIsRabbyWalletInstalled,
   checkIsTrustWalletInstalled,
   checkIsRabbyWalletInstalled,
   checkIsPhantomWalletInstalled
