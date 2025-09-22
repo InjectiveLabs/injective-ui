@@ -22,19 +22,12 @@ export function useSharedWalletOptions() {
           ? 'https://www.keplr.app/download'
           : undefined
       },
-      IS_HELIX ? {
+      {
         wallet: Wallet.Rabby,
         downloadLink: !sharedWalletStore.rabbyInstalled
           ? 'https://rabby.io/'
           : undefined
-      } :  IS_DEVNET
-        ? undefined
-        : {
-            wallet: Wallet.Leap,
-            downloadLink: !isCosmosWalletInstalled(Wallet.Leap)
-              ? 'https://www.leapwallet.io/downloads'
-              : undefined
-          },
+      }
     ].filter((option) => option) as SharedWalletOption[]
   )
 
@@ -47,14 +40,12 @@ export function useSharedWalletOptions() {
             ? 'https://rainbow.me/download'
             : undefined
         },
-         !IS_HELIX && IS_DEVNET
-        ? undefined
-        : {
-            wallet: Wallet.Leap,
-            downloadLink: !isCosmosWalletInstalled(Wallet.Leap)
-              ? 'https://www.leapwallet.io/downloads'
-              : undefined
-          },
+        {
+          wallet: Wallet.Leap,
+          downloadLink: !isCosmosWalletInstalled(Wallet.Leap)
+            ? 'https://www.leapwallet.io/downloads'
+            : undefined
+        },
         IS_DEVNET
           ? undefined
           : {
