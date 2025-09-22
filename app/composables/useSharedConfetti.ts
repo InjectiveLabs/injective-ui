@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import JSConfetti from 'js-confetti'
 
 const confetti = ref()

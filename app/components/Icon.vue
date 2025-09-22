@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { computed, useAttrs, defineAsyncComponent } from 'vue'
+import { useAttrs, defineAsyncComponent } from 'vue'
 
 const attrs = useAttrs()
 
@@ -74,11 +74,10 @@ const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
     const comps = import.meta.glob('../icons/**/*.vue')
 
     try {
-      return comps[`../icons/${name}.vue`]().then((component: any) =>
+      return comps[`../icons/${name}.vue`]?.().then((component: any) =>
         resolve(component.default)
       )
     } catch (e) {
-
       console.log({ e, name })
     }
   })

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { BigNumber } from '@injectivelabs/utils'
 import { sharedGetExactDecimalsFromNumber } from '../utils/formatter'
 

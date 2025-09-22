@@ -95,7 +95,7 @@ export interface SharedUiDerivativeMarket
   priceTensMultiplier: number
   quantityTensMultiplier: number
   expiryFuturesMarketInfo?: {
-    expirationTimestamp: number
     settlementPrice: string
+    expirationTimestamp: number
   }
 }

@@ -126,7 +126,7 @@ export class TokenPrice {
       )
 
     const formattedCoinGeckoIdsPriceMap = Object.entries(
-      coinGeckoIdsPriceMap
+      coinGeckoIdsPriceMap || {}
     ).reduce(
       (list, [key, value]) => ({ ...list, [key.toLowerCase()]: value }),
       {} as Record<string, number>
@@ -160,11 +160,17 @@ export class TokenPrice {
         const prices = {} as Record<string, number>
 
         for (let i = 0; i < chunk.length; i += 1) {
+          const index = chunk[i]
+
+          if (!index) {
+            return
+          }
+
           const price = await this.fetchUsdTokenPriceFromCoinGeckoNoThrow(
-            chunk[i]
+            index
           )
 
-          prices[chunk[i]] = price
+          prices[index] = price
         }
 
         if (index < chunks.length - 1) {
@@ -200,7 +206,7 @@ export class TokenPrice {
       }
 
       return new BigNumberInBase(priceInUsd).toNumber()
-    } catch (e: unknown) {
+    } catch {
       return 0
     }
   }

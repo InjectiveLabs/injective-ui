@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import type { PropType } from 'vue'
 
 const props = defineProps({
@@ -57,7 +56,13 @@ const polyfillPoints = computed(() => {
 
   const percentageDifferenceY = 100 - (minY / maxY) * 100
 
-  return props.data.reduce((points, [x, y]) => {
+  return props.data.reduce((points, point) => {
+    const [x, y] = point
+
+    if (!x || !y) {
+      return points
+    }
+
     const pointXInWidth = (x / maxX) * width.value
     const yHeight =
       percentageDifferenceY === 0 ? 0.5 : (y - minY) / (maxY - minY)

@@ -1,5 +1,5 @@
-import { type EventLog } from '@injectivelabs/sdk-ts'
 import { EventMessageType } from '../../types'
+import type { EventLog } from '@injectivelabs/sdk-ts'
 
 export const eventLogsSummaryMap: Partial<
   Record<
@@ -10,8 +10,8 @@ export const eventLogsSummaryMap: Partial<
       sender
     }: {
       args: any
-      logs: EventLog[]
       sender: string
+      logs: EventLog[]
     }) => string | undefined
   >
 > = {
@@ -40,11 +40,11 @@ export const eventLogsSummaryMap: Partial<
             })
         )
 
-      const spotOrder = parsedEvents[0].attributes.find(
+      const spotOrder = parsedEvents[0]?.attributes.find(
         ({ key }) => key === 'order'
       )
       const marketId = JSON.parse(
-        parsedEvents[0].attributes.find(({ key }) => key === 'market_id')
+        parsedEvents[0]?.attributes.find(({ key }) => key === 'market_id')
           ?.value || ''
       )
 
@@ -57,7 +57,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `{{account:${sender}}} cancelled a LIMIT ${orderType} order for {{spotQuantity:${marketId}-${order.quantity}}} at {{spotPrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   },
@@ -87,12 +87,12 @@ export const eventLogsSummaryMap: Partial<
             })
         )
 
-      const spotOrder = parsedEvents[0].attributes.find(
+      const spotOrder = parsedEvents[0]?.attributes.find(
         ({ key }) => key === 'order'
       )
 
       const marketId = JSON.parse(
-        parsedEvents[0].attributes.find(({ key }) => key === 'market_id')
+        parsedEvents[0]?.attributes.find(({ key }) => key === 'market_id')
           ?.value || ''
       )
 
@@ -105,7 +105,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `cancelled a LIMIT ${orderType} order for {{spotQuantity:${marketId}-${order.quantity}}} at {{spotPrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   },
@@ -142,7 +142,7 @@ export const eventLogsSummaryMap: Partial<
             })
         )
 
-      const derivativeOrder = parsedEvents[0].attributes.find(
+      const derivativeOrder = parsedEvents[0]?.attributes.find(
         ({ key, value }) =>
           value &&
           value !== 'null' &&
@@ -150,7 +150,7 @@ export const eventLogsSummaryMap: Partial<
       )
 
       const marketId = JSON.parse(
-        parsedEvents[0].attributes.find(({ key }) => key === 'market_id')
+        parsedEvents[0]?.attributes.find(({ key }) => key === 'market_id')
           ?.value || ''
       )
 
@@ -163,7 +163,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `{{account:${sender}}} cancelled a LIMIT ${orderType} order for {{derivativeQuantity:${marketId}-${order.quantity}}} at {{derivativePrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   },
@@ -200,7 +200,7 @@ export const eventLogsSummaryMap: Partial<
             })
         )
 
-      const derivativeOrder = parsedEvents[0].attributes.find(
+      const derivativeOrder = parsedEvents[0]?.attributes.find(
         ({ key, value }) =>
           value &&
           value !== 'null' &&
@@ -208,7 +208,7 @@ export const eventLogsSummaryMap: Partial<
       )
 
       const marketId = JSON.parse(
-        parsedEvents[0].attributes.find(({ key }) => key === 'market_id')
+        parsedEvents[0]?.attributes.find(({ key }) => key === 'market_id')
           ?.value || ''
       )
 
@@ -221,7 +221,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `cancelled a LIMIT ${orderType} order for {{derivativeQuantity:${marketId}-${order.quantity}}} at {{derivativePrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   }

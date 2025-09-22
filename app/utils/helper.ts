@@ -1,6 +1,6 @@
 import { BigNumberInBase } from "@injectivelabs/utils";
-import type { TokenStatic } from "@injectivelabs/sdk-ts";
 import { sharedTokenClient, tokenStaticFactory } from "../service";
+import type { TokenStatic } from "@injectivelabs/sdk-ts";
 
 export const sharedGetToken = async (
   denomOrSymbol: string
@@ -18,7 +18,7 @@ export const sharedGetToken = async (
 
 export const unAbbreviateNumber = (
   value: string,
-): BigNumberInBase | undefined => {
+): undefined | BigNumberInBase => {
   const units = {
     K: Number(`1${"0".repeat(3)}`),
     M: Number(`1${"0".repeat(6)}`),

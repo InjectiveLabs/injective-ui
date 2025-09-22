@@ -1,10 +1,10 @@
+import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
 import {
   ContractMsgType,
   DevnetWasmContractAddress,
   MainnetWasmContractAddress,
   TestnetWasmContractAddress
 } from '../types/enum'
-import { IS_MAINNET, IS_TESTNET } from '../utils/constant'
 
 export const MainnetContractCopyMap = {
   [MainnetWasmContractAddress.HelixSwap]: 'Helix Swap',

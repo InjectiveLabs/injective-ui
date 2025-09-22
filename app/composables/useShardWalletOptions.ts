@@ -1,7 +1,7 @@
 import { Wallet } from '@injectivelabs/wallet-base'
+import { IS_HELIX, IS_DEVNET } from '../utils/constant'
 import { isCosmosWalletInstalled } from '@injectivelabs/wallet-cosmos'
 import { isCosmosStationWalletInstalled } from '@injectivelabs/wallet-cosmostation'
-import { IS_DEVNET, IS_HUB, IS_HELIX } from '../utils/constant'
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {

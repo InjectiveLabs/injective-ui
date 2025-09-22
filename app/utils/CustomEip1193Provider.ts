@@ -48,7 +48,7 @@ const methodMap: Record<
   ) => {
     const [chainId] = _params
 
-    const chainIdObj = JSON.parse(chainId) as any
+    const chainIdObj = JSON.parse(chainId || '') as any
 
     const chainIdInt = parseInt(chainIdObj.chainId, 16)
 
@@ -80,7 +80,7 @@ export class CustomEip1193Provider implements Eip1193Provider {
     }
 
     if (method in methodMap) {
-      return methodMap[method](params, this.pk, this.baseWallet, this)
+      return methodMap[method]?.(params, this.pk, this.baseWallet, this)
     }
 
     throw new Error(`Method ${method} not found`)

@@ -15,6 +15,10 @@ function getEmailFromOidcToken(token: string): string {
   try {
     const [__, payload, _] = token.split('.');
 
+    if (!payload) {
+      return ''
+    }
+
     const decodedPayload = JSON.parse(
       atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
     );
@@ -45,17 +49,17 @@ export const submitTurnkeyOTP = async (otpCode: string) => {
   try {
     await turnkeyWallet.confirmOTP(otpCode)
     const addresses = await walletStrategy.getAddresses()
-  
+
     const [address] = addresses
     const session = await walletStrategy.getSessionOrConfirm(address)
-    
+
     walletStore.$patch({
       session,
       addresses,
       injectiveAddress: address,
       addressConfirmation: session,
       turnkeyInjectiveAddress: address,
-      address: getEthereumAddress(address),
+      address: getEthereumAddress(address || ''),
     })
 
     await walletStore.onConnect()
@@ -91,15 +95,15 @@ export const connectTurnkeyGoogle = async () => {
   const addresses = await walletStrategy.getAddresses();
   const [address] = addresses
 
-  
-  
+
+
   walletStore.$patch({
     addresses,
     session: urlOrSession,
     injectiveAddress: address,
     turnkeyInjectiveAddress: address,
     addressConfirmation: urlOrSession,
-    address: getEthereumAddress(address),
+    address: getEthereumAddress(address || ''),
   })
 
   await walletStore.onConnect()
@@ -116,7 +120,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
   const email = getEmailFromOidcToken(oidcToken)
   const addresses = await walletStrategy.getAddresses()
   const [address] = addresses
-  
+
   walletStore.$patch({
     email,
     session,
@@ -124,7 +128,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
     injectiveAddress: address,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
-    address: getEthereumAddress(address),
+    address: getEthereumAddress(address || ''),
   })
 
   await walletStore.onConnect()

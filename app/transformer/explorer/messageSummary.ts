@@ -1,8 +1,8 @@
 import { MsgType } from '@injectivelabs/ts-types'
-import { eventLogsSummaryMap } from './messageEvents'
-import { contractEventSummaryMap } from './contractEvents'
 import { USDT_DENOM } from '../../utils/constant'
+import { eventLogsSummaryMap } from './messageEvents'
 import { contractMsgTypeMap } from '../../utils/explorer'
+import { contractEventSummaryMap } from './contractEvents'
 import { getNetworkFromAddress } from '../../utils/network'
 import { sharedToBalanceInToken } from '../../utils/formatter'
 import { EventMessageType } from '../../types'
@@ -589,6 +589,10 @@ const msgSummaryMap: Partial<
   [MsgType.MsgSend]: (value: Message, _, injectiveAddress) => {
     const { amount, from_address: sender, to_address: receiver } = value.message
     const [coin] = amount as { denom: string; amount: string }[]
+
+    if (!coin) {
+      return []
+    }
 
     if (!injectiveAddress) {
       return [

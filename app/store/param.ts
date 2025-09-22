@@ -124,7 +124,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
         paramsStore.$patch({
           inflation: inflation || ON_CHAIN_INFLATION.toString()
         })
-      } catch (e) {
+      } catch {
         paramsStore.$patch({
           inflation: ON_CHAIN_INFLATION.toString()
         })

@@ -1,5 +1,5 @@
-import { type EventLog } from '@injectivelabs/sdk-ts'
 import { ContractMsgType } from '../../types'
+import type { EventLog } from '@injectivelabs/sdk-ts'
 
 export const contractEventSummaryMap: Partial<
   Record<
@@ -10,8 +10,8 @@ export const contractEventSummaryMap: Partial<
       sender
     }: {
       args?: any
-      logs: EventLog[]
       sender: string
+      logs: EventLog[]
     }) => string | undefined
   >
 > = {
@@ -20,6 +20,10 @@ export const contractEventSummaryMap: Partial<
       const parsedEvents = logs
         .flatMap(({ events }) => events)
         .filter(({ type }) => type === 'wasm-atomic_swap_execution')
+
+      if (!parsedEvents?.[0]) {
+        return undefined
+      }
 
       const swapInputAmount = parsedEvents[0].attributes.find(
         ({ key }) => key === 'swap_input_amount'
@@ -47,7 +51,7 @@ export const contractEventSummaryMap: Partial<
       }
 
       return `{{account:${sender}}} Swapped {{denom:${swapInputDenom}-${swapInputAmount}}} to {{denom:${swapFinalDenom}-${swapFinalAmount}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   }
