@@ -47,7 +47,7 @@ export const MAX_TOAST_TIMEOUT = 10 * 24 * 60 * 60 * 1000 // 10 days
 
 export const NOTIFI_LINK = 'https://injective.notifi.network'
 
-export const DEFAULT_USD_DECIMALS = 3
+export const DEFAULT_USD_DECIMALS = 2
 export const DEFAULT_ASSET_DECIMALS = 6
 export const DEFAULT_DISPLAY_DECIMALS = 8
 export const DEFAULT_PERCENTAGE_DECIMALS = 2
