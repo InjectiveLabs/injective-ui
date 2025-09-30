@@ -76,15 +76,15 @@ export function useSharedWalletOptions() {
         // },
         { wallet: Wallet.Phantom },
         IS_MAINNET ? { wallet: Wallet.WalletConnect } : undefined,
-        !IS_HELIX || IS_DEVNET
-          ? undefined
-          : {
-              beta: true,
-              wallet: Wallet.Ninji,
-              downloadLink: !isCosmosWalletInstalled(Wallet.Ninji)
-                ? 'https://ninji.xyz/#download'
-                : undefined
-            },
+        // !IS_HELIX || IS_DEVNET
+        //   ? undefined
+        //   : {
+        //       beta: true,
+        //       wallet: Wallet.Ninji,
+        //       downloadLink: !isCosmosWalletInstalled(Wallet.Ninji)
+        //         ? 'https://ninji.xyz/#download'
+        //         : undefined
+        //     },
         IS_HELIX ? { wallet: Wallet.Magic } : undefined,
         // Disabled for now
         // {
