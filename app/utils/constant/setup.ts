@@ -50,13 +50,10 @@ export const CHAIN_ID: ChainId = (
 
 export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
   .VITE_ETHEREUM_CHAIN_ID
-  ? parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string)
-  : parseInt(
-      (IS_TESTNET || IS_DEVNET
-        ? EvmChainId.Sepolia
-        : EvmChainId.Mainnet
-      ).toString()
-    )
+  ? parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string) as EvmChainId
+  : IS_TESTNET || IS_DEVNET
+    ? EvmChainId.Sepolia
+    : EvmChainId.Mainnet
 
 const endpoints = getNetworkEndpoints(NETWORK)
 const endpointsNotProvided =
@@ -160,6 +157,8 @@ export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
   .VITE_TURNKEY_GOOGLE_CLIENT_ID
 
 export const IS_HUB = import.meta.env.VITE_PRODUCT === 'hub'
+export const IS_MITO = import.meta.env.VITE_PRODUCT === 'mito'
+export const IS_AUTHZ = import.meta.env.VITE_PRODUCT === 'authz'
 export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
 export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
 export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'

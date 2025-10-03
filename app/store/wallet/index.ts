@@ -21,6 +21,7 @@ import {
   checkIsMetamaskInstalled,
   checkIsOkxWalletInstalled,
   checkIsTrustWalletInstalled,
+  checkIsRabbyWalletInstalled,
   checkIsPhantomWalletInstalled
 } from './extensions'
 import {
@@ -44,6 +45,7 @@ import {
   autoSignWalletStrategy,
   autoSignMsgBroadcaster
 } from '../../WalletService'
+import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
@@ -200,6 +202,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     checkIsMetamaskInstalled,
     checkIsOkxWalletInstalled,
     checkIsTrustWalletInstalled,
+    checkIsRabbyWalletInstalled,
     checkIsPhantomWalletInstalled,
 
     connectMagic,
@@ -330,13 +333,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        [
+        ([
           Wallet.BitGet,
           Wallet.Phantom,
           Wallet.Metamask,
           Wallet.OkxWallet,
           Wallet.TrustWallet
-        ].includes(walletStore.wallet)
+        ] as WalletType[]).includes(walletStore.wallet)
       ) {
         await validateEvmWallet({
           wallet: walletStore.wallet,
@@ -345,13 +348,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        [
+        ([
           Wallet.Leap,
           Wallet.Ninji,
           Wallet.Keplr,
           Wallet.OWallet,
           Wallet.Cosmostation
-        ].includes(walletStore.wallet)
+        ] as WalletType[]).includes(walletStore.wallet)
       ) {
         await validateCosmosWallet({
           wallet: walletStore.wallet,
@@ -405,6 +408,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign: undefined,
         turnkeyInjectiveAddress: '',
         queueStatus: StatusType.Idle,
+        rabbyInstalled: walletStore.rabbyInstalled,
         bitGetInstalled: walletStore.bitGetInstalled,
         phantomInstalled: walletStore.phantomInstalled,
         metamaskInstalled: walletStore.metamaskInstalled,

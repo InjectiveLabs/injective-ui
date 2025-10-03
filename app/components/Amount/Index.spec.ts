@@ -1,7 +1,8 @@
-import { mountSuspended } from '@nuxt/test-utils/runtime'
-import { BigNumber } from '@injectivelabs/utils'
-import { describe, expect, it } from 'vitest'
 import Index from './Index.vue'
+import { it, expect, describe } from 'vitest'
+import { BigNumber } from '@injectivelabs/utils'
+import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant/index'
 
 describe('Amount/Index.vue', () => {
   describe('default behavior', () => {
@@ -73,6 +74,28 @@ describe('Amount/Index.vue', () => {
       })
 
       expect(component.text()).toBe('2,000,000')
+    })
+
+    it(`when shouldAbbreviate is false, there is no decimals when above ${DEFAULT_ABBREVIATION_THRESHOLD}`, async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          amount: `${DEFAULT_ABBREVIATION_THRESHOLD}.12345678`,
+          shouldAbbreviate: false
+        }
+      })
+
+      expect(component.text()).toBe('1,000,000')
+    })
+
+    it(`when shouldAbbreviate is false, there is no decimals when below ${DEFAULT_ABBREVIATION_THRESHOLD}`, async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          amount: `100000.12345678`,
+          shouldAbbreviate: false
+        }
+      })
+
+      expect(component.text()).toBe('100,000.123456')
     })
 
     it('respects custom abbreviation threshold', async () => {

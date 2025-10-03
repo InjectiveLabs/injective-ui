@@ -1,7 +1,8 @@
-import { mountSuspended } from '@nuxt/test-utils/runtime'
-import { BigNumber } from '@injectivelabs/utils'
-import { describe, expect, it } from 'vitest'
 import Usd from './Usd.vue'
+import { it, expect, describe } from 'vitest'
+import { BigNumber } from '@injectivelabs/utils'
+import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant/index'
 
 describe('Amount/Usd.vue', () => {
   describe('default behavior', () => {
@@ -56,7 +57,7 @@ describe('Amount/Usd.vue', () => {
     it('does not abbreviate when shouldAbbreviate is false', async () => {
       const component = await mountSuspended(Usd, {
         props: {
-          amount: '2000000',
+          amount: '200000',
           shouldAbbreviate: false
         },
         slots: {
@@ -64,7 +65,29 @@ describe('Amount/Usd.vue', () => {
         }
       })
 
-      expect(component.text()).toBe('$2,000,000.00')
+      expect(component.text()).toBe('$200,000.00')
+    })
+
+    it(`when shouldAbbreviate is false, there is no decimals when above ${DEFAULT_ABBREVIATION_THRESHOLD}`, async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: `${DEFAULT_ABBREVIATION_THRESHOLD}.12345678`,
+          shouldAbbreviate: false
+        }
+      })
+
+      expect(component.text()).toBe('1,000,000')
+    })
+
+    it(`when shouldAbbreviate is false, there is no decimals when below ${DEFAULT_ABBREVIATION_THRESHOLD}`, async () => {
+      const component = await mountSuspended(Usd, {
+        props: {
+          amount: `100000.12345678`,
+          shouldAbbreviate: false
+        }
+      })
+
+      expect(component.text()).toBe('100,000.12')
     })
 
     it('handles very large numbers', async () => {

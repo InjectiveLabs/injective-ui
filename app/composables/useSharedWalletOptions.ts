@@ -1,7 +1,6 @@
 import { Wallet } from '@injectivelabs/wallet-base'
-import { IS_HELIX, IS_DEVNET } from '../utils/constant'
+import { IS_HELIX, IS_DEVNET, IS_MAINNET } from '../utils/constant'
 import { isCosmosWalletInstalled } from '@injectivelabs/wallet-cosmos'
-import { isCosmosStationWalletInstalled } from '@injectivelabs/wallet-cosmostation'
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {
@@ -11,25 +10,23 @@ export function useSharedWalletOptions() {
   () =>
     [
       {
+        wallet: Wallet.Metamask,
+        downloadLink: !sharedWalletStore.metamaskInstalled
+          ? 'https://metamask.io/download'
+          : undefined
+      },
+      {
         wallet: Wallet.Keplr,
         downloadLink: !isCosmosWalletInstalled(Wallet.Keplr)
           ? 'https://www.keplr.app/download'
           : undefined
       },
       {
-        wallet: Wallet.Metamask,
-        downloadLink: !sharedWalletStore.metamaskInstalled
-          ? 'https://metamask.io/download'
+        wallet: Wallet.Rabby,
+        downloadLink: !sharedWalletStore.rabbyInstalled
+          ? 'https://rabby.io/'
           : undefined
-      },
-      IS_DEVNET
-        ? undefined
-        : {
-            wallet: Wallet.Leap,
-            downloadLink: !isCosmosWalletInstalled(Wallet.Leap)
-              ? 'https://www.leapwallet.io/downloads'
-              : undefined
-          }
+      }
     ].filter((option) => option) as SharedWalletOption[]
   )
 
@@ -40,6 +37,12 @@ export function useSharedWalletOptions() {
           wallet: Wallet.Rainbow,
           downloadLink: !sharedWalletStore.rainbowInstalled
             ? 'https://rainbow.me/download'
+            : undefined
+        },
+        {
+          wallet: Wallet.Leap,
+          downloadLink: !isCosmosWalletInstalled(Wallet.Leap)
+            ? 'https://www.leapwallet.io/downloads'
             : undefined
         },
         IS_DEVNET
@@ -58,41 +61,21 @@ export function useSharedWalletOptions() {
         },
         { wallet: Wallet.Ledger },
         { wallet: Wallet.TrezorBip32 },
-        {
-          wallet: Wallet.Cosmostation,
-          downloadLink: !isCosmosWalletInstalled(Wallet.Cosmostation)
-            ? 'https://www.cosmostation.io/wallet'
-            : undefined
-        },
-        { wallet: Wallet.Phantom },
-        {
-          wallet: Wallet.Cosmostation,
-          downloadLink: !isCosmosStationWalletInstalled()
-            ? 'https://www.cosmostation.io/wallet'
-            : undefined
-        },
-        { wallet: Wallet.WalletConnect },
-        IS_DEVNET && IS_HELIX
-          ? undefined
-          : {
-              beta: true,
-              wallet: Wallet.Ninji,
-              downloadLink: !isCosmosWalletInstalled(Wallet.Ninji)
-                ? 'https://ninji.xyz/#download'
-                : undefined
-            },
-        IS_HELIX ? { wallet: Wallet.Magic } : undefined,
-        // Disabled for now
         // {
-        //   wallet: Wallet.TrustWallet,
-        //   downloadLink: !sharedWalletStore.trustWalletInstalled
-        //     ? 'https://trustwallet.com/browser-extension/'
+        //   wallet: Wallet.Cosmostation,
+        //   downloadLink: !isCosmosStationWalletInstalled()
+        //     ? 'https://www.cosmostation.io/wallet'
         //     : undefined
         // },
-        // todo check with achilleas
-        // IS_HUB ? {
-        //   wallet: Wallet.WalletConnect
-        // } : undefined
+        { wallet: Wallet.Phantom },
+        { 
+            wallet: Wallet.TrustWallet,
+            downloadLink: !sharedWalletStore.trustWalletInstalled
+            ? 'https://trustwallet.com/browser-extension/'
+            : undefined
+         },
+        IS_MAINNET ? { wallet: Wallet.WalletConnect } : undefined,
+        IS_HELIX ? { wallet: Wallet.Magic } : undefined,
       ].filter((option) => option) as SharedWalletOption[]
   )
 
@@ -103,6 +86,7 @@ export function useSharedWalletOptions() {
         sharedWalletStore.checkIsRainbowInstalled(),
         sharedWalletStore.checkIsMetamaskInstalled(),
         sharedWalletStore.checkIsOkxWalletInstalled(),
+        sharedWalletStore.checkIsRabbyWalletInstalled(),
         sharedWalletStore.checkIsTrustWalletInstalled(),
         sharedWalletStore.checkIsPhantomWalletInstalled()
       ]

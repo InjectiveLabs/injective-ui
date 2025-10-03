@@ -2,10 +2,10 @@ import { defineConfig } from 'vite'
 import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { nodePolyfills } from '@bangjelkoski/vite-plugin-node-polyfills'
 import {
   IS_HUB,
   IS_HELIX,
+  IS_MITO,
   IS_BRIDGE,
   IS_EXPLORER,
   IS_ADMIN_UI,
@@ -43,10 +43,13 @@ const additionalDeps = [
 ]
 
 export default defineConfig({
+  define: {
+    global: 'globalThis'
+  },
+
   plugins: [
     tsconfigPaths(),
     visualizer({ open: isAnalyzeBundle }),
-    nodePolyfills({ protocolImports: true })
   ],
 
   server: {
@@ -122,6 +125,7 @@ export default defineConfig({
           '@injectivelabs/wallet-cosmostation',
           '@injectivelabs/wallet-cosmos-strategy',
           ...(isLocalLayer ? [] : additionalDeps),
+          ...(IS_MITO ? ['floating-vue'] : []),
           ...(IS_BRIDGE
             ? [
                 'axios',
@@ -189,5 +193,5 @@ export default defineConfig({
 }) as ViteConfig
 
 export const vitePlugins = [
-  { ssr: false, src: resolve('../../nuxt-config/buffer.ts') }
+  { ssr: false, src: resolve('../../nuxt-config/polyfill.ts') }
 ]

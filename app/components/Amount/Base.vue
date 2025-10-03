@@ -102,17 +102,18 @@ const subscriptedAmount = computed(() => {
 
 const formattedAmount = computed(() => {
   const amount = absoluteAmount.value
+  const decimals = !props.shouldAbbreviate &&  amountToBigNumber.value.gte(DEFAULT_ABBREVIATION_THRESHOLD) ? 0 : props.decimals
 
   if (props.noTrailingZeros && props.decimals > 0) {
     const result = amount
-      .toFormat(props.decimals, props.roundingMode)
+      .toFormat(decimals, props.roundingMode)
       .replace(/(\.\d*?[1-9])0+$/g, '$1')
       .replace(/\.0+$/, '')
 
     return result || '0'
   }
 
-  return amount.toFormat(props.decimals, props.roundingMode)
+  return amount.toFormat(decimals, props.roundingMode)
 })
 </script>
 

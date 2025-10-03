@@ -122,7 +122,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
         const { inflation } = await mintApi.fetchInflation()
 
         paramsStore.$patch({
-          inflation: inflation || ON_CHAIN_INFLATION.toString()
+          inflation: inflation.toFixed() || ON_CHAIN_INFLATION.toString()
         })
       } catch {
         paramsStore.$patch({
