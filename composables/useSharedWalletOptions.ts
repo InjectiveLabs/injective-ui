@@ -1,7 +1,6 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { IS_HELIX, IS_DEVNET, IS_MAINNET } from '../utils/constant'
 import { isCosmosWalletInstalled } from '@injectivelabs/wallet-cosmos'
-import { isCosmosStationWalletInstalled } from '@injectivelabs/wallet-cosmostation'
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {
@@ -63,40 +62,20 @@ export function useSharedWalletOptions() {
         { wallet: Wallet.Ledger },
         { wallet: Wallet.TrezorBip32 },
         // {
-        //   wallet: Wallet.TrustWallet,
-        //   downloadLink: !sharedWalletStore.trustWalletInstalled
-        //     ? 'https://trustwallet.com/browser-extension/'
-        //     : undefined
-        // },
-        // {
         //   wallet: Wallet.Cosmostation,
         //   downloadLink: !isCosmosStationWalletInstalled()
         //     ? 'https://www.cosmostation.io/wallet'
         //     : undefined
         // },
         { wallet: Wallet.Phantom },
+        { 
+            wallet: Wallet.TrustWallet,
+            downloadLink: !sharedWalletStore.trustWalletInstalled
+            ? 'https://trustwallet.com/browser-extension/'
+            : undefined
+         },
         IS_MAINNET ? { wallet: Wallet.WalletConnect } : undefined,
-        // !IS_HELIX || IS_DEVNET
-        //   ? undefined
-        //   : {
-        //       beta: true,
-        //       wallet: Wallet.Ninji,
-        //       downloadLink: !isCosmosWalletInstalled(Wallet.Ninji)
-        //         ? 'https://ninji.xyz/#download'
-        //         : undefined
-        //     },
         IS_HELIX ? { wallet: Wallet.Magic } : undefined,
-        // Disabled for now
-        // {
-        //   wallet: Wallet.TrustWallet,
-        //   downloadLink: !sharedWalletStore.trustWalletInstalled
-        //     ? 'https://trustwallet.com/browser-extension/'
-        //     : undefined
-        // },
-        // todo check with achilleas
-        // IS_HUB ? {
-        //   wallet: Wallet.WalletConnect
-        // } : undefined
       ].filter((option) => option) as SharedWalletOption[]
   )
 
@@ -108,7 +87,7 @@ export function useSharedWalletOptions() {
         sharedWalletStore.checkIsMetamaskInstalled(),
         sharedWalletStore.checkIsOkxWalletInstalled(),
         sharedWalletStore.checkIsRabbyWalletInstalled(),
-        // sharedWalletStore.checkIsTrustWalletInstalled(),
+        sharedWalletStore.checkIsTrustWalletInstalled(),
         sharedWalletStore.checkIsPhantomWalletInstalled()
       ]
     )

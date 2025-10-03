@@ -4,55 +4,69 @@ import { getEvmWalletProvider } from '../../WalletService'
 export const checkIsBitGetInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.BitGet)
+
   walletStore.$patch({
-    bitGetInstalled: await !!getEvmWalletProvider(Wallet.BitGet)
+    bitGetInstalled: provider && Object.keys(provider).length > 0
   })
 }
 
 export const checkIsMetamaskInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.Metamask)
+
   walletStore.$patch({
-    metamaskInstalled: await !!getEvmWalletProvider(Wallet.Metamask)
+    metamaskInstalled: provider && Object.keys(provider).length > 0
   })
 }
 
 export const checkIsOkxWalletInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.OkxWallet)
+
   walletStore.$patch({
-    okxWalletInstalled: await !!getEvmWalletProvider(Wallet.OkxWallet)
+    okxWalletInstalled: provider && Object.keys(provider).length > 0
   })
 }
 
 export const checkIsPhantomWalletInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.Phantom)
+
   walletStore.$patch({
-    phantomInstalled: await !!getEvmWalletProvider(Wallet.Phantom)
+    phantomInstalled: provider && Object.keys(provider).length > 0
   })
 }
 
 export const checkIsRabbyWalletInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.Rabby)
+
   walletStore.$patch({
-    rabbyInstalled: await !!getEvmWalletProvider(Wallet.Rabby)
+    rabbyInstalled: provider && Object.keys(provider).length > 0
   })
 }
 
 export const checkIsTrustWalletInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.TrustWallet)
+
   walletStore.$patch({
-    trustWalletInstalled: await !!getEvmWalletProvider(Wallet.TrustWallet)
+    trustWalletInstalled: provider && Object.keys(provider).length > 0
   })
 }
 
 export const checkIsRainbowInstalled = async () => {
   const walletStore = useSharedWalletStore()
 
+  const provider = await getEvmWalletProvider(Wallet.Rainbow)
+
   walletStore.$patch({
-    rainbowInstalled: await !!getEvmWalletProvider(Wallet.Rainbow)
+    rainbowInstalled: provider && Object.keys(provider).length > 0
   })
 }

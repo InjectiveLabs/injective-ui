@@ -2,14 +2,6 @@ import { walletStrategy } from './wallet-strategy'
 import { Wallet } from '@injectivelabs/wallet-base'
 import { ETHEREUM_CHAIN_ID } from './../utils/constant'
 import {
-  updateEvmNetwork,
-  getRabbyProvider,
-  getBitGetProvider,
-  getMetamaskProvider,
-  getOkxWalletProvider,
-  getTrustWalletProvider,
-} from '@injectivelabs/wallet-evm'
-import {
   ErrorType,
   WalletException,
   BitGetException,
@@ -18,6 +10,16 @@ import {
   UnspecifiedErrorCode,
   TrustWalletException
 } from '@injectivelabs/exceptions'
+import {
+  updateEvmNetwork,
+  getRabbyProvider,
+  getBitGetProvider,
+  getRainbowProvider,
+  getPhantomProvider,
+  getMetamaskProvider,
+  getOkxWalletProvider,
+  getTrustWalletProvider,
+} from '@injectivelabs/wallet-evm'
 import type { AccountAddress } from '@injectivelabs/ts-types'
 import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
 
@@ -35,11 +37,15 @@ export const getEvmWalletProvider = async (wallet: Wallet) => {
   }
 
   if (wallet === Wallet.Phantom) {
-    return await getMetamaskProvider()
+    return await getPhantomProvider()
   }
 
   if (wallet === Wallet.TrustWallet) {
     return await getTrustWalletProvider()
+  }
+
+  if (wallet === Wallet.Rainbow) {
+    return await getRainbowProvider()
   }
 
   if (wallet === Wallet.Rabby) {
