@@ -1,8 +1,14 @@
+import { GRPC_PRODUCT_REFERER } from '../constant'
+
 type ApiConstructor<T> = new (endpoint: string) => T
+
+interface WithSetMetadata {
+  setMetadata(map: Record<string, string>): any
+}
 
 const sdkTsApiCache = new Map<string, any>()
 
-export const lazyImportSdkTs = async <T>({
+export const lazyImportSdkTs = async <T extends WithSetMetadata>({
   endpoint,
   className
 }: {
@@ -27,6 +33,12 @@ export const lazyImportSdkTs = async <T>({
   }
 
   const instance = new ApiClass(endpoint)
+
+  if (GRPC_PRODUCT_REFERER) {
+    instance.setMetadata({
+      Referer: GRPC_PRODUCT_REFERER
+    })
+  }
 
   sdkTsApiCache.set(cacheKey, instance)
 
