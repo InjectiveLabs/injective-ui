@@ -165,4 +165,4 @@ export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'
 export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
 export const IS_TRADING_UI = import.meta.env.VITE_PRODUCT === 'trading'
 
-export const GRPC_PRODUCT_REFERER = import.meta.env.VITE_GPC_PRODUCT_REFERER
+export const GRPC_PRODUCT_REFERER = import.meta.env.VITE_GRPC_PRODUCT_REFERER
