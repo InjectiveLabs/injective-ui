@@ -32,7 +32,7 @@ const methodMap: Record<
     const signature = signTypedData({
       data: { domain, message, primaryType, types },
       privateKey: Buffer.from(_pk, 'hex'),
-      version: 'v4' as any
+      version: 'V4' as any
     })
 
     return signature
