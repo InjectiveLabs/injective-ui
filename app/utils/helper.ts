@@ -1,19 +1,21 @@
+import { h } from "vue";
+import { NuxtUiIcons } from "@/types";
 import { BigNumberInBase } from "@injectivelabs/utils";
 import { sharedTokenClient, tokenStaticFactory } from "../service";
 import type { TokenStatic } from "@injectivelabs/sdk-ts";
 
 export const sharedGetToken = async (
-  denomOrSymbol: string
+  denomOrSymbol: string,
 ): Promise<undefined | TokenStatic> => {
   const token = tokenStaticFactory.toToken(denomOrSymbol);
 
   if (token) {
-    return token
+    return token;
   }
 
-  const asyncToken = await sharedTokenClient.queryToken(denomOrSymbol)
+  const asyncToken = await sharedTokenClient.queryToken(denomOrSymbol);
 
-  return asyncToken
+  return asyncToken;
 };
 
 export const unAbbreviateNumber = (
@@ -50,4 +52,31 @@ export const abbreviateNumber = (number: number) => {
   return abbreviatedValueMatchesInput
     ? abbreviatedValue
     : `≈${abbreviatedValue}`;
+};
+
+export const createSortableHeader = ({
+  label,
+  UButton,
+  iconClass,
+}: {
+  UButton: any;
+  label: string;
+  iconClass?: string;
+}) => {
+  return ({ column }: any) => {
+    const isSorted = column.getIsSorted();
+
+    return h(UButton, {
+      label,
+      color: "neutral",
+      variant: "ghost",
+      ui: { trailingIcon: iconClass || "size-4" },
+      trailingIcon: isSorted
+        ? isSorted === "asc"
+          ? NuxtUiIcons.TableSortAsc
+          : NuxtUiIcons.TableSortDesc
+        : NuxtUiIcons.TableSortNormal,
+      onClick: () => column.toggleSorting(isSorted === "asc"),
+    });
+  };
 };
