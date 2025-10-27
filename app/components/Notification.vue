@@ -90,7 +90,10 @@ function onPause() {
           </slot>
         </div>
         <div class="flex flex-col gap-2" :class="contentClass">
-          <span class="text-sm font-semibold" :data-cy="commonCyTag(CommonCyTags.NotificationTitle)">
+          <span
+            class="text-sm font-semibold"
+            :data-cy="commonCyTag(CommonCyTags.NotificationTitle)"
+          >
             <slot name="custom">
               {{ notification.title }}
             </slot>
@@ -157,11 +160,17 @@ function onPause() {
 
 <style>
 .notification-context .v-popper__wrapper .v-popper__inner {
-  @apply bg-gray-800 text-gray-300 border-none max-w-xs text-xs px-3 py-1 shadow-sm;
+  border: none;
+  max-width: 20rem;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  color: var(--color-gray-300);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--color-gray-800);
 }
 
 .notification-context .v-popper__wrapper .v-popper__arrow-outer,
 .notification-context .v-popper__wrapper .v-popper__arrow-inner {
-  @apply border-gray-800;
+  border-color: var(--color-gray-800);
 }
 </style>

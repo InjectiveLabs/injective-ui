@@ -126,6 +126,7 @@ export enum NuxtUiIcons {
   Exit = 'bx:exit',
   ExternalLink = 'ooui:link-external-ltr',
   ExternalLink2 = 'mdi:external-link',
+  ExternalLink3 = 'i-fa:external-link',
   Eye = 'heroicons:eye-16-solid',
   EyeSlash = 'heroicons:eye-slash-solid',
   Facebook = 'ic:baseline-facebook',

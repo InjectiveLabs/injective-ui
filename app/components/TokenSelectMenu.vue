@@ -41,12 +41,8 @@ const value = computed({
 <template>
   <USelectMenu
     v-model="value"
-    by="denom"
     size="lg"
-    searchable
-    :search-attributes="['name', 'symbol', 'denom']"
-    clear-search-on-close
-    :options="formattedTokens"
+    :items="formattedTokens"
     :placeholder="$t('common.selectToken')"
   >
     <template v-if="selectedToken?.avatar.src" #leading>
