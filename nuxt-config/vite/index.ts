@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import { createResolver } from '@nuxt/kit'
-import tailwindcss from '@tailwindcss/vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import {
@@ -49,7 +48,6 @@ export default defineConfig({
   },
 
   plugins: [
-    tailwindcss(),
     tsconfigPaths(),
     visualizer({ open: isAnalyzeBundle })
   ],
