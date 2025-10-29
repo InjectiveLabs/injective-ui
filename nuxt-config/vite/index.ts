@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite'
 import { createResolver } from '@nuxt/kit'
+import tailwindcss from '@tailwindcss/vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import {
   IS_HUB,
-  IS_HELIX,
   IS_MITO,
+  IS_HELIX,
   IS_BRIDGE,
   IS_EXPLORER,
   IS_ADMIN_UI,
@@ -48,8 +49,9 @@ export default defineConfig({
   },
 
   plugins: [
+    tailwindcss(),
     tsconfigPaths(),
-    visualizer({ open: isAnalyzeBundle }),
+    visualizer({ open: isAnalyzeBundle })
   ],
 
   server: {

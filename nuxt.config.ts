@@ -15,9 +15,7 @@ export default defineNuxtConfig({
 
   alias: { '@shared': resolve('./app') },
 
-  // typescript: {
-  //   typeCheck: 'build'
-  // },
+  css: [resolve('./app/assets/tailwind.css')],
 
   ignore: isProduction ? ['pages/sandbox.vue'] : [],
 
@@ -29,25 +27,21 @@ export default defineNuxtConfig({
   components: [{ prefix: 'Shared', path: resolve('./app/components') }],
 
   imports: {
-    dirs: [
-      'app/store/**',
-      'app/composables/**',
-    ]
+    dirs: ['app/store/**', 'app/composables/**']
   },
 
   pinia: {
-    storesDirs: ["app/store/**"],
+    storesDirs: ['app/store/**']
   },
 
   modules: [
+    '@nuxt/ui',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/eslint',
     'nuxt-vitalizer',
     '@nuxt/test-utils/module',
-    ['@injectivelabs/nuxt-bugsnag', bugsnag],
-  ],
-
-
+    ['@injectivelabs/nuxt-bugsnag', bugsnag]
+  ]
 })

@@ -1,64 +1,64 @@
 <script setup lang="ts">
-import { NuxtUiIcons } from "../types";
+import { NuxtUiIcons } from '../types'
 
 const props = withDefaults(
   defineProps<{
-    ui?: object;
-    cardUi?: object;
-    overlay?: boolean;
-    modelValue?: boolean;
-    transition?: boolean;
-    fullscreen?: boolean;
-    preventClose?: boolean;
-    isHideCloseButton?: boolean;
-    class?: string | object | string[];
+    ui?: object
+    cardUi?: object
+    overlay?: boolean
+    modelValue?: boolean
+    transition?: boolean
+    fullscreen?: boolean
+    preventClose?: boolean
+    isHideCloseButton?: boolean
+    class?: string | object | string[]
   }>(),
   {
     overlay: true,
     transition: true,
     ui: () => ({}),
-    class: () => "",
-    cardUi: () => ({}),
-  },
-);
+    class: () => '',
+    cardUi: () => ({})
+  }
+)
 
 const emit = defineEmits<{
-  "on:open": [];
-  "on:close": [];
-  "update:modelValue": [modelValue: boolean];
-}>();
+  'on:open': []
+  'on:close': []
+  'update:modelValue': [modelValue: boolean]
+}>()
 
 const isOpen = computed({
   get: () => props.modelValue,
   set: (value: boolean) => {
     if (!value) {
-      emit("on:close");
+      emit('on:close')
     }
 
-    emit("update:modelValue", value);
-  },
-});
+    emit('update:modelValue', value)
+  }
+})
 
 function onClose() {
-  isOpen.value = false;
+  isOpen.value = false
 
-  emit("update:modelValue", false);
+  emit('update:modelValue', false)
 }
 
 watch(
   () => props.modelValue,
   (value) => {
     if (value) {
-      emit("on:open");
+      emit('on:open')
     }
-  },
-);
+  }
+)
 
 onMounted(() => {
   if (props.modelValue) {
-    emit("on:open");
+    emit('on:open')
   }
-});
+})
 </script>
 
 <template>
@@ -70,7 +70,7 @@ onMounted(() => {
       transition,
       fullscreen,
       class: props.class,
-      dismissible: !preventClose,
+      dismissible: !preventClose
     }"
   >
     <template #content>
@@ -80,7 +80,7 @@ onMounted(() => {
           variant="ghost"
           :class="[
             $slots.header ? 'top-5' : 'top-6',
-            'absolute max-sm:right-4 right-6 z-10 text-white hover:text-gray-300 transition p-0 hover:bg-transparent focus-visible:ring-0',
+            'absolute max-sm:right-4 right-6 z-10 text-white hover:text-gray-300 transition p-0 hover:bg-transparent focus-visible:ring-0'
           ]"
           @click="onClose"
         >
