@@ -39,7 +39,7 @@ export type JsonHelixCategory = {
   rwa: JsonSlugMarketId[]
   defi: JsonSlugMarketId[]
   layer1: JsonSlugMarketId[]
-  iAssets: JsonSlugMarketId[]
+  stocks: JsonSlugMarketId[]
   trending: JsonSlugMarketId[]
   injective: JsonSlugMarketId[]
   newMarkets: JsonSlugMarketId[]

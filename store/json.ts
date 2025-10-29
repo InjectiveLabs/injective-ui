@@ -103,7 +103,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       return (
         [
           ...state.helixMarketCategory.rwa,
-          ...state.helixMarketCategory.iAssets
+          ...state.helixMarketCategory.stocks
         ].find((market) => market.marketId === marketId) !== undefined
       )
     },
