@@ -9,7 +9,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky",
-    "todo:": "add && pnpm prepare below",
     "postinstall": "pnpm upgrade '@injectivelabs/*' --latest && pnpm prepare below"
   },
   "dependencies": {
