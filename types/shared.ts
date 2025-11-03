@@ -15,7 +15,6 @@ export interface NotificationAction {
 
 export interface SharedBanner {
   id: string
-  link?: string
   content?: string
   shouldDisplay: boolean
   shouldPersist?: boolean
