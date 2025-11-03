@@ -9,8 +9,6 @@ export default function useSharedBanner() {
   const now = useNow({ interval: 10 * 1000 })
 
   const banners = computed<SharedBanner[]>(() => {
-    console.log(jsonStore.hasUpcomingChainUpgrade)
-
     return [{
       shouldPersist: true,
       id: 'upcoming-chain-upgrade',
