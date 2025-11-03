@@ -1,3 +1,4 @@
+import type { VNode } from 'vue'
 import type { NotificationType } from './enum'
 
 export interface SharedDropdownOption {
@@ -15,7 +16,7 @@ export interface NotificationAction {
 
 export interface SharedBanner {
   id: string
-  content?: string
+  content?: () => VNode | undefined
   shouldDisplay: boolean
   shouldPersist?: boolean
 }
