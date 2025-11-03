@@ -13,12 +13,20 @@ export interface NotificationAction {
   callback: Function
 }
 
+export interface SharedBanner {
+  id: string
+  link?: string
+  content?: string
+  shouldDisplay: boolean
+  shouldPersist?: boolean
+}
+
 export interface NotificationOptions {
   key?: string
   title: string
   icon?: string
-  timeout?: number
   txHash?: string
+  timeout?: number
   context?: string // (longer description)
   timeElapsed?: string
   description?: string
