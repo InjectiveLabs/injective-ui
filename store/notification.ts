@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { type TxResponse, ChainGrpcTendermintApi } from '@injectivelabs/sdk-ts'
 import {
   ENDPOINTS,
   LONG_TOAST_TEXT,
@@ -7,11 +8,10 @@ import {
 } from '../utils/constant/index'
 import { CtaToast, NotificationType } from './../types'
 import type { Notification, NotificationOptions } from './../types'
-import { ChainGrpcTendermintApi, type TxResponse } from '@injectivelabs/sdk-ts'
 
 type NotificationStoreState = {
   notifications: Notification[]
-  txResponse: TxResponse | null
+  txResponse: null | TxResponse
 }
 
 const initialStateFactory = (): NotificationStoreState => ({
