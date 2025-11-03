@@ -6,7 +6,13 @@ import type { SharedBanner } from '../types'
 export default function useSharedBanner() {
   const jsonStore = useSharedJsonStore()
   const sharedWalletStore = useSharedWalletStore()
-  const now = useNow({ interval: 10 * 1000 })
+  const now = useNow({ interval: 5 * 1000 })
+
+  const onMountedTimestamp = Date.now()
+
+  const isDelayed = computed(() => {
+    return now.value.getTime() > onMountedTimestamp + 5 * 1000
+  })
 
   const banners = computed<SharedBanner[]>(() => {
     return [{
@@ -48,8 +54,9 @@ export default function useSharedBanner() {
     }, {
       shouldPersist: true,
       id: 'injective-anniversary-banner',
-      shouldDisplay: isWithinInterval(new Date(now.value.getTime()), {
-        start: new Date(1762290000000), // November 4, 2025 9:00 AM EST = November 4, 2025 2:00 PM UTC
+      shouldDisplay: isDelayed.value && isWithinInterval(new Date(now.value.getTime()), {
+        start: new Date(1762165253489),
+        // start: new Date(1762290000000), // November 4, 2025 9:00 AM EST = November 4, 2025 2:00 PM UTC
         end: new Date(1763009999000) // November 12, 2025 11:59 PM EST = November 13, 2025 4:59 AM UTC
       }),
       content: () => {
@@ -66,5 +73,5 @@ export default function useSharedBanner() {
     }]
   })
 
-  return { now, banners }
+  return { now, banners, isDelayed }
 }

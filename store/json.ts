@@ -449,10 +449,18 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       const jsonStore = useSharedJsonStore()
 
-      const { data: config } = (await client.get(
+      let { data: config } = (await client.get(
         'json/config/chainUpgrade.json'
       )) as {
         data: JsonChainUpgrade
+      }
+
+      config = {
+        proposalId: 541,
+        blockHeight: 140370320,
+        disableMaintenance: false,
+        proposalMsg:
+          'Scheduled maintenance on July 31st, 2025 at ~14:00 UTC to implement the Injective EVM mainnet upgrade.'
       }
 
       try {
