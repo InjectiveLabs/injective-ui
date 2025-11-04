@@ -177,7 +177,7 @@ export const getIndexerOracleApi = () =>
 
 export const getIndexerExplorerApi = () =>
   lazyImportSdkTs<IndexerGrpcExplorerApi>({
-    endpoint: ENDPOINTS.indexer,
+    endpoint: 'https://k8s.mainnet.staging.explorer.grpc-web.injective.network',
     className: 'IndexerGrpcExplorerApi'
   })
 
@@ -196,7 +196,7 @@ export const getRestWasmApi = () =>
 export const getIndexerRestExplorerApi = () =>
   lazyImportSdkTs<IndexerRestExplorerApi>({
     className: 'IndexerRestExplorerApi',
-    endpoint: `${IS_MAINNET ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network' : ENDPOINTS.explorer}/api/explorer/v1`
+    endpoint: `${IS_MAINNET ? 'https://k8s.mainnet.staging.explorer.grpc-web.injective.network' : ENDPOINTS.explorer}/api/explorer/v1`
   })
 
 export const getIndexerRestDerivativeChronosApi = () =>
