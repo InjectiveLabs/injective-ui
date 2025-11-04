@@ -1,6 +1,6 @@
 import { h, computed } from 'vue'
 // import { isWithinInterval } from 'date-fns'
-import { IS_HUB, IS_HELIX, IS_MAINNET } from '../utils/constant'
+import { IS_HELIX, IS_MAINNET } from '../utils/constant'
 import type { SharedBanner } from '../types'
 
 export default function useSharedBanner() {
@@ -29,7 +29,7 @@ export default function useSharedBanner() {
           h('a', {
             target: '_blank',
             class: 'hover:opacity-80 underline cursor-pointer',
-            href: IS_HUB ? `proposal/${jsonStore.chainUpgradeConfig.proposalId}` : 'https://injhub.com/proposal/${jsonStore.chainUpgradeConfig.proposalId}',
+            href: `https://injhub.com/proposal/${jsonStore.chainUpgradeConfig.proposalId}`,
           }, 'Find out more')
         ])
       }
