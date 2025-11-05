@@ -1,36 +1,20 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { GeneralException } from '@injectivelabs/exceptions'
+import { connectMagic, queryMagicExistingUser } from './magic'
+import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
+import {
+  IS_HELIX,
+  IS_DEVNET,
+  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
+} from '../../utils/constant'
 import {
   submitTurnkeyOTP,
   initTurnkeyGoogle,
   getEmailTurnkeyOTP,
   connectTurnkeyGoogle
 } from './turnkey'
-import {
-  getAddresses,
-  walletStrategy,
-  msgBroadcaster,
-  validateEvmWallet,
-  validateCosmosWallet,
-  autoSignWalletStrategy,
-  autoSignMsgBroadcaster
-} from '../../WalletService'
-import {
-  checkIsBitGetInstalled,
-  checkIsRainbowInstalled,
-  checkIsMetamaskInstalled,
-  checkIsOkxWalletInstalled,
-  checkIsTrustWalletInstalled,
-  checkIsRabbyWalletInstalled,
-  checkIsPhantomWalletInstalled
-} from './extensions'
-import {
-  IS_HELIX,
-  IS_DEVNET,
-  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-} from '../../utils/constant'
 import {
   MsgGrant,
   PrivateKey,
@@ -41,10 +25,26 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
+import {
+  checkIsBitGetInstalled,
+  checkIsRainbowInstalled,
+  checkIsMetamaskInstalled,
+  checkIsOkxWalletInstalled,
+  checkIsTrustWalletInstalled,
+  checkIsRabbyWalletInstalled,
+  checkIsPhantomWalletInstalled
+} from './extensions'
 import { web3GatewayService } from '../../Service'
-import { connectMagic, queryMagicExistingUser } from './magic'
-import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
+import {
+  getAddresses,
+  walletStrategy,
+  msgBroadcaster,
+  validateEvmWallet,
+  validateCosmosWallet,
+  autoSignWalletStrategy,
+  autoSignMsgBroadcaster
+} from '../../WalletService'
 import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
@@ -328,7 +328,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async validate() {
       const walletStore = useSharedWalletStore()
 
-      if (walletStore.autoSign) {
+      if (walletStore.isAutoSignEnabled) {
         return
       }
 
