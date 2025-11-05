@@ -29,7 +29,7 @@ const emit = defineEmits<{
 }>()
 
 const isOpen = computed({
-  get: () => props.modelValue,
+  get: () => !!props.modelValue,
   set: (value: boolean) => {
     if (!value) {
       emit('on:close')
@@ -62,6 +62,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <!-- note: title and description = mandatory to avoid warning, source = https://github.com/nuxt/ui/issues/3215#issuecomment-2674216095 -->
   <UModal
     v-model:open="isOpen"
     v-bind="{
@@ -69,7 +70,9 @@ onMounted(() => {
       overlay,
       transition,
       fullscreen,
+      title: 'Title',
       class: props.class,
+      description: 'Description',
       dismissible: !preventClose
     }"
   >

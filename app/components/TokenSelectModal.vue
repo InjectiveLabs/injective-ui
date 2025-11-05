@@ -7,7 +7,7 @@ const props = withDefaults(
     modelValue?: string
     showDenom?: boolean
   }>(),
-  { showDenom: false, modelValue: undefined }
+  { modelValue: undefined }
 )
 
 const formattedTokens = computed(() =>
@@ -33,8 +33,6 @@ const selected = ref([formattedTokens.value[3]])
 <template>
   <UCommandPalette
     v-model="selected"
-    nullable
-    :autoselect="false"
-    :groups="[{ key: 'tokens', commands: formattedTokens }]"
+    :groups="[{ id: 'tokens', items: formattedTokens }]"
   />
 </template>

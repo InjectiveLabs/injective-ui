@@ -49,7 +49,7 @@ const value = computed({
       <UAvatar :src="selectedToken?.avatar.src" size="2xs" />
     </template>
 
-    <template v-if="showDenom" #option="{ option: token }">
+    <template v-if="showDenom" #item="{ item: token }">
       <div class="pr-4 flex space-x-2 items-center truncate">
         <UAvatar
           v-if="token.avatar.src"
