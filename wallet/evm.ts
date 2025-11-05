@@ -1,7 +1,7 @@
 import { walletStrategy } from './wallet-strategy'
 import { Wallet } from '@injectivelabs/wallet-base'
 import { EvmChainId} from '@injectivelabs/ts-types'
-import { NETWORK, IS_DEVNET, IS_MAINNET, IS_TESTNET, ETHEREUM_CHAIN_ID } from './../utils/constant'
+import { IS_DEVNET, IS_MAINNET, IS_TESTNET, ETHEREUM_CHAIN_ID } from './../utils/constant'
 import {
   ErrorType,
   WalletException,
