@@ -1,5 +1,5 @@
 import { h, computed } from 'vue'
-// import { isWithinInterval } from 'date-fns'
+import { isWithinInterval } from 'date-fns'
 import { IS_HELIX, IS_MAINNET } from '../utils/constant'
 import type { SharedBanner } from '../types'
 
@@ -51,26 +51,26 @@ export default function useSharedBanner() {
           }, 'Find out more')
         ])
       }
+    },
+    {
+      shouldPersist: true,
+      id: 'injective-anniversary-banner',
+      shouldDisplay: isDelayed.value && isWithinInterval(new Date(now.value.getTime()), {
+        start: new Date(1762437600000), // November 6, 2025 9:00 AM EST
+        end: new Date(1763614740000) // November 19, 2025 11:59 PM EST
+      }),
+      content: () => {
+        return h('div', { class: 'flex items-center gap-1' }, [
+          h('span', 'The Public Injective EVM Mainnet is live! Start building and earning'),
+          h('a', {
+            target: '_blank',
+            class: 'hover:opacity-80 underline cursor-pointer',
+            href: 'https://multivm.injective.com/',
+          }, 'here'),
+          h('span', {class: '-ml-0.5'}, '.'),
+        ])
+      }
     }
-    // {
-    //   shouldPersist: true,
-    //   id: 'injective-anniversary-banner',
-    //   shouldDisplay: isDelayed.value && isWithinInterval(new Date(now.value.getTime()), {
-    //     start: new Date(1762290000000), // November 4, 2025 9:00 AM EST = November 4, 2025 2:00 PM UTC
-    //     end: new Date(1763009999000) // November 12, 2025 11:59 PM EST = November 13, 2025 4:59 AM UTC
-    //   }),
-    //   content: () => {
-    //     return h('div', { class: 'flex items-center gap-1' }, [
-    //       h('span', 'The Public Injective EVM Mainnet is live! Start building and earning'),
-    //       h('a', {
-    //         target: '_blank',
-    //         class: 'hover:opacity-80 underline cursor-pointer',
-    //         href: 'https://multivm.injective.com/',
-    //       }, 'here'),
-    //       h('span', {class: '-ml-0.5'}, '.'),
-    //     ])
-    //   }
-    // }
   ]
   })
 
