@@ -13,6 +13,7 @@ import type {
   DerivativeMarket
 } from '@injectivelabs/sdk-ts'
 import type {
+  JsonEvmToken,
   JsonValidator,
   JsonSwapRoute,
   JsonGridMarket,
@@ -37,6 +38,8 @@ export type JsonStoreState = {
   validators: JsonValidator[]
   restrictedCountries: string[]
   blacklistedAddresses: string[]
+  mainnetEvmTokens: JsonEvmToken[]
+  testnetEvmTokens: JsonEvmToken[]
   spotGridMarkets: JsonGridMarket[]
   wasmQuery: Record<string, string[]>
   chainUpgradeConfig: JsonChainUpgrade
@@ -73,6 +76,8 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     spotGridMarkets: [],
     expiryMarketMap: {},
     latestBlockHeight: 0,
+    mainnetEvmTokens: [],
+    testnetEvmTokens: [],
     derivativeMarkets: [],
     restrictedCountries: [],
     blacklistedAddresses: [],
@@ -436,6 +441,24 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       jsonStore.derivativeGridMarkets = data.data
+    },
+
+    async fetchEvmTokens() {
+      const jsonStore = useSharedJsonStore()
+
+      const mainnetTokens = (await client.get(
+        `json/tokens/evm/mainnet.json`
+      )) as {
+        data: JsonEvmToken[]
+      }
+      const testnetTokens = (await client.get(
+        `json/tokens/evm/mainnet.json`
+      )) as {
+        data: JsonEvmToken[]
+      }
+
+      jsonStore.mainnetEvmTokens = mainnetTokens.data
+      jsonStore.testnetEvmTokens = testnetTokens.data
     },
 
     async fetchChainUpgradeConfig() {
