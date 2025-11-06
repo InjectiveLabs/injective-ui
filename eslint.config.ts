@@ -54,6 +54,7 @@ export default withNuxt({
     'vue/html-self-closing': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-extraneous-class': 'off',
     '@typescript-eslint/no-unsafe-function-type': 'off',
     '@typescript-eslint/no-duplicate-enum-values': 'off',
     '@typescript-eslint/no-extraneous-class': 'off',

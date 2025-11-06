@@ -1,6 +1,7 @@
 import { walletStrategy } from './wallet-strategy'
 import { Wallet } from '@injectivelabs/wallet-base'
-import { ETHEREUM_CHAIN_ID } from '../utils/constant'
+import { EvmChainId} from '@injectivelabs/ts-types'
+import { IS_DEVNET, IS_MAINNET, IS_TESTNET, ETHEREUM_CHAIN_ID } from '../utils/constant'
 import {
   ErrorType,
   WalletException,
@@ -124,9 +125,24 @@ export const validateEvmWallet = async ({
     )
   }
 
-  const walletChainId = parseInt(await walletStrategy.getEthereumChainId(), 16)
+  const mainnetEvmIds = [
+    EvmChainId.Mainnet,
+    EvmChainId.MainnetEvm,
+  ] as EvmChainId[]
+  const testnetEvmIds = [
+    EvmChainId.Sepolia,
+    EvmChainId.TestnetEvm,
+  ] as EvmChainId[]
+  const devnetEvmIds = [
+    EvmChainId.Sepolia,
+    EvmChainId.DevnetEvm,
+  ] as EvmChainId[]
+
+  const walletChainId = parseInt(await walletStrategy.getEthereumChainId(), 16) as EvmChainId
   const walletChainIdDoesntMatchTheActiveChainId =
-    ETHEREUM_CHAIN_ID !== walletChainId
+    IS_MAINNET && !mainnetEvmIds.includes(walletChainId)
+    || IS_TESTNET && !testnetEvmIds.includes(walletChainId)
+    || IS_DEVNET && !devnetEvmIds.includes(walletChainId)
 
   if (walletChainIdDoesntMatchTheActiveChainId) {
     return await updateEvmNetwork(wallet, ETHEREUM_CHAIN_ID)

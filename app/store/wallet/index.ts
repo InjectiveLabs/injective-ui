@@ -16,15 +16,6 @@ import {
   connectTurnkeyGoogle
 } from './turnkey'
 import {
-  checkIsBitGetInstalled,
-  checkIsRainbowInstalled,
-  checkIsMetamaskInstalled,
-  checkIsOkxWalletInstalled,
-  checkIsTrustWalletInstalled,
-  checkIsRabbyWalletInstalled,
-  checkIsPhantomWalletInstalled
-} from './extensions'
-import {
   MsgGrant,
   PrivateKey,
   msgsOrMsgExecMsgs,
@@ -34,6 +25,15 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts'
+import {
+  checkIsBitGetInstalled,
+  checkIsRainbowInstalled,
+  checkIsMetamaskInstalled,
+  checkIsOkxWalletInstalled,
+  checkIsTrustWalletInstalled,
+  checkIsRabbyWalletInstalled,
+  checkIsPhantomWalletInstalled
+} from './extensions'
 import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import {
@@ -328,7 +328,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async validate() {
       const walletStore = useSharedWalletStore()
 
-      if (walletStore.autoSign) {
+      if (walletStore.isAutoSignEnabled) {
         return
       }
 

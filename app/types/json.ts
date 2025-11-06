@@ -34,12 +34,21 @@ export type JsonChainUpgrade = {
   disableMaintenance: boolean
 }
 
+export type JsonEvmToken = {
+  name: string
+  symbol: string
+  address: string
+  chainId: number
+  logoUri: string
+  decimals: number
+}
+
 export type JsonHelixCategory = {
   ai: JsonSlugMarketId[]
   rwa: JsonSlugMarketId[]
   defi: JsonSlugMarketId[]
   layer1: JsonSlugMarketId[]
-  iAssets: JsonSlugMarketId[]
+  stocks: JsonSlugMarketId[]
   trending: JsonSlugMarketId[]
   injective: JsonSlugMarketId[]
   newMarkets: JsonSlugMarketId[]
