@@ -55,7 +55,7 @@ export default function useSharedBanner() {
     {
       shouldPersist: true,
       id: 'injective-anniversary-banner',
-      shouldDisplay: IS_MAINNET && isDelayed.value && isWithinInterval(new Date(now.value.getTime()), {
+      shouldDisplay: !IS_HELIX && IS_MAINNET && isDelayed.value && isWithinInterval(new Date(now.value.getTime()), {
         start: new Date(1762437600000), // November 6, 2025 9:00 AM EST
         end: new Date(1763614740000) // November 19, 2025 11:59 PM EST
       }),
