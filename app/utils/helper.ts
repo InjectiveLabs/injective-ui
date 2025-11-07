@@ -54,29 +54,3 @@ export const abbreviateNumber = (number: number) => {
     : `≈${abbreviatedValue}`;
 };
 
-export const createSortableHeader = ({
-  label,
-  UButton,
-  iconClass,
-}: {
-  UButton: any;
-  label: string;
-  iconClass?: string;
-}) => {
-  return ({ column }: any) => {
-    const isSorted = column.getIsSorted();
-
-    return h(UButton, {
-      label,
-      color: "neutral",
-      variant: "ghost",
-      ui: { trailingIcon: iconClass || "size-4" },
-      trailingIcon: isSorted
-        ? isSorted === "asc"
-          ? NuxtUiIcons.TableSortAsc
-          : NuxtUiIcons.TableSortDesc
-        : NuxtUiIcons.TableSortNormal,
-      onClick: () => column.toggleSorting(isSorted === "asc"),
-    });
-  };
-};
