@@ -16,9 +16,16 @@ export default defineNuxtConfig({
 
   alias: { '@shared': resolve('./') },
 
-  // typescript: {
-  //   typeCheck: 'build'
-  // },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        paths: {
+          '@': ['.'],
+          '@/*': ['./*']
+        }
+      }
+    }
+  },
 
   pinia: {
     storesDirs: ['./store/*.ts', './store/*/index.ts']
