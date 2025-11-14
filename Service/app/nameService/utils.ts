@@ -1,23 +1,30 @@
-import { keccak_256 as keccak256 } from 'js-sha3'
+import { keccak256 } from 'viem'
 import { validate, normalize } from '@bangjelkoski/ens-validation'
-import { hexToArray, hexToUint8Array } from '@injectivelabs/sdk-ts'
 import { ErrorType, GeneralException } from '@injectivelabs/exceptions'
+import {
+  hexToUint8Array,
+  concatUint8Arrays,
+  stringToUint8Array,
+} from '@injectivelabs/sdk-ts'
 
 const nameHash = (inputName: string) => {
-  let node = ''
-
-  for (let i = 0; i < 32; i += 1) {
-    node += '00'
-  }
+  // Start with 32 zero bytes (0x0000...0000)
+  let node = '0000000000000000000000000000000000000000000000000000000000000000'
 
   if (inputName) {
     const labels = inputName.split('.')
 
     for (let i = labels.length - 1; i >= 0; i -= 1) {
       const normalizedLabel = normalize(labels[i])
-      const labelSha = keccak256(normalizedLabel)
+      // keccak256 from viem accepts string or Uint8Array
+      const labelSha = keccak256(stringToUint8Array(normalizedLabel), 'hex').slice(2) // Remove 0x prefix
 
-      node = keccak256(hexToUint8Array(node + labelSha))
+      // Concatenate node + labelSha and hash
+      const combined = concatUint8Arrays([
+        hexToUint8Array(node),
+        hexToUint8Array(labelSha)
+      ])
+      node = keccak256(combined, 'hex').slice(2) // Remove 0x prefix
     }
   }
 
@@ -31,7 +38,8 @@ const nameToNode = (name: string) => {
 
   const hash = nameHash(name)
 
-  return hexToArray(hash.slice(2))
+  // Convert hex string to array (skip the 0x prefix)
+  return Array.from(hexToUint8Array(hash.slice(2)))
 }
 
 const validateNameLength = (label: string) => {
