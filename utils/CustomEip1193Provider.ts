@@ -1,3 +1,4 @@
+import { hexToUint8Array } from '@injectivelabs/sdk-ts'
 import {
   loadEthersSigningType,
   loadEthersBaseWalletType,
@@ -31,7 +32,7 @@ const methodMap: Record<
 
     const signature = signTypedData({
       data: { domain, message, primaryType, types },
-      privateKey: Buffer.from(_pk, 'hex'),
+      privateKey: hexToUint8Array(_pk),
       version: 'V4' as any
     })
 

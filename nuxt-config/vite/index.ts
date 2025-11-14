@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite'
-import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import {
   IS_HUB,
-  IS_HELIX,
   IS_MITO,
+  IS_HELIX,
   IS_BRIDGE,
   IS_EXPLORER,
   IS_ADMIN_UI,
@@ -18,7 +17,6 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
-const { resolve } = createResolver(import.meta.url)
 
 // deps affecting local build against github source
 const additionalDeps = [
@@ -191,7 +189,3 @@ export default defineConfig({
         ]
   }
 }) as ViteConfig
-
-export const vitePlugins = [
-  { ssr: false, src: resolve('./../../nuxt-config/polyfill.ts') }
-]

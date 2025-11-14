@@ -1,5 +1,6 @@
-import { type EventLog } from '@injectivelabs/sdk-ts'
+import { hexToBase64 } from '@injectivelabs/sdk-ts'
 import { EventMessageType } from './../../types'
+import type { EventLog } from '@injectivelabs/sdk-ts'
 
 export const eventLogsSummaryMap: Partial<
   Record<
@@ -10,15 +11,13 @@ export const eventLogsSummaryMap: Partial<
       sender
     }: {
       args: any
-      logs: EventLog[]
       sender: string
+      logs: EventLog[]
     }) => string | undefined
   >
 > = {
   [EventMessageType.CancelSpotOrder]: ({ args, logs, sender }) => {
-    const orderHashInBase64 = Buffer.from(args.slice(2), 'hex').toString(
-      'base64'
-    )
+    const orderHashInBase64 = hexToBase64(args.slice(2))
 
     try {
       const parsedEvents = logs
@@ -63,9 +62,7 @@ export const eventLogsSummaryMap: Partial<
   },
 
   [EventMessageType.BatchCancelSpotOrders]: ({ args, logs }) => {
-    const orderHashInBase64 = Buffer.from(args.slice(2), 'hex').toString(
-      'base64'
-    )
+    const orderHashInBase64 = hexToBase64(args.slice(2))
 
     try {
       const parsedEvents = logs
@@ -111,9 +108,7 @@ export const eventLogsSummaryMap: Partial<
   },
 
   [EventMessageType.CancelDerivativeOrder]: ({ args, logs, sender }) => {
-    const orderHashInBase64 = Buffer.from(args.slice(2), 'hex').toString(
-      'base64'
-    )
+    const orderHashInBase64 = hexToBase64(args.slice(2))
 
     try {
       const parsedEvents = logs
@@ -169,9 +164,7 @@ export const eventLogsSummaryMap: Partial<
   },
 
   [EventMessageType.BatchCancelDerivativeOrders]: ({ args, logs }) => {
-    const orderHashInBase64 = Buffer.from(args.slice(2), 'hex').toString(
-      'base64'
-    )
+    const orderHashInBase64 = hexToBase64(args.slice(2))
 
     try {
       const parsedEvents = logs
