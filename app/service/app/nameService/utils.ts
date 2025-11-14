@@ -1,5 +1,6 @@
 import { keccak_256 as keccak256 } from 'js-sha3'
 import { validate, normalize } from '@bangjelkoski/ens-validation'
+import { hexToArray, hexToUint8Array } from '@injectivelabs/sdk-ts'
 import { ErrorType, GeneralException } from '@injectivelabs/exceptions'
 
 const nameHash = (inputName: string) => {
@@ -16,9 +17,7 @@ const nameHash = (inputName: string) => {
       const normalizedLabel = normalize(labels[i] || '')
       const labelSha = keccak256(normalizedLabel)
 
-      node = keccak256(
-        Buffer.from(node + labelSha, 'hex') as unknown as Uint8Array
-      )
+      node = keccak256(hexToUint8Array(node + labelSha))
     }
   }
 
@@ -32,7 +31,7 @@ const nameToNode = (name: string) => {
 
   const hash = nameHash(name)
 
-  return Array.from(Buffer.from(hash.slice(2), 'hex'))
+  return hexToArray(hash.slice(2))
 }
 
 const validateNameLength = (label: string) => {

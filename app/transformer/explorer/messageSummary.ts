@@ -1,11 +1,12 @@
 import { MsgType } from '@injectivelabs/ts-types'
 import { USDT_DENOM } from '../../utils/constant'
 import { eventLogsSummaryMap } from './messageEvents'
-import { contractMsgTypeMap } from '../../utils/explorer'
 import { contractEventSummaryMap } from './contractEvents'
-import { getNetworkFromAddress } from '../../utils/network'
-import { sharedToBalanceInToken } from '../../utils/formatter'
-import { EventMessageType } from '../../types'
+import { contractMsgTypeMap } from './../../utils/explorer'
+import { getNetworkFromAddress } from './../../utils/network'
+import { sharedToBalanceInToken } from './../../utils/formatter'
+import { toUtf8, base64ToUint8Array } from '@injectivelabs/sdk-ts'
+import { EventMessageType } from './../../types'
 import type { Coin, Message, EventLog } from '@injectivelabs/sdk-ts'
 
 const AUCTION_POOL_SUBACCOUNT_ID =
@@ -629,7 +630,7 @@ const msgSummaryMap: Partial<
   [MsgType.MsgRecvPacket]: (value: Message, _) => {
     const { packet } = value.message
     const decodedPacketData = JSON.parse(
-      Buffer.from(packet.data, 'base64').toString('utf-8')
+      toUtf8(base64ToUint8Array(packet.data))
     )
 
     const { amount, denom, sender, receiver } = decodedPacketData

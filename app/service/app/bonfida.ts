@@ -1,7 +1,7 @@
 import { lazyImportSdkTs } from '../../utils/lib'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { ENDPOINTS, IS_MAINNET } from '../../utils/constant'
-import { toBase64, binaryToBase64 } from '@injectivelabs/sdk-ts'
+import { toBase64, base64ToUtf8, binaryToBase64 } from '@injectivelabs/sdk-ts'
 import type { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
 
 const BONFIDA_TESTNET_CONTRACT_ADDRESS =
@@ -28,9 +28,7 @@ export class InjBonfidaNameService {
       toBase64(query)
     )
 
-    return Buffer.from(binaryToBase64(response.data), 'base64')
-      .toString()
-      .replace(/["]/g, '')
+    return base64ToUtf8(binaryToBase64(response.data)).replace(/["]/g, '')
   }
 
   fetchInjName(_address: string) {

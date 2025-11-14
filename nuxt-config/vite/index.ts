@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
-import { createResolver } from '@nuxt/kit'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { visualizer } from 'rollup-plugin-visualizer'
 import {
@@ -18,7 +17,6 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
-const { resolve } = createResolver(import.meta.url)
 
 // deps affecting local build against github source
 const additionalDeps = [
@@ -46,10 +44,7 @@ export default defineConfig({
     global: 'globalThis'
   },
 
-  plugins: [
-    tsconfigPaths(),
-    visualizer({ open: isAnalyzeBundle })
-  ],
+  plugins: [tsconfigPaths(), visualizer({ open: isAnalyzeBundle })],
 
   server: {
     watch: {
@@ -189,7 +184,3 @@ export default defineConfig({
         ]
   }
 }) as ViteConfig
-
-export const vitePlugins = [
-  { ssr: false, src: resolve('../../nuxt-config/polyfill.ts') }
-]
