@@ -222,7 +222,9 @@ export const getIndexerRestMarketChronosApi = () =>
 
 export const getIndexerAuctionApi = () =>
   lazyImportSdkTs<IndexerGrpcAuctionApi>({
-    endpoint: ENDPOINTS.indexer,
+    endpoint: IS_MAINNET
+      ? `https://k8s.global.mainnet.auction.grpc-web.injective.network`
+      : ENDPOINTS.indexer,
     className: 'IndexerGrpcAuctionApi'
   })
 
