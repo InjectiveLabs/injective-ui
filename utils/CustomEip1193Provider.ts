@@ -1,8 +1,7 @@
-import { hexToUint8Array } from '@injectivelabs/sdk-ts'
+import { PrivateKey } from '@injectivelabs/sdk-ts'
 import {
   loadEthersSigningType,
-  loadEthersBaseWalletType,
-  loadSigUtilSignedTypedData
+  loadEthersBaseWalletType
 } from './../utils/lib'
 import type { BaseWallet, Eip1193Provider } from 'ethers'
 
@@ -21,8 +20,8 @@ const methodMap: Record<
     return [_baseWallet.address]
   },
   eth_signTypedData_v4: async (params, pk) => {
-    const signTypedData = await loadSigUtilSignedTypedData()
-    const _pk = pk.slice(2)
+    const _pk = pk.startsWith('0x') ? pk : `0x${pk}`
+    const privateKey = PrivateKey.fromHex(_pk)
 
     const [_address, typedData] = params
 
@@ -30,10 +29,11 @@ const methodMap: Record<
 
     const { domain, types, message, primaryType } = typedDataObj
 
-    const signature = signTypedData({
-      data: { domain, message, primaryType, types },
-      privateKey: hexToUint8Array(_pk),
-      version: 'V4' as any
+    const signature = await privateKey.signTypedData({
+      domain,
+      types,
+      message,
+      primaryType
     })
 
     return signature

@@ -5,7 +5,7 @@ import type { GrpcOrderType } from '@injectivelabs/sdk-ts'
 export const orderSideToOrderType = (orderType: OrderSide): GrpcOrderType => {
   switch (orderType) {
     case OrderSide.Unrecognized:
-      return GrpcOrderTypeMap.UNRECOGNIZED
+      return GrpcOrderTypeMap.UNSPECIFIED
     case OrderSide.Unspecified:
       return GrpcOrderTypeMap.UNSPECIFIED
     case OrderSide.SellAtomic:
