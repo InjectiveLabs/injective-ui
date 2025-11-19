@@ -111,6 +111,7 @@ export enum NuxtUiIcons {
   Circle = 'bi:circle-fill',
   CirclePlus = 'ep:circle-plus',
   CirclePlusFilled = 'ant-design:plus-circle-filled',
+  Clock= 'mdi:clock-outline',
   ClockHistory = 'bi:clock-history',
   Close = 'flowbite:close-outline',
   CloseBold = 'ep:close-bold',
