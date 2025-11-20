@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ButtonHTMLAttributes } from 'vue';
+
 defineOptions({
   inheritAttrs: true
 })
@@ -8,7 +10,6 @@ const props = withDefaults(
     size?: any
     ui?: object
     color?: any
-    type?: string
     variant?: any
     block?: boolean
     square?: boolean
@@ -23,6 +24,7 @@ const props = withDefaults(
     label?: string | undefined
     leadingIcon?: string | undefined
     trailingIcon?: string | undefined
+    type?: ButtonHTMLAttributes['type']
     class?: string | object | Array<string | object>
   }>(),
   {

@@ -1,5 +1,3 @@
-import { h } from "vue";
-import { NuxtUiIcons } from "@/types";
 import { BigNumberInBase } from "@injectivelabs/utils";
 import { sharedTokenClient, tokenStaticFactory } from "../service";
 import type { TokenStatic } from "@injectivelabs/sdk-ts";

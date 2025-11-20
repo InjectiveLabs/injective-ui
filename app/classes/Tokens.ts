@@ -108,7 +108,7 @@ export class SharedTokens {
       })
     }
 
-    const verificationStatusSortOrder = [
+    const verificationStatusSortOrder: TokenVerification[] = [
       TokenVerification.Verified,
       TokenVerification.Internal,
       TokenVerification.External,
