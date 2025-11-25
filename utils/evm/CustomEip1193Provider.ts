@@ -2,7 +2,7 @@ import {
   loadEthersSigningType,
   loadEthersBaseWalletType,
   loadSigUtilSignedTypedData
-} from './../utils/lib'
+} from '../lib'
 import type { BaseWallet, Eip1193Provider } from 'ethers'
 
 const SEPOLIA_CHAIN_ID = 11155111
