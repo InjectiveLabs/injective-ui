@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NuxtUiIcons } from "@/types";
+import { NuxtUiIcons } from "../../types";
 
 withDefaults(
   defineProps<{

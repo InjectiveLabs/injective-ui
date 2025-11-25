@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NuxtUiIcons } from '@/types'
+import { NuxtUiIcons } from '../../types'
 
 const props = withDefaults(
   defineProps<{
@@ -22,8 +22,6 @@ const sortIcon = computed(() => {
 })
 
 function onHeaderSort() {
-  console.log('onHeaderSort clicked?')
-
   emit('header:sort', props.sortKey)
 }
 </script>
