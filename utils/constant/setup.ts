@@ -3,7 +3,6 @@ import {
   Network,
   isDevnet,
   isTestnet,
-  getNetworkInfo,
   getNetworkEndpoints,
   getCw20AdapterContractForNetwork
 } from '@injectivelabs/networks'
@@ -51,10 +50,16 @@ export const CHAIN_ID: ChainId = (
 
 export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
   .VITE_ETHEREUM_CHAIN_ID
-  ? parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string) as EvmChainId
+  ? (parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string) as EvmChainId)
   : IS_TESTNET || IS_DEVNET
     ? EvmChainId.Sepolia
     : EvmChainId.Mainnet
+
+export const INJECTIVE_EVM_CHAIN_ID: EvmChainId = IS_MAINNET
+  ? EvmChainId.MainnetEvm
+  : IS_TESTNET
+    ? EvmChainId.TestnetEvm
+    : EvmChainId.DevnetEvm
 
 const endpoints = getNetworkEndpoints(NETWORK)
 const endpointsNotProvided =
@@ -165,5 +170,3 @@ export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
 export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'
 export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
 export const IS_TRADING_UI = import.meta.env.VITE_PRODUCT === 'trading'
-
-export const NETWORK_INFO = getNetworkInfo(NETWORK)

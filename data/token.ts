@@ -2,6 +2,7 @@ import { Network } from '@injectivelabs/networks'
 import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts'
 import {
   INJ_DENOM,
+  WINJ_DENOM,
   IS_TESTNET,
   INJ_LOGO_URL,
   AUSD_LOGO_URL,
@@ -54,6 +55,20 @@ export const injToken: TokenStatic = {
   logo: INJ_LOGO_URL,
   coinGeckoId: 'injective-protocol',
   denom: INJ_DENOM,
+  externalLogo: 'injective-v3.png',
+  tokenType: TokenType.Native,
+  tokenVerification: TokenVerification.Verified
+}
+
+export const wInjToken: TokenStatic = {
+  address: WINJ_DENOM.replace('erc20:', ''),
+  isNative: true,
+  decimals: 18,
+  symbol: 'INJ',
+  name: 'Injective',
+  logo: INJ_LOGO_URL,
+  coinGeckoId: 'injective-protocol',
+  denom: WINJ_DENOM,
   externalLogo: 'injective-v3.png',
   tokenType: TokenType.Native,
   tokenVerification: TokenVerification.Verified

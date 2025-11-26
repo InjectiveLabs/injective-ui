@@ -55,6 +55,7 @@ export default withNuxt({
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-extraneous-class': 'off',
+    '@typescript-eslint/no-empty-object-type': 'off',
     '@typescript-eslint/no-unsafe-function-type': 'off',
     '@typescript-eslint/no-duplicate-enum-values': 'off',
     ...perfectionist.configs['recommended-line-length'].rules,

@@ -21,6 +21,7 @@ export const UNKNOWN_LOGO_URL =
 export const INJ_DENOM = 'inj'
 export const ETH_DENOM = 'peggy0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 export const USDT_DENOM = 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7'
+export const WINJ_DENOM = 'erc20:0x0000000088827d2d103ee2d9A6b781773AE03FfB'
 export const BINANCE_DEPOSIT_ADDRESS =
   'inj1u2rajhqtptzvu23leheta9yg99k3hazf4waf43'
 

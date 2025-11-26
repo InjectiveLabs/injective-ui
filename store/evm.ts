@@ -1,99 +1,66 @@
-import { defineStore } from "pinia";
-import { injective } from "viem/chains";
-import { parseEther } from "viem";
-import { wEth9Contract } from "./../utils/evm";
-import { addEvmNetworkToWallet as baseAddEvmNetworkToWallet } from "@injectivelabs/wallet-evm";
-import { web3Broadcaster } from "./../WalletService";
-import { NETWORK_INFO } from "../utils/constant";
+import { parseEther } from 'viem'
+import { defineStore } from 'pinia'
+import { wEth9Contract } from './../utils/evm'
+import { INJECTIVE_EVM_CHAIN_ID } from '../utils/constant'
+import { addEvmNetworkToWallet as baseAddEvmNetworkToWallet } from '@injectivelabs/wallet-evm'
+import { web3Broadcaster } from './../WalletService'
 
-type SharedEvmStoreState = {
-  wInjBalance: bigint;
-};
+type SharedEvmStoreState = {}
 
-const initialStateFactory = (): SharedEvmStoreState => ({
-  wInjBalance: BigInt(0),
-});
+const initialStateFactory = (): SharedEvmStoreState => ({})
 
-export const useSharedEvmStore = defineStore("sharedEvm", {
+export const useSharedEvmStore = defineStore('sharedEvm', {
   state: (): SharedEvmStoreState => initialStateFactory(),
   getters: {},
   actions: {
-    async fetchWInjBalance() {
-      const walletStore = useSharedWalletStore();
-
-      if (!walletStore.address) {
-        return;
-      }
-
-      const balance = await wEth9Contract.balanceOf(
-        walletStore.address as `0x${string}`,
-      );
-
-      this.$patch({ wInjBalance: balance });
-    },
-
     async wrapInj(amount: string) {
-      const walletStore = useSharedWalletStore();
+      const walletStore = useSharedWalletStore()
 
       if (!walletStore.isUserConnected) {
-        return;
+        return
       }
 
       await baseAddEvmNetworkToWallet({
         wallet: walletStore.wallet,
-        chainId: injective.id,
-        params: {
-          ...NETWORK_INFO.injectiveEvmNetworkParams,
-          rpcUrls: [injective.rpcUrls.default.http[0]],
-          blockExplorerUrls: [injective.blockExplorers?.default.url ?? ""],
-        },
-      });
+        chainId: INJECTIVE_EVM_CHAIN_ID
+      })
 
-      await walletStore.validateAndQueue();
+      await walletStore.validateAndQueue()
 
       const tx = await wEth9Contract.deposit(
         amount,
-        walletStore.address as `0x${string}`,
-      );
+        walletStore.address as `0x${string}`
+      )
 
       await web3Broadcaster.sendTransaction({
         tx,
-        address: walletStore.address,
-      });
-
-      await this.fetchWInjBalance();
+        address: walletStore.address
+      })
     },
 
     async unwrapInj(amount: string) {
-      const walletStore = useSharedWalletStore();
+      const walletStore = useSharedWalletStore()
 
       if (!walletStore.isUserConnected) {
-        return;
+        return
       }
 
       await baseAddEvmNetworkToWallet({
         wallet: walletStore.wallet,
-        chainId: injective.id,
-        params: {
-          ...NETWORK_INFO.injectiveEvmNetworkParams,
-          rpcUrls: [injective.rpcUrls.default.http[0]],
-          blockExplorerUrls: [injective.blockExplorers?.default.url ?? ""],
-        },
-      });
+        chainId: INJECTIVE_EVM_CHAIN_ID
+      })
 
-      await walletStore.validateAndQueue();
+      await walletStore.validateAndQueue()
 
       const tx = await wEth9Contract.withdraw(
         parseEther(amount),
-        walletStore.address as `0x${string}`,
-      );
+        walletStore.address as `0x${string}`
+      )
 
       await web3Broadcaster.sendTransaction({
         tx,
-        address: walletStore.address,
-      });
-
-      await this.fetchWInjBalance();
-    },
-  },
-});
+        address: walletStore.address
+      })
+    }
+  }
+})
