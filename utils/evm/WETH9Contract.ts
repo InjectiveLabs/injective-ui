@@ -9,11 +9,8 @@ import {
   createPublicClient,
   encodeFunctionData,
 } from "viem";
-import {
-  WETH_ETHEREUM_MAINNET_TOKEN,
-  WETH_INJECTIVE_MAINNET_TOKEN,
-} from "./constants";
 import type { Chain, Address, PublicClient } from "viem";
+import { NETWORK_INFO } from "../constant";
 
 export const WETH9_CONTRACT_ABI = parseAbi([
   // Events
@@ -50,7 +47,8 @@ export class WETH9Contract {
     this.chain = params?.chain ?? mainnet;
 
     this.wethAddress =
-      params?.address ?? (WETH_ETHEREUM_MAINNET_TOKEN.address as Address);
+      params?.address ??
+      (NETWORK_INFO.injectiveEvmNetworkParams?.wInjAddress as Address);
     this.publicClient = createPublicClient({
       chain: this.chain,
       transport: http(),
@@ -206,5 +204,5 @@ export class WETH9Contract {
 
 export const wEth9Contract = new WETH9Contract({
   chain: injective,
-  address: WETH_INJECTIVE_MAINNET_TOKEN.address as Address,
+  address: NETWORK_INFO.injectiveEvmNetworkParams?.wInjAddress as Address,
 });
