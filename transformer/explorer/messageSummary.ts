@@ -1,7 +1,7 @@
 import { MsgType } from '@injectivelabs/ts-types'
+import { USDT_DENOM } from '../../utils/constant'
 import { eventLogsSummaryMap } from './messageEvents'
 import { contractEventSummaryMap } from './contractEvents'
-import { USDT_DENOM } from '../../utils/constant'
 import { contractMsgTypeMap } from './../../utils/explorer'
 import { getNetworkFromAddress } from './../../utils/network'
 import { sharedToBalanceInToken } from './../../utils/formatter'
