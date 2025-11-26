@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import QRCodeVue3 from 'qr-code-generator-vue3'
+import QRCodeStyling from 'qr-code-styling'
 import { injLogoBase64 } from '../data/token'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     text: string
     logo?: string
@@ -17,18 +17,21 @@ withDefaults(
     extraConfigs: () => ({})
   }
 )
-</script>
 
-<template>
-  <div class="p-2 bg-white">
-    <QRCodeVue3
-      v-bind="{
-        margin: 0,
-        value: text,
-        image: logo || injLogoBase64,
-        dotsOptions: {
-          type: 'dots',
-          ...(colorSettings || {
+const qrCodeRef = ref()
+
+onMounted(() => {
+  const qrCode = new QRCodeStyling({
+    type: 'svg',
+    data: props.text,
+    image: props.logo || injLogoBase64,
+    qrOptions: { errorCorrectionLevel: 'H' },
+    cornersDotOptions: { type: 'dot', color: '#000000' },
+    cornersSquareOptions: { type: 'extra-rounded', color: '#000000' },
+    imageOptions: props.imageOptions || { margin: 16, imageSize: 0.4 },
+    dotsOptions: {
+      type: 'dots',
+      ...(props.colorSettings || {
             gradient: {
               type: 'radial',
               rotation: 0,
@@ -38,18 +41,27 @@ withDefaults(
               ]
             }
           })
-        },
-        imageOptions: imageOptions || { imageSize: 0.4, margin: 16 },
-        cornersDotOptions: {
-          type: 'dot',
-          color: '#000000'
-        },
-        cornersSquareOptions: {
-          type: 'extra-rounded',
-          color: '#000'
-        },
-        ...extraConfigs
-      }"
+
+    },
+    ...props.extraConfigs
+  })
+
+  qrCode.append(qrCodeRef.value)
+})
+</script>
+
+<template>
+  <div class="p-2 bg-white">
+    <span
+      ref="qrCodeRef"
+      class="shared-qr-code"
     />
   </div>
 </template>
+
+<style>
+.shared-qr-code svg {
+  width: 100%;
+  height: 100%;
+}
+</style>
