@@ -8,6 +8,9 @@ import {
 } from './../Service'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
 import type { SharedTokenUsdPriceMap } from './../types'
+import { BigNumberInBase } from '@injectivelabs/utils'
+import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
+import { injToken } from '../data/token'
 
 type SharedTokenStoreState = {
   unknownTokens: TokenStatic[]
@@ -108,7 +111,12 @@ export const useSharedTokenStore = defineStore('sharedToken', {
             unKnownDenoms.push(coin.denom)
           }
 
-          list[coin.denom] = coin.amount
+          const amount =
+            coin.denom === injToken.denom
+              ? new BigNumberInBase(INJ_SUPPLY_AMOUNT).toWei().toFixed()
+              : coin.amount
+
+          list[coin.denom] = amount
 
           return list
         },
