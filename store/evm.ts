@@ -34,7 +34,8 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
 
       await web3Broadcaster.sendTransaction({
         tx,
-        address: walletStore.address
+        address: walletStore.address,
+        evmChainId: INJECTIVE_EVM_CHAIN_ID
       })
     },
 
@@ -60,7 +61,8 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
 
       await web3Broadcaster.sendTransaction({
         tx,
-        address: walletStore.address
+        address: walletStore.address,
+        evmChainId: INJECTIVE_EVM_CHAIN_ID
       })
     }
   }

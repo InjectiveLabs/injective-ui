@@ -1429,8 +1429,8 @@ packages:
     resolution: {integrity: sha512-HjA8x/U/Q78HRRe19yh8HVKoZ+Iaoo3YZjakJYxR+rw52NHo6jM+VE9b8+7ygkCFXl/EHID5wh/MkXaE/jGyYw==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
-  '@keplr-wallet/types@0.12.293':
-    resolution: {integrity: sha512-sex/ioNP47+JHLg5ym6+2qkCpnCaTW1ohD6ZwYk5veBvmf9W5MHSU/yKiUEH7g+9Y+PiRK41zsdtsgOaVwajhg==}
+  '@keplr-wallet/types@0.12.295':
+    resolution: {integrity: sha512-pTvwNwfqa/bEIBbSw2VJP2nQ6jGefreOfATss6OqrC4jTn+etb2QEckT1CAjLsgz3FqlVnTl35pd9LMNF+fy0A==}
     peerDependencies:
       starknet: ^7
 
@@ -8026,8 +8026,8 @@ packages:
     resolution: {integrity: sha512-5JRxVqC8I8NuOUjzBbvVJAKNM8qoVuH0O77h4WInc/qC2q5IreqKxYwgkga3PfA22OayK2ikceb/B26dztPl+Q==}
     engines: {node: '>=16'}
 
-  superjson@2.2.5:
-    resolution: {integrity: sha512-zWPTX96LVsA/eVYnqOM2+ofcdPqdS1dAF1LN4TS2/MWuUpfitd9ctTa87wt4xrYnZnkLtS69xpBdSxVBP5Rm6w==}
+  superjson@2.2.6:
+    resolution: {integrity: sha512-H+ue8Zo4vJmV2nRjpx86P35lzwDT3nItnIsocgumgr0hHMQ+ZGq5vrERg9kJBo5AWGmxZDhzDo+WVIJqkB0cGA==}
     engines: {node: '>=16'}
 
   superstruct@2.0.2:
@@ -10671,7 +10671,7 @@ snapshots:
       '@injectivelabs/ts-types': 1.16.35
       '@injectivelabs/utils': 1.16.35
       '@injectivelabs/wallet-base': 1.16.35(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@keplr-wallet/types': 0.12.293(starknet@7.6.4)
+      '@keplr-wallet/types': 0.12.295(starknet@7.6.4)
       eventemitter3: 5.0.1
     transitivePeerDependencies:
       - '@types/react'
@@ -10735,7 +10735,7 @@ snapshots:
       '@injectivelabs/ts-types': 1.16.35
       '@injectivelabs/utils': 1.16.35
       '@injectivelabs/wallet-base': 1.16.35(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@keplr-wallet/types': 0.12.293(starknet@7.6.4)
+      '@keplr-wallet/types': 0.12.295(starknet@7.6.4)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -11186,7 +11186,7 @@ snapshots:
       '@json-rpc-tools/types': 1.7.6
       '@pedrouid/environment': 1.0.1
 
-  '@keplr-wallet/types@0.12.293(starknet@7.6.4)':
+  '@keplr-wallet/types@0.12.295(starknet@7.6.4)':
     dependencies:
       long: 4.0.0
       starknet: 7.6.4
@@ -14024,7 +14024,7 @@ snapshots:
       mitt: 3.0.1
       perfect-debounce: 1.0.0
       speakingurl: 14.0.1
-      superjson: 2.2.5
+      superjson: 2.2.6
 
   '@vue/devtools-shared@7.7.7':
     dependencies:
@@ -19566,7 +19566,7 @@ snapshots:
     dependencies:
       copy-anything: 3.0.5
 
-  superjson@2.2.5:
+  superjson@2.2.6:
     dependencies:
       copy-anything: 4.0.5
 
