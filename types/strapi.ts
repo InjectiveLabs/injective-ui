@@ -39,6 +39,7 @@ export interface StrapiApp {
   publishedAt: string
   icon: StrapiAppIcon
   localizations: any[]
+  icon_dark: StrapiAppIcon
   application_types: StrapiAppType[]
 }
 
