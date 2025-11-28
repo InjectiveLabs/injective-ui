@@ -21,8 +21,10 @@ export const walletStrategy = new WalletStrategy({
     rpcUrls: {
       [EvmChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
       [EvmChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
-      [EvmChainId.DevnetEvm]: 'https://devnet.json-rpc.injective.dev/',
-      [EvmChainId.TestnetEvm]: 'https://k8s.testnet.json-rpc.injective.network/'
+      [EvmChainId.MainnetEvm]: 'https://sentry.evm-rpc.injective.network/',
+      [EvmChainId.TestnetEvm]:
+        'https://k8s.testnet.json-rpc.injective.network/',
+      [EvmChainId.DevnetEvm]: 'https://devnet.json-rpc.injective.dev/'
     }
   },
   metadata: {
