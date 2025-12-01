@@ -2,6 +2,14 @@ import { BaseCacheApi } from './base'
 import type { StrapiApp } from '../../types'
 
 export class StrapiCacheApi extends BaseCacheApi {
+  async fetchMultiVmFeaturedApps() {
+    const response = await this.client.get<{
+      data: { applications: StrapiApp[] }
+    }>('cache/strapi/multivm-app-list')
+
+    return response.data
+  }
+
   async fetchFeaturedApps() {
     const response = await this.client.get<{
       data: { featured_apps: StrapiApp[] }
