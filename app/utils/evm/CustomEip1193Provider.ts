@@ -2,7 +2,7 @@ import { PrivateKey } from '@injectivelabs/sdk-ts'
 import {
   loadEthersSigningType,
   loadEthersBaseWalletType
-} from './../../utils/lib'
+} from '../../utils/lib'
 import type { BaseWallet, Eip1193Provider } from 'ethers'
 
 const SEPOLIA_CHAIN_ID = 11155111
