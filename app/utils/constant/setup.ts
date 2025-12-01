@@ -50,10 +50,16 @@ export const CHAIN_ID: ChainId = (
 
 export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
   .VITE_ETHEREUM_CHAIN_ID
-  ? parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string) as EvmChainId
+  ? (parseInt(import.meta.env.VITE_ETHEREUM_CHAIN_ID as string) as EvmChainId)
   : IS_TESTNET || IS_DEVNET
     ? EvmChainId.Sepolia
     : EvmChainId.Mainnet
+
+export const INJECTIVE_EVM_CHAIN_ID: EvmChainId = IS_MAINNET
+  ? EvmChainId.MainnetEvm
+  : IS_TESTNET
+    ? EvmChainId.TestnetEvm
+    : EvmChainId.DevnetEvm
 
 const endpoints = getNetworkEndpoints(NETWORK)
 const endpointsNotProvided =

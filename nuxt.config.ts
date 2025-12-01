@@ -17,6 +17,17 @@ export default defineNuxtConfig({
 
   css: [resolve('./app/assets/tailwind.css')],
 
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        paths: {
+          '@': ['.'],
+          '@/*': ['./*']
+        }
+      }
+    }
+  },
+
   ignore: isProduction ? ['pages/sandbox.vue'] : [],
 
   sourcemap: {

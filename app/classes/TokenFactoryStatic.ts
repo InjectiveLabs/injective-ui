@@ -1,14 +1,9 @@
-
 import {
   TokenType,
   TokenVerification,
   isCw20ContractAddress
 } from '@injectivelabs/sdk-ts'
-import type {
-  TokenSource,
-  TokenStatic
-} from '@injectivelabs/sdk-ts';
-
+import type { TokenSource, TokenStatic } from '@injectivelabs/sdk-ts'
 
 export class TokenStaticFactory {
   public factoryTokenDenomUnverifiedMap: Record<string, TokenStatic>
@@ -64,7 +59,7 @@ export class TokenStaticFactory {
         symbol,
         address,
         tokenType,
-        tokenVerification,
+        tokenVerification
       } = token
 
       if (tokenVerification === TokenVerification.Verified) {
@@ -124,11 +119,11 @@ export class TokenStaticFactory {
     denomOrSymbol: string,
     {
       source,
-      verification,
+      verification
     }: {
       source?: TokenSource
       verification?: TokenVerification
-    } = {},
+    } = {}
   ): undefined | TokenStatic {
     const denomOrSymbolTrimmed = denomOrSymbol.trim()
 
@@ -139,13 +134,13 @@ export class TokenStaticFactory {
     if (source) {
       return this.getIbcToken(denomOrSymbol, {
         source,
-        tokenVerification: verification,
+        tokenVerification: verification
       })
     }
 
     if (denomOrSymbolTrimmed.startsWith('factory/wormhole')) {
       return this.getIbcToken(denomOrSymbolTrimmed, {
-        tokenVerification: verification,
+        tokenVerification: verification
       })
     }
 
@@ -154,7 +149,7 @@ export class TokenStaticFactory {
         this.getSymbolToken(denomOrSymbolTrimmed) ||
         this.getInsuranceToken(denomOrSymbolTrimmed) ||
         this.getIbcToken(denomOrSymbolTrimmed, {
-          tokenVerification: verification,
+          tokenVerification: verification
         }) ||
         this.denomVerifiedMap[denomOrSymbolTrimmed]
       )
@@ -162,13 +157,13 @@ export class TokenStaticFactory {
 
     if (isCw20ContractAddress(denomOrSymbolTrimmed)) {
       return this.getCw20Token(denomOrSymbolTrimmed, {
-        tokenVerification: verification,
+        tokenVerification: verification
       })
     }
 
     if (denomOrSymbolTrimmed.startsWith('factory/')) {
       return this.getTokenFactoryToken(denomOrSymbolTrimmed, {
-        tokenVerification: verification,
+        tokenVerification: verification
       })
     }
 
@@ -182,11 +177,11 @@ export class TokenStaticFactory {
     denom: string,
     {
       source,
-      tokenVerification,
+      tokenVerification
     }: {
       source?: TokenSource
       tokenVerification?: TokenVerification
-    } = {},
+    } = {}
   ): undefined | TokenStatic {
     const denomTrimmed = denom.trim()
 
@@ -196,13 +191,13 @@ export class TokenStaticFactory {
           ? Object.values(this.ibcDenomsVerifiedMap)
           : [
               ...Object.values(this.ibcDenomsVerifiedMap),
-              ...Object.values(this.ibcDenomsVerifiedMap).flat(),
+              ...Object.values(this.ibcDenomsVerifiedMap).flat()
             ]
 
       return list.find(
         (token: TokenStatic) =>
           token.source === source &&
-          (token.denom === denomTrimmed || token?.baseDenom === denomTrimmed),
+          (token.denom === denomTrimmed || token?.baseDenom === denomTrimmed)
       )
     }
 
@@ -223,7 +218,7 @@ export class TokenStaticFactory {
 
   getTokenFactoryToken(
     denom: string,
-    { tokenVerification }: { tokenVerification?: TokenVerification } = {},
+    { tokenVerification }: { tokenVerification?: TokenVerification } = {}
   ): undefined | TokenStatic {
     if (tokenVerification === TokenVerification.Verified) {
       return this.factoryTokenDenomVerifiedMap[denom]
@@ -237,7 +232,7 @@ export class TokenStaticFactory {
 
   getCw20Token(
     address: string,
-    { tokenVerification }: { tokenVerification?: TokenVerification } = {},
+    { tokenVerification }: { tokenVerification?: TokenVerification } = {}
   ): undefined | TokenStatic {
     if (tokenVerification === TokenVerification.Verified) {
       return this.cw20AddressVerifiedMap[address]

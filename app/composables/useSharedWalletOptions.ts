@@ -7,27 +7,27 @@ export function useSharedWalletOptions() {
   const sharedWalletStore = useSharedWalletStore()
 
   const popularOptions = computed(
-  () =>
-    [
-      {
-        wallet: Wallet.Metamask,
-        downloadLink: !sharedWalletStore.metamaskInstalled
-          ? 'https://metamask.io/download'
-          : undefined
-      },
-      {
-        wallet: Wallet.Keplr,
-        downloadLink: !isCosmosWalletInstalled(Wallet.Keplr)
-          ? 'https://www.keplr.app/download'
-          : undefined
-      },
-      {
-        wallet: Wallet.Rabby,
-        downloadLink: !sharedWalletStore.rabbyInstalled
-          ? 'https://rabby.io/'
-          : undefined
-      }
-    ].filter((option) => option) as SharedWalletOption[]
+    () =>
+      [
+        {
+          wallet: Wallet.Metamask,
+          downloadLink: !sharedWalletStore.metamaskInstalled
+            ? 'https://metamask.io/download'
+            : undefined
+        },
+        {
+          wallet: Wallet.Keplr,
+          downloadLink: !isCosmosWalletInstalled(Wallet.Keplr)
+            ? 'https://www.keplr.app/download'
+            : undefined
+        },
+        {
+          wallet: Wallet.Rabby,
+          downloadLink: !sharedWalletStore.rabbyInstalled
+            ? 'https://rabby.io/'
+            : undefined
+        }
+      ].filter((option) => option) as SharedWalletOption[]
   )
 
   const options = computed(
@@ -67,30 +67,33 @@ export function useSharedWalletOptions() {
         //     ? 'https://www.cosmostation.io/wallet'
         //     : undefined
         // },
-        { wallet: Wallet.Phantom },
-        { 
-            wallet: Wallet.TrustWallet,
-            downloadLink: !sharedWalletStore.trustWalletInstalled
+        {
+          wallet: Wallet.Phantom,
+          downloadLink: !sharedWalletStore.phantomInstalled
+            ? 'https://phantom.com/download'
+            : undefined
+        },
+        {
+          wallet: Wallet.TrustWallet,
+          downloadLink: !sharedWalletStore.trustWalletInstalled
             ? 'https://trustwallet.com/browser-extension/'
             : undefined
-         },
+        },
         IS_MAINNET ? { wallet: Wallet.WalletConnect } : undefined,
-        IS_HELIX ? { wallet: Wallet.Magic } : undefined,
+        IS_HELIX ? { wallet: Wallet.Magic } : undefined
       ].filter((option) => option) as SharedWalletOption[]
   )
 
   async function validateWalletExtensionInstalled() {
-    await Promise.all(
-      [
-        sharedWalletStore.checkIsBitGetInstalled(),
-        sharedWalletStore.checkIsRainbowInstalled(),
-        sharedWalletStore.checkIsMetamaskInstalled(),
-        sharedWalletStore.checkIsOkxWalletInstalled(),
-        sharedWalletStore.checkIsRabbyWalletInstalled(),
-        sharedWalletStore.checkIsTrustWalletInstalled(),
-        sharedWalletStore.checkIsPhantomWalletInstalled()
-      ]
-    )
+    await Promise.all([
+      sharedWalletStore.checkIsBitGetInstalled(),
+      sharedWalletStore.checkIsRainbowInstalled(),
+      sharedWalletStore.checkIsMetamaskInstalled(),
+      sharedWalletStore.checkIsOkxWalletInstalled(),
+      sharedWalletStore.checkIsRabbyWalletInstalled(),
+      sharedWalletStore.checkIsTrustWalletInstalled(),
+      sharedWalletStore.checkIsPhantomWalletInstalled()
+    ])
   }
 
   return {
