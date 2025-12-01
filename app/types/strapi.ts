@@ -8,7 +8,6 @@ export interface StrapiAppType {
   id: number
   slug: string
   name: string
-  locale: string
   createdAt: string
   updatedAt: string
   documentId: string
@@ -32,13 +31,16 @@ export interface StrapiApp {
   id: number
   url: string
   name: string
-  locale: string
   createdAt: string
   updatedAt: string
   documentId: string
   publishedAt: string
-  icon: StrapiAppIcon
+  icon?: StrapiAppIcon
+  logo?: StrapiAppIcon
+  description?: string
   localizations: any[]
+  multivm_feature?: boolean
+  icon_dark?: StrapiAppIcon
   application_types: StrapiAppType[]
 }
 

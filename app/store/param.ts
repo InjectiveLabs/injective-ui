@@ -151,7 +151,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
 
       paramsStore.$patch({
         mintParams,
-        blocksPerYear: mintParams.blocksPerYear
+        blocksPerYear: mintParams.blocksPerYear.toString()
       })
     },
 
