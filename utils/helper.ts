@@ -53,14 +53,7 @@ export const abbreviateNumber = (number: number) => {
     : `≈${abbreviatedValue}`
 }
 
-export const checkUnauthorizedMessages = (msgs: Msgs[]) => {
-  console.log('new check')
-  console.log({
-    msgs: msgs.map((msg) => JSON.parse(msg.toJSON())['@type']),
-    tradingMessages
-  })
-
-  return !msgs.every((msg) =>
+export const checkUnauthorizedMessages = (msgs: Msgs[]) =>
+  !msgs.every((msg) =>
     tradingMessages.includes(JSON.parse(msg.toJSON())['@type'])
   )
-}

@@ -560,10 +560,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
-      console.log({
-        hasUnauthorizedMessages
-      })
-
       if (
         !walletStore.isEip712 &&
         walletStore.autoSign &&
