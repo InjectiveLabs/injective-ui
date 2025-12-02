@@ -313,7 +313,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.autoSign) {
-        autoSignWalletStrategy.setMetadata({
+        await autoSignWalletStrategy.setMetadata({
           privateKey: {
             privateKey: walletStore.autoSign.privateKey as string
           }
@@ -384,7 +384,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
-        walletStrategy.setMetadata({
+        await walletStrategy.setMetadata({
           privateKey: {
             privateKey: options.privateKey
           }
@@ -439,8 +439,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.hwAddresses.length === 0 ||
         walletStore.wallet !== wallet
       ) {
-        walletStrategy.disconnect()
-        walletStrategy.setWallet(wallet)
+        await walletStrategy.disconnect()
+        await walletStrategy.setWallet(wallet)
 
         walletStore.$patch({
           wallet
@@ -708,7 +708,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign
       })
 
-      autoSignWalletStrategy.setMetadata({
+      await autoSignWalletStrategy.setMetadata({
         privateKey: {
           privateKey: autoSign.privateKey
         }
