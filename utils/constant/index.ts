@@ -6,6 +6,7 @@ import {
 } from '@injectivelabs/utils'
 
 export * from './setup'
+export * from './trade'
 
 export const INJ_LOGO_URL =
   'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/efaa2c96-5463-4707-0d2b-19e5b63df000/public'
