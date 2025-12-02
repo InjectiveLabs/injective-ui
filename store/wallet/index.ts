@@ -7,7 +7,8 @@ import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   IS_HELIX,
   IS_DEVNET,
-  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
+  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT,
+  tradingMessages
 } from '../../utils/constant'
 import {
   submitTurnkeyOTP,
@@ -49,6 +50,7 @@ import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
+import { checkUnauthorizedMessages } from '../../utils/helper'
 
 type WalletStoreState = {
   wallet: Wallet
@@ -333,13 +335,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        ([
-          Wallet.BitGet,
-          Wallet.Phantom,
-          Wallet.Metamask,
-          Wallet.OkxWallet,
-          Wallet.TrustWallet
-        ] as WalletType[]).includes(walletStore.wallet)
+        (
+          [
+            Wallet.BitGet,
+            Wallet.Phantom,
+            Wallet.Metamask,
+            Wallet.OkxWallet,
+            Wallet.TrustWallet
+          ] as WalletType[]
+        ).includes(walletStore.wallet)
       ) {
         await validateEvmWallet({
           wallet: walletStore.wallet,
@@ -348,13 +352,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        ([
-          Wallet.Leap,
-          Wallet.Ninji,
-          Wallet.Keplr,
-          Wallet.OWallet,
-          Wallet.Cosmostation
-        ] as WalletType[]).includes(walletStore.wallet)
+        (
+          [
+            Wallet.Leap,
+            Wallet.Ninji,
+            Wallet.Keplr,
+            Wallet.OWallet,
+            Wallet.Cosmostation
+          ] as WalletType[]
+        ).includes(walletStore.wallet)
       ) {
         await validateCosmosWallet({
           wallet: walletStore.wallet,
@@ -474,15 +480,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const msgs = Array.isArray(messages) ? messages : [messages]
 
-      const hasMsgExecuteContract = msgs.some(
-        (msg) =>
-          JSON.parse(msg.toJSON())['@type'] ===
-          MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-      )
+      const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
       if (
         walletStore.autoSign &&
-        !hasMsgExecuteContract &&
+        !hasUnauthorizedMessages &&
         walletStore.isAutoSignEnabled
       ) {
         const response = await autoSignMsgBroadcaster.broadcastV2({
@@ -556,19 +558,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const msgs = Array.isArray(messages) ? messages : [messages]
 
-      const hasMsgExecuteContract = msgs.some((msg) => {
-        const parsedMsg = JSON.parse(msg.toJSON())
+      const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
-        const isMsgExec =
-          parsedMsg['@type'] === MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-
-        return isMsgExec
+      console.log({
+        hasUnauthorizedMessages
       })
 
       if (
         !walletStore.isEip712 &&
         walletStore.autoSign &&
-        !hasMsgExecuteContract &&
+        !hasUnauthorizedMessages &&
         walletStore.isAutoSignEnabled
       ) {
         const msgExecMsgs = msgsOrMsgExecMsgs(
