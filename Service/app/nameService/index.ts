@@ -1,7 +1,7 @@
 import { nameToNode, normalizeName } from './utils'
-import { lazyImportSdkTs } from '../../../utils/lib'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { NETWORK, ENDPOINTS } from '../../../utils/constant'
+import { getChainGrpcWasmApi } from '../../../utils/lib/sdkImports'
 import {
   getInjNameRegistryContractForNetwork,
   getInjNameReverseResolverContractForNetwork
@@ -11,8 +11,7 @@ import {
   QueryResolverAddress,
   QueryInjectiveAddress,
   InjNameServiceQueryTransformer
-} from '@injectivelabs/sdk-ts'
-import type { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
+} from '@injectivelabs/sdk-ts/client/wasm'
 
 export class InjNameService {
   private reverseResolverAddress: string
@@ -26,10 +25,7 @@ export class InjNameService {
   }
 
   async fetchInjName(address: string) {
-    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
-      endpoint: ENDPOINTS.grpc,
-      className: 'ChainGrpcWasmApi'
-    })
+    const client = await getChainGrpcWasmApi(ENDPOINTS.grpc)
 
     const query = new QueryInjName({ address }).toPayload()
 
@@ -57,10 +53,7 @@ export class InjNameService {
   }
 
   async fetchInjAddress(name: string) {
-    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
-      endpoint: ENDPOINTS.grpc,
-      className: 'ChainGrpcWasmApi'
-    })
+    const client = await getChainGrpcWasmApi(ENDPOINTS.grpc)
 
     const node = nameToNode(normalizeName(name))
 
@@ -87,10 +80,7 @@ export class InjNameService {
   }
 
   private async fetchResolverAddress(node: number[]) {
-    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
-      endpoint: ENDPOINTS.grpc,
-      className: 'ChainGrpcWasmApi'
-    })
+    const client = await getChainGrpcWasmApi(ENDPOINTS.grpc)
 
     const query = new QueryResolverAddress({ node }).toPayload()
 

@@ -1,16 +1,22 @@
 import { fetchEstimatorGasPrice } from './estimator'
-import { GWEI_IN_WEI, DEFAULT_MAINNET_GAS_PRICE } from '../../../utils/constant'
+import { EvmChainId } from '@injectivelabs/ts-types'
+import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
+import { getViemPublicClient } from '@injectivelabs/wallet-base'
 import {
   GeneralException,
   HttpRequestException
 } from '@injectivelabs/exceptions'
+import {
+  IS_MAINNET,
+  GWEI_IN_WEI,
+  DEFAULT_MAINNET_GAS_PRICE
+} from '../../../utils/constant'
 import {
   BigNumber,
   HttpClient,
   BigNumberInWei,
   BigNumberInBase
 } from '@injectivelabs/utils'
-import { getAlchemyClient } from './../../shared'
 
 export interface GasInfo {
   gasPrice: string
@@ -40,24 +46,25 @@ export interface EthGasStationResult {
   safeLowWait: number
 }
 
-const fetchGasPriceFromAlchemy = async (): Promise<string> => {
+const fetchGasPriceFromEthereum = async (): Promise<string> => {
   try {
-    const alchemy = await getAlchemyClient()
-    const response = await alchemy.core.getFeeData()
+    const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+    const publicClient = getViemPublicClient(chainId, alchemyRpcEndpoint)
+    const response = await publicClient.estimateFeesPerGas()
 
     if (!response) {
-      throw new GeneralException(new Error('No response from Alchemy'))
+      throw new GeneralException(new Error('No response from Ethereum'))
     }
 
     if (response.maxFeePerGas) {
       return response.maxFeePerGas.toString()
     }
 
-    const gasPrice = await alchemy.core.getGasPrice()
+    const gasPrice = await publicClient.getGasPrice()
 
     if (!gasPrice) {
       throw new GeneralException(
-        new Error('No gas price response from Alchemy')
+        new Error('No gas price response from Ethereum')
       )
     }
 
@@ -136,7 +143,7 @@ export const fetchGasPrice = async (): Promise<string> => {
   }
 
   try {
-    const gasPrice = await fetchGasPriceFromAlchemy()
+    const gasPrice = await fetchGasPriceFromEthereum()
 
     if (gasPrice) {
       return gasPrice.toString()

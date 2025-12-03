@@ -1,7 +1,7 @@
 import { MsgType } from '@injectivelabs/ts-types'
 import { USDT_DENOM } from '../../utils/constant'
-import { base64ToUtf8 } from '@injectivelabs/sdk-ts'
 import { eventLogsSummaryMap } from './messageEvents'
+import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils'
 import { contractEventSummaryMap } from './contractEvents'
 import { contractMsgTypeMap } from './../../utils/explorer'
 import { getNetworkFromAddress } from './../../utils/network'

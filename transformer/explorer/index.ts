@@ -5,7 +5,7 @@ import { BigNumberInBase } from '@injectivelabs/utils'
 import { getHumanReadableMessage } from './messageSummary'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
 import { hardCodedContractCopyMap } from './../../utils/explorer'
-import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
 import type {
   Coin,
   Message,
@@ -229,6 +229,7 @@ const getTypesAndCoins = (
     }
   } catch (error) {
     console.error('Error getting types and coins:', error, transaction)
+
     return {
       types: [],
       coinReceived: [],

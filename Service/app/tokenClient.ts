@@ -1,16 +1,17 @@
+import { Erc20Contract } from '../../utils/evm'
+import { IS_MAINNET } from '../../utils/constant'
+import { EvmChainId } from '@injectivelabs/ts-types'
 import { injToken, unknownToken } from '../../data/token'
-import {
-  TokenType,
-  TokenVerification,
-  isCw20ContractAddress
-} from '@injectivelabs/sdk-ts'
-import { getAlchemyClient } from '../shared'
+import { alchemyRpcEndpoint } from '../../wallet/alchemy'
+import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
 import {
   getIbcApi,
   getWasmApi,
   getBankApi,
   getInsuranceFundsApi
 } from '../../Service'
+import type { Address } from 'viem'
 import type {
   Metadata,
   TokenStatic,
@@ -127,8 +128,6 @@ export class SharedTokenClient {
   }
 
   async #getPeggyToken(denom: string): Promise<undefined | TokenStatic> {
-    const alchemyClient = await getAlchemyClient()
-
     if (!denom.startsWith('0x') && !denom.startsWith('peggy')) {
       return
     }
@@ -140,29 +139,33 @@ export class SharedTokenClient {
       address
     }
 
-    const alchemyToken = (await alchemyClient.core.getTokenMetadata(
-      address
-    )) as
-      | undefined
-      | { logo: string; name: string; symbol: string; decimals: number }
+    try {
+      const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+      const erc20Contract = new Erc20Contract(chainId, alchemyRpcEndpoint)
+      const tokenMetadata = await erc20Contract.getTokenMetadata(
+        address as Address
+      )
 
-    if (!alchemyToken || !alchemyToken.name || !alchemyToken.symbol) {
+      if (!tokenMetadata.name || !tokenMetadata.symbol) {
+        return defaultToken
+      }
+
+      const token = {
+        ...defaultToken,
+        name: tokenMetadata.name,
+        tokenType: TokenType.Erc20,
+        symbol: tokenMetadata.symbol,
+        decimals: tokenMetadata.decimals,
+        externalLogo: unknownToken.logo, // Use unknownToken.logo as fallback
+        tokenVerification: TokenVerification.External
+      }
+
+      this.cachedTokens[denom.toLowerCase()] = token
+
+      return token
+    } catch {
       return defaultToken
     }
-
-    const token = {
-      ...defaultToken,
-      name: alchemyToken.name,
-      tokenType: TokenType.Erc20,
-      symbol: alchemyToken.symbol,
-      decimals: alchemyToken.decimals,
-      externalLogo: alchemyToken.logo,
-      tokenVerification: TokenVerification.External
-    }
-
-    this.cachedTokens[denom.toLowerCase()] = token
-
-    return token
   }
 
   async #getTokenFactoryToken(denom: string): Promise<undefined | TokenStatic> {

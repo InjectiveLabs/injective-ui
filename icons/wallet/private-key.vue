@@ -1,8 +1,8 @@
 <template>
   <svg
+    id="Layer_1"
     enable-background="new 0 0 500 500"
     height="500px"
-    id="Layer_1"
     version="1.1"
     viewBox="0 0 500 500"
     width="500px"

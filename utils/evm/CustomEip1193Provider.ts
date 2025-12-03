@@ -1,4 +1,4 @@
-import { PrivateKey } from '@injectivelabs/sdk-ts'
+import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import {
   loadEthersSigningType,
   loadEthersBaseWalletType

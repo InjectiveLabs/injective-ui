@@ -4,8 +4,8 @@ import { ErrorType, GeneralException } from '@injectivelabs/exceptions'
 import {
   hexToUint8Array,
   concatUint8Arrays,
-  stringToUint8Array,
-} from '@injectivelabs/sdk-ts'
+  stringToUint8Array
+} from '@injectivelabs/sdk-ts/utils'
 
 const nameHash = (inputName: string) => {
   // Start with 32 zero bytes (0x0000...0000)
@@ -17,7 +17,10 @@ const nameHash = (inputName: string) => {
     for (let i = labels.length - 1; i >= 0; i -= 1) {
       const normalizedLabel = normalize(labels[i])
       // keccak256 from viem accepts string or Uint8Array
-      const labelSha = keccak256(stringToUint8Array(normalizedLabel), 'hex').slice(2) // Remove 0x prefix
+      const labelSha = keccak256(
+        stringToUint8Array(normalizedLabel),
+        'hex'
+      ).slice(2) // Remove 0x prefix
 
       // Concatenate node + labelSha and hash
       const combined = concatUint8Arrays([
@@ -60,7 +63,7 @@ const validateName = (name: string) => {
   }
 
   const blackList =
-    // eslint-disable-next-line no-control-regex,no-misleading-character-class,unicorn/escape-case
+    // eslint-disable-next-line no-control-regex,no-misleading-character-class
     /[\u0000-\u002c\u002e-\u002f\u003a-\u005e\u0060\u007b-\u007f\u200b\u200c\u200d\ufeff]/g
 
   if (blackList.test(name)) {

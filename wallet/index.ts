@@ -1,3 +1,9 @@
+export * from './evm'
+export * from './wallet'
+export * from './cosmos'
+export * from './alchemy'
+export * from './broadcaster'
+export * from './cosmostation'
 /**
  * All of the imports from this folder should not be imported directly from here
  * rather through the WalletService.
@@ -7,9 +13,3 @@
  * but one and we can't always know which one.
  */
 export * from './wallet-strategy'
-export * from './wallet'
-export * from './alchemy'
-export * from './evm'
-export * from './cosmos'
-export * from './cosmostation'
-export * from './broadcaster'

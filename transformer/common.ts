@@ -1,4 +1,4 @@
-import { paginationUint8ArrayToString } from '@injectivelabs/sdk-ts'
+import { paginationUint8ArrayToString } from '@injectivelabs/sdk-ts/utils'
 import type { Pagination, PagePagination } from '@injectivelabs/sdk-ts'
 
 export const pageResponseToPagination = ({

@@ -1,4 +1,4 @@
-import { hexToBase64 } from '@injectivelabs/sdk-ts'
+import { hexToBase64 } from '@injectivelabs/sdk-ts/utils'
 import { EventMessageType } from './../../types'
 import type { EventLog } from '@injectivelabs/sdk-ts'
 
@@ -56,7 +56,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `{{account:${sender}}} cancelled a LIMIT ${orderType} order for {{spotQuantity:${marketId}-${order.quantity}}} at {{spotPrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   },
@@ -102,7 +102,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `cancelled a LIMIT ${orderType} order for {{spotQuantity:${marketId}-${order.quantity}}} at {{spotPrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   },
@@ -158,7 +158,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `{{account:${sender}}} cancelled a LIMIT ${orderType} order for {{derivativeQuantity:${marketId}-${order.quantity}}} at {{derivativePrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   },
@@ -214,7 +214,7 @@ export const eventLogsSummaryMap: Partial<
       }
 
       return `cancelled a LIMIT ${orderType} order for {{derivativeQuantity:${marketId}-${order.quantity}}} at {{derivativePrice:${marketId}-${order.price}}} in {{market:${marketId}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   }

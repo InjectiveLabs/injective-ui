@@ -13,6 +13,8 @@ withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
+    dataCy: '',
+    cyValue: '',
     shouldAbbreviate: true,
     roundingMode: BigNumber.ROUND_DOWN
   }
