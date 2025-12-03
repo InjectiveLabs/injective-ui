@@ -1,6 +1,7 @@
 import { tradingMessages } from './constant'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils'
 import { sharedTokenClient, tokenStaticFactory } from '../Service'
+import type { BigNumber } from '@injectivelabs/utils'
 import type { Msgs, TokenStatic } from '@injectivelabs/sdk-ts'
 
 export const sharedGetToken = async (
@@ -17,9 +18,7 @@ export const sharedGetToken = async (
   return asyncToken
 }
 
-export const unAbbreviateNumber = (
-  value: string
-): undefined | BigNumberInBase => {
+export const unAbbreviateNumber = (value: string): undefined | BigNumber => {
   const units = {
     K: Number(`1${'0'.repeat(3)}`),
     M: Number(`1${'0'.repeat(6)}`),
@@ -35,7 +34,7 @@ export const unAbbreviateNumber = (
 
   const formattedValue = value.replaceAll(',', '').slice(0, -1)
 
-  return new BigNumberInBase(formattedValue).multipliedBy(units[unit])
+  return toBigNumber(formattedValue).multipliedBy(units[unit])
 }
 
 export const abbreviateNumber = (number: number) => {
@@ -44,7 +43,7 @@ export const abbreviateNumber = (number: number) => {
     compactDisplay: 'short'
   }).format(number)
 
-  const abbreviatedValueMatchesInput = new BigNumberInBase(number).eq(
+  const abbreviatedValueMatchesInput = toBigNumber(number).eq(
     unAbbreviateNumber(abbreviatedValue) || '0'
   )
 

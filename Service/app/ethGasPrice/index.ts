@@ -1,6 +1,7 @@
 import { fetchEstimatorGasPrice } from './estimator'
 import { EvmChainId } from '@injectivelabs/ts-types'
 import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
+import { HttpClient, toBigNumber } from '@injectivelabs/utils'
 import { getViemPublicClient } from '@injectivelabs/wallet-base'
 import {
   GeneralException,
@@ -11,12 +12,6 @@ import {
   GWEI_IN_WEI,
   DEFAULT_MAINNET_GAS_PRICE
 } from '../../../utils/constant'
-import {
-  BigNumber,
-  HttpClient,
-  BigNumberInWei,
-  BigNumberInBase
-} from '@injectivelabs/utils'
 
 export interface GasInfo {
   gasPrice: string
@@ -68,7 +63,7 @@ const fetchGasPriceFromEthereum = async (): Promise<string> => {
       )
     }
 
-    return new BigNumberInBase(gasPrice.toString()).toFixed()
+    return toBigNumber(gasPrice.toString()).toFixed()
   } catch (e: unknown) {
     if (e instanceof HttpRequestException) {
       throw e
@@ -89,9 +84,9 @@ export const fetchGasPriceFromEtherchain = async (): Promise<string> => {
       throw new GeneralException(new Error('No response from Etherchain'))
     }
 
-    return new BigNumberInWei(
-      new BigNumber(response.data.recommendedBaseFee).multipliedBy(GWEI_IN_WEI)
-    ).toFixed(0)
+    return toBigNumber(response.data.recommendedBaseFee)
+      .multipliedBy(GWEI_IN_WEI)
+      .toFixed(0)
   } catch (e: unknown) {
     if (e instanceof HttpRequestException) {
       throw e
@@ -117,11 +112,10 @@ export const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
       )
     }
 
-    return new BigNumberInWei(
-      new BigNumber(response.data.fastest / 10)
-        .times(2.125)
-        .multipliedBy(GWEI_IN_WEI)
-    ).toFixed(0)
+    return toBigNumber(response.data.fastest / 10)
+      .times(2.125)
+      .multipliedBy(GWEI_IN_WEI)
+      .toFixed(0)
   } catch (e: unknown) {
     if (e instanceof HttpRequestException) {
       throw e
@@ -152,5 +146,5 @@ export const fetchGasPrice = async (): Promise<string> => {
     //
   }
 
-  return new BigNumberInWei(DEFAULT_MAINNET_GAS_PRICE).toString()
+  return toBigNumber(DEFAULT_MAINNET_GAS_PRICE).toString()
 }

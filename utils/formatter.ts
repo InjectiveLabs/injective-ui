@@ -1,31 +1,50 @@
 import {
   BigNumber,
-  BigNumberInWei,
-  BigNumberInBase
+  toBigNumber,
+  toChainFormat,
+  toHumanReadable
 } from '@injectivelabs/utils'
 import { TimeDuration } from './../types'
 import type { Coin } from '@injectivelabs/sdk-ts'
 
+/**
+ * @deprecated Use `toChainFormat` from '@injectivelabs/utils' instead.
+ *
+ * Before: sharedToBalanceInWei({ value: '100', decimalPlaces: 18 })
+ * After:  toChainFormat('100', 18)
+ */
 export const sharedToBalanceInWei = ({
   value,
   decimalPlaces = 18
 }: {
   value: string | number
   decimalPlaces?: number
-}): BigNumberInBase => {
-  return new BigNumberInBase(10).pow(decimalPlaces).times(value)
+}): BigNumber => {
+  return toChainFormat(value, decimalPlaces)
 }
 
+/**
+ * @deprecated Use `toHumanReadable` from '@injectivelabs/utils' instead.
+ *
+ * Before: sharedToBalanceInTokenInBase({ value: '1000000000000000000', decimalPlaces: 18 })
+ * After:  toHumanReadable('1000000000000000000', 18)
+ */
 export const sharedToBalanceInTokenInBase = ({
   value,
   decimalPlaces = 18
 }: {
   value: string | number
   decimalPlaces?: number
-}): BigNumberInBase => {
-  return new BigNumberInWei(value).toBase(decimalPlaces)
+}): BigNumber => {
+  return toHumanReadable(value, decimalPlaces)
 }
 
+/**
+ * @deprecated Use `toHumanReadable` from '@injectivelabs/utils' instead.
+ *
+ * Before: sharedToBalanceInToken({ value, decimalPlaces, fixedDecimals, roundingMode })
+ * After:  toHumanReadable(value, decimalPlaces).toFixed(fixedDecimals, roundingMode)
+ */
 export const sharedToBalanceInToken = ({
   value,
   roundingMode,
@@ -37,16 +56,13 @@ export const sharedToBalanceInToken = ({
   fixedDecimals?: number
   roundingMode?: BigNumber.RoundingMode
 }): string => {
-  const balanceInToken = sharedToBalanceInTokenInBase({
-    value,
-    decimalPlaces
-  })
+  const balanceInHumanReadable = toHumanReadable(value, decimalPlaces)
 
   if (fixedDecimals) {
-    return balanceInToken.toFixed(fixedDecimals, roundingMode)
+    return balanceInHumanReadable.toFixed(fixedDecimals, roundingMode)
   }
 
-  return balanceInToken.toFixed()
+  return balanceInHumanReadable.toFixed()
 }
 
 export const sharedParseRouteQuery = (value: string): string =>
@@ -95,18 +111,16 @@ export const sharedFormatSecondsToDisplay = ({
 export const sharedConvertTimestampToMilliseconds = (
   timestamp: number | string
 ): number => {
-  const timestampInBigNumber = new BigNumberInBase(timestamp)
+  const timestampInBigNumber = toBigNumber(timestamp)
 
   if (timestamp.toString().length > 13) {
-    const formatNumberBy = new BigNumberInBase(10).pow(
-      timestamp.toString().length - 13
-    )
+    const formatNumberBy = toBigNumber(10).pow(timestamp.toString().length - 13)
 
     const formattedValue = timestampInBigNumber
       .dividedBy(formatNumberBy)
       .toFixed(0, BigNumber.ROUND_HALF_UP)
 
-    return new BigNumberInBase(formattedValue).toNumber()
+    return toBigNumber(formattedValue).toNumber()
   }
 
   if (timestamp.toString().length < 13) {
@@ -144,17 +158,17 @@ export const sharedGetExactDecimalsFromNumber = (
 }
 
 export const sharedGetTensMultiplier = (number: number | string): number => {
-  const numberToBn = new BigNumber(number)
+  const numberInBigNumber = toBigNumber(number)
 
-  if (numberToBn.eq(1)) {
+  if (numberInBigNumber.eq(1)) {
     return 0
   }
 
-  if (numberToBn.lt(1)) {
-    return -1 * sharedGetExactDecimalsFromNumber(numberToBn.toFixed())
+  if (numberInBigNumber.lt(1)) {
+    return -1 * sharedGetExactDecimalsFromNumber(numberInBigNumber.toFixed())
   }
 
-  const [, zerosInTheNumber] = numberToBn.toFixed().split('1')
+  const [, zerosInTheNumber] = numberInBigNumber.toFixed().split('1')
 
   return zerosInTheNumber.length
 }

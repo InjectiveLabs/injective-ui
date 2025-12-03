@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils'
 import type { FactoryOpts } from 'imask'
 
 const props = defineProps({
@@ -79,7 +79,7 @@ function onPaste(e: ClipboardEvent) {
   e.preventDefault()
 
   const text = e.clipboardData.getData('text/plain').replaceAll(',', '')
-  const value = new BigNumberInBase(text).toFixed(props.maxDecimals)
+  const value = toBigNumber(text).toFixed(props.maxDecimals)
 
   typed.value = value
   emit('update:modelValue', `${typed.value}`)

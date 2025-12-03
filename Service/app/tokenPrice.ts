@@ -2,8 +2,8 @@ import { CoinGeckoApiService } from './CoinGeckoApi'
 import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
 import {
   sleep,
+  toBigNumber,
   HttpRestClient,
-  BigNumberInBase,
   splitArrayToChunks
 } from '@injectivelabs/utils'
 
@@ -199,7 +199,7 @@ export class TokenPrice {
         return 0
       }
 
-      return new BigNumberInBase(priceInUsd).toNumber()
+      return toBigNumber(priceInUsd).toNumber()
     } catch {
       return 0
     }

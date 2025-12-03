@@ -1,5 +1,7 @@
 # BigNumber Migration Guide
 
+> **Note for AI Models**: This is a **generic migration guide** used across multiple Injective repositories. Do not assume any files have been migrated. Always perform a fresh global search (Section 2) at the start of each migration session to identify ALL files requiring migration in the current repository.
+
 ## 1. Overview
 
 This guide documents the migration from `BigNumberInBase` and `BigNumberInWei` classes to using `BigNumber` directly with the new helper functions `toBigNumber`, `toChainFormat`, and `toHumanReadable`.
@@ -26,7 +28,128 @@ This guide documents the migration from `BigNumberInBase` and `BigNumberInWei` c
 
 ---
 
-## 2. Quick Reference Table
+## 2. AI Migration: Global Search First (CRITICAL)
+
+> **IMPORTANT FOR AI MODELS**: This guide is used across multiple repositories. Before starting ANY migration work in a repository, you MUST perform a comprehensive global search to identify ALL files that need migration. Do NOT assume previous migrations have been completed. Always start fresh with a full codebase scan.
+
+### Step 1: Run Global Search Commands
+
+Execute these searches to find ALL deprecated patterns in the **current repository**:
+
+```bash
+# Find all files using BigNumberInBase or BigNumberInWei (classes and types)
+# NOTE: Exclude this guide file and node_modules from search results
+grep -r "BigNumberInBase\|BigNumberInWei" --include="*.ts" --include="*.vue" --include="*.tsx" . | grep -v "node_modules/" | grep -v "MIGRATION_GUIDE"
+
+# Alternative using ripgrep (faster)
+rg "BigNumberInBase|BigNumberInWei" --type ts --type vue -g "!node_modules" -g "!*MIGRATION_GUIDE*"
+```
+
+> **Note**: The grep commands above exclude this guide file. Adjust the exclusion pattern if this guide is located in a different path in your repository.
+
+### Step 2: Create Complete File List
+
+From the search results, create a complete list of files requiring migration. Categorize them:
+
+```markdown
+## Files Requiring Migration
+
+### High Priority (Core Logic)
+
+- [ ] path/to/file1.ts - X occurrences
+- [ ] path/to/file2.ts - X occurrences
+
+### Medium Priority (Components)
+
+- [ ] path/to/component1.vue - X occurrences
+- [ ] path/to/component2.vue - X occurrences
+
+### Low Priority (Types Only)
+
+- [ ] path/to/types.ts - X occurrences (type annotations only)
+```
+
+### Step 3: Search for ALL Deprecated Patterns
+
+Don't just search for class names. Search for ALL deprecated patterns:
+
+```bash
+# Classes and constructors
+grep -r "new BigNumberInBase\|new BigNumberInWei" --include="*.ts" --include="*.vue" .
+
+# Method calls (.toWei, .toBase)
+grep -r "\.toWei(\|\.toBase(" --include="*.ts" --include="*.vue" .
+
+# Type annotations
+grep -r "type.*BigNumberInBase\|: BigNumberInBase\|: BigNumberInWei" --include="*.ts" --include="*.vue" .
+
+# Import statements
+grep -r "import.*BigNumberInBase\|import.*BigNumberInWei" --include="*.ts" --include="*.vue" .
+
+# Deprecated constants
+grep -r "ZERO_IN_BASE\|ONE_IN_BASE\|ZERO_IN_WEI" --include="*.ts" --include="*.vue" .
+
+# Deprecated shared functions
+grep -r "sharedToBalanceInWei\|sharedToBalanceInTokenInBase\|sharedToBalanceInToken" --include="*.ts" --include="*.vue" .
+
+# Comments referencing old patterns (clean these up too)
+grep -r "BigNumberInBase\|BigNumberInWei" --include="*.ts" --include="*.vue" .
+```
+
+### Step 4: Create Migration Plan with Todo List
+
+Before making ANY edits, create a todo list with ALL files:
+
+```markdown
+## Migration Todo List
+
+1. [ ] utils/formatter.ts (3 occurrences: 2 imports, 1 usage)
+2. [ ] store/token.ts (5 occurrences: 1 import, 2 constructors, 2 .toWei calls)
+3. [ ] components/Amount/Base.vue (4 occurrences: 1 import, 3 constructors)
+       ... (list ALL files)
+```
+
+### Step 5: Migrate Systematically
+
+Work through the list one file at a time:
+
+1. Mark todo as "in_progress"
+2. Read the file
+3. Apply all migrations for that file
+4. Mark todo as "completed"
+5. Move to next file
+
+### Step 6: Verify Migration Complete
+
+After migrating all files, run the global search again:
+
+```bash
+# This should return EMPTY if migration is complete
+grep -r "BigNumberInBase\|BigNumberInWei" --include="*.ts" --include="*.vue" . | grep -v "node_modules/" | grep -v "MIGRATION_GUIDE"
+```
+
+If any results remain, you missed files. Add them to your todo list and complete them.
+
+### Step 7: Run Linter
+
+```bash
+pnpm lint --fix
+```
+
+Fix any remaining issues.
+
+### Common Mistakes to Avoid
+
+1. **Searching only for class names** - Also search for `.toWei(`, `.toBase(`, type annotations, imports
+2. **Forgetting comments** - Old comments referencing deprecated classes should be updated or removed
+3. **Partial file migration** - When editing a file, migrate ALL occurrences in that file
+4. **Not verifying completion** - Always run the global search again after migration
+5. **Ignoring Vue files** - Include `*.vue` in all searches
+6. **Missing type-only imports** - `import type { BigNumberInBase }` needs migration too
+
+---
+
+## 3. Quick Reference Table
 
 ### Class/Function Replacements
 
@@ -58,18 +181,19 @@ This guide documents the migration from `BigNumberInBase` and `BigNumberInWei` c
 | `ONE_IN_BASE`  | `ONE_IN_BIG_NUMBER`  |
 | `ZERO_IN_WEI`  | Removed              |
 
-### Variable Naming Replacements
+### Variable Naming Convention
 
-| Before         | After                      |
-| -------------- | -------------------------- |
-| `*InBase`      | `*InHumanReadable`         |
-| `*InWei`       | `*InChainFormat`           |
-| `*ToBigNumber` | `*InBigNumber`             |
-| `*InBigNumber` | `*InBigNumber` (no change) |
+Variable names should reflect **which function is used**, not the old pattern:
+
+| Function Used       | Variable Suffix    | Example                                                                |
+| ------------------- | ------------------ | ---------------------------------------------------------------------- |
+| `toBigNumber()`     | `*InBigNumber`     | `const priceInBigNumber = toBigNumber(order.price)`                    |
+| `toHumanReadable()` | `*InHumanReadable` | `const balanceInHumanReadable = toHumanReadable(rawBalance, decimals)` |
+| `toChainFormat()`   | `*InChainFormat`   | `const marginInChainFormat = toChainFormat(margin, decimals)`          |
 
 ---
 
-## 3. Import Changes
+## 4. Import Changes
 
 ### Before
 
@@ -110,9 +234,40 @@ import {
 } from '@injectivelabs/utils'
 ```
 
+### ESLint/Linter Considerations
+
+Some ESLint configurations require type imports to be on separate lines. If your project uses this rule, structure imports as follows:
+
+```typescript
+// ❌ INCORRECT - inline type import may cause lint errors
+import { toBigNumber, type BigNumber } from '@injectivelabs/utils'
+
+// ✅ CORRECT - separate type import on its own line
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+```
+
+When migrating files with both value and type imports:
+
+```typescript
+// Before
+import { BigNumberInBase, BigNumberInWei } from '@injectivelabs/utils'
+import type { BigNumberInBase } from '@injectivelabs/utils'
+
+// After - split value and type imports
+import {
+  toBigNumber,
+  toChainFormat,
+  toHumanReadable
+} from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+```
+
+> **Note**: Check your project's ESLint configuration for the `@typescript-eslint/consistent-type-imports` rule to determine the required import style.
+
 ---
 
-## 4. Constants Migration
+## 5. Constants Migration
 
 ### Before (`@shared/utils/constant`)
 
@@ -127,11 +282,33 @@ export const ONE_IN_BASE: BigNumberInBase = new BigNumberInBase(1)
 ### After (`@shared/utils/constant`)
 
 ```typescript
-import { BigNumber, toBigNumber } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
 
 export const ZERO_IN_BIG_NUMBER: BigNumber = toBigNumber(0)
 export const ONE_IN_BIG_NUMBER: BigNumber = toBigNumber(1)
 ```
+
+### Additional Constants: new BigNumber() → toBigNumber()
+
+When defining constants that use `new BigNumber()` directly (from bignumber.js), also migrate to `toBigNumber()`:
+
+```typescript
+// Before
+import BigNumber from 'bignumber.js'
+
+export const GWEI_IN_WEI: BigNumber = new BigNumber(1000000000)
+export const DEFAULT_GAS_PRICE: BigNumber = new BigNumber(160000000)
+
+// After
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+
+export const GWEI_IN_WEI: BigNumber = toBigNumber(1000000000)
+export const DEFAULT_GAS_PRICE: BigNumber = toBigNumber(160000000)
+```
+
+> **Note**: This applies to any direct `new BigNumber()` usage from `bignumber.js`, not just the deprecated `BigNumberInBase`/`BigNumberInWei` classes.
 
 ### Usage Examples
 
@@ -149,89 +326,70 @@ const multiplier = ONE_IN_BIG_NUMBER.plus(slippage)
 
 ---
 
-## 5. Variable Naming Conventions
+## 6. Variable Naming Conventions
 
 ### Naming Rules
 
-| Variable Context      | Naming Pattern     | Description                                                           |
-| --------------------- | ------------------ | --------------------------------------------------------------------- |
-| Human readable values | `*InHumanReadable` | Values in base units (e.g., 1.5 INJ)                                  |
-| Chain format values   | `*InChainFormat`   | Values in smallest units for on-chain (e.g., 1500000000000000000 inj) |
-| Generic BigNumber     | `*InBigNumber`     | BigNumber without specific conversion context                         |
+Variable names should reflect **which function is used** to create the value:
 
-### Migration Examples
+| Function Used       | Naming Pattern     | Description                                                           |
+| ------------------- | ------------------ | --------------------------------------------------------------------- |
+| `toBigNumber()`     | `*InBigNumber`     | Generic BigNumber conversion                                          |
+| `toHumanReadable()` | `*InHumanReadable` | Values in base units (e.g., 1.5 INJ)                                  |
+| `toChainFormat()`   | `*InChainFormat`   | Values in smallest units for on-chain (e.g., 1500000000000000000 inj) |
 
-#### Variables ending in `InBase` → `InHumanReadable`
+### Examples
+
+#### Using `toBigNumber()` → name with `*InBigNumber`
 
 ```typescript
 // Before
 const limitPriceInBase = new BigNumberInBase(safeAmount(limitPrice.value))
-const quantityInBase = quantizeNumber(
-  new BigNumberInBase(safeAmount(value)),
-  market.value.quantityTensMultiplier
-)
-const leverageInBase = new BigNumberInBase(safeAmount(leverage?.value))
-const notionalInBase = new BigNumberInBase(safeAmount(value))
+const valueInBigNumber = new BigNumberInBase(value || 0)
+const amountToBigNumber = computed(() => new BigNumberInBase(props.amount || 0))
 
 // After
-const limitPriceInHumanReadable = toBigNumber(safeAmount(limitPrice.value))
-const quantityInHumanReadable = quantizeNumber(
-  toBigNumber(safeAmount(value)),
-  market.value.quantityTensMultiplier
-)
-const leverageInHumanReadable = toBigNumber(safeAmount(leverage?.value))
-const notionalInHumanReadable = toBigNumber(safeAmount(value))
+const limitPriceInBigNumber = toBigNumber(safeAmount(limitPrice.value))
+const valueInBigNumber = toBigNumber(value || 0)
+const amountInBigNumber = computed(() => toBigNumber(props.amount || 0))
 ```
 
-#### Variables ending in `InWei` → `InChainFormat`
+#### Using `toHumanReadable()` → name with `*InHumanReadable`
+
+```typescript
+// Before
+const balanceInBase = new BigNumberInWei(rawBalance).toBase(token.decimals)
+const marginInToken = sharedToBalanceInTokenInBase({
+  value: position.margin,
+  decimalPlaces: market.quoteToken.decimals
+})
+
+// After
+const balanceInHumanReadable = toHumanReadable(rawBalance, token.decimals)
+const marginInHumanReadable = toHumanReadable(
+  position.margin,
+  market.quoteToken.decimals
+)
+```
+
+#### Using `toChainFormat()` → name with `*InChainFormat`
 
 ```typescript
 // Before
 const marginInWei = margin.toWei(quoteTokenDecimals)
-const quantityInWei = new BigNumberInBase(quantity).toWei(token.decimals)
-const priceInWei = spotPriceToChainPriceToFixed({
-  value: price.toFixed(),
-  baseDecimals: market.baseToken.decimals,
-  quoteDecimals: market.quoteToken.decimals
+const quantityInWei = sharedToBalanceInWei({
+  value: quantity,
+  decimalPlaces: token.decimals
 })
 
 // After
 const marginInChainFormat = toChainFormat(margin, quoteTokenDecimals)
 const quantityInChainFormat = toChainFormat(quantity, token.decimals)
-const priceInChainFormat = spotPriceToChainPriceToFixed({
-  value: price.toFixed(),
-  baseDecimals: market.baseToken.decimals,
-  quoteDecimals: market.quoteToken.decimals
-})
-```
-
-#### Variables ending in `InBigNumber` (no change needed)
-
-```typescript
-// Before
-const valueInBigNumber = new BigNumberInBase(value || 0)
-const minInBigNumber = new BigNumberInBase(min)
-const maxInBigNumber = new BigNumberInBase(max)
-
-// After
-const valueInBigNumber = toBigNumber(value || 0)
-const minInBigNumber = toBigNumber(min)
-const maxInBigNumber = toBigNumber(max)
-```
-
-#### Variables ending in `ToBigNumber` → `InBigNumber`
-
-```typescript
-// Before
-const amountToBigNumber = computed(() => new BigNumberInBase(props.amount || 0))
-
-// After
-const amountInBigNumber = computed(() => toBigNumber(props.amount || 0))
 ```
 
 ---
 
-## 6. Core Conversion Patterns
+## 7. Core Conversion Patterns
 
 ### `toBigNumber(value)`
 
@@ -317,7 +475,7 @@ return toBigNumber(
 
 ---
 
-## 7. Deprecated Shared Functions
+## 8. Deprecated Shared Functions
 
 These functions should be marked as deprecated and eventually removed.
 
@@ -452,7 +610,7 @@ const balance = toHumanReadable(rawBalance, token.decimals).toFixed(
 
 ---
 
-## 8. Type Annotation Updates
+## 9. Type Annotation Updates
 
 ### Interface Properties
 
@@ -580,7 +738,7 @@ const margin = computed<BigNumber>(() => { ... })
 
 ---
 
-## 9. Method Migration
+## 10. Method Migration
 
 The BigNumber API remains largely the same. Here's a reference for common methods:
 
@@ -664,7 +822,7 @@ BigNumber.max(a, b)
 
 ---
 
-## 10. Common Pattern Examples
+## 11. Common Pattern Examples
 
 ### Simple Value Creation
 
@@ -838,7 +996,210 @@ const placeholder = toBigNumber(1)
 
 ---
 
-## 11. Search & Replace Patterns
+## 12. Vue Composable Migration
+
+When migrating Vue composables that use BigNumber, pay special attention to reactive types and Vue imports.
+
+### Import Structure for Composables
+
+```typescript
+// Before
+import { computed, Ref, ComputedRef } from 'vue'
+import { BigNumberInBase, BigNumberInWei } from '@injectivelabs/utils'
+
+// After - separate Vue and utility imports
+import { computed, toValue } from 'vue'
+import type { Ref, ComputedRef, MaybeRefOrGetter } from 'vue'
+import {
+  toBigNumber,
+  toHumanReadable,
+  toChainFormat
+} from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+```
+
+### Composable Parameter Types
+
+```typescript
+// Before
+export function useBalance(
+  rawBalance: Ref<string>,
+  decimals: Ref<number>
+): ComputedRef<BigNumberInBase> {
+  return computed(() => {
+    return new BigNumberInWei(rawBalance.value).toBase(decimals.value)
+  })
+}
+
+// After
+export function useBalance(
+  rawBalance: MaybeRefOrGetter<string>,
+  decimals: MaybeRefOrGetter<number>
+): ComputedRef<BigNumber> {
+  return computed(() => {
+    return toHumanReadable(toValue(rawBalance), toValue(decimals))
+  })
+}
+```
+
+### Composable Return Types
+
+```typescript
+// Before
+interface UseTradeReturn {
+  margin: ComputedRef<BigNumberInBase>
+  feeAmount: ComputedRef<BigNumberInBase>
+  totalNotional: ComputedRef<BigNumberInBase>
+}
+
+// After
+interface UseTradeReturn {
+  margin: ComputedRef<BigNumber>
+  feeAmount: ComputedRef<BigNumber>
+  totalNotional: ComputedRef<BigNumber>
+}
+```
+
+### Example: Full Composable Migration
+
+```typescript
+// Before
+import { computed, toValue, Ref, ComputedRef, MaybeRefOrGetter } from 'vue'
+import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
+
+export function useSharedBigNumberFormatted(
+  value: MaybeRefOrGetter<string | number>,
+  options: {
+    decimalPlaces?: MaybeRefOrGetter<number | undefined>
+    displayDecimals?: MaybeRefOrGetter<number | undefined>
+    roundingMode?: MaybeRefOrGetter<BigNumber.RoundingMode | undefined>
+  } = {}
+): ComputedRef<string> {
+  const {
+    decimalPlaces = 0,
+    displayDecimals = 2,
+    roundingMode = BigNumberInBase.ROUND_DOWN
+  } = options
+
+  return computed(() => {
+    const valueInBigNumber = new BigNumberInBase(toValue(value) || 0)
+    // ... rest of implementation
+  })
+}
+
+// After
+import { computed, toValue } from 'vue'
+import type { ComputedRef, MaybeRefOrGetter } from 'vue'
+import { BigNumber, toBigNumber } from '@injectivelabs/utils'
+
+export function useSharedBigNumberFormatted(
+  value: MaybeRefOrGetter<string | number>,
+  options: {
+    decimalPlaces?: MaybeRefOrGetter<number | undefined>
+    displayDecimals?: MaybeRefOrGetter<number | undefined>
+    roundingMode?: MaybeRefOrGetter<BigNumber.RoundingMode | undefined>
+  } = {}
+): ComputedRef<string> {
+  const {
+    decimalPlaces = 0,
+    displayDecimals = 2,
+    roundingMode = BigNumber.ROUND_DOWN
+  } = options
+
+  return computed(() => {
+    const valueInBigNumber = toBigNumber(toValue(value) || 0)
+    // ... rest of implementation
+  })
+}
+```
+
+### Key Points for Vue Composables
+
+1. **Separate type imports**: Use `import type { ... }` for Vue types like `Ref`, `ComputedRef`, `MaybeRefOrGetter`
+2. **Use `toValue()`**: Prefer `toValue()` over `.value` for `MaybeRefOrGetter` parameters
+3. **Update return types**: Change `ComputedRef<BigNumberInBase>` to `ComputedRef<BigNumber>`
+4. **Update rounding modes**: Change `BigNumberInBase.ROUND_DOWN` to `BigNumber.ROUND_DOWN`
+
+---
+
+## 13. Common Pitfalls
+
+### Pitfall 1: Inline Type Imports
+
+Some ESLint configurations reject inline type imports:
+
+```typescript
+// ❌ May cause lint errors
+import { toBigNumber, type BigNumber } from '@injectivelabs/utils'
+
+// ✅ Split into separate imports
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+```
+
+### Pitfall 2: Forgetting to Import Helper Functions
+
+When replacing class instantiation, ensure the helper function is imported:
+
+```typescript
+// ❌ Runtime error - toBigNumber is not defined
+import type { BigNumber } from '@injectivelabs/utils'
+const value = toBigNumber(100) // Error!
+
+// ✅ Import the function
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+const value = toBigNumber(100)
+```
+
+### Pitfall 3: Mixed Import Sources
+
+Don't mix imports from `bignumber.js` and `@injectivelabs/utils`:
+
+```typescript
+// ❌ Inconsistent - avoid this
+import BigNumber from 'bignumber.js'
+import { toBigNumber } from '@injectivelabs/utils'
+const a = new BigNumber(100) // Direct constructor
+const b = toBigNumber(100) // Helper function
+
+// ✅ Consistent - use only @injectivelabs/utils
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+const a = toBigNumber(100)
+const b = toBigNumber(100)
+```
+
+### Pitfall 4: Static Method References
+
+Don't forget to update static method references:
+
+```typescript
+// ❌ INCORRECT - BigNumberInBase no longer exists
+value.toFixed(2, BigNumberInBase.ROUND_DOWN)
+
+// ✅ CORRECT
+value.toFixed(2, BigNumber.ROUND_DOWN)
+```
+
+### Pitfall 5: Type-Only vs Value Exports
+
+`BigNumber` is both a type and a value (class). When you only need the type:
+
+```typescript
+// ✅ For type annotations only
+import type { BigNumber } from '@injectivelabs/utils'
+
+// ✅ When you need static properties (like ROUND_DOWN)
+import { BigNumber } from '@injectivelabs/utils'
+
+// ✅ When you need both type and static properties
+import { BigNumber, toBigNumber } from '@injectivelabs/utils'
+```
+
+---
+
+## 14. Search & Replace Patterns
 
 Use these regex patterns for automated migration. Always review changes manually.
 
@@ -865,9 +1226,21 @@ Replace: toBigNumber($1)
 Search: new BigNumberInWei\(([^)]+)\)\.toBase\(([^)]+)\)
 Replace: toHumanReadable($1, $2)
 
+# new BigNumber(value) - direct bignumber.js constructor
+Search: new BigNumber\(([^)]+)\)
+Replace: toBigNumber($1)
+
 # .toWei(decimals)
 Search: \.toWei\(([^)]+)\)
 Replace: Review - use toChainFormat() instead
+```
+
+### Import Cleanup
+
+```regex
+# Find direct bignumber.js imports that should be replaced
+Search: import\s+BigNumber\s+from\s+['"]bignumber\.js['"]
+Replace: Review - replace with: import { toBigNumber } from '@injectivelabs/utils' and import type { BigNumber } from '@injectivelabs/utils'
 ```
 
 ### Constant Replacements
@@ -896,16 +1269,18 @@ Replace: BigNumber
 
 ### Variable Naming
 
+Variable names should match the function used. These patterns help find legacy names to update:
+
 ```regex
-# Variables ending in InBase
+# Find legacy InBase suffix (should use *InBigNumber or *InHumanReadable based on function)
 Search: (\w+)InBase\b
-Replace: $1InHumanReadable (review context)
+Replace: Review - use *InBigNumber for toBigNumber(), *InHumanReadable for toHumanReadable()
 
-# Variables ending in InWei
+# Find legacy InWei suffix (should use *InChainFormat for toChainFormat())
 Search: (\w+)InWei\b
-Replace: $1InChainFormat (review context)
+Replace: $1InChainFormat
 
-# Variables ending in ToBigNumber
+# Find legacy ToBigNumber suffix (should use *InBigNumber)
 Search: (\w+)ToBigNumber\b
 Replace: $1InBigNumber
 ```
@@ -940,7 +1315,7 @@ Replace: BigNumber.$1
 
 ---
 
-## 12. Migration Checklist
+## 15. Migration Checklist
 
 Use this checklist when migrating a file or module:
 
@@ -952,10 +1327,12 @@ Use this checklist when migrating a file or module:
 
 ### Import Updates
 
-- [ ] Replace `BigNumberInBase` import with `BigNumber, toBigNumber`
-- [ ] Replace `BigNumberInWei` import with `BigNumber, toHumanReadable`
+- [ ] Replace `BigNumberInBase` import with `toBigNumber` (value) + `BigNumber` (type)
+- [ ] Replace `BigNumberInWei` import with `toHumanReadable` (value) + `BigNumber` (type)
 - [ ] Add `toChainFormat` import where `.toWei()` was used
 - [ ] Update type-only imports from `BigNumberInBase` to `BigNumber`
+- [ ] Ensure type imports are on separate lines if ESLint requires it
+- [ ] Replace direct `new BigNumber()` imports from `bignumber.js` with `toBigNumber` from `@injectivelabs/utils`
 - [ ] Remove unused imports
 
 ### Constant Updates
@@ -963,6 +1340,7 @@ Use this checklist when migrating a file or module:
 - [ ] Replace `ZERO_IN_BASE` with `ZERO_IN_BIG_NUMBER`
 - [ ] Replace `ONE_IN_BASE` with `ONE_IN_BIG_NUMBER`
 - [ ] Remove `ZERO_IN_WEI` usage
+- [ ] Replace `new BigNumber(value)` with `toBigNumber(value)` in constant definitions
 
 ### Code Updates
 
@@ -972,12 +1350,16 @@ Use this checklist when migrating a file or module:
 - [ ] Replace `sharedToBalanceInWei()` with `toChainFormat()`
 - [ ] Replace `sharedToBalanceInTokenInBase()` with `toHumanReadable()`
 - [ ] Replace `sharedToBalanceInToken()` with `toHumanReadable().toFixed()`
+- [ ] Replace `new BigNumber(value)` with `toBigNumber(value)`
 
 ### Variable Naming
 
-- [ ] Rename `*InBase` variables to `*InHumanReadable`
-- [ ] Rename `*InWei` variables to `*InChainFormat`
-- [ ] Rename `*ToBigNumber` variables to `*InBigNumber`
+Name variables based on **which function is used**:
+
+- [ ] Variables using `toBigNumber()` → use `*InBigNumber` suffix
+- [ ] Variables using `toHumanReadable()` → use `*InHumanReadable` suffix
+- [ ] Variables using `toChainFormat()` → use `*InChainFormat` suffix
+- [ ] Remove legacy suffixes (`*InBase`, `*InWei`, `*ToBigNumber`)
 
 ### Type Updates
 
@@ -1001,7 +1383,7 @@ Use this checklist when migrating a file or module:
 
 ---
 
-## 13. AI Review Rules
+## 16. AI Review Rules
 
 Use these rules to validate BigNumber migration changes. Each rule includes examples of correct and incorrect patterns.
 
@@ -1111,6 +1493,25 @@ const value = new BigNumber(100) // Direct BigNumber constructor
 // ✅ CORRECT
 const value = toBigNumber(100)
 ```
+
+#### INST_003: No direct BigNumber constructor from bignumber.js
+
+**Rule**: Must not import and use `new BigNumber()` directly from `bignumber.js`. Use `toBigNumber()` from `@injectivelabs/utils` instead.
+
+```typescript
+// ❌ INCORRECT
+import BigNumber from 'bignumber.js'
+const gasPrice = new BigNumber(160000000)
+const multiplier = new BigNumber(1.5)
+
+// ✅ CORRECT
+import { toBigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+const gasPrice = toBigNumber(160000000)
+const multiplier = toBigNumber(1.5)
+```
+
+**Why**: Using `toBigNumber()` ensures consistent BigNumber creation throughout the codebase and allows for future enhancements to the factory function if needed.
 
 ---
 
@@ -1293,58 +1694,64 @@ value.toFixed(2, BigNumber.ROUND_UP)
 
 ### NAMING_RULES
 
-#### NAME_001: Variables with InBase suffix
+Variable names should reflect **which function is used**, not the old pattern.
 
-**Rule**: Variables ending in `InBase` should be renamed to `InHumanReadable`.
+#### NAME_001: Using `toBigNumber()` → name with `*InBigNumber`
+
+**Rule**: Variables created with `toBigNumber()` should use the `*InBigNumber` suffix.
 
 ```typescript
 // ❌ INCORRECT
 const priceInBase = toBigNumber(order.price)
-const quantityInBase = toHumanReadable(rawQty, decimals)
-const marginInBase = toBigNumber(margin)
+const amountToBigNumber = toBigNumber(amount)
 
 // ✅ CORRECT
-const priceInHumanReadable = toBigNumber(order.price)
-const quantityInHumanReadable = toHumanReadable(rawQty, decimals)
-const marginInHumanReadable = toBigNumber(margin)
+const priceInBigNumber = toBigNumber(order.price)
+const amountInBigNumber = toBigNumber(amount)
 ```
 
-#### NAME_002: Variables with InWei suffix
+#### NAME_002: Using `toHumanReadable()` → name with `*InHumanReadable`
 
-**Rule**: Variables ending in `InWei` should be renamed to `InChainFormat`.
+**Rule**: Variables created with `toHumanReadable()` should use the `*InHumanReadable` suffix.
+
+```typescript
+// ❌ INCORRECT
+const balanceInBase = toHumanReadable(rawBalance, decimals)
+const marginInToken = toHumanReadable(position.margin, decimals)
+
+// ✅ CORRECT
+const balanceInHumanReadable = toHumanReadable(rawBalance, decimals)
+const marginInHumanReadable = toHumanReadable(position.margin, decimals)
+```
+
+#### NAME_003: Using `toChainFormat()` → name with `*InChainFormat`
+
+**Rule**: Variables created with `toChainFormat()` should use the `*InChainFormat` suffix.
 
 ```typescript
 // ❌ INCORRECT
 const marginInWei = toChainFormat(margin, decimals)
-const quantityInWei = toChainFormat(qty, decimals)
+const quantityForChain = toChainFormat(qty, decimals)
 
 // ✅ CORRECT
 const marginInChainFormat = toChainFormat(margin, decimals)
 const quantityInChainFormat = toChainFormat(qty, decimals)
 ```
 
-#### NAME_003: Variables with ToBigNumber suffix
+#### NAME_004: No legacy suffixes
 
-**Rule**: Variables ending in `ToBigNumber` should be renamed to `InBigNumber`.
+**Rule**: Do not use legacy suffixes (`*InBase`, `*InWei`, `*ToBigNumber`) with new functions.
 
 ```typescript
-// ❌ INCORRECT
+// ❌ INCORRECT - legacy suffixes with new functions
+const priceInBase = toBigNumber(order.price)
+const marginInWei = toChainFormat(margin, decimals)
 const amountToBigNumber = toBigNumber(amount)
-const valueToBigNumber = computed(() => toBigNumber(props.value))
 
-// ✅ CORRECT
+// ✅ CORRECT - suffixes match the function used
+const priceInBigNumber = toBigNumber(order.price)
+const marginInChainFormat = toChainFormat(margin, decimals)
 const amountInBigNumber = toBigNumber(amount)
-const valueInBigNumber = computed(() => toBigNumber(props.value))
-```
-
-#### NAME_004: Variables with InBigNumber suffix (no change needed)
-
-**Rule**: Variables ending in `InBigNumber` are correct and should remain unchanged.
-
-```typescript
-// ✅ CORRECT - no change needed
-const valueInBigNumber = toBigNumber(value)
-const minInBigNumber = toBigNumber(min)
 ```
 
 ---
@@ -1415,7 +1822,7 @@ const formatted = toHumanReadable(rawBalance, token.decimals).toFixed(
 When reviewing migrated code, validate against these rules in order:
 
 1. **Imports** (IMPORT_001, IMPORT_002, IMPORT_003)
-2. **Instantiation** (INST_001, INST_002)
+2. **Instantiation** (INST_001, INST_002, INST_003)
 3. **Conversions** (CONV_001, CONV_002, CONV_003, CONV_004)
 4. **Constants** (CONST_001, CONST_002, CONST_003)
 5. **Types** (TYPE_001, TYPE_002, TYPE_003, TYPE_004)
@@ -1447,7 +1854,7 @@ For each file reviewed, output results in this format:
 
 ---
 
-## 14. Edge Case Validation with Test Scripts
+## 17. Edge Case Validation with Test Scripts
 
 For **tricky or complex migrations**, generate before/after test scripts to verify numerical equivalence. This should be **rare** — most migrations are straightforward pattern replacements. Use this approach when:
 
@@ -1741,22 +2148,6 @@ declare const toHumanReadable: (
 ### Deprecated Functions (to be removed)
 
 ```typescript
-/**
- * @deprecated Use `toChainFormat` from '@injectivelabs/utils' instead
- */
-declare const sharedToBalanceInWei: (params: {
-  value: string | number
-  decimalPlaces?: number
-}) => BigNumberInBase
-
-/**
- * @deprecated Use `toHumanReadable` from '@injectivelabs/utils' instead
- */
-declare const sharedToBalanceInTokenInBase: (params: {
-  value: string | number
-  decimalPlaces?: number
-}) => BigNumberInBase
-
 /**
  * @deprecated Use `toHumanReadable().toFixed()` from '@injectivelabs/utils' instead
  */

@@ -1,5 +1,5 @@
-import { ZERO_IN_BASE } from './../../utils/constant'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils'
+import { ZERO_IN_BIG_NUMBER } from './../../utils/constant'
 import type {
   PerpetualMarketInfo,
   PerpetualMarketFunding
@@ -12,16 +12,16 @@ export const getTwapEst = ({
   info: PerpetualMarketInfo
   funding: PerpetualMarketFunding
 }) => {
-  const timeInterval = new BigNumberInBase(funding.lastTimestamp)
+  const timeInterval = toBigNumber(funding.lastTimestamp)
     .plus(info.fundingInterval)
     .minus(info.nextFundingTimestamp)
     .multipliedBy(24)
 
   if (timeInterval.eq(0)) {
-    return ZERO_IN_BASE
+    return ZERO_IN_BIG_NUMBER
   }
 
-  return new BigNumberInBase(funding.cumulativePrice).dividedBy(timeInterval)
+  return toBigNumber(funding.cumulativePrice).dividedBy(timeInterval)
 }
 
 export const formatFundingRate = ({
@@ -32,21 +32,21 @@ export const formatFundingRate = ({
   funding?: PerpetualMarketFunding
 }) => {
   if (!info || !funding) {
-    return ZERO_IN_BASE
+    return ZERO_IN_BIG_NUMBER
   }
 
-  const hourlyFundingRateCap = new BigNumberInBase(info.hourlyFundingRateCap)
-  const estFundingRate = new BigNumberInBase(info.hourlyInterestRate).plus(
+  const hourlyFundingRateCap = toBigNumber(info.hourlyFundingRateCap)
+  const estFundingRate = toBigNumber(info.hourlyInterestRate).plus(
     getTwapEst({ info, funding })
   )
 
   if (estFundingRate.gt(hourlyFundingRateCap)) {
-    return new BigNumberInBase(hourlyFundingRateCap).multipliedBy(100)
+    return toBigNumber(hourlyFundingRateCap).multipliedBy(100)
   }
 
   if (estFundingRate.lt(hourlyFundingRateCap.times(-1))) {
-    return new BigNumberInBase(hourlyFundingRateCap).times(-1).multipliedBy(100)
+    return toBigNumber(hourlyFundingRateCap).times(-1).multipliedBy(100)
   }
 
-  return new BigNumberInBase(estFundingRate).multipliedBy(100)
+  return toBigNumber(estFundingRate).multipliedBy(100)
 }

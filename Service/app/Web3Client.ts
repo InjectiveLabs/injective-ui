@@ -1,6 +1,6 @@
 import { Erc20Contract } from '../../utils/evm'
+import { toBigNumber } from '@injectivelabs/utils'
 import { EvmChainId } from '@injectivelabs/ts-types'
-import { BigNumberInWei } from '@injectivelabs/utils'
 import { peggyDenomToContractAddress } from './utils'
 import { Web3Exception } from '@injectivelabs/exceptions'
 import { isTestnetOrDevnet } from '@injectivelabs/networks'
@@ -47,8 +47,8 @@ export class Web3Client {
       contractAddress !== injToken.denom
     ) {
       return {
-        balance: new BigNumberInWei(0).toFixed(),
-        allowance: new BigNumberInWei(0).toFixed()
+        balance: toBigNumber(0).toFixed(),
+        allowance: toBigNumber(0).toFixed()
       }
     }
 
@@ -67,13 +67,13 @@ export class Web3Client {
         })
 
       return {
-        balance: new BigNumberInWei(balance.toString()).toFixed(),
-        allowance: new BigNumberInWei(allowance.toString()).toFixed()
+        balance: toBigNumber(balance.toString()).toFixed(),
+        allowance: toBigNumber(allowance.toString()).toFixed()
       }
     } catch {
       return {
-        balance: new BigNumberInWei(0).toFixed(),
-        allowance: new BigNumberInWei(0).toFixed()
+        balance: toBigNumber(0).toFixed(),
+        allowance: toBigNumber(0).toFixed()
       }
     }
   }
