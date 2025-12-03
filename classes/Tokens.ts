@@ -1,17 +1,18 @@
-import { sharedTokenClient, tokenCacheApi } from '../Service'
 import { unknownToken } from '../data/token'
-import { type SharedBalanceWithToken } from '../types'
-import {
-  TokenFactoryStatic,
-  type TokenStatic,
-  type Coin,
-  TokenVerification
-} from '@injectivelabs/sdk-ts'
+import { TokenVerification } from '@injectivelabs/sdk-ts/types'
+/**
+ * @deprecated Use subpath imports from '@injectivelabs/sdk-ts/service' instead.
+ * TokenFactoryStatic is temporarily imported from the barrel until all apps migrate.
+ */
+import { TokenFactoryStatic } from '@injectivelabs/sdk-ts/service'
+import { tokenCacheApi, sharedTokenClient } from '../Service'
+import type { Coin, TokenStatic } from '@injectivelabs/sdk-ts'
+import type { SharedBalanceWithToken } from '../types'
 
 export const sharedGetToken = async (
   tokenFactoryStatic: TokenFactoryStatic,
   denomOrSymbol: string
-): Promise<TokenStatic | undefined> => {
+): Promise<undefined | TokenStatic> => {
   const token = tokenFactoryStatic.toToken(denomOrSymbol)
 
   if (token) {
@@ -24,16 +25,12 @@ export const sharedGetToken = async (
 }
 
 export class SharedTokens {
-  private tokenFactoryStatic: TokenFactoryStatic
-
-  private shouldFetchUnknownTokens = true
-
   public state: {
     tokens: TokenStatic[]
     unknownTokens: TokenStatic[]
     assets: SharedBalanceWithToken[]
-    unknownAssets: SharedBalanceWithToken[]
     supplyMap: Record<string, string>
+    unknownAssets: SharedBalanceWithToken[]
   } = {
     tokens: [],
     unknownTokens: [],
@@ -42,57 +39,13 @@ export class SharedTokens {
     supplyMap: {}
   }
 
+  private tokenFactoryStatic: TokenFactoryStatic
+
+  private shouldFetchUnknownTokens = true
+
   constructor(tokens: TokenStatic[], shouldFetchUnknownTokens = true) {
     this.tokenFactoryStatic = new TokenFactoryStatic(tokens)
     this.shouldFetchUnknownTokens = shouldFetchUnknownTokens
-  }
-
-  async fetchTokens() {
-    const { state, shouldFetchUnknownTokens, tokenFactoryStatic } = this
-
-    if (state.tokens.length > 0) {
-      return
-    }
-
-    const { supply } = await tokenCacheApi.fetchTotalSupply()
-
-    const { tokens, unknownCoins } = supply.reduce(
-      (list, coin) => {
-        const token = tokenFactoryStatic.toToken(coin.denom)
-
-        if (!token) {
-          list.unknownCoins.push(coin)
-
-          return list
-        }
-
-        list.tokens.push(token)
-
-        return list
-      },
-      { tokens: [], unknownCoins: [] } as {
-        tokens: TokenStatic[]
-        unknownCoins: Coin[]
-      }
-    )
-
-    const unknownTokens = [] as TokenStatic[]
-
-    for (const coin of unknownCoins) {
-      if (!shouldFetchUnknownTokens) {
-        continue
-      }
-
-      const token = await sharedGetToken(tokenFactoryStatic, coin.denom)
-
-      unknownTokens.push(token || unknownToken)
-    }
-
-    this.state = {
-      ...state,
-      tokens,
-      unknownTokens
-    }
   }
 
   async fetchAssets() {
@@ -131,8 +84,8 @@ export class SharedTokens {
         return list
       },
       { balancesWithTokens: [], unknownCoins: [] } as {
-        balancesWithTokens: SharedBalanceWithToken[]
         unknownCoins: Coin[]
+        balancesWithTokens: SharedBalanceWithToken[]
       }
     )
 
@@ -175,6 +128,54 @@ export class SharedTokens {
       supplyMap,
       unknownAssets,
       assets: sortedBalancesWithTokens
+    }
+  }
+
+  async fetchTokens() {
+    const { state, shouldFetchUnknownTokens, tokenFactoryStatic } = this
+
+    if (state.tokens.length > 0) {
+      return
+    }
+
+    const { supply } = await tokenCacheApi.fetchTotalSupply()
+
+    const { tokens, unknownCoins } = supply.reduce(
+      (list, coin) => {
+        const token = tokenFactoryStatic.toToken(coin.denom)
+
+        if (!token) {
+          list.unknownCoins.push(coin)
+
+          return list
+        }
+
+        list.tokens.push(token)
+
+        return list
+      },
+      { tokens: [], unknownCoins: [] } as {
+        unknownCoins: Coin[]
+        tokens: TokenStatic[]
+      }
+    )
+
+    const unknownTokens = [] as TokenStatic[]
+
+    for (const coin of unknownCoins) {
+      if (!shouldFetchUnknownTokens) {
+        continue
+      }
+
+      const token = await sharedGetToken(tokenFactoryStatic, coin.denom)
+
+      unknownTokens.push(token || unknownToken)
+    }
+
+    this.state = {
+      ...state,
+      tokens,
+      unknownTokens
     }
   }
 }

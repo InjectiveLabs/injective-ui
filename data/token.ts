@@ -1,5 +1,5 @@
 import { Network } from '@injectivelabs/networks'
-import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
 import {
   INJ_DENOM,
   WINJ_DENOM,

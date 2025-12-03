@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import JSConfetti from 'js-confetti'
-
-const canvas = ref<HTMLCanvasElement | undefined>()
+const canvas = ref<undefined | HTMLCanvasElement>()
 
 onMounted(() => {
   useSharedConfetti().init(canvas)

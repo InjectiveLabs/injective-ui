@@ -20,6 +20,8 @@ const props = withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
+    dataCy: '',
+    cyValue: '',
     noTrailingZeros: true,
     shouldAbbreviate: true,
     decimals: DEFAULT_ASSET_DECIMALS,

@@ -1,4 +1,5 @@
 import { injToken } from '../../data/token'
+import { TokenType } from '@injectivelabs/sdk-ts/types'
 import { derivativeMarketIdMap } from '../../data/derivative'
 import { spotDenomMap, spotMarketIdMap } from '../../data/spot'
 import {
@@ -8,19 +9,18 @@ import {
   sharedGetExactDecimalsFromNumber
 } from '../../utils/formatter'
 import {
-  TokenType,
-  type SpotMarket,
-  type TokenStatic,
-  type PerpetualMarket,
-  type BinaryOptionsMarket,
-  type ExpiryFuturesMarket
-} from '@injectivelabs/sdk-ts'
-import {
   SharedMarketType,
   type SharedUiSpotMarket,
   type SharedUiDerivativeMarket,
   type SharedUiBinaryOptionsMarket
 } from '../../types'
+import type {
+  SpotMarket,
+  TokenStatic,
+  PerpetualMarket,
+  BinaryOptionsMarket,
+  ExpiryFuturesMarket
+} from '@injectivelabs/sdk-ts'
 export * from './summary'
 export * from './history'
 

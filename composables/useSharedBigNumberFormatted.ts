@@ -1,9 +1,9 @@
+import { abbreviateNumber } from '../utils/helper'
 import {
   BigNumber,
   BigNumberInBase,
   getExactDecimalsFromNumber
 } from '@injectivelabs/utils'
-import { abbreviateNumber } from '../utils/helper'
 
 const ZERO_IN_BASE = new BigNumberInBase(0)
 const DEFAULT_DECIMAL_PLACES = 2
@@ -80,15 +80,15 @@ const getNumberMinimalDecimals = (
 }
 
 export function useSharedBigNumberFormatter(
-  value: ComputedRef<string | Number | BigNumberInBase>,
+  value: ComputedRef<string | number | BigNumberInBase>,
   options: {
-    decimalPlaces?: number | ComputedRef<number | undefined>
-    minimalDecimalPlaces?: number | ComputedRef<number | undefined>
-    abbreviationFloor?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
     injFee?: number
+    shouldTruncate?: boolean
+    abbreviationFloor?: number /** Wether we should abbreviate numbers, for example 1,234,455 => 1M */
     roundingMode?: BigNumber.RoundingMode
     displayAbsoluteDecimalPlace?: boolean /** Explained above */
-    shouldTruncate?: Boolean
+    decimalPlaces?: number | ComputedRef<number | undefined>
+    minimalDecimalPlaces?: number | ComputedRef<number | undefined>
   } = {}
 ) {
   const valueToBigNumber = computed(() => {

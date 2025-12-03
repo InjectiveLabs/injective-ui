@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia'
+import { injToken } from '../data/token'
+import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
+import { BigNumberInBase } from '@injectivelabs/utils'
 import {
   tokenCacheApi,
   tokenPriceService,
@@ -8,9 +11,6 @@ import {
 } from './../Service'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
 import type { SharedTokenUsdPriceMap } from './../types'
-import { BigNumberInBase } from '@injectivelabs/utils'
-import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
-import { injToken } from '../data/token'
 
 type SharedTokenStoreState = {
   unknownTokens: TokenStatic[]

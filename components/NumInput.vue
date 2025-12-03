@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask'
-import type { FactoryOpts } from 'imask'
 import { BigNumberInBase } from '@injectivelabs/utils'
+import type { FactoryOpts } from 'imask'
 
 const props = defineProps({
   isAutofix: Boolean,

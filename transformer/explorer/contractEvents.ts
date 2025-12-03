@@ -1,5 +1,5 @@
-import { type EventLog } from '@injectivelabs/sdk-ts'
 import { ContractMsgType } from './../../types'
+import type { EventLog } from '@injectivelabs/sdk-ts'
 
 export const contractEventSummaryMap: Partial<
   Record<
@@ -10,8 +10,8 @@ export const contractEventSummaryMap: Partial<
       sender
     }: {
       args?: any
-      logs: EventLog[]
       sender: string
+      logs: EventLog[]
     }) => string | undefined
   >
 > = {
@@ -47,7 +47,7 @@ export const contractEventSummaryMap: Partial<
       }
 
       return `{{account:${sender}}} Swapped {{denom:${swapInputDenom}-${swapInputAmount}}} to {{denom:${swapFinalDenom}-${swapFinalAmount}}}`
-    } catch (e: any) {
+    } catch {
       return undefined
     }
   }

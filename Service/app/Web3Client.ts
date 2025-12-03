@@ -1,13 +1,15 @@
+import { Erc20Contract } from '../../utils/evm'
+import { EvmChainId } from '@injectivelabs/ts-types'
 import { BigNumberInWei } from '@injectivelabs/utils'
+import { peggyDenomToContractAddress } from './utils'
 import { Web3Exception } from '@injectivelabs/exceptions'
 import { isTestnetOrDevnet } from '@injectivelabs/networks'
-import { Alchemy, Network as AlchemyNetwork } from 'alchemy-sdk'
-import { getKeyFromRpcUrl, peggyDenomToContractAddress } from './utils'
 import {
   injToken,
   injErc20Token,
   injectivePeggyAddress
 } from '../../data/token'
+import type { Address } from 'viem'
 import type { Network } from '@injectivelabs/networks'
 
 /**
@@ -15,15 +17,19 @@ import type { Network } from '@injectivelabs/networks'
  * Ethereum transactions
  */
 export class Web3Client {
-  private alchemy: Alchemy | undefined
-
+  private erc20Contract: Erc20Contract
   private network: Network
 
-  private rpc: string
-
   constructor({ rpc, network }: { rpc: string; network: Network }) {
-    this.rpc = rpc
     this.network = network
+
+    // Use Sepolia for testnet/devnet, Mainnet otherwise
+    const chainId = isTestnetOrDevnet(network)
+      ? EvmChainId.Sepolia
+      : EvmChainId.Mainnet
+
+    // Pass the Alchemy RPC URL to the viem helper
+    this.erc20Contract = new Erc20Contract(chainId, rpc)
   }
 
   async fetchTokenBalanceAndAllowance({
@@ -47,35 +53,22 @@ export class Web3Client {
     }
 
     try {
-      const alchemy = this.getAlchemy()
-      const ethersProvider = await alchemy.config.getProvider()
       const tokenAddress = peggyDenomToContractAddress(contractAddress)
-      const tokenContractAddress =
+      const tokenContractAddress = (
         tokenAddress === injToken.denom ? injErc20Token.address : tokenAddress
+      ) as Address
 
-      const tokenBalances = await alchemy.core.getTokenBalances(address, [
-        tokenContractAddress
-      ])
-
-      const tokenBalance = tokenBalances.tokenBalances
-        .filter((tokenBalance: any) => tokenBalance.tokenBalance)
-        .find(
-          (tokenBalance: { contractAddress: string }) =>
-            tokenBalance.contractAddress === tokenContractAddress
-        )
-
-      const balance = tokenBalance ? tokenBalance.tokenBalance || 0 : 0
-      const allowance = await ethersProvider.send('alchemy_getTokenAllowance', [
-        {
-          owner: address,
-          spender: injectivePeggyAddress[network],
-          contract: tokenContractAddress
-        }
-      ])
+      // Single multicall for both balance and allowance
+      const { balance, allowance } =
+        await this.erc20Contract.balanceAndAllowance({
+          tokenAddress: tokenContractAddress,
+          owner: address as Address,
+          spender: injectivePeggyAddress[network] as Address
+        })
 
       return {
-        balance: new BigNumberInWei(balance || 0).toFixed(),
-        allowance: new BigNumberInWei(allowance || 0).toFixed()
+        balance: new BigNumberInWei(balance.toString()).toFixed(),
+        allowance: new BigNumberInWei(allowance.toString()).toFixed()
       }
     } catch {
       return {
@@ -86,10 +79,8 @@ export class Web3Client {
   }
 
   async fetchEtherBalance(address: string) {
-    const alchemy = await this.getAlchemy()
-
     try {
-      const ethBalance = await alchemy.core.getBalance(address, 'latest')
+      const ethBalance = await this.erc20Contract.getBalance(address as Address)
 
       return ethBalance.toString()
     } catch (e: unknown) {
@@ -98,29 +89,10 @@ export class Web3Client {
   }
 
   async fetchTokenMetaData(address: string) {
-    const alchemy = await this.getAlchemy()
-
     try {
-      return await alchemy.core.getTokenMetadata(address)
+      return await this.erc20Contract.getTokenMetadata(address as Address)
     } catch (e: unknown) {
       throw new Web3Exception(new Error(e as any))
     }
-  }
-
-  private getAlchemy() {
-    if (this.alchemy) {
-      return this.alchemy
-    }
-
-    const { rpc, network } = this
-
-    this.alchemy = new Alchemy({
-      apiKey: getKeyFromRpcUrl(rpc),
-      network: !isTestnetOrDevnet(network)
-        ? AlchemyNetwork.ETH_MAINNET
-        : AlchemyNetwork.ETH_SEPOLIA
-    })
-
-    return this.alchemy
   }
 }

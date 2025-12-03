@@ -19,6 +19,20 @@ const emit = defineEmits<{
   'update:modelValue': [state: string]
 }>()
 
+function onBlur() {
+  emit('textArea:blurred')
+}
+
+function onFocus() {
+  emit('textArea:focused')
+}
+
+function onChange(event: any) {
+  const { value } = event.target
+
+  emit('update:modelValue', value)
+}
+
 function onPaste(payload: ClipboardEvent) {
   const event = payload as PasteEvent<HTMLInputElement>
   const { clipboardData } = event
@@ -30,20 +44,6 @@ function onPaste(payload: ClipboardEvent) {
 
     emit('update:modelValue', value.trim())
   }
-}
-
-function onFocus() {
-  emit('textArea:focused')
-}
-
-function onBlur() {
-  emit('textArea:blurred')
-}
-
-function onChange(event: any) {
-  const { value } = event.target
-
-  emit('update:modelValue', value)
 }
 </script>
 

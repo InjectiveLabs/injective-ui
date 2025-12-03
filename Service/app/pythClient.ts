@@ -1,4 +1,3 @@
-/* eslint-disable camelcase, no-console */
 import { HttpRestClient } from '@injectivelabs/utils'
 
 const PYTH_SERVICE_URL = 'https://benchmarks.pyth.network/v1/'

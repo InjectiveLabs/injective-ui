@@ -1,15 +1,12 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
+import { IS_HELIX, IS_DEVNET } from '../../utils/constant'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { connectMagic, queryMagicExistingUser } from './magic'
+import { checkUnauthorizedMessages } from '../../utils/helper'
+import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
-import {
-  IS_HELIX,
-  IS_DEVNET,
-  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT,
-  tradingMessages
-} from '../../utils/constant'
 import {
   submitTurnkeyOTP,
   initTurnkeyGoogle,
@@ -17,15 +14,16 @@ import {
   connectTurnkeyGoogle
 } from './turnkey'
 import {
-  MsgGrant,
-  PrivateKey,
-  msgsOrMsgExecMsgs,
   getEthereumAddress,
   getInjectiveAddress,
-  getDefaultSubaccountId,
+  getDefaultSubaccountId
+} from '@injectivelabs/sdk-ts/utils'
+import {
+  MsgGrant,
+  msgsOrMsgExecMsgs,
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
-} from '@injectivelabs/sdk-ts'
+} from '@injectivelabs/sdk-ts/core/modules'
 import {
   checkIsBitGetInstalled,
   checkIsRainbowInstalled,
@@ -50,7 +48,6 @@ import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
-import { checkUnauthorizedMessages } from '../../utils/helper'
 
 type WalletStoreState = {
   wallet: Wallet

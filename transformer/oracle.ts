@@ -1,4 +1,4 @@
-import { OracleTypeMap } from '@injectivelabs/sdk-ts'
+import { OracleTypeMap } from '@injectivelabs/sdk-ts/client/chain'
 import type { OracleType } from '@injectivelabs/sdk-ts'
 
 export class UiOracleTransformer {

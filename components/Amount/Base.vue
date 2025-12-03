@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 import { abbreviateNumber } from '../../utils/helper'
+import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 import {
   DEFAULT_DISPLAY_DECIMALS,
   DEFAULT_SUBSCRIPT_DECIMALS,
@@ -24,6 +24,8 @@ const props = withDefaults(
     amount: string | number | BigNumberInBase
   }>(),
   {
+    dataCy: '',
+    cyValue: '',
     decimals: DEFAULT_DISPLAY_DECIMALS,
     roundingMode: BigNumber.ROUND_DOWN,
     subscriptDecimals: DEFAULT_SUBSCRIPT_DECIMALS,
@@ -102,7 +104,11 @@ const subscriptedAmount = computed(() => {
 
 const formattedAmount = computed(() => {
   const amount = absoluteAmount.value
-  const decimals = !props.shouldAbbreviate &&  amountToBigNumber.value.gte(DEFAULT_ABBREVIATION_THRESHOLD) ? 0 : props.decimals
+  const decimals =
+    !props.shouldAbbreviate &&
+    amountToBigNumber.value.gte(DEFAULT_ABBREVIATION_THRESHOLD)
+      ? 0
+      : props.decimals
 
   if (props.noTrailingZeros && props.decimals > 0) {
     const result = amount

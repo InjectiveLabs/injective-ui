@@ -200,7 +200,7 @@ export class TokenPrice {
       }
 
       return new BigNumberInBase(priceInUsd).toNumber()
-    } catch (e: unknown) {
+    } catch {
       return 0
     }
   }

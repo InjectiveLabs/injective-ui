@@ -1,7 +1,7 @@
 import { IS_DEVNET, IS_TESTNET } from '../utils/constant'
 import {
-  CosmosChainIds,
   Network,
+  CosmosChainIds,
   type CosmosChannel,
   type CosmosChannelData
 } from '../types'

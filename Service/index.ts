@@ -1,7 +1,6 @@
 import { FaucetService } from './app/Faucet'
 import { Web3Client } from './app/Web3Client'
 import { PythService } from './app/pythClient'
-import { lazyImportSdkTs } from './../utils/lib'
 import { InjNameService } from './app/nameService'
 import { UiApiService } from './../providers/uiApi'
 import { InjBonfidaNameService } from './app/bonfida'
@@ -10,11 +9,11 @@ import { Web3GatewayService } from './app/Web3Gateway'
 import { alchemyRpcEndpoint } from './../wallet/alchemy'
 import { CachePythService } from './app/cachePythClient'
 import { CoinGeckoApiService } from './app/CoinGeckoApi'
-import { TokenStaticFactory } from '@injectivelabs/sdk-ts'
 import { SpotCacheApi } from './../providers/cacheApi/spot'
 import { TokenCacheApi } from './../providers/cacheApi/token'
 import { StrapiCacheApi } from './../providers/cacheApi/strapi'
 import { StakingCacheApi } from './../providers/cacheApi/staking'
+import { TokenStaticFactory } from '@injectivelabs/sdk-ts/service'
 import { TokenPrice as TokenPriceService } from './app/tokenPrice'
 import { DerivativeCacheApi } from './../providers/cacheApi/derivative'
 import { SharedTokenClientStatic } from './../Service/app/SharedTokenClientStatic'
@@ -25,206 +24,116 @@ import {
   COINGECKO_KEY,
   MITO_API_ENDPOINT
 } from './../utils/constant'
-import type {
-  ChainGrpcIbcApi,
-  ChainGrpcGovApi,
-  ChainGrpcMintApi,
-  ChainGrpcBankApi,
-  ChainGrpcWasmApi,
-  ChainRestAuthApi,
-  ChainRestWasmApi,
-  ChainGrpcPeggyApi,
-  ChainGrpcOracleApi,
-  IndexerGrpcMitoApi,
-  IndexerGrpcSpotApi,
-  ChainGrpcStakingApi,
-  ChainGrpcAuctionApi,
-  ChainGrpcExchangeApi,
-  IndexerGrpcOracleApi,
-  IndexerGrpcAccountApi,
-  IndexerGrpcAuctionApi,
-  IndexerGrpcExplorerApi,
-  IndexerRestExplorerApi,
-  ChainGrpcDistributionApi,
-  ChainGrpcTokenFactoryApi,
-  ChainGrpcInsuranceFundApi,
-  IndexerGrpcDerivativesApi,
-  IndexerRestSpotChronosApi,
-  IndexerGrpcInsuranceFundApi,
-  IndexerRestMarketChronosApi,
-  IndexerGrpcAccountPortfolioApi,
-  IndexerRestDerivativesChronosApi
-} from '@injectivelabs/sdk-ts'
+import {
+  getChainGrpcIbcApi,
+  getChainGrpcGovApi,
+  getChainGrpcMintApi,
+  getChainGrpcBankApi,
+  getChainGrpcWasmApi,
+  getChainRestAuthApi,
+  getChainRestWasmApi,
+  getChainGrpcPeggyApi,
+  getChainGrpcOracleApi,
+  getIndexerGrpcMitoApi,
+  getIndexerGrpcSpotApi,
+  getChainGrpcStakingApi,
+  getChainGrpcAuctionApi,
+  getChainGrpcExchangeApi,
+  getIndexerGrpcOracleApi,
+  getIndexerGrpcAccountApi,
+  getIndexerGrpcAuctionApi,
+  getIndexerGrpcExplorerApi,
+  getChainGrpcDistributionApi,
+  getChainGrpcTokenFactoryApi,
+  getChainGrpcInsuranceFundApi,
+  getIndexerGrpcDerivativesApi,
+  getIndexerGrpcInsuranceFundApi,
+  getIndexerGrpcAccountPortfolioApi,
+  getIndexerRestDerivativesChronosApi,
+  getIndexerRestExplorerApi as getIndexerRestExplorerApiFactory,
+  getIndexerRestSpotChronosApi as getIndexerRestSpotChronosApiFactory,
+  getIndexerRestMarketChronosApi as getIndexerRestMarketChronosApiFactory
+} from './../utils/lib/sdkImports'
 
-export const getBankApi = () =>
-  lazyImportSdkTs<ChainGrpcBankApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcBankApi'
-  })
+export const getBankApi = () => getChainGrpcBankApi(ENDPOINTS.grpc)
 
-export const getIbcApi = () =>
-  lazyImportSdkTs<ChainGrpcIbcApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcIbcApi'
-  })
+export const getIbcApi = () => getChainGrpcIbcApi(ENDPOINTS.grpc)
 
-export const getMintApi = () =>
-  lazyImportSdkTs<ChainGrpcMintApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcMintApi'
-  })
+export const getMintApi = () => getChainGrpcMintApi(ENDPOINTS.grpc)
 
-export const getWasmApi = () =>
-  lazyImportSdkTs<ChainGrpcWasmApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcWasmApi'
-  })
+export const getWasmApi = () => getChainGrpcWasmApi(ENDPOINTS.grpc)
 
 export const getTokenFactoryApi = () =>
-  lazyImportSdkTs<ChainGrpcTokenFactoryApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcTokenFactoryApi'
-  })
+  getChainGrpcTokenFactoryApi(ENDPOINTS.grpc)
 
-export const getStakingApi = () =>
-  lazyImportSdkTs<ChainGrpcStakingApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcStakingApi'
-  })
+export const getStakingApi = () => getChainGrpcStakingApi(ENDPOINTS.grpc)
 
-export const getExchangeApi = () =>
-  lazyImportSdkTs<ChainGrpcExchangeApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcExchangeApi'
-  })
+export const getExchangeApi = () => getChainGrpcExchangeApi(ENDPOINTS.grpc)
 
 export const getDistributionApi = () =>
-  lazyImportSdkTs<ChainGrpcDistributionApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcDistributionApi'
-  })
+  getChainGrpcDistributionApi(ENDPOINTS.grpc)
 
 export const getInsuranceFundsApi = () =>
-  lazyImportSdkTs<ChainGrpcInsuranceFundApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcInsuranceFundApi'
-  })
+  getChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
 
-export const getOracleApi = () =>
-  lazyImportSdkTs<ChainGrpcOracleApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcOracleApi'
-  })
+export const getOracleApi = () => getChainGrpcOracleApi(ENDPOINTS.grpc)
 
-export const getGovernanceApi = () =>
-  lazyImportSdkTs<ChainGrpcGovApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcGovApi'
-  })
+export const getGovernanceApi = () => getChainGrpcGovApi(ENDPOINTS.grpc)
 
-export const getAuctionApi = () =>
-  lazyImportSdkTs<ChainGrpcAuctionApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcAuctionApi'
-  })
+export const getAuctionApi = () => getChainGrpcAuctionApi(ENDPOINTS.grpc)
 
-export const getPeggyApi = () =>
-  lazyImportSdkTs<ChainGrpcPeggyApi>({
-    endpoint: ENDPOINTS.grpc,
-    className: 'ChainGrpcPeggyApi'
-  })
+export const getPeggyApi = () => getChainGrpcPeggyApi(ENDPOINTS.grpc)
 
-export const getIndexerMitoApi = () =>
-  lazyImportSdkTs<IndexerGrpcMitoApi>({
-    endpoint: MITO_API_ENDPOINT,
-    className: 'IndexerGrpcMitoApi'
-  })
+export const getIndexerMitoApi = () => getIndexerGrpcMitoApi(MITO_API_ENDPOINT)
 
-export const getIndexerSpotApi = () =>
-  lazyImportSdkTs<IndexerGrpcSpotApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcSpotApi'
-  })
+export const getIndexerSpotApi = () => getIndexerGrpcSpotApi(ENDPOINTS.indexer)
 
 export const getIndexerDerivativesApi = () =>
-  lazyImportSdkTs<IndexerGrpcDerivativesApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcDerivativesApi'
-  })
+  getIndexerGrpcDerivativesApi(ENDPOINTS.indexer)
 
 export const getIndexerAccountApi = () =>
-  lazyImportSdkTs<IndexerGrpcAccountApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcAccountApi'
-  })
+  getIndexerGrpcAccountApi(ENDPOINTS.indexer)
 
 export const getIndexerAccountPortfolioApi = () =>
-  lazyImportSdkTs<IndexerGrpcAccountPortfolioApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcAccountPortfolioApi'
-  })
+  getIndexerGrpcAccountPortfolioApi(ENDPOINTS.indexer)
 
 export const getIndexerFundsApi = () =>
-  lazyImportSdkTs<IndexerGrpcInsuranceFundApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcInsuranceFundApi'
-  })
+  getIndexerGrpcInsuranceFundApi(ENDPOINTS.indexer)
 
 export const getIndexerOracleApi = () =>
-  lazyImportSdkTs<IndexerGrpcOracleApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcOracleApi'
-  })
+  getIndexerGrpcOracleApi(ENDPOINTS.indexer)
 
 export const getIndexerExplorerApi = () =>
-  lazyImportSdkTs<IndexerGrpcExplorerApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcExplorerApi'
-  })
+  getIndexerGrpcExplorerApi(ENDPOINTS.indexer)
 
-export const getRestAuthApi = () =>
-  lazyImportSdkTs<ChainRestAuthApi>({
-    endpoint: ENDPOINTS.rest,
-    className: 'ChainRestAuthApi'
-  })
+export const getRestAuthApi = () => getChainRestAuthApi(ENDPOINTS.rest)
 
-export const getRestWasmApi = () =>
-  lazyImportSdkTs<ChainRestWasmApi>({
-    endpoint: ENDPOINTS.rest,
-    className: 'ChainRestWasmApi'
-  })
+export const getRestWasmApi = () => getChainRestWasmApi(ENDPOINTS.rest)
 
 export const getIndexerRestExplorerApi = () =>
-  lazyImportSdkTs<IndexerRestExplorerApi>({
-    className: 'IndexerRestExplorerApi',
-    endpoint: `${IS_MAINNET ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network' : ENDPOINTS.explorer}/api/explorer/v1`
-  })
+  getIndexerRestExplorerApiFactory(
+    `${IS_MAINNET ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network' : ENDPOINTS.explorer}/api/explorer/v1`
+  )
 
 export const getIndexerRestDerivativeChronosApi = () =>
-  lazyImportSdkTs<IndexerRestDerivativesChronosApi>({
-    className: 'IndexerRestDerivativesChronosApi',
-    endpoint: `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/derivative`
-  })
+  getIndexerRestDerivativesChronosApi(
+    `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/derivative`
+  )
 
 export const getIndexerRestSpotChronosApi = () =>
-  lazyImportSdkTs<IndexerRestSpotChronosApi>({
-    className: 'IndexerRestSpotChronosApi',
-    endpoint: `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/spot`
-  })
+  getIndexerRestSpotChronosApiFactory(
+    `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/spot`
+  )
 
 export const getIndexerRestMarketChronosApi = () =>
-  lazyImportSdkTs<IndexerRestMarketChronosApi>({
-    className: 'IndexerRestMarketChronosApi',
-    endpoint: IS_MAINNET
+  getIndexerRestMarketChronosApiFactory(
+    IS_MAINNET
       ? `https://k8s.global.mainnet.chart.grpc-web.injective.network/api/chart/v1/market`
       : `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/market`
-  })
+  )
 
 export const getIndexerAuctionApi = () =>
-  lazyImportSdkTs<IndexerGrpcAuctionApi>({
-    endpoint: ENDPOINTS.indexer,
-    className: 'IndexerGrpcAuctionApi'
-  })
+  getIndexerGrpcAuctionApi(ENDPOINTS.indexer)
 
 export const uiApi = new UiApiService(ENDPOINTS.uiApi)
 export const spotCacheApi = new SpotCacheApi(ENDPOINTS.uiApi)
