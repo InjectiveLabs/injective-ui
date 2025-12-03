@@ -9,7 +9,7 @@ import {
   IS_EXPLORER,
   IS_ADMIN_UI,
   IS_TRADING_UI
-} from './../../utils/constant'
+} from '../../app/utils/constant'
 import type { ViteConfig } from '@nuxt/schema'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
@@ -30,7 +30,6 @@ const additionalDeps = [
   '@cosmjs/stargate',
   '@cosmjs/launchpad',
   '@solana/buffer-layout',
-  'qr-code-generator-vue3',
   '@injectivelabs/grpc-web',
   'jayson/lib/client/browser',
   '@ethersproject/json-wallets',
@@ -104,7 +103,6 @@ export default defineConfig({
           'lightweight-charts',
           '@injectivelabs/utils',
           '@injectivelabs/sdk-ts',
-          'qr-code-generator-vue3',
           '@metamask/eth-sig-util',
           '@injectivelabs/ts-types',
           '@injectivelabs/networks',

@@ -1,11 +1,17 @@
 {
-  "extends": "./nuxt/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "types": []
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
+  "files": [],
+  "references": [
+    {
+      "path": "./.nuxt/tsconfig.app.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.server.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.shared.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.node.json"
+    }
   ]
 }
