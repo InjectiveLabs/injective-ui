@@ -1,5 +1,5 @@
 import { intervalToDuration } from 'date-fns'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils'
 
 export const todayInSeconds = (): number => {
   return Math.floor(Date.now() / 1000)
@@ -12,14 +12,16 @@ export const sharedGetDuration = ({
   nowInMilliseconds: string
   endDateInMilliseconds: string
 }) => {
-  const end = new BigNumberInBase(endDateInMilliseconds)
-  const now = new BigNumberInBase(nowInMilliseconds)
+  const endInBigNumber = toBigNumber(endDateInMilliseconds)
+  const nowInBigNumber = toBigNumber(nowInMilliseconds)
 
-  const startInMilliseconds = now.isGreaterThan(end) ? end : now
+  const startInMilliseconds = nowInBigNumber.isGreaterThan(endInBigNumber)
+    ? endInBigNumber
+    : nowInBigNumber
 
   const duration = intervalToDuration({
     start: startInMilliseconds.toNumber(),
-    end: end.toNumber()
+    end: endInBigNumber.toNumber()
   })
 
   return duration

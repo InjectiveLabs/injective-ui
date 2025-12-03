@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
+import { HttpClient, toBigNumber } from '@injectivelabs/utils'
 import {
   IS_DEVNET,
   IS_MAINNET,
@@ -124,7 +124,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       ),
 
     isPostUpgradeMode: (state) => {
-      const blockHeightInBigNumber = new BigNumberInBase(
+      const blockHeightInBigNumber = toBigNumber(
         state.chainUpgradeConfig?.blockHeight || 0
       )
 
@@ -135,7 +135,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       )
     },
     hasUpcomingChainUpgrade: (state) => {
-      const blockHeightInBigNumber = new BigNumberInBase(
+      const blockHeightInBigNumber = toBigNumber(
         state.chainUpgradeConfig?.blockHeight || 0
       )
 
@@ -150,7 +150,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     },
 
     isMaintenanceMode: (state) => {
-      const blockHeightInBigNumber = new BigNumberInBase(
+      const blockHeightInBigNumber = toBigNumber(
         state.chainUpgradeConfig?.blockHeight || 0
       )
 
@@ -164,12 +164,12 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       if (
         state.latestBlockHeight === 0 &&
-        new BigNumberInBase(state.chainUpgradeConfig.blockHeight).gt(0)
+        toBigNumber(state.chainUpgradeConfig.blockHeight).gt(0)
       ) {
         return true
       }
 
-      return new BigNumberInBase(state.chainUpgradeConfig.blockHeight)
+      return toBigNumber(state.chainUpgradeConfig.blockHeight)
         .minus(500)
         .lte(state.latestBlockHeight)
     }

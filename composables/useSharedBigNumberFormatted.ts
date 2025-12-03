@@ -1,16 +1,17 @@
 import { abbreviateNumber } from '../utils/helper'
+import { toValue, computed, type Ref, type ComputedRef } from 'vue'
 import {
   BigNumber,
-  BigNumberInBase,
+  toBigNumber,
   getExactDecimalsFromNumber
 } from '@injectivelabs/utils'
 
-const ZERO_IN_BASE = new BigNumberInBase(0)
+const ZERO_IN_BIG_NUMBER = toBigNumber(0)
 const DEFAULT_DECIMAL_PLACES = 2
 const DEFAULT_MINIMAL_DISPLAY_DECIMAL_PLACES = 4
 const DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES = 12
 const DEFAULT_INJ_FEE = 0.005
-const DEFAULT_ROUNDING_MODE = BigNumberInBase.ROUND_DOWN
+const DEFAULT_ROUNDING_MODE = BigNumber.ROUND_DOWN
 
 const getFormattedZeroValue = (decimalPlaces: number) => {
   if (decimalPlaces > 0) {
@@ -21,21 +22,20 @@ const getFormattedZeroValue = (decimalPlaces: number) => {
 }
 
 const getNumberMinimalDecimals = (
-  value: Ref<BigNumberInBase>,
+  value: Ref<BigNumber>,
   defaultMinimalDecimalPlaces?: number,
   displayAbsoluteDecimalPlace?: boolean
 ) => {
   const valueExactDecimals = getExactDecimalsFromNumber(value.value.toFixed())
   const minimalDecimalPlaces =
     defaultMinimalDecimalPlaces ?? DEFAULT_MINIMAL_DISPLAY_DECIMAL_PLACES
-  const minNumberFromDefaultMinDecimals = new BigNumberInBase(1).shiftedBy(
-    -minimalDecimalPlaces
-  )
+  const minNumberFromDefaultMinDecimals =
+    toBigNumber(1).shiftedBy(-minimalDecimalPlaces)
 
   if (value.value.eq(0)) {
     return {
       minimalDecimalPlaces: 2,
-      minimalDisplayAmount: ZERO_IN_BASE
+      minimalDisplayAmount: ZERO_IN_BIG_NUMBER
     }
   }
 
@@ -54,7 +54,7 @@ const getNumberMinimalDecimals = (
       valueExactDecimals > DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES
         ? DEFAULT_MAX_MINIMAL_DISPLAY_DECIMAL_PLACES
         : valueExactDecimals
-    const minimalDisplayAmount = new BigNumber(1).shiftedBy(
+    const minimalDisplayAmount = toBigNumber(1).shiftedBy(
       -actualMinimalDecimalPlaces
     )
 
@@ -75,12 +75,12 @@ const getNumberMinimalDecimals = (
    */
   return {
     minimalDecimalPlaces,
-    minimalDisplayAmount: new BigNumber(1).shiftedBy(-minimalDecimalPlaces)
+    minimalDisplayAmount: toBigNumber(1).shiftedBy(-minimalDecimalPlaces)
   }
 }
 
 export function useSharedBigNumberFormatter(
-  value: ComputedRef<string | number | BigNumberInBase>,
+  value: ComputedRef<string | number | BigNumber>,
   options: {
     injFee?: number
     shouldTruncate?: boolean
@@ -91,16 +91,16 @@ export function useSharedBigNumberFormatter(
     minimalDecimalPlaces?: number | ComputedRef<number | undefined>
   } = {}
 ) {
-  const valueToBigNumber = computed(() => {
+  const valueInBigNumber = computed(() => {
     if (!value.value) {
-      return new BigNumberInBase(0)
+      return toBigNumber(0)
     }
 
     if (BigNumber.isBigNumber(value.value)) {
       return value.value
     }
 
-    return new BigNumberInBase(value.value as string)
+    return toBigNumber(value.value as string)
   })
 
   const roundingMode = options.roundingMode || DEFAULT_ROUNDING_MODE
@@ -111,7 +111,7 @@ export function useSharedBigNumberFormatter(
   const displayAbsoluteDecimalPlace = !!options.displayAbsoluteDecimalPlace
 
   const valueToFixed = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
+    if (valueInBigNumber.value.isNaN() || valueInBigNumber.value.isZero()) {
       return options.shouldTruncate
         ? '0'
         : getFormattedZeroValue(decimalPlaces.value)
@@ -119,25 +119,25 @@ export function useSharedBigNumberFormatter(
 
     if (
       !!options.abbreviationFloor &&
-      valueToBigNumber.value.gte(options.abbreviationFloor)
+      valueInBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return abbreviateNumber(valueToBigNumber.value.toNumber())
+      return abbreviateNumber(valueInBigNumber.value.toNumber())
     }
 
-    const roundedValue = valueToBigNumber.value.toFixed(
+    const roundedValue = valueInBigNumber.value.toFixed(
       decimalPlaces.value,
       roundingMode
     )
 
     if (options.shouldTruncate) {
-      return new BigNumberInBase(roundedValue).toFixed()
+      return toBigNumber(roundedValue).toFixed()
     }
 
     return roundedValue
   })
 
   const valueToString = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
+    if (valueInBigNumber.value.isNaN() || valueInBigNumber.value.isZero()) {
       return options.shouldTruncate
         ? '0'
         : getFormattedZeroValue(decimalPlaces.value)
@@ -145,44 +145,44 @@ export function useSharedBigNumberFormatter(
 
     if (
       !!options.abbreviationFloor &&
-      valueToBigNumber.value.gte(options.abbreviationFloor)
+      valueInBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return abbreviateNumber(valueToBigNumber.value.toNumber())
+      return abbreviateNumber(valueInBigNumber.value.toNumber())
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
       getNumberMinimalDecimals(
-        valueToBigNumber,
+        valueInBigNumber,
         toValue(options.minimalDecimalPlaces),
         displayAbsoluteDecimalPlace
       )
 
-    const roundedValue = valueToBigNumber.value.toFixed(
+    const roundedValue = valueInBigNumber.value.toFixed(
       decimalPlaces.value,
       roundingMode
     )
 
     if (options.shouldTruncate) {
-      return new BigNumberInBase(roundedValue).toFormat()
+      return toBigNumber(roundedValue).toFormat()
     }
 
-    if (valueToBigNumber.value.abs().lt(minimalDisplayAmount)) {
+    if (valueInBigNumber.value.abs().lt(minimalDisplayAmount)) {
       return `< ${minimalDisplayAmount.toFormat(minimalDecimalPlaces)}`
     }
 
-    return new BigNumberInBase(roundedValue).toFormat(decimalPlaces.value)
+    return toBigNumber(roundedValue).toFormat(decimalPlaces.value)
   })
 
   const valueWithGasBuffer = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.lte(injFee)) {
-      return new BigNumberInBase(0)
+    if (valueInBigNumber.value.isNaN() || valueInBigNumber.value.lte(injFee)) {
+      return toBigNumber(0)
     }
 
-    return valueToBigNumber.value.minus(injFee)
+    return valueInBigNumber.value.minus(injFee)
   })
 
   const valueWithGasBufferToFixed = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
+    if (valueInBigNumber.value.isNaN() || valueInBigNumber.value.isZero()) {
       return getFormattedZeroValue(decimalPlaces.value)
     }
 
@@ -190,20 +190,20 @@ export function useSharedBigNumberFormatter(
   })
 
   const valueWithGasBufferToString = computed(() => {
-    if (valueToBigNumber.value.isNaN() || valueToBigNumber.value.isZero()) {
+    if (valueInBigNumber.value.isNaN() || valueInBigNumber.value.isZero()) {
       return getFormattedZeroValue(decimalPlaces.value)
     }
 
     if (
       !!options.abbreviationFloor &&
-      valueToBigNumber.value.gte(options.abbreviationFloor)
+      valueInBigNumber.value.gte(options.abbreviationFloor)
     ) {
-      return abbreviateNumber(valueToBigNumber.value.toNumber())
+      return abbreviateNumber(valueInBigNumber.value.toNumber())
     }
 
     const { minimalDecimalPlaces, minimalDisplayAmount } =
       getNumberMinimalDecimals(
-        valueToBigNumber,
+        valueInBigNumber,
         toValue(options.minimalDecimalPlaces),
         displayAbsoluteDecimalPlace
       )
@@ -218,7 +218,7 @@ export function useSharedBigNumberFormatter(
   return {
     valueToFixed,
     valueToString,
-    valueToBigNumber,
+    valueInBigNumber,
     valueWithGasBuffer,
     valueWithGasBufferToFixed,
     valueWithGasBufferToString

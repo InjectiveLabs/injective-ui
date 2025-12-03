@@ -1,11 +1,12 @@
 import { unknownToken } from '../../data/token'
 import { msgTypeMap } from '../../data/explorer'
 import { MsgType } from '@injectivelabs/ts-types'
-import { BigNumberInBase } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils'
 import { getHumanReadableMessage } from './messageSummary'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
 import { hardCodedContractCopyMap } from './../../utils/explorer'
 import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+import type { BigNumber } from '@injectivelabs/utils'
 import type {
   Coin,
   Message,
@@ -143,12 +144,12 @@ export const getCoins = ({
           return
         }
 
-        list[coin.denom] = new BigNumberInBase(coin.amount)
+        list[coin.denom] = toBigNumber(coin.amount)
       })
 
       return list
     },
-    {} as Record<string, BigNumberInBase>
+    {} as Record<string, BigNumber>
   )
 
   return Object.entries(coinsDenomMap).reduce((list, [denom, amount]) => {

@@ -52,6 +52,7 @@ const sortGroups = {
     value: {
       shared: '^@shared/',
       injective: '^@injectivelabs/',
+      // note: injective-ui cannot use alias imports @
       types: ['^../types', '^../../types/', '^../../../types/'],
       root: [
         '^\\.\\./[^./][^/]*$', // (../file)

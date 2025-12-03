@@ -1,9 +1,4 @@
-import {
-  BigNumber,
-  toBigNumber,
-  BigNumberInWei,
-  BigNumberInBase
-} from '@injectivelabs/utils'
+import { toBigNumber, type BigNumber } from '@injectivelabs/utils'
 
 export * from './setup'
 export * from './trade'
@@ -26,15 +21,14 @@ export const WINJ_DENOM = 'erc20:0x0000000088827d2d103ee2d9A6b781773AE03FfB'
 export const BINANCE_DEPOSIT_ADDRESS =
   'inj1u2rajhqtptzvu23leheta9yg99k3hazf4waf43'
 
-export const ZERO_IN_WEI: BigNumberInWei = new BigNumberInWei(0)
-export const ZERO_IN_BASE: BigNumberInBase = new BigNumberInBase(0)
-export const ONE_IN_BASE: BigNumberInBase = new BigNumberInBase(1)
+export const ZERO_IN_BIG_NUMBER: BigNumber = toBigNumber(0)
+export const ONE_IN_BIG_NUMBER: BigNumber = toBigNumber(1)
 
 export const NUMBER_REGEX = new RegExp(/^-?(0|[1-9]\d*)?(\.\d+)?$/)
 
-export const GWEI_IN_WEI: BigNumber = new BigNumber(1000000000)
-export const DEFAULT_GAS_PRICE = new BigNumber(120).times(GWEI_IN_WEI)
-export const DEFAULT_MAINNET_GAS_PRICE = new BigNumber(30).times(GWEI_IN_WEI)
+export const GWEI_IN_WEI: BigNumber = toBigNumber(1000000000)
+export const DEFAULT_GAS_PRICE = toBigNumber(120).times(GWEI_IN_WEI)
+export const DEFAULT_MAINNET_GAS_PRICE = toBigNumber(30).times(GWEI_IN_WEI)
 export const SECONDS_IN_A_DAY = toBigNumber(60 * 60 * 24)
 export const INJ_REQUIRED_FOR_GAS = 0.005
 

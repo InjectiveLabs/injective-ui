@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { injToken } from '../data/token'
+import { toChainFormat } from '@injectivelabs/utils'
 import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
-import { BigNumberInBase } from '@injectivelabs/utils'
 import {
   tokenCacheApi,
   tokenPriceService,
@@ -113,7 +113,7 @@ export const useSharedTokenStore = defineStore('sharedToken', {
 
           const amount =
             coin.denom === injToken.denom
-              ? new BigNumberInBase(INJ_SUPPLY_AMOUNT).toWei().toFixed()
+              ? toChainFormat(INJ_SUPPLY_AMOUNT).toFixed()
               : coin.amount
 
           list[coin.denom] = amount
