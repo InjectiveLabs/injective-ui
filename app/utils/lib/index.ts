@@ -1,26 +1,13 @@
-export * from './utils'
+export * from './sdkImports'
 
-export type AlchemyType = typeof import('alchemy-sdk').Alchemy
 export type EthersSigningType = typeof import('ethers').SigningKey
 export type EthersBaseWalletType = typeof import('ethers').BaseWallet
 export type SigUtilSignedTypedData =
   typeof import('@metamask/eth-sig-util').signTypedData
 
-let AlchemyType: AlchemyType
 let EthersSigningType: EthersSigningType
 let EthersBaseWalletType: EthersBaseWalletType
 let SigUtilSignedTypedData: SigUtilSignedTypedData
-
-export async function loadAlchemyType(): Promise<typeof AlchemyType> {
-  if (!AlchemyType) {
-    const module = await import('alchemy-sdk')
-    AlchemyType = module.Alchemy
-      ? module.Alchemy
-      : (module as any).default.Alchemy
-  }
-
-  return AlchemyType
-}
 
 export async function loadEthersSigningType(): Promise<
   typeof EthersSigningType

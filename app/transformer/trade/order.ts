@@ -1,5 +1,5 @@
 import { OrderSide } from '@injectivelabs/ts-types'
-import { GrpcOrderTypeMap } from '@injectivelabs/sdk-ts'
+import { GrpcOrderTypeMap } from '@injectivelabs/sdk-ts/client/chain'
 import type { GrpcOrderType } from '@injectivelabs/sdk-ts'
 
 export const orderSideToOrderType = (orderType: OrderSide): GrpcOrderType => {

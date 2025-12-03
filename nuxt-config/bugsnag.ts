@@ -20,7 +20,6 @@ const bugsnagConfig: Partial<ModuleOptions> = {
 }
 
 if (shouldInstantiateBugsnag) {
-  // eslint-disable-next-line no-console
   console.log(
     `Instantiating bugsnag: ${shouldInstantiateBugsnag}`,
     '\n',

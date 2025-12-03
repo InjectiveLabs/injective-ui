@@ -1,5 +1,5 @@
-import { hexToBase64 } from '@injectivelabs/sdk-ts'
-import { EventMessageType } from '../../types'
+import { hexToBase64 } from '@injectivelabs/sdk-ts/utils'
+import { EventMessageType } from './../../types'
 import type { EventLog } from '@injectivelabs/sdk-ts'
 
 export const eventLogsSummaryMap: Partial<

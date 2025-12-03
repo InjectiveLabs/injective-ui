@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
-import { ChainGrpcTendermintApi } from '@injectivelabs/sdk-ts'
+import { getChainGrpcTendermintApi } from '../utils/lib/sdkImports'
 import {
   ENDPOINTS,
   LONG_TOAST_TEXT,
   MAX_TOAST_TIMEOUT,
   DEFAULT_NOTIFICATION_TIMEOUT
 } from '../utils/constant/index'
-import { CtaToast, NotificationType } from '../types'
+import { CtaToast, NotificationType } from './../types'
 import type { TxResponse } from '@injectivelabs/sdk-ts'
-import type { Notification, NotificationOptions } from '../types'
+import type { Notification, NotificationOptions } from './../types'
 
 type NotificationStoreState = {
   notifications: Notification[]
@@ -132,9 +132,12 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
               ? new Date(notificationStore.txResponse.timestamp).getTime()
               : 0
 
-            const txBlock = await new ChainGrpcTendermintApi(
+            const tendermintApi = await getChainGrpcTendermintApi(
               ENDPOINTS.grpc
-            ).fetchBlock(notificationStore.txResponse.height)
+            )
+            const txBlock = await tendermintApi.fetchBlock(
+              notificationStore.txResponse.height
+            )
 
             const endTimeTxBlock = txBlock?.header?.time
               ? Number(txBlock.header.time.seconds) * 1000 +

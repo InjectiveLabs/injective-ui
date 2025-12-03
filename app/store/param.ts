@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { injToken } from '../data/token'
-import { sharedToBalanceInToken } from '../utils/formatter'
-import { HttpClient, BigNumberInBase } from '@injectivelabs/utils'
-import { getMintApi, getBankApi, getStakingApi } from '../service'
+import { injToken } from './../data/token'
+import { ZERO_IN_BIG_NUMBER } from './../utils/constant'
+import { HttpClient, toBigNumber, toHumanReadable } from '@injectivelabs/utils'
+import { getMintApi, getBankApi, getStakingApi } from './../Service'
 import type {
   Pool,
   DistributionModuleParams,
@@ -50,11 +50,11 @@ export const useSharedParamStore = defineStore('sharedParam', {
     /**
      * @deprecated - use `state.inflation` instead
      */
-    baseInflation: (state) => new BigNumberInBase(state.inflation).toFixed(),
+    baseInflation: (state) => toBigNumber(state.inflation).toFixed(),
 
     apr: (state) => {
       const MAX_APR_DIFFERENCE = 0.25
-      const secondsInAYear = new BigNumberInBase(365 * 24 * 60 * 60)
+      const secondsInAYear = toBigNumber(365 * 24 * 60 * 60)
 
       const blockTime = secondsInAYear.div(state.blocksPerYear)
       const actualBlockTime = secondsInAYear.div(state.actualBlocksPerYear)
@@ -64,24 +64,24 @@ export const useSharedParamStore = defineStore('sharedParam', {
         state.actualBlockTime
       )
 
-      const actualApr = new BigNumberInBase(state.actualBlocksPerYear)
+      const actualApr = toBigNumber(state.actualBlocksPerYear)
         .dividedBy(state.blocksPerYear)
         .times(state.inflation)
         .times(state.injSupply)
-        .times(new BigNumberInBase(1).minus(state.communityTax))
+        .times(toBigNumber(1).minus(state.communityTax))
         .div(state.bondedTokens)
         .times(actualAnnualProvisionRatio)
 
-      const apr = new BigNumberInBase(state.blocksPerYear)
+      const apr = toBigNumber(state.blocksPerYear)
         .dividedBy(state.blocksPerYear)
         .times(state.inflation)
         .times(state.injSupply)
-        .times(new BigNumberInBase(1).minus(state.communityTax))
+        .times(toBigNumber(1).minus(state.communityTax))
         .div(state.bondedTokens)
         .times(annualProvisionRatio)
 
       if (actualApr.isNaN() && apr.isNaN()) {
-        return new BigNumberInBase(0)
+        return ZERO_IN_BIG_NUMBER
       }
 
       // We cap it so there is no huge difference between on chain and actual apr on the UI
@@ -89,7 +89,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
         ? actualApr
         : apr
 
-      return currentApr.isFinite() ? currentApr : new BigNumberInBase(0)
+      return currentApr.isFinite() ? currentApr : ZERO_IN_BIG_NUMBER
     }
   },
   actions: {
@@ -110,7 +110,7 @@ export const useSharedParamStore = defineStore('sharedParam', {
       const injSupply = await bankApi.fetchSupplyOf(injToken.denom)
 
       paramsStore.$patch({
-        injSupply: sharedToBalanceInToken({ value: injSupply.amount })
+        injSupply: toHumanReadable(injSupply.amount, 18).toFixed()
       })
     },
 

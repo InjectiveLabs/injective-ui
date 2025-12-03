@@ -1,12 +1,12 @@
 import { MsgType } from '@injectivelabs/ts-types'
 import { USDT_DENOM } from '../../utils/constant'
-import { base64ToUtf8 } from '@injectivelabs/sdk-ts'
 import { eventLogsSummaryMap } from './messageEvents'
-import { contractMsgTypeMap } from '../../utils/explorer'
+import { toHumanReadable } from '@injectivelabs/utils'
+import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils'
 import { contractEventSummaryMap } from './contractEvents'
-import { getNetworkFromAddress } from '../../utils/network'
-import { sharedToBalanceInToken } from '../../utils/formatter'
-import { EventMessageType } from '../../types'
+import { contractMsgTypeMap } from './../../utils/explorer'
+import { getNetworkFromAddress } from './../../utils/network'
+import { EventMessageType } from './../../types'
 import type { Coin, Message, EventLog } from '@injectivelabs/sdk-ts'
 
 const AUCTION_POOL_SUBACCOUNT_ID =
@@ -448,9 +448,10 @@ const insuranceMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} requested a redemption of ${sharedToBalanceInToken(
-        { value: amount }
-      )} ${denom} from the {{market:${marketId}}} Insurance Fund`
+      `{{account:${sender}}} requested a redemption of ${toHumanReadable(
+        amount,
+        18
+      ).toFixed()} ${denom} from the {{market:${marketId}}} Insurance Fund`
     ]
   },
 

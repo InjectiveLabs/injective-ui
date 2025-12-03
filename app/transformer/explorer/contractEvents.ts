@@ -1,4 +1,4 @@
-import { ContractMsgType } from '../../types'
+import { ContractMsgType } from './../../types'
 import type { EventLog } from '@injectivelabs/sdk-ts'
 
 export const contractEventSummaryMap: Partial<

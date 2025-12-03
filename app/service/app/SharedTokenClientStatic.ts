@@ -1,9 +1,6 @@
 import { injToken, unknownToken } from '../../data/token'
-import {
-  TokenType,
-  TokenVerification,
-  isCw20ContractAddress
-} from '@injectivelabs/sdk-ts'
+import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
 
 export class SharedTokenClientStatic {

@@ -16,9 +16,9 @@ export interface NotificationAction {
 
 export interface SharedBanner {
   id: string
-  content?: () => VNode | undefined
   shouldDisplay: boolean
   shouldPersist?: boolean
+  content?: () => VNode | undefined
 }
 
 export interface NotificationOptions {

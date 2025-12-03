@@ -1,26 +1,25 @@
 import { injToken } from '../../data/token'
+import { TokenType } from '@injectivelabs/sdk-ts/types'
 import { derivativeMarketIdMap } from '../../data/derivative'
 import { spotDenomMap, spotMarketIdMap } from '../../data/spot'
+import { toChainFormat, toHumanReadable } from '@injectivelabs/utils'
 import {
-  sharedToBalanceInWei,
-  sharedToBalanceInToken,
   sharedGetTensMultiplier,
   sharedGetExactDecimalsFromNumber
 } from '../../utils/formatter'
-import {
-  TokenType,
-  type SpotMarket,
-  type TokenStatic,
-  type PerpetualMarket,
-  type BinaryOptionsMarket,
-  type ExpiryFuturesMarket
-} from '@injectivelabs/sdk-ts'
 import {
   SharedMarketType,
   type SharedUiSpotMarket,
   type SharedUiDerivativeMarket,
   type SharedUiBinaryOptionsMarket
 } from '../../types'
+import type {
+  SpotMarket,
+  TokenStatic,
+  PerpetualMarket,
+  BinaryOptionsMarket,
+  ExpiryFuturesMarket
+} from '@injectivelabs/sdk-ts'
 export * from './summary'
 export * from './history'
 
@@ -97,15 +96,15 @@ export const toUiSpotMarket = ({
     .replaceAll(' ', '-')
     .toLowerCase()
 
-  const minPriceTickSize = sharedToBalanceInWei({
-    value: market.minPriceTickSize,
-    decimalPlaces: baseToken.decimals - quoteToken.decimals
-  }).toFixed()
+  const minPriceTickSize = toChainFormat(
+    market.minPriceTickSize,
+    baseToken.decimals - quoteToken.decimals
+  ).toFixed()
 
-  const minQuantityTickSize = sharedToBalanceInWei({
-    value: market.minQuantityTickSize,
-    decimalPlaces: -baseToken.decimals
-  }).toFixed()
+  const minQuantityTickSize = toChainFormat(
+    market.minQuantityTickSize,
+    -baseToken.decimals
+  ).toFixed()
 
   return {
     ...market,
@@ -125,10 +124,10 @@ export const toUiSpotMarket = ({
     priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
     quantityDecimals: sharedGetExactDecimalsFromNumber(minQuantityTickSize),
     quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize),
-    minNotionalInToken: sharedToBalanceInToken({
-      value: market.minNotional,
-      decimalPlaces: quoteToken.decimals
-    })
+    minNotionalInToken: toHumanReadable(
+      market.minNotional,
+      quoteToken.decimals
+    ).toFixed()
   }
 }
 
@@ -143,10 +142,10 @@ export const toUiDerivativeMarket = ({
   quoteToken: TokenStatic
   market: PerpetualMarket | ExpiryFuturesMarket
 }): SharedUiDerivativeMarket => {
-  const minPriceTickSize = sharedToBalanceInWei({
-    value: market.minPriceTickSize,
-    decimalPlaces: -quoteToken.decimals
-  }).toFixed()
+  const minPriceTickSize = toChainFormat(
+    market.minPriceTickSize,
+    -quoteToken.decimals
+  ).toFixed()
 
   return {
     ...market,
@@ -168,10 +167,10 @@ export const toUiDerivativeMarket = ({
       market.minQuantityTickSize
     ),
     quantityTensMultiplier: sharedGetTensMultiplier(market.minQuantityTickSize),
-    minNotionalInToken: sharedToBalanceInToken({
-      value: market.minNotional,
-      decimalPlaces: quoteToken.decimals
-    })
+    minNotionalInToken: toHumanReadable(
+      market.minNotional,
+      quoteToken.decimals
+    ).toFixed()
   }
 }
 
@@ -201,15 +200,15 @@ export const toUiBinaryOptionsMarket = ({
     tokenType: TokenType.Native
   } as TokenStatic
 
-  const minPriceTickSize = sharedToBalanceInWei({
-    value: market.minPriceTickSize,
-    decimalPlaces: baseToken.decimals - quoteToken.decimals
-  }).toFixed()
+  const minPriceTickSize = toChainFormat(
+    market.minPriceTickSize,
+    baseToken.decimals - quoteToken.decimals
+  ).toFixed()
 
-  const minQuantityTickSize = sharedToBalanceInWei({
-    value: market.minQuantityTickSize,
-    decimalPlaces: -baseToken.decimals
-  }).toFixed()
+  const minQuantityTickSize = toChainFormat(
+    market.minQuantityTickSize,
+    -baseToken.decimals
+  ).toFixed()
 
   return {
     ...market,
@@ -222,9 +221,9 @@ export const toUiBinaryOptionsMarket = ({
     priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
     quantityDecimals: sharedGetExactDecimalsFromNumber(minQuantityTickSize),
     quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize),
-    minNotionalInToken: sharedToBalanceInToken({
-      value: market.minNotional,
-      decimalPlaces: quoteToken.decimals
-    })
+    minNotionalInToken: toHumanReadable(
+      market.minNotional,
+      quoteToken.decimals
+    ).toFixed()
   }
 }

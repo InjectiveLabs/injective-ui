@@ -1,14 +1,12 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
+import { IS_HELIX, IS_DEVNET } from '../../utils/constant'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { connectMagic, queryMagicExistingUser } from './magic'
-import { confirmCosmosWalletAddress } from '../../wallet/cosmos'
+import { checkUnauthorizedMessages } from '../../utils/helper'
+import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
+import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
-import {
-  IS_HELIX,
-  IS_DEVNET,
-  MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-} from '../../utils/constant'
 import {
   submitTurnkeyOTP,
   initTurnkeyGoogle,
@@ -16,15 +14,16 @@ import {
   connectTurnkeyGoogle
 } from './turnkey'
 import {
-  MsgGrant,
-  PrivateKey,
-  msgsOrMsgExecMsgs,
   getEthereumAddress,
   getInjectiveAddress,
-  getDefaultSubaccountId,
+  getDefaultSubaccountId
+} from '@injectivelabs/sdk-ts/utils'
+import {
+  MsgGrant,
+  msgsOrMsgExecMsgs,
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
-} from '@injectivelabs/sdk-ts'
+} from '@injectivelabs/sdk-ts/core/modules'
 import {
   checkIsBitGetInstalled,
   checkIsRainbowInstalled,
@@ -311,7 +310,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.autoSign) {
-        autoSignWalletStrategy.setMetadata({
+        await autoSignWalletStrategy.setMetadata({
           privateKey: {
             privateKey: walletStore.autoSign.privateKey as string
           }
@@ -333,13 +332,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        ([
-          Wallet.BitGet,
-          Wallet.Phantom,
-          Wallet.Metamask,
-          Wallet.OkxWallet,
-          Wallet.TrustWallet
-        ] as WalletType[]).includes(walletStore.wallet)
+        (
+          [
+            Wallet.BitGet,
+            Wallet.Phantom,
+            Wallet.Metamask,
+            Wallet.OkxWallet,
+            Wallet.TrustWallet
+          ] as WalletType[]
+        ).includes(walletStore.wallet)
       ) {
         await validateEvmWallet({
           wallet: walletStore.wallet,
@@ -348,13 +349,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (
-        ([
-          Wallet.Leap,
-          Wallet.Ninji,
-          Wallet.Keplr,
-          Wallet.OWallet,
-          Wallet.Cosmostation
-        ] as WalletType[]).includes(walletStore.wallet)
+        (
+          [
+            Wallet.Leap,
+            Wallet.Ninji,
+            Wallet.Keplr,
+            Wallet.OWallet,
+            Wallet.Cosmostation
+          ] as WalletType[]
+        ).includes(walletStore.wallet)
       ) {
         await validateCosmosWallet({
           wallet: walletStore.wallet,
@@ -378,7 +381,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
-        walletStrategy.setMetadata({
+        await walletStrategy.setMetadata({
           privateKey: {
             privateKey: options.privateKey
           }
@@ -433,8 +436,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.hwAddresses.length === 0 ||
         walletStore.wallet !== wallet
       ) {
-        walletStrategy.disconnect()
-        walletStrategy.setWallet(wallet)
+        await walletStrategy.disconnect()
+        await walletStrategy.setWallet(wallet)
 
         walletStore.$patch({
           wallet
@@ -474,15 +477,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const msgs = Array.isArray(messages) ? messages : [messages]
 
-      const hasMsgExecuteContract = msgs.some(
-        (msg) =>
-          JSON.parse(msg.toJSON())['@type'] ===
-          MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-      )
+      const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
       if (
         walletStore.autoSign &&
-        !hasMsgExecuteContract &&
+        !hasUnauthorizedMessages &&
         walletStore.isAutoSignEnabled
       ) {
         const response = await autoSignMsgBroadcaster.broadcastV2({
@@ -556,19 +555,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const msgs = Array.isArray(messages) ? messages : [messages]
 
-      const hasMsgExecuteContract = msgs.some((msg) => {
-        const parsedMsg = JSON.parse(msg.toJSON())
-
-        const isMsgExec =
-          parsedMsg['@type'] === MSG_TYPE_URL_MSG_EXECUTE_CONTRACT
-
-        return isMsgExec
-      })
+      const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
       if (
         !walletStore.isEip712 &&
         walletStore.autoSign &&
-        !hasMsgExecuteContract &&
+        !hasUnauthorizedMessages &&
         walletStore.isAutoSignEnabled
       ) {
         const msgExecMsgs = msgsOrMsgExecMsgs(
@@ -713,7 +705,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign
       })
 
-      autoSignWalletStrategy.setMetadata({
+      await autoSignWalletStrategy.setMetadata({
         privateKey: {
           privateKey: autoSign.privateKey
         }

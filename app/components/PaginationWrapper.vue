@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
 import type { PropType } from 'vue'
 
 const props = defineProps({
@@ -26,10 +27,10 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  'page:changed': [page: number]
-  'limit:changed': [limit: number]
   'update:page': [page: number]
+  'page:changed': [page: number]
   'update:limit': [limit: number]
+  'limit:changed': [limit: number]
 }>()
 
 const limitOptions = [10, 20, 30, 40, 50]
@@ -79,13 +80,13 @@ const pagesToDisplay = computed(() => {
   return [1, ...middlePagesToDisplay, totalPages.value]
 })
 
-function onClickEvent(page: number | string) {
-  if (props.isDisabled || isNaN(Number(page)) || page === props.page) {
+function onUpdateLimit(limit: number) {
+  if (limit === props.limit) {
     return
   }
 
-  emit('page:changed', Number(page))
-  emit('update:page', Number(page))
+  emit('limit:changed', limit)
+  emit('update:limit', limit)
 }
 
 function onNextEvent() {
@@ -106,13 +107,13 @@ function onPrevEvent() {
   emit('update:page', props.page - 1)
 }
 
-function onUpdateLimit(limit: number) {
-  if (limit === props.limit) {
+function onClickEvent(page: number | string) {
+  if (props.isDisabled || isNaN(Number(page)) || page === props.page) {
     return
   }
 
-  emit('limit:changed', limit)
-  emit('update:limit', limit)
+  emit('page:changed', Number(page))
+  emit('update:page', Number(page))
 }
 </script>
 

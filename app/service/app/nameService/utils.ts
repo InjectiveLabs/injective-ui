@@ -5,7 +5,7 @@ import {
   hexToUint8Array,
   concatUint8Arrays,
   stringToUint8Array
-} from '@injectivelabs/sdk-ts'
+} from '@injectivelabs/sdk-ts/utils'
 
 const nameHash = (inputName: string) => {
   // Start with 32 zero bytes (0x0000...0000)

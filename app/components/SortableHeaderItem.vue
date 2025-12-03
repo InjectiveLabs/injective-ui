@@ -14,10 +14,10 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  'sortBy:changed': [value: string]
-  'isAscending:changed': [value: boolean]
   'update:sortBy': [value: string]
+  'sortBy:changed': [value: string]
   'update:isAscending': [value: boolean]
+  'isAscending:changed': [value: boolean]
 }>()
 
 const isActive = computed(() => props.sortBy === props.value)

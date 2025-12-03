@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
+import { BigNumber, toBigNumber } from '@injectivelabs/utils'
 import {
   DEFAULT_ASSET_DECIMALS,
   DEFAULT_ABBREVIATED_DECIMALS,
   DEFAULT_ABBREVIATION_THRESHOLD
 } from '../../utils/constant'
+import type { BigNumber as BigNumberType } from '@injectivelabs/utils'
 
 const props = withDefaults(
   defineProps<{
@@ -17,9 +18,11 @@ const props = withDefaults(
     showZeroAsEmDash?: boolean
     abbreviationThreshold?: number
     roundingMode?: BigNumber.RoundingMode
-    amount: string | number | BigNumberInBase
+    amount: string | number | BigNumberType
   }>(),
   {
+    dataCy: '',
+    cyValue: '',
     noTrailingZeros: true,
     shouldAbbreviate: true,
     decimals: DEFAULT_ASSET_DECIMALS,
@@ -32,7 +35,7 @@ const decimals = computed(() => {
   if (
     props.shouldAbbreviate &&
     !!props.abbreviationThreshold &&
-    new BigNumberInBase(props.amount || 0).gt(props.abbreviationThreshold)
+    toBigNumber(props.amount || 0).gt(props.abbreviationThreshold)
   ) {
     return DEFAULT_ABBREVIATED_DECIMALS
   }

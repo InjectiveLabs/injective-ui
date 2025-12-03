@@ -1,4 +1,4 @@
-import type { BigNumberInWei, BigNumberInBase } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
 import type {
   Orderbook,
   SpotTrade,
@@ -13,29 +13,29 @@ export interface SharedUiDerivativeTrade extends DerivativeTrade {
   ticker?: string
 }
 
-export interface SharedUiOrderbookWithSequence extends Orderbook {
-  sequence: number
+export interface SharedUiOrderbookSummary {
+  total: BigNumber
+  quantity: BigNumber
 }
 
-export interface SharedUiOrderbookSummary {
-  total: BigNumberInBase
-  quantity: BigNumberInBase
+export interface SharedUiOrderbookWithSequence extends Orderbook {
+  sequence: number
 }
 
 export interface SharedUiPriceLevel {
   price: string
   timestamp: number
   aggregatePrices?: string[]
-  quantity: string | BigNumberInWei
+  quantity: string | BigNumber
 }
 
 export interface SharedUiOrderbookPriceLevel {
   price: string
   depth: number
+  total: BigNumber
   timestamp: number
+  quantity: BigNumber
   oldQuantity?: string
-  total: BigNumberInBase
-  quantity: BigNumberInWei
   aggregatedPrice?: string
   aggregatePrices?: string[]
 }

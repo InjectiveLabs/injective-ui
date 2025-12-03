@@ -124,7 +124,6 @@ export default defineConfig({
                 'axios',
                 'js-sha3',
                 'js-base64',
-                'alchemy-sdk',
                 'floating-vue',
                 '@solana/web3.js',
                 '@ethersproject/bytes',
@@ -140,7 +139,6 @@ export default defineConfig({
             ? [
                 'axios',
                 'js-sha3',
-                'alchemy-sdk',
                 '@vuepic/vue-datepicker',
                 '@bangjelkoski/ens-validation'
               ]

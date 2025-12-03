@@ -1,6 +1,8 @@
 import { HttpClient } from '@injectivelabs/utils'
-import { alchemyRpcEndpoint } from '../../../wallet/alchemy'
-import { getAlchemyClient } from '../../shared'
+import { EvmChainId } from '@injectivelabs/ts-types'
+import { IS_MAINNET } from './../../../utils/constant'
+import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
+import { getViemPublicClient } from '@injectivelabs/wallet-base'
 
 const HISTORICAL_BLOCKS = 4
 
@@ -33,7 +35,8 @@ const formatFeeHistory = (result: any) => {
 }
 
 export const fetchEstimatorGasPrice = async () => {
-  const alchemy = await getAlchemyClient()
+  const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+  const publicClient = getViemPublicClient(chainId, alchemyRpcEndpoint)
   const httpClient = new HttpClient(alchemyRpcEndpoint)
 
   const feeHistory = (await httpClient
@@ -56,7 +59,7 @@ export const fetchEstimatorGasPrice = async () => {
   const average = avg(blocks.map((b) => b.priorityFeePerGas[1]))
   const fast = avg(blocks.map((b) => b.priorityFeePerGas[2]))
 
-  const pendingBlock = await alchemy.core.getBlock('pending')
+  const pendingBlock = await publicClient.getBlock({ blockTag: 'pending' })
   const baseFeePerGas = Number(pendingBlock.baseFeePerGas)
 
   return {

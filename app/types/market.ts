@@ -1,4 +1,4 @@
-import type { BigNumberInBase } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
 import type {
   SpotMarket,
   TokenStatic,
@@ -73,15 +73,14 @@ export interface SharedUiExpiryFuturesMarket
   quoteToken: TokenStatic
   quantityDecimals: number
   subType: SharedMarketType
+  estFundingRate: BigNumber
   minNotionalInToken: string
   priceTensMultiplier: number
   quantityTensMultiplier: number
-  estFundingRate: BigNumberInBase
 }
 
 export interface SharedUiDerivativeMarket
   extends Omit<PerpetualMarket, 'quoteToken'> {
-  // estFundingRate: BigNumberInBase
   slug: string
   upcoming?: boolean
   isVerified: boolean

@@ -1,5 +1,5 @@
-import { BigNumberInBase } from '@injectivelabs/utils'
-import { SharedMarketChange, type SharedUiMarketSummary } from '../../types'
+import { toBigNumber } from '@injectivelabs/utils'
+import { SharedMarketChange, type SharedUiMarketSummary } from './../../types'
 import type { AllChronosDerivativeMarketSummary } from '@injectivelabs/sdk-ts'
 
 export const toZeroUiMarketSummary = (
@@ -17,7 +17,7 @@ export const toZeroUiMarketSummary = (
 })
 
 const getChangeStateFromPrice = (change: number) => {
-  const changeInBigNumber = new BigNumberInBase(change)
+  const changeInBigNumber = toBigNumber(change)
 
   if (changeInBigNumber.eq(0)) {
     return SharedMarketChange.NoChange

@@ -1,9 +1,15 @@
 export * from './ci'
 export * from './ibc'
+export * from './evm'
 export * from './logs'
 export * from './time'
 export * from './async'
 export * from './input'
 export * from './network'
-export * from './evm'
 export * from './formatter'
+
+export {
+  toBigNumber,
+  toChainFormat,
+  toHumanReadable
+} from '@injectivelabs/utils'

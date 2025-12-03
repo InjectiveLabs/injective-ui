@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { HttpRequestException } from '@injectivelabs/exceptions'
 import { HttpClient } from '@injectivelabs/utils'
+import { HttpRequestException } from '@injectivelabs/exceptions'
 import {
   GOOGLE_MAPS_KEY,
   SECONDS_IN_A_DAY,
@@ -182,8 +182,7 @@ export const useSharedGeoStore = defineStore('sharedGeo', {
 
       sharedNotificationStore.info({
         title: 'VPN or proxy detected',
-        description:
-          'Allow location access in browser and system settings',
+        description: 'Allow location access in browser and system settings',
         timeout: 10 * 1000,
         ...(docLink
           ? {

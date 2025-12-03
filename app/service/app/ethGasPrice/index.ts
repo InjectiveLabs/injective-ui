@@ -1,16 +1,17 @@
 import { fetchEstimatorGasPrice } from './estimator'
-import { GWEI_IN_WEI, DEFAULT_MAINNET_GAS_PRICE } from '../../../utils/constant'
+import { EvmChainId } from '@injectivelabs/ts-types'
+import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
+import { HttpClient, toBigNumber } from '@injectivelabs/utils'
+import { getViemPublicClient } from '@injectivelabs/wallet-base'
 import {
   GeneralException,
   HttpRequestException
 } from '@injectivelabs/exceptions'
 import {
-  BigNumber,
-  HttpClient,
-  BigNumberInWei,
-  BigNumberInBase
-} from '@injectivelabs/utils'
-import { getAlchemyClient } from '../../shared'
+  IS_MAINNET,
+  GWEI_IN_WEI,
+  DEFAULT_MAINNET_GAS_PRICE
+} from '../../../utils/constant'
 
 export interface GasInfo {
   gasPrice: string
@@ -40,28 +41,29 @@ export interface EthGasStationResult {
   safeLowWait: number
 }
 
-const fetchGasPriceFromAlchemy = async (): Promise<string> => {
+const fetchGasPriceFromEthereum = async (): Promise<string> => {
   try {
-    const alchemy = await getAlchemyClient()
-    const response = await alchemy.core.getFeeData()
+    const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+    const publicClient = getViemPublicClient(chainId, alchemyRpcEndpoint)
+    const response = await publicClient.estimateFeesPerGas()
 
     if (!response) {
-      throw new GeneralException(new Error('No response from Alchemy'))
+      throw new GeneralException(new Error('No response from Ethereum'))
     }
 
     if (response.maxFeePerGas) {
       return response.maxFeePerGas.toString()
     }
 
-    const gasPrice = await alchemy.core.getGasPrice()
+    const gasPrice = await publicClient.getGasPrice()
 
     if (!gasPrice) {
       throw new GeneralException(
-        new Error('No gas price response from Alchemy')
+        new Error('No gas price response from Ethereum')
       )
     }
 
-    return new BigNumberInBase(gasPrice.toString()).toFixed()
+    return toBigNumber(gasPrice.toString()).toFixed()
   } catch (e: unknown) {
     if (e instanceof HttpRequestException) {
       throw e
@@ -82,9 +84,9 @@ export const fetchGasPriceFromEtherchain = async (): Promise<string> => {
       throw new GeneralException(new Error('No response from Etherchain'))
     }
 
-    return new BigNumberInWei(
-      new BigNumber(response.data.recommendedBaseFee).multipliedBy(GWEI_IN_WEI)
-    ).toFixed(0)
+    return toBigNumber(response.data.recommendedBaseFee)
+      .multipliedBy(GWEI_IN_WEI)
+      .toFixed(0)
   } catch (e: unknown) {
     if (e instanceof HttpRequestException) {
       throw e
@@ -110,11 +112,10 @@ export const fetchGasPriceFromEthGasStation = async (): Promise<string> => {
       )
     }
 
-    return new BigNumberInWei(
-      new BigNumber(response.data.fastest / 10)
-        .times(2.125)
-        .multipliedBy(GWEI_IN_WEI)
-    ).toFixed(0)
+    return toBigNumber(response.data.fastest / 10)
+      .times(2.125)
+      .multipliedBy(GWEI_IN_WEI)
+      .toFixed(0)
   } catch (e: unknown) {
     if (e instanceof HttpRequestException) {
       throw e
@@ -136,7 +137,7 @@ export const fetchGasPrice = async (): Promise<string> => {
   }
 
   try {
-    const gasPrice = await fetchGasPriceFromAlchemy()
+    const gasPrice = await fetchGasPriceFromEthereum()
 
     if (gasPrice) {
       return gasPrice.toString()
@@ -145,5 +146,5 @@ export const fetchGasPrice = async (): Promise<string> => {
     //
   }
 
-  return new BigNumberInWei(DEFAULT_MAINNET_GAS_PRICE).toString()
+  return toBigNumber(DEFAULT_MAINNET_GAS_PRICE).toString()
 }

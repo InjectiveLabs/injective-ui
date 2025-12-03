@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { BigNumber, BigNumberInBase } from '@injectivelabs/utils'
 import { abbreviateNumber } from '../../utils/helper'
+import { BigNumber, toBigNumber } from '@injectivelabs/utils'
 import {
   DEFAULT_DISPLAY_DECIMALS,
   DEFAULT_SUBSCRIPT_DECIMALS,
   DEFAULT_ABBREVIATION_THRESHOLD,
   DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS
 } from '../../utils/constant'
+import type { BigNumber as BigNumberType } from '@injectivelabs/utils'
 
 const props = withDefaults(
   defineProps<{
@@ -21,9 +22,11 @@ const props = withDefaults(
     abbreviationThreshold?: number
     subscriptThresholdDecimals?: number
     roundingMode?: BigNumber.RoundingMode
-    amount: string | number | BigNumberInBase
+    amount: string | number | BigNumberType
   }>(),
   {
+    dataCy: '',
+    cyValue: '',
     decimals: DEFAULT_DISPLAY_DECIMALS,
     roundingMode: BigNumber.ROUND_DOWN,
     subscriptDecimals: DEFAULT_SUBSCRIPT_DECIMALS,
@@ -32,12 +35,12 @@ const props = withDefaults(
   }
 )
 
-const amountToBigNumber = computed(() => new BigNumberInBase(props.amount || 0))
-const isNegative = computed(() => amountToBigNumber.value.lt(0))
-const absoluteAmount = computed(() => amountToBigNumber.value.abs())
+const amountInBigNumber = computed(() => toBigNumber(props.amount || 0))
+const isNegative = computed(() => amountInBigNumber.value.lt(0))
+const absoluteAmount = computed(() => amountInBigNumber.value.abs())
 
 const minDecimalThreshold = computed(() =>
-  new BigNumberInBase(1).div(Math.pow(10, props.decimals))
+  toBigNumber(1).div(Math.pow(10, props.decimals))
 )
 
 const shouldHaveSmallerThan = computed(() => {
@@ -84,7 +87,7 @@ const subscriptedAmount = computed(() => {
     nOfZeros >= props.decimals ||
     nOfZeros > props.subscriptThresholdDecimals
   ) {
-    let subscriptAmount = new BigNumberInBase(decimalPart.replace(/^0+/, ''))
+    let subscriptAmount = toBigNumber(decimalPart.replace(/^0+/, ''))
       .toFixed(0)
       .slice(0, props.subscriptDecimals)
 
@@ -92,7 +95,7 @@ const subscriptedAmount = computed(() => {
       subscriptAmount = subscriptAmount.padEnd(props.subscriptDecimals, '0')
     }
 
-    const integerAmount = new BigNumberInBase(integerPart || 0).toFormat(0)
+    const integerAmount = toBigNumber(integerPart).toFormat(0)
 
     return integerAmount + '.0<sub>' + nOfZeros + '</sub>' + subscriptAmount
   }
@@ -102,7 +105,11 @@ const subscriptedAmount = computed(() => {
 
 const formattedAmount = computed(() => {
   const amount = absoluteAmount.value
-  const decimals = !props.shouldAbbreviate &&  amountToBigNumber.value.gte(DEFAULT_ABBREVIATION_THRESHOLD) ? 0 : props.decimals
+  const decimals =
+    !props.shouldAbbreviate &&
+    amountInBigNumber.value.gte(DEFAULT_ABBREVIATION_THRESHOLD)
+      ? 0
+      : props.decimals
 
   if (props.noTrailingZeros && props.decimals > 0) {
     const result = amount
@@ -122,7 +129,7 @@ const formattedAmount = computed(() => {
     <span v-if="isNegative">-</span>
     <slot name="prefix" />
 
-    <span v-if="showZeroAsEmDash && amountToBigNumber.isZero()"> &mdash; </span>
+    <span v-if="showZeroAsEmDash && amountInBigNumber.isZero()"> &mdash; </span>
     <span v-else-if="subscriptedAmount" v-html="subscriptedAmount" />
     <span v-else-if="shouldHaveSmallerThan"
       >&lt;{{ minDecimalThreshold.toFormat() }}

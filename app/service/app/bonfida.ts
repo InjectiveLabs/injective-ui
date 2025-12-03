@@ -1,8 +1,7 @@
-import { lazyImportSdkTs } from '../../utils/lib'
-import { toUtf8, toBase64 } from '@injectivelabs/sdk-ts'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { ENDPOINTS, IS_MAINNET } from '../../utils/constant'
-import type { ChainGrpcWasmApi } from '@injectivelabs/sdk-ts'
+import { toUtf8, toBase64 } from '@injectivelabs/sdk-ts/utils'
+import { getChainGrpcWasmApi } from '../../utils/lib/sdkImports'
 
 const BONFIDA_TESTNET_CONTRACT_ADDRESS =
   'inj1q79ujqyh72p43mhr2ldaly3x6d50rzp3354at3'
@@ -11,10 +10,7 @@ const BONFIDA_MAINNET_CONTRACT_ADDRESS =
 
 export class InjBonfidaNameService {
   async fetchInjAddress(name: string) {
-    const client = await lazyImportSdkTs<ChainGrpcWasmApi>({
-      endpoint: ENDPOINTS.grpc,
-      className: 'ChainGrpcWasmApi'
-    })
+    const client = await getChainGrpcWasmApi(ENDPOINTS.grpc)
 
     const query = {
       resolve: {

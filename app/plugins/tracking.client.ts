@@ -1,7 +1,7 @@
 import VueGtag from 'vue-gtag'
 import hotjar from 'vue-hotjar'
-import { defineNuxtPlugin } from 'nuxt/app'
-import { HOTJAR_KEY, GOOGLE_ANALYTICS_KEY } from '../utils/constant'
+import { defineNuxtPlugin } from '#imports'
+import { HOTJAR_KEY, GOOGLE_ANALYTICS_KEY } from './../utils/constant'
 
 export default defineNuxtPlugin((nuxtApp) => {
   if (GOOGLE_ANALYTICS_KEY) {
