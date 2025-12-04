@@ -49,6 +49,10 @@ const methodMap: Record<
   ) => {
     const [chainId] = _params
 
+    if (!chainId) {
+      throw new Error('Chain ID is required')
+    }
+
     const chainIdObj = JSON.parse(chainId) as any
 
     const chainIdInt = parseInt(chainIdObj.chainId, 16)
@@ -80,8 +84,10 @@ export class CustomEip1193Provider implements Eip1193Provider {
       throw new Error('Private key not set')
     }
 
-    if (method in methodMap) {
-      return methodMap[method](params, this.pk, this.baseWallet, this)
+    const handler = methodMap[method]
+
+    if (handler) {
+      return handler(params, this.pk, this.baseWallet, this)
     }
 
     throw new Error(`Method ${method} not found`)

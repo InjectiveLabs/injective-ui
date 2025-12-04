@@ -7,6 +7,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "typecheck": "nuxi typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky",
@@ -14,25 +15,25 @@
   },
   "dependencies": {
     "@bangjelkoski/ens-validation": "^0.1.1",
-    "@injectivelabs/nuxt-bugsnag": "0.0.12",
     "@injectivelabs/exceptions": "1.16.38-alpha.4",
     "@injectivelabs/networks": "1.16.38-alpha.3",
+    "@injectivelabs/nuxt-bugsnag": "0.0.12",
     "@injectivelabs/sdk-ts": "1.16.38-alpha.6",
     "@injectivelabs/ts-types": "1.16.38-alpha.3",
     "@injectivelabs/utils": "1.16.38-alpha.5",
-    "@injectivelabs/wallet-evm": "1.16.38-alpha.6",
     "@injectivelabs/wallet-base": "1.16.38-alpha.6",
     "@injectivelabs/wallet-core": "1.16.38-alpha.6",
-    "@injectivelabs/wallet-magic": "1.16.38-alpha.6",
-    "@injectivelabs/wallet-ledger": "1.16.38-alpha.6",
     "@injectivelabs/wallet-cosmos": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-cosmos-strategy": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-cosmostation": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-evm": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-ledger": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-magic": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-private-key": "1.16.38-alpha.6",
+    "@injectivelabs/wallet-strategy": "1.16.38-alpha.6",
     "@injectivelabs/wallet-trezor": "1.16.38-alpha.6",
     "@injectivelabs/wallet-turnkey": "1.16.38-alpha.6",
-    "@injectivelabs/wallet-strategy": "1.16.38-alpha.6",
-    "@injectivelabs/wallet-private-key": "1.16.38-alpha.6",
-    "@injectivelabs/wallet-cosmostation": "1.16.38-alpha.6",
     "@injectivelabs/wallet-wallet-connect": "1.16.38-alpha.6",
-    "@injectivelabs/wallet-cosmos-strategy": "1.16.38-alpha.6",
     "@metamask/eth-sig-util": "^8.2.0",
     "@nuxt/kit": "4.1.2",
     "@nuxt/ui": "4.1.0",
@@ -49,7 +50,7 @@
     "nuxt-vitalizer": "0.10.0",
     "qr-code-styling": "^1.9.2",
     "vee-validate": "4.15.1",
-    "viem": "^2.40.3",
+    "viem": "2.41.2",
     "vue-gtag": "2.0.1",
     "vue-hotjar": "1.4.0",
     "vue-imask": "7.6.1"
@@ -69,7 +70,8 @@
     "prettier": "3.6.2",
     "typescript": "5.8.3",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.1.5"
   },
   "lint-staged": {
     "**/*.{js,ts,vue}": [
@@ -102,7 +104,8 @@
       "@injectivelabs/wallet-strategy": "1.16.38-alpha.6",
       "@injectivelabs/wallet-trezor": "1.16.38-alpha.6",
       "@injectivelabs/wallet-turnkey": "1.16.38-alpha.6",
-      "@injectivelabs/wallet-wallet-connect": "1.16.38-alpha.6"
+      "@injectivelabs/wallet-wallet-connect": "1.16.38-alpha.6",
+      "viem": "2.41.2"
     }
   }
 }

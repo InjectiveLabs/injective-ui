@@ -1,6 +1,6 @@
 import { tradingMessages } from './constant'
 import { toBigNumber } from '@injectivelabs/utils'
-import { sharedTokenClient, tokenStaticFactory } from '../Service'
+import { sharedTokenClient, tokenStaticFactory } from '../service'
 import type { BigNumber } from '@injectivelabs/utils'
 import type { Msgs, TokenStatic } from '@injectivelabs/sdk-ts'
 
