@@ -17,6 +17,20 @@ This guide helps you migrate from barrel imports (`@injectivelabs/sdk-ts`) to su
 
 The main entry point (`@injectivelabs/sdk-ts`) still works and re-exports everything. This is a **hybrid setup** to prevent breaking changes - you can migrate incrementally.
 
+### Prerequisites
+
+Before starting the migration, ensure your `tsconfig.json` has the correct `moduleResolution`:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler"
+  }
+}
+```
+
+> **Note for Nuxt projects**: Nuxt 4 sets `moduleResolution: "Bundler"` automatically. No changes needed.
+
 ### Type-Only Imports
 
 **Type-only imports can use the barrel export** (`@injectivelabs/sdk-ts`) because TypeScript erases them at compile time. They don't affect bundle size.
@@ -391,14 +405,150 @@ import { OLPGrpcApi, DmmGrpcApi } from '@injectivelabs/sdk-ts/client/olp'
 
 ---
 
+## Step-by-Step Migration
+
+### Step 1: Verify Prerequisites
+
+```bash
+# Check your moduleResolution setting (should be "bundler", "node16", or "nodenext")
+grep -r "moduleResolution" tsconfig.json .nuxt/tsconfig*.json 2>/dev/null
+```
+
+For Nuxt projects, ensure you're on Nuxt 3.8+ or Nuxt 4 (they set `moduleResolution: "Bundler"` automatically).
+
+### Step 2: Find All SDK Imports
+
+```bash
+# Find all files with sdk-ts imports
+grep -r "@injectivelabs/sdk-ts" --include="*.ts" --include="*.vue" -l app/
+
+# Count imports by type (barrel vs subpath)
+grep -r "from '@injectivelabs/sdk-ts'" --include="*.ts" --include="*.vue" app/ | wc -l
+grep -r "from '@injectivelabs/sdk-ts/" --include="*.ts" --include="*.vue" app/ | wc -l
+```
+
+### Step 3: Categorize Imports
+
+For each file, identify what needs to change:
+
+| Import Type                              | Action                                          |
+| ---------------------------------------- | ----------------------------------------------- |
+| `import type { X } from '...sdk-ts'`     | ✅ Keep as-is (type-only, erased at compile)    |
+| `import { MsgSend } from '...sdk-ts'`    | ⚠️ Migrate to `/core/modules`                   |
+| `import { PrivateKey } from '...sdk-ts'` | ⚠️ Migrate to `/core/accounts`                  |
+| `import { TokenType } from '...sdk-ts'`  | ⚠️ Migrate to `/types`                          |
+| `import { getEthereumAddress } from`     | ⚠️ Migrate to `/utils`                          |
+| `import { ChainGrpcBankApi } from`       | ⚠️ Migrate to `/client/chain` (consider lazy)   |
+| `import { IndexerGrpcSpotApi } from`     | ⚠️ Migrate to `/client/indexer` (consider lazy) |
+
+### Step 4: Apply Migrations
+
+**Option A: Direct Static Imports (Simple)**
+
+Replace barrel imports with subpath imports directly:
+
+```typescript
+// Before
+import {
+  MsgSend,
+  PrivateKey,
+  getEthereumAddress,
+  TokenType
+} from '@injectivelabs/sdk-ts'
+
+// After
+import { MsgSend } from '@injectivelabs/sdk-ts/core/modules'
+import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
+import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
+import { TokenType } from '@injectivelabs/sdk-ts/types'
+```
+
+**Option B: Lazy-Loading API Factory (Recommended for APIs)**
+
+For API clients (ChainGrpc*, IndexerGrpc*, etc.), use the lazy-loading factory pattern for better performance:
+
+```typescript
+// utils/lib/sdkImports.ts - Create once, use everywhere
+const apiCache = new Map<string, unknown>()
+
+function createApiFactory<T>(
+  className: string,
+  importFn: () => Promise<new (endpoint: string) => T>
+): (endpoint: string) => Promise<T> {
+  return async (endpoint: string) => {
+    const key = `${className}-${endpoint}`
+    if (apiCache.has(key)) {
+      return apiCache.get(key) as T
+    }
+    const ApiClass = await importFn()
+    const instance = new ApiClass(endpoint)
+    apiCache.set(key, instance)
+    return instance
+  }
+}
+
+// Add factories for each API you use
+export const getChainGrpcBankApi = createApiFactory(
+  'ChainGrpcBankApi',
+  async () =>
+    (await import('@injectivelabs/sdk-ts/client/chain')).ChainGrpcBankApi
+)
+
+export const getIndexerGrpcSpotApi = createApiFactory(
+  'IndexerGrpcSpotApi',
+  async () =>
+    (await import('@injectivelabs/sdk-ts/client/indexer')).IndexerGrpcSpotApi
+)
+```
+
+Then create bound helpers in your service layer:
+
+```typescript
+// service/index.ts
+import { getChainGrpcBankApi } from '../utils/lib/sdkImports'
+import { ENDPOINTS } from '../utils/constant'
+
+export const getBankApi = () => getChainGrpcBankApi(ENDPOINTS.grpc)
+```
+
+Usage in your code:
+
+```typescript
+// Before (synchronous)
+const bankApi = new ChainGrpcBankApi(ENDPOINTS.grpc)
+const balance = await bankApi.fetchBalance(...)
+
+// After (async, lazy-loaded)
+const bankApi = await getBankApi()
+const balance = await bankApi.fetchBalance(...)
+```
+
+### Step 5: Verify and Test
+
+```bash
+# Check TypeScript compiles without errors
+pnpm tsc --noEmit
+
+# Run your test suite
+pnpm test
+
+# Build and check bundle size (optional)
+pnpm build
+```
+
+---
+
 ## Migration Checklist
 
-- [ ] **Audit imports**: Search your codebase for `from '@injectivelabs/sdk-ts'`
-- [ ] **Categorize**: Group imports by their target subpath
-- [ ] **Update imports**: Replace barrel imports with subpath imports
-- [ ] **Verify TypeScript**: Run `tsc --noEmit` to check for type errors
-- [ ] **Test functionality**: Ensure runtime behavior is unchanged
-- [ ] **Check bundle size**: Compare before/after bundle sizes (optional)
+- [ ] **Prerequisites**: Verify `moduleResolution` is `bundler`, `node16`, or `nodenext`
+- [ ] **Audit imports**: `grep -r "@injectivelabs/sdk-ts" --include="*.ts" --include="*.vue" -l app/`
+- [ ] **Categorize**: Separate type-only imports from value imports
+- [ ] **Create factory file**: Copy `utils/lib/sdkImports.ts` pattern for API clients
+- [ ] **Update value imports**: Replace barrel imports with subpath imports
+- [ ] **Keep type imports**: Leave `import type { ... } from '@injectivelabs/sdk-ts'` as-is
+- [ ] **Verify TypeScript**: `pnpm tsc --noEmit`
+- [ ] **Test functionality**: `pnpm test`
+- [ ] **Check bundle size**: Compare before/after with `pnpm build` (optional)
 
 ---
 
@@ -453,11 +603,57 @@ The `node` resolution mode may not support package.json `exports` properly. Use 
 
 ---
 
-## Completed Migration in This Codebase
+## Completed Migrations
 
-This section documents the migration patterns used in `injective-ui`.
+This section documents the migration patterns used across Injective repositories.
 
-### Architecture: Lazy-Loading API Factory
+---
+
+### injective-helix Migration
+
+The `injective-helix` repo was migrated using **direct static imports** (not the lazy-loading factory pattern). This approach is simpler and appropriate when:
+
+- You don't need the extra bundle splitting that dynamic imports provide
+- The API clients are already used in server-side or build-time contexts
+- You prefer straightforward refactoring over architectural changes
+
+#### Key Insights from injective-helix Migration
+
+1. **Only runtime imports need migration** - `import type` statements are erased at compile time and don't affect bundle size
+2. **Enum values are runtime imports** - `TokenType`, `TokenVerification`, `TradeDirection`, `ExitType`, `MarketType`, etc.
+3. **Constants and maps are runtime imports** - `GrpcOrderTypeMap`, `NEPTUNE_USDT_CW20_CONTRACT`, etc.
+4. **Classes are runtime imports** - All `Msg*`, `ExecArg*`, `Query*`, API clients, streams, etc.
+
+#### Files Migrated in injective-helix (63 files)
+
+| Category                   | Files                                                                                                                                                                                                       | Changes                                                                                                                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Store message files**    | `spot/message.ts`, `account/message.ts`, `derivative/message.ts`, `position/message.ts`, `gridStrategy/message.ts`, `megaVault/message.ts`, `referral/message.ts`, `campaign/message.ts`, `swap/message.ts` | `Msg*` classes → `/core/modules`, utility functions → `/utils`                                                                                                                        |
+| **Store index files**      | `account/index.ts`, `swap/index.ts`, `campaign/index.ts`, `gridStrategy/index.ts`, `authZ.ts`                                                                                                               | Mixed: Query classes → `/client/wasm`, encoding → `/utils`, `MsgGrant`/`MsgRevoke` → `/core/modules`, `MarketType` → `/client/indexer`                                                |
+| **App services**           | `app/Services.ts`, `app/services/account.ts`                                                                                                                                                                | `NeptuneService` → `/client/wasm`, `BaseAccount` → `/core/accounts`, `ChainRestAuthApi` → `/client/chain`                                                                             |
+| **Stream clients**         | `app/client/streams/*.ts`                                                                                                                                                                                   | `IndexerGrpc*Stream` → `/client/indexer`                                                                                                                                              |
+| **Utility files**          | `app/utils/msgs.ts`, `app/utils/trade.ts`, `app/data/trade.ts`                                                                                                                                              | Multiple imports to appropriate subpaths                                                                                                                                              |
+| **Components/Composables** | 20+ files                                                                                                                                                                                                   | `TradeDirection`, `TokenType`, `TokenVerification` → `/types`; `ExitType`, `GrantAuthorizationType` → `/core/modules`; `MarketType` → `/client/indexer`; utility functions → `/utils` |
+
+#### Subpath Mapping Reference (Quick Lookup)
+
+| Export Pattern                                                                                                                                          | Subpath           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `Msg*`, `ExecArg*`, `ExitType`, `GrantAuthorizationType`, `getGenericAuthorizationFromMessageType`, `msgsOrMsgExecMsgs`, `ContractExecutionCompatAuthz` | `/core/modules`   |
+| `BaseAccount`, `PrivateKey`, `Address`                                                                                                                  | `/core/accounts`  |
+| `IndexerGrpc*Api`, `IndexerGrpc*Stream`, `MarketType`, `TradingStrategy`                                                                                | `/client/indexer` |
+| `ChainGrpc*Api`, `ChainRest*Api`, `GrpcOrderTypeMap`, `OracleTypeMap`                                                                                   | `/client/chain`   |
+| `NeptuneService`, `NEPTUNE_USDT_CW20_CONTRACT`, `Query*` (WASM), `SwapQueryTransformer`                                                                 | `/client/wasm`    |
+| Formatters, encoding utils, address utils, price/quantity converters                                                                                    | `/utils`          |
+| `TradeDirection`, `TokenType`, `TokenVerification`, `TokenStatic` (enums/value types)                                                                   | `/types`          |
+
+---
+
+### injective-ui Migration
+
+The `injective-ui` repo was migrated using **lazy-loading API factories** for maximum bundle splitting. This approach is best for large applications where you want to defer loading of heavy SDK modules.
+
+#### Architecture: Lazy-Loading API Factory
 
 We use a factory pattern in `utils/lib/sdkImports.ts` for lazy-loading SDK API clients:
 
@@ -499,7 +695,7 @@ import { ENDPOINTS } from './../utils/constant'
 export const getBankApi = () => getChainGrpcBankApi(ENDPOINTS.grpc)
 ```
 
-### Files Migrated
+#### Files Migrated in injective-ui
 
 | File                                     | Changes                                                                       |
 | ---------------------------------------- | ----------------------------------------------------------------------------- |
@@ -527,7 +723,7 @@ export const getBankApi = () => getChainGrpcBankApi(ENDPOINTS.grpc)
 | `data/token.ts`                          | `TokenType, TokenVerification` → `/types`                                     |
 | `utils/evm/CustomEip1193Provider.ts`     | `PrivateKey` → `/core/accounts`                                               |
 
-### Pattern: Mixed Imports (Correct)
+#### Pattern: Mixed Imports (Correct)
 
 Files can use both subpath imports (for values) and barrel imports (for types):
 
@@ -542,7 +738,7 @@ import {
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
 ```
 
-### Remaining Barrel Imports (Type-Only)
+#### Remaining Barrel Imports (Type-Only)
 
 These files correctly use type-only imports from the barrel:
 
@@ -557,3 +753,89 @@ These files correctly use type-only imports from the barrel:
 | `data/token.ts`           | `TokenStatic`                                   |
 
 These are acceptable because `import type` is erased at compile time
+
+---
+
+## Common Pitfalls
+
+### 1. Mixing Value and Type Imports Incorrectly
+
+```typescript
+// ❌ Wrong - TokenType is an enum (value), not just a type
+import type { TokenType, TokenStatic } from '@injectivelabs/sdk-ts'
+
+// ✅ Correct - TokenStatic is type-only, TokenType is a value
+import { TokenType } from '@injectivelabs/sdk-ts/types'
+import type { TokenStatic } from '@injectivelabs/sdk-ts'
+```
+
+### 2. Forgetting to Make API Calls Async
+
+When switching to lazy-loaded factories, API access becomes async:
+
+```typescript
+// ❌ Before (synchronous instantiation)
+const bankApi = new ChainGrpcBankApi(endpoint)
+const balance = bankApi.fetchBalance(address, denom)
+
+// ✅ After (async factory)
+const bankApi = await getBankApi()
+const balance = await bankApi.fetchBalance(address, denom)
+```
+
+### 3. Not Updating All Import Locations
+
+Use grep to find all occurrences, not just a few:
+
+```bash
+# Find ALL files that import from sdk-ts barrel
+grep -r "from '@injectivelabs/sdk-ts'" --include="*.ts" --include="*.vue" app/
+```
+
+### 4. Enum vs Const Maps
+
+Some exports are `const` objects (maps), not enums:
+
+```typescript
+// OracleTypeMap is a const object, not an enum
+import { OracleTypeMap } from '@injectivelabs/sdk-ts/client/chain'
+
+// Usage: OracleTypeMap.Pyth, OracleTypeMap.Chainlink, etc.
+```
+
+---
+
+## Tips for Multi-Repo Migration
+
+If you're migrating multiple repos with similar setups:
+
+1. **Choose your approach**:
+   - **Lazy-loading factories** (`injective-ui` pattern): Best for large apps where you want maximum bundle splitting
+   - **Direct static imports** (`injective-helix` pattern): Simpler refactoring, still gets tree-shaking benefits
+2. **Reference implementations**:
+   - `injective-ui`: Lazy-loading factory pattern with `utils/lib/sdkImports.ts`
+   - `injective-helix`: Direct static imports, 63 files migrated
+3. **Use search-and-replace patterns**:
+   ```bash
+   # Find common patterns to migrate
+   grep -r "import { TokenType" --include="*.ts" app/
+   grep -r "import { MsgSend\|MsgGrant\|MsgDelegate" --include="*.ts" app/
+   grep -r "import { PrivateKey" --include="*.ts" app/
+   ```
+4. **Migrate incrementally**: Type-only imports can stay in barrel, focus on value imports
+5. **Test after each batch**: Don't migrate everything at once
+
+### Quick Migration Patterns for Common Imports
+
+```bash
+# Replace TokenType imports
+sed -i '' "s/import { TokenType } from '@injectivelabs\/sdk-ts'/import { TokenType } from '@injectivelabs\/sdk-ts\/types'/g" *.ts
+
+# Replace PrivateKey imports
+sed -i '' "s/import { PrivateKey } from '@injectivelabs\/sdk-ts'/import { PrivateKey } from '@injectivelabs\/sdk-ts\/core\/accounts'/g" *.ts
+
+# Replace utility function imports
+sed -i '' "s/import { getEthereumAddress } from '@injectivelabs\/sdk-ts'/import { getEthereumAddress } from '@injectivelabs\/sdk-ts\/utils'/g" *.ts
+```
+
+> **Warning**: Always review sed changes before committing. Use `git diff` to verify.
