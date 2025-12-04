@@ -231,3 +231,74 @@ export const getIndexerRestMarketChronosApi = createApiFactory(
     (await import('@injectivelabs/sdk-ts/client/indexer'))
       .IndexerRestMarketChronosApi
 )
+
+// ============================================================
+// Dynamic SDK API Factory
+// ============================================================
+
+/**
+ * Dynamically imports and instantiates an SDK API class by name.
+ * This is useful when the class name is not known at compile time
+ * or when you need to load APIs that are not covered by the static factories above.
+ *
+ * @param options - Configuration object
+ * @param options.className - The name of the API class to import
+ * @param options.endpoint - The endpoint URL for the API
+ * @returns A cached instance of the API class
+ *
+ * @example
+ * const api = await lazyImportSdkTs<IndexerGrpcCampaignApi>({
+ *   className: 'IndexerGrpcCampaignApi',
+ *   endpoint: 'https://api.example.com'
+ * })
+ */
+export async function lazyImportSdkTs<T>({
+  className,
+  endpoint
+}: {
+  endpoint: string
+  className: string
+}): Promise<T> {
+  const key = `${className}-${endpoint}`
+
+  if (apiCache.has(key)) {
+    return apiCache.get(key) as T
+  }
+
+  // Determine the import path based on the class name
+  const module = await (async () => {
+    if (
+      className.startsWith('ChainGrpc') ||
+      className.startsWith('ChainRest')
+    ) {
+      return import('@injectivelabs/sdk-ts/client/chain')
+    }
+
+    if (
+      className.startsWith('IndexerGrpc') ||
+      className.startsWith('IndexerRest')
+    ) {
+      return import('@injectivelabs/sdk-ts/client/indexer')
+    }
+
+    if (className.startsWith('Abacus')) {
+      return import('@injectivelabs/sdk-ts/client/abacus')
+    }
+
+    // Fallback to the main package
+    return import('@injectivelabs/sdk-ts')
+  })()
+
+  const ApiClass = (
+    module as unknown as Record<string, new (endpoint: string) => T>
+  )[className]
+
+  if (!ApiClass) {
+    throw new Error(`SDK class "${className}" not found in module`)
+  }
+
+  const instance = new ApiClass(endpoint)
+  apiCache.set(key, instance)
+
+  return instance
+}

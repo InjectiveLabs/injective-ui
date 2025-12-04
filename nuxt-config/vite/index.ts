@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import { visualizer } from 'rollup-plugin-visualizer'
+// import { visualizer } from 'rollup-plugin-visualizer'
 import {
   IS_HUB,
   IS_MITO,
@@ -14,7 +13,7 @@ import type { ViteConfig } from '@nuxt/schema'
 
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
-const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
+// const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
 
@@ -44,7 +43,9 @@ export default defineConfig({
     global: 'globalThis'
   },
 
-  plugins: [tsconfigPaths(), visualizer({ open: isAnalyzeBundle })],
+  plugins: [
+    // visualizer({ open: isAnalyzeBundle })
+  ],
 
   server: {
     watch: {
