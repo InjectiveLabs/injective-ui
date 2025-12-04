@@ -1,18 +1,12 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
+import { lazyPiniaAction } from '../../utils/pinia'
 import { IS_HELIX, IS_DEVNET } from '../../utils/constant'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { connectMagic, queryMagicExistingUser } from './magic'
 import { checkUnauthorizedMessages } from '../../utils/helper'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
-import {
-  submitTurnkeyOTP,
-  initTurnkeyGoogle,
-  getEmailTurnkeyOTP,
-  connectTurnkeyGoogle
-} from './turnkey'
 import {
   getEthereumAddress,
   getInjectiveAddress,
@@ -24,15 +18,6 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts/core/modules'
-import {
-  checkIsBitGetInstalled,
-  checkIsRainbowInstalled,
-  checkIsMetamaskInstalled,
-  checkIsOkxWalletInstalled,
-  checkIsTrustWalletInstalled,
-  checkIsRabbyWalletInstalled,
-  checkIsPhantomWalletInstalled
-} from './extensions'
 import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import {
@@ -196,20 +181,60 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
-    checkIsBitGetInstalled,
-    checkIsRainbowInstalled,
-    checkIsMetamaskInstalled,
-    checkIsOkxWalletInstalled,
-    checkIsTrustWalletInstalled,
-    checkIsRabbyWalletInstalled,
-    checkIsPhantomWalletInstalled,
+    // Lazy-loaded extension checks
+    checkIsBitGetInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsBitGetInstalled'
+    ),
+    checkIsRainbowInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsRainbowInstalled'
+    ),
+    checkIsMetamaskInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsMetamaskInstalled'
+    ),
+    checkIsOkxWalletInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsOkxWalletInstalled'
+    ),
+    checkIsTrustWalletInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsTrustWalletInstalled'
+    ),
+    checkIsRabbyWalletInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsRabbyWalletInstalled'
+    ),
+    checkIsPhantomWalletInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsPhantomWalletInstalled'
+    ),
 
-    connectMagic,
-    submitTurnkeyOTP,
-    initTurnkeyGoogle,
-    getEmailTurnkeyOTP,
-    connectTurnkeyGoogle,
-    queryMagicExistingUser,
+    // Lazy-loaded magic wallet actions
+    connectMagic: lazyPiniaAction(() => import('./magic'), 'connectMagic'),
+    queryMagicExistingUser: lazyPiniaAction(
+      () => import('./magic'),
+      'queryMagicExistingUser'
+    ),
+
+    // Lazy-loaded turnkey wallet actions
+    submitTurnkeyOTP: lazyPiniaAction(
+      () => import('./turnkey'),
+      'submitTurnkeyOTP'
+    ),
+    initTurnkeyGoogle: lazyPiniaAction(
+      () => import('./turnkey'),
+      'initTurnkeyGoogle'
+    ),
+    getEmailTurnkeyOTP: lazyPiniaAction(
+      () => import('./turnkey'),
+      'getEmailTurnkeyOTP'
+    ),
+    connectTurnkeyGoogle: lazyPiniaAction(
+      () => import('./turnkey'),
+      'connectTurnkeyGoogle'
+    ),
 
     async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()

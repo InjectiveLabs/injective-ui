@@ -265,6 +265,38 @@ import type { BigNumber } from '@injectivelabs/utils'
 
 > **Note**: Check your project's ESLint configuration for the `@typescript-eslint/consistent-type-imports` rule to determine the required import style.
 
+### Nuxt Projects: Auto-Imports
+
+> **IMPORTANT for Nuxt-based repositories** (e.g., `injective-helix`): The functions `toBigNumber`, `toHumanReadable`, and `toChainFormat` are **auto-imported** by Nuxt from `injective-ui/app/utils/index.ts`. You should **NOT** add explicit imports for these functions.
+
+```typescript
+// ❌ INCORRECT in Nuxt projects - do NOT import these functions
+import {
+  toBigNumber,
+  toHumanReadable,
+  toChainFormat
+} from '@injectivelabs/utils'
+
+// ✅ CORRECT in Nuxt projects - just use them directly (they're auto-imported)
+const value = toBigNumber(100)
+const balance = toHumanReadable(rawBalance, decimals)
+const chainValue = toChainFormat(amount, decimals)
+
+// ✅ You can still import BigNumber type and other non-auto-imported items
+import { BigNumber, Status, StatusType } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils'
+```
+
+To verify what's auto-imported in your Nuxt project, check `.nuxt/imports.d.ts` for entries like:
+
+```typescript
+export {
+  toBigNumber,
+  toChainFormat,
+  toHumanReadable
+} from '../../injective-ui/app/utils/index'
+```
+
 ---
 
 ## 5. Constants Migration
@@ -2113,6 +2145,105 @@ Assign confidence levels to migrations:
 - Low confidence: 2 changes (tests generated and passed ✅)
 
 ````
+
+---
+
+## 18. useSharedBigNumberFormatter Composable Changes
+
+The `useSharedBigNumberFormatter` composable has been updated. The return object keys have changed to be more consistent with the new naming conventions.
+
+### Return Object Key Changes
+
+| Old Key (Incorrect) | New Key (Correct) | Description |
+|---------------------|-------------------|-------------|
+| `valueToBigNumber` | `valueInBigNumber` | The raw BigNumber value |
+
+### Full Return Object
+
+The composable returns the following properties:
+
+```typescript
+return {
+  valueToFixed,              // ComputedRef<string> - formatted with fixed decimals
+  valueToString,             // ComputedRef<string> - formatted string with separators
+  valueInBigNumber,          // ComputedRef<BigNumber> - the raw BigNumber value
+  valueWithGasBuffer,        // ComputedRef<BigNumber> - value minus gas fee
+  valueWithGasBufferToFixed, // ComputedRef<string> - gas-buffered value as fixed string
+  valueWithGasBufferToString // ComputedRef<string> - gas-buffered value as formatted string
+}
+```
+
+### Migration Examples
+
+#### Basic Usage
+
+```typescript
+// ❌ INCORRECT - using old key name
+const { valueToBigNumber: balanceToBigNumber } = useSharedBigNumberFormatter(
+  computed(() => balance.value)
+)
+
+// ✅ CORRECT - using new key name
+const { valueInBigNumber: balanceInBigNumber } = useSharedBigNumberFormatter(
+  computed(() => balance.value)
+)
+```
+
+#### Multiple Destructured Properties
+
+```typescript
+// ❌ INCORRECT
+const {
+  valueToFixed: priceToFixed,
+  valueToBigNumber: priceToBigNumber
+} = useSharedBigNumberFormatter(computed(() => price.value))
+
+// ✅ CORRECT
+const {
+  valueToFixed: priceToFixed,
+  valueInBigNumber: priceInBigNumber
+} = useSharedBigNumberFormatter(computed(() => price.value))
+```
+
+#### In Template Usage
+
+```vue
+<!-- ❌ INCORRECT -->
+<script setup>
+const { valueToBigNumber } = useSharedBigNumberFormatter(balance)
+</script>
+<template>
+  <span v-if="valueToBigNumber.gt(0)">{{ valueToBigNumber.toFixed() }}</span>
+</template>
+
+<!-- ✅ CORRECT -->
+<script setup>
+const { valueInBigNumber } = useSharedBigNumberFormatter(balance)
+</script>
+<template>
+  <span v-if="valueInBigNumber.gt(0)">{{ valueInBigNumber.toFixed() }}</span>
+</template>
+```
+
+### Search Pattern for Migration
+
+Use this grep pattern to find files that need updating:
+
+```bash
+# Find all usages of the old key name
+grep -r "valueToBigNumber" --include="*.ts" --include="*.vue" . | grep -v "node_modules/"
+
+# Using ripgrep
+rg "valueToBigNumber" --type ts --type vue -g "!node_modules"
+```
+
+### Why This Change?
+
+The key was renamed from `valueToBigNumber` to `valueInBigNumber` to:
+
+1. **Consistency**: Follow the naming convention where variables using `toBigNumber()` should use the `*InBigNumber` suffix (see Section 6 - Naming Rules)
+2. **Clarity**: The suffix `InBigNumber` indicates the value IS a BigNumber, while `ToBigNumber` incorrectly suggests a conversion function
+3. **Pattern alignment**: Matches the naming patterns used throughout the codebase after the BigNumber migration
 
 ---
 
