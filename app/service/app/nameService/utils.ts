@@ -15,7 +15,7 @@ const nameHash = (inputName: string) => {
     const labels = inputName.split('.')
 
     for (let i = labels.length - 1; i >= 0; i -= 1) {
-      const normalizedLabel = normalize(labels[i])
+      const normalizedLabel = normalize(labels[i]!)
       // keccak256 from viem accepts string or Uint8Array
       const labelSha = keccak256(
         stringToUint8Array(normalizedLabel),

@@ -58,7 +58,7 @@ export const submitTurnkeyOTP = async (otpCode: string) => {
       injectiveAddress: address,
       addressConfirmation: session,
       turnkeyInjectiveAddress: address,
-      address: getEthereumAddress(address)
+      address: address ? getEthereumAddress(address) : undefined
     })
 
     await walletStore.onConnect()
@@ -100,7 +100,7 @@ export const connectTurnkeyGoogle = async () => {
     injectiveAddress: address,
     turnkeyInjectiveAddress: address,
     addressConfirmation: urlOrSession,
-    address: getEthereumAddress(address)
+    address: address ? getEthereumAddress(address) : undefined
   })
 
   await walletStore.onConnect()
@@ -129,7 +129,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
     injectiveAddress: address,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
-    address: getEthereumAddress(address)
+    address: address ? getEthereumAddress(address) : undefined
   })
 
   await walletStore.onConnect()

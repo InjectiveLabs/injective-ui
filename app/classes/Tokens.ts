@@ -5,7 +5,7 @@ import { TokenVerification } from '@injectivelabs/sdk-ts/types'
  * TokenFactoryStatic is temporarily imported from the barrel until all apps migrate.
  */
 import { TokenFactoryStatic } from '@injectivelabs/sdk-ts/service'
-import { tokenCacheApi, sharedTokenClient } from '../Service'
+import { tokenCacheApi, sharedTokenClient } from '../service'
 import type { Coin, TokenStatic } from '@injectivelabs/sdk-ts'
 import type { SharedBalanceWithToken } from '../types'
 

@@ -130,6 +130,26 @@ grep -r "BigNumberInBase\|BigNumberInWei" --include="*.ts" --include="*.vue" . |
 
 If any results remain, you missed files. Add them to your todo list and complete them.
 
+#### Quick Verification Command (Comprehensive)
+
+Use this single command to check for ALL deprecated patterns at once:
+
+```bash
+# Using ripgrep (recommended - faster)
+rg "BigNumberInBase|BigNumberInWei|sharedToBalanceInToken|sharedToBalanceInWei|ZERO_IN_BASE|ONE_IN_BASE" \
+  --type ts --type vue \
+  -g "!node_modules" \
+  -g "!*MIGRATION_GUIDE*"
+
+# Using grep (if ripgrep not available)
+grep -rE "BigNumberInBase|BigNumberInWei|sharedToBalanceInToken|sharedToBalanceInWei|ZERO_IN_BASE|ONE_IN_BASE" \
+  --include="*.ts" --include="*.vue" . \
+  | grep -v "node_modules/" \
+  | grep -v "MIGRATION_GUIDE"
+```
+
+If either command returns empty, the migration is complete.
+
 ### Step 7: Run Linter
 
 ```bash
@@ -297,6 +317,36 @@ export {
 } from '../../injective-ui/app/utils/index'
 ```
 
+### Constants Still Require Explicit Imports
+
+While the helper functions are auto-imported, the constants are **NOT** auto-imported:
+
+```typescript
+// ✅ Constants must be explicitly imported
+import { ZERO_IN_BIG_NUMBER, ONE_IN_BIG_NUMBER } from '@shared/utils/constant'
+
+// ✅ Helper functions are auto-imported (don't import these in Nuxt projects)
+const value = toBigNumber(100) // auto-imported
+const zero = ZERO_IN_BIG_NUMBER // explicitly imported
+```
+
+### BigNumber Type in Nuxt Projects
+
+The `BigNumber` **type** is NOT auto-imported. When you need type annotations, you must import it explicitly:
+
+```typescript
+// ✅ Import type explicitly when needed for type annotations
+import type { BigNumber } from '@injectivelabs/utils'
+
+// Then use in type annotations
+const price: BigNumber = toBigNumber(100)
+const calculate = (value: BigNumber): BigNumber => value.times(2)
+
+// For Vue reactive types
+const balance = ref<BigNumber>(ZERO_IN_BIG_NUMBER)
+const total = computed<BigNumber>(() => toBigNumber(0))
+```
+
 ---
 
 ## 5. Constants Migration
@@ -360,7 +410,9 @@ const multiplier = ONE_IN_BIG_NUMBER.plus(slippage)
 
 ## 6. Variable Naming Conventions
 
-### Naming Rules
+### Naming Rules (Recommended, Not Required)
+
+> **Note for Migrations**: These naming conventions are **recommended for new code** but **optional when migrating existing code**. When migrating, maintaining original variable names is acceptable to minimize diff size and reduce the risk of introducing bugs. The priority is to correctly migrate the deprecated classes/functions. You can rename variables in a separate refactoring pass if desired.
 
 Variable names should reflect **which function is used** to create the value:
 
@@ -477,6 +529,30 @@ const amount = sharedToBalanceInTokenInBase({
 // After
 const balance = toHumanReadable(position.margin, quoteToken.decimals)
 const amount = toHumanReadable(rawAmount, token.decimals)
+```
+
+### Converting to String (.toFixed() Pattern)
+
+When you need the BigNumber value as a string (e.g., for API calls, form inputs, or display), use `.toFixed()`:
+
+```typescript
+// For chain format string (API calls, transaction messages)
+const quantityForApi = toChainFormat(quantity, token.decimals).toFixed()
+const marginForTx = toChainFormat(margin, quoteDecimals).toFixed()
+
+// For human readable string (display, form values)
+const displayBalance = toHumanReadable(rawBalance, token.decimals).toFixed()
+
+// With specific decimal places for display
+const formattedPrice = toHumanReadable(rawPrice, 18).toFixed(4)
+const formattedPercent = toBigNumber(percentage).toFixed(2)
+
+// With rounding mode
+import { BigNumber } from '@injectivelabs/utils'
+const truncatedValue = toHumanReadable(value, decimals).toFixed(
+  6,
+  BigNumber.ROUND_DOWN
+)
 ```
 
 ### Combined Examples
@@ -1152,6 +1228,106 @@ export function useSharedBigNumberFormatted(
 3. **Update return types**: Change `ComputedRef<BigNumberInBase>` to `ComputedRef<BigNumber>`
 4. **Update rounding modes**: Change `BigNumberInBase.ROUND_DOWN` to `BigNumber.ROUND_DOWN`
 
+### Computed Properties Returning BigNumber
+
+Common patterns for computed properties that return BigNumber values:
+
+```typescript
+import type { BigNumber } from '@injectivelabs/utils'
+import { ZERO_IN_BIG_NUMBER } from '@shared/utils/constant'
+
+// Pattern 1: Computed with null/undefined check and fallback to zero
+const balance = computed<BigNumber>(() => {
+  if (!token.value) {
+    return ZERO_IN_BIG_NUMBER
+  }
+  return toHumanReadable(token.value.balance, token.value.decimals)
+})
+
+// Pattern 2: Ternary with fallback to zero
+const total = computed<BigNumber>(() =>
+  rawValue.value
+    ? toHumanReadable(rawValue.value, decimals.value)
+    : ZERO_IN_BIG_NUMBER
+)
+
+// Pattern 3: Conditional return based on validation
+const margin = computed<BigNumber>(() => {
+  if (quantity.value.isZero() || price.value.isZero()) {
+    return ZERO_IN_BIG_NUMBER
+  }
+  return toBigNumber(quantity.value)
+    .times(price.value)
+    .dividedBy(leverage.value)
+})
+
+// Pattern 4: Reduce with BigNumber accumulator
+const totalBalance = computed<BigNumber>(() =>
+  tokens.value.reduce(
+    (sum, token) => sum.plus(toHumanReadable(token.balance, token.decimals)),
+    ZERO_IN_BIG_NUMBER
+  )
+)
+```
+
+### Vue Component Props with BigNumber
+
+When migrating Vue component props that use BigNumber types:
+
+```typescript
+// Before
+import { BigNumberInBase } from '@injectivelabs/utils'
+
+const props = defineProps<{
+  amount: BigNumberInBase
+  price: BigNumberInBase
+  isDisabled?: boolean
+}>()
+
+// After
+import type { BigNumber } from '@injectivelabs/utils'
+
+const props = defineProps<{
+  amount: BigNumber
+  price: BigNumber
+  isDisabled?: boolean
+}>()
+```
+
+For props with defaults:
+
+```typescript
+// Before
+import { BigNumberInBase } from '@injectivelabs/utils'
+import { ZERO_IN_BASE } from '@shared/utils/constant'
+
+const props = withDefaults(
+  defineProps<{
+    margin: BigNumberInBase
+    feeRate: BigNumberInBase
+  }>(),
+  {
+    margin: () => ZERO_IN_BASE,
+    feeRate: () => ZERO_IN_BASE
+  }
+)
+
+// After
+import type { BigNumber } from '@injectivelabs/utils'
+import { ZERO_IN_BIG_NUMBER } from '@shared/utils/constant'
+
+const props = withDefaults(
+  defineProps<{
+    margin: BigNumber
+    feeRate: BigNumber
+  }>(),
+  {
+    margin: () => ZERO_IN_BIG_NUMBER,
+    feeRate: () => ZERO_IN_BIG_NUMBER
+  }
+)
+```
+
 ---
 
 ## 13. Common Pitfalls
@@ -1227,6 +1403,58 @@ import { BigNumber } from '@injectivelabs/utils'
 
 // ✅ When you need both type and static properties
 import { BigNumber, toBigNumber } from '@injectivelabs/utils'
+```
+
+### Pitfall 6: Forgetting to Remove Old Imports After Migration
+
+After migrating all usages in a file, ensure you also remove the old imports:
+
+```typescript
+// ❌ INCORRECT - old import left behind after migration
+import { BigNumberInBase } from '@injectivelabs/utils' // Not used anymore!
+const value = toBigNumber(100)
+
+// ✅ CORRECT - clean up unused imports
+const value = toBigNumber(100) // toBigNumber is auto-imported in Nuxt
+```
+
+Run your linter after migration to catch unused imports automatically.
+
+### Pitfall 7: Accidental Double Conversion
+
+Be careful not to convert values twice, especially when refactoring:
+
+```typescript
+// ❌ INCORRECT - double conversion (divides by 10^decimals twice!)
+const balance = toHumanReadable(
+  toHumanReadable(rawBalance, decimals), // Already converted!
+  decimals
+)
+
+// ❌ INCORRECT - unnecessary toBigNumber on already-BigNumber value
+const total = toBigNumber(toHumanReadable(rawBalance, decimals)) // toHumanReadable already returns BigNumber
+
+// ✅ CORRECT - single conversion
+const balance = toHumanReadable(rawBalance, decimals)
+
+// ✅ CORRECT - chain operations on the result
+const balanceWithFee = toHumanReadable(rawBalance, decimals).plus(fee)
+```
+
+### Pitfall 8: Forgetting Default Decimals
+
+Both `toChainFormat` and `toHumanReadable` default to 18 decimals. Be explicit when working with non-18 decimal tokens:
+
+```typescript
+// ⚠️ CAUTION - uses default 18 decimals
+const usdtBalance = toHumanReadable(rawUsdt) // Wrong! USDT has 6 decimals
+
+// ✅ CORRECT - explicit decimals for USDT (6 decimals)
+const usdtBalance = toHumanReadable(rawUsdt, 6)
+
+// ✅ OK - INJ uses 18 decimals, explicit is optional but recommended
+const injBalance = toHumanReadable(rawInj, 18)
+const injBalance2 = toHumanReadable(rawInj) // Also OK, 18 is default
 ```
 
 ---

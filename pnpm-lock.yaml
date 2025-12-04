@@ -29,6 +29,7 @@ overrides:
   '@injectivelabs/wallet-trezor': 1.16.38-alpha.6
   '@injectivelabs/wallet-turnkey': 1.16.38-alpha.6
   '@injectivelabs/wallet-wallet-connect': 1.16.38-alpha.6
+  viem: 2.41.2
 
 importers:
 
@@ -271,7 +272,7 @@ importers:
         version: 1.16.38-alpha.6(bufferutil@4.0.9)(google-protobuf@3.21.4)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@injectivelabs/wallet-strategy':
         specifier: 1.16.38-alpha.6
-        version: 1.16.38-alpha.6(@netlify/blobs@9.1.2)(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3))(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@16.14.0)(starknet@7.6.4)(tslib@2.8.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)
+        version: 1.16.38-alpha.6(@netlify/blobs@9.1.2)(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3))(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@18.3.1)(starknet@7.6.4)(tslib@2.8.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)
       '@injectivelabs/wallet-trezor':
         specifier: 1.16.38-alpha.6
         version: 1.16.38-alpha.6(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3))(bufferutil@4.0.9)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)
@@ -294,8 +295,12 @@ importers:
 >>>>>>> 76124b7 (Feat/migrations (#132))
 =======
         specifier: 1.16.38-alpha.6
+<<<<<<< HEAD
         version: 1.16.38-alpha.6(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
 >>>>>>> bfb80f6 (chore: add pinia action import helper)
+=======
+        version: 1.16.38-alpha.6(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+>>>>>>> 7e4e2c7 (fix: typing)
       '@metamask/eth-sig-util':
         specifier: ^8.2.0
         version: 8.2.0
@@ -304,7 +309,7 @@ importers:
         version: 4.1.2(magicast@0.5.1)
       '@nuxt/ui':
         specifier: 4.1.0
-        version: 4.1.0(@babel/parser@7.28.5)(@netlify/blobs@9.1.2)(axios@1.13.2)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.4)(react-dom@18.3.1(react@16.14.0))(react@16.14.0)(superstruct@2.0.2)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-router@4.5.1(vue@3.5.25(typescript@5.8.3)))(vue@3.5.25(typescript@5.8.3))(zod@3.25.76)
+        version: 4.1.0(@babel/parser@7.28.5)(@netlify/blobs@9.1.2)(axios@1.13.2)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(superstruct@2.0.2)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-router@4.5.1(vue@3.5.25(typescript@5.8.3)))(vue@3.5.25(typescript@5.8.3))(zod@3.25.76)
       '@nuxtjs/i18n':
         specifier: 9.5.6
         version: 9.5.6(@vue/compiler-dom@3.5.25)(eslint@9.33.0(jiti@2.5.1))(magicast@0.5.1)(rollup@4.53.3)(vue@3.5.25(typescript@5.8.3))
@@ -322,7 +327,7 @@ importers:
         version: 13.7.0(axios@1.13.2)(change-case@5.4.4)(fuse.js@7.1.0)(idb-keyval@6.2.2)(jwt-decode@4.0.0)(qrcode@1.5.4)(vue@3.5.25(typescript@5.8.3))
       '@vueuse/nuxt':
         specifier: 13.7.0
-        version: 13.7.0(magicast@0.5.1)(nuxt@4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1))(vue@3.5.25(typescript@5.8.3))
+        version: 13.7.0(magicast@0.5.1)(nuxt@4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3))(yaml@2.8.1))(vue@3.5.25(typescript@5.8.3))
       canvas-confetti:
         specifier: ^1.6.0
         version: 1.9.3
@@ -334,7 +339,7 @@ importers:
         version: 0.12.0
       nuxt:
         specifier: 4.1.2
-        version: 4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1)
+        version: 4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3))(yaml@2.8.1)
       nuxt-vitalizer:
         specifier: 0.10.0
         version: 0.10.0(magicast@0.5.1)
@@ -345,8 +350,8 @@ importers:
         specifier: 4.15.1
         version: 4.15.1(vue@3.5.25(typescript@5.8.3))
       viem:
-        specifier: ^2.40.3
-        version: 2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+        specifier: 2.41.2
+        version: 2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       vue-gtag:
         specifier: 2.0.1
         version: 2.0.1(vue@3.5.25(typescript@5.8.3))
@@ -402,6 +407,9 @@ importers:
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.10.1)(happy-dom@18.0.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1)
+      vue-tsc:
+        specifier: ^3.1.5
+        version: 3.1.5(typescript@5.8.3)
 
 packages:
 
@@ -3643,7 +3651,7 @@ packages:
     resolution: {integrity: sha512-HRvL8u6W+IKjF3xluK+y0QIFj2S/DwgYixoZ9VydTUur2hEu1X+RnGLfqQPg1D1DVvMrZpPQ7LNWCNB0LOLzwA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      viem: ^1.16.6 || ^2.24.2
+      viem: 2.41.2
 
   '@turnkey/wallet-stamper@1.1.8':
     resolution: {integrity: sha512-eZHuz4QR0jp8aR9AQNFL7gGAAVhmNJxqxdMey273rRSnDK6TgEu3CE45os+21PovmAjIqaOQJk4U5sv7La681A==}
@@ -3984,8 +3992,17 @@ packages:
   '@volar/language-core@2.4.22':
     resolution: {integrity: sha512-gp4M7Di5KgNyIyO903wTClYBavRt6UyFNpc5LWfyZr1lBsTUY+QrVZfmbNF2aCyfklBOVk9YC4p+zkwoyT7ECg==}
 
+  '@volar/language-core@2.4.23':
+    resolution: {integrity: sha512-hEEd5ET/oSmBC6pi1j6NaNYRWoAiDhINbT8rmwtINugR39loROSlufGdYMF9TaKGfz+ViGs1Idi3mAhnuPcoGQ==}
+
   '@volar/source-map@2.4.22':
     resolution: {integrity: sha512-L2nVr/1vei0xKRgO2tYVXtJYd09HTRjaZi418e85Q+QdbbqA8h7bBjfNyPPSsjnrOO4l4kaAo78c8SQUAdHvgA==}
+
+  '@volar/source-map@2.4.23':
+    resolution: {integrity: sha512-Z1Uc8IB57Lm6k7q6KIDu/p+JWtf3xsXJqAX/5r18hYOTpJyBn0KXUR8oTJ4WFYOcDzWC9n3IflGgHowx6U6z9Q==}
+
+  '@volar/typescript@2.4.23':
+    resolution: {integrity: sha512-lAB5zJghWxVPqfcStmAP1ZqQacMpe90UrP5RJ3arDyrhy4aCUQqmxPPLB2PWDKugvylmO41ljK7vZ+t6INMTag==}
 
   '@vue-macros/common@1.16.1':
     resolution: {integrity: sha512-Pn/AWMTjoMYuquepLZP813BIcq8DTZiNCoaceuNlvaYuOTd8DqBZWc5u0uOMQZMInwME1mdSmmBAcTluiV9Jtg==}
@@ -4076,6 +4093,14 @@ packages:
 
   '@vue/language-core@3.0.5':
     resolution: {integrity: sha512-gCEjn9Ik7I/seHVNIEipOm8W+f3/kg60e8s1IgIkMYma2wu9ZGUTMv3mSL2bX+Md2L8fslceJ4SU8j1fgSRoiw==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@vue/language-core@3.1.5':
+    resolution: {integrity: sha512-FMcqyzWN+sYBeqRMWPGT2QY0mUasZMVIuHvmb5NT3eeqPrbHBYtCP8JWEUCDCgM+Zr62uuWY/qoeBrPrzfa78w==}
     peerDependencies:
       typescript: '*'
     peerDependenciesMeta:
@@ -4494,6 +4519,9 @@ packages:
 
   alien-signals@2.0.6:
     resolution: {integrity: sha512-P3TxJSe31bUHBiblg59oU1PpaWPtmxF9GhJ/cB7OkgJ0qN/ifFSKUI25/v8ZhsT+lIG6ac8DpTOplXxORX6F3Q==}
+
+  alien-signals@3.1.1:
+    resolution: {integrity: sha512-ogkIWbVrLwKtHY6oOAXaYkAxP+cTH7V5FZ5+Tm4NZFd8VDZ6uNMDrfzqctTZ42eTMCSR3ne3otpcxmqSnFfPYA==}
 
   ansi-escapes@7.0.0:
     resolution: {integrity: sha512-GdYO7a61mR0fOlAsvC9/rIHf7L96sBc6dEWzeOu+KAea5bZyQRPIpojrVoI4AXGJS/ycu/fBTdLrUkA4ODrvjw==}
@@ -8781,14 +8809,6 @@ packages:
     peerDependencies:
       vue: ^3.4.26
 
-  viem@2.40.3:
-    resolution: {integrity: sha512-feYfEpbgjRkZYQpwcgxqkWzjxHI5LSDAjcGetHHwDRuX9BRQHUdV8ohrCosCYpdEhus/RknD3/bOd4qLYVPPuA==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   viem@2.41.2:
     resolution: {integrity: sha512-LYliajglBe1FU6+EH9mSWozp+gRA/QcHfxeD9Odf83AdH5fwUS7DroH4gHvlv6Sshqi1uXrYFA2B/EOczxd15g==}
     peerDependencies:
@@ -9076,6 +9096,12 @@ packages:
     resolution: {integrity: sha512-ogAF3P97NPm8fJsE4by9dwSYtDwXIY1nFY9T6DyQnGHd1E2Da94w9JIolpe42LJGIl0DwOHBi8TcRPlPGwbTtw==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue-tsc@3.1.5:
+    resolution: {integrity: sha512-L/G9IUjOWhBU0yun89rv8fKqmKC+T0HfhrFjlIml71WpfBv9eb4E9Bev8FMbyueBIU9vxQqbd+oOsVcDa5amGw==}
+    hasBin: true
+    peerDependencies:
+      typescript: '>=5.0.0'
 
   vue@3.5.18:
     resolution: {integrity: sha512-7W4Y4ZbMiQ3SEo+m9lnoNpV9xG7QVMLa+/0RFwwiAVkeYoyGXqWE85jabU4pllJNUzqfLShJ5YLptewhCWUgNA==}
@@ -11620,7 +11646,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-strategy@1.16.38-alpha.6(@netlify/blobs@9.1.2)(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3))(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@16.14.0)(starknet@7.6.4)(tslib@2.8.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)':
+  '@injectivelabs/wallet-strategy@1.16.38-alpha.6(@netlify/blobs@9.1.2)(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3))(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@18.3.1)(starknet@7.6.4)(tslib@2.8.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.16.38-alpha.4
       '@injectivelabs/wallet-base': 1.16.38-alpha.6(bufferutil@4.0.9)(google-protobuf@3.21.4)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
@@ -11633,8 +11659,12 @@ snapshots:
       '@injectivelabs/wallet-private-key': 1.16.38-alpha.6(bufferutil@4.0.9)(google-protobuf@3.21.4)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@injectivelabs/wallet-trezor': 1.16.38-alpha.6(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3))(bufferutil@4.0.9)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))(zod@3.25.76)
       '@injectivelabs/wallet-turnkey': 1.16.38-alpha.6(@netlify/blobs@9.1.2)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+<<<<<<< HEAD
       '@injectivelabs/wallet-wallet-connect': 1.16.38-alpha.6(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
 >>>>>>> bfb80f6 (chore: add pinia action import helper)
+=======
+      '@injectivelabs/wallet-wallet-connect': 1.16.38-alpha.6(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+>>>>>>> 7e4e2c7 (fix: typing)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -11826,6 +11856,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-wallet-connect@1.16.38(@netlify/blobs@9.1.2)(bufferutil@4.0.9)(db0@0.3.2)(ioredis@5.7.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
       '@bangjelkoski/wallet-connect-ethereum-provider': 2.17.2(@netlify/blobs@9.1.2)(bufferutil@4.0.9)(db0@0.3.2)(ioredis@5.7.0)(react@18.3.1)(utf-8-validate@5.0.10)
@@ -11898,13 +11929,20 @@ snapshots:
       '@walletconnect/ethereum-provider': 2.23.0(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
 =======
   '@injectivelabs/wallet-wallet-connect@1.16.38-alpha.6(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+=======
+  '@injectivelabs/wallet-wallet-connect@1.16.38-alpha.6(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(google-protobuf@3.21.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+>>>>>>> 7e4e2c7 (fix: typing)
     dependencies:
       '@injectivelabs/exceptions': 1.16.38-alpha.4
       '@injectivelabs/sdk-ts': 1.16.38-alpha.6(bufferutil@4.0.9)(google-protobuf@3.21.4)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.16.38-alpha.3
       '@injectivelabs/wallet-base': 1.16.38-alpha.6(bufferutil@4.0.9)(google-protobuf@3.21.4)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+<<<<<<< HEAD
       '@walletconnect/ethereum-provider': 2.23.0(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
 >>>>>>> bfb80f6 (chore: add pinia action import helper)
+=======
+      '@walletconnect/ethereum-provider': 2.23.0(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+>>>>>>> 7e4e2c7 (fix: typing)
       '@walletconnect/types': 2.23.0(@netlify/blobs@9.1.2)(db0@0.3.4)(ioredis@5.8.2)
 >>>>>>> 76124b7 (Feat/migrations (#132))
     transitivePeerDependencies:
@@ -12849,7 +12887,7 @@ snapshots:
       - magicast
       - typescript
 
-  '@nuxt/ui@4.1.0(@babel/parser@7.28.5)(@netlify/blobs@9.1.2)(axios@1.13.2)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.4)(react-dom@18.3.1(react@16.14.0))(react@16.14.0)(superstruct@2.0.2)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-router@4.5.1(vue@3.5.25(typescript@5.8.3)))(vue@3.5.25(typescript@5.8.3))(zod@3.25.76)':
+  '@nuxt/ui@4.1.0(@babel/parser@7.28.5)(@netlify/blobs@9.1.2)(axios@1.13.2)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(superstruct@2.0.2)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-router@4.5.1(vue@3.5.25(typescript@5.8.3)))(vue@3.5.25(typescript@5.8.3))(zod@3.25.76)':
     dependencies:
       '@ai-sdk/vue': 2.0.106(vue@3.5.25(typescript@5.8.3))(zod@3.25.76)
       '@iconify/vue': 5.0.0(vue@3.5.25(typescript@5.8.3))
@@ -12883,7 +12921,7 @@ snapshots:
       knitwork: 1.2.0
       magic-string: 0.30.21
       mlly: 1.8.0
-      motion-v: 1.7.4(@vueuse/core@13.9.0(vue@3.5.25(typescript@5.8.3)))(react-dom@18.3.1(react@16.14.0))(react@16.14.0)(vue@3.5.25(typescript@5.8.3))
+      motion-v: 1.7.4(@vueuse/core@13.9.0(vue@3.5.25(typescript@5.8.3)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue@3.5.25(typescript@5.8.3))
       ohash: 2.0.11
       pathe: 2.0.3
       reka-ui: 2.6.0(typescript@5.8.3)(vue@3.5.25(typescript@5.8.3))
@@ -12944,7 +12982,7 @@ snapshots:
       - vite
       - vue
 
-  '@nuxt/vite-builder@4.1.2(@types/node@24.10.1)(eslint@9.33.0(jiti@2.5.1))(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(vue@3.5.25(typescript@5.8.3))(yaml@2.8.1)':
+  '@nuxt/vite-builder@4.1.2(@types/node@24.10.1)(eslint@9.33.0(jiti@2.5.1))(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(vue-tsc@3.1.5(typescript@5.8.3))(vue@3.5.25(typescript@5.8.3))(yaml@2.8.1)':
     dependencies:
       '@nuxt/kit': 4.1.2(magicast@0.5.1)
       '@rollup/plugin-replace': 6.0.2(rollup@4.53.3)
@@ -12973,7 +13011,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       vite: 7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1)
       vite-node: 3.2.4(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1)
-      vite-plugin-checker: 0.10.3(eslint@9.33.0(jiti@2.5.1))(optionator@0.9.4)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))
+      vite-plugin-checker: 0.10.3(eslint@9.33.0(jiti@2.5.1))(optionator@0.9.4)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3))
       vue: 3.5.25(typescript@5.8.3)
       vue-bundle-renderer: 2.1.2
     transitivePeerDependencies:
@@ -13483,7 +13521,7 @@ snapshots:
     dependencies:
       big.js: 6.2.2
       dayjs: 1.11.13
-      viem: 2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.22.4)
+      viem: 2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -13494,20 +13532,20 @@ snapshots:
     dependencies:
       big.js: 6.2.2
       dayjs: 1.11.13
-      viem: 2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      viem: 2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     transitivePeerDependencies:
       - bufferutil
       - typescript
       - utf-8-validate
       - zod
 
-  '@reown/appkit-controllers@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+  '@reown/appkit-controllers@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@walletconnect/universal-provider': 2.22.4(@netlify/blobs@9.1.2)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      valtio: 2.1.7(@types/react@19.2.7)(react@16.14.0)
-      viem: 2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      valtio: 2.1.7(@types/react@19.2.7)(react@18.3.1)
+      viem: 2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13536,14 +13574,14 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@reown/appkit-pay@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+  '@reown/appkit-pay@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@16.14.0))(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@18.3.1))(zod@3.25.76)
       lit: 3.3.0
-      valtio: 2.1.7(@types/react@19.2.7)(react@16.14.0)
+      valtio: 2.1.7(@types/react@19.2.7)(react@18.3.1)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13576,12 +13614,12 @@ snapshots:
     dependencies:
       buffer: 6.0.3
 
-  '@reown/appkit-scaffold-ui@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@16.14.0))(zod@3.25.76)':
+  '@reown/appkit-scaffold-ui@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@18.3.1))(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@16.14.0))(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@18.3.1))(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       lit: 3.3.0
     transitivePeerDependencies:
@@ -13613,11 +13651,11 @@ snapshots:
       - valtio
       - zod
 
-  '@reown/appkit-ui@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+  '@reown/appkit-ui@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
       '@phosphor-icons/webcomponents': 2.1.5
       '@reown/appkit-common': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       lit: 3.3.0
       qrcode: 1.5.3
@@ -13649,17 +13687,17 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@reown/appkit-utils@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@16.14.0))(zod@3.25.76)':
+  '@reown/appkit-utils@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@18.3.1))(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.8.11
       '@reown/appkit-wallet': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@wallet-standard/wallet': 1.1.0
       '@walletconnect/logger': 3.0.0
       '@walletconnect/universal-provider': 2.22.4(@netlify/blobs@9.1.2)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      valtio: 2.1.7(@types/react@19.2.7)(react@16.14.0)
-      viem: 2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      valtio: 2.1.7(@types/react@19.2.7)(react@18.3.1)
+      viem: 2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13699,21 +13737,21 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@reown/appkit@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+  '@reown/appkit@1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-pay': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-pay': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.8.11
-      '@reown/appkit-scaffold-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@16.14.0))(zod@3.25.76)
-      '@reown/appkit-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@16.14.0))(zod@3.25.76)
+      '@reown/appkit-scaffold-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@18.3.1))(zod@3.25.76)
+      '@reown/appkit-ui': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.7)(react@18.3.1))(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.11(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)
       '@walletconnect/universal-provider': 2.22.4(@netlify/blobs@9.1.2)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       bs58: 6.0.0
       semver: 7.7.2
-      valtio: 2.1.7(@types/react@19.2.7)(react@16.14.0)
-      viem: 2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      valtio: 2.1.7(@types/react@19.2.7)(react@18.3.1)
+      viem: 2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
     optionalDependencies:
       '@lit/react': 1.0.8(@types/react@19.2.7)
     transitivePeerDependencies:
@@ -15293,7 +15331,19 @@ snapshots:
     dependencies:
       '@volar/source-map': 2.4.22
 
+  '@volar/language-core@2.4.23':
+    dependencies:
+      '@volar/source-map': 2.4.23
+
   '@volar/source-map@2.4.22': {}
+
+  '@volar/source-map@2.4.23': {}
+
+  '@volar/typescript@2.4.23':
+    dependencies:
+      '@volar/language-core': 2.4.23
+      path-browserify: 1.0.1
+      vscode-uri: 3.1.0
 
   '@vue-macros/common@1.16.1(vue@3.5.25(typescript@5.8.3))':
     dependencies:
@@ -15485,6 +15535,18 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
+  '@vue/language-core@3.1.5(typescript@5.8.3)':
+    dependencies:
+      '@volar/language-core': 2.4.23
+      '@vue/compiler-dom': 3.5.25
+      '@vue/shared': 3.5.25
+      alien-signals: 3.1.1
+      muggle-string: 0.4.1
+      path-browserify: 1.0.1
+      picomatch: 4.0.3
+    optionalDependencies:
+      typescript: 5.8.3
+
   '@vue/reactivity@3.5.18':
     dependencies:
       '@vue/shared': 3.5.18
@@ -15611,13 +15673,13 @@ snapshots:
 
   '@vueuse/metadata@13.9.0': {}
 
-  '@vueuse/nuxt@13.7.0(magicast@0.5.1)(nuxt@4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1))(vue@3.5.25(typescript@5.8.3))':
+  '@vueuse/nuxt@13.7.0(magicast@0.5.1)(nuxt@4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3))(yaml@2.8.1))(vue@3.5.25(typescript@5.8.3))':
     dependencies:
       '@nuxt/kit': 4.1.2(magicast@0.5.1)
       '@vueuse/core': 13.7.0(vue@3.5.25(typescript@5.8.3))
       '@vueuse/metadata': 13.7.0
       local-pkg: 1.1.1
-      nuxt: 4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1)
+      nuxt: 4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3))(yaml@2.8.1)
       vue: 3.5.25(typescript@5.8.3)
     transitivePeerDependencies:
       - magicast
@@ -15787,9 +15849,9 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
-  '@walletconnect/ethereum-provider@2.23.0(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
+  '@walletconnect/ethereum-provider@2.23.0(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)':
     dependencies:
-      '@reown/appkit': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@16.14.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      '@reown/appkit': 1.8.11(@netlify/blobs@9.1.2)(@types/react@19.2.7)(bufferutil@4.0.9)(db0@0.3.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
@@ -16394,6 +16456,8 @@ snapshots:
       require-from-string: 2.0.2
 
   alien-signals@2.0.6: {}
+
+  alien-signals@3.1.1: {}
 
   ansi-escapes@7.0.0:
     dependencies:
@@ -18024,14 +18088,14 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
-  framer-motion@12.23.12(react-dom@18.3.1(react@16.14.0))(react@16.14.0):
+  framer-motion@12.23.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       motion-dom: 12.23.12
       motion-utils: 12.23.6
       tslib: 2.8.1
     optionalDependencies:
-      react: 16.14.0
-      react-dom: 18.3.1(react@16.14.0)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   fresh@2.0.0: {}
 
@@ -18945,10 +19009,10 @@ snapshots:
 
   motion-utils@12.23.6: {}
 
-  motion-v@1.7.4(@vueuse/core@13.9.0(vue@3.5.25(typescript@5.8.3)))(react-dom@18.3.1(react@16.14.0))(react@16.14.0)(vue@3.5.25(typescript@5.8.3)):
+  motion-v@1.7.4(@vueuse/core@13.9.0(vue@3.5.25(typescript@5.8.3)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vue@3.5.25(typescript@5.8.3)):
     dependencies:
       '@vueuse/core': 13.9.0(vue@3.5.25(typescript@5.8.3))
-      framer-motion: 12.23.12(react-dom@18.3.1(react@16.14.0))(react@16.14.0)
+      framer-motion: 12.23.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       hey-listen: 1.0.8
       motion-dom: 12.23.12
       vue: 3.5.25(typescript@5.8.3)
@@ -19184,7 +19248,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  nuxt@4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1):
+  nuxt@4.1.2(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(bufferutil@4.0.9)(db0@0.3.4)(eslint@9.33.0(jiti@2.5.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3))(yaml@2.8.1):
     dependencies:
       '@nuxt/cli': 3.30.0(magicast@0.5.1)
       '@nuxt/devalue': 2.0.2
@@ -19192,7 +19256,7 @@ snapshots:
       '@nuxt/kit': 4.1.2(magicast@0.5.1)
       '@nuxt/schema': 4.1.2
       '@nuxt/telemetry': 2.6.6(magicast@0.5.1)
-      '@nuxt/vite-builder': 4.1.2(@types/node@24.10.1)(eslint@9.33.0(jiti@2.5.1))(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(vue@3.5.25(typescript@5.8.3))(yaml@2.8.1)
+      '@nuxt/vite-builder': 4.1.2(@types/node@24.10.1)(eslint@9.33.0(jiti@2.5.1))(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.43.1)(typescript@5.8.3)(vue-tsc@3.1.5(typescript@5.8.3))(vue@3.5.25(typescript@5.8.3))(yaml@2.8.1)
       '@unhead/vue': 2.0.14(vue@3.5.25(typescript@5.8.3))
       '@vue/shared': 3.5.25
       c12: 3.2.0(magicast@0.5.1)
@@ -20025,13 +20089,6 @@ snapshots:
       prop-types: 15.8.1
       react: 16.14.0
       scheduler: 0.19.1
-
-  react-dom@18.3.1(react@16.14.0):
-    dependencies:
-      loose-envify: 1.4.0
-      react: 16.14.0
-      scheduler: 0.23.2
-    optional: true
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:
@@ -21176,12 +21233,12 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  valtio@2.1.7(@types/react@19.2.7)(react@16.14.0):
+  valtio@2.1.7(@types/react@19.2.7)(react@18.3.1):
     dependencies:
       proxy-compare: 3.0.1
     optionalDependencies:
       '@types/react': 19.2.7
-      react: 16.14.0
+      react: 18.3.1
 
   varuint-bitcoin@2.0.0:
     dependencies:
@@ -21201,7 +21258,7 @@ snapshots:
       type-fest: 4.41.0
       vue: 3.5.25(typescript@5.8.3)
 
-  viem@2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.22.4):
+  viem@2.41.2(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.22.4):
     dependencies:
       '@noble/curves': 1.9.1
       '@noble/hashes': 1.8.0
@@ -21210,23 +21267,6 @@ snapshots:
       abitype: 1.1.0(typescript@5.8.3)(zod@3.22.4)
       isows: 1.0.7(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))
       ox: 0.9.6(typescript@5.8.3)(zod@3.22.4)
-      ws: 8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-    optionalDependencies:
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-
-  viem@2.40.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76):
-    dependencies:
-      '@noble/curves': 1.9.1
-      '@noble/hashes': 1.8.0
-      '@scure/bip32': 1.7.0
-      '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.8.3)(zod@3.25.76)
-      isows: 1.0.7(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      ox: 0.9.6(typescript@5.8.3)(zod@3.25.76)
       ws: 8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     optionalDependencies:
       typescript: 5.8.3
@@ -21283,7 +21323,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite-plugin-checker@0.10.3(eslint@9.33.0(jiti@2.5.1))(optionator@0.9.4)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1)):
+  vite-plugin-checker@0.10.3(eslint@9.33.0(jiti@2.5.1))(optionator@0.9.4)(typescript@5.8.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1))(vue-tsc@3.1.5(typescript@5.8.3)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -21299,6 +21339,7 @@ snapshots:
       eslint: 9.33.0(jiti@2.5.1)
       optionator: 0.9.4
       typescript: 5.8.3
+      vue-tsc: 3.1.5(typescript@5.8.3)
 
   vite-plugin-inspect@11.3.3(@nuxt/kit@3.20.1(magicast@0.3.5))(vite@7.2.6(@types/node@24.10.1)(jiti@2.5.1)(lightningcss@1.30.2)(terser@5.43.1)(yaml@2.8.1)):
     dependencies:
@@ -21499,6 +21540,12 @@ snapshots:
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.25(typescript@5.8.3)
+
+  vue-tsc@3.1.5(typescript@5.8.3):
+    dependencies:
+      '@volar/typescript': 2.4.23
+      '@vue/language-core': 3.1.5(typescript@5.8.3)
+      typescript: 5.8.3
 
   vue@3.5.18(typescript@5.8.3):
     dependencies:

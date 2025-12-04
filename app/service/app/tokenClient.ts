@@ -10,7 +10,7 @@ import {
   getWasmApi,
   getBankApi,
   getInsuranceFundsApi
-} from '../../Service'
+} from '../../service'
 import type { Address } from 'viem'
 import type {
   Metadata,

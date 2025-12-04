@@ -1,6 +1,6 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
-import { uiApi } from '../../Service'
+import { uiApi } from '../../service'
 import { WalletConnectStatus } from '../../types'
 import { getAddresses, walletStrategy } from '../../WalletService'
 import type { MagicProvider } from '@injectivelabs/wallet-base'

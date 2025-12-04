@@ -1,5 +1,35 @@
 # @injectivelabs/sdk-ts Subpath Migration Guide
 
+## TL;DR
+
+| Import Type                                    | Subpath                               |
+| ---------------------------------------------- | ------------------------------------- |
+| Type-only imports (`import type`)              | Keep barrel (`@injectivelabs/sdk-ts`) |
+| `Msg*` classes                                 | `/core/modules`                       |
+| `PrivateKey`, `Address`, `BaseAccount`         | `/core/accounts`                      |
+| API clients (`ChainGrpc*`, `IndexerGrpc*`)     | `/client/chain`, `/client/indexer`    |
+| Utility functions (`getEthereumAddress`, etc.) | `/utils`                              |
+| Enums (`TokenType`, `TokenVerification`)       | `/types`                              |
+| `TokenStaticFactory`, `TokenPrice`             | `/service`                            |
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Requirements](#requirements)
+- [Quick Reference: Import Mapping](#quick-reference-import-mapping)
+- [Migration Examples by Category](#migration-examples-by-category)
+- [Step-by-Step Migration](#step-by-step-migration)
+- [Common Patterns](#common-patterns)
+- [IDE Configuration](#ide-configuration)
+- [Bundle Size Verification](#bundle-size-verification)
+- [Troubleshooting](#troubleshooting)
+- [Completed Migrations](#completed-migrations)
+- [Tips for Multi-Repo Migration](#tips-for-multi-repo-migration)
+
+---
+
 ## Overview
 
 This guide helps you migrate from barrel imports (`@injectivelabs/sdk-ts`) to subpath imports (`@injectivelabs/sdk-ts/client/indexer`, etc.).
@@ -12,6 +42,17 @@ This guide helps you migrate from barrel imports (`@injectivelabs/sdk-ts`) to su
 | **Faster builds**         | Less code to parse and analyze                     |
 | **Explicit dependencies** | Clear understanding of what your code uses         |
 | **Future-proof**          | Subpaths are the recommended pattern going forward |
+
+---
+
+## Requirements
+
+| Requirement             | Version           | Notes                                     |
+| ----------------------- | ----------------- | ----------------------------------------- |
+| `@injectivelabs/sdk-ts` | `>=1.14.14`       | First version with subpath exports        |
+| Node.js                 | `>=18`            | Required for native fetch in some APIs    |
+| TypeScript              | `>=5.0`           | For `moduleResolution: "bundler"` support |
+| Nuxt (if applicable)    | `>=3.8` or Nuxt 4 | Auto-configures `moduleResolution`        |
 
 ### Compatibility
 
@@ -191,6 +232,13 @@ import {
 **Message Type Unions:**
 
 `Msgs`, `GovMsgs`, `IbcMsgs`, `BankMsgs`, `WasmMsgs`, `AuthzMsgs`, `Erc20Msgs`, `PeggyMsgs`, `AuctionMsgs`, `ExchangeMsgs`, `StakingMsgs`, `FeegrantMsgs`, `InsuranceMsgs`, `ExchangeV1Msgs`, `ExchangeV2Msgs`, `DistributionMsgs`, `TokenFactoryMsgs`
+
+**Helper Functions:**
+
+- `msgsOrMsgExecMsgs` - Wraps messages in MsgExec if needed for authz
+- `getGenericAuthorizationFromMessageType` - Creates generic authorization for message types
+- `MsgGrantWithAuthorization` - Grant with specific authorization type
+- `ContractExecutionCompatAuthz` - Authorization for contract execution
 
 ---
 
@@ -552,6 +600,178 @@ pnpm build
 
 ---
 
+## Common Patterns
+
+### Re-exporting SDK Types
+
+If your application re-exports SDK types for convenience, this is fine:
+
+```typescript
+// types/index.ts - Re-exporting types is acceptable
+export type { TokenStatic, SpotMarket, Msgs } from '@injectivelabs/sdk-ts'
+
+// For values (enums, classes), use subpaths
+export { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+```
+
+### Testing with Lazy-Loaded Factories
+
+When testing code that uses lazy-loaded API factories, mock the factory functions:
+
+```typescript
+// __tests__/example.test.ts
+import { vi } from 'vitest'
+
+// Mock the factory
+vi.mock('../utils/lib/sdkImports', () => ({
+  getChainGrpcBankApi: vi.fn().mockResolvedValue({
+    fetchBalance: vi.fn().mockResolvedValue({ amount: '1000000' })
+  })
+}))
+
+// Your test
+it('fetches balance correctly', async () => {
+  const balance = await fetchUserBalance('inj1...')
+  expect(balance.amount).toBe('1000000')
+})
+```
+
+### Conditional Imports
+
+For code that runs in both browser and server environments:
+
+```typescript
+// Use dynamic imports for environment-specific code
+const getApi = async () => {
+  if (typeof window === 'undefined') {
+    // Server-side: might use different transport
+    const { ChainGrpcBankApi } = await import(
+      '@injectivelabs/sdk-ts/client/chain'
+    )
+    return new ChainGrpcBankApi(SERVER_ENDPOINT)
+  }
+  // Client-side: use cached factory
+  return getBankApi()
+}
+```
+
+---
+
+## IDE Configuration
+
+### VSCode
+
+Add to your `.vscode/settings.json` to improve auto-import suggestions:
+
+```json
+{
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  }
+}
+```
+
+### WebStorm / IntelliJ
+
+1. Go to **Settings** → **Editor** → **Code Style** → **TypeScript**
+2. Under **Imports**, set "Use path mappings from tsconfig.json" to **Always**
+3. Enable "Use paths relative to tsconfig.json"
+
+### ESLint Import Ordering
+
+Consider using `eslint-plugin-import` to enforce consistent import ordering:
+
+```javascript
+// eslint.config.js
+export default [
+  {
+    rules: {
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],
+          pathGroups: [
+            {
+              pattern: '@injectivelabs/sdk-ts/**',
+              group: 'external',
+              position: 'after'
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+## Bundle Size Verification
+
+### Quick Check with du
+
+```bash
+# Before migration - record baseline
+pnpm build
+du -sh .output/public/_nuxt/*.js | sort -h > bundle-before.txt
+
+# After migration - compare
+pnpm build
+du -sh .output/public/_nuxt/*.js | sort -h > bundle-after.txt
+diff bundle-before.txt bundle-after.txt
+```
+
+### Using vite-bundle-visualizer
+
+```bash
+# Install
+pnpm add -D vite-bundle-visualizer
+
+# Generate report
+npx vite-bundle-visualizer
+
+# Opens browser with interactive treemap
+```
+
+### Using rollup-plugin-visualizer (Nuxt)
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  vite: {
+    build: {
+      rollupOptions: {
+        plugins: [
+          process.env.ANALYZE &&
+            (await import('rollup-plugin-visualizer')).visualizer({
+              open: true,
+              filename: 'stats.html',
+              gzipSize: true
+            })
+        ].filter(Boolean)
+      }
+    }
+  }
+})
+```
+
+```bash
+# Run with analysis
+ANALYZE=true pnpm build
+```
+
+### Expected Improvements
+
+After migration, you should see:
+
+- **Reduced initial bundle**: SDK modules load on-demand
+- **Better code splitting**: Vite/Rollup can split SDK code into separate chunks
+- **Faster cold starts**: Less JavaScript to parse on initial load
+
+---
+
 ## Troubleshooting
 
 ### TypeScript can't find the subpath
@@ -572,12 +792,111 @@ The `node` resolution mode may not support package.json `exports` properly. Use 
 
 1. Check if the export exists in the subpath (refer to this guide)
 2. The export may have been renamed or deprecated
+3. Try importing from the barrel first to verify the export exists:
+   ```typescript
+   // Debug: verify export exists
+   import { SomeExport } from '@injectivelabs/sdk-ts'
+   console.log(SomeExport) // If this works, find the correct subpath
+   ```
 
 ### Bundle size didn't decrease
 
 - Ensure your bundler supports tree-shaking (Vite, webpack 5, Rollup, esbuild)
 - Check that you're not re-exporting from a barrel file in your own code
 - Verify `sideEffects: false` is respected by your bundler
+- Check for circular dependencies that prevent tree-shaking
+
+### "Cannot find module" error at runtime
+
+This usually means the `exports` field in `package.json` isn't being respected:
+
+```bash
+# Check your Node.js version (should be >= 18)
+node --version
+
+# Ensure package-lock.json/pnpm-lock.yaml is up to date
+pnpm install --force
+```
+
+### ESM/CJS interop issues
+
+If you see errors like `ERR_REQUIRE_ESM` or `exports is not defined`:
+
+```typescript
+// Use dynamic import instead of require
+const { ChainGrpcBankApi } = await import('@injectivelabs/sdk-ts/client/chain')
+
+// Or configure your bundler to handle ESM
+// vite.config.ts
+export default {
+  build: {
+    target: 'esnext'
+  }
+}
+```
+
+### Vite optimizeDeps issues
+
+If Vite fails to pre-bundle SDK dependencies:
+
+```typescript
+// nuxt.config.ts or vite.config.ts
+export default {
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@injectivelabs/sdk-ts/client/chain',
+        '@injectivelabs/sdk-ts/client/indexer',
+        '@injectivelabs/sdk-ts/core/modules',
+        '@injectivelabs/sdk-ts/utils'
+      ]
+    }
+  }
+}
+```
+
+### Nuxt SSR hydration mismatch
+
+If you see hydration errors with lazy-loaded APIs:
+
+```typescript
+// Wrap API calls in client-only context
+const bankApi = ref<ChainGrpcBankApi | null>(null)
+
+onMounted(async () => {
+  bankApi.value = await getBankApi()
+})
+
+// Or use <ClientOnly> wrapper in templates
+```
+
+### Type errors after migration
+
+If TypeScript complains about types after migrating value imports:
+
+```typescript
+// ❌ Wrong - mixing value and type imports
+import { TokenType } from '@injectivelabs/sdk-ts/types'
+import type { TokenType } from '@injectivelabs/sdk-ts' // Duplicate!
+
+// ✅ Correct - use one source
+import { TokenType } from '@injectivelabs/sdk-ts/types'
+import type { TokenStatic } from '@injectivelabs/sdk-ts' // Different export, OK
+```
+
+### Circular dependency warnings
+
+If you see circular dependency warnings after migration:
+
+1. Check that your `sdkImports.ts` doesn't import from files that import from it
+2. Use dynamic imports to break cycles:
+   ```typescript
+   // Break cycle with dynamic import
+   const getService = async () => {
+     const { MyService } = await import('./MyService')
+     return new MyService()
+   }
+   ```
 
 ---
 
