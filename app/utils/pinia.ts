@@ -21,19 +21,15 @@ export function lazyPiniaAction<
   TKey extends keyof TModule
 >(importFn: () => Promise<TModule>, actionName: TKey) {
   type TAction = TModule[TKey]
+  type TParams = TAction extends (...args: infer P) => unknown ? P : never
+  type TReturn = TAction extends (...args: any[]) => infer R
+    ? Awaited<R>
+    : never
 
-  return async (
-    ...args: TAction extends (...args: infer P) => unknown ? P : never
-  ): Promise<
-    TAction extends (...args: unknown[]) => infer R ? Awaited<R> : never
-  > => {
+  return async (...args: TParams): Promise<TReturn> => {
     const module = await importFn()
-    const action = module[actionName] as (
-      ...args: unknown[]
-    ) => Promise<unknown>
+    const action = module[actionName] as (...args: TParams) => Promise<TReturn>
 
-    return action(...args) as Promise<
-      TAction extends (...args: unknown[]) => infer R ? Awaited<R> : never
-    >
+    return action(...args)
   }
 }
