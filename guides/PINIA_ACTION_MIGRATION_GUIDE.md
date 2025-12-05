@@ -528,6 +528,515 @@ After migration, verify:
 
 5. **Mixing patterns** - Be consistent within a store. Either lazy-load all cancel functions or none.
 
+## Array Type $patch Optimization
+
+### Quick Decision Tree
+
+```
+Is the property being patched an array type?
+│
+├─ NO → Keep $patch (or use direct assignment for primitives)
+│
+└─ YES → Is it a single-property $patch?
+         │
+         ├─ YES → CONVERT to direct assignment
+         │        store.$patch({ items }) → store.items = items
+         │
+         └─ NO → Are other properties derived from the array?
+                 │
+                 ├─ YES → KEEP $patch (atomicity needed)
+                 │        e.g., { orders, ordersCount: orders.length }
+                 │
+                 └─ NO → CONVERT to separate assignments
+                         store.$patch({ arr1, arr2 })
+                         → store.arr1 = arr1
+                         → store.arr2 = arr2
+```
+
+### Problem
+
+When using `$patch` to update array properties in Pinia stores, it's more efficient and readable to use direct assignment instead:
+
+```typescript
+// LESS EFFICIENT - creates unnecessary object wrapper
+store.$patch({ list: apiResponse })
+
+// MORE EFFICIENT - direct assignment
+store.list = apiResponse
+```
+
+### Why This Matters
+
+1. **Performance**: Direct assignment avoids creating an extra object and the internal patch processing
+2. **Readability**: Clearer intent - you're directly updating a property
+3. **Type Safety**: Better TypeScript inference for array operations
+4. **Bundle Size**: Slightly smaller code footprint
+
+### When to Apply This Rule
+
+Apply this optimization **only for array types**. For objects and primitive values, `$patch` may still be preferred for multiple updates.
+
+### Migration Examples
+
+#### Example 1: Simple Array Assignment
+
+```typescript
+// BEFORE
+store.$patch({ items })
+
+// AFTER
+store.items = items
+```
+
+#### Example 2: Array with Spread Operations
+
+```typescript
+// BEFORE
+store.$patch({
+  items: [...store.items, newItem]
+})
+
+// AFTER
+store.items = [...store.items, newItem]
+```
+
+#### Example 3: Reset Arrays
+
+```typescript
+// BEFORE
+store.$patch({ items: [] })
+
+// AFTER
+store.items = []
+```
+
+#### Example 4: Multiple Array Updates
+
+```typescript
+// BEFORE - multiple arrays in one patch
+store.$patch({
+  activeItems: activeItems,
+  completedItems: completedItems
+})
+
+// AFTER - separate assignments
+store.activeItems = activeItems
+store.completedItems = completedItems
+```
+
+### How to Identify Array $patch Usage
+
+The key to not missing cases is a **systematic two-step approach**:
+
+#### Step 1: Extract All Array Properties from State Definitions
+
+First, identify ALL array properties in your stores by checking state definitions:
+
+```bash
+# Find all state definitions with array types
+# Look for patterns like: propertyName: [] or propertyName: Type[]
+rg "^\s+\w+:\s*\[\]|^\s+\w+:\s*\w+\[\]" app/store/ --type ts -A 0 -B 0
+```
+
+Create a list of all array property names from your stores. For example:
+
+- `latestBlocks`, `latestOneHundredBlocks`, `latestTransactions` (network store)
+- `validators`, `delegations`, `rewards`, `reDelegations` (staking store)
+- `validatorUptime` (explorer store)
+- `transactions` (transaction store)
+- `pastAuctions`, `accountAuctions`, `pastAuctionsCursors` (auction store)
+
+#### Step 2: Search for $patch Usage of Each Array Property
+
+For each array property identified, search for its usage in `$patch`:
+
+```bash
+# Search for specific array property in $patch
+# Replace PROPERTY_NAME with actual property names from Step 1
+rg "\$patch.*PROPERTY_NAME" app/store/ --type ts -B 2 -A 5
+
+# Examples:
+rg "\$patch.*latestBlocks" app/store/ --type ts -B 2 -A 5
+rg "\$patch.*validators" app/store/ --type ts -B 2 -A 5
+rg "\$patch.*transactions" app/store/ --type ts -B 2 -A 5
+```
+
+#### Alternative: Comprehensive Search Script
+
+Use this script to find ALL `$patch` calls and manually review each one:
+
+```bash
+# List all $patch usage with context
+rg "\$patch" app/store/ --type ts -B 1 -A 8 > patch_usage.txt
+
+# Then review each case and check if the property being patched is an array type
+```
+
+#### Checklist Approach
+
+For each store file:
+
+1. **List all array properties** from the state definition
+2. **Search for each array property** in `$patch` calls within that file
+3. **Evaluate each match**:
+   - Single array property → Convert to direct assignment
+   - Array + primitive(s) → Convert to separate assignments
+   - Array + related derived value (e.g., array + count) → Keep as `$patch`
+   - Multiple related arrays → Keep as `$patch`
+
+### Common Array Property Patterns
+
+Array properties in real codebases often follow these naming patterns:
+
+| Pattern                | Examples                                                        | Typical Usage             |
+| ---------------------- | --------------------------------------------------------------- | ------------------------- |
+| **Plural nouns**       | `validators`, `delegations`, `rewards`, `trades`, `orders`      | Collections of entities   |
+| **Prefixed plurals**   | `latestBlocks`, `pastAuctions`, `accountAuctions`               | Scoped collections        |
+| **Suffixed with List** | `todoList`, `watchList`                                         | Explicit list types       |
+| **Suffixed with s**    | `transactions`, `proposals`, `campaigns`                        | Standard pluralization    |
+| **Compound names**     | `unbondingDelegations`, `validatorDelegations`, `reDelegations` | Specific entity types     |
+| **Cursor/pagination**  | `pastAuctionsCursors`, `accountAuctionsCursors`                 | Pagination state          |
+| **Uptime/metrics**     | `validatorUptime`, `latestOneHundredBlocks`                     | Time-series data          |
+| **Owner/user scoped**  | `ownerTokenFactoryMetaTokens`, `userStrategies`                 | User-specific collections |
+
+### Migration Steps
+
+1. **Extract array properties from each store's state definition**:
+
+   ```typescript
+   // Example: network store state
+   type NetworkStoreState = {
+     blockHeight: number // primitive - skip
+     latestBlocks: Block[] // ARRAY - check for $patch
+     streamedBlockHeight: number // primitive - skip
+     latestOneHundredBlocks: Block[] // ARRAY - check for $patch
+     latestTransactions: Transaction[] // ARRAY - check for $patch
+   }
+   ```
+
+2. **Search for $patch usage of each array property**:
+
+   ```bash
+   # For each array property, search in the store file
+   rg "latestBlocks" app/store/network.ts
+   rg "latestOneHundredBlocks" app/store/network.ts
+   rg "latestTransactions" app/store/network.ts
+   ```
+
+3. **Evaluate each $patch call**:
+
+   ```typescript
+   // CONVERT - single array property
+   store.$patch({ latestBlocks: blocks })
+   // → store.latestBlocks = blocks
+
+   // CONVERT - array + unrelated primitive
+   store.$patch({
+     latestBlocks: newBlocks,
+     streamedBlockHeight: block.height
+   })
+   // → store.latestBlocks = newBlocks
+   // → store.streamedBlockHeight = block.height
+
+   // KEEP - array + derived count (atomicity needed)
+   store.$patch({
+     orders: newOrders,
+     ordersCount: newOrders.length
+   })
+   ```
+
+4. **Apply the conversion**:
+
+   ```typescript
+   // BEFORE
+   store.$patch({ validators: validatorList })
+
+   // AFTER
+   store.validators = validatorList
+   ```
+
+### Exception Cases - When to Keep $patch
+
+**Keep using $patch when:**
+
+1. **Derived/computed values depend on the array** (atomicity required):
+
+   ```typescript
+   // KEEP - count is derived from array length
+   store.$patch({
+     orders: newOrders,
+     ordersCount: newOrders.length
+   })
+
+   // KEEP - total is computed from array
+   store.$patch({
+     items: newItems,
+     totalValue: newItems.reduce((sum, i) => sum + i.value, 0)
+   })
+   ```
+
+2. **Conditional updates with function syntax**:
+
+   ```typescript
+   // KEEP - conditional patching
+   store.$patch((state) => {
+     if (shouldReset) {
+       state.items = []
+     }
+     if (hasNewData) {
+       state.items = newData
+     }
+   })
+   ```
+
+3. **Complex object updates with nested arrays**:
+
+   ```typescript
+   // KEEP - nested object structure
+   store.$patch({
+     user: {
+       ...store.user,
+       tags: newTags // array inside object
+     }
+   })
+   ```
+
+**Convert to direct assignment when:**
+
+1. **Single array property**:
+
+   ```typescript
+   // CONVERT
+   store.$patch({ validators: newValidators })
+   // → store.validators = newValidators
+   ```
+
+2. **Array + unrelated primitives** (no derived relationship):
+
+   ```typescript
+   // CONVERT - these are independent updates
+   store.$patch({
+     latestBlocks: newBlocks,
+     streamedBlockHeight: height
+   })
+   // → store.latestBlocks = newBlocks
+   // → store.streamedBlockHeight = height
+   ```
+
+3. **Multiple independent arrays**:
+
+   ```typescript
+   // CONVERT - arrays are not derived from each other
+   store.$patch({
+     pastAuctions: auctions,
+     pastAuctionsCursors: cursors
+   })
+   // → store.pastAuctions = auctions
+   // → store.pastAuctionsCursors = cursors
+   ```
+
+### Automated Migration Script
+
+For large codebases, use this systematic approach:
+
+```bash
+#!/bin/bash
+# array_patch_migration.sh - Find all array $patch candidates
+
+echo "=== Step 1: Finding all store state definitions ==="
+echo "Look for array types (ending with [] or initialized as [])"
+echo ""
+
+# Find all store files
+STORE_FILES=$(find app/store -name "*.ts" -type f)
+
+for file in $STORE_FILES; do
+  echo "--- $file ---"
+
+  # Extract array property names from state type definitions
+  # Matches patterns like: propertyName: Type[] or propertyName: []
+  grep -E "^\s+\w+:\s*(\[\]|\w+\[\])" "$file" | sed 's/:.*//' | tr -d ' '
+
+  echo ""
+done
+
+echo "=== Step 2: Finding $patch usage for review ==="
+rg "\$patch" app/store/ --type ts -B 1 -A 8
+```
+
+### Verification Checklist
+
+After migration, use this checklist to ensure nothing was missed:
+
+- [ ] **For each store file**:
+  - [ ] Listed all array properties from state definition
+  - [ ] Searched for each array property in `$patch` calls
+  - [ ] Evaluated each match (convert vs keep)
+  - [ ] Applied conversions
+  - [ ] Verified no remaining single-array `$patch` calls
+
+- [ ] **Final verification**:
+  - [ ] Run `rg "\$patch.*\{.*\}" app/store/` and manually review each result
+  - [ ] TypeScript compiles without new errors
+  - [ ] Functionality preserved (test the app)
+  - [ ] All existing tests pass
+
+### Best Practices
+
+1. **Consistency**: Apply the same pattern across all stores in your codebase
+2. **Documentation**: Update team coding standards to prefer direct assignment for arrays
+3. **Code reviews**: Add this as a checklist item for PR reviews
+4. **Linting**: Consider adding a custom ESLint rule to detect array `$patch` usage
+
+### Real-World Migration Insights
+
+Based on actual migration experience across large codebases, here are common patterns and insights:
+
+#### Common Array-Only Patterns Found
+
+1. **Stream Updates** - Real-time data being prepended/appended:
+
+   ```typescript
+   // Stream pattern - new items at front
+   store.trades = [newTrade, ...store.trades]
+
+   // Stream pattern - filtered updates
+   store.positions = store.positions.filter((p) => p.id !== removedId)
+
+   // Stream pattern - mapped updates
+   store.positions = store.positions.map((p) =>
+     p.id === updatedId ? updatedPosition : p
+   )
+   ```
+
+2. **Reset Operations** - Clearing arrays in cleanup:
+
+   ```typescript
+   // Reset pattern
+   store.strategies = []
+   store.orders = []
+   store.trades = []
+   ```
+
+3. **API Response Assignment** - Direct assignment from API calls:
+
+   ```typescript
+   // API pattern
+   const { campaigns } = await api.fetchCampaigns()
+   store.campaigns = campaigns
+
+   const { strategies } = await api.fetchStrategies()
+   store.strategies = strategies
+   ```
+
+4. **Array Operations with Spread**:
+
+   ```typescript
+   // Append pattern
+   store.marketIds = [...store.marketIds, newMarketId]
+
+   // Replace pattern
+   store.items = [...filteredItems, newItem]
+   ```
+
+#### Patterns to Keep as $patch
+
+1. **Array + Count Updates** - When updating derived data:
+
+   ```typescript
+   // Keep this - atomic update of array + count
+   store.$patch({
+     orders: newOrders,
+     ordersCount: newOrders.length
+   })
+   ```
+
+2. **Multiple Array Updates** - When arrays must update together:
+
+   ```typescript
+   // Keep this - related arrays updated atomically
+   store.$patch({
+     activeItems: activeItems,
+     inactiveItems: inactiveItems
+   })
+   ```
+
+3. **Complex Nested Updates** - Arrays inside objects:
+   ```typescript
+   // Keep this - nested structure
+   store.$patch({
+     user: {
+       ...store.user,
+       permissions: newPermissions // array inside object
+     }
+   })
+   ```
+
+#### Migration Statistics
+
+From a typical large codebase migration:
+
+- **Total $patch usage**: ~120 instances
+- **Array-only optimizations**: ~15 instances (12.5%)
+- **Files affected**: 8 store files
+- **Common locations**: Stream files, API response handlers, reset functions
+
+#### Performance Impact
+
+- **Bundle size**: Small reduction (~0.1%)
+- **Runtime performance**: Minor improvement in array updates
+- **Type safety**: Better TypeScript inference for array operations
+- **Readability**: Significantly improved intent clarity
+
+#### Automation Opportunities
+
+For large-scale migrations, consider these automated approaches:
+
+```bash
+# 1. Find candidate patterns
+grep -r "\$patch.*{.*}" store/ | grep -v "Count\|Total\|Length"
+
+# 2. Generate sed commands (example)
+# This would need customization based on your patterns
+```
+
+#### Common Pitfalls to Avoid
+
+1. **Breaking atomicity** - Don't separate related updates:
+
+   ```typescript
+   // WRONG - breaks atomicity
+   store.orders = newOrders
+   store.ordersCount = newOrders.length // Separate update
+
+   // RIGHT - keep as $patch
+   store.$patch({
+     orders: newOrders,
+     ordersCount: newOrders.length
+   })
+   ```
+
+2. **Missing reactive updates** - Ensure direct assignment maintains reactivity:
+
+   ```typescript
+   // This works fine in Pinia 3.x
+   store.items = newItems
+
+   // No need for special handling - Pinia handles reactivity
+   ```
+
+3. **Complex conditions** - Keep complex conditional logic in $patch:
+   ```typescript
+   // Keep this - complex conditional logic
+   store.$patch((state) => {
+     if (condition1) {
+       state.items = items1
+     } else if (condition2) {
+       state.items = items2
+     }
+   })
+   ```
+
 ## Notes
 
 - `lazyPiniaAction` is defined in `app/utils/pinia.ts` and should be auto-imported

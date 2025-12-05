@@ -73,7 +73,7 @@ const orderParams = {
 
 export default withNuxt(
   {
-    ignores: ['*.cjs']
+    ignores: ['i18n/locales/**', '*.cjs', '*.js']
   },
   {
     plugins: {
@@ -96,7 +96,7 @@ export default withNuxt(
       'vue/no-v-html': 'off',
       'no-unused-vars': 'off',
       'vue/html-self-closing': 'off',
-      ' vue/first-attribute-linebreak': 'off',
+      'vue/first-attribute-linebreak': 'off',
       'vue/multi-word-component-names': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
@@ -123,8 +123,8 @@ export default withNuxt(
 
       'perfectionist/sort-enums': ['off', orderParams],
       'perfectionist/sort-objects': ['off', orderParams],
+      'perfectionist/sort-modules': ['off', orderParams],
       'perfectionist/sort-exports': ['warn', orderParams],
-      'perfectionist/sort-modules': ['warn', orderParams],
       'perfectionist/sort-interfaces': ['warn', orderParams],
       'perfectionist/sort-union-types': ['warn', orderParams],
       'perfectionist/sort-object-types': ['warn', orderParams],
