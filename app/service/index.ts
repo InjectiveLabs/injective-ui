@@ -16,7 +16,7 @@ import { TokenStaticFactory } from '@injectivelabs/sdk-ts/service'
 import { TokenPrice as TokenPriceService } from './app/tokenPrice'
 import { DerivativeCacheApi } from './../providers/cacheApi/derivative'
 import { CacheRwaPriceFeedService } from './app/cacheRwaPriceFeedService'
-import { SharedTokenClientStatic } from './../Service/app/SharedTokenClientStatic'
+import { SharedTokenClientStatic } from './../service/app/SharedTokenClientStatic'
 import {
   NETWORK,
   ENDPOINTS,
