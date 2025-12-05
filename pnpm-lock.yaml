@@ -1429,8 +1429,8 @@ packages:
     resolution: {integrity: sha512-HjA8x/U/Q78HRRe19yh8HVKoZ+Iaoo3YZjakJYxR+rw52NHo6jM+VE9b8+7ygkCFXl/EHID5wh/MkXaE/jGyYw==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
-  '@keplr-wallet/types@0.12.296':
-    resolution: {integrity: sha512-FIyjacCSa2RRILb7pL3Y/DcdV2nHjlWjekLujV2NCaE8a0FC0qLIM/GtTuTsOyB+xvmnUiN3d5vedFudGDCLEw==}
+  '@keplr-wallet/types@0.12.298':
+    resolution: {integrity: sha512-QWqjLI4Bt0hT9khQV63WmSCCBxG2REfWyQNjt6cNbh4szrujw8bzV2aPNlj16qudXLNi9Ny2NFRXBpAVK8Ck6Q==}
     peerDependencies:
       starknet: ^7
 
@@ -4131,8 +4131,8 @@ packages:
   birpc@2.5.0:
     resolution: {integrity: sha512-VSWO/W6nNQdyP520F1mhf+Lc2f8pjGQOtoHHm7Ze8Go1kX7akpVIrtTa0fn+HB0QJEDVacl6aO08YE0PgXfdnQ==}
 
-  birpc@2.8.0:
-    resolution: {integrity: sha512-Bz2a4qD/5GRhiHSwj30c/8kC8QGj12nNDwz3D4ErQ4Xhy35dsSDvF+RA/tWpjyU0pdGtSDiEk6B5fBGE1qNVhw==}
+  birpc@2.9.0:
+    resolution: {integrity: sha512-KrayHS5pBi69Xi9JmvoqrIgYGDkD6mcSe/i6YKi3w5kekCLzrX4+nawcXqrj2tIp50Kw/mT/s3p+GVK0A0sKxw==}
 
   bitcoin-ops@1.4.1:
     resolution: {integrity: sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow==}
@@ -6153,8 +6153,8 @@ packages:
   jwa@2.0.1:
     resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
 
-  jws@4.0.0:
-    resolution: {integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==}
+  jws@4.0.1:
+    resolution: {integrity: sha512-EKI/M/yqPncGUUh44xz0PxSidXFr/+r0pA70+gIYhjv+et7yxM+s29Y+VGDkovRofQem0fs7Uvf4+YmAdyRduA==}
 
   jwt-decode@4.0.0:
     resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
@@ -6578,8 +6578,8 @@ packages:
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
 
-  nan@2.23.1:
-    resolution: {integrity: sha512-r7bBUGKzlqk8oPBDYxt6Z0aEdF1G1rwlMcLk8LCOMbOzf0mG+JUfUzG4fIMWwHWP0iyaLWEQZJmtB7nOHEm/qw==}
+  nan@2.24.0:
+    resolution: {integrity: sha512-Vpf9qnVW1RaDkoNKFUvfxqAbtI8ncb8OJlqZ9wwpXzWPEsvsB1nvdUi6oYrHIkQ1Y/tMDnr1h4nczS0VB9Xykg==}
 
   nano-spawn@1.0.2:
     resolution: {integrity: sha512-21t+ozMQDAL/UGgQVBbZ/xXvNO10++ZPuTmKRO8k9V3AClVRht49ahtDjfY8l1q6nSHOrE5ASfthzH3ol6R/hg==}
@@ -10671,7 +10671,7 @@ snapshots:
       '@injectivelabs/ts-types': 1.16.37
       '@injectivelabs/utils': 1.16.37
       '@injectivelabs/wallet-base': 1.16.37(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@keplr-wallet/types': 0.12.296(starknet@7.6.4)
+      '@keplr-wallet/types': 0.12.298(starknet@7.6.4)
       eventemitter3: 5.0.1
     transitivePeerDependencies:
       - '@types/react'
@@ -10735,7 +10735,7 @@ snapshots:
       '@injectivelabs/ts-types': 1.16.37
       '@injectivelabs/utils': 1.16.37
       '@injectivelabs/wallet-base': 1.16.37(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@keplr-wallet/types': 0.12.296(starknet@7.6.4)
+      '@keplr-wallet/types': 0.12.298(starknet@7.6.4)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -11186,7 +11186,7 @@ snapshots:
       '@json-rpc-tools/types': 1.7.6
       '@pedrouid/environment': 1.0.1
 
-  '@keplr-wallet/types@0.12.296(starknet@7.6.4)':
+  '@keplr-wallet/types@0.12.298(starknet@7.6.4)':
     dependencies:
       long: 4.0.0
       starknet: 7.6.4
@@ -13256,7 +13256,7 @@ snapshots:
       bs58check: 4.0.0
       cbor: 10.0.11
       cross-fetch: 4.1.0
-      jws: 4.0.0
+      jws: 4.0.1
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@solana/sysvars'
@@ -14019,7 +14019,7 @@ snapshots:
   '@vue/devtools-kit@7.7.9':
     dependencies:
       '@vue/devtools-shared': 7.7.9
-      birpc: 2.8.0
+      birpc: 2.9.0
       hookable: 5.5.3
       mitt: 3.0.1
       perfect-debounce: 1.0.0
@@ -15140,7 +15140,7 @@ snapshots:
 
   birpc@2.5.0: {}
 
-  birpc@2.8.0: {}
+  birpc@2.9.0: {}
 
   bitcoin-ops@1.4.1: {}
 
@@ -17300,7 +17300,7 @@ snapshots:
       ecdsa-sig-formatter: 1.0.11
       safe-buffer: 5.2.1
 
-  jws@4.0.0:
+  jws@4.0.1:
     dependencies:
       jwa: 2.0.1
       safe-buffer: 5.2.1
@@ -17759,7 +17759,7 @@ snapshots:
       object-assign: 4.1.1
       thenify-all: 1.6.0
 
-  nan@2.23.1: {}
+  nan@2.24.0: {}
 
   nano-spawn@1.0.2: {}
 
@@ -19706,7 +19706,7 @@ snapshots:
       bn.js: 4.12.2
       create-hmac: 1.1.7
       elliptic: 6.6.1
-      nan: 2.23.1
+      nan: 2.24.0
 
   tinybench@2.9.0: {}
 
