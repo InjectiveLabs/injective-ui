@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
-// import { visualizer } from 'rollup-plugin-visualizer'
+import { manualChunks } from './chunk'
+import { visualizer } from 'rollup-plugin-visualizer'
 import {
   IS_HUB,
   IS_MITO,
@@ -11,9 +12,11 @@ import {
 } from '../../app/utils/constant'
 import type { ViteConfig } from '@nuxt/schema'
 
+export { manualChunks } from './chunk'
+
 const isLocalLayer = process.env.LOCAL_LAYER === 'true'
 const isProduction = process.env.NODE_ENV === 'production'
-// const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
+const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
 
@@ -222,8 +225,15 @@ export default defineConfig({
   },
 
   plugins: [
-    // visualizer({ open: isAnalyzeBundle })
-  ],
+    isAnalyzeBundle
+      ? visualizer({
+          open: true,
+          filename: 'stats.html',
+          gzipSize: true,
+          brotliSize: true
+        })
+      : undefined
+  ].filter(Boolean),
 
   server: {
     watch: {
@@ -242,23 +252,9 @@ export default defineConfig({
     rollupOptions: {
       cache: false,
       output: {
-        manualChunks: (id: string) => {
-          if (id.includes('@keplr-wallet')) {
-            return 'keplr'
-          }
-
-          if (id.includes('@injectivelabs/wallet')) {
-            return 'injective-wallet'
-          }
-
-          if (id.includes('@cosmjs')) {
-            return 'cosmjs'
-          }
-
-          if (id.includes('@injectivelabs')) {
-            return 'injective'
-          }
-        }
+        manualChunks,
+        // Include chunk name in filename for better debugging/caching
+        chunkFileNames: '_nuxt/[name]-[hash].js'
       }
     }
   },
