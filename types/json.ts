@@ -47,6 +47,7 @@ export type JsonHelixCategory = {
   ai: JsonSlugMarketId[]
   rwa: JsonSlugMarketId[]
   defi: JsonSlugMarketId[]
+  seda: JsonSlugMarketId[]
   layer1: JsonSlugMarketId[]
   stocks: JsonSlugMarketId[]
   trending: JsonSlugMarketId[]
