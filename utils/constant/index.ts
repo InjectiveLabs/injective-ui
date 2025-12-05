@@ -17,7 +17,7 @@ export const USDT_LOGO_URL =
 export const AUSD_LOGO_URL =
   'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/4b446611-8af6-424f-abc6-e41defe1d800/public'
 export const UNKNOWN_LOGO_URL =
-  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/6f015260-c589-499f-b692-a57964af9900/public'
+  'https://imagedelivery.net/lPzngbR8EltRfBOi_WYaXw/63a231c0-d1c3-4901-1e28-7c4410dfaa00/public'
 
 export const INJ_DENOM = 'inj'
 export const ETH_DENOM = 'peggy0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
