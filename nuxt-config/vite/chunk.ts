@@ -130,7 +130,35 @@ const CHUNK_GROUPS = [
     priority: 60
   },
 
-  // Injective SDK (lower priority - after wallet packages)
+  // Injective proto packages (split by module for better code-splitting)
+  // These are the heaviest dependencies - splitting allows unused protos to be excluded
+  {
+    name: 'proto-core',
+    test: (id: string) => id.includes('@injectivelabs/core-proto-ts'),
+    priority: 55
+  },
+  {
+    name: 'proto-indexer',
+    test: (id: string) => id.includes('@injectivelabs/indexer-proto-ts'),
+    priority: 55
+  },
+  {
+    name: 'proto-mito',
+    test: (id: string) => id.includes('@injectivelabs/mito-proto-ts'),
+    priority: 55
+  },
+  {
+    name: 'proto-abacus',
+    test: (id: string) => id.includes('@injectivelabs/abacus-proto-ts'),
+    priority: 55
+  },
+  {
+    name: 'proto-olp',
+    test: (id: string) => id.includes('@injectivelabs/olp-proto-ts'),
+    priority: 55
+  },
+
+  // Injective SDK (lower priority - after wallet and proto packages)
   {
     name: 'injective-sdk',
     test: (id: string) => id.includes('@injectivelabs'),
