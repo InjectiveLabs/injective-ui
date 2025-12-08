@@ -2,15 +2,12 @@ import { HttpRestClient } from '@injectivelabs/utils'
 import { ENDPOINTS } from '../../utils/constant/setup'
 
 const NUXT_CACHE_PYTH_SERVICE_URL = ENDPOINTS.uiApi
-// https://api.ui.staging.injective.network/api/v1
 
 export class CacheRwaPriceFeedService {
   private restClient: HttpRestClient
 
   constructor() {
-    this.restClient = new HttpRestClient(
-      'https://api.ui.staging.injective.network/api/v1'
-    )
+    this.restClient = new HttpRestClient(NUXT_CACHE_PYTH_SERVICE_URL)
   }
 
   public fetchPythRwaMarketOpenNoThrow = async (oracle: string) => {
