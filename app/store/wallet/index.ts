@@ -25,6 +25,7 @@ import {
   walletStrategy,
   msgBroadcaster,
   validateEvmWallet,
+  getHwAddressesInfo,
   validateCosmosWallet,
   autoSignWalletStrategy,
   autoSignMsgBroadcaster
@@ -56,14 +57,28 @@ type WalletStoreState = {
   okxWalletInstalled: boolean
   trustWalletInstalled: boolean
   turnkeyInjectiveAddress: string
-
   walletConnectStatus: WalletConnectStatus
+
+  hwAddressesInfo: {
+    address: string
+    derivationPath: string
+    baseDerivationPath: string
+  }[]
+
   authZ: {
     address: string
     injectiveAddress: string
     direction: GrantDirection
     defaultSubaccountId: string
   }
+
+  hwAddressInfo:
+    | undefined
+    | {
+        address: string
+        derivationPath: string
+        baseDerivationPath: string
+      }
 }
 
 const initialStateFactory = (): WalletStoreState => ({
@@ -87,6 +102,9 @@ const initialStateFactory = (): WalletStoreState => ({
   trustWalletInstalled: false,
   turnkeyInjectiveAddress: '',
   queueStatus: StatusType.Idle,
+
+  hwAddressInfo: undefined,
+  hwAddressesInfo: [],
 
   walletConnectStatus: WalletConnectStatus.idle,
 
@@ -319,6 +337,16 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.setWallet(walletStore.wallet)
 
+      if (walletStore.hwAddressInfo) {
+        console.log(
+          'setting derivation path',
+          walletStore.hwAddressInfo.derivationPath
+        )
+        walletStrategy.setMetadata({
+          derivationPath: walletStore.hwAddressInfo.derivationPath
+        })
+      }
+
       if (
         walletStore.wallet === Wallet.Magic &&
         (!walletStore.isUserConnected || walletStore.turnkeyInjectiveAddress)
@@ -403,6 +431,21 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         await walletStrategy.disconnect()
       }
 
+      if (
+        (
+          [
+            Wallet.Ledger,
+            Wallet.TrezorBip32,
+            Wallet.TrezorBip44,
+            Wallet.LedgerCosmos
+          ] as Wallet[]
+        ).includes(wallet)
+      ) {
+        walletStrategy.setMetadata({
+          derivationPath: undefined
+        })
+      }
+
       await walletStrategy.setWallet(wallet)
 
       if (options?.privateKey) {
@@ -431,6 +474,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       await walletStrategy.disconnect()
 
+      walletStrategy.setMetadata({
+        ...walletStrategy.metadata,
+        derivationPath: undefined
+      })
+
       walletStore.$patch({
         ...initialStateFactory(),
         autoSign: undefined,
@@ -448,7 +496,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           injectiveAddress: '',
           defaultSubaccountId: '',
           direction: GrantDirection.Granter
-        }
+        },
+        hwAddresses: [],
+        hwAddressesInfo: [],
+        hwAddressInfo: undefined
       })
 
       useEventBus(EventBus.WalletDisconnected).emit()
@@ -476,6 +527,44 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         walletStore.$patch({
           hwAddresses: injectiveAddresses
+        })
+      } else {
+        const addresses = await getAddresses()
+        const injectiveAddresses = isEvmWallet(wallet)
+          ? addresses.map(getInjectiveAddress)
+          : addresses
+
+        walletStore.$patch({
+          hwAddresses: [...walletStore.hwAddresses, ...injectiveAddresses]
+        })
+      }
+    },
+
+    async getHWAddressesInfo(wallet: Wallet) {
+      const walletStore = useSharedWalletStore()
+
+      if (
+        walletStore.hwAddresses.length === 0 ||
+        walletStore.wallet !== wallet
+      ) {
+        await walletStrategy.disconnect()
+        await walletStrategy.setWallet(wallet)
+
+        walletStore.$patch({
+          wallet
+        })
+
+        const addresses = await getHwAddressesInfo()
+
+        const injectiveAddresses = isEvmWallet(wallet)
+          ? addresses.map((info) => ({
+              ...info,
+              address: getInjectiveAddress(info.address)
+            }))
+          : addresses
+
+        walletStore.$patch({
+          hwAddressesInfo: injectiveAddresses
         })
       } else {
         const addresses = await getAddresses()
@@ -833,14 +922,17 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectLedger({
       wallet,
-      address
+      address,
+      derivationPath
     }: {
       wallet: Wallet
       address: string
+      derivationPath?: string
     }) {
       const walletStore = useSharedWalletStore()
 
       await walletStore.connectWallet(wallet)
+      walletStrategy.setMetadata({ derivationPath })
 
       const ethereumAddress = getEthereumAddress(address)
       const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
@@ -851,7 +943,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress: address,
         addresses: [ethereumAddress],
         addressConfirmation:
-          await walletStrategy.getSessionOrConfirm(ethereumAddress)
+          await walletStrategy.getSessionOrConfirm(ethereumAddress),
+
+        hwAddressInfo: {
+          address: ethereumAddress,
+          derivationPath: derivationPath || '',
+          baseDerivationPath: ''
+        }
       })
 
       await walletStore.onConnect()
@@ -859,14 +957,17 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectTrezor({
       wallet,
-      address
+      address,
+      derivationPath
     }: {
       wallet: Wallet
       address: string
+      derivationPath?: string
     }) {
       const walletStore = useSharedWalletStore()
 
       await walletStore.connectWallet(wallet)
+      walletStrategy.setMetadata({ derivationPath })
 
       const ethereumAddress = getEthereumAddress(address)
       const session = await walletStrategy.getSessionOrConfirm(ethereumAddress)
@@ -877,7 +978,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress: address,
         addresses: [ethereumAddress],
         addressConfirmation:
-          await walletStrategy.getSessionOrConfirm(ethereumAddress)
+          await walletStrategy.getSessionOrConfirm(ethereumAddress),
+        hwAddressInfo: {
+          address: ethereumAddress,
+          derivationPath: derivationPath || '',
+          baseDerivationPath: ''
+        }
       })
 
       await walletStore.onConnect()
@@ -930,10 +1036,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async connectLedgerCosmos(injectiveAddress: string) {
+    async connectLedgerCosmos(
+      injectiveAddress: string,
+      derivationPath?: string
+    ) {
       const walletStore = useSharedWalletStore()
 
       await walletStore.connectWallet(Wallet.LedgerCosmos)
+      walletStrategy.setMetadata({ derivationPath })
 
       const ethereumAddress = getEthereumAddress(injectiveAddress)
       const session = await walletStrategy.getSessionOrConfirm()
@@ -944,7 +1054,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         address: ethereumAddress,
         addresses: [ethereumAddress],
         addressConfirmation:
-          await walletStrategy.getSessionOrConfirm(injectiveAddress)
+          await walletStrategy.getSessionOrConfirm(injectiveAddress),
+        hwAddressInfo: {
+          address: ethereumAddress,
+          derivationPath: derivationPath || '',
+          baseDerivationPath: ''
+        }
       })
 
       await walletStore.onConnect()

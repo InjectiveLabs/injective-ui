@@ -30,3 +30,19 @@ export const getAddresses = async (args?: unknown): Promise<string[]> => {
 
   return addresses
 }
+
+export const getHwAddressesInfo = async () => {
+  const addressInfo = await walletStrategy.getAddressesInfo()
+
+  if (!addressInfo || addressInfo.length === 0) {
+    throw new WalletException(
+      new Error('There are no addresses linked to this hardware wallet.'),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+
+  return addressInfo
+}
