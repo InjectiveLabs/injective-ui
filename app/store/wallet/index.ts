@@ -313,8 +313,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     async init() {
-      console.log('initing!')
-
       const walletStore = useSharedWalletStore()
 
       walletStore.walletConnectStatus = WalletConnectStatus.idle
