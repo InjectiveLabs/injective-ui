@@ -8,7 +8,6 @@ import { InjBonfidaNameService } from './app/bonfida'
 import { SharedTokenClient } from './app/tokenClient'
 import { Web3GatewayService } from './app/Web3Gateway'
 import { alchemyRpcEndpoint } from './../wallet/alchemy'
-import { CachePythService } from './app/cachePythClient'
 import { CoinGeckoApiService } from './app/CoinGeckoApi'
 import { TokenStaticFactory } from '@injectivelabs/sdk-ts'
 import { SpotCacheApi } from './../providers/cacheApi/spot'
@@ -17,6 +16,7 @@ import { StrapiCacheApi } from './../providers/cacheApi/strapi'
 import { StakingCacheApi } from './../providers/cacheApi/staking'
 import { TokenPrice as TokenPriceService } from './app/tokenPrice'
 import { DerivativeCacheApi } from './../providers/cacheApi/derivative'
+import { CacheRwaPriceFeedService } from './app/cacheRwaPriceFeedService'
 import { SharedTokenClientStatic } from './../Service/app/SharedTokenClientStatic'
 import {
   NETWORK,
@@ -234,7 +234,7 @@ export const stakingCacheApi = new StakingCacheApi(ENDPOINTS.uiApi)
 export const derivativeCacheApi = new DerivativeCacheApi(ENDPOINTS.uiApi)
 
 export const pythService = new PythService()
-export const cachePythService = new CachePythService()
+export const cacheRwaPriceFeedService = new CacheRwaPriceFeedService()
 
 export const tokenPriceService = new TokenPriceService(NETWORK, {
   apiKey: COINGECKO_KEY as string,

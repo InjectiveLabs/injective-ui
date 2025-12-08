@@ -112,6 +112,15 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         ].find((market) => market.marketId === marketId) !== undefined
       )
     },
+
+    isSedaMarket: (state) => (marketId: string) => {
+      return (
+        state.helixMarketCategory.seda.find(
+          (market) => market.marketId === marketId
+        ) !== undefined
+      )
+    },
+
     helixMarketCategoriesMap: (state) =>
       Object.entries(state.helixMarketCategory).reduce(
         (list, [key, marketIdMap]: [string, { marketId: string }[]]) => {
