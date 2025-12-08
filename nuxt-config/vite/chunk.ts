@@ -22,15 +22,66 @@
  */
 const CHUNK_GROUPS = [
   // Wallet-specific packages (high priority - check before generic @injectivelabs)
+  // Split into individual chunks to respect dynamic imports in wallet-strategy
   {
     name: 'keplr',
     test: (id: string) => id.includes('@keplr-wallet'),
     priority: 100
   },
+  // Heavy/rarely-used wallet packages - keep separate for lazy loading
+  {
+    name: 'wallet-trezor',
+    test: (id: string) => id.includes('@injectivelabs/wallet-trezor'),
+    priority: 95
+  },
+  {
+    name: 'wallet-ledger',
+    test: (id: string) => id.includes('@injectivelabs/wallet-ledger'),
+    priority: 95
+  },
+  {
+    name: 'wallet-magic',
+    test: (id: string) => id.includes('@injectivelabs/wallet-magic'),
+    priority: 95
+  },
+  {
+    name: 'wallet-turnkey',
+    test: (id: string) => id.includes('@injectivelabs/wallet-turnkey'),
+    priority: 95
+  },
+  {
+    name: 'wallet-wallet-connect',
+    test: (id: string) => id.includes('@injectivelabs/wallet-wallet-connect'),
+    priority: 95
+  },
+  // Core wallet packages that are always needed
   {
     name: 'injective-wallet',
     test: (id: string) => id.includes('@injectivelabs/wallet'),
     priority: 90
+  },
+
+  // Third-party wallet SDKs (lazy-loaded with their wallet packages)
+  {
+    name: 'turnkey-sdk',
+    test: (id: string) => id.includes('@turnkey'),
+    priority: 85
+  },
+  {
+    name: 'ledger-sdk',
+    test: (id: string) => id.includes('@ledgerhq'),
+    priority: 85
+  },
+  {
+    name: 'trezor-sdk',
+    test: (id: string) => id.includes('@trezor'),
+    priority: 85
+  },
+  {
+    name: 'walletconnect-sdk',
+    test: (id: string) =>
+      id.includes('@walletconnect') || id.includes('@web3modal'),
+    priority: 85
   },
 
   // Cosmos ecosystem
