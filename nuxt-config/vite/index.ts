@@ -10,6 +10,7 @@ import {
   IS_ADMIN_UI,
   IS_TRADING_UI
 } from '../../app/utils/constant'
+import type { Plugin } from 'vite'
 import type { ViteConfig } from '@nuxt/schema'
 
 export { manualChunks } from './chunk'
@@ -19,6 +20,63 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
+
+/**
+ * Vite plugin to inject Buffer polyfill into specific chunks that need it.
+ * This is needed for packages like @ledgerhq that expect Buffer to be globally available.
+ */
+function bufferPolyfillPlugin(): Plugin {
+  return {
+    name: 'buffer-polyfill',
+    apply: 'build',
+
+    renderChunk(code, chunk) {
+      // Only inject into ledger-sdk chunk which uses hid-framing.js that needs Buffer
+      if (chunk.name === 'ledger-sdk') {
+        // Inline Buffer polyfill - creates a minimal Buffer shim if not already defined
+        // This runs before the chunk's code, ensuring Buffer is available
+        const polyfill = `
+;(function() {
+  if (typeof globalThis.Buffer === 'undefined') {
+    var Buffer = {
+      isBuffer: function(obj) { return obj && obj._isBuffer === true; },
+      from: function(data, encoding) {
+        if (typeof data === 'string') {
+          var arr = new Uint8Array(data.length);
+          for (var i = 0; i < data.length; i++) arr[i] = data.charCodeAt(i);
+          return arr;
+        }
+        return new Uint8Array(data);
+      },
+      alloc: function(size) { return new Uint8Array(size); },
+      allocUnsafe: function(size) { return new Uint8Array(size); },
+      concat: function(list, length) {
+        if (!length) length = list.reduce(function(a, b) { return a + b.length; }, 0);
+        var result = new Uint8Array(length);
+        var offset = 0;
+        for (var i = 0; i < list.length; i++) {
+          result.set(list[i], offset);
+          offset += list[i].length;
+        }
+        return result;
+      }
+    };
+    globalThis.Buffer = Buffer;
+    if (typeof window !== 'undefined') window.Buffer = Buffer;
+  }
+})();
+`
+
+        return {
+          code: polyfill + code,
+          map: null
+        }
+      }
+
+      return null
+    }
+  }
+}
 
 /**
  * Base dependencies that ALL apps need from the layer.
@@ -61,16 +119,10 @@ const BASE_OPTIMIZE_DEPS = [
   '@injectivelabs/networks',
   '@injectivelabs/exceptions',
 
-  // Wallet packages
+  // Wallet packages (only core - others are lazy-loaded by wallet-strategy)
   '@injectivelabs/wallet-base',
   '@injectivelabs/wallet-core',
-  '@injectivelabs/wallet-evm',
-  '@injectivelabs/wallet-ledger',
-  '@injectivelabs/wallet-cosmos',
-  '@injectivelabs/wallet-turnkey',
   '@injectivelabs/wallet-strategy',
-  '@injectivelabs/wallet-cosmostation',
-  '@injectivelabs/wallet-cosmos-strategy',
 
   // Other common deps
   '@metamask/eth-sig-util',
@@ -225,6 +277,7 @@ export default defineConfig({
   },
 
   plugins: [
+    bufferPolyfillPlugin(),
     isAnalyzeBundle
       ? visualizer({
           open: true,
@@ -234,6 +287,12 @@ export default defineConfig({
         })
       : undefined
   ].filter(Boolean),
+
+  resolve: {
+    alias: {
+      buffer: 'buffer/'
+    }
+  },
 
   server: {
     watch: {
@@ -256,12 +315,19 @@ export default defineConfig({
         // Include chunk name in filename for better debugging/caching
         chunkFileNames: '_nuxt/[name]-[hash].js'
       }
+    },
+
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true
     }
   },
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    // Use buildOptimizeDepsInclude with legacy app-specific deps for backwards compatibility
-    include: buildOptimizeDepsInclude(getLegacyAppSpecificDeps())
+    include: [
+      'buffer/',
+      ...buildOptimizeDepsInclude(getLegacyAppSpecificDeps())
+    ]
   }
 }) as ViteConfig
