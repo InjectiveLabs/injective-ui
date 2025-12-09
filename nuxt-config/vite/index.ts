@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { manualChunks } from './chunk'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import {
   IS_HUB,
   IS_MITO,
@@ -219,6 +220,9 @@ export default defineConfig({
   },
 
   plugins: [
+    nodePolyfills({
+      protocolImports: true
+    }),
     isAnalyzeBundle
       ? visualizer({
           open: true,

@@ -1,4 +1,4 @@
-console.log('hello world! from polyfill.ts')
+// not used, keeping this as a safeguard incase we want to remove import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineNuxtPlugin(() => {
   console.log('buffer init!!')

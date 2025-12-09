@@ -13,8 +13,6 @@ export default defineNuxtConfig({
   hooks,
   devtools: { enabled: true },
 
-  plugins: [{ ssr: false, src: resolve('./../nuxt-config/polyfill.ts') }],
-
   alias: { '@shared': resolve('./app') },
 
   css: [resolve('./app/assets/tailwind.css')],
