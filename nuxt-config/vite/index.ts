@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { manualChunks } from './chunk'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import {
   IS_HUB,
   IS_MITO,
@@ -10,7 +11,6 @@ import {
   IS_ADMIN_UI,
   IS_TRADING_UI
 } from '../../app/utils/constant'
-import type { Plugin } from 'vite'
 import type { ViteConfig } from '@nuxt/schema'
 
 export { manualChunks } from './chunk'
@@ -20,63 +20,6 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isAnalyzeBundle = process.env.ANALYZE_BUNDLE === 'true'
 
 const buildSourceMap = process.env.BUILD_SOURCEMAP !== 'false'
-
-/**
- * Vite plugin to inject Buffer polyfill into specific chunks that need it.
- * This is needed for packages like @ledgerhq that expect Buffer to be globally available.
- */
-function bufferPolyfillPlugin(): Plugin {
-  return {
-    name: 'buffer-polyfill',
-    apply: 'build',
-
-    renderChunk(code, chunk) {
-      // Only inject into ledger-sdk chunk which uses hid-framing.js that needs Buffer
-      if (chunk.name === 'ledger-sdk') {
-        // Inline Buffer polyfill - creates a minimal Buffer shim if not already defined
-        // This runs before the chunk's code, ensuring Buffer is available
-        const polyfill = `
-;(function() {
-  if (typeof globalThis.Buffer === 'undefined') {
-    var Buffer = {
-      isBuffer: function(obj) { return obj && obj._isBuffer === true; },
-      from: function(data, encoding) {
-        if (typeof data === 'string') {
-          var arr = new Uint8Array(data.length);
-          for (var i = 0; i < data.length; i++) arr[i] = data.charCodeAt(i);
-          return arr;
-        }
-        return new Uint8Array(data);
-      },
-      alloc: function(size) { return new Uint8Array(size); },
-      allocUnsafe: function(size) { return new Uint8Array(size); },
-      concat: function(list, length) {
-        if (!length) length = list.reduce(function(a, b) { return a + b.length; }, 0);
-        var result = new Uint8Array(length);
-        var offset = 0;
-        for (var i = 0; i < list.length; i++) {
-          result.set(list[i], offset);
-          offset += list[i].length;
-        }
-        return result;
-      }
-    };
-    globalThis.Buffer = Buffer;
-    if (typeof window !== 'undefined') window.Buffer = Buffer;
-  }
-})();
-`
-
-        return {
-          code: polyfill + code,
-          map: null
-        }
-      }
-
-      return null
-    }
-  }
-}
 
 /**
  * Base dependencies that ALL apps need from the layer.
@@ -277,7 +220,9 @@ export default defineConfig({
   },
 
   plugins: [
-    bufferPolyfillPlugin(),
+    nodePolyfills({
+      protocolImports: true
+    }),
     isAnalyzeBundle
       ? visualizer({
           open: true,
@@ -309,7 +254,6 @@ export default defineConfig({
     sourcemap: buildSourceMap,
 
     rollupOptions: {
-      cache: false,
       output: {
         manualChunks,
         // Include chunk name in filename for better debugging/caching
