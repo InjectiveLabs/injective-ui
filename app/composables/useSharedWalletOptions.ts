@@ -1,6 +1,5 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { IS_HELIX, IS_DEVNET, IS_MAINNET } from '../utils/constant'
-import { isCosmosWalletInstalled } from '@injectivelabs/wallet-cosmos'
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {
@@ -17,7 +16,7 @@ export function useSharedWalletOptions() {
         },
         {
           wallet: Wallet.Keplr,
-          downloadLink: !isCosmosWalletInstalled(Wallet.Keplr)
+          downloadLink: !sharedWalletStore.keplrInstalled
             ? 'https://www.keplr.app/download'
             : undefined
         },
@@ -41,7 +40,7 @@ export function useSharedWalletOptions() {
         },
         {
           wallet: Wallet.Leap,
-          downloadLink: !isCosmosWalletInstalled(Wallet.Leap)
+          downloadLink: !sharedWalletStore.leapInstalled
             ? 'https://www.leapwallet.io/downloads'
             : undefined
         },
@@ -92,7 +91,10 @@ export function useSharedWalletOptions() {
       sharedWalletStore.checkIsOkxWalletInstalled(),
       sharedWalletStore.checkIsRabbyWalletInstalled(),
       sharedWalletStore.checkIsTrustWalletInstalled(),
-      sharedWalletStore.checkIsPhantomWalletInstalled()
+      sharedWalletStore.checkIsPhantomWalletInstalled(),
+      // Cosmos wallet checks
+      sharedWalletStore.checkIsKeplrInstalled(),
+      sharedWalletStore.checkIsLeapInstalled()
     ])
   }
 

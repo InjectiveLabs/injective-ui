@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import { manualChunks } from './chunk'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import {
   IS_HUB,
   IS_MITO,
@@ -220,9 +219,6 @@ export default defineConfig({
   },
 
   plugins: [
-    nodePolyfills({
-      protocolImports: true
-    }),
     isAnalyzeBundle
       ? visualizer({
           open: true,
@@ -236,7 +232,10 @@ export default defineConfig({
   resolve: {
     alias: {
       buffer: 'buffer/'
-    }
+    },
+    // Dedupe packages that MUST be singletons (shared global state)
+    // vee-validate uses a global rules registry - multiple instances break rule lookups
+    dedupe: ['vee-validate', 'vue']
   },
 
   server: {

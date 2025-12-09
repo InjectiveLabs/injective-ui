@@ -46,14 +46,20 @@ type WalletStoreState = {
   addresses: string[]
   autoSign?: AutoSign
   hwAddresses: string[]
+  leapInstalled: boolean
   queueStatus: StatusType
   rabbyInstalled: boolean
+  // Cosmos wallets
+  keplrInstalled: boolean
+  ninjiInstalled: boolean
   injectiveAddress: string
   bitGetInstalled: boolean
   rainbowInstalled: boolean
   phantomInstalled: boolean
+  owalletInstalled: boolean
   metamaskInstalled: boolean
   addressConfirmation: string
+
   okxWalletInstalled: boolean
   trustWalletInstalled: boolean
   turnkeyInjectiveAddress: string
@@ -102,6 +108,12 @@ const initialStateFactory = (): WalletStoreState => ({
   trustWalletInstalled: false,
   turnkeyInjectiveAddress: '',
   queueStatus: StatusType.Idle,
+
+  // Cosmos wallets
+  keplrInstalled: false,
+  leapInstalled: false,
+  ninjiInstalled: false,
+  owalletInstalled: false,
 
   hwAddressInfo: undefined,
   hwAddressesInfo: [],
@@ -229,6 +241,24 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       'checkIsPhantomWalletInstalled'
     ),
 
+    // Lazy-loaded cosmos wallet extension checks
+    checkIsKeplrInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsKeplrInstalled'
+    ),
+    checkIsLeapInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsLeapInstalled'
+    ),
+    checkIsNinjiInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsNinjiInstalled'
+    ),
+    checkIsOwalletInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsOwalletInstalled'
+    ),
+
     // Lazy-loaded magic wallet actions
     connectMagic: lazyPiniaAction(() => import('./magic'), 'connectMagic'),
     queryMagicExistingUser: lazyPiniaAction(
@@ -338,10 +368,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStrategy.setWallet(walletStore.wallet)
 
       if (walletStore.hwAddressInfo) {
-        console.log(
-          'setting derivation path',
-          walletStore.hwAddressInfo.derivationPath
-        )
         walletStrategy.setMetadata({
           derivationPath: walletStore.hwAddressInfo.derivationPath
         })

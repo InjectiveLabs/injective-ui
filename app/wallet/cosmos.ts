@@ -1,6 +1,5 @@
 import { CHAIN_ID } from '../utils/constant'
 import { walletStrategy } from './wallet-strategy'
-import { confirmCosmosAddress } from '@injectivelabs/wallet-cosmos'
 import {
   ErrorType,
   UnspecifiedErrorCode,
@@ -11,7 +10,11 @@ import type { Wallet } from '@injectivelabs/wallet-base'
 export const confirmCosmosWalletAddress = async (
   wallet: Wallet,
   injectiveAddress: string
-) => await confirmCosmosAddress({ wallet, injectiveAddress, chainId: CHAIN_ID })
+) => {
+  const { confirmCosmosAddress } = await import('@injectivelabs/wallet-cosmos')
+
+  return confirmCosmosAddress({ wallet, injectiveAddress, chainId: CHAIN_ID })
+}
 
 export const validateCosmosWallet = async ({
   wallet,

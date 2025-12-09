@@ -56,16 +56,9 @@ export const hooks = {
     for (const key in manifest) {
       const entry = manifest[key]
 
-      // Filter out excluded chunks from dynamicImports
-      if (Array.isArray(entry.dynamicImports)) {
-        entry.dynamicImports = entry.dynamicImports.filter(
-          (chunk: string) => !shouldExcludeFromPreload(chunk)
-        )
-      }
-
-      // Also filter prefetch hints if present (can be true or string[])
-      if (Array.isArray(entry.prefetch)) {
-        entry.prefetch = entry.prefetch.filter(
+      // Filter out excluded chunks from preload (this is what generates <link rel="modulepreload">)
+      if (Array.isArray(entry.preload)) {
+        entry.preload = entry.preload.filter(
           (chunk: string) => !shouldExcludeFromPreload(chunk)
         )
       }

@@ -70,3 +70,44 @@ export const checkIsRainbowInstalled = async () => {
     rainbowInstalled: provider && Object.keys(provider).length > 0
   })
 }
+
+// Cosmos wallet extension checks
+export const checkIsKeplrInstalled = async () => {
+  const walletStore = useSharedWalletStore()
+  const { isCosmosWalletInstalled } =
+    await import('@injectivelabs/wallet-cosmos')
+
+  walletStore.$patch({
+    keplrInstalled: isCosmosWalletInstalled(Wallet.Keplr)
+  })
+}
+
+export const checkIsLeapInstalled = async () => {
+  const walletStore = useSharedWalletStore()
+  const { isCosmosWalletInstalled } =
+    await import('@injectivelabs/wallet-cosmos')
+
+  walletStore.$patch({
+    leapInstalled: isCosmosWalletInstalled(Wallet.Leap)
+  })
+}
+
+export const checkIsNinjiInstalled = async () => {
+  const walletStore = useSharedWalletStore()
+  const { isCosmosWalletInstalled } =
+    await import('@injectivelabs/wallet-cosmos')
+
+  walletStore.$patch({
+    ninjiInstalled: isCosmosWalletInstalled(Wallet.Ninji)
+  })
+}
+
+export const checkIsOwalletInstalled = async () => {
+  const walletStore = useSharedWalletStore()
+  const { isCosmosWalletInstalled } =
+    await import('@injectivelabs/wallet-cosmos')
+
+  walletStore.$patch({
+    owalletInstalled: isCosmosWalletInstalled(Wallet.OWallet)
+  })
+}
