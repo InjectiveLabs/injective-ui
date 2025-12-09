@@ -5,7 +5,6 @@ import { IS_HELIX, IS_DEVNET } from '../../utils/constant'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { checkUnauthorizedMessages } from '../../utils/helper'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
-import { confirmCosmosWalletAddress } from './../../wallet/cosmos'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
@@ -18,18 +17,19 @@ import {
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts/core/modules'
-import { web3GatewayService } from '../../service'
-import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import {
   getAddresses,
-  walletStrategy,
-  msgBroadcaster,
+  getMsgBroadcaster,
+  getWalletStrategy,
   validateEvmWallet,
   getHwAddressesInfo,
   validateCosmosWallet,
-  autoSignWalletStrategy,
-  autoSignMsgBroadcaster
-} from '../../WalletService'
+  getAutoSignWalletStrategy,
+  getAutoSignMsgBroadcaster,
+  confirmCosmosWalletAddress
+} from '@shared/wallet'
+import { web3GatewayService } from '../../service'
+import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
@@ -294,6 +294,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async disconnectAutoSign() {
       const walletStore = useSharedWalletStore()
+      const autoSignWalletStrategy = await getAutoSignWalletStrategy()
 
       walletStore.$patch({
         autoSign: undefined
@@ -362,6 +363,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async init() {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       walletStore.walletConnectStatus = WalletConnectStatus.idle
 
@@ -389,6 +391,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.autoSign) {
+        const autoSignWalletStrategy = await getAutoSignWalletStrategy()
         await autoSignWalletStrategy.setMetadata({
           privateKey: {
             privateKey: walletStore.autoSign.privateKey as string
@@ -447,6 +450,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectWallet(wallet: Wallet, options?: { privateKey: string }) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       /**
        * We should disconnect only if there are no hardware wallets connected
@@ -495,6 +499,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async logout() {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
 
@@ -533,6 +538,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async getHWAddresses(wallet: Wallet) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       if (
         walletStore.hwAddresses.length === 0 ||
@@ -568,6 +574,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async getHWAddressesInfo(wallet: Wallet) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       if (
         walletStore.hwAddresses.length === 0 ||
@@ -624,6 +631,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         !hasUnauthorizedMessages &&
         walletStore.isAutoSignEnabled
       ) {
+        const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
         const response = await autoSignMsgBroadcaster.broadcastV2({
           memo,
           injectiveAddress: walletStore.autoSign.injectiveAddress,
@@ -633,6 +641,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return response
       }
 
+      const msgBroadcaster = await getMsgBroadcaster()
       const response = await msgBroadcaster.broadcast(broadcastOptions)
 
       return response
@@ -708,6 +717,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           walletStore.autoSign.injectiveAddress
         )
 
+        const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
         const response =
           await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
             memo,
@@ -723,6 +733,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return response
       }
 
+      const msgBroadcaster = await getMsgBroadcaster()
       const action = walletStore.isEip712
         ? (params: MsgBroadcasterTxOptions) =>
             msgBroadcaster.broadcastV2(params)
@@ -845,6 +856,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign
       })
 
+      const autoSignWalletStrategy = await getAutoSignWalletStrategy()
       await autoSignWalletStrategy.setMetadata({
         privateKey: {
           privateKey: autoSign.privateKey
@@ -864,6 +876,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectTrustWallet() {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(Wallet.TrustWallet)
 
@@ -884,6 +897,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectWalletConnect() {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(Wallet.WalletConnect)
 
@@ -905,6 +919,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectEvmWallet(wallet: Wallet) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(wallet)
 
@@ -925,6 +940,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectCosmosWallet(wallet: Wallet) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(wallet)
 
@@ -956,6 +972,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       derivationPath?: string
     }) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(wallet)
       walletStrategy.setMetadata({ derivationPath })
@@ -991,6 +1008,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       derivationPath?: string
     }) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(wallet)
       walletStrategy.setMetadata({ derivationPath })
@@ -1017,6 +1035,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectPrivateKey(privateKeyHash: string) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       const pk = PrivateKey.fromHex(privateKeyHash)
       const injectiveAddress = pk.toBech32()
@@ -1043,6 +1062,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectAddress(injectiveAddress: string) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(Wallet.Metamask)
 
@@ -1067,6 +1087,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       derivationPath?: string
     ) {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(Wallet.LedgerCosmos)
       walletStrategy.setMetadata({ derivationPath })
@@ -1093,6 +1114,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async connectCosmosStation() {
       const walletStore = useSharedWalletStore()
+      const walletStrategy = await getWalletStrategy()
 
       await walletStore.connectWallet(Wallet.Cosmostation)
 

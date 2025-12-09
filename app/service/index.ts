@@ -6,7 +6,6 @@ import { InjNameService } from './app/nameService'
 import { InjBonfidaNameService } from './app/bonfida'
 import { SharedTokenClient } from './app/tokenClient'
 import { Web3GatewayService } from './app/Web3Gateway'
-import { alchemyRpcEndpoint } from './../wallet/alchemy'
 import { CoinGeckoApiService } from './app/CoinGeckoApi'
 import { SpotCacheApi } from './../providers/cacheApi/spot'
 import { TokenCacheApi } from './../providers/cacheApi/token'
@@ -54,6 +53,7 @@ import {
   getIndexerRestSpotChronosApi as getIndexerRestSpotChronosApiFactory,
   getIndexerRestMarketChronosApi as getIndexerRestMarketChronosApiFactory
 } from './../utils/lib/sdkImports'
+import { alchemyRpcEndpoint } from './../wallet'
 
 export const getBankApi = () => getChainGrpcBankApi(ENDPOINTS.grpc)
 

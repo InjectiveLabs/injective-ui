@@ -1,3 +1,4 @@
+import { getWalletStrategy } from '@shared/wallet'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
 import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
 import {
@@ -6,7 +7,6 @@ import {
   UnspecifiedErrorCode
 } from '@injectivelabs/exceptions'
 import { EventBus } from '../../types'
-import { walletStrategy } from '../../WalletService'
 import type { TurnkeyWallet } from '@injectivelabs/wallet-turnkey'
 
 function getEmailFromOidcToken(token: string): string {
@@ -29,6 +29,7 @@ function getEmailFromOidcToken(token: string): string {
 
 export const getEmailTurnkeyOTP = async (email: string) => {
   const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
 
   await walletStore.connectWallet(Wallet.Turnkey)
   const turnkeyWallet =
@@ -42,6 +43,7 @@ export const getEmailTurnkeyOTP = async (email: string) => {
 
 export const submitTurnkeyOTP = async (otpCode: string) => {
   const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
   const turnkeyWallet =
     (await walletStrategy.getWalletClient()) as TurnkeyWallet
 
@@ -79,6 +81,7 @@ export const submitTurnkeyOTP = async (otpCode: string) => {
 
 export const connectTurnkeyGoogle = async () => {
   const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
 
   await walletStore.connectWallet(Wallet.Turnkey)
   const turnkeyWallet =
@@ -108,6 +111,7 @@ export const connectTurnkeyGoogle = async () => {
 
 export const initTurnkeyGoogle = async (oidcToken: string) => {
   const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
 
   await walletStore.connectWallet(Wallet.Turnkey)
 

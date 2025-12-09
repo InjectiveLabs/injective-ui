@@ -1,8 +1,8 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
+import { getAddresses, getWalletStrategy } from '@shared/wallet'
 import { uiApi } from '../../service'
 import { WalletConnectStatus } from '../../types'
-import { getAddresses, walletStrategy } from '../../WalletService'
 import type { MagicProvider } from '@injectivelabs/wallet-base'
 
 export const queryMagicExistingUser = async (email?: string) => {
@@ -22,6 +22,7 @@ export const connectMagic = async (
   email?: string
 ) => {
   const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
 
   await walletStore.connectWallet(Wallet.Magic)
 

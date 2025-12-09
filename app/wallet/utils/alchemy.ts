@@ -5,7 +5,7 @@ import {
   IS_MAINNET,
   ALCHEMY_KEY,
   ALCHEMY_SEPOLIA_KEY
-} from '../utils/constant'
+} from '../../utils/constant'
 
 export const getRpcUrlsForChainIds = (): Partial<
   Record<EvmChainId, string>

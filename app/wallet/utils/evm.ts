@@ -1,7 +1,11 @@
-import { walletStrategy } from './wallet-strategy'
 import { Wallet } from '@injectivelabs/wallet-base'
-import { EvmChainId} from '@injectivelabs/ts-types'
-import { IS_DEVNET, IS_MAINNET, IS_TESTNET, ETHEREUM_CHAIN_ID } from '../utils/constant'
+import { EvmChainId } from '@injectivelabs/ts-types'
+import {
+  IS_DEVNET,
+  IS_MAINNET,
+  IS_TESTNET,
+  ETHEREUM_CHAIN_ID
+} from '../../utils/constant'
 import {
   ErrorType,
   WalletException,
@@ -19,8 +23,9 @@ import {
   getPhantomProvider,
   getMetamaskProvider,
   getOkxWalletProvider,
-  getTrustWalletProvider,
+  getTrustWalletProvider
 } from '@injectivelabs/wallet-evm'
+import { getWalletStrategy } from '../strategy'
 import type { AccountAddress } from '@injectivelabs/ts-types'
 import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
 
@@ -95,6 +100,7 @@ export const validateEvmWallet = async ({
   wallet: Wallet
   address: AccountAddress
 }) => {
+  const walletStrategy = await getWalletStrategy()
   const accounts = await walletStrategy.enableAndGetAddresses()
   const isAccountLocked = accounts.length === 0
 
@@ -127,22 +133,25 @@ export const validateEvmWallet = async ({
 
   const mainnetEvmIds = [
     EvmChainId.Mainnet,
-    EvmChainId.MainnetEvm,
+    EvmChainId.MainnetEvm
   ] as EvmChainId[]
   const testnetEvmIds = [
     EvmChainId.Sepolia,
-    EvmChainId.TestnetEvm,
+    EvmChainId.TestnetEvm
   ] as EvmChainId[]
   const devnetEvmIds = [
     EvmChainId.Sepolia,
-    EvmChainId.DevnetEvm,
+    EvmChainId.DevnetEvm
   ] as EvmChainId[]
 
-  const walletChainId = parseInt(await walletStrategy.getEthereumChainId(), 16) as EvmChainId
+  const walletChainId = parseInt(
+    await walletStrategy.getEthereumChainId(),
+    16
+  ) as EvmChainId
   const walletChainIdDoesntMatchTheActiveChainId =
-    IS_MAINNET && !mainnetEvmIds.includes(walletChainId)
-    || IS_TESTNET && !testnetEvmIds.includes(walletChainId)
-    || IS_DEVNET && !devnetEvmIds.includes(walletChainId)
+    (IS_MAINNET && !mainnetEvmIds.includes(walletChainId)) ||
+    (IS_TESTNET && !testnetEvmIds.includes(walletChainId)) ||
+    (IS_DEVNET && !devnetEvmIds.includes(walletChainId))
 
   if (walletChainIdDoesntMatchTheActiveChainId) {
     return await updateEvmNetwork(wallet, ETHEREUM_CHAIN_ID)

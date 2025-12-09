@@ -1,6 +1,5 @@
 import { fetchEstimatorGasPrice } from './estimator'
 import { EvmChainId } from '@injectivelabs/ts-types'
-import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
 import { HttpClient, toBigNumber } from '@injectivelabs/utils'
 import { getViemPublicClient } from '@injectivelabs/wallet-base'
 import {
@@ -12,6 +11,7 @@ import {
   GWEI_IN_WEI,
   DEFAULT_MAINNET_GAS_PRICE
 } from '../../../utils/constant'
+import { alchemyRpcEndpoint } from './../../../wallet'
 
 export interface GasInfo {
   gasPrice: string

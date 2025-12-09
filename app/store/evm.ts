@@ -2,7 +2,7 @@ import { parseEther } from 'viem'
 import { defineStore } from 'pinia'
 import { wEth9Contract } from '../utils/evm'
 import { INJECTIVE_EVM_CHAIN_ID } from '../utils/constant'
-import { walletStrategy, web3Broadcaster } from '../WalletService'
+import { getWalletStrategy, getWeb3Broadcaster } from '@shared/wallet'
 
 type SharedEvmStoreState = {}
 
@@ -19,6 +19,7 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
         return
       }
 
+      const walletStrategy = await getWalletStrategy()
       const strategy = walletStrategy.getStrategy()
 
       if ((strategy as any)?.addEvmNetwork) {
@@ -32,6 +33,7 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
         walletStore.address as `0x${string}`
       )
 
+      const web3Broadcaster = await getWeb3Broadcaster()
       await web3Broadcaster.sendTransaction({
         tx,
         address: walletStore.address,
@@ -46,6 +48,7 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
         return
       }
 
+      const walletStrategy = await getWalletStrategy()
       const strategy = walletStrategy.getStrategy()
 
       if ((strategy as any)?.addEvmNetwork) {
@@ -59,6 +62,7 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
         walletStore.address as `0x${string}`
       )
 
+      const web3Broadcaster = await getWeb3Broadcaster()
       await web3Broadcaster.sendTransaction({
         tx,
         address: walletStore.address,

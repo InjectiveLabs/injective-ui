@@ -1,15 +1,6 @@
-export * from './evm'
-export * from './wallet'
-export * from './cosmos'
-export * from './alchemy'
-export * from './broadcaster'
-export * from './cosmostation'
-/**
- * All of the imports from this folder should not be imported directly from here
- * rather through the WalletService.
- *
- * The reason why is that it causes double instantiaion of wallet strategy which means we'll have
- * two instances of wallet strategy and using `setWallet()` won't be done on both of the instances
- * but one and we can't always know which one.
- */
-export * from './wallet-strategy'
+export * from './strategy'
+export * from './utils/evm'
+export * from './utils/cosmos'
+export * from './utils/address'
+export * from './utils/alchemy'
+export * from './utils/cosmostation'

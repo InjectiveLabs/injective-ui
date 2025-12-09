@@ -15,7 +15,7 @@ const EXCLUDED_PRELOAD_CHUNKS: readonly string[] = [
   ChunkName.WalletTurnkey,
   ChunkName.WalletMagic,
 
-  // Large ecosystem dependencies
+  // Large ecosystem dependencies (cosmjs now includes bn.js, elliptic, crypto-js)
   ChunkName.CosmJs,
 
   // Ethereum libraries (only needed for specific wallet types)
