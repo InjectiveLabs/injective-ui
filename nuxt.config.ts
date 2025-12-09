@@ -1,5 +1,5 @@
-import { vite } from './nuxt-config'
 import { createResolver } from '@nuxt/kit'
+import { vite, hooks } from './nuxt-config'
 import bugsnag from './nuxt-config/bugsnag'
 import { defineNuxtConfig } from 'nuxt/config'
 
@@ -10,7 +10,10 @@ const { resolve } = createResolver(import.meta.url)
 export default defineNuxtConfig({
   vite,
   bugsnag,
+  hooks,
   devtools: { enabled: true },
+
+  plugins: [{ ssr: false, src: resolve('./../../nuxt-config/polyfill.ts') }],
 
   alias: { '@shared': resolve('./app') },
 

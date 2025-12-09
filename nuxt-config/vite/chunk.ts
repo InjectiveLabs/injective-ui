@@ -8,6 +8,49 @@
  */
 
 /**
+ * Chunk names used for manual code splitting.
+ * These names are used in the build:manifest hook to control modulepreload behavior.
+ */
+export const enum ChunkName {
+  // Wallet-specific packages (bundled with their SDKs)
+  Keplr = 'keplr',
+  WalletLedger = 'wallet-ledger', // includes @ledgerhq/*
+  WalletTrezor = 'wallet-trezor', // includes @trezor/*
+  WalletMagic = 'wallet-magic',
+  WalletTurnkey = 'wallet-turnkey', // includes @turnkey/*
+  WalletWalletConnect = 'wallet-wallet-connect', // includes @walletconnect/*, @web3modal/*, @reown/*
+  InjectiveWallet = 'injective-wallet',
+
+  // Cosmos ecosystem
+  CosmJs = 'cosmjs',
+
+  // Ethereum ecosystem
+  Ethers = 'ethers',
+  Viem = 'viem',
+
+  // Serialization
+  Protobuf = 'protobuf',
+
+  // UI/visualization
+  Charts = 'charts',
+  Lottie = 'lottie',
+  AceEditor = 'ace-editor',
+
+  // Injective proto packages
+  ProtoCore = 'proto-core',
+  ProtoIndexer = 'proto-indexer',
+  ProtoMito = 'proto-mito',
+  ProtoAbacus = 'proto-abacus',
+  ProtoOlp = 'proto-olp',
+
+  // Injective SDK
+  InjectiveSdk = 'injective-sdk',
+
+  // Crypto primitives
+  NobleCrypto = 'noble-crypto'
+}
+
+/**
  * Chunk group definitions for manual code splitting.
  *
  * Each group defines:
@@ -22,91 +65,78 @@
  */
 const CHUNK_GROUPS = [
   // Wallet-specific packages (high priority - check before generic @injectivelabs)
-  // Split into individual chunks to respect dynamic imports in wallet-strategy
+  // Each wallet package is bundled with its third-party SDK
   {
-    name: 'keplr',
+    name: ChunkName.Keplr,
     test: (id: string) => id.includes('@keplr-wallet'),
     priority: 100
   },
-  // Heavy/rarely-used wallet packages - keep separate for lazy loading
+  // Ledger: wallet package + @ledgerhq SDK
   {
-    name: 'wallet-trezor',
-    test: (id: string) => id.includes('@injectivelabs/wallet-trezor'),
+    name: ChunkName.WalletLedger,
+    test: (id: string) =>
+      id.includes('@injectivelabs/wallet-ledger') || id.includes('@ledgerhq'),
+    priority: 95
+  },
+  // Trezor: wallet package + @trezor SDK
+  {
+    name: ChunkName.WalletTrezor,
+    test: (id: string) =>
+      id.includes('@injectivelabs/wallet-trezor') || id.includes('@trezor'),
     priority: 95
   },
   {
-    name: 'wallet-ledger',
-    test: (id: string) => id.includes('@injectivelabs/wallet-ledger'),
-    priority: 95
-  },
-  {
-    name: 'wallet-magic',
+    name: ChunkName.WalletMagic,
     test: (id: string) => id.includes('@injectivelabs/wallet-magic'),
     priority: 95
   },
+  // Turnkey: wallet package + @turnkey SDK
   {
-    name: 'wallet-turnkey',
-    test: (id: string) => id.includes('@injectivelabs/wallet-turnkey'),
+    name: ChunkName.WalletTurnkey,
+    test: (id: string) =>
+      id.includes('@injectivelabs/wallet-turnkey') || id.includes('@turnkey'),
     priority: 95
   },
+  // WalletConnect: wallet package + @walletconnect, @web3modal, @reown SDKs
   {
-    name: 'wallet-wallet-connect',
-    test: (id: string) => id.includes('@injectivelabs/wallet-wallet-connect'),
+    name: ChunkName.WalletWalletConnect,
+    test: (id: string) =>
+      id.includes('@injectivelabs/wallet-wallet-connect') ||
+      id.includes('@walletconnect') ||
+      id.includes('@web3modal') ||
+      id.includes('@reown'),
     priority: 95
   },
   // Core wallet packages that are always needed
   {
-    name: 'injective-wallet',
+    name: ChunkName.InjectiveWallet,
     test: (id: string) => id.includes('@injectivelabs/wallet'),
     priority: 90
   },
 
-  // Third-party wallet SDKs (lazy-loaded with their wallet packages)
-  {
-    name: 'turnkey-sdk',
-    test: (id: string) => id.includes('@turnkey'),
-    priority: 85
-  },
-  {
-    name: 'ledger-sdk',
-    test: (id: string) => id.includes('@ledgerhq'),
-    priority: 85
-  },
-  {
-    name: 'trezor-sdk',
-    test: (id: string) => id.includes('@trezor'),
-    priority: 85
-  },
-  {
-    name: 'walletconnect-sdk',
-    test: (id: string) =>
-      id.includes('@walletconnect') || id.includes('@web3modal'),
-    priority: 85
-  },
-
   // Cosmos ecosystem
   {
-    name: 'cosmjs',
+    name: ChunkName.CosmJs,
     test: (id: string) => id.includes('@cosmjs'),
     priority: 80
   },
 
   // Ethereum ecosystem
   {
-    name: 'ethers',
+    name: ChunkName.Ethers,
     test: (id: string) =>
       id.includes('@ethersproject') || id.includes('/ethers/'),
     priority: 80
   },
   {
-    name: 'viem',
+    name: ChunkName.Viem,
     test: (id: string) => id.includes('/viem/'),
     priority: 80
   },
 
   // Serialization
   {
-    name: 'protobuf',
+    name: ChunkName.Protobuf,
     test: (id: string) =>
       id.includes('protobufjs') || id.includes('google-protobuf'),
     priority: 70
@@ -114,18 +144,18 @@ const CHUNK_GROUPS = [
 
   // UI/visualization (large, often lazy-loaded)
   {
-    name: 'charts',
+    name: ChunkName.Charts,
     test: (id: string) =>
       id.includes('apexcharts') || id.includes('highcharts'),
     priority: 60
   },
   {
-    name: 'lottie',
+    name: ChunkName.Lottie,
     test: (id: string) => id.includes('lottie-web'),
     priority: 60
   },
   {
-    name: 'ace-editor',
+    name: ChunkName.AceEditor,
     test: (id: string) => id.includes('ace-builds'),
     priority: 60
   },
@@ -133,41 +163,41 @@ const CHUNK_GROUPS = [
   // Injective proto packages (split by module for better code-splitting)
   // These are the heaviest dependencies - splitting allows unused protos to be excluded
   {
-    name: 'proto-core',
+    name: ChunkName.ProtoCore,
     test: (id: string) => id.includes('@injectivelabs/core-proto-ts'),
     priority: 55
   },
   {
-    name: 'proto-indexer',
+    name: ChunkName.ProtoIndexer,
     test: (id: string) => id.includes('@injectivelabs/indexer-proto-ts'),
     priority: 55
   },
   {
-    name: 'proto-mito',
+    name: ChunkName.ProtoMito,
     test: (id: string) => id.includes('@injectivelabs/mito-proto-ts'),
     priority: 55
   },
   {
-    name: 'proto-abacus',
+    name: ChunkName.ProtoAbacus,
     test: (id: string) => id.includes('@injectivelabs/abacus-proto-ts'),
     priority: 55
   },
   {
-    name: 'proto-olp',
+    name: ChunkName.ProtoOlp,
     test: (id: string) => id.includes('@injectivelabs/olp-proto-ts'),
     priority: 55
   },
 
   // Injective SDK (lower priority - after wallet and proto packages)
   {
-    name: 'injective-sdk',
+    name: ChunkName.InjectiveSdk,
     test: (id: string) => id.includes('@injectivelabs'),
     priority: 50
   },
 
   // Crypto primitives
   {
-    name: 'noble-crypto',
+    name: ChunkName.NobleCrypto,
     test: (id: string) => id.includes('@noble'),
     priority: 40
   }
