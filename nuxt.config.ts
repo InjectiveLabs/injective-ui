@@ -1,5 +1,5 @@
-import { createResolver } from '@nuxt/kit'
 import vite from './nuxt-config/vite'
+import { createResolver } from '@nuxt/kit'
 import bugsnag from './nuxt-config/bugsnag'
 import { defineNuxtConfig } from 'nuxt/config'
 

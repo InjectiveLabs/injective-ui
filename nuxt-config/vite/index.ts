@@ -1,14 +1,7 @@
 import { defineConfig } from 'vite'
 import { manualChunks } from './chunk'
 import { visualizer } from 'rollup-plugin-visualizer'
-import {
-  IS_MITO,
-  IS_HELIX,
-  IS_BRIDGE,
-  IS_EXPLORER,
-  IS_ADMIN_UI,
-  IS_TRADING_UI
-} from '../../app/utils/constant'
+import { IS_TRADING_UI } from '../../app/utils/constant'
 import type { ViteConfig } from '@nuxt/schema'
 
 export { manualChunks } from './chunk'
@@ -106,32 +99,6 @@ const REMOTE_LAYER_TRANSITIVE_DEPS = [
  * @deprecated Apps should use buildOptimizeDepsInclude() in their own config
  */
 const APP_SPECIFIC_DEPS: Record<string, string[]> = {
-  mito: ['floating-vue'],
-  bridge: [
-    'js-sha3',
-    'js-base64',
-    'floating-vue',
-    '@solana/web3.js',
-    '@ethersproject/bytes',
-    '@wormhole-foundation/sdk',
-    '@wormhole-foundation/sdk/evm',
-    '@wormhole-foundation/sdk/solana',
-    '@wormhole-foundation/sdk/cosmwasm'
-  ],
-  adminUi: ['@vuepic/vue-datepicker'],
-  helix: [
-    'gsap',
-    'html-to-image',
-    'embla-carousel-vue',
-    'gsap/ScrollTrigger',
-    'gsap/ScrollToPlugin'
-  ],
-  explorer: [
-    'v-calendar',
-    'vue3-ace-editor',
-    'ace-builds/src-noconflict/mode-json',
-    'ace-builds/src-noconflict/theme-chrome'
-  ],
   tradingUi: [
     '@shared/types',
     '@shared/data/token',
@@ -190,14 +157,6 @@ export function buildOptimizeDepsInclude(
 function getLegacyAppSpecificDeps(): string[] {
   const deps: string[] = []
 
-  if (IS_MITO && APP_SPECIFIC_DEPS.mito) deps.push(...APP_SPECIFIC_DEPS.mito)
-  if (IS_BRIDGE && APP_SPECIFIC_DEPS.bridge)
-    deps.push(...APP_SPECIFIC_DEPS.bridge)
-  if (IS_ADMIN_UI && APP_SPECIFIC_DEPS.adminUi)
-    deps.push(...APP_SPECIFIC_DEPS.adminUi)
-  if (IS_HELIX && APP_SPECIFIC_DEPS.helix) deps.push(...APP_SPECIFIC_DEPS.helix)
-  if (IS_EXPLORER && APP_SPECIFIC_DEPS.explorer)
-    deps.push(...APP_SPECIFIC_DEPS.explorer)
   if (IS_TRADING_UI && APP_SPECIFIC_DEPS.tradingUi)
     deps.push(...APP_SPECIFIC_DEPS.tradingUi)
 

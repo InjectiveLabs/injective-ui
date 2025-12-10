@@ -160,25 +160,15 @@ export default defineNuxtModule({
       return
     }
 
-    console.log('[preload-optimization] Module loaded')
-
     // Modify the build manifest to exclude heavy chunks from modulepreload
     nuxt.hook('build:manifest', (manifest) => {
-      console.log('[preload-optimization] build:manifest hook triggered')
       for (const key in manifest) {
         const entry = manifest[key] as any
 
         if (entry && Array.isArray(entry.preload)) {
-          const before = entry.preload.length
           entry.preload = entry.preload.filter(
             (chunk: string) => !shouldExcludeFromPreload(chunk)
           )
-          const after = entry.preload.length
-          if (before !== after) {
-            console.log(
-              `[preload-optimization] Filtered ${before - after} chunks from ${key}`
-            )
-          }
         }
       }
     })
@@ -186,28 +176,19 @@ export default defineNuxtModule({
     // Print modulepreload analysis after build/generate completes
     if (options.printAnalysis) {
       nuxt.hook('close', async () => {
-        console.log('[preload-optimization] close hook triggered')
-        console.log(
-          '[preload-optimization] _generate:',
-          (nuxt.options as any)._generate
-        )
-        console.log('[preload-optimization] dev:', nuxt.options.dev)
-        console.log('[preload-optimization] rootDir:', nuxt.options.rootDir)
-        console.log(
-          '[preload-optimization] nitro.output.dir:',
-          nuxt.options.nitro?.output?.dir
-        )
+        // Only run during actual build/generate, not during prepare/typecheck/etc
+        const isGenerate = (nuxt.options as any)._generate
+        const isBuild = (nuxt.options as any)._build
 
-        // Always print analysis in non-dev mode
-        if (nuxt.options.dev === false) {
-          const path = await import('node:path')
-          // Use rootDir to ensure we're looking in the right place
-          const outputDir =
-            nuxt.options.nitro?.output?.dir ||
-            path.join(nuxt.options.rootDir, '.output')
-          console.log('[preload-optimization] Using output dir:', outputDir)
-          await printModulePreloadChunks(outputDir)
+        if (!isGenerate && !isBuild) {
+          return
         }
+
+        const path = await import('node:path')
+        const outputDir =
+          nuxt.options.nitro?.output?.dir ||
+          path.join(nuxt.options.rootDir, '.output')
+        await printModulePreloadChunks(outputDir)
       })
     }
   }
