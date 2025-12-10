@@ -1,8 +1,8 @@
 import { HttpClient } from '@injectivelabs/utils'
 import { EvmChainId } from '@injectivelabs/ts-types'
 import { IS_MAINNET } from './../../../utils/constant'
-import { alchemyRpcEndpoint } from './../../../wallet/alchemy'
 import { getViemPublicClient } from '@injectivelabs/wallet-base'
+import { alchemyRpcEndpoint } from './../../../wallet'
 
 const HISTORICAL_BLOCKS = 4
 

@@ -1,9 +1,9 @@
-import { walletStrategy } from './wallet-strategy'
 import {
   ErrorType,
   UnspecifiedErrorCode,
   CosmosWalletException
 } from '@injectivelabs/exceptions'
+import { getWalletStrategy } from '../strategy'
 import type { Wallet } from '@injectivelabs/wallet-base'
 
 export const validateCosmosStationWallet = async ({
@@ -13,6 +13,7 @@ export const validateCosmosStationWallet = async ({
   wallet: Wallet
   address: string
 }) => {
+  const walletStrategy = await getWalletStrategy()
   const accounts = await walletStrategy.enableAndGetAddresses()
   const isAccountLocked = accounts.length === 0
 

@@ -1,5 +1,5 @@
 import { Wallet } from '@injectivelabs/wallet-base'
-import { getEvmWalletProvider } from '../../WalletService'
+import { getEvmWalletProvider } from '@shared/wallet'
 
 export const checkIsBitGetInstalled = async () => {
   const walletStore = useSharedWalletStore()

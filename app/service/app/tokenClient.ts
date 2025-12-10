@@ -1,8 +1,8 @@
 import { Erc20Contract } from '../../utils/evm'
 import { IS_MAINNET } from '../../utils/constant'
+import { alchemyRpcEndpoint } from '@shared/wallet'
 import { EvmChainId } from '@injectivelabs/ts-types'
 import { injToken, unknownToken } from '../../data/token'
-import { alchemyRpcEndpoint } from '../../wallet/alchemy'
 import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
 import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
 import {

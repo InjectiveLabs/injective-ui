@@ -21,6 +21,9 @@ export const enum ChunkName {
   WalletWalletConnect = 'wallet-wallet-connect', // includes @walletconnect/*, @web3modal/*, @reown/*
   InjectiveWallet = 'injective-wallet',
 
+  // Polyfills (needed by multiple chunks, separate to avoid duplication)
+  BufferPolyfill = 'buffer-polyfill',
+
   // Cosmos ecosystem
   CosmJs = 'cosmjs',
 
@@ -37,16 +40,17 @@ export const enum ChunkName {
   AceEditor = 'ace-editor',
 
   // Injective proto packages
+  ProtoOlp = 'proto-olp',
   ProtoCore = 'proto-core',
-  ProtoIndexer = 'proto-indexer',
   ProtoMito = 'proto-mito',
   ProtoAbacus = 'proto-abacus',
-  ProtoOlp = 'proto-olp',
+  ProtoIndexer = 'proto-indexer',
 
   // Injective SDK
   InjectiveSdk = 'injective-sdk',
 
   // Crypto primitives
+  CryptoUtils = 'crypto-utils',
   NobleCrypto = 'noble-crypto'
 }
 
@@ -114,10 +118,30 @@ const CHUNK_GROUPS = [
     priority: 90
   },
 
-  // Cosmos ecosystem
+  // Buffer polyfill - needed by ethers, protobuf, cosmjs
+  // Must be separate from cosmjs so it can be loaded independently
+  {
+    name: ChunkName.BufferPolyfill,
+    test: (id: string) =>
+      id.includes('/buffer/') || id.includes('node_modules/buffer'),
+    priority: 85
+  },
+
+  {
+    name: ChunkName.CryptoUtils,
+    test: (id: string) =>
+      id.includes('crypto-js') ||
+      id.includes('/bn.js/') ||
+      id.includes('node_modules/bn.js') ||
+      id.includes('/elliptic/') ||
+      id.includes('node_modules/elliptic'),
+    priority: 84
+  },
+
+  // Cosmos ecosystem - only @cosmjs packages
   {
     name: ChunkName.CosmJs,
-    test: (id: string) => id.includes('@cosmjs'),
+    test: (id: string) => id.includes('@cosmjs') || id.includes('cosmjs-types'),
     priority: 80
   },
 
