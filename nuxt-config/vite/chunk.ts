@@ -50,7 +50,7 @@ export const enum ChunkName {
   InjectiveSdk = 'injective-sdk',
 
   // Crypto primitives
-  CryptoUtils = 'crypto-utils',
+  BnJsElliptic = 'bn-elliptic', // bn.js and elliptic must stay together due to tight coupling
   NobleCrypto = 'noble-crypto'
 }
 
@@ -80,26 +80,26 @@ const CHUNK_GROUPS = [
     name: ChunkName.WalletLedger,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-ledger') || id.includes('@ledgerhq'),
-    priority: 95
+    priority: 99
   },
   // Trezor: wallet package + @trezor SDK
   {
     name: ChunkName.WalletTrezor,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-trezor') || id.includes('@trezor'),
-    priority: 95
+    priority: 98
   },
   {
     name: ChunkName.WalletMagic,
     test: (id: string) => id.includes('@injectivelabs/wallet-magic'),
-    priority: 95
+    priority: 97
   },
   // Turnkey: wallet package + @turnkey SDK
   {
     name: ChunkName.WalletTurnkey,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-turnkey') || id.includes('@turnkey'),
-    priority: 95
+    priority: 96
   },
   // WalletConnect: wallet package + @walletconnect, @web3modal, @reown SDKs
   {
@@ -124,25 +124,25 @@ const CHUNK_GROUPS = [
     name: ChunkName.BufferPolyfill,
     test: (id: string) =>
       id.includes('/buffer/') || id.includes('node_modules/buffer'),
-    priority: 85
+    priority: 87
   },
 
+  // bn.js + elliptic - must stay together due to tight coupling and initialization order
   {
-    name: ChunkName.CryptoUtils,
+    name: ChunkName.BnJsElliptic,
     test: (id: string) =>
-      id.includes('crypto-js') ||
       id.includes('/bn.js/') ||
       id.includes('node_modules/bn.js') ||
       id.includes('/elliptic/') ||
       id.includes('node_modules/elliptic'),
-    priority: 84
+    priority: 86
   },
 
   // Cosmos ecosystem - only @cosmjs packages
   {
     name: ChunkName.CosmJs,
     test: (id: string) => id.includes('@cosmjs') || id.includes('cosmjs-types'),
-    priority: 80
+    priority: 83
   },
 
   // Ethereum ecosystem
@@ -150,12 +150,12 @@ const CHUNK_GROUPS = [
     name: ChunkName.Ethers,
     test: (id: string) =>
       id.includes('@ethersproject') || id.includes('/ethers/'),
-    priority: 80
+    priority: 82
   },
   {
     name: ChunkName.Viem,
     test: (id: string) => id.includes('/viem/'),
-    priority: 80
+    priority: 81
   },
 
   // Serialization
@@ -171,17 +171,17 @@ const CHUNK_GROUPS = [
     name: ChunkName.Charts,
     test: (id: string) =>
       id.includes('apexcharts') || id.includes('highcharts'),
-    priority: 60
+    priority: 63
   },
   {
     name: ChunkName.Lottie,
     test: (id: string) => id.includes('lottie-web'),
-    priority: 60
+    priority: 62
   },
   {
     name: ChunkName.AceEditor,
     test: (id: string) => id.includes('ace-builds'),
-    priority: 60
+    priority: 61
   },
 
   // Injective proto packages (split by module for better code-splitting)
@@ -189,22 +189,22 @@ const CHUNK_GROUPS = [
   {
     name: ChunkName.ProtoCore,
     test: (id: string) => id.includes('@injectivelabs/core-proto-ts'),
-    priority: 55
+    priority: 59
   },
   {
     name: ChunkName.ProtoIndexer,
     test: (id: string) => id.includes('@injectivelabs/indexer-proto-ts'),
-    priority: 55
+    priority: 58
   },
   {
     name: ChunkName.ProtoMito,
     test: (id: string) => id.includes('@injectivelabs/mito-proto-ts'),
-    priority: 55
+    priority: 57
   },
   {
     name: ChunkName.ProtoAbacus,
     test: (id: string) => id.includes('@injectivelabs/abacus-proto-ts'),
-    priority: 55
+    priority: 56
   },
   {
     name: ChunkName.ProtoOlp,

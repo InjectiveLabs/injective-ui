@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import { manualChunks } from './chunk'
-import { fileURLToPath } from 'node:url'
 import { visualizer } from 'rollup-plugin-visualizer'
 import {
   IS_MITO,
@@ -11,11 +10,6 @@ import {
   IS_TRADING_UI
 } from '../../app/utils/constant'
 import type { ViteConfig } from '@nuxt/schema'
-
-// Crypto stub path for aliasing - breaks static import chain to cosmjs
-const cryptoStubPath = fileURLToPath(
-  new URL('./crypto-stub.ts', import.meta.url)
-)
 
 export { manualChunks } from './chunk'
 
@@ -228,18 +222,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      buffer: 'buffer/',
-      // Stub out Node.js crypto module to prevent static import chain to cosmjs.
-      // CommonJS packages like crypto-js and elliptic have fallback code:
-      //   if (!globalThis.crypto) { require('crypto') }
-      // Rollup resolves this to cosmjs's crypto module, creating a static import
-      // even though the fallback is never used at runtime (browsers have native crypto).
-      // By aliasing to empty stub, we break this chain and allow cosmjs to lazy-load.
-      crypto: cryptoStubPath,
-      // Force @trezor/utils to use ESM version instead of CJS.
-      // The CJS version (lib/) uses require('crypto') which fails in browsers.
-      // The ESM version (libESM/) uses static imports that Vite can properly transform.
-      '@trezor/utils': '@trezor/utils/libESM/index.js'
+      buffer: 'buffer/'
     },
     // Dedupe packages that MUST be singletons (shared global state)
     // vee-validate uses a global rules registry - multiple instances break rule lookups
@@ -270,12 +253,7 @@ export default defineConfig({
 
     commonjsOptions: {
       include: [/node_modules/],
-      transformMixedEsModules: true,
-      // Ignore Node.js crypto require calls to prevent cosmjs being pulled into bundle.
-      // CommonJS packages like crypto-js and elliptic have fallback code:
-      //   if (!globalThis.crypto) { require('crypto') }
-      // The fallback is never used at runtime (browsers have native crypto).
-      ignore: ['crypto']
+      transformMixedEsModules: true
     }
   },
 
