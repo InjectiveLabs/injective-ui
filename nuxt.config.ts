@@ -1,5 +1,5 @@
 import { createResolver } from '@nuxt/kit'
-import { vite, hooks } from './nuxt-config'
+import vite from './nuxt-config/vite'
 import bugsnag from './nuxt-config/bugsnag'
 import { defineNuxtConfig } from 'nuxt/config'
 
@@ -10,7 +10,6 @@ const { resolve } = createResolver(import.meta.url)
 export default defineNuxtConfig({
   vite,
   bugsnag,
-  hooks,
   devtools: { enabled: true },
 
   alias: { '@shared': resolve('./app') },
@@ -49,6 +48,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     'nuxt-vitalizer',
     '@nuxt/test-utils/module',
-    ['@injectivelabs/nuxt-bugsnag', bugsnag]
+    ['@injectivelabs/nuxt-bugsnag', bugsnag],
+    resolve('./modules/preload-optimization')
   ]
 })
