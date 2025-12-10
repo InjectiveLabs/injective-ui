@@ -161,14 +161,19 @@ export default defineNuxtModule({
     }
 
     // Modify the build manifest to exclude heavy chunks from modulepreload
+    // The manifest entry's `preload` property is a boolean that controls
+    // whether the chunk is included in modulepreload links in the HTML
     nuxt.hook('build:manifest', (manifest) => {
       for (const key in manifest) {
         const entry = manifest[key] as any
 
-        if (entry && Array.isArray(entry.preload)) {
-          entry.preload = entry.preload.filter(
-            (chunk: string) => !shouldExcludeFromPreload(chunk)
-          )
+        // Check if this entry's file matches excluded chunks
+        if (
+          entry?.file &&
+          entry.preload === true &&
+          shouldExcludeFromPreload(entry.file)
+        ) {
+          entry.preload = false
         }
       }
     })
