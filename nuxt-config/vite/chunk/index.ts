@@ -4,8 +4,25 @@
  * This module defines how node_modules dependencies are grouped into chunks
  * for optimal loading performance across all Injective apps.
  *
+ * Structure:
+ * - index.ts: Shared chunk groups, ChunkName enum, manualChunks function
+ * - bridge.ts: Bridge-specific overrides and Solana ecosystem handling
+ * - hub.ts: Hub-specific overrides (currently empty, uses shared config)
+ *
  * @see https://rollupjs.org/configuration-options/#output-manualchunks
  */
+
+import { getHubChunkOverrides } from './hub'
+import { IS_BRIDGE } from '../../../app/utils/constant/setup'
+import {
+  type ChunkGroup,
+  isSolanaEcosystem,
+  SOLANA_ECOSYSTEM_CHUNK,
+  getBridgeChunkOverrides
+} from './bridge'
+
+// Re-export ChunkGroup type for external use
+export type { ChunkGroup }
 
 /**
  * Chunk names used for manual code splitting.
@@ -19,14 +36,14 @@
 export enum ChunkName {
   // Wallet-specific packages (bundled with their SDKs)
   Keplr = 'keplr',
-  WalletLedger = 'wallet-ledger', // includes @ledgerhq/*
-  WalletTrezor = 'wallet-trezor', // includes @trezor/*
+  WalletLedger = 'wallet-ledger',
+  WalletTrezor = 'wallet-trezor',
   WalletMagic = 'wallet-magic',
-  WalletTurnkey = 'wallet-turnkey', // includes @turnkey/*
-  WalletWalletConnect = 'wallet-wallet-connect', // includes @walletconnect/*, @web3modal/*, @reown/*
+  WalletTurnkey = 'wallet-turnkey',
+  WalletWalletConnect = 'wallet-wallet-connect',
   InjectiveWallet = 'injective-wallet',
 
-  // Polyfills (needed by multiple chunks, separate to avoid duplication)
+  // Polyfills
   BufferPolyfill = 'buffer-polyfill',
 
   // Cosmos ecosystem
@@ -55,39 +72,27 @@ export enum ChunkName {
   InjectiveSdk = 'injective-sdk',
 
   // Crypto primitives
-  BnJsElliptic = 'bn-elliptic', // bn.js and elliptic must stay together due to tight coupling
+  BnJsElliptic = 'bn-elliptic',
   NobleCrypto = 'noble-crypto'
 }
 
 /**
- * Chunk group definitions for manual code splitting.
- *
- * Each group defines:
- * - name: The output chunk name
- * - test: Function to match module IDs
- * - priority: Higher priority groups are checked first (important for overlapping patterns)
- *
- * Best practices from Rollup docs:
- * - Check specific patterns before generic ones (via priority)
- * - Group related dependencies that are typically used together
- * - Keep chunks at reasonable sizes (aim for 50-200KB gzipped)
+ * Shared chunk groups used by all apps.
+ * App-specific overrides are merged on top of these.
  */
-const CHUNK_GROUPS = [
+const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
   // Wallet-specific packages (high priority - check before generic @injectivelabs)
-  // Each wallet package is bundled with its third-party SDK
   {
     name: ChunkName.Keplr,
     test: (id: string) => id.includes('@keplr-wallet'),
     priority: 100
   },
-  // Ledger: wallet package + @ledgerhq SDK
   {
     name: ChunkName.WalletLedger,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-ledger') || id.includes('@ledgerhq'),
     priority: 99
   },
-  // Trezor: wallet package + @trezor SDK
   {
     name: ChunkName.WalletTrezor,
     test: (id: string) =>
@@ -99,14 +104,12 @@ const CHUNK_GROUPS = [
     test: (id: string) => id.includes('@injectivelabs/wallet-magic'),
     priority: 97
   },
-  // Turnkey: wallet package + @turnkey SDK
   {
     name: ChunkName.WalletTurnkey,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-turnkey') || id.includes('@turnkey'),
     priority: 96
   },
-  // WalletConnect: wallet package + @walletconnect, @web3modal, @reown SDKs
   {
     name: ChunkName.WalletWalletConnect,
     test: (id: string) =>
@@ -116,15 +119,13 @@ const CHUNK_GROUPS = [
       id.includes('@reown'),
     priority: 95
   },
-  // Core wallet packages that are always needed
   {
     name: ChunkName.InjectiveWallet,
     test: (id: string) => id.includes('@injectivelabs/wallet'),
     priority: 90
   },
 
-  // Buffer polyfill - needed by ethers, protobuf, cosmjs
-  // Must be separate from cosmjs so it can be loaded independently
+  // Buffer polyfill
   {
     name: ChunkName.BufferPolyfill,
     test: (id: string) =>
@@ -132,7 +133,7 @@ const CHUNK_GROUPS = [
     priority: 87
   },
 
-  // bn.js + elliptic - must stay together due to tight coupling and initialization order
+  // bn.js + elliptic - must stay together
   {
     name: ChunkName.BnJsElliptic,
     test: (id: string) =>
@@ -143,7 +144,7 @@ const CHUNK_GROUPS = [
     priority: 86
   },
 
-  // Cosmos ecosystem - only @cosmjs packages
+  // Cosmos ecosystem
   {
     name: ChunkName.CosmJs,
     test: (id: string) => id.includes('@cosmjs') || id.includes('cosmjs-types'),
@@ -171,7 +172,7 @@ const CHUNK_GROUPS = [
     priority: 70
   },
 
-  // UI/visualization (large, often lazy-loaded)
+  // UI/visualization
   {
     name: ChunkName.Charts,
     test: (id: string) =>
@@ -189,8 +190,7 @@ const CHUNK_GROUPS = [
     priority: 61
   },
 
-  // Injective proto packages (split by module for better code-splitting)
-  // These are the heaviest dependencies - splitting allows unused protos to be excluded
+  // Injective proto packages
   {
     name: ChunkName.ProtoCore,
     test: (id: string) => id.includes('@injectivelabs/core-proto-ts'),
@@ -217,7 +217,7 @@ const CHUNK_GROUPS = [
     priority: 55
   },
 
-  // Injective SDK (lower priority - after wallet and proto packages)
+  // Injective SDK
   {
     name: ChunkName.InjectiveSdk,
     test: (id: string) => id.includes('@injectivelabs'),
@@ -230,14 +230,38 @@ const CHUNK_GROUPS = [
     test: (id: string) => id.includes('@noble'),
     priority: 40
   }
-] as const
+]
 
-// Sort by priority (highest first) at module load time
-const SORTED_CHUNK_GROUPS = [...CHUNK_GROUPS].sort(
-  (a, b) => b.priority - a.priority
-)
+/**
+ * Merge app-specific overrides with shared chunk groups.
+ * Overrides replace chunks with the same name.
+ */
+function mergeChunkGroups(
+  shared: ChunkGroup[],
+  overrides: ChunkGroup[]
+): ChunkGroup[] {
+  const overrideNames = new Set(overrides.map((o) => o.name))
+  const filtered = shared.filter((group) => !overrideNames.has(group.name))
 
-// Cache for chunk name lookups (performance optimization for large builds)
+  return [...filtered, ...overrides]
+}
+
+/**
+ * Build final chunk groups based on current app.
+ */
+function buildChunkGroups(): ChunkGroup[] {
+  const overrides = IS_BRIDGE
+    ? getBridgeChunkOverrides()
+    : getHubChunkOverrides()
+  const merged = mergeChunkGroups(SHARED_CHUNK_GROUPS, overrides)
+
+  return merged.sort((a, b) => b.priority - a.priority)
+}
+
+// Build and sort chunk groups at module load time
+const SORTED_CHUNK_GROUPS = buildChunkGroups()
+
+// Cache for chunk name lookups
 const chunkCache = new Map<string, string | undefined>()
 
 /**
@@ -247,33 +271,25 @@ const chunkCache = new Map<string, string | undefined>()
  * 1. Only split node_modules (let Nuxt/Vite handle app code)
  * 2. Group related packages that are used together
  * 3. Use priority ordering for overlapping patterns
- * 4. Return undefined for non-matching modules (let Rollup decide)
+ * 4. Apply app-specific handling (e.g., Solana ecosystem for bridge)
  *
  * @param id - The module ID (file path) being processed by Rollup
  * @returns The chunk name to assign, or undefined to let Rollup decide
- *
- * @example
- * // In vite config:
- * build: {
- *   rollupOptions: {
- *     output: {
- *       manualChunks
- *     }
- *   }
- * }
  */
 export function manualChunks(id: string): string | undefined {
-  // Skip non-node_modules (let Nuxt handle app code splitting)
   if (!id.includes('node_modules')) {
     return undefined
   }
 
-  // Check cache first
+  // Bridge-only: Bundle Solana ecosystem packages together
+  if (IS_BRIDGE && isSolanaEcosystem(id)) {
+    return SOLANA_ECOSYSTEM_CHUNK
+  }
+
   if (chunkCache.has(id)) {
     return chunkCache.get(id)
   }
 
-  // Find matching chunk group (sorted by priority)
   let chunkName: string | undefined
   for (const group of SORTED_CHUNK_GROUPS) {
     if (group.test(id)) {
@@ -282,7 +298,6 @@ export function manualChunks(id: string): string | undefined {
     }
   }
 
-  // Cache and return result
   chunkCache.set(id, chunkName)
 
   return chunkName
