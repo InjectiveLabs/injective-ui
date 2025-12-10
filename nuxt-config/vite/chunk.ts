@@ -29,15 +29,12 @@ export enum ChunkName {
   // Polyfills (needed by multiple chunks, separate to avoid duplication)
   BufferPolyfill = 'buffer-polyfill',
 
-  // Cosmos ecosystem
+  // Cosmos ecosystem (includes protobufjs to avoid circular deps)
   CosmJs = 'cosmjs',
 
   // Ethereum ecosystem
   Ethers = 'ethers',
   Viem = 'viem',
-
-  // Serialization
-  Protobuf = 'protobuf',
 
   // UI/visualization
   Charts = 'charts',
@@ -143,11 +140,17 @@ const CHUNK_GROUPS = [
     priority: 86
   },
 
-  // Cosmos ecosystem - only @cosmjs packages
+  // Cosmos ecosystem - @cosmjs packages + protobufjs (must be together to avoid circular deps)
+  // Rollup places shared CommonJS interop code in cosmjs, which protobufjs needs
+  // Separating them causes circular imports and runtime initialization errors
   {
     name: ChunkName.CosmJs,
-    test: (id: string) => id.includes('@cosmjs') || id.includes('cosmjs-types'),
-    priority: 83
+    test: (id: string) =>
+      id.includes('@cosmjs') ||
+      id.includes('cosmjs-types') ||
+      id.includes('protobufjs') ||
+      id.includes('google-protobuf'),
+    priority: 85
   },
 
   // Ethereum ecosystem
@@ -161,14 +164,6 @@ const CHUNK_GROUPS = [
     name: ChunkName.Viem,
     test: (id: string) => id.includes('/viem/'),
     priority: 81
-  },
-
-  // Serialization
-  {
-    name: ChunkName.Protobuf,
-    test: (id: string) =>
-      id.includes('protobufjs') || id.includes('google-protobuf'),
-    priority: 70
   },
 
   // UI/visualization (large, often lazy-loaded)
