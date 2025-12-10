@@ -10,8 +10,13 @@
 /**
  * Chunk names used for manual code splitting.
  * These names are used in the build:manifest hook to control modulepreload behavior.
+ *
+ * NOTE: Using regular enum instead of const enum.
+ * const enum values are inlined at compile time which causes issues
+ * when the layer is consumed from a remote source (GitHub).
+ * Regular enums work correctly across module boundaries.
  */
-export const enum ChunkName {
+export enum ChunkName {
   // Wallet-specific packages (bundled with their SDKs)
   Keplr = 'keplr',
   WalletLedger = 'wallet-ledger', // includes @ledgerhq/*
