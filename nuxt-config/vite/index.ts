@@ -54,9 +54,12 @@ const BASE_OPTIMIZE_DEPS = [
   '@injectivelabs/exceptions',
 
   // Wallet packages (only core - others are lazy-loaded by wallet-strategy)
+  '@injectivelabs/wallet-evm',
   '@injectivelabs/wallet-base',
   '@injectivelabs/wallet-core',
+  '@injectivelabs/wallet-cosmos',
   '@injectivelabs/wallet-strategy',
+  '@injectivelabs/wallet-cosmos-strategy',
 
   // Other common deps
   '@metamask/eth-sig-util',
@@ -109,27 +112,6 @@ const APP_SPECIFIC_DEPS: Record<string, string[]> = {
   ]
 }
 
-/**
- * Builds the optimizeDeps.include array for your app.
- *
- * @param appSpecificDeps - Dependencies specific to your app
- * @returns Combined array of base + remote + app-specific deps
- *
- * @example
- * // In your app's nuxt.config.ts:
- * import { buildOptimizeDepsInclude } from '../injective-ui/nuxt-config/vite'
- *
- * export default defineNuxtConfig({
- *   vite: {
- *     optimizeDeps: {
- *       include: buildOptimizeDepsInclude([
- *         'highcharts',
- *         'some-other-package',
- *       ])
- *     }
- *   }
- * })
- */
 export function buildOptimizeDepsInclude(
   appSpecificDeps: string[] = []
 ): string[] {
@@ -180,9 +162,6 @@ export default defineConfig({
   ].filter(Boolean),
 
   resolve: {
-    alias: {
-      buffer: 'buffer/'
-    },
     // Dedupe packages that MUST be singletons (shared global state)
     // vee-validate uses a global rules registry - multiple instances break rule lookups
     dedupe: ['vee-validate', 'vue']
@@ -218,9 +197,6 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: [
-      'buffer/',
-      ...buildOptimizeDepsInclude(getLegacyAppSpecificDeps())
-    ]
+    include: [...buildOptimizeDepsInclude(getLegacyAppSpecificDeps())]
   }
 }) as ViteConfig
