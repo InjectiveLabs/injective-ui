@@ -16,10 +16,16 @@ export class Web3GatewayService {
       return true
     }
 
-    const response = (await this.restClient.get('api/health/v1/status')) as {
-      status: number
-    }
+    try {
+      const response = (await this.restClient.get('api/health/v1/status')) as {
+        status: number
+      }
 
-    return response.status === 200
+      return response.status === 200
+    } catch {
+      // Silently fail - backend health check endpoint is unavailable
+
+      return false
+    }
   }
 }
