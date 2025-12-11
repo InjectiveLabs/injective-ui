@@ -2,6 +2,33 @@ import { hexToBase64 } from '@injectivelabs/sdk-ts/utils'
 import { EventMessageType } from './../../types'
 import type { EventLog } from '@injectivelabs/sdk-ts'
 
+/**
+ * Check if a string is a valid hex string (with or without 0x prefix)
+ */
+function isValidHex(str: string): boolean {
+  if (typeof str !== 'string' || str.trim() === '') {
+    return false
+  }
+  const hexPart = str.startsWith('0x') ? str.slice(2) : str
+
+  return /^[0-9a-fA-F]+$/.test(hexPart)
+}
+
+/**
+ * Safely convert hex to base64
+ * Returns the converted value if valid hex, otherwise returns the original value as-is
+ */
+function safeHexToBase64(value: string): string {
+  if (!isValidHex(value)) {
+    return value
+  }
+  try {
+    return hexToBase64(value.startsWith('0x') ? value.slice(2) : value)
+  } catch {
+    return value
+  }
+}
+
 export const eventLogsSummaryMap: Partial<
   Record<
     EventMessageType,
@@ -17,7 +44,7 @@ export const eventLogsSummaryMap: Partial<
   >
 > = {
   [EventMessageType.CancelSpotOrder]: ({ args, logs, sender }) => {
-    const orderHashInBase64 = hexToBase64(args.slice(2))
+    const orderHashInBase64 = safeHexToBase64(args)
 
     try {
       const parsedEvents = logs
@@ -62,7 +89,7 @@ export const eventLogsSummaryMap: Partial<
   },
 
   [EventMessageType.BatchCancelSpotOrders]: ({ args, logs }) => {
-    const orderHashInBase64 = hexToBase64(args.slice(2))
+    const orderHashInBase64 = safeHexToBase64(args)
 
     try {
       const parsedEvents = logs
@@ -108,7 +135,7 @@ export const eventLogsSummaryMap: Partial<
   },
 
   [EventMessageType.CancelDerivativeOrder]: ({ args, logs, sender }) => {
-    const orderHashInBase64 = hexToBase64(args.slice(2))
+    const orderHashInBase64 = safeHexToBase64(args)
 
     try {
       const parsedEvents = logs
@@ -164,7 +191,7 @@ export const eventLogsSummaryMap: Partial<
   },
 
   [EventMessageType.BatchCancelDerivativeOrders]: ({ args, logs }) => {
-    const orderHashInBase64 = hexToBase64(args.slice(2))
+    const orderHashInBase64 = safeHexToBase64(args)
 
     try {
       const parsedEvents = logs
