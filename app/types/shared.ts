@@ -49,3 +49,9 @@ export interface Notification {
   type: NotificationType
   actions: undefined | NotificationAction[]
 }
+
+export interface UTableColumn {
+  header?: string
+  accessorKey: string
+  meta?: Record<string, any>
+}
