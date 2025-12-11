@@ -26,138 +26,132 @@ const registerDefaultEventListeners = (walletStrategy: WalletStrategy) => {
   )
 }
 
-let walletStrategyInstance: null | WalletStrategy = null
-let autoSignWalletStrategyInstance: null | WalletStrategy = null
-let msgBroadcasterInstance: null | MsgBroadcaster = null
-let autoSignMsgBroadcasterInstance: null | MsgBroadcaster = null
-let web3BroadcasterInstance: null | Web3Broadcaster = null
+let walletStrategyPromise: null | Promise<WalletStrategy> = null
+let autoSignWalletStrategyPromise: null | Promise<WalletStrategy> = null
+let msgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
+let autoSignMsgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
+let web3BroadcasterPromise: null | Promise<Web3Broadcaster> = null
 
-export const getWalletStrategy = async (): Promise<WalletStrategy> => {
-  if (walletStrategyInstance) {
-    return walletStrategyInstance
-  }
+export const getWalletStrategy = (): Promise<WalletStrategy> => {
+  if (!walletStrategyPromise) {
+    walletStrategyPromise = import('@injectivelabs/wallet-strategy').then(
+      ({ WalletStrategy }) => {
+        const instance = new WalletStrategy({
+          chainId: CHAIN_ID,
+          evmOptions: {
+            evmChainId: ETHEREUM_CHAIN_ID,
+            rpcUrls: getRpcUrlsForChainIds()
+          },
+          metadata: {
+            magic: {
+              apiKey: MAGIC_APK_KEY as string,
+              rpcEndpoint: ENDPOINTS.rpc as string
+            },
+            walletConnect: {
+              projectId: WALLET_CONNECT_PROJECT_ID
+            },
+            ...(TURNKEY_ORGID && {
+              turnkey: {
+                defaultOrganizationId: TURNKEY_ORGID,
+                apiBaseUrl: 'https://api.turnkey.com',
+                googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
+                googleRedirectUri: window.location.origin,
+                apiServerEndpoint: 'https://api.ui.injective.network/api/v1'
+              }
+            })
+          },
+          strategies: {}
+        })
 
-  const { WalletStrategy } = await import('@injectivelabs/wallet-strategy')
+        registerDefaultEventListeners(instance)
 
-  walletStrategyInstance = new WalletStrategy({
-    chainId: CHAIN_ID,
-    evmOptions: {
-      evmChainId: ETHEREUM_CHAIN_ID,
-      rpcUrls: getRpcUrlsForChainIds()
-    },
-    metadata: {
-      magic: {
-        apiKey: MAGIC_APK_KEY as string,
-        rpcEndpoint: ENDPOINTS.rpc as string
-      },
-      walletConnect: {
-        projectId: WALLET_CONNECT_PROJECT_ID
-      },
-      ...(TURNKEY_ORGID && {
-        turnkey: {
-          defaultOrganizationId: TURNKEY_ORGID,
-          apiBaseUrl: 'https://api.turnkey.com',
-          googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
-          googleRedirectUri: window.location.origin,
-          apiServerEndpoint: 'https://api.ui.injective.network/api/v1'
-        }
-      })
-    },
-    strategies: {}
-  })
-
-  registerDefaultEventListeners(walletStrategyInstance)
-
-  return walletStrategyInstance
-}
-
-export const getAutoSignWalletStrategy = async (): Promise<WalletStrategy> => {
-  if (autoSignWalletStrategyInstance) {
-    return autoSignWalletStrategyInstance
-  }
-
-  const [{ WalletStrategy }, { Wallet }] = await Promise.all([
-    import('@injectivelabs/wallet-strategy'),
-    import('@injectivelabs/wallet-base')
-  ])
-
-  autoSignWalletStrategyInstance = new WalletStrategy({
-    chainId: CHAIN_ID,
-    wallet: Wallet.PrivateKey,
-    evmOptions: {
-      evmChainId: ETHEREUM_CHAIN_ID,
-      rpcUrl: alchemyRpcEndpoint
-    },
-    metadata: {
-      privateKey: {
-        privateKey: ''
+        return instance
       }
-    },
-    strategies: {}
-  })
-
-  return autoSignWalletStrategyInstance
-}
-
-export const getMsgBroadcaster = async (): Promise<MsgBroadcaster> => {
-  if (msgBroadcasterInstance) {
-    return msgBroadcasterInstance
+    )
   }
 
-  const [{ MsgBroadcaster }, walletStrategy] = await Promise.all([
-    import('@injectivelabs/wallet-core'),
-    getWalletStrategy()
-  ])
-
-  msgBroadcasterInstance = new MsgBroadcaster({
-    walletStrategy,
-    simulateTx: true,
-    network: NETWORK,
-    endpoints: ENDPOINTS,
-    gasBufferCoefficient: 1.2,
-    feePayerPubKey: FEE_PAYER_PUB_KEY
-  })
-
-  return msgBroadcasterInstance
+  return walletStrategyPromise
 }
 
-export const getAutoSignMsgBroadcaster = async (): Promise<MsgBroadcaster> => {
-  if (autoSignMsgBroadcasterInstance) {
-    return autoSignMsgBroadcasterInstance
+export const getAutoSignWalletStrategy = (): Promise<WalletStrategy> => {
+  if (!autoSignWalletStrategyPromise) {
+    autoSignWalletStrategyPromise = Promise.all([
+      import('@injectivelabs/wallet-strategy'),
+      import('@injectivelabs/wallet-base')
+    ]).then(([{ WalletStrategy }, { Wallet }]) => {
+      return new WalletStrategy({
+        chainId: CHAIN_ID,
+        wallet: Wallet.PrivateKey,
+        evmOptions: {
+          evmChainId: ETHEREUM_CHAIN_ID,
+          rpcUrl: alchemyRpcEndpoint
+        },
+        metadata: {
+          privateKey: {
+            privateKey: ''
+          }
+        },
+        strategies: {}
+      })
+    })
   }
 
-  const [{ MsgBroadcaster }, walletStrategy] = await Promise.all([
-    import('@injectivelabs/wallet-core'),
-    getAutoSignWalletStrategy()
-  ])
-
-  autoSignMsgBroadcasterInstance = new MsgBroadcaster({
-    simulateTx: true,
-    network: NETWORK,
-    endpoints: ENDPOINTS,
-    gasBufferCoefficient: 1.2,
-    feePayerPubKey: FEE_PAYER_PUB_KEY,
-    walletStrategy
-  })
-
-  return autoSignMsgBroadcasterInstance
+  return autoSignWalletStrategyPromise
 }
 
-export const getWeb3Broadcaster = async (): Promise<Web3Broadcaster> => {
-  if (web3BroadcasterInstance) {
-    return web3BroadcasterInstance
+export const getMsgBroadcaster = (): Promise<MsgBroadcaster> => {
+  if (!msgBroadcasterPromise) {
+    msgBroadcasterPromise = Promise.all([
+      import('@injectivelabs/wallet-core'),
+      getWalletStrategy()
+    ]).then(([{ MsgBroadcaster }, walletStrategy]) => {
+      return new MsgBroadcaster({
+        walletStrategy,
+        simulateTx: true,
+        network: NETWORK,
+        endpoints: ENDPOINTS,
+        gasBufferCoefficient: 1.2,
+        feePayerPubKey: FEE_PAYER_PUB_KEY
+      })
+    })
   }
 
-  const [{ Web3Broadcaster }, walletStrategy] = await Promise.all([
-    import('@injectivelabs/wallet-core'),
-    getWalletStrategy()
-  ])
+  return msgBroadcasterPromise
+}
 
-  web3BroadcasterInstance = new Web3Broadcaster({
-    walletStrategy,
-    network: NETWORK,
-    evmChainId: ETHEREUM_CHAIN_ID
-  })
+export const getAutoSignMsgBroadcaster = (): Promise<MsgBroadcaster> => {
+  if (!autoSignMsgBroadcasterPromise) {
+    autoSignMsgBroadcasterPromise = Promise.all([
+      import('@injectivelabs/wallet-core'),
+      getAutoSignWalletStrategy()
+    ]).then(([{ MsgBroadcaster }, walletStrategy]) => {
+      return new MsgBroadcaster({
+        simulateTx: true,
+        network: NETWORK,
+        endpoints: ENDPOINTS,
+        gasBufferCoefficient: 1.2,
+        feePayerPubKey: FEE_PAYER_PUB_KEY,
+        walletStrategy
+      })
+    })
+  }
 
-  return web3BroadcasterInstance
+  return autoSignMsgBroadcasterPromise
+}
+
+export const getWeb3Broadcaster = (): Promise<Web3Broadcaster> => {
+  if (!web3BroadcasterPromise) {
+    web3BroadcasterPromise = Promise.all([
+      import('@injectivelabs/wallet-core'),
+      getWalletStrategy()
+    ]).then(([{ Web3Broadcaster }, walletStrategy]) => {
+      return new Web3Broadcaster({
+        walletStrategy,
+        network: NETWORK,
+        evmChainId: ETHEREUM_CHAIN_ID
+      })
+    })
+  }
+
+  return web3BroadcasterPromise
 }
