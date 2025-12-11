@@ -75,10 +75,7 @@ export function getBridgeChunkOverrides(): ChunkGroup[] {
     // WalletConnect: NO @reown (goes to solana-ecosystem)
     {
       name: 'wallet-wallet-connect',
-      test: (id: string) =>
-        id.includes('@injectivelabs/wallet-wallet-connect') ||
-        id.includes('@walletconnect') ||
-        id.includes('@web3modal'),
+      test: (id: string) => id.includes('@injectivelabs/wallet-wallet-connect'),
       priority: 95
     },
     // CosmJs + protobufjs (initialization order fix)

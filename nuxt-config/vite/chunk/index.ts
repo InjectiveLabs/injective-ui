@@ -114,8 +114,6 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
     name: ChunkName.WalletWalletConnect,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-wallet-connect') ||
-      id.includes('@walletconnect') ||
-      id.includes('@web3modal') ||
       id.includes('@reown'),
     priority: 95
   },

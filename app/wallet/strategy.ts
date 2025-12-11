@@ -1,14 +1,13 @@
-import { alchemyRpcEndpoint } from './utils/alchemy'
+import { alchemyRpcEndpoint, getRpcUrlsForChainIds } from './utils/alchemy'
+import { WalletConnectStrategyEventType } from '@injectivelabs/wallet-base'
 import {
   NETWORK,
   CHAIN_ID,
   ENDPOINTS,
-  ALCHEMY_KEY,
   TURNKEY_ORGID,
   MAGIC_APK_KEY,
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY,
-  ALCHEMY_SEPOLIA_KEY,
   TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from '../utils/constant'
@@ -17,6 +16,15 @@ import type {
   MsgBroadcaster,
   Web3Broadcaster
 } from '@injectivelabs/wallet-core'
+
+const registerDefaultEventListeners = (walletStrategy: WalletStrategy) => {
+  walletStrategy.on(
+    WalletConnectStrategyEventType.WalletConnectSigningWithTxTimeout,
+    (data) => {
+      console.log('[WalletConnect] Signing with tx timeout:', data)
+    }
+  )
+}
 
 let walletStrategyInstance: null | WalletStrategy = null
 let autoSignWalletStrategyInstance: null | WalletStrategy = null
@@ -29,23 +37,13 @@ export const getWalletStrategy = async (): Promise<WalletStrategy> => {
     return walletStrategyInstance
   }
 
-  const [{ WalletStrategy }, { EvmChainId }] = await Promise.all([
-    import('@injectivelabs/wallet-strategy'),
-    import('@injectivelabs/ts-types')
-  ])
+  const { WalletStrategy } = await import('@injectivelabs/wallet-strategy')
 
   walletStrategyInstance = new WalletStrategy({
     chainId: CHAIN_ID,
     evmOptions: {
       evmChainId: ETHEREUM_CHAIN_ID,
-      rpcUrls: {
-        [EvmChainId.Mainnet]: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-        [EvmChainId.Sepolia]: `https://eth-sepolia.alchemyapi.io/v2/${ALCHEMY_SEPOLIA_KEY}`,
-        [EvmChainId.MainnetEvm]: 'https://sentry.evm-rpc.injective.network/',
-        [EvmChainId.TestnetEvm]:
-          'https://k8s.testnet.json-rpc.injective.network/',
-        [EvmChainId.DevnetEvm]: 'https://devnet.json-rpc.injective.dev/'
-      }
+      rpcUrls: getRpcUrlsForChainIds()
     },
     metadata: {
       magic: {
@@ -67,6 +65,8 @@ export const getWalletStrategy = async (): Promise<WalletStrategy> => {
     },
     strategies: {}
   })
+
+  registerDefaultEventListeners(walletStrategyInstance)
 
   return walletStrategyInstance
 }

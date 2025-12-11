@@ -59,7 +59,6 @@ const BASE_OPTIMIZE_DEPS = [
   '@injectivelabs/wallet-core',
   '@injectivelabs/wallet-cosmos',
   '@injectivelabs/wallet-strategy',
-  '@injectivelabs/wallet-cosmos-strategy',
 
   // Other common deps
   '@metamask/eth-sig-util',
