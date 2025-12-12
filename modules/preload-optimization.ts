@@ -99,11 +99,9 @@ async function printModulePreloadChunks(outputDir: string): Promise<void> {
 
     for (const { name, size } of chunkInfo) {
       const sizeStr = formatBytes(size).padStart(8)
-      // Extract chunk name from filename (e.g., "wallet-trezor-Bz0nSJND.js" -> "wallet-trezor")
-      const chunkName = name.replace(/-[A-Za-z0-9]+\.js$/, '')
       const isExcluded = shouldExcludeFromPreload(name)
       const warning = isExcluded ? ' ⚠️  SHOULD BE EXCLUDED' : ''
-      console.log(`  ${sizeStr}  ${chunkName}${warning}`)
+      console.log(`  ${sizeStr}  ${name}${warning}`)
     }
 
     console.log('')
@@ -124,8 +122,7 @@ async function printModulePreloadChunks(outputDir: string): Promise<void> {
         '⚠️  WARNING: The following chunks should be excluded from preload:'
       )
       for (const { name, size } of leakedChunks) {
-        const chunkName = name.replace(/-[A-Za-z0-9]+\.js$/, '')
-        console.log(`     - ${chunkName} (${formatBytes(size)})`)
+        console.log(`     - ${name} (${formatBytes(size)})`)
       }
       console.log(`   Total wasted preload: ${formatBytes(leakedSize)}`)
       console.log('')
