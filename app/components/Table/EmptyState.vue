@@ -19,11 +19,11 @@ withDefaults(
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col items-center justify-center">
     <UIcon
       v-if="!hideIcon"
-      :name="icon || NuxtUiIcons.EmptyData"
       :class="iconClass || 'size-6 mb-4'"
+      :name="icon || NuxtUiIcons.EmptyData"
     />
     <p :class="textClass || 'text-white text-sm text-center'">
       {{ text || $t('common.noItems') }}
