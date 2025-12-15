@@ -34,6 +34,9 @@ export type { ChunkGroup }
  * Regular enums work correctly across module boundaries.
  */
 export enum ChunkName {
+  // Core dependencies (must load first)
+  EventEmitter = 'eventemitter',
+
   // Wallet-specific packages (bundled with their SDKs)
   Keplr = 'keplr',
   WalletLedger = 'wallet-ledger',
@@ -81,6 +84,15 @@ export enum ChunkName {
  * App-specific overrides are merged on top of these.
  */
 const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
+  // Core dependencies (highest priority - must load before everything else)
+  // EventEmitter is extended by StreamManagerV2 and other classes in @injectivelabs/sdk-ts
+  // If it ends up in a different chunk, we get TDZ (Temporal Dead Zone) errors
+  {
+    name: ChunkName.EventEmitter,
+    test: (id: string) => id.includes('eventemitter3'),
+    priority: 150
+  },
+
   // Wallet-specific packages (high priority - check before generic @injectivelabs)
   {
     name: ChunkName.Keplr,
