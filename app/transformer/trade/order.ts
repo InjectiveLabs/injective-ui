@@ -1,4 +1,4 @@
-import { OrderSide } from '@injectivelabs/ts-types'
+import { OrderSide } from '@injectivelabs/sdk-ts/types'
 import { GrpcOrderTypeMap } from '@injectivelabs/sdk-ts/client/chain'
 import type { GrpcOrderType } from '@injectivelabs/sdk-ts'
 
