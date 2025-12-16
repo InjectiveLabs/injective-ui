@@ -12,6 +12,7 @@ interface TokenStaticWithPrice {
   coingecko_id: string
   price: {
     price: number
+    market_cap: number
     metadata: {
       source: string
       height: number
@@ -19,6 +20,11 @@ interface TokenStaticWithPrice {
       market_price: number
     }
   }
+}
+
+interface TokenPriceMap {
+  prices: Record<string, number>
+  marketCap: Record<string, number>
 }
 
 const ASSET_PRICE_SERVICE_URL =
@@ -65,25 +71,24 @@ export class TokenPrice {
       data: Record<string, TokenStaticWithPrice>
     }>(() => this.client.get(`denoms?withPrice=true&onlyActive=true`))
 
-    const tokenPriceMap: Record<string, number> = Object.values(
-      response.data
-    ).reduce(
-      (prices, tokenWithPrice) => {
+    const tokenPriceMap = Object.values(response.data).reduce(
+      (tokenPriceMap: TokenPriceMap, tokenWithPrice) => {
         const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
 
-        if (prices[id]) {
-          return prices
+        if (tokenPriceMap.prices[id]) {
+          return tokenPriceMap
         }
 
-        prices[id] = tokenWithPrice.price.price
+        tokenPriceMap.prices[id] = tokenWithPrice.price.price
+        tokenPriceMap.marketCap[id] = tokenWithPrice.price.market_cap
 
-        return prices
+        return tokenPriceMap
       },
-      {} as Record<string, number>
+      { prices: {}, marketCap: {} } as TokenPriceMap
     )
 
     const coinGeckoIdsToFetch = coinGeckoIds.filter(
-      (coinGeckoId) => !tokenPriceMap[coinGeckoId]
+      (coinGeckoId) => !tokenPriceMap.prices[coinGeckoId]
     )
 
     if (coinGeckoIdsToFetch.length === 0) {
@@ -133,9 +138,12 @@ export class TokenPrice {
     )
 
     return {
-      ...tokenPriceMap,
-      ...formattedCoinGeckoIdsPriceMap,
-      ...denomPriceMap
+      prices: {
+        ...tokenPriceMap.prices,
+        ...formattedCoinGeckoIdsPriceMap,
+        ...denomPriceMap
+      },
+      marketCap: tokenPriceMap.marketCap
     }
   }
 
@@ -156,22 +164,23 @@ export class TokenPrice {
      * calls at the same time
      */
     const response = await Promise.all(
-      chunks.map(async (chunk, index) => {
+      chunks.map(async (chunk, chunkIndex) => {
         const prices = {} as Record<string, number>
 
         for (let i = 0; i < chunk.length; i += 1) {
-          const index = chunk[i]
+          const coinId = chunk[i]
 
-          if (!index) {
+          if (!coinId) {
             return
           }
 
-          const price = await this.fetchUsdTokenPriceFromCoinGeckoNoThrow(index)
+          const price =
+            await this.fetchUsdTokenPriceFromCoinGeckoNoThrow(coinId)
 
-          prices[index] = price
+          prices[coinId] = price
         }
 
-        if (index < chunks.length - 1) {
+        if (chunkIndex < chunks.length - 1) {
           await sleep(500)
         }
 

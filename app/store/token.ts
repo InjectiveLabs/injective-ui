@@ -16,12 +16,14 @@ type SharedTokenStoreState = {
   unknownTokens: TokenStatic[]
   supplyMap: Record<string, string>
   tokenUsdPriceMap: SharedTokenUsdPriceMap
+  tokenUsdMarketCapMap: Record<string, number>
 }
 
 const initialStateFactory = (): SharedTokenStoreState => ({
   supplyMap: {},
   unknownTokens: [],
-  tokenUsdPriceMap: {}
+  tokenUsdPriceMap: {},
+  tokenUsdMarketCapMap: {}
 })
 
 export const useSharedTokenStore = defineStore('sharedToken', {
@@ -41,6 +43,14 @@ export const useSharedTokenStore = defineStore('sharedToken', {
           )
         )
       },
+
+    tokenMarketCap: (state) => (token?: TokenStatic) => {
+      if (!token) {
+        return 0
+      }
+
+      return state.tokenUsdMarketCapMap[token.coinGeckoId.toLowerCase()] || 0
+    },
 
     tokenUsdPriceByCoinGeckoId: (state) => (coinGeckoId: string) => {
       return state.tokenUsdPriceMap[coinGeckoId.toLowerCase()] || 0
@@ -139,7 +149,8 @@ export const useSharedTokenStore = defineStore('sharedToken', {
 
       const tokenUsdPriceMap = await tokenPriceService.fetchUsdTokensPrice()
 
-      sharedTokenStore.tokenUsdPriceMap = tokenUsdPriceMap
+      sharedTokenStore.tokenUsdPriceMap = tokenUsdPriceMap.prices
+      sharedTokenStore.tokenUsdMarketCapMap = tokenUsdPriceMap.marketCap
     },
 
     /**
