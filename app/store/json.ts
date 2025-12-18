@@ -179,7 +179,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       return toBigNumber(state.chainUpgradeConfig.blockHeight)
-        .minus(500)
+        .minus(100) // 100 * 0.6 seconds per block ~= 1 minute before upgrade
         .lte(state.latestBlockHeight)
     }
   },
