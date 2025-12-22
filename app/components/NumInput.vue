@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask'
 import { toBigNumber } from '@injectivelabs/utils'
-import { createIMaskConfig } from '@shared/data/iMask'
+import { createIMaskConfig } from '@shared/utils/iMask'
 
 const props = withDefaults(
   defineProps<{
@@ -24,7 +24,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-const { el, typed } = useIMask(
+const { el, typed, masked } = useIMask(
   computed(() =>
     createIMaskConfig({
       scale: props.maxDecimals,
@@ -35,11 +35,25 @@ const { el, typed } = useIMask(
     })
   ),
   {
-    onAccept: (event) => {
-      // emit event only if event is triggered by user input
-      if (event && props.modelValue !== typed.value) {
-        nextTick(() => emit('update:modelValue', `${typed.value}`))
+    onAccept: () => {
+      if (props.modelValue === typed.value) {
+        return
       }
+
+      if (
+        props.modelValue === '' &&
+        (typed.value === '0' || typed.value === 0)
+      ) {
+        return
+      }
+
+      if (typed.value === 0 && masked.value === '') {
+        emit('update:modelValue', '')
+
+        return
+      }
+
+      emit('update:modelValue', `${typed.value}`)
     }
   }
 )
