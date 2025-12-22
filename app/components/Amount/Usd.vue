@@ -1,0 +1,41 @@
+<script lang="ts" setup>
+import { BigNumber } from '@injectivelabs/utils'
+import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
+import type { BigNumber as BigNumberType } from '@injectivelabs/utils'
+
+withDefaults(
+  defineProps<{
+    dataCy?: string
+    cyValue?: string
+    hideDecimals?: boolean
+    useSubscript?: boolean
+    shouldAbbreviate?: boolean
+    roundingMode?: BigNumber.RoundingMode
+    amount: string | number | BigNumberType
+  }>(),
+  {
+    dataCy: '',
+    cyValue: '',
+    shouldAbbreviate: true,
+    roundingMode: BigNumber.ROUND_DOWN
+  }
+)
+</script>
+
+<template>
+  <SharedAmountBase
+    v-bind="{
+      amount,
+      dataCy,
+      cyValue,
+      useSubscript,
+      roundingMode,
+      shouldAbbreviate,
+      decimals: hideDecimals ? 0 : DEFAULT_USD_DECIMALS
+    }"
+  >
+    <template #prefix>
+      <slot name="prefix" />
+    </template>
+  </SharedAmountBase>
+</template>

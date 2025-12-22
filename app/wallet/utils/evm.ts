@@ -1,0 +1,172 @@
+import { Wallet } from '@injectivelabs/wallet-base'
+import { EvmChainId } from '@injectivelabs/ts-types'
+import {
+  IS_DEVNET,
+  IS_MAINNET,
+  IS_TESTNET,
+  ETHEREUM_CHAIN_ID
+} from '../../utils/constant'
+import {
+  ErrorType,
+  WalletException,
+  BitGetException,
+  MetamaskException,
+  OkxWalletException,
+  UnspecifiedErrorCode,
+  TrustWalletException
+} from '@injectivelabs/exceptions'
+import {
+  updateEvmNetwork,
+  getRabbyProvider,
+  getBitGetProvider,
+  getRainbowProvider,
+  getPhantomProvider,
+  getMetamaskProvider,
+  getOkxWalletProvider,
+  getTrustWalletProvider
+} from '@injectivelabs/wallet-evm'
+import { getWalletStrategy } from '../strategy'
+import type { AccountAddress } from '@injectivelabs/ts-types'
+import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
+
+export const getEvmWalletProvider = async (wallet: Wallet) => {
+  if (wallet === Wallet.Metamask) {
+    return await getMetamaskProvider()
+  }
+
+  if (wallet === Wallet.BitGet) {
+    return await getBitGetProvider()
+  }
+
+  if (wallet === Wallet.OkxWallet) {
+    return await getOkxWalletProvider()
+  }
+
+  if (wallet === Wallet.Phantom) {
+    return await getPhantomProvider()
+  }
+
+  if (wallet === Wallet.TrustWallet) {
+    return await getTrustWalletProvider()
+  }
+
+  if (wallet === Wallet.Rainbow) {
+    return await getRainbowProvider()
+  }
+
+  if (wallet === Wallet.Rabby) {
+    return await getRabbyProvider()
+  }
+}
+
+export const isBitGetInstalled = async (): Promise<boolean> => {
+  const provider = await getBitGetProvider()
+
+  return !!provider
+}
+
+export const getEvmWalletException = (
+  wallet: Wallet,
+  error: Error,
+  context?: ErrorContext
+): ThrownException => {
+  if (wallet === Wallet.Metamask) {
+    return new MetamaskException(error, context)
+  }
+
+  if (wallet === Wallet.BitGet) {
+    return new BitGetException(error, context)
+  }
+
+  if (wallet === Wallet.OkxWallet) {
+    return new OkxWalletException(error, context)
+  }
+
+  if (wallet === Wallet.Phantom) {
+    return new MetamaskException(error, context)
+  }
+
+  if (wallet === Wallet.TrustWallet) {
+    return new TrustWalletException(error, context)
+  }
+
+  return new WalletException(error, context)
+}
+
+export const validateEvmWallet = async ({
+  wallet,
+  address
+}: {
+  wallet: Wallet
+  address: AccountAddress
+}) => {
+  const walletStrategy = await getWalletStrategy()
+  const accounts = await walletStrategy.enableAndGetAddresses()
+  const isAccountLocked = accounts.length === 0
+
+  if (isAccountLocked) {
+    throw getEvmWalletException(
+      wallet,
+      new Error('Your wallet is currently locked. Please unlock your BitGet.'),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+
+  const [account] = accounts
+  const walletActiveAddressDoesntMatchTheActiveAddress =
+    account && account.toLowerCase() !== address.toLowerCase()
+
+  if (walletActiveAddressDoesntMatchTheActiveAddress) {
+    throw getEvmWalletException(
+      wallet,
+      new Error(`You are connected to the wrong address. Please reconnect!`),
+      {
+        contextModule: 'BitGet',
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+
+  const mainnetEvmIds = [
+    EvmChainId.Mainnet,
+    EvmChainId.MainnetEvm
+  ] as EvmChainId[]
+  const testnetEvmIds = [
+    EvmChainId.Sepolia,
+    EvmChainId.TestnetEvm
+  ] as EvmChainId[]
+  const devnetEvmIds = [
+    EvmChainId.Sepolia,
+    EvmChainId.DevnetEvm
+  ] as EvmChainId[]
+
+  const walletChainId = parseInt(
+    await walletStrategy.getEthereumChainId(),
+    16
+  ) as EvmChainId
+  const walletChainIdDoesntMatchTheActiveChainId =
+    (IS_MAINNET && !mainnetEvmIds.includes(walletChainId)) ||
+    (IS_TESTNET && !testnetEvmIds.includes(walletChainId)) ||
+    (IS_DEVNET && !devnetEvmIds.includes(walletChainId))
+
+  if (walletChainIdDoesntMatchTheActiveChainId) {
+    return await updateEvmNetwork(wallet, ETHEREUM_CHAIN_ID)
+  }
+
+  const provider = await getEvmWalletProvider(wallet)
+
+  if (!provider) {
+    throw getEvmWalletException(
+      wallet,
+      new Error('You are connected to the wrong wallet.'),
+      {
+        code: UnspecifiedErrorCode,
+        type: ErrorType.WalletError
+      }
+    )
+  }
+}
