@@ -24,7 +24,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-const { el, typed, masked } = useIMask(
+const { el, typed } = useIMask(
   computed(() =>
     createIMaskConfig({
       scale: props.maxDecimals,
@@ -35,21 +35,8 @@ const { el, typed, masked } = useIMask(
     })
   ),
   {
-    onAccept: () => {
-      if (props.modelValue === typed.value) {
-        return
-      }
-
-      if (
-        props.modelValue === '' &&
-        (typed.value === '0' || typed.value === 0)
-      ) {
-        return
-      }
-
-      if (typed.value === 0 && masked.value === '') {
-        emit('update:modelValue', '')
-
+    onAccept: (e) => {
+      if (e?.inputType === undefined) {
         return
       }
 
