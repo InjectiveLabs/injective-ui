@@ -1,65 +1,38 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask'
 import { toBigNumber } from '@injectivelabs/utils'
-import type { FactoryOpts } from 'imask'
+import { createIMaskConfig } from '@shared/data/iMask'
 
-const props = defineProps({
-  isAutofix: Boolean,
-  isShowMask: Boolean,
-
-  modelValue: {
-    type: [String, Number],
-    default: ''
-  },
-
-  maxDecimals: {
-    type: Number,
-    default: 6
-  },
-
-  max: {
-    type: Number,
-    default: undefined
-  },
-
-  min: {
-    type: Number,
-    default: undefined
+const props = withDefaults(
+  defineProps<{
+    max?: number
+    min?: number
+    isAutofix?: boolean
+    isShowMask?: boolean
+    maxDecimals?: number
+    modelValue?: string | number
+  }>(),
+  {
+    max: undefined,
+    min: undefined,
+    modelValue: '',
+    maxDecimals: 6
   }
-})
+)
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
-const hardCodedIMaskOptions = {
-  mask: 'num',
-  lazy: false,
-  blocks: {
-    num: {
-      mask: Number,
-      radix: '.',
-      mapToRadix: ['.']
-    }
-  }
-}
-
-const { typed, el } = useIMask(
-  computed(
-    () =>
-      ({
-        ...hardCodedIMaskOptions,
-        blocks: {
-          num: {
-            ...hardCodedIMaskOptions.blocks.num,
-            min: props.min,
-            max: props.max,
-            scale: props.maxDecimals,
-            isAutofix: props.isAutofix,
-            thousandsSeparator: props.isShowMask ? ',' : ''
-          }
-        }
-      }) as FactoryOpts
+const { el, typed } = useIMask(
+  computed(() =>
+    createIMaskConfig({
+      scale: props.maxDecimals,
+      min: props.min,
+      max: props.max,
+      autofix: props.isAutofix,
+      thousandsSeparator: props.isShowMask ? ',' : ''
+    })
   ),
   {
     onAccept: (event) => {
