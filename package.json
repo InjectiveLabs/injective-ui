@@ -5,13 +5,13 @@
   "main": "./nuxt.config.ts",
   "license": "Apache-2.0",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint --max-warnings 0 '**/*.{js,ts,vue,html}'",
+    "lint:fix": "eslint --max-warnings 0 '**/*.{js,ts,vue,html}' --fix",
     "typecheck": "nuxi typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "pnpm nuxt prepare",
-    "postinstalls": "pnpm upgrade '@injectivelabs/*' --latest"
+    "postinstall": "pnpm upgrade '@injectivelabs/*' --latest"
   },
   "dependencies": {
     "@bangjelkoski/ens-validation": "^0.1.1",
@@ -58,7 +58,6 @@
     "eslint-plugin-perfectionist": "4.15.1",
     "happy-dom": "^18.0.1",
     "husky": "9.1.7",
-    "lint-staged": "16.2.7",
     "playwright-core": "^1.53.1",
     "prettier": "3.7.4",
     "typescript": "5.9.3",
@@ -66,19 +65,12 @@
     "vitest": "^3.2.4",
     "vue-tsc": "^3.1.5"
   },
-  "lint-staged": {
-    "**/*.{js,ts,vue}": [
-      "prettier --write",
-      "eslint --max-warnings 0 --no-ignore --fix"
-    ]
-  },
   "pnpm": {
     "overrides": {
       "error-ex": "1.3.2",
       "simple-swizzle": "0.2.2",
       "@solana/web3.js": "1.98.0",
       "bignumber.js": "9.1.2",
-      "rpc-websockets": "9.0.4",
       "crypto-js": "4.2.0",
       "viem": "2.41.2",
       "rollup": "4.53.3"
