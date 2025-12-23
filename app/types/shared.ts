@@ -3,6 +3,7 @@ import type { NotificationType } from './enum'
 
 export interface SharedDropdownOption {
   value: string
+  cyTag?: string
   display: string
   description?: string
 }
