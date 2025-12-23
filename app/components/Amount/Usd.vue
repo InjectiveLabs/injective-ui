@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { BigNumber } from '@injectivelabs/utils'
 import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
-import type { BigNumber as BigNumberType } from '@injectivelabs/utils'
 
 withDefaults(
   defineProps<{
@@ -10,8 +9,8 @@ withDefaults(
     hideDecimals?: boolean
     useSubscript?: boolean
     shouldAbbreviate?: boolean
+    amount: string | number | BigNumber
     roundingMode?: BigNumber.RoundingMode
-    amount: string | number | BigNumberType
   }>(),
   {
     dataCy: '',

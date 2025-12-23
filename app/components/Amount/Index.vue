@@ -5,7 +5,6 @@ import {
   DEFAULT_ABBREVIATED_DECIMALS,
   DEFAULT_ABBREVIATION_THRESHOLD
 } from '../../utils/constant'
-import type { BigNumber as BigNumberType } from '@injectivelabs/utils'
 
 const props = withDefaults(
   defineProps<{
@@ -17,8 +16,8 @@ const props = withDefaults(
     shouldAbbreviate?: boolean
     showZeroAsEmDash?: boolean
     abbreviationThreshold?: number
+    amount: string | number | BigNumber
     roundingMode?: BigNumber.RoundingMode
-    amount: string | number | BigNumberType
   }>(),
   {
     dataCy: '',
