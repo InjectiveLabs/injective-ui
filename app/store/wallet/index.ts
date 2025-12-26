@@ -582,7 +582,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStrategy = await getWalletStrategy()
 
       if (
-        walletStore.hwAddresses.length === 0 ||
+        walletStore.hwAddressesInfo.length === 0 ||
         walletStore.wallet !== wallet
       ) {
         await walletStrategy.disconnect()
@@ -605,13 +605,20 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           hwAddressesInfo: injectiveAddresses
         })
       } else {
-        const addresses = await getAddresses()
+        const addresses = await getHwAddressesInfo()
+
         const injectiveAddresses = isEvmWallet(wallet)
-          ? addresses.map(getInjectiveAddress)
+          ? addresses.map((info) => ({
+              ...info,
+              address: getInjectiveAddress(info.address)
+            }))
           : addresses
 
         walletStore.$patch({
-          hwAddresses: [...walletStore.hwAddresses, ...injectiveAddresses]
+          hwAddressesInfo: [
+            ...walletStore.hwAddressesInfo,
+            ...injectiveAddresses
+          ]
         })
       }
     },
