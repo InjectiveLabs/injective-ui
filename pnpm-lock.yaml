@@ -5,13 +5,18 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  error-ex: 1.3.2
-  simple-swizzle: 0.2.2
-  '@solana/web3.js': 1.98.0
-  bignumber.js: 9.1.2
-  crypto-js: 4.2.0
   viem: 2.41.2
   rollup: 4.53.3
+  error-ex: 1.3.2
+  crypto-js: 4.2.0
+  bignumber.js: 9.1.2
+  simple-swizzle: 0.2.2
+  '@solana/web3.js': 1.98.0
+  '@ledgerhq/hw-app-eth': 6.30.0
+  '@ledgerhq/hw-transport': 6.31.4
+  '@ledgerhq/hw-app-cosmos': 6.30.4
+  '@ledgerhq/hw-transport-webusb': 6.29.4
+  '@ledgerhq/hw-transport-webhid': 6.29.4
 
 importers:
 
@@ -1433,53 +1438,35 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
-  '@ledgerhq/cryptoassets-evm-signatures@13.7.1':
-    resolution: {integrity: sha512-ehLn62L15fOlTH6u5D1eV1d4/QIju6aaUKWy7CpVLSiRmkWEBaORhOL/l9TvBrRIvNLHVBQEhiBaJcJ4hGrlEw==}
+  '@ledgerhq/cryptoassets@6.37.0':
+    resolution: {integrity: sha512-xwrDKTS9koQBNNzc7CqgV6zfGHvNFWJjlIL0Kc4O4DVWYR2vUdztUHcvwHD1KPjxNYhVnsgIopmtq47fHt3nMg==}
 
-  '@ledgerhq/devices@8.7.0':
-    resolution: {integrity: sha512-3pSOULPUhClk2oOxa6UnoyXW8+05FK7r6cpq2WiTey4kyIUjmIraO7AX9lhz9IU73dGVtBMdU+NCPPO2RYJaTQ==}
+  '@ledgerhq/devices@8.8.0':
+    resolution: {integrity: sha512-ZFRAQQaESxIK/8SYrrHyqb7pQjLPO8f62PI6H16SP0/uC9fdZKR8NqOGMvIf7I6K442SkiQATnC/kxUeUTfuHA==}
 
-  '@ledgerhq/devices@8.7.1':
-    resolution: {integrity: sha512-xUtqLp4t7PhVKkMG/mCrSzxGQ25JA06UAIxxq07EwuJKyWaey1gSdvqr0TvbTw/fsJNya4FIBYTrUkjH9XpdBQ==}
+  '@ledgerhq/errors@6.28.0':
+    resolution: {integrity: sha512-Rx6GN801GP/3gCfVmmiXFVZWmiaEGMuXVwjM6WOCX0dzw4v7KcB1nj4vrNC1plDI/xkPt/clYJPG7LgSt0mxlw==}
 
-  '@ledgerhq/domain-service@1.4.3':
-    resolution: {integrity: sha512-KtNzRwFbSas5t2BTbaTD19TY859efVqOuSUSpIsvlzyyO6Xti72UL2K2D1H3gW4S0QUGhrnzCPMzL5DeeKiAPA==}
+  '@ledgerhq/hw-app-cosmos@6.30.4':
+    resolution: {integrity: sha512-YyX2zKHvCbT8aehLQPE0dNyT1Bl9ZmN0WabpE+RaKvBgmrid6Kp5CypvOTVRrKyv06E3yKlX06yM2EESlILlzA==}
 
-  '@ledgerhq/errors@6.27.1':
-    resolution: {integrity: sha512-Q6nXkg63kSjxa8DDBtjSGAuiOP/jQVQM/0f+0R/ovilQKuxMIxEMXPfonvhQ2AIP4bqKOzGV1c9Iqnow22w/Zg==}
+  '@ledgerhq/hw-app-eth@6.30.0':
+    resolution: {integrity: sha512-Mr0apxn/oUXD4DZ2gw3fWJQ1rHDzLCzvoGV7Y1/CLoLy85A3w5nROTrFY0+SZNAIB/tqzWZJ9SQpBg5yXVzmmA==}
 
-  '@ledgerhq/evm-tools@1.8.2':
-    resolution: {integrity: sha512-6CSPwyeDXkhoaxZ/Fn/XgNn6yXmEzbhUQu9o1WJi+wAG2r5m+CwlUznYeA46r9AccqQ13UuM4cXWZQvrwzlSuA==}
+  '@ledgerhq/hw-transport-mocker@6.30.0':
+    resolution: {integrity: sha512-WsnjNMpDah+JtUhAKOUT480ljN//3OJ+yxPSyg1Ue6QfcD3S5TQiXaCY/bTyCStoQXOYQN3qehXD1NFuw7gfYQ==}
 
-  '@ledgerhq/hw-app-cosmos@6.32.10':
-    resolution: {integrity: sha512-i8xrmyA+VScxte3XOeQMyAP9Ogl8Alo+K8ZNT1RCqW6WmnqMZTPR6ape6tOvSwzr9KtB4egJOQJ9e4164m0n3w==}
+  '@ledgerhq/hw-transport-webhid@6.29.4':
+    resolution: {integrity: sha512-XkF37lcuyg9zVExMyfDQathWly8rRcGac13wgZATBa3nZ+hUzzWr5QVKg1pKCw10izVHGErW/9a4tbb72rUEmQ==}
 
-  '@ledgerhq/hw-app-eth@6.47.1':
-    resolution: {integrity: sha512-uTgXZwiEBuXoouZOzd/wi06FGyUdP8THDkzPcHfbt4hcIwiPMfRc/vrOXJtCq/LaM8nVEuf8xk+H1sAgJzPCkw==}
+  '@ledgerhq/hw-transport-webusb@6.29.4':
+    resolution: {integrity: sha512-HoGF1LlBT9HEGBQy2XeCHrFdv/FEOZU0+J+yfKcgAQIAiASr2MLvdzwoJbUS8h6Gn+vc+/BjzBSO3JNn7Loqbg==}
 
-  '@ledgerhq/hw-transport-mocker@6.29.14':
-    resolution: {integrity: sha512-8eX9EvpE2t7olDmknLMJBOIs5AZeybowsmnEd2A/it0fxo+zkpUS+iqR9Dua2kJCfk57Gt9UiAIA/u/y+ZtQNA==}
-
-  '@ledgerhq/hw-transport-webhid@6.30.10':
-    resolution: {integrity: sha512-vPTHhgCNeymlqjcK3VlMCAzEqUC5o6+NTFq2V6ywbKBkT7Wl8jUR2y+Kfba41Pg+DXTUZ4BzgMM6tNNx48ioiA==}
-
-  '@ledgerhq/hw-transport-webusb@6.29.14':
-    resolution: {integrity: sha512-JArpm2rDaZyg4Ur8FRl0eV6DWgBHAYIHbldn0NJlr+dAgOQL1MNLjUJAobpeBkYtj8c2DqQogvgnH38OXaI+MA==}
-
-  '@ledgerhq/hw-transport@6.31.13':
-    resolution: {integrity: sha512-MrJRDk74wY980ofiFPRpTHQBbRw1wDuKbdag1zqlO1xtJglymwwY03K2kvBNvkm1RTSCPUp/nAoNG+WThZuuew==}
-
-  '@ledgerhq/hw-transport@6.31.14':
-    resolution: {integrity: sha512-aTKItTLDCN2aoZv6nX6weMslgzT0mI8Hp2FEt2iTomQ6V5r1/BRDRbz2WB1989dZsgBajPRuUWhTZ/Bt6tiijw==}
-
-  '@ledgerhq/live-env@2.22.0':
-    resolution: {integrity: sha512-zOtxXQl0stQpNp/01nvClMyAdc5WLY8b4vAeP8KJvvoDPCY9VfKLNGvjfU7r/AGsTTmJqy8DOSlboQ24CNd+zg==}
+  '@ledgerhq/hw-transport@6.31.4':
+    resolution: {integrity: sha512-6c1ir/cXWJm5dCWdq55NPgCJ3UuKuuxRvf//Xs36Bq9BwkV2YaRQhZITAkads83l07NAdR16hkTWqqpwFMaI6A==}
 
   '@ledgerhq/logs@6.13.0':
     resolution: {integrity: sha512-4+qRW2Pc8V+btL0QEmdB2X+uyx0kOWMWE1/LWsq5sZy3Q5tpi4eItJS6mB0XL3wGW59RQ+8bchNQQ1OW/va8Og==}
-
-  '@ledgerhq/types-live@6.90.0':
-    resolution: {integrity: sha512-F+YyfE0HZoqc8HkaJXEHhMjU4JX6eHzCfXKmJH/MHiymrqg8tOa+c07mWIlvspf5jcpswRM3r1k81y2A8q/aWw==}
 
   '@lit-labs/ssr-dom-shim@1.5.0':
     resolution: {integrity: sha512-HLomZXMmrCFHSRKESF5vklAKsDY7/fsT/ZhqCu3V0UoW/Qbv8wxmO4W9bx4KnCCF2Zak4yuk+AGraK/bPmI4kA==}
@@ -4269,8 +4256,8 @@ packages:
   axios@0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
 
-  axios@1.12.2:
-    resolution: {integrity: sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw==}
+  axios@0.26.1:
+    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
 
   axios@1.13.2:
     resolution: {integrity: sha512-VPk9ebNqPcy5lRGuSlKx752IlDatOjT9paPlm8A7yOuW2Fbvp4X3JznJtT4f0GzGLLiWE9W8onz51SqLYwzGaA==}
@@ -5042,9 +5029,6 @@ packages:
   eip1193-provider@1.0.1:
     resolution: {integrity: sha512-kSuqwQ26d7CzuS/t3yRXo2Su2cVH0QfvyKbr2H7Be7O5YDyIq4hQGCNTo5wRdP07bt+E2R/8nPCzey4ojBHf7g==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-
-  eip55@2.1.1:
-    resolution: {integrity: sha512-WcagVAmNu2Ww2cDUfzuWVntYwFxbvZ5MvIyLZpMjTTkjD6sCvkGOiS86jTppzu9/gWsc8isLHAeMBWK02OnZmA==}
 
   electron-to-chromium@1.5.267:
     resolution: {integrity: sha512-0Drusm6MVRXSOJpGbaSVgcQsuB4hEkMpHXaVstcPmhu5LIedxs1xNK/nIxmQIU/RPC0+1/o0AVZfBTkTNJOdUw==}
@@ -5828,6 +5812,9 @@ packages:
   int64-buffer@1.1.0:
     resolution: {integrity: sha512-94smTCQOvigN4d/2R/YDjz8YVG0Sufvv2aAh8P5m42gwhCsDAJqnbNOrxJsrADuAFAA69Q/ptGzxvNcNuIJcvw==}
 
+  invariant@2.2.4:
+    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
+
   ioredis@5.8.2:
     resolution: {integrity: sha512-C6uC+kleiIMmjViJINWk80sOQw5lEzse1ZmvD+S/s8p8CWapftSaC+kocGTx6xrbrJ4WmYQGC08ffHLr6ToR6Q==}
     engines: {node: '>=12.22.0'}
@@ -6081,10 +6068,6 @@ packages:
     resolution: {integrity: sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==}
     engines: {node: '>=18'}
 
-  keccak@3.0.4:
-    resolution: {integrity: sha512-3vKuW0jV8J3XNTzvfyicFR5qvxrSAGl7KIhvgOu5cmWwM7tZRj3fMbj/pfIf4be7aznbc+prBWGjywox/g2Y6Q==}
-    engines: {node: '>=10.0.0'}
-
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
@@ -6117,11 +6100,11 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  libsodium-sumo@0.7.15:
-    resolution: {integrity: sha512-5tPmqPmq8T8Nikpm1Nqj0hBHvsLFCXvdhBFV7SGOitQPZAA6jso8XoL0r4L7vmfKXr486fiQInvErHtEvizFMw==}
+  libsodium-sumo@0.7.16:
+    resolution: {integrity: sha512-x6atrz2AdXCJg6G709x9W9TTJRI6/0NcL5dD0l5GGVqNE48UJmDsjO4RUWYTeyXXUpg+NXZ2SHECaZnFRYzwGA==}
 
-  libsodium-wrappers-sumo@0.7.15:
-    resolution: {integrity: sha512-aSWY8wKDZh5TC7rMvEdTHoyppVq/1dTSAeAR7H6pzd6QRT3vQWcT5pGwCotLcpPEOLXX6VvqihSPkpEhYAjANA==}
+  libsodium-wrappers-sumo@0.7.16:
+    resolution: {integrity: sha512-gR0JEFPeN3831lB9+ogooQk0KH4K5LSMIO5Prd5Q5XYR2wHFtZfPg0eP7t1oJIWq+UIzlU4WVeBxZ97mt28tXw==}
 
   lie@3.1.1:
     resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
@@ -6509,9 +6492,6 @@ packages:
 
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
-
-  node-addon-api@2.0.2:
-    resolution: {integrity: sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==}
 
   node-addon-api@3.2.1:
     resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
@@ -8058,10 +8038,6 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  utility-types@3.11.0:
-    resolution: {integrity: sha512-6Z7Ma2aVEWisaL6TvBCy7P8rm2LQoPv6dJ7ecIaIixHcwfbJ0x7mWdbcwlIM5IGQxPZSFYeqRCqlOOeKoJYMkw==}
-    engines: {node: '>= 4'}
-
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
@@ -9039,7 +9015,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       bn.js: 5.2.2
       elliptic: 6.6.1
-      libsodium-wrappers-sumo: 0.7.15
+      libsodium-wrappers-sumo: 0.7.16
 
   '@cosmjs/encoding@0.33.1':
     dependencies:
@@ -9891,11 +9867,11 @@ snapshots:
       '@injectivelabs/sdk-ts': 1.17.2(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.17.2
       '@injectivelabs/wallet-base': 1.17.2(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@ledgerhq/hw-app-cosmos': 6.32.10
-      '@ledgerhq/hw-app-eth': 6.47.1
-      '@ledgerhq/hw-transport': 6.31.14
-      '@ledgerhq/hw-transport-webhid': 6.30.10
-      '@ledgerhq/hw-transport-webusb': 6.29.14
+      '@ledgerhq/hw-app-cosmos': 6.30.4
+      '@ledgerhq/hw-app-eth': 6.30.0
+      '@ledgerhq/hw-transport': 6.31.4
+      '@ledgerhq/hw-transport-webhid': 6.29.4
+      '@ledgerhq/hw-transport-webusb': 6.29.4
       axios: 1.13.2
       bignumber.js: 9.1.2
       buffer: 6.0.3
@@ -10256,121 +10232,68 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
-  '@ledgerhq/cryptoassets-evm-signatures@13.7.1':
+  '@ledgerhq/cryptoassets@6.37.0':
     dependencies:
-      '@ledgerhq/live-env': 2.22.0
-      axios: 1.12.2
-    transitivePeerDependencies:
-      - debug
+      invariant: 2.2.4
 
-  '@ledgerhq/devices@8.7.0':
+  '@ledgerhq/devices@8.8.0':
     dependencies:
-      '@ledgerhq/errors': 6.27.1
+      '@ledgerhq/errors': 6.28.0
       '@ledgerhq/logs': 6.13.0
       rxjs: 7.8.2
       semver: 7.7.3
 
-  '@ledgerhq/devices@8.7.1':
+  '@ledgerhq/errors@6.28.0': {}
+
+  '@ledgerhq/hw-app-cosmos@6.30.4':
     dependencies:
-      '@ledgerhq/errors': 6.27.1
+      '@ledgerhq/errors': 6.28.0
+      '@ledgerhq/hw-transport': 6.31.4
+      bip32-path: 0.4.2
+
+  '@ledgerhq/hw-app-eth@6.30.0':
+    dependencies:
+      '@ethersproject/abi': 5.8.0
+      '@ethersproject/rlp': 5.8.0
+      '@ledgerhq/cryptoassets': 6.37.0
+      '@ledgerhq/errors': 6.28.0
+      '@ledgerhq/hw-transport': 6.31.4
+      '@ledgerhq/hw-transport-mocker': 6.30.0
       '@ledgerhq/logs': 6.13.0
-      rxjs: 7.8.2
-      semver: 7.7.3
-
-  '@ledgerhq/domain-service@1.4.3':
-    dependencies:
-      '@ledgerhq/errors': 6.27.1
-      '@ledgerhq/logs': 6.13.0
-      '@ledgerhq/types-live': 6.90.0
-      axios: 1.12.2
-      eip55: 2.1.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-    transitivePeerDependencies:
-      - debug
-
-  '@ledgerhq/errors@6.27.1': {}
-
-  '@ledgerhq/evm-tools@1.8.2':
-    dependencies:
-      '@ethersproject/constants': 5.8.0
-      '@ethersproject/hash': 5.8.0
-      '@ledgerhq/live-env': 2.22.0
-      axios: 1.12.2
+      axios: 0.26.1
+      bignumber.js: 9.1.2
       crypto-js: 4.2.0
     transitivePeerDependencies:
       - debug
 
-  '@ledgerhq/hw-app-cosmos@6.32.10':
+  '@ledgerhq/hw-transport-mocker@6.30.0':
     dependencies:
-      '@ledgerhq/errors': 6.27.1
-      '@ledgerhq/hw-transport': 6.31.14
-      bip32-path: 0.4.2
-
-  '@ledgerhq/hw-app-eth@6.47.1':
-    dependencies:
-      '@ethersproject/abi': 5.8.0
-      '@ethersproject/rlp': 5.8.0
-      '@ethersproject/transactions': 5.8.0
-      '@ledgerhq/cryptoassets-evm-signatures': 13.7.1
-      '@ledgerhq/domain-service': 1.4.3
-      '@ledgerhq/errors': 6.27.1
-      '@ledgerhq/evm-tools': 1.8.2
-      '@ledgerhq/hw-transport': 6.31.13
-      '@ledgerhq/hw-transport-mocker': 6.29.14
-      '@ledgerhq/logs': 6.13.0
-      '@ledgerhq/types-live': 6.90.0
-      axios: 1.12.2
-      bignumber.js: 9.1.2
-      semver: 7.7.3
-    transitivePeerDependencies:
-      - debug
-
-  '@ledgerhq/hw-transport-mocker@6.29.14':
-    dependencies:
-      '@ledgerhq/hw-transport': 6.31.14
+      '@ledgerhq/hw-transport': 6.31.4
       '@ledgerhq/logs': 6.13.0
       rxjs: 7.8.2
 
-  '@ledgerhq/hw-transport-webhid@6.30.10':
+  '@ledgerhq/hw-transport-webhid@6.29.4':
     dependencies:
-      '@ledgerhq/devices': 8.7.1
-      '@ledgerhq/errors': 6.27.1
-      '@ledgerhq/hw-transport': 6.31.14
+      '@ledgerhq/devices': 8.8.0
+      '@ledgerhq/errors': 6.28.0
+      '@ledgerhq/hw-transport': 6.31.4
       '@ledgerhq/logs': 6.13.0
 
-  '@ledgerhq/hw-transport-webusb@6.29.14':
+  '@ledgerhq/hw-transport-webusb@6.29.4':
     dependencies:
-      '@ledgerhq/devices': 8.7.1
-      '@ledgerhq/errors': 6.27.1
-      '@ledgerhq/hw-transport': 6.31.14
+      '@ledgerhq/devices': 8.8.0
+      '@ledgerhq/errors': 6.28.0
+      '@ledgerhq/hw-transport': 6.31.4
       '@ledgerhq/logs': 6.13.0
 
-  '@ledgerhq/hw-transport@6.31.13':
+  '@ledgerhq/hw-transport@6.31.4':
     dependencies:
-      '@ledgerhq/devices': 8.7.0
-      '@ledgerhq/errors': 6.27.1
-      '@ledgerhq/logs': 6.13.0
-      events: 3.3.0
-
-  '@ledgerhq/hw-transport@6.31.14':
-    dependencies:
-      '@ledgerhq/devices': 8.7.1
-      '@ledgerhq/errors': 6.27.1
+      '@ledgerhq/devices': 8.8.0
+      '@ledgerhq/errors': 6.28.0
       '@ledgerhq/logs': 6.13.0
       events: 3.3.0
-
-  '@ledgerhq/live-env@2.22.0':
-    dependencies:
-      rxjs: 7.8.2
-      utility-types: 3.11.0
 
   '@ledgerhq/logs@6.13.0': {}
-
-  '@ledgerhq/types-live@6.90.0':
-    dependencies:
-      bignumber.js: 9.1.2
-      rxjs: 7.8.2
 
   '@lit-labs/ssr-dom-shim@1.5.0': {}
 
@@ -14561,11 +14484,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.12.2:
+  axios@0.26.1:
     dependencies:
       follow-redirects: 1.15.11
-      form-data: 4.0.5
-      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
 
@@ -15377,10 +15298,6 @@ snapshots:
       - bufferutil
       - debug
       - utf-8-validate
-
-  eip55@2.1.1:
-    dependencies:
-      keccak: 3.0.4
 
   electron-to-chromium@1.5.267: {}
 
@@ -16350,6 +16267,10 @@ snapshots:
 
   int64-buffer@1.1.0: {}
 
+  invariant@2.2.4:
+    dependencies:
+      loose-envify: 1.4.0
+
   ioredis@5.8.2:
     dependencies:
       '@ioredis/commands': 1.4.0
@@ -16580,12 +16501,6 @@ snapshots:
   jwt-decode@4.0.0:
     optional: true
 
-  keccak@3.0.4:
-    dependencies:
-      node-addon-api: 2.0.2
-      node-gyp-build: 4.8.4
-      readable-stream: 3.6.2
-
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
@@ -16614,11 +16529,11 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libsodium-sumo@0.7.15: {}
+  libsodium-sumo@0.7.16: {}
 
-  libsodium-wrappers-sumo@0.7.15:
+  libsodium-wrappers-sumo@0.7.16:
     dependencies:
-      libsodium-sumo: 0.7.15
+      libsodium-sumo: 0.7.16
 
   lie@3.1.1:
     dependencies:
@@ -17070,8 +16985,6 @@ snapshots:
     dependencies:
       lower-case: 2.0.2
       tslib: 2.8.1
-
-  node-addon-api@2.0.2: {}
 
   node-addon-api@3.2.1: {}
 
@@ -17888,10 +17801,12 @@ snapshots:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
+    optional: true
 
   react@18.3.1:
     dependencies:
       loose-envify: 1.4.0
+    optional: true
 
   read-pkg-up@7.0.1:
     dependencies:
@@ -18119,6 +18034,7 @@ snapshots:
   scheduler@0.23.2:
     dependencies:
       loose-envify: 1.4.0
+    optional: true
 
   scslre@0.3.0:
     dependencies:
@@ -18858,8 +18774,6 @@ snapshots:
     optional: true
 
   util-deprecate@1.0.2: {}
-
-  utility-types@3.11.0: {}
 
   uuid@8.3.2:
     optional: true
