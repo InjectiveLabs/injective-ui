@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import { manualChunks } from './chunk'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { IS_TRADING_UI } from '../../app/utils/constant'
 import type { ViteConfig } from '@nuxt/schema'
 
 export { manualChunks } from './chunk'
@@ -94,23 +93,6 @@ const REMOTE_LAYER_TRANSITIVE_DEPS = [
   '@cosmostation/extension-client/index'
 ]
 
-/**
- * App-specific dependencies (fallback for apps not yet migrated).
- * Apps should migrate to using buildOptimizeDepsInclude() directly.
- *
- * @deprecated Apps should use buildOptimizeDepsInclude() in their own config
- */
-const APP_SPECIFIC_DEPS: Record<string, string[]> = {
-  tradingUi: [
-    '@shared/types',
-    '@shared/data/token',
-    '@shared/WalletService',
-    '@shared/utils/formatter',
-    '@shared/transformer/market',
-    '@shared/transformer/oracle'
-  ]
-}
-
 export function buildOptimizeDepsInclude(
   appSpecificDeps: string[] = []
 ): string[] {
@@ -127,21 +109,6 @@ export function buildOptimizeDepsInclude(
 
   // Deduplicate
   return [...new Set(deps)]
-}
-
-/**
- * Gets the legacy app-specific deps based on IS_* flags.
- * This is for backwards compatibility with apps not yet migrated.
- *
- * @deprecated Apps should use buildOptimizeDepsInclude() directly
- */
-function getLegacyAppSpecificDeps(): string[] {
-  const deps: string[] = []
-
-  if (IS_TRADING_UI && APP_SPECIFIC_DEPS.tradingUi)
-    deps.push(...APP_SPECIFIC_DEPS.tradingUi)
-
-  return deps
 }
 
 export default defineConfig({
@@ -162,8 +129,7 @@ export default defineConfig({
 
   resolve: {
     // Dedupe packages that MUST be singletons (shared global state)
-    // vee-validate uses a global rules registry - multiple instances break rule lookups
-    dedupe: ['vee-validate', 'vue']
+    dedupe: ['vee-validate', 'vue', 'viem', 'ox', 'abitype']
   },
 
   server: {
@@ -196,6 +162,6 @@ export default defineConfig({
 
   optimizeDeps: {
     exclude: ['fsevents'],
-    include: [...buildOptimizeDepsInclude(getLegacyAppSpecificDeps())]
+    include: [...buildOptimizeDepsInclude()]
   }
 }) as ViteConfig

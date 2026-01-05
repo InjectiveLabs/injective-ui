@@ -2,9 +2,10 @@
  * Bridge app chunk configuration overrides.
  *
  * Bridge has specific requirements due to Wormhole/Solana integration:
- * 1. Solana ecosystem packages must be bundled together (circular dependencies)
- * 2. protobufjs must be bundled with CosmJs (initialization order)
- * 3. @turnkey and @reown excluded from wallet chunks (go to solana-ecosystem)
+ * 1. @wormhole-foundation packages must be in dedicated 'wormhole' chunk (circular dependencies)
+ * 2. Solana ecosystem packages must be bundled together (circular dependencies)
+ * 3. protobufjs must be bundled with CosmJs (initialization order)
+ * 4. @turnkey and @reown excluded from wallet chunks (go to solana-ecosystem)
  */
 
 /**
@@ -24,13 +25,14 @@ export const SOLANA_ECOSYSTEM_CHUNK = 'solana-ecosystem'
 /**
  * Packages that must be bundled together due to circular dependencies.
  * These cause "Cannot access X before initialization" errors when split.
+ *
+ * NOTE: @wormhole-foundation has its own dedicated 'wormhole' chunk (priority 200)
+ * to ensure its internal circular dependencies are preserved.
  */
 const SOLANA_ECOSYSTEM_PATTERNS = [
   // Solana core
   '@solana',
   '@solana-program',
-  // Wormhole uses Solana
-  '@wormhole-foundation',
   // Anchor/Serum use Solana
   '@coral-xyz',
   '@project-serum',
@@ -59,6 +61,7 @@ export function isSolanaEcosystem(id: string): boolean {
  * Bridge-specific chunk overrides.
  *
  * These replace the shared chunks with the same name:
+ * - Wormhole: dedicated chunk for @wormhole-foundation (HIGHEST PRIORITY - circular deps)
  * - WalletTurnkey: excludes @turnkey (goes to solana-ecosystem)
  * - WalletWalletConnect: excludes @reown (goes to solana-ecosystem)
  * - CosmJs: includes protobufjs (initialization order fix)
@@ -66,6 +69,14 @@ export function isSolanaEcosystem(id: string): boolean {
  */
 export function getBridgeChunkOverrides(): ChunkGroup[] {
   return [
+    // Wormhole SDK - MUST be highest priority to keep all @wormhole-foundation together
+    // This fixes "Cannot access 'toMapping' before initialization" error caused by
+    // circular dependencies between utils/mapping.js and constants/chains.js
+    {
+      name: 'wormhole',
+      test: (id: string) => id.includes('@wormhole-foundation'),
+      priority: 200 // Higher than EventEmitter (150) to ensure ALL wormhole stays together
+    },
     // Turnkey: wallet package only (NOT @turnkey - goes to solana-ecosystem)
     {
       name: 'wallet-turnkey',
