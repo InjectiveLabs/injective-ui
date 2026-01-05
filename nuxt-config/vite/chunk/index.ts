@@ -55,6 +55,7 @@ export enum ChunkName {
   // Ethereum ecosystem
   Ethers = 'ethers',
   Viem = 'viem',
+  AbiType = 'abitype',
 
   // Serialization
   Protobuf = 'protobuf',
@@ -152,6 +153,15 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
       id.includes('/elliptic/') ||
       id.includes('node_modules/elliptic'),
     priority: 86
+  },
+
+  // ABI type parsing - must be separate to be shared by viem and solana ecosystem
+  // Higher priority (84) ensures it's checked before viem (81) and takes precedence over Solana ecosystem
+  // Match patterns: /ox@, /ox/, /abitype@, /abitype/
+  {
+    name: ChunkName.AbiType,
+    test: (id: string) => /\/ox[@/]/.test(id) || /\/abitype[@/]/.test(id),
+    priority: 84
   },
 
   // Cosmos ecosystem
@@ -291,15 +301,30 @@ export function manualChunks(id: string): string | undefined {
     return undefined
   }
 
-  // Bridge-only: Bundle Solana ecosystem packages together
-  if (IS_BRIDGE && isSolanaEcosystem(id)) {
-    return SOLANA_ECOSYSTEM_CHUNK
-  }
-
+  // Check cache first
   if (chunkCache.has(id)) {
     return chunkCache.get(id)
   }
 
+  // Bridge-only: Bundle Solana ecosystem packages together
+  // This check must happen AFTER priority-based chunk groups are checked
+  // to allow higher-priority chunks (like AbiType at priority 84) to take precedence
+  if (IS_BRIDGE && isSolanaEcosystem(id)) {
+    // First check if this module matches a higher-priority chunk
+    for (const group of SORTED_CHUNK_GROUPS) {
+      if (group.test(id)) {
+        chunkCache.set(id, group.name)
+
+        return group.name
+      }
+    }
+    // If no high-priority match, assign to Solana ecosystem
+    chunkCache.set(id, SOLANA_ECOSYSTEM_CHUNK)
+
+    return SOLANA_ECOSYSTEM_CHUNK
+  }
+
+  // Check priority-based chunk groups
   let chunkName: string | undefined
   for (const group of SORTED_CHUNK_GROUPS) {
     if (group.test(id)) {
