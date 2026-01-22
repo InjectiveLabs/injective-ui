@@ -112,6 +112,7 @@ export const connectTurnkeyGoogle = async () => {
 export const initTurnkeyGoogle = async (oidcToken: string) => {
   const walletStore = useSharedWalletStore()
   const walletStrategy = await getWalletStrategy()
+  await walletStrategy.setWallet(Wallet.Turnkey)
 
   await walletStore.connectWallet(Wallet.Turnkey)
 
