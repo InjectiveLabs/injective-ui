@@ -77,7 +77,14 @@ onMounted(() => {
     }"
   >
     <template #content>
-      <UCard v-bind="{ ui: cardUi }">
+      <UCard
+        v-bind="{
+          ui: {
+            ...cardUi,
+            root: `${(cardUi as any)?.root} overflow-auto`
+          }
+        }"
+      >
         <UButton
           v-if="!isHideCloseButton && !preventClose"
           variant="ghost"
