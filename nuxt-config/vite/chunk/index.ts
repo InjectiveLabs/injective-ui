@@ -65,12 +65,8 @@ export enum ChunkName {
   Lottie = 'lottie',
   AceEditor = 'ace-editor',
 
-  // Injective proto packages
-  ProtoOlp = 'proto-olp',
-  ProtoCore = 'proto-core',
-  ProtoMito = 'proto-mito',
-  ProtoAbacus = 'proto-abacus',
-  ProtoIndexer = 'proto-indexer',
+  // Injective proto packages (consolidated to avoid circular chunk dependencies)
+  InjectiveProto = 'injective-proto',
 
   // Injective SDK
   InjectiveSdk = 'injective-sdk',
@@ -210,31 +206,19 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
     priority: 61
   },
 
-  // Injective proto packages
+  // Injective proto packages + @protobuf-ts runtime
+  // Consolidated into a single chunk to avoid circular dependencies with protobuf chunk
+  // All proto packages share the same @protobuf-ts/runtime dependency
   {
-    name: ChunkName.ProtoCore,
-    test: (id: string) => id.includes('@injectivelabs/core-proto-ts'),
-    priority: 59
-  },
-  {
-    name: ChunkName.ProtoIndexer,
-    test: (id: string) => id.includes('@injectivelabs/indexer-proto-ts'),
-    priority: 58
-  },
-  {
-    name: ChunkName.ProtoMito,
-    test: (id: string) => id.includes('@injectivelabs/mito-proto-ts'),
-    priority: 57
-  },
-  {
-    name: ChunkName.ProtoAbacus,
-    test: (id: string) => id.includes('@injectivelabs/abacus-proto-ts'),
-    priority: 56
-  },
-  {
-    name: ChunkName.ProtoOlp,
-    test: (id: string) => id.includes('@injectivelabs/olp-proto-ts'),
-    priority: 55
+    name: ChunkName.InjectiveProto,
+    test: (id: string) =>
+      id.includes('@injectivelabs/core-proto-ts') ||
+      id.includes('@injectivelabs/indexer-proto-ts') ||
+      id.includes('@injectivelabs/mito-proto-ts') ||
+      id.includes('@injectivelabs/abacus-proto-ts') ||
+      id.includes('@injectivelabs/olp-proto-ts') ||
+      id.includes('@protobuf-ts/runtime'),
+    priority: 71 // Higher than Protobuf (70) to ensure @protobuf-ts/runtime goes here
   },
 
   // Injective SDK
