@@ -1,3 +1,4 @@
+import { IS_TRUE_CURRENT } from './setup'
 import { MsgType } from '@injectivelabs/ts-types'
 
 export const TRADING_MESSAGES = [
@@ -16,4 +17,12 @@ export const TRADING_MESSAGES = [
   MsgType.MsgBatchCreateDerivativeLimitOrders
 ] as MsgType[]
 
-export const tradingMessages = TRADING_MESSAGES.map((msg) => `/${msg}`)
+export const TC_TRADING_MESSAGES = [
+  MsgType.MsgExecuteContractCompat
+] as MsgType[]
+
+export const tradingMessages = (
+  IS_TRUE_CURRENT
+    ? [...TC_TRADING_MESSAGES, ...TRADING_MESSAGES]
+    : TRADING_MESSAGES
+).map((msg) => `/${msg}`)

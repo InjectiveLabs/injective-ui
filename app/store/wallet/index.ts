@@ -9,6 +9,7 @@ import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
   getInjectiveAddress,
+  isCw20ContractAddress,
   getDefaultSubaccountId
 } from '@injectivelabs/sdk-ts/utils'
 import {
@@ -818,12 +819,28 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       })
     },
 
-    async connectAutoSign(
-      msgsType: string[] = [],
-      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[] = []
-    ) {
-      if (msgsType.length === 0 && contractExecutionCompatAuthz.length === 0) {
+    async connectAutoSign({
+      msgsType,
+      contractMsgTypeMap,
+      contractExecutionCompatAuthz
+    }: {
+      msgsType?: string[]
+      contractMsgTypeMap?: Record<string, string[]>
+      contractExecutionCompatAuthz?: ContractExecutionCompatAuthz[]
+    }) {
+      if (
+        (msgsType?.length || 0) === 0 &&
+        (contractExecutionCompatAuthz?.length || 0) === 0
+      ) {
         throw new GeneralException(new Error('No messages provided'))
+      }
+
+      // note: supports only 1 contract address for now
+      const contractAddress = Object.keys(contractMsgTypeMap || {})?.[0]
+      const contractMsgsType = Object.values(contractMsgTypeMap || {})[0] || []
+
+      if (contractAddress && !isCw20ContractAddress(contractAddress)) {
+        throw new GeneralException(new Error('Invalid contract addresses'))
       }
 
       const walletStore = useSharedWalletStore()
@@ -834,7 +851,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const nowInSeconds = Math.floor(Date.now() / 1000)
       const expirationInSeconds = 60 * 60 * 24 * 3 // 3 days
 
-      const grantWithAuthorization = contractExecutionCompatAuthz.map(
+      const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
         (authorization) =>
           MsgGrantWithAuthorization.fromJSON({
             authorization,
@@ -844,7 +861,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           })
       )
 
-      const authZMsgs = msgsType.map((messageType) =>
+      const authZMsgs = (msgsType || []).map((messageType) =>
         MsgGrant.fromJSON({
           grantee: injectiveAddress,
           granter: walletStore.injectiveAddress,
@@ -853,8 +870,21 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         })
       )
 
+      const contractMsgs =
+        contractAddress && contractMsgsType.length
+          ? contractMsgsType.map((messageType) =>
+              MsgGrant.fromJSON({
+                grantee: contractAddress,
+                granter: walletStore.injectiveAddress,
+                expiration: nowInSeconds + expirationInSeconds,
+                authorization:
+                  getGenericAuthorizationFromMessageType(messageType)
+              })
+            )
+          : []
+
       await walletStore.broadcastWithFeeDelegation({
-        messages: [...authZMsgs, ...grantWithAuthorization]
+        messages: [...authZMsgs, ...contractMsgs, ...grantWithAuthorization]
       })
 
       const autoSign = {
