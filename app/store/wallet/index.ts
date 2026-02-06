@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
-import { IS_HELIX, IS_DEVNET } from '../../utils/constant'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { checkUnauthorizedMessages } from '../../utils/helper'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
+import { IS_HELIX, IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
@@ -711,11 +711,19 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         memo
       )
 
-      if (!broadcastOptions) {
+      const msgs = Array.isArray(messages) ? messages : [messages]
+
+      const isEnableAutosignMessages =
+        msgs.length > 1 && msgs.some((msg) => msg instanceof MsgGrant)
+
+      if (
+        !broadcastOptions ||
+        (IS_TRUE_CURRENT &&
+          !isEnableAutosignMessages &&
+          !walletStore.isAutoSignEnabled)
+      ) {
         return
       }
-
-      const msgs = Array.isArray(messages) ? messages : [messages]
 
       const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
@@ -849,7 +857,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const injectiveAddress = privateKey.toBech32()
 
       const nowInSeconds = Math.floor(Date.now() / 1000)
-      const expirationInSeconds = 60 * 60 * 24 * 3 // 3 days
+      const expirationInSeconds = 60 * 60 * 24 * 30 // 30 days
 
       const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
         (authorization) =>
