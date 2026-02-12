@@ -18,6 +18,7 @@ export const TRADING_MESSAGES = [
 ] as MsgType[]
 
 export const TC_TRADING_MESSAGES = [
+  MsgType.MsgBatchUpdateOrdersV2,
   MsgType.MsgExecuteContractCompat
 ] as MsgType[]
 
