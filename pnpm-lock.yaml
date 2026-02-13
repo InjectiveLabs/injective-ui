@@ -5,7 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  viem: 2.41.2
   rollup: 4.53.3
   crypto-js: 4.2.0
   bignumber.js: 9.1.2
@@ -100,7 +99,7 @@ importers:
         specifier: 4.15.1
         version: 4.15.1(vue@3.5.26(typescript@5.9.3))
       viem:
-        specifier: 2.41.2
+        specifier: ^2.41.2
         version: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       vue-gtag:
         specifier: 2.0.1
@@ -3691,7 +3690,7 @@ packages:
     resolution: {integrity: sha512-Z9fKFOnCm3nRsW6PzhJDmNSSjw7mXg1/P5XnoibDG3le5Z4G1GG2lz1pyh/grp6OOYpSZVkYO9UjnXLwybWxVw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      viem: 2.41.2
+      viem: ^1.16.6 || ^2.24.2
 
   '@turnkey/wallet-stamper@1.0.4':
     resolution: {integrity: sha512-xSkkQh30SzhYFv/2Q0+oARZbReSqzwjxi6j3mbmOn/udDyjYjz9mdV7rm+rN4+iwDD64ZjSIJTK0flotYjIWHw==}
@@ -11049,7 +11048,7 @@ snapshots:
       vite-plugin-inspect: 11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
       vite-plugin-vue-tracer: 1.2.0(vite@7.3.0(@types/node@25.2.3)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
       which: 5.0.0
-      ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -12534,7 +12533,7 @@ snapshots:
 
   '@scure/bip32@1.7.0':
     dependencies:
-      '@noble/curves': 1.9.1
+      '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
 
@@ -14997,6 +14996,11 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
       zod: 3.25.76
+
+  abitype@1.2.3(typescript@5.9.3)(zod@3.22.4):
+    optionalDependencies:
+      typescript: 5.9.3
+      zod: 3.22.4
 
   abitype@1.2.3(typescript@5.9.3)(zod@3.25.76):
     optionalDependencies:
@@ -17960,7 +17964,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.22.4)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.22.4)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -17975,7 +17979,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.9.3)(zod@3.25.76)
+      abitype: 1.2.3(typescript@5.9.3)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
