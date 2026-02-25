@@ -3,25 +3,37 @@ import { TokenType } from '@injectivelabs/sdk-ts/types'
 import { derivativeMarketIdMap } from '../../data/derivative'
 import { spotDenomMap, spotMarketIdMap } from '../../data/spot'
 import { toChainFormat, toHumanReadable } from '@injectivelabs/utils'
-import {
-  sharedGetTensMultiplier,
-  sharedGetExactDecimalsFromNumber
-} from '../../utils/formatter'
-import {
-  SharedMarketType,
-  type SharedUiSpotMarket,
-  type SharedUiDerivativeMarket,
-  type SharedUiBinaryOptionsMarket
-} from '../../types'
-import type {
-  SpotMarket,
-  TokenStatic,
-  PerpetualMarket,
-  BinaryOptionsMarket,
-  ExpiryFuturesMarket
-} from '@injectivelabs/sdk-ts'
+import { sharedGetExactDecimalsFromNumber } from '../../utils/formatter'
+import { SharedMarketType } from '../../types'
+import type { TokenStatic, BinaryOptionsMarket } from '@injectivelabs/sdk-ts'
+import type { BffSpotMarket, SharedUiBinaryOptionsMarket } from '../../types'
 export * from './summary'
 export * from './history'
+
+export const sharedSpotSlugOverride = (
+  market: BffSpotMarket
+): BffSpotMarket => {
+  let result = market
+
+  const marketIdOverride = spotMarketIdMap[market.marketId]
+
+  if (marketIdOverride) {
+    const { slug, ticker } = marketIdOverride
+    result = { ...result, slug, ticker }
+  }
+
+  const denomOverride = spotDenomMap[market.baseDenom]
+
+  if (denomOverride) {
+    const { slug, ticker } = denomOverride({
+      slug: result.slug,
+      ticker: result.ticker
+    })
+    result = { ...result, slug, ticker }
+  }
+
+  return result
+}
 
 export const sharedGetDerivativeSlugOverride = ({
   ticker,
@@ -79,99 +91,6 @@ export const sharedDerivativeGetSlugAndTicket = ({
   }
 
   return { slug, ticker }
-}
-
-export const toUiSpotMarket = ({
-  market,
-  baseToken,
-  quoteToken
-}: {
-  market: SpotMarket
-  baseToken: TokenStatic
-  quoteToken: TokenStatic
-}): SharedUiSpotMarket => {
-  const slug = market.ticker
-    .trim()
-    .replaceAll('/', '-')
-    .replaceAll(' ', '-')
-    .toLowerCase()
-
-  const minPriceTickSize = toChainFormat(
-    market.minPriceTickSize,
-    baseToken.decimals - quoteToken.decimals
-  ).toFixed()
-
-  const minQuantityTickSize = toChainFormat(
-    market.minQuantityTickSize,
-    -baseToken.decimals
-  ).toFixed()
-
-  return {
-    ...market,
-    ...sharedSpotGetSlugAndTicket({
-      slug,
-      ticker: market.ticker,
-      marketId: market.marketId,
-      baseDenom: market.baseDenom,
-      quoteDenom: market.quoteDenom
-    }),
-    baseToken,
-    quoteToken,
-    isVerified: false,
-    type: SharedMarketType.Spot,
-    subType: SharedMarketType.Spot,
-    priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
-    priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
-    quantityDecimals: sharedGetExactDecimalsFromNumber(minQuantityTickSize),
-    quantityTensMultiplier: sharedGetTensMultiplier(minQuantityTickSize),
-    minNotionalInToken: toHumanReadable(
-      market.minNotional,
-      quoteToken.decimals
-    ).toFixed()
-  }
-}
-
-export const toUiDerivativeMarket = ({
-  slug,
-  market,
-  baseToken,
-  quoteToken
-}: {
-  slug: string
-  baseToken: TokenStatic
-  quoteToken: TokenStatic
-  market: PerpetualMarket | ExpiryFuturesMarket
-}): SharedUiDerivativeMarket => {
-  const minPriceTickSize = toChainFormat(
-    market.minPriceTickSize,
-    -quoteToken.decimals
-  ).toFixed()
-
-  return {
-    ...market,
-    baseToken,
-    quoteToken,
-    isVerified: false,
-    ...sharedDerivativeGetSlugAndTicket({
-      slug,
-      ticker: market.ticker,
-      marketId: market.marketId
-    }),
-    type: SharedMarketType.Derivative,
-    subType: (market as PerpetualMarket).isPerpetual
-      ? SharedMarketType.Perpetual
-      : SharedMarketType.Futures,
-    priceDecimals: sharedGetExactDecimalsFromNumber(minPriceTickSize),
-    priceTensMultiplier: sharedGetTensMultiplier(minPriceTickSize),
-    quantityDecimals: sharedGetExactDecimalsFromNumber(
-      market.minQuantityTickSize
-    ),
-    quantityTensMultiplier: sharedGetTensMultiplier(market.minQuantityTickSize),
-    minNotionalInToken: toHumanReadable(
-      market.minNotional,
-      quoteToken.decimals
-    ).toFixed()
-  }
 }
 
 export const toUiBinaryOptionsMarket = ({

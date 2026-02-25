@@ -26,7 +26,8 @@ export const env = {
   VITE_SENTRY_HTTP_ENDPOINT: import.meta.env
     .VITE_SENTRY_HTTP_ENDPOINT as string,
   VITE_CACHE_REST_API_ENDPOINT: import.meta.env
-    .VITE_CACHE_REST_API_ENDPOINT as string
+    .VITE_CACHE_REST_API_ENDPOINT as string,
+  VITE_BFF_API_ENDPOINT: import.meta.env.VITE_BFF_API_ENDPOINT as string
 }
 
 export const IS_MAINNET_STAGING: boolean = env.VITE_ENV === 'staging'
@@ -82,7 +83,9 @@ export const ENDPOINTS = {
   chronos: env.VITE_CHRONOS_API_ENDPOINT || endpoints.chronos,
   explorer: env.VITE_CHRONOS_API_ENDPOINT || endpoints.explorer,
   uiApi: env.VITE_UI_API_ENDPOINT || 'https://api.ui.injective.network/api/v1',
-  cacheRest: env.VITE_CACHE_REST_API_ENDPOINT || endpoints.cacheRest
+  cacheRest: env.VITE_CACHE_REST_API_ENDPOINT || endpoints.cacheRest,
+  bffApi: env.VITE_BFF_API_ENDPOINT || 'https://bff-api.injective.network'
+  // 'http://localhost:4000'
 }
 
 const MITO_DEVNET_API_ENDPOINT = 'https://devnet.api.ninja.injective.dev'

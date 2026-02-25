@@ -1,8 +1,6 @@
 import type { BigNumber } from '@injectivelabs/utils'
 import type {
-  SpotMarket,
   TokenStatic,
-  PerpetualMarket,
   ExpiryFuturesMarket,
   BinaryOptionsMarket,
   AllChronosDerivativeMarketSummary
@@ -15,8 +13,7 @@ export type SharedUiMarketMarkPrice = {
   timestamp?: number
 }
 
-export interface SharedUiMarketSummary
-  extends AllChronosDerivativeMarketSummary {
+export interface SharedUiMarketSummary extends AllChronosDerivativeMarketSummary {
   lastPrice?: number
   lastPriceChange?: SharedMarketChange
 }
@@ -32,10 +29,11 @@ export interface SharedUiMarketHistory {
   closePrice: number[]
 }
 
-export interface SharedUiBinaryOptionsMarket
-  extends Omit<BinaryOptionsMarket, 'quoteToken'> {
+export interface SharedUiBinaryOptionsMarket extends Omit<
+  BinaryOptionsMarket,
+  'quoteToken'
+> {
   slug: string
-  upcoming?: boolean
   priceDecimals: number
   baseToken: TokenStatic
   type: SharedMarketType
@@ -47,26 +45,11 @@ export interface SharedUiBinaryOptionsMarket
   quantityTensMultiplier: number
 }
 
-export interface SharedUiSpotMarket
-  extends Omit<SpotMarket, 'baseToken' | 'quoteToken'> {
+export interface SharedUiExpiryFuturesMarket extends Omit<
+  ExpiryFuturesMarket,
+  'quoteToken'
+> {
   slug: string
-  upcoming?: boolean
-  isVerified: boolean
-  priceDecimals: number
-  baseToken: TokenStatic
-  type: SharedMarketType
-  quoteToken: TokenStatic
-  quantityDecimals: number
-  subType: SharedMarketType
-  minNotionalInToken: string
-  priceTensMultiplier: number
-  quantityTensMultiplier: number
-}
-
-export interface SharedUiExpiryFuturesMarket
-  extends Omit<ExpiryFuturesMarket, 'quoteToken'> {
-  slug: string
-  upcoming?: boolean
   priceDecimals: number
   baseToken: TokenStatic
   type: SharedMarketType
@@ -77,24 +60,4 @@ export interface SharedUiExpiryFuturesMarket
   minNotionalInToken: string
   priceTensMultiplier: number
   quantityTensMultiplier: number
-}
-
-export interface SharedUiDerivativeMarket
-  extends Omit<PerpetualMarket, 'quoteToken'> {
-  slug: string
-  upcoming?: boolean
-  isVerified: boolean
-  priceDecimals: number
-  baseToken: TokenStatic
-  type: SharedMarketType
-  quoteToken: TokenStatic
-  quantityDecimals: number
-  subType: SharedMarketType
-  minNotionalInToken: string
-  priceTensMultiplier: number
-  quantityTensMultiplier: number
-  expiryFuturesMarketInfo?: {
-    settlementPrice: string
-    expirationTimestamp: number
-  }
 }

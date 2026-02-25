@@ -10,7 +10,7 @@ import {
   sharedTokenClientStatic
 } from '../service'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
-import type { SharedTokenUsdPriceMap } from './../types'
+import type { SharedTokenUsdPriceMap } from '../types'
 
 type SharedTokenStoreState = {
   unknownTokens: TokenStatic[]
@@ -44,7 +44,7 @@ export const useSharedTokenStore = defineStore('sharedToken', {
         )
       },
 
-    tokenMarketCap: (state) => (token?: TokenStatic) => {
+    tokenMarketCap: (state) => (token?: { coinGeckoId: string }) => {
       if (!token) {
         return 0
       }
@@ -56,18 +56,19 @@ export const useSharedTokenStore = defineStore('sharedToken', {
       return state.tokenUsdPriceMap[coinGeckoId.toLowerCase()] || 0
     },
 
-    tokenUsdPrice: (state) => (token?: TokenStatic) => {
-      if (!token) {
-        return 0
-      }
+    tokenUsdPrice:
+      (state) => (token?: { denom: string; coinGeckoId: string }) => {
+        if (!token) {
+          return 0
+        }
 
-      return (
-        state.tokenUsdPriceMap[token.coinGeckoId.toLowerCase()] ||
-        state.tokenUsdPriceMap[token.denom] ||
-        state.tokenUsdPriceMap[token.denom.toLowerCase()] ||
-        0
-      )
-    },
+        return (
+          state.tokenUsdPriceMap[token?.coinGeckoId.toLowerCase()] ||
+          state.tokenUsdPriceMap[token?.denom] ||
+          state.tokenUsdPriceMap[token?.denom.toLowerCase()] ||
+          0
+        )
+      },
 
     verifiedTokens: (_): TokenStatic[] => {
       return Object.values(tokenStaticFactory.denomVerifiedMap)
@@ -92,14 +93,21 @@ export const useSharedTokenStore = defineStore('sharedToken', {
 
       return sharedSpotStore.marketsWithToken.reduce(
         (denomTokenMap, market) => {
-          if (!market.isVerified) {
+          if (!market.info?.isVerified) {
+            return denomTokenMap
+          }
+
+          const baseToken = tokenStaticFactory.toToken(market.baseDenom)
+          const quoteToken = tokenStaticFactory.toToken(market.quoteDenom)
+
+          if (!baseToken || !quoteToken) {
             return denomTokenMap
           }
 
           return {
             ...denomTokenMap,
-            [market.baseDenom]: market.baseToken,
-            [market.quoteDenom]: market.quoteToken
+            [market.baseDenom]: baseToken,
+            [market.quoteDenom]: quoteToken
           }
         },
         {} as Record<string, TokenStatic>
