@@ -1,3 +1,4 @@
+import { BffApi } from './app/bffApi'
 import { FaucetService } from './app/Faucet'
 import { Web3Client } from './app/Web3Client'
 import { PythService } from './app/pythClient'
@@ -135,6 +136,7 @@ export const getIndexerRestMarketChronosApi = () =>
 export const getIndexerAuctionApi = () =>
   getIndexerGrpcAuctionApi(ENDPOINTS.indexer)
 
+export const bffApi = new BffApi(ENDPOINTS.bffApi)
 export const uiApi = new UiApiService(ENDPOINTS.uiApi)
 export const spotCacheApi = new SpotCacheApi(ENDPOINTS.uiApi)
 export const tokenCacheApi = new TokenCacheApi(ENDPOINTS.uiApi)

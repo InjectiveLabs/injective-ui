@@ -73,7 +73,14 @@ const orderParams = {
 
 export default withNuxt(
   {
-    ignores: ['i18n/locales/**', '*.cjs', '*.js']
+    ignores: [
+      'i18n/locales/**',
+      '*.cjs',
+      '*.js',
+      'app/generated/bff.generated.ts',
+      'app/generated/bff-api-types.ts',
+      'scripts/gen-bff-client.ts'
+    ]
   },
   {
     plugins: {
