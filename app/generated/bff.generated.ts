@@ -1122,6 +1122,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+<<<<<<< HEAD
     "/api/v1/tokens": {
         parameters: {
             query?: never;
@@ -1187,6 +1188,8 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+=======
+>>>>>>> c7b2b0b (feat: setup bff markets endpoint)
     "/api/v1/account/balances/{address}": {
         parameters: {
             query?: never;
@@ -1330,6 +1333,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+<<<<<<< HEAD
     "/api/v1/account/cw20-balances/{address}": {
         parameters: {
             query?: never;
@@ -1395,6 +1399,8 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+=======
+>>>>>>> c7b2b0b (feat: setup bff markets endpoint)
     "/api/v1/entry-code/verify": {
         parameters: {
             query?: never;
@@ -1402,6 +1408,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+<<<<<<< HEAD
         /**
          * Check entry code claim status
          * @description Checks whether a wallet address has already claimed any entry code.
@@ -1454,6 +1461,9 @@ export interface paths {
                 };
             };
         };
+=======
+        get?: never;
+>>>>>>> c7b2b0b (feat: setup bff markets endpoint)
         put?: never;
         /**
          * Verify and claim an entry code
@@ -2243,6 +2253,19 @@ export interface components {
             /** @default [] */
             categories: string[];
         };
+<<<<<<< HEAD
+=======
+        /** @description Bank balances response with transformed token metadata */
+        BffAccountBalancesResponse: {
+            data: components["schemas"]["BffBalanceWithToken"][];
+        };
+        /** @description Balance entry with full token metadata */
+        BffBalanceWithToken: {
+            denom: string;
+            amount: string;
+            token: components["schemas"]["BffToken"];
+        };
+>>>>>>> c7b2b0b (feat: setup bff markets endpoint)
         /** @description Merged token metadata (chain + human combined) */
         BffToken: {
             denom: string;
@@ -2271,6 +2294,7 @@ export interface components {
             /** @enum {string} */
             uriStatus: "pending" | "valid" | "invalid" | "unreachable";
         };
+<<<<<<< HEAD
         /** @description Bank balances response with transformed token metadata */
         BffAccountBalancesResponse: {
             data: components["schemas"]["BffBalanceWithToken"][];
@@ -2281,6 +2305,8 @@ export interface components {
             amount: string;
             token: components["schemas"]["BffToken"];
         };
+=======
+>>>>>>> c7b2b0b (feat: setup bff markets endpoint)
         /** @description Account portfolio response with bank balances and subaccount balances */
         BffPortfolioResponse: {
             data: {
@@ -2297,6 +2323,7 @@ export interface components {
             availableBalance: string;
             token: components["schemas"]["BffToken"];
         };
+<<<<<<< HEAD
         /** @description CW20 balances response with enriched token metadata */
         BffCW20BalancesResponse: {
             data: components["schemas"]["BffCW20BalanceWithToken"][];
@@ -2317,6 +2344,8 @@ export interface components {
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             } | null;
         };
+=======
+>>>>>>> c7b2b0b (feat: setup bff markets endpoint)
         /** @description Derivative market with token metadata and UI fields from Injective SDK */
         BffDerivativeMarket: {
             expiryFuturesMarketInfo?: {
