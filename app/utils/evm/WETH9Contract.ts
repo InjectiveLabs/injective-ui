@@ -1,5 +1,6 @@
 import { estimateGasAndNonce } from './utils'
 import { getViemPublicClient } from '@injectivelabs/wallet-base'
+import { WINJ_DENOM, INJECTIVE_EVM_CHAIN_ID } from './../../utils/constant'
 import {
   toHex,
   parseAbi,
@@ -7,7 +8,6 @@ import {
   maxUint256,
   encodeFunctionData
 } from 'viem'
-import { WINJ_DENOM, INJECTIVE_EVM_CHAIN_ID } from '../constant'
 import type { Address, PublicClient } from 'viem'
 import type { EvmChainId } from '@injectivelabs/ts-types'
 

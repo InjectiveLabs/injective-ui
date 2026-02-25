@@ -11,7 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "pnpm nuxt prepare",
-    "postinstall": "pnpm upgrade '@injectivelabs/*' --latest"
+    "postinstall": "pnpm upgrade '@injectivelabs/*' --latest",
+    "dev:gen:bff-types": "curl -sSf http://localhost:4000/api/openapi.json -o app/generated/bff-spec.json && openapi-typescript app/generated/bff-spec.json -o app/generated/bff.generated.ts && SPEC_PATH=app/generated/bff-spec.json tsx scripts/gen-bff-client.ts",
+    "gen:bff-types": "curl -sSf https://bff-api.injective.network/api/openapi.json -o app/generated/bff-spec.json && openapi-typescript app/generated/bff-spec.json -o app/generated/bff.generated.ts && SPEC_PATH=app/generated/bff-spec.json tsx scripts/gen-bff-client.ts"
   },
   "dependencies": {
     "@bangjelkoski/ens-validation": "^0.1.1",
@@ -37,9 +39,11 @@
     "canvas-confetti": "^1.6.0",
     "date-fns": "^4.1.0",
     "ethers": "^6.13.7",
+    "hono": "^4.12.5",
     "js-confetti": "^0.12.0",
     "nuxt": "4.2.2",
     "nuxt-vitalizer": "2.0.0",
+    "openapi-fetch": "^0.12.5",
     "qr-code-styling": "^1.9.2",
     "vee-validate": "4.15.1",
     "viem": "^2.41.2",
@@ -58,12 +62,16 @@
     "eslint-plugin-perfectionist": "4.15.1",
     "happy-dom": "^18.0.1",
     "husky": "9.1.7",
+    "openapi-typescript": "^7.13.0",
+    "openapi-typescript-helpers": "^0.1.0",
     "playwright-core": "^1.53.1",
     "prettier": "3.7.4",
+    "tsx": "^4.21.0",
     "typescript": "5.9.3",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "^3.2.4",
-    "vue-tsc": "^3.1.5"
+    "vue-tsc": "^3.1.5",
+    "yaml": "^2.8.2"
   },
   "pnpm": {
     "overrides": {
