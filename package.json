@@ -42,7 +42,7 @@
     "nuxt-vitalizer": "2.0.0",
     "qr-code-styling": "^1.9.2",
     "vee-validate": "4.15.1",
-    "viem": "2.41.2",
+    "viem": "^2.41.2",
     "vue-gtag": "2.0.1",
     "vue-hotjar": "1.4.0",
     "vue-imask": "7.6.1"
@@ -67,7 +67,6 @@
   },
   "pnpm": {
     "overrides": {
-      "viem": "2.41.2",
       "rollup": "4.53.3",
       "crypto-js": "4.2.0",
       "bignumber.js": "9.1.2",
