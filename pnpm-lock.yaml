@@ -18,41 +18,41 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@injectivelabs/exceptions':
-        specifier: 1.18.3
-        version: 1.18.3
+        specifier: 1.18.5
+        version: 1.18.5
       '@injectivelabs/networks':
-        specifier: 1.18.3
-        version: 1.18.3
+        specifier: 1.18.5
+        version: 1.18.5
       '@injectivelabs/nuxt-bugsnag':
         specifier: 0.0.12
         version: 0.0.12(@bugsnag/core@8.8.0)(magicast@0.5.1)(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))
       '@injectivelabs/sdk-ts':
-        specifier: 1.18.3
-        version: 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types':
-        specifier: 1.18.3
-        version: 1.18.3
+        specifier: 1.18.5
+        version: 1.18.5
       '@injectivelabs/utils':
-        specifier: 1.18.3
-        version: 1.18.3
+        specifier: 1.18.5
+        version: 1.18.5
       '@injectivelabs/wallet-base':
-        specifier: 1.18.3
-        version: 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-core':
-        specifier: 1.18.3
-        version: 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-cosmos':
-        specifier: 1.18.3
-        version: 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-evm':
-        specifier: 1.18.3
-        version: 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-strategy':
-        specifier: 1.18.3
-        version: 1.18.3(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
       '@injectivelabs/wallet-turnkey':
-        specifier: 1.18.3
-        version: 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.5
+        version: 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@metamask/eth-sig-util':
         specifier: ^8.2.0
         version: 8.2.0
@@ -1207,8 +1207,8 @@ packages:
   '@injectivelabs/core-proto-ts-v2@1.18.0':
     resolution: {integrity: sha512-jXxwaE0cdFVEtRgamQwYtSfDNs1ZCWPM4HimJIufpMVG1NVrZiFUMCXtfm9C9dsBMverBMq+Py4uK0Xy7UJiEg==}
 
-  '@injectivelabs/exceptions@1.18.3':
-    resolution: {integrity: sha512-2hkJrAZvGADMPZBvf6yCu8mHAR6y15VL0pARP/5PUYd9kI5nHyNVr32MhrBFEH3wqKZgQaWG5nAqx+ORgg3zqA==}
+  '@injectivelabs/exceptions@1.18.5':
+    resolution: {integrity: sha512-q5KdNQSgrEoD4SqGpsywlHDZ4KiUThGWc6c3qY6wWrZZWvo/EOLkjGjq76EOhfUoTRCEgsO0VuO7Zcdy777+/Q==}
 
   '@injectivelabs/grpc-web-node-http-transport@0.0.2':
     resolution: {integrity: sha512-rpyhXLiGY/UMs6v6YmgWHJHiO9l0AgDyVNv+jcutNVt4tQrmNvnpvz2wCAGOFtq5LuX/E9ChtTVpk3gWGqXcGA==}
@@ -1225,14 +1225,14 @@ packages:
     peerDependencies:
       google-protobuf: ^3.14.0
 
-  '@injectivelabs/indexer-proto-ts-v2@1.18.1':
-    resolution: {integrity: sha512-INwA+qAKk4j/zgjSWJ4DDYq3jsTpXmo4YWj4kPfJ5s3uxBDCpgwgYbv5YA/WHjt7bEmgHFMr76ElYGFKZwWkqA==}
+  '@injectivelabs/indexer-proto-ts-v2@1.18.4':
+    resolution: {integrity: sha512-u2pfpZGM0aPyV+Hy8S5nw7S7fV6LGkhJCluPSWYVacolO84NtNc/KJjv7Gmt/403xqq+LQb52aXUQoyEA0DTKQ==}
 
   '@injectivelabs/mito-proto-ts-v2@1.17.3':
     resolution: {integrity: sha512-Fo6k1MCPT3CKUS9tbMbl/poGv7R8KHtA7RfU7mvxxVWS7MpF+LLZA6UgegfEA1iiJgIrhe+eEwEvhIOe6SiUzw==}
 
-  '@injectivelabs/networks@1.18.3':
-    resolution: {integrity: sha512-FBvyDOM4NsFKBJZHNEcaDhGz1zBsovXctmc/MOduwv/1GkMdvyClNH1EwVWfYWtDCrz/3k83Kizm37sQ5+5ZJA==}
+  '@injectivelabs/networks@1.18.5':
+    resolution: {integrity: sha512-e+6K8eH9UhvemreEa0Svsw855nAIvM60runuf/KdNYtwAnofTYT/7w/CrUckIbBSSdUG041ssFSU46tFyWRWNA==}
 
   '@injectivelabs/nuxt-bugsnag@0.0.12':
     resolution: {integrity: sha512-mI1Jp/dMcAlnptKI8/ERTjN7H+gYMnXNqws2Z+6ur+Za/hjJqehPmWU67PuiHryECDmVkTM7UZ08noMBAmb++g==}
@@ -1240,29 +1240,29 @@ packages:
   '@injectivelabs/olp-proto-ts-v2@1.17.6':
     resolution: {integrity: sha512-3jTAyj342TXVe8qsVcDzAUnH5vAbqoHy5jqTUxHvJtfDaJ+X0uvN6d/yj60CxmrDOyKrn6pFx0prZ6J3Tl8S6g==}
 
-  '@injectivelabs/sdk-ts@1.18.3':
-    resolution: {integrity: sha512-5N4PVlb53aH88hnat4+kzB2Z0Dt107DAHAKg91hNWkwb6bqVBuw9LSXfLS1Y8lhdpdIXn4A8RGxXIaus9MvvOQ==}
+  '@injectivelabs/sdk-ts@1.18.5':
+    resolution: {integrity: sha512-fB6PENGEUBPNXIUaIcEKV5tAggz5qOEYLjdt0wutlz+YFhq9JrKUI0Mabqcp35FK/d3oIWFAWEwVMf1hQeBFqw==}
 
-  '@injectivelabs/ts-types@1.18.3':
-    resolution: {integrity: sha512-a47BYWbXxtI4uJ3CdfzxH+XHKDOyfIcAA2w+xTuEvq+FUlC1H4n49AyM2Q9V12li6FS1s4Aw+aF0ehAnKcBFgQ==}
+  '@injectivelabs/ts-types@1.18.5':
+    resolution: {integrity: sha512-V/4wuzypwaOvHWH/xILLJqyWIQ1uQLj+whq7EJYi+ymDkgCvuSf4TgG6P7wTdzbBEFD11WGQydv2SFtrLAebxw==}
 
-  '@injectivelabs/utils@1.18.3':
-    resolution: {integrity: sha512-mIKHlkqvEAsHwQWnKecqvCdsvpROHA5svP5HeyB1Sp90N26xbnLfLGrVJbl8dGrECyd9/fxDpqd08Gop7rfSPg==}
+  '@injectivelabs/utils@1.18.5':
+    resolution: {integrity: sha512-Ememc2oC2E4zV33gmCw3OSK1VRhZSQzxEJVnjte0KuCGDfFRH9yCqRmyplx1CnY1h+A44LkwzbeRn6SPiQly6g==}
 
-  '@injectivelabs/wallet-base@1.18.3':
-    resolution: {integrity: sha512-HPc243bJsgF8W5ZRMJnGlHy63XVU7GKJvyq0QK96cJHIv3rwsngIHzMNzNPATXkURRsD7kXciNglke4TblmjIg==}
+  '@injectivelabs/wallet-base@1.18.5':
+    resolution: {integrity: sha512-ghCX7MB5k9QVbMkfEB4D+ixnJoeHx1X0mCZkskq7oaVOTpUchs2tXvMSA3M3NCPclEAGbpaNhLfylTh1oQzBxg==}
 
-  '@injectivelabs/wallet-core@1.18.3':
-    resolution: {integrity: sha512-aNXxI+nZ2QSPbgbh1+Qup6XtC2ZgJXKNOvzjlG7YORFb4pQTTwf/V0gRyzRk60m//T+FqbcQ78TbVDPGMCmtlg==}
+  '@injectivelabs/wallet-core@1.18.5':
+    resolution: {integrity: sha512-C7kW+FwVciWgDI+zJ1HKDoINVCxgENYUfJ4Oz/khqi4PffrRLYkfDr/BMqNsvRRxtZUsNKm7GUEgaMWDNatMcA==}
 
-  '@injectivelabs/wallet-cosmos@1.18.3':
-    resolution: {integrity: sha512-TVuTkOhU1Nw3iNCDxcMpRWYyjX2kljGdOvOxbHtPtxKWK/1er1KDgrtrruuz1y9bJleuesYn7I/Y4tA6nbLMtg==}
+  '@injectivelabs/wallet-cosmos@1.18.5':
+    resolution: {integrity: sha512-FnPUOTPRD1NC5T0by1LI884rA09S/RqqiH/UV9BG6oVLNpV5nkRIWoRJFiLH96p2vAIhHr53a5WrvJEurV5xAA==}
 
-  '@injectivelabs/wallet-evm@1.18.3':
-    resolution: {integrity: sha512-PTNYA1rOc0OtcjektkuDic0yTqdFYK0tbpbTS/7WWh8CZEsD7qeaJ4DkaoMcvDCV8jZ1i28daMHWf2afdEExIw==}
+  '@injectivelabs/wallet-evm@1.18.5':
+    resolution: {integrity: sha512-aJpDQpMacp30lJ4lUckovptH8hWZHrhIlTYiCaHZMea9iYxOYMZUAdxK2EhZP1IjVEC0DITlG0YQXJC5gVtjug==}
 
-  '@injectivelabs/wallet-ledger@1.18.3':
-    resolution: {integrity: sha512-M4fSuhZ4dIQoTwPppHS6A4v7oaVXwPPb8JIpYX4vtbN1mW0IzR5p/9ByAkY8xj+6zaS0ioz7TP1A0jrvqubO6w==}
+  '@injectivelabs/wallet-ledger@1.18.5':
+    resolution: {integrity: sha512-Ko55YE1XG/tcjBdGwMYW79vR7t8n9Ncyj8zsaZ0kbjYrrtDBhuhTbjOsGo3frdX5va7h8QP81RvsbS1Z6dv0gQ==}
     peerDependencies:
       '@ethersproject/abi': ^5.7.0
       '@ethersproject/rlp': ^5.7.0
@@ -1270,23 +1270,23 @@ packages:
       axios: ^1.0.0
       bignumber.js: 9.1.2
 
-  '@injectivelabs/wallet-magic@1.18.3':
-    resolution: {integrity: sha512-lZgUd/SafkvYc0HmYQX0KzM7FTZ4EtU8zkGklC+kmj9l6K/E7rzs+4n3g0xDkMxLQR/yTt1w/okp2132idX1mg==}
+  '@injectivelabs/wallet-magic@1.18.5':
+    resolution: {integrity: sha512-rkeY/VE4tTg4iNaFyE0ITBiYQ4I2XSctnA7DAyOlu+/a9tlNULgXERXGoIvOUx/l//J55hqKcc8UPchU6+qFsw==}
 
-  '@injectivelabs/wallet-private-key@1.18.3':
-    resolution: {integrity: sha512-zdluhRsz7jot+3PrsbSaw2dc3sY19ER14ty6xor7mnqUJrTRkQh+bc3nmDOr5utnN8e7xpVrZB/ClLtUsr97Sg==}
+  '@injectivelabs/wallet-private-key@1.18.5':
+    resolution: {integrity: sha512-+oGofjjORxMBZ3PQt/4bNT8Au5RfdWbz092r5ad6th1d6BtVRK01VlCl7dZ0uJxktouZ2YxspNwCcyZh821FRA==}
 
-  '@injectivelabs/wallet-strategy@1.18.3':
-    resolution: {integrity: sha512-Wi4VlxQbxyaEsSwqqeDIKtTrnrYCVhSkz3IPLtgjg5jIMs68PLj7vKrbrv9roX8GqtiHhhUfmBSGVZND6Z0LVA==}
+  '@injectivelabs/wallet-strategy@1.18.5':
+    resolution: {integrity: sha512-3V7A3NImV9WA3jkXmj8npuv+x69RVRXUpWrLgRSX8yF8EwpEINjTsmP4X5JCYzdgCXmkw7xgZnQs1RBAkLDVVA==}
 
-  '@injectivelabs/wallet-trezor@1.18.3':
-    resolution: {integrity: sha512-eP+K4I0DfkCBWSnlUN66SpeNs3PkAywgNDmwO3u+DwZ0GuVa3rwMprymMe7xqS0V2pArlIc6nPY22QaOaHkiSA==}
+  '@injectivelabs/wallet-trezor@1.18.5':
+    resolution: {integrity: sha512-8s/VUxd8/NwcRO+F1bJ8c298s2g8hwxlc+iUzcnlvriF1FbkmYvzjsV7AsYp6gDJIOEbw9IXghthwIV5kGQZAg==}
 
-  '@injectivelabs/wallet-turnkey@1.18.3':
-    resolution: {integrity: sha512-K1tbM45il67PFTMZ4p0j0zbz7vLw0gKBCfpZ2ygw9kWj6pqOvlvG8V05JEs3Q7+EkBYYvDoWMgNRvFIq70eQaA==}
+  '@injectivelabs/wallet-turnkey@1.18.5':
+    resolution: {integrity: sha512-S55HuCtRQqtQBNsSPwHuFEO9lXtWkEoQQruQ2X7hSROanOmO9o7UhoVMSBpUPatvLQMVK8wFc3cuzChLmRhrJQ==}
 
-  '@injectivelabs/wallet-wallet-connect@1.18.3':
-    resolution: {integrity: sha512-IHTHyCQBo/nxC51c82xyCySEO0dSRpcVxLHG5eEgfdrWO0SqN5AiNlXRiZJVkkfudM/le3C0qaxzNZIgAeOWDw==}
+  '@injectivelabs/wallet-wallet-connect@1.18.5':
+    resolution: {integrity: sha512-CUHanYNbdJS2LFAY9qQozUa+KBU13MlfZ0mVp1HwzHEfLYH1FmpeVlC1HN+sN6Este4sCUVK4Val7/zhcXbE2g==}
 
   '@internationalized/date@3.10.0':
     resolution: {integrity: sha512-oxDR/NTEJ1k+UFVQElaNIk65E/Z83HK1z1WI3lQyhTtnNg4R5oVXaPzK3jcpKG8UHKDVuDQHzn+wsxSz8RP3aw==}
@@ -4636,9 +4636,6 @@ packages:
 
   bignumber.js@9.1.2:
     resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
-
-  bignumber.js@9.3.1:
-    resolution: {integrity: sha512-Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ==}
 
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
@@ -10143,7 +10140,7 @@ snapshots:
       '@protobuf-ts/runtime': 2.11.1
       '@protobuf-ts/runtime-rpc': 2.11.1
 
-  '@injectivelabs/exceptions@1.18.3':
+  '@injectivelabs/exceptions@1.18.5':
     dependencies:
       http-status-codes: 2.3.0
 
@@ -10160,7 +10157,7 @@ snapshots:
       browser-headers: 0.4.1
       google-protobuf: 3.21.4
 
-  '@injectivelabs/indexer-proto-ts-v2@1.18.1':
+  '@injectivelabs/indexer-proto-ts-v2@1.18.4':
     dependencies:
       '@protobuf-ts/grpcweb-transport': 2.11.1
       '@protobuf-ts/runtime': 2.11.1
@@ -10172,9 +10169,9 @@ snapshots:
       '@protobuf-ts/runtime': 2.11.1
       '@protobuf-ts/runtime-rpc': 2.11.1
 
-  '@injectivelabs/networks@1.18.3':
+  '@injectivelabs/networks@1.18.5':
     dependencies:
-      '@injectivelabs/ts-types': 1.18.3
+      '@injectivelabs/ts-types': 1.18.5
 
   '@injectivelabs/nuxt-bugsnag@0.0.12(@bugsnag/core@8.8.0)(magicast@0.5.1)(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))':
     dependencies:
@@ -10196,23 +10193,23 @@ snapshots:
       '@protobuf-ts/runtime': 2.11.1
       '@protobuf-ts/runtime-rpc': 2.11.1
 
-  '@injectivelabs/sdk-ts@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/sdk-ts@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
       '@cosmjs/amino': 0.33.0
       '@cosmjs/proto-signing': 0.33.0
       '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       '@injectivelabs/abacus-proto-ts-v2': 1.17.4
       '@injectivelabs/core-proto-ts-v2': 1.18.0
-      '@injectivelabs/exceptions': 1.18.3
+      '@injectivelabs/exceptions': 1.18.5
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
       '@injectivelabs/grpc-web-node-http-transport': 0.0.2(@injectivelabs/grpc-web@0.0.1(google-protobuf@3.21.4))
       '@injectivelabs/grpc-web-react-native-transport': 0.0.2(@injectivelabs/grpc-web@0.0.1(google-protobuf@3.21.4))
-      '@injectivelabs/indexer-proto-ts-v2': 1.18.1
+      '@injectivelabs/indexer-proto-ts-v2': 1.18.4
       '@injectivelabs/mito-proto-ts-v2': 1.17.3
-      '@injectivelabs/networks': 1.18.3
+      '@injectivelabs/networks': 1.18.5
       '@injectivelabs/olp-proto-ts-v2': 1.17.6
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/utils': 1.18.3
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/utils': 1.18.5
       '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@protobuf-ts/grpcweb-transport': 2.11.1
@@ -10237,13 +10234,13 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/ts-types@1.18.3': {}
+  '@injectivelabs/ts-types@1.18.5': {}
 
-  '@injectivelabs/utils@1.18.3':
+  '@injectivelabs/utils@1.18.5':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/networks': 1.18.3
-      '@injectivelabs/ts-types': 1.18.3
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/networks': 1.18.5
+      '@injectivelabs/ts-types': 1.18.5
       axios: 1.13.6
       bignumber.js: 9.1.2
       http-status-codes: 2.3.0
@@ -10251,11 +10248,11 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@injectivelabs/wallet-base@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-base@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
       eip1193-provider: 1.0.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
@@ -10266,14 +10263,14 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-core@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-core@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/networks': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/utils': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/networks': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/utils': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@keplr-wallet/types': 0.12.313(starknet@8.9.2)
       eventemitter3: 5.0.4
     transitivePeerDependencies:
@@ -10285,15 +10282,15 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-cosmos@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-cosmos@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
       '@cosmjs/proto-signing': 0.33.0
       '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/utils': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/utils': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@keplr-wallet/types': 0.12.313(starknet@8.9.2)
     transitivePeerDependencies:
       - bufferutil
@@ -10304,13 +10301,13 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-evm@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-evm@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/utils': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/utils': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -10319,22 +10316,22 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-ledger@1.18.3(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-ledger@1.18.5(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
       '@ethersproject/abi': 5.8.0
       '@ethersproject/rlp': 5.8.0
       '@ethersproject/transactions': 5.8.0
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@ledgerhq/hw-app-cosmos': 6.33.0
       '@ledgerhq/hw-app-eth': 6.47.1(react@18.3.1)
       '@ledgerhq/hw-transport': 6.32.0
       '@ledgerhq/hw-transport-webhid': 6.31.0
       '@ledgerhq/hw-transport-webusb': 6.30.0
       axios: 1.13.6
-      bignumber.js: 9.3.1
+      bignumber.js: 9.1.2
       buffer: 6.0.3
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
@@ -10347,12 +10344,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-magic@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-magic@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@magic-ext/cosmos': 26.2.0
       '@magic-ext/oauth2': 13.2.0
       magic-sdk: 31.2.0
@@ -10364,12 +10361,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-private-key@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-private-key@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -10378,19 +10375,19 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-strategy@1.18.3(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+  '@injectivelabs/wallet-strategy@1.18.5(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-core': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-cosmos': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-evm': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-ledger': 1.18.3(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-magic': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-private-key': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-trezor': 1.18.3(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
-      '@injectivelabs/wallet-turnkey': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-wallet-connect': 1.18.3(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-core': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-cosmos': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-evm': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-ledger': 1.18.5(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-magic': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-private-key': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-trezor': 1.18.5(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+      '@injectivelabs/wallet-turnkey': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-wallet-connect': 1.18.5(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -10440,12 +10437,12 @@ snapshots:
       - ws
       - zod
 
-  '@injectivelabs/wallet-trezor@1.18.3(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+  '@injectivelabs/wallet-trezor@1.18.5(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       '@trezor/connect-web': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -10466,13 +10463,13 @@ snapshots:
       - ws
       - zod
 
-  '@injectivelabs/wallet-turnkey@1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-turnkey@1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/utils': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/utils': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@turnkey/sdk-browser': 5.2.3(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@turnkey/viem': 0.9.10(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76))(zod@3.25.76)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -10485,12 +10482,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-wallet-connect@1.18.3(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+  '@injectivelabs/wallet-wallet-connect@1.18.5(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
-      '@injectivelabs/exceptions': 1.18.3
-      '@injectivelabs/sdk-ts': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/ts-types': 1.18.3
-      '@injectivelabs/wallet-base': 1.18.3(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/exceptions': 1.18.5
+      '@injectivelabs/sdk-ts': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.5
+      '@injectivelabs/wallet-base': 1.18.5(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@reown/appkit': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@reown/appkit-adapter-ethers': 1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@18.3.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
     transitivePeerDependencies:
@@ -15277,8 +15274,6 @@ snapshots:
     optional: true
 
   bignumber.js@9.1.2: {}
-
-  bignumber.js@9.3.1: {}
 
   bindings@1.5.0:
     dependencies:
