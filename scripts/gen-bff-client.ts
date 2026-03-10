@@ -208,7 +208,7 @@ function renderBffClient(pathTree: TreeNode): string {
     'type MethodResult<',
     '  TMethod extends HttpMethod,',
     '  TPath extends PathsWithMethod<paths, TMethod>,',
-    '> = FetchResponse<paths[TPath][TMethod], MethodInit<TMethod, TPath>, MediaType>',
+    '> = FetchResponse<NonNullable<paths[TPath][TMethod]>, MethodInit<TMethod, TPath>, MediaType>',
     '',
     'export type LeafMethod<',
     '  TMethod extends HttpMethod,',
