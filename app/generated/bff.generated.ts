@@ -1122,6 +1122,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tokens
+         * @description Fetches a paginated list of merged token metadata for a given network
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Network to fetch tokens for */
+                    network?: "devnet" | "testnet" | "mainnet";
+                    /** @description Page number (1-based) */
+                    page?: number;
+                    /** @description Tokens per page (max 1000) */
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Paginated list of merged tokens */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: components["schemas"]["BffToken"][];
+                            pagination: {
+                                total: number;
+                                page: number;
+                                limit: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/account/balances/{address}": {
         parameters: {
             query?: never;
@@ -1265,6 +1330,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/account/cw20-balances/{address}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get CW20 balances
+         * @description Fetches CW20 token balances for an address with enriched token metadata
+         */
+        get: {
+            parameters: {
+                query?: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                };
+                header?: never;
+                path: {
+                    address: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description CW20 balances with token metadata */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["BffCW20BalancesResponse"];
+                    };
+                };
+                /** @description Invalid request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/entry-code/verify": {
         parameters: {
             query?: never;
@@ -1272,7 +1402,58 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Check entry code claim status
+         * @description Checks whether a wallet address has already claimed any entry code.
+         */
+        get: {
+            parameters: {
+                query: {
+                    address: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Entry code claim status for wallet address */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                hasClaimedEntryCode: boolean;
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
         put?: never;
         /**
          * Verify and claim an entry code
@@ -2062,16 +2243,6 @@ export interface components {
             /** @default [] */
             categories: string[];
         };
-        /** @description Bank balances response with transformed token metadata */
-        BffAccountBalancesResponse: {
-            data: components["schemas"]["BffBalanceWithToken"][];
-        };
-        /** @description Balance entry with full token metadata */
-        BffBalanceWithToken: {
-            denom: string;
-            amount: string;
-            token: components["schemas"]["BffToken"];
-        };
         /** @description Merged token metadata (chain + human combined) */
         BffToken: {
             denom: string;
@@ -2100,6 +2271,16 @@ export interface components {
             /** @enum {string} */
             uriStatus: "pending" | "valid" | "invalid" | "unreachable";
         };
+        /** @description Bank balances response with transformed token metadata */
+        BffAccountBalancesResponse: {
+            data: components["schemas"]["BffBalanceWithToken"][];
+        };
+        /** @description Balance entry with full token metadata */
+        BffBalanceWithToken: {
+            denom: string;
+            amount: string;
+            token: components["schemas"]["BffToken"];
+        };
         /** @description Account portfolio response with bank balances and subaccount balances */
         BffPortfolioResponse: {
             data: {
@@ -2115,6 +2296,26 @@ export interface components {
             totalBalance: string;
             availableBalance: string;
             token: components["schemas"]["BffToken"];
+        };
+        /** @description CW20 balances response with enriched token metadata */
+        BffCW20BalancesResponse: {
+            data: components["schemas"]["BffCW20BalanceWithToken"][];
+        };
+        /** @description CW20 balance entry with contract address and full token metadata */
+        BffCW20BalanceWithToken: {
+            contractAddress: string;
+            factoryDenom: string | null;
+            balance: string;
+            token: {
+                name: string;
+                logo: string;
+                denom: string;
+                symbol: string;
+                coinGeckoId: string;
+                decimals: number;
+                /** @enum {string} */
+                tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
+            } | null;
         };
         /** @description Derivative market with token metadata and UI fields from Injective SDK */
         BffDerivativeMarket: {
