@@ -218,6 +218,7 @@ export enum NuxtUiIcons {
   Wallet2 = 'bxs:wallet',
   Wallet3 = 'material-symbols:account-balance-wallet-outline',
   WalletOutline = 'ion:wallet-outline',
+  WalletOutline2 = 'solar:wallet-linear',
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet',
   Youtube = 'mdi:youtube',
