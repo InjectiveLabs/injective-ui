@@ -18,8 +18,7 @@ export interface SharedDropdownOptionWithToken {
   token?: TokenStatic
 }
 
-export interface SharedBalanceInUsdWithTokenAndPrice
-  extends SharedBalanceWithTokenAndPrice {
+export interface SharedBalanceInUsdWithTokenAndPrice extends SharedBalanceWithTokenAndPrice {
   balanceInUsd: string
 }
 
