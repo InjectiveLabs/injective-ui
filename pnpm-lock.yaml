@@ -18,11 +18,19 @@ importers:
         version: 0.1.1
       '@injectivelabs/exceptions':
 <<<<<<< HEAD
+<<<<<<< HEAD
         specifier: 1.18.15
         version: 1.18.15
       '@injectivelabs/networks':
         specifier: 1.18.15
         version: 1.18.15
+=======
+        specifier: 1.18.11
+        version: 1.18.11
+      '@injectivelabs/networks':
+        specifier: 1.18.11
+        version: 1.18.11
+>>>>>>> e425c1c (chore: bump packages)
 =======
         specifier: 1.18.9
         version: 1.18.9
@@ -35,8 +43,13 @@ importers:
         version: 0.0.12(@bugsnag/core@8.8.0)(magicast@0.5.1)(vue-router@4.6.4(vue@3.5.25(typescript@5.9.3)))
       '@injectivelabs/sdk-ts':
 <<<<<<< HEAD
+<<<<<<< HEAD
         specifier: 1.18.15
         version: 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
+=======
+        specifier: 1.18.11
+        version: 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
       '@injectivelabs/ts-types':
         specifier: 1.18.15
         version: 1.18.15
@@ -59,8 +72,13 @@ importers:
         specifier: 1.18.15
         version: 1.18.15(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.14.0)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))(zod@3.25.76)
       '@injectivelabs/wallet-turnkey':
+<<<<<<< HEAD
         specifier: 1.18.15
         version: 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
+=======
+        specifier: 1.18.11
+        version: 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
 =======
         specifier: 1.18.9
         version: 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -84,7 +102,11 @@ importers:
         version: 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-strategy':
         specifier: 1.18.9
+<<<<<<< HEAD
         version: 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+=======
+        version: 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
       '@injectivelabs/wallet-turnkey':
         specifier: 1.18.9
         version: 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -100,6 +122,7 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 4.2.1(@babel/parser@7.28.5)(axios@1.14.0)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.25(typescript@5.9.3)))(vue@3.5.25(typescript@5.9.3))(zod@3.25.76)
 =======
         version: 4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)
@@ -108,11 +131,19 @@ importers:
         version: 4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
         version: 4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)
 =======
         version: 4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+        version: 4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@nuxtjs/i18n':
         specifier: 10.2.1
         version: 10.2.1(@vue/compiler-dom@3.5.26)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(rollup@4.53.3)(vue@3.5.25(typescript@5.9.3))
@@ -127,6 +158,7 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.25(typescript@5.9.3))
 =======
         version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
@@ -135,11 +167,19 @@ importers:
         version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
         version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 =======
         version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+        version: 14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       canvas-confetti:
         specifier: ^1.6.0
         version: 1.9.4
@@ -167,6 +207,7 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
         version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
@@ -175,11 +216,19 @@ importers:
         version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
         version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
         version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+        version: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       nuxt-vitalizer:
         specifier: 2.0.0
         version: 2.0.0(magicast@0.5.1)
@@ -216,8 +265,11 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
         version: 1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
       '@nuxt/test-utils':
@@ -230,14 +282,20 @@ importers:
         version: 3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.4.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
         version: 1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       '@nuxt/test-utils':
         specifier: 3.21.0
         version: 3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       '@types/canvas-confetti':
         specifier: ^1.6.4
         version: 1.9.0
@@ -279,8 +337,11 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
         version: 5.1.4(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
       vitest:
         specifier: ^3.2.4
@@ -292,14 +353,20 @@ importers:
         version: 3.2.4(@types/debug@4.1.12)(@types/node@25.4.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
         version: 5.1.4(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vue-tsc:
         specifier: ^3.1.5
         version: 3.1.8(typescript@5.9.3)
@@ -1358,8 +1425,13 @@ packages:
     resolution: {integrity: sha512-jXxwaE0cdFVEtRgamQwYtSfDNs1ZCWPM4HimJIufpMVG1NVrZiFUMCXtfm9C9dsBMverBMq+Py4uK0Xy7UJiEg==}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/exceptions@1.18.15':
     resolution: {integrity: sha512-MS+nmWYKWmsd1l8meOjUTlry1bLeWcs+MshtpfdSgtaTgRE6ls2CMNa8tdQOhdeoWeMUgSYFdhdgdXgZ2WSI2g==}
+=======
+  '@injectivelabs/exceptions@1.18.11':
+    resolution: {integrity: sha512-ABiwtZJ6VVI3ClsASu0V1qPs+/BO5jxSDRtT9cbMw5yIGEV9zzTZfQwOGVOW2nWx6/fkpe6FFLch8jzkPcQq0Q==}
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/exceptions@1.18.9':
     resolution: {integrity: sha512-9+mTGq/JFt6NcAbAhvwo2NXk9fJZQHR95W/ewBoa6+2vrkLDphv11jb8Lw2Drh/Z+K1LZFF3eg1wNDnxjna+Dw==}
@@ -1387,8 +1459,13 @@ packages:
     resolution: {integrity: sha512-Fo6k1MCPT3CKUS9tbMbl/poGv7R8KHtA7RfU7mvxxVWS7MpF+LLZA6UgegfEA1iiJgIrhe+eEwEvhIOe6SiUzw==}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/networks@1.18.15':
     resolution: {integrity: sha512-q0/o69KD2Dlvf6Y61jaxj8pUqFxVmVZ1C/CAr214rG4DDdWgH2OweDm2pBZgqfZ89FJZvwlTywBXlWizvNP0VA==}
+=======
+  '@injectivelabs/networks@1.18.11':
+    resolution: {integrity: sha512-k3icKcNYrSmvq6mJbh3NR6NjY0ll8fEQpBJLgvTrLr4HOp52Xaxlfgjgh3a0DHCDtA9W2qbDHlK/h+Z/HRRjgQ==}
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/networks@1.18.9':
     resolution: {integrity: sha512-+BMWyk7FAcI9XPVARuaOYNC1G+oqlvt2mNRirK3ueGYVMKWYt3ViHB7HsI8nhSKiXKcdX2xDfVuNyuWw81mEog==}
@@ -1401,8 +1478,13 @@ packages:
     resolution: {integrity: sha512-3jTAyj342TXVe8qsVcDzAUnH5vAbqoHy5jqTUxHvJtfDaJ+X0uvN6d/yj60CxmrDOyKrn6pFx0prZ6J3Tl8S6g==}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/sdk-ts@1.18.15':
     resolution: {integrity: sha512-8Sh1Yz+QpB8URqleN+e8fhr+fqqAIwKSj+rYYNJcN5leVMdb00gT1ohuHSXhv9uYhoaaeuGfsOjhOZeYUn2tXQ==}
+=======
+  '@injectivelabs/sdk-ts@1.18.11':
+    resolution: {integrity: sha512-B4KywZbMupmcNNOChGwpQ1/w3qMtaag+9lqPBbqgng3C/KWtQfwZfZIWbtSlYf9QfdPAqpTgx6k/WYzCmkAL3A==}
+>>>>>>> e425c1c (chore: bump packages)
 
   '@injectivelabs/tc-abacus-proto-ts-v2@1.18.2':
     resolution: {integrity: sha512-/mb5Yib7goxzNxQjdEKMA+PNcKdWJeP4MUol9PJEHTyfzA4Kw+FKooKjq/0B2IE6vhHvADqW9isudBZYEVrBKA==}
@@ -1425,8 +1507,13 @@ packages:
   '@injectivelabs/wallet-evm@1.18.15':
     resolution: {integrity: sha512-oT8zhTvZxbzPI6hHKuS3ULl7Qzzvy3c0RmYc0ejFQXUdeD2Th9SWVzUg/oMcFeO1GqUoayG7RzB7weZGOId9mQ==}
 
+<<<<<<< HEAD
   '@injectivelabs/wallet-ledger@1.18.15':
     resolution: {integrity: sha512-xdhakEdQwFIGRIQij+ARwW2nQGEX4REBEwgZnxHSXKv3R5l6kXHTZjsiPEK06exWhqGjl2m7yJ/bZ3d+A55DDw==}
+=======
+  '@injectivelabs/wallet-ledger@1.18.11':
+    resolution: {integrity: sha512-iankFZTxCKD8mT7XVI+ATEZzVca6FFZqDGog7dN1UiTQdb5AVgbhNzeMU/KIS5nQmlsthn9oUtz5dssVEIwPcw==}
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/sdk-ts@1.18.9':
     resolution: {integrity: sha512-Rin8/Q9doHz1iy815PQJfW4umPJYV5G/QlmXCO/dteGF/roIz11elD33VxSw0WPRieD0DRIN5EcDTAShSdYVGQ==}
@@ -1460,8 +1547,13 @@ packages:
       bignumber.js: ^9.0.0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-magic@1.18.15':
     resolution: {integrity: sha512-uAmRpt+Acm6eMHGt/VNB0d7e3Yr2DwpkF3fe0I1sN1gYHaNuRFHCVs5QXMKuVNLD3CF3TTwoufrkjf/Mkuee/A==}
+=======
+  '@injectivelabs/wallet-magic@1.18.11':
+    resolution: {integrity: sha512-0UfHwDzL4A0OU2hLZBT+oE4Fu6zAQPvQtEXV1xjcA3D2HRCDpAlBgNRNK9h9WWgVCTXNXEMaSC/YtX1rwH7PUg==}
+>>>>>>> e425c1c (chore: bump packages)
 
   '@injectivelabs/wallet-private-key@1.18.15':
     resolution: {integrity: sha512-WVIgnO/G6lf0mhpJmLXsll4ASQchRRD2TWMbvjhdUg6hdg/wtcR/xziFeZLtTWbegn7SA2oSsQPLSXgyUu0GTQ==}
@@ -1475,8 +1567,13 @@ packages:
   '@injectivelabs/wallet-turnkey@1.18.15':
     resolution: {integrity: sha512-al6ZCsM5XbvBSmdyItpdKYjcnLmSaOVgSmD+fggudFuu74paz0DwDStjkQBZY6GpBAGJcI42IlHenj5CNlxZmg==}
 
+<<<<<<< HEAD
   '@injectivelabs/wallet-wallet-connect@1.18.15':
     resolution: {integrity: sha512-ndv0xrPuA65sT0vVUNsY5PrL21aiWU6ey0F0DMEYIh0Iuud26BLchcaSflOQJoWxPrBpHZX/7lYZC6aUBnvr0w==}
+=======
+  '@injectivelabs/wallet-wallet-connect@1.18.11':
+    resolution: {integrity: sha512-KM5GUqlGCU6BHV52/VUE5va4x7zNzJLoHgjtnfTxuq5nJDMyJmHuztHEB7fASHCxuZ+eV1Rb4/gTABgp89A6tA==}
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/wallet-magic@1.18.9':
     resolution: {integrity: sha512-QMCHO/yx2PvZWxryXcts+7ZQBp+Oz12bpAeFT161VfnlXT18JCZ1L5PEKKNxwYi5Jacp+sNwMapBlrzmsaW4eg==}
@@ -10359,7 +10456,11 @@ snapshots:
       '@protobuf-ts/runtime-rpc': 2.11.1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/exceptions@1.18.15':
+=======
+  '@injectivelabs/exceptions@1.18.11':
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/exceptions@1.18.9':
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -10392,9 +10493,15 @@ snapshots:
       '@protobuf-ts/runtime-rpc': 2.11.1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/networks@1.18.15':
     dependencies:
       '@injectivelabs/ts-types': 1.18.15
+=======
+  '@injectivelabs/networks@1.18.11':
+    dependencies:
+      '@injectivelabs/ts-types': 1.18.11
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/networks@1.18.9':
     dependencies:
@@ -10426,7 +10533,11 @@ snapshots:
       '@protobuf-ts/runtime-rpc': 2.11.1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/sdk-ts@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)':
+=======
+  '@injectivelabs/sdk-ts@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/sdk-ts@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -10437,7 +10548,11 @@ snapshots:
       '@injectivelabs/abacus-proto-ts-v2': 1.17.5
       '@injectivelabs/core-proto-ts-v2': 1.18.0
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@injectivelabs/exceptions': 1.18.15
+=======
+      '@injectivelabs/exceptions': 1.18.11
+>>>>>>> e425c1c (chore: bump packages)
 =======
       '@injectivelabs/exceptions': 1.18.9
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -10447,11 +10562,19 @@ snapshots:
       '@injectivelabs/indexer-proto-ts-v2': 1.18.10
       '@injectivelabs/mito-proto-ts-v2': 1.17.3
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@injectivelabs/networks': 1.18.15
       '@injectivelabs/olp-proto-ts-v2': 1.17.6
       '@injectivelabs/tc-abacus-proto-ts-v2': 1.18.2
       '@injectivelabs/ts-types': 1.18.15
       '@injectivelabs/utils': 1.18.15
+=======
+      '@injectivelabs/networks': 1.18.11
+      '@injectivelabs/olp-proto-ts-v2': 1.17.6
+      '@injectivelabs/tc-abacus-proto-ts-v2': 1.18.1
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/utils': 1.18.11
+>>>>>>> e425c1c (chore: bump packages)
 =======
       '@injectivelabs/networks': 1.18.9
       '@injectivelabs/olp-proto-ts-v2': 1.17.6
@@ -10482,7 +10605,11 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/tc-abacus-proto-ts-v2@1.18.2':
+=======
+  '@injectivelabs/tc-abacus-proto-ts-v2@1.18.1':
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@protobuf-ts/grpcweb-transport': 2.11.1
       '@protobuf-ts/runtime': 2.11.1
@@ -10492,10 +10619,16 @@ snapshots:
 
   '@injectivelabs/utils@1.18.15':
     dependencies:
+<<<<<<< HEAD
       '@injectivelabs/exceptions': 1.18.15
       '@injectivelabs/networks': 1.18.15
       '@injectivelabs/ts-types': 1.18.15
       axios: 1.14.0
+=======
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/networks': 1.18.11
+      '@injectivelabs/ts-types': 1.18.11
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/ts-types@1.18.9': {}
 
@@ -10504,6 +10637,10 @@ snapshots:
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/networks': 1.18.9
       '@injectivelabs/ts-types': 1.18.9
+<<<<<<< HEAD
+=======
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       axios: 1.13.6
 <<<<<<< HEAD
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -10517,6 +10654,7 @@ snapshots:
       - debug
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-base@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10525,11 +10663,22 @@ snapshots:
       eip1193-provider: 1.0.1(bufferutil@4.1.0)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
 =======
+  '@injectivelabs/wallet-base@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+>>>>>>> e425c1c (chore: bump packages)
+=======
   '@injectivelabs/wallet-base@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/sdk-ts': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.9
+<<<<<<< HEAD
+=======
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       eip1193-provider: 1.0.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -10542,6 +10691,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-core@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10550,6 +10700,16 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.15
       '@injectivelabs/utils': 1.18.15
       '@injectivelabs/wallet-base': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
+=======
+  '@injectivelabs/wallet-core@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/networks': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/utils': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/wallet-core@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
@@ -10572,6 +10732,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-cosmos@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@cosmjs/proto-signing': 0.33.0
@@ -10586,6 +10747,22 @@ snapshots:
     dependencies:
       '@cosmjs/proto-signing': 0.33.0
       '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+=======
+  '@injectivelabs/wallet-cosmos@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@cosmjs/proto-signing': 0.33.0
+      '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/utils': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+=======
+  '@injectivelabs/wallet-cosmos@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@cosmjs/proto-signing': 0.33.0
+      '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+>>>>>>> e425c1c (chore: bump packages)
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/sdk-ts': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.9
@@ -10603,6 +10780,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-evm@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10610,6 +10788,15 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.15
       '@injectivelabs/utils': 1.18.15
       '@injectivelabs/wallet-base': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
+=======
+  '@injectivelabs/wallet-evm@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/utils': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/wallet-evm@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
@@ -10629,6 +10816,7 @@ snapshots:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-ledger@1.18.15(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.14.0)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
 =======
   '@injectivelabs/wallet-ledger@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
@@ -10636,10 +10824,17 @@ snapshots:
 =======
   '@injectivelabs/wallet-ledger@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
 >>>>>>> 7224582 (chore: remove bn override)
+=======
+  '@injectivelabs/wallet-ledger@1.18.11(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+=======
+  '@injectivelabs/wallet-ledger@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@ethersproject/abi': 5.8.0
       '@ethersproject/rlp': 5.8.0
       '@ethersproject/transactions': 5.8.0
+<<<<<<< HEAD
 <<<<<<< HEAD
       '@injectivelabs/exceptions': 1.18.15
       '@injectivelabs/sdk-ts': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
@@ -10652,10 +10847,20 @@ snapshots:
       '@ledgerhq/hw-transport-webusb': 6.33.0
       axios: 1.14.0
 =======
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
+=======
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/sdk-ts': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.9
       '@injectivelabs/wallet-base': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+<<<<<<< HEAD
+=======
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@ledgerhq/hw-app-cosmos': 6.34.0
       '@ledgerhq/hw-app-eth': 6.47.1(react@19.0.0)
       '@ledgerhq/hw-transport': 6.33.0
@@ -10681,12 +10886,21 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-magic@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
       '@injectivelabs/sdk-ts': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.15
       '@injectivelabs/wallet-base': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
+=======
+  '@injectivelabs/wallet-magic@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/wallet-magic@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
@@ -10707,12 +10921,21 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-private-key@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
       '@injectivelabs/sdk-ts': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.15
       '@injectivelabs/wallet-base': 1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
+=======
+  '@injectivelabs/wallet-private-key@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@injectivelabs/wallet-private-key@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
@@ -10729,6 +10952,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   '@injectivelabs/wallet-strategy@1.18.15(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.14.0)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))(zod@3.25.76)':
@@ -10749,13 +10973,34 @@ snapshots:
 =======
   '@injectivelabs/wallet-strategy@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
 >>>>>>> 7224582 (chore: remove bn override)
+=======
+  '@injectivelabs/wallet-strategy@1.18.11(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-core': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-cosmos': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-evm': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-ledger': 1.18.11(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-magic': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-private-key': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-trezor': 1.18.11(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+      '@injectivelabs/wallet-turnkey': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-wallet-connect': 1.18.11(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+=======
+  '@injectivelabs/wallet-strategy@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/wallet-base': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-core': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-cosmos': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-evm': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+<<<<<<< HEAD
       '@injectivelabs/wallet-ledger': 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+=======
+      '@injectivelabs/wallet-ledger': 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
       '@injectivelabs/wallet-magic': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-private-key': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-trezor': 1.18.9(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
@@ -10812,6 +11057,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-trezor@1.18.15(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10822,12 +11068,24 @@ snapshots:
       '@trezor/connect-web': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
 =======
+  '@injectivelabs/wallet-trezor@1.18.11(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
+=======
   '@injectivelabs/wallet-trezor@1.18.9(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/sdk-ts': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.9
       '@injectivelabs/wallet-base': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+<<<<<<< HEAD
+=======
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       '@trezor/connect-web': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -10850,6 +11108,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-turnkey@1.18.15(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10861,6 +11120,15 @@ snapshots:
       '@turnkey/viem': 0.9.10(bufferutil@4.1.0)(typescript@5.9.3)(viem@2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76))(zod@3.25.76)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
 =======
+  '@injectivelabs/wallet-turnkey@1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/utils': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
+=======
   '@injectivelabs/wallet-turnkey@1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.9
@@ -10868,6 +11136,10 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.9
       '@injectivelabs/utils': 1.18.9
       '@injectivelabs/wallet-base': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+<<<<<<< HEAD
+=======
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@turnkey/sdk-browser': 5.2.3(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@turnkey/viem': 0.9.10(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76))(zod@3.25.76)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -10882,6 +11154,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-wallet-connect@1.18.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10891,12 +11164,24 @@ snapshots:
       '@reown/appkit': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-adapter-ethers': 1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
 =======
+  '@injectivelabs/wallet-wallet-connect@1.18.11(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.11
+      '@injectivelabs/sdk-ts': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.11
+      '@injectivelabs/wallet-base': 1.18.11(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> e425c1c (chore: bump packages)
+=======
   '@injectivelabs/wallet-wallet-connect@1.18.9(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/sdk-ts': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.9
       '@injectivelabs/wallet-base': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+<<<<<<< HEAD
+=======
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@reown/appkit': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@reown/appkit-adapter-ethers': 1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -11529,8 +11814,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/devtools-kit@3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
@@ -11544,6 +11832,9 @@ snapshots:
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@nuxt/devtools-kit@3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
@@ -11551,8 +11842,11 @@ snapshots:
       execa: 8.0.1
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - magicast
 
@@ -11570,8 +11864,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@nuxt/devtools@3.1.1(bufferutil@4.1.0)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/devtools@3.1.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
     dependencies:
@@ -11581,6 +11878,7 @@ snapshots:
       '@vue/devtools-core': 8.0.5(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 =======
   '@nuxt/devtools@3.1.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   '@nuxt/devtools@3.1.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
@@ -11596,13 +11894,25 @@ snapshots:
       '@vue/devtools-core': 8.0.5(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+=======
+  '@nuxt/devtools@3.1.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
-      '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+      '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       '@nuxt/devtools-wizard': 3.1.1
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
+<<<<<<< HEAD
       '@vue/devtools-core': 8.0.5(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      '@vue/devtools-core': 8.0.5(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@vue/devtools-kit': 8.0.5
       birpc: 2.9.0
       consola: 3.4.2
@@ -11630,8 +11940,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vite-plugin-inspect: 11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
       vite-plugin-vue-tracer: 1.2.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
@@ -11641,13 +11954,19 @@ snapshots:
       vite-plugin-vue-tracer: 1.2.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vite-plugin-inspect: 11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       vite-plugin-vue-tracer: 1.2.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       which: 5.0.0
       ws: 8.19.0(bufferutil@4.1.0)
     transitivePeerDependencies:
@@ -11699,6 +12018,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@nuxt/eslint@1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
     dependencies:
       '@eslint/config-inspector': 1.4.2(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))
@@ -11716,6 +12036,8 @@ snapshots:
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/eslint@1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
     dependencies:
       '@eslint/config-inspector': 1.4.2(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(utf-8-validate@6.0.6)
@@ -11726,7 +12048,16 @@ snapshots:
       '@eslint/config-inspector': 1.4.2(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(utf-8-validate@6.0.6)
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@nuxt/eslint@1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
+    dependencies:
+      '@eslint/config-inspector': 1.4.2(bufferutil@4.1.0)(eslint@9.39.2(jiti@2.6.1))(utf-8-validate@6.0.6)
+      '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@nuxt/eslint-config': 1.12.1(@typescript-eslint/utils@8.49.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@nuxt/eslint-plugin': 1.12.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
@@ -11754,8 +12085,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/fonts@0.12.1(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
     dependencies:
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
@@ -11765,13 +12099,19 @@ snapshots:
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@nuxt/fonts@0.12.1(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       consola: 3.4.2
       css-tree: 3.1.0
@@ -11781,18 +12121,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       fontless: 0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
       fontless: 0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       fontless: 0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      fontless: 0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       h3: 1.15.4
       jiti: 2.6.1
       magic-regexp: 0.10.0
@@ -11832,6 +12181,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@nuxt/icon@2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.25(typescript@5.9.3))':
 =======
   '@nuxt/icon@2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
@@ -11840,11 +12190,19 @@ snapshots:
   '@nuxt/icon@2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/icon@2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 =======
   '@nuxt/icon@2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@nuxt/icon@2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@iconify/collections': 1.0.629
       '@iconify/types': 2.0.0
@@ -11864,11 +12222,18 @@ snapshots:
 =======
       '@iconify/vue': 5.0.0(vue@3.5.26(typescript@5.9.3))
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       consola: 3.4.2
       local-pkg: 1.1.2
@@ -11989,6 +12354,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@nuxt/nitro-server@4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
 =======
   '@nuxt/nitro-server@4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
@@ -11997,11 +12363,19 @@ snapshots:
   '@nuxt/nitro-server@4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/nitro-server@4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
 =======
   '@nuxt/nitro-server@4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@nuxt/nitro-server@4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
@@ -12022,6 +12396,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
@@ -12030,11 +12405,19 @@ snapshots:
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       pathe: 2.0.3
       pkg-types: 2.3.0
       radix3: 1.1.2
@@ -12108,18 +12491,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/test-utils@3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
 =======
   '@nuxt/test-utils@3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.4.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   '@nuxt/test-utils@3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@nuxt/test-utils@3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@nuxt/kit': 3.20.2(magicast@0.5.1)
       c12: 3.3.2(magicast@0.5.1)
@@ -12147,18 +12539,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vitest-environment-nuxt: 1.0.1(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
       vitest-environment-nuxt: 1.0.1(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.4.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vitest-environment-nuxt: 1.0.1(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vitest-environment-nuxt: 1.0.1(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       vue: 3.5.25(typescript@5.9.3)
     optionalDependencies:
       '@vue/test-utils': 2.4.6
@@ -12167,22 +12568,32 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@25.4.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - magicast
       - typescript
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -12194,11 +12605,19 @@ snapshots:
   '@nuxt/ui@4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/ui@4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)':
 =======
   '@nuxt/ui@4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@nuxt/ui@4.2.1(@babel/parser@7.28.5)(axios@1.13.6)(change-case@5.4.4)(db0@0.3.4)(embla-carousel@8.6.0)(idb-keyval@6.2.2)(ioredis@5.8.2)(jwt-decode@4.0.0)(magicast@0.5.1)(qrcode@1.5.3)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(superstruct@2.0.2)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))(vue@3.5.26(typescript@5.9.3))(zod@3.25.76)':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@iconify/vue': 5.0.0(vue@3.5.25(typescript@5.9.3))
       '@internationalized/date': 3.10.0
@@ -12206,9 +12625,12 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@nuxt/fonts': 0.12.1(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
       '@nuxt/icon': 2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.25(typescript@5.9.3))
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
       '@nuxt/fonts': 0.12.1(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
       '@nuxt/icon': 2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
@@ -12217,17 +12639,24 @@ snapshots:
       '@nuxt/icon': 2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
       '@nuxt/fonts': 0.12.1(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       '@nuxt/icon': 2.1.1(magicast@0.5.1)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@nuxt/schema': 4.2.2
       '@nuxtjs/color-mode': 3.5.2(magicast@0.5.1)
       '@standard-schema/spec': 1.0.0
       '@tailwindcss/postcss': 4.1.18
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -12243,11 +12672,19 @@ snapshots:
       '@tailwindcss/vite': 4.1.18(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
       '@tailwindcss/vite': 4.1.18(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
       '@tailwindcss/vite': 4.1.18(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      '@tailwindcss/vite': 4.1.18(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@tanstack/vue-table': 8.21.3(vue@3.5.26(typescript@5.9.3))
       '@tanstack/vue-virtual': 3.13.13(vue@3.5.26(typescript@5.9.3))
       '@unhead/vue': 2.0.19(vue@3.5.26(typescript@5.9.3))
@@ -12332,8 +12769,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@nuxt/vite-builder@4.2.2(@types/node@25.5.0)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.1.8(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)':
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@nuxt/vite-builder@4.2.2(@types/node@25.5.0)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.1.8(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)':
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
     dependencies:
@@ -12350,6 +12790,9 @@ snapshots:
       '@vitejs/plugin-vue-jsx': 5.1.2(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@nuxt/vite-builder@4.2.2(@types/node@25.5.0)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(vue-tsc@3.1.8(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)':
     dependencies:
@@ -12358,8 +12801,11 @@ snapshots:
       '@vitejs/plugin-vue': 6.0.3(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
       '@vitejs/plugin-vue-jsx': 5.1.2(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       autoprefixer: 10.4.23(postcss@8.5.6)
       consola: 3.4.2
       cssnano: 7.1.2(postcss@8.5.6)
@@ -12377,6 +12823,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
@@ -12385,11 +12832,19 @@ snapshots:
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       pathe: 2.0.3
       pkg-types: 2.3.0
       postcss: 8.5.6
@@ -12401,8 +12856,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vite-node: 5.2.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vite-plugin-checker: 0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))
@@ -12412,13 +12870,19 @@ snapshots:
       vite-plugin-checker: 0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vite-node: 5.2.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vite-plugin-checker: 0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vue: 3.5.26(typescript@5.9.3)
       vue-bundle-renderer: 2.2.0
     transitivePeerDependencies:
@@ -14452,18 +14916,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@tailwindcss/vite@4.1.18(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
 =======
   '@tailwindcss/vite@4.1.18(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   '@tailwindcss/vite@4.1.18(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@tailwindcss/vite@4.1.18(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@tailwindcss/node': 4.1.18
       '@tailwindcss/oxide': 4.1.18
@@ -14471,18 +14944,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
 
   '@tanstack/table-core@8.21.3': {}
 
@@ -15205,18 +15687,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@vitejs/plugin-vue-jsx@5.1.2(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 =======
   '@vitejs/plugin-vue-jsx@5.1.2(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   '@vitejs/plugin-vue-jsx@5.1.2(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@vitejs/plugin-vue-jsx@5.1.2(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@babel/core': 7.28.5
       '@babel/plugin-syntax-typescript': 7.27.1(@babel/core@7.28.5)
@@ -15226,18 +15717,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       vue: 3.5.26(typescript@5.9.3)
     transitivePeerDependencies:
       - supports-color
@@ -15245,8 +15745,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@vitejs/plugin-vue@6.0.3(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-beta.53
@@ -15258,14 +15761,20 @@ snapshots:
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
   '@vitejs/plugin-vue@6.0.3(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-beta.53
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vue: 3.5.26(typescript@5.9.3)
 
   '@vitest/expect@3.2.4':
@@ -15279,18 +15788,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@vitest/mocker@3.2.4(vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))':
 =======
   '@vitest/mocker@3.2.4(vite@7.0.6(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   '@vitest/mocker@3.2.4(vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@vitest/mocker@3.2.4(vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
@@ -15299,18 +15817,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.0.6(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -15474,18 +16001,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@vue/devtools-core@8.0.5(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 =======
   '@vue/devtools-core@8.0.5(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   '@vue/devtools-core@8.0.5(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@vue/devtools-core@8.0.5(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@vue/devtools-kit': 8.0.5
       '@vue/devtools-shared': 8.0.5
@@ -15495,18 +16031,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite-hot-client: 2.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
       vite-hot-client: 2.1.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite-hot-client: 2.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite-hot-client: 2.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       vue: 3.5.26(typescript@5.9.3)
     transitivePeerDependencies:
       - vite
@@ -15684,6 +16229,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.25(typescript@5.9.3))':
 =======
   '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
@@ -15692,16 +16238,25 @@ snapshots:
   '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 =======
   '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  '@vueuse/nuxt@14.1.0(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))':
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@vueuse/core': 14.1.0(vue@3.5.25(typescript@5.9.3))
       '@vueuse/metadata': 14.1.0
       local-pkg: 1.1.2
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -15713,11 +16268,19 @@ snapshots:
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 =======
       nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      nuxt: 4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       vue: 3.5.26(typescript@5.9.3)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
     transitivePeerDependencies:
@@ -17684,18 +18247,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   fontless@0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)):
 =======
   fontless@0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   fontless@0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  fontless@0.1.0(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       consola: 3.4.2
       css-tree: 3.1.0
@@ -17714,18 +18286,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -18868,8 +19449,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2):
 =======
+=======
+>>>>>>> e425c1c (chore: bump packages)
   nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2):
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
     dependencies:
@@ -18905,17 +19489,27 @@ snapshots:
       '@nuxt/vite-builder': 4.2.2(@types/node@25.5.0)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(typescript@5.9.3)(vue-tsc@3.1.8(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)
 =======
   nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2):
+=======
+  nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2):
+>>>>>>> f7d79f3 (chore: bump packages)
     dependencies:
       '@dxup/nuxt': 0.2.2(magicast@0.5.1)
       '@nuxt/cli': 3.31.3(cac@6.7.14)(magicast@0.5.1)
-      '@nuxt/devtools': 3.1.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
+      '@nuxt/devtools': 3.1.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
-      '@nuxt/nitro-server': 4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)
+      '@nuxt/nitro-server': 4.2.2(db0@0.3.4)(idb-keyval@6.2.2)(ioredis@5.8.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)
       '@nuxt/schema': 4.2.2
       '@nuxt/telemetry': 2.6.6(magicast@0.5.1)
+<<<<<<< HEAD
       '@nuxt/vite-builder': 4.2.2(@types/node@25.4.0)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.4.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(vue-tsc@3.1.8(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      '@nuxt/vite-builder': 4.2.2(@types/node@25.5.0)(eslint@9.39.2(jiti@2.6.1))(lightningcss@1.30.2)(magicast@0.5.1)(nuxt@4.2.2(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.26)(bufferutil@4.1.0)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(idb-keyval@6.2.2)(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3))(yaml@2.8.2))(optionator@0.9.4)(rollup@4.53.3)(terser@5.44.1)(tsx@4.21.0)(typescript@5.9.3)(vue-tsc@3.1.8(typescript@5.9.3))(vue@3.5.26(typescript@5.9.3))(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       '@unhead/vue': 2.0.19(vue@3.5.26(typescript@5.9.3))
       '@vue/shared': 3.5.26
       c12: 3.3.3(magicast@0.5.1)
@@ -20665,6 +21259,7 @@ snapshots:
       destr: 2.0.5
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       h3: 1.15.10
 =======
       h3: 1.15.6
@@ -20672,6 +21267,12 @@ snapshots:
 =======
       h3: 1.15.7
 >>>>>>> 7224582 (chore: remove bn override)
+=======
+      h3: 1.15.8
+=======
+      h3: 1.15.6
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       lru-cache: 11.2.7
       node-fetch-native: 1.6.7
       ofetch: 1.5.1
@@ -20797,6 +21398,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   viem@2.47.6(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76):
     dependencies:
       '@noble/curves': 1.9.1
@@ -20817,6 +21419,8 @@ snapshots:
 
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite-dev-rpc@1.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)):
     dependencies:
       birpc: 2.9.0
@@ -20830,6 +21434,7 @@ snapshots:
   vite-node@3.2.4(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2):
 =======
   vite-dev-rpc@1.1.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite-dev-rpc@1.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
@@ -20850,18 +21455,30 @@ snapshots:
   vite-node@3.2.4(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
+=======
+=======
+  vite-dev-rpc@1.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       birpc: 2.9.0
-      vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
-      vite-hot-client: 2.1.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+      vite-hot-client: 2.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 
-  vite-hot-client@2.1.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
+  vite-hot-client@2.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
-      vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 
+<<<<<<< HEAD
   vite-node@3.2.4(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite-node@3.2.4(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       cac: 6.7.14
       debug: 4.4.3(supports-color@10.2.2)
@@ -20870,18 +21487,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -20899,18 +21525,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite-node@5.2.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2):
 =======
   vite-node@5.2.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite-node@5.2.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite-node@5.2.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       cac: 6.7.14
       es-module-lexer: 1.7.0
@@ -20919,18 +21554,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -20947,18 +21591,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite-plugin-checker@0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3)):
 =======
   vite-plugin-checker@0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3)):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite-plugin-checker@0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3)):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite-plugin-checker@0.12.0(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.1.8(typescript@5.9.3)):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -20970,18 +21623,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
       vscode-uri: 3.1.0
     optionalDependencies:
       eslint: 9.39.2(jiti@2.6.1)
@@ -20992,18 +21654,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite-plugin-inspect@11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)):
 =======
   vite-plugin-inspect@11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite-plugin-inspect@11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite-plugin-inspect@11.3.3(@nuxt/kit@4.2.2(magicast@0.5.1))(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       ansis: 4.2.0
       debug: 4.4.3(supports-color@10.2.2)
@@ -21016,8 +21687,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vite-dev-rpc: 1.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
 =======
@@ -21025,12 +21699,18 @@ snapshots:
       vite-dev-rpc: 1.1.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vite-dev-rpc: 1.1.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
     optionalDependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
     transitivePeerDependencies:
@@ -21039,18 +21719,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite-plugin-vue-tracer@1.2.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3)):
 =======
   vite-plugin-vue-tracer@1.2.0(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3)):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite-plugin-vue-tracer@1.2.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3)):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite-plugin-vue-tracer@1.2.0(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3)):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       estree-walker: 3.0.3
       exsolve: 1.0.8
@@ -21060,8 +21749,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vue: 3.5.26(typescript@5.9.3)
 
@@ -21073,14 +21765,20 @@ snapshots:
   vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vue: 3.5.26(typescript@5.9.3)
 
   vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       debug: 4.4.3(supports-color@10.2.2)
       globrex: 0.1.2
@@ -21089,18 +21787,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
       vite: 7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+      vite: 7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -21108,18 +21815,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2):
 =======
   vite@7.0.6(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
@@ -21139,18 +21855,27 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2):
 =======
   vite@7.3.0(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
   vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
 >>>>>>> f7d79f3 (chore: bump packages)
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+=======
+  vite@7.3.0(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
+>>>>>>> f7d79f3 (chore: bump packages)
+>>>>>>> e425c1c (chore: bump packages)
     dependencies:
       esbuild: 0.27.1
       fdir: 6.5.0(picomatch@4.0.3)
@@ -21170,8 +21895,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vitest-environment-nuxt@1.0.1(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)):
     dependencies:
       '@nuxt/test-utils': 3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
@@ -21181,13 +21909,19 @@ snapshots:
       '@nuxt/test-utils': 3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.4.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
   vitest-environment-nuxt@1.0.1(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
       '@nuxt/test-utils': 3.21.0(@vue/test-utils@2.4.6)(happy-dom@18.0.1)(magicast@0.5.1)(playwright-core@1.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
@@ -21205,8 +21939,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
   vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2):
     dependencies:
       '@types/chai': 5.2.3
@@ -21220,6 +21957,9 @@ snapshots:
       '@vitest/mocker': 3.2.4(vite@7.0.6(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
   vitest@3.2.4(@types/debug@4.1.12)(@types/node@25.5.0)(happy-dom@18.0.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
@@ -21227,8 +21967,11 @@ snapshots:
       '@vitest/expect': 3.2.4
       '@vitest/mocker': 3.2.4(vite@7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       '@vitest/pretty-format': 3.2.4
       '@vitest/runner': 3.2.4
       '@vitest/snapshot': 3.2.4
@@ -21249,8 +21992,11 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       vite: 7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vite-node: 3.2.4(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
 =======
@@ -21258,12 +22004,18 @@ snapshots:
       vite-node: 3.2.4(@types/node@25.4.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> eee49a8 (feat: setup bff markets endpoint)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e425c1c (chore: bump packages)
 =======
       vite: 7.0.6(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
       vite-node: 3.2.4(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> f7d79f3 (chore: bump packages)
+<<<<<<< HEAD
 =======
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
+=======
+>>>>>>> e425c1c (chore: bump packages)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/debug': 4.1.12
