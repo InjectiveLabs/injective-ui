@@ -24,8 +24,8 @@ const props = withDefaults(
     roundingMode?: BigNumber.RoundingMode
   }>(),
   {
-    dataCy: '',
-    cyValue: '',
+    dataCy: undefined,
+    cyValue: undefined,
     decimals: DEFAULT_DISPLAY_DECIMALS,
     roundingMode: BigNumber.ROUND_DOWN,
     subscriptDecimals: DEFAULT_SUBSCRIPT_DECIMALS,
@@ -83,8 +83,8 @@ const subscriptedAmount = computed(() => {
   }
 
   if (
-    nOfZeros >= props.decimals ||
-    nOfZeros > props.subscriptThresholdDecimals
+    nOfZeros > 0 &&
+    (nOfZeros >= props.decimals || nOfZeros > props.subscriptThresholdDecimals)
   ) {
     let subscriptAmount = toBigNumber(decimalPart.replace(/^0+/, ''))
       .toFixed(0)
@@ -124,7 +124,10 @@ const formattedAmount = computed(() => {
 </script>
 
 <template>
-  <span :data-cy="props.dataCy" :cy-value="props.cyValue">
+  <span
+    :data-cy="props.dataCy || undefined"
+    :cy-value="props.cyValue || undefined"
+  >
     <span v-if="isNegative">-</span>
     <slot name="prefix" />
 
