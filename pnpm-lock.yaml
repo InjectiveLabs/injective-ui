@@ -7,7 +7,6 @@ settings:
 overrides:
   rollup: 4.53.3
   crypto-js: 4.2.0
-  bignumber.js: 9.1.2
   '@solana/web3.js': 1.98.0
 
 importers:
@@ -85,7 +84,7 @@ importers:
         version: 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-strategy':
         specifier: 1.18.9
-        version: 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+        version: 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
       '@injectivelabs/wallet-turnkey':
         specifier: 1.18.9
         version: 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -401,6 +400,13 @@ packages:
     resolution: {integrity: sha512-h7iEYiW4HebClDEhtvFObtPmIvrd1SSfpI9EhOeKk4CtIK/ngBWFpuhCzhdmRKtg71ylcue+9I6dv54XYO1epQ==}
     engines: {node: '>=6.9.0'}
 
+<<<<<<< HEAD
+=======
+  '@babel/runtime@7.29.2':
+    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+    engines: {node: '>=6.9.0'}
+
+>>>>>>> 7224582 (chore: remove bn override)
   '@babel/template@7.27.2':
     resolution: {integrity: sha512-LPDZ85aEJyYSd18/DkjNh4/y1ntkE5KwUHWTiqgRxruuZL2F1yuHligVHLvcHY2vMHXttKFpJn6LwfI7cw7ODw==}
     engines: {node: '>=6.9.0'}
@@ -1414,7 +1420,7 @@ packages:
       '@ethersproject/rlp': ^5.7.0
       '@ethersproject/transactions': ^5.7.0
       axios: ^1.0.0
-      bignumber.js: 9.1.2
+      bignumber.js: ^9.0.0
 
 <<<<<<< HEAD
   '@injectivelabs/wallet-magic@1.18.15':
@@ -4775,8 +4781,17 @@ packages:
   big.js@6.2.2:
     resolution: {integrity: sha512-y/ie+Faknx7sZA5MfGA2xKlu0GDv8RWrXGsmlteyJQ2lvoKv9GBK/fpRMc2qlSoBAgNxrixICFCBefIq8WCQpQ==}
 
+<<<<<<< HEAD
   bignumber.js@9.1.2:
     resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
+=======
+  bigint-buffer@1.1.5:
+    resolution: {integrity: sha512-trfYco6AoZ+rKhKnxA0hgX0HAbVP/s808/EuDSe2JDzUnCp/xAsli35Orvk67UrTEcwuxZqYZDmfA2RXJgxVvA==}
+    engines: {node: '>= 10.0.0'}
+
+  bignumber.js@9.3.1:
+    resolution: {integrity: sha512-Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ==}
+>>>>>>> 7224582 (chore: remove bn override)
 
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
@@ -6108,6 +6123,12 @@ packages:
   h3@1.15.4:
     resolution: {integrity: sha512-z5cFQWDffyOe4vQ9xIqNfCZdV4p//vy6fBnr8Q1AWnVZ0teurKMG66rLj++TKwKPUP3u7iMUvrvKaEUiQw2QWQ==}
 
+<<<<<<< HEAD
+=======
+  h3@1.15.7:
+    resolution: {integrity: sha512-i/4pJJMzsnK2Kg1oLx8uM9DgYbkY+JgPENs0nEZUyPhJ5iXzq3YqvoC4iDa6gVRhoflzyTlkW2/83rFj6a53AQ==}
+
+>>>>>>> 7224582 (chore: remove bn override)
   happy-dom@18.0.1:
     resolution: {integrity: sha512-qn+rKOW7KWpVTtgIUi6RVmTBZJSe2k0Db0vh1f7CWrWclkkc7/Q+FrOfkZIb2eiErLyqu5AXEzE7XthO9JVxRA==}
     engines: {node: '>=20.0.0'}
@@ -9333,6 +9354,12 @@ snapshots:
     dependencies:
       core-js-pure: 3.47.0
 
+<<<<<<< HEAD
+=======
+  '@babel/runtime@7.29.2':
+    optional: true
+
+>>>>>>> 7224582 (chore: remove bn override)
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.27.1
@@ -10441,8 +10468,12 @@ snapshots:
       '@injectivelabs/networks': 1.18.9
       '@injectivelabs/ts-types': 1.18.9
       axios: 1.13.6
+<<<<<<< HEAD
 >>>>>>> f7d79f3 (chore: bump packages)
       bignumber.js: 9.1.2
+=======
+      bignumber.js: 9.3.1
+>>>>>>> 7224582 (chore: remove bn override)
       http-status-codes: 2.3.0
       store2: 2.14.4
     transitivePeerDependencies:
@@ -10560,10 +10591,14 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-ledger@1.18.15(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.14.0)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
 =======
   '@injectivelabs/wallet-ledger@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
 >>>>>>> f7d79f3 (chore: bump packages)
+=======
+  '@injectivelabs/wallet-ledger@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+>>>>>>> 7224582 (chore: remove bn override)
     dependencies:
       '@ethersproject/abi': 5.8.0
       '@ethersproject/rlp': 5.8.0
@@ -10590,8 +10625,12 @@ snapshots:
       '@ledgerhq/hw-transport-webhid': 6.32.0
       '@ledgerhq/hw-transport-webusb': 6.31.0
       axios: 1.13.6
+<<<<<<< HEAD
 >>>>>>> f7d79f3 (chore: bump packages)
       bignumber.js: 9.1.2
+=======
+      bignumber.js: 9.3.1
+>>>>>>> 7224582 (chore: remove bn override)
       buffer: 6.0.3
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
@@ -10654,6 +10693,7 @@ snapshots:
       - zod
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/wallet-strategy@1.18.15(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.14.0)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.18.15
@@ -10669,13 +10709,16 @@ snapshots:
       '@injectivelabs/wallet-wallet-connect': 1.18.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
 =======
   '@injectivelabs/wallet-strategy@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+=======
+  '@injectivelabs/wallet-strategy@1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+>>>>>>> 7224582 (chore: remove bn override)
     dependencies:
       '@injectivelabs/exceptions': 1.18.9
       '@injectivelabs/wallet-base': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-core': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-cosmos': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-evm': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
-      '@injectivelabs/wallet-ledger': 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.1.2)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-ledger': 1.18.9(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-magic': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-private-key': 1.18.9(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-trezor': 1.18.9(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
@@ -11141,7 +11184,7 @@ snapshots:
       '@ledgerhq/types-live': 6.100.0(react@19.0.0)
 >>>>>>> f7d79f3 (chore: bump packages)
       axios: 1.12.2
-      bignumber.js: 9.1.2
+      bignumber.js: 9.3.1
       semver: 7.7.4
     transitivePeerDependencies:
       - debug
@@ -11233,8 +11276,12 @@ snapshots:
   '@ledgerhq/types-live@6.100.0(react@19.0.0)':
     dependencies:
       '@ledgerhq/client-ids': 0.7.0(react@19.0.0)
+<<<<<<< HEAD
 >>>>>>> f7d79f3 (chore: bump packages)
       bignumber.js: 9.1.2
+=======
+      bignumber.js: 9.3.1
+>>>>>>> 7224582 (chore: remove bn override)
       rxjs: 7.8.2
     transitivePeerDependencies:
       - react
@@ -14075,6 +14122,32 @@ snapshots:
       - fastestsmallesttextencoderdecoder
     optional: true
 
+<<<<<<< HEAD
+=======
+  '@solana/web3.js@1.98.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)':
+    dependencies:
+      '@babel/runtime': 7.29.2
+      '@noble/curves': 1.9.7
+      '@noble/hashes': 1.4.0
+      '@solana/buffer-layout': 4.0.1
+      agentkeepalive: 4.6.0
+      bigint-buffer: 1.1.5
+      bn.js: 5.2.3
+      borsh: 0.7.0
+      bs58: 4.0.1
+      buffer: 6.0.3
+      fast-stable-stringify: 1.0.0
+      jayson: 4.3.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      node-fetch: 2.7.0
+      rpc-websockets: 9.3.5
+      superstruct: 2.0.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    optional: true
+
+>>>>>>> 7224582 (chore: remove bn override)
   '@speed-highlight/core@1.2.12': {}
 
   '@standard-schema/spec@1.0.0': {}
@@ -14094,15 +14167,20 @@ snapshots:
       '@noble/curves': 1.9.7
       '@stellar/js-xdr': 3.1.2
       base32.js: 0.1.0
-      bignumber.js: 9.1.2
+      bignumber.js: 9.3.1
       buffer: 6.0.3
       sha.js: 2.4.12
 
   '@stellar/stellar-sdk@14.2.0':
     dependencies:
       '@stellar/stellar-base': 14.1.0
+<<<<<<< HEAD
       axios: 1.14.0
       bignumber.js: 9.1.2
+=======
+      axios: 1.13.6
+      bignumber.js: 9.3.1
+>>>>>>> 7224582 (chore: remove bn override)
       eventsource: 2.0.2
       feaxios: 0.0.23
       randombytes: 2.1.0
@@ -14473,7 +14551,7 @@ snapshots:
 
   '@trezor/utils@9.5.0(tslib@2.8.1)':
     dependencies:
-      bignumber.js: 9.1.2
+      bignumber.js: 9.3.1
       tslib: 2.8.1
 
   '@trezor/utxo-lib@2.5.0(tslib@2.8.1)':
@@ -15996,7 +16074,16 @@ snapshots:
 
   big.js@6.2.2: {}
 
+<<<<<<< HEAD
   bignumber.js@9.1.2: {}
+=======
+  bigint-buffer@1.1.5:
+    dependencies:
+      bindings: 1.5.0
+    optional: true
+
+  bignumber.js@9.3.1: {}
+>>>>>>> 7224582 (chore: remove bn override)
 
   bindings@1.5.0:
     dependencies:
@@ -17594,6 +17681,21 @@ snapshots:
       ufo: 1.6.1
       uncrypto: 0.1.3
 
+<<<<<<< HEAD
+=======
+  h3@1.15.7:
+    dependencies:
+      cookie-es: 1.2.2
+      crossws: 0.3.5
+      defu: 6.1.4
+      destr: 2.0.5
+      iron-webcrypto: 1.2.1
+      node-mock-http: 1.0.4
+      radix3: 1.1.2
+      ufo: 1.6.3
+      uncrypto: 0.1.3
+
+>>>>>>> 7224582 (chore: remove bn override)
   happy-dom@18.0.1:
     dependencies:
       '@types/node': 20.19.27
@@ -19499,9 +19601,15 @@ snapshots:
 
   ripple-binary-codec@2.7.0(bufferutil@4.1.0):
     dependencies:
+<<<<<<< HEAD
       '@xrplf/isomorphic': 1.0.1(bufferutil@4.1.0)
       bignumber.js: 9.1.2
       ripple-address-codec: 5.0.0(bufferutil@4.1.0)
+=======
+      '@xrplf/isomorphic': 1.0.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      bignumber.js: 9.3.1
+      ripple-address-codec: 5.0.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+>>>>>>> 7224582 (chore: remove bn override)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -20279,10 +20387,14 @@ snapshots:
       chokidar: 5.0.0
       destr: 2.0.5
 <<<<<<< HEAD
+<<<<<<< HEAD
       h3: 1.15.10
 =======
       h3: 1.15.6
 >>>>>>> f7d79f3 (chore: bump packages)
+=======
+      h3: 1.15.7
+>>>>>>> 7224582 (chore: remove bn override)
       lru-cache: 11.2.7
       node-fetch-native: 1.6.7
       ofetch: 1.5.1
@@ -20971,9 +21083,15 @@ snapshots:
     dependencies:
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
+<<<<<<< HEAD
       '@xrplf/isomorphic': 1.0.1(bufferutil@4.1.0)
       '@xrplf/secret-numbers': 2.0.0(bufferutil@4.1.0)
       bignumber.js: 9.1.2
+=======
+      '@xrplf/isomorphic': 1.0.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      '@xrplf/secret-numbers': 2.0.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      bignumber.js: 9.3.1
+>>>>>>> 7224582 (chore: remove bn override)
       eventemitter3: 5.0.4
       fast-json-stable-stringify: 2.1.0
       ripple-address-codec: 5.0.0(bufferutil@4.1.0)
