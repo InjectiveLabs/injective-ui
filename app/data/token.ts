@@ -4,9 +4,11 @@ import {
   INJ_DENOM,
   WINJ_DENOM,
   IS_TESTNET,
+  IS_MAINNET,
   INJ_LOGO_URL,
   AUSD_LOGO_URL,
   USDT_LOGO_URL,
+  USDC_LOGO_URL,
   UNKNOWN_LOGO_URL
 } from '../utils/constant'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
@@ -105,6 +107,27 @@ export const usdtToken: TokenStatic = {
   denom: IS_TESTNET
     ? 'peggy0x87aB3B4C8661e07D6372361211B96ed4Dc36B1B5'
     : 'peggy0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  tokenType: TokenType.Erc20,
+  tokenVerification: TokenVerification.Verified
+}
+
+export const usdcToken: TokenStatic = {
+  address: IS_MAINNET
+    ? ''
+    : IS_TESTNET
+      ? '0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d'
+      : '0xa00C59fF5a080D2b954d0c75e46E22a0c371235a',
+  isNative: false,
+  decimals: 6,
+  symbol: 'USDC',
+  name: 'USD Coin',
+  logo: USDC_LOGO_URL,
+  coinGeckoId: 'usd-coin',
+  denom: IS_MAINNET
+    ? ''
+    : IS_TESTNET
+      ? 'erc20:0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d'
+      : 'erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a',
   tokenType: TokenType.Erc20,
   tokenVerification: TokenVerification.Verified
 }

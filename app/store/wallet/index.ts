@@ -516,6 +516,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign: undefined,
         turnkeyInjectiveAddress: '',
         queueStatus: StatusType.Idle,
+        isEip712: walletStore.isEip712,
         leapInstalled: walletStore.leapInstalled,
         ninjiInstalled: walletStore.ninjiInstalled,
         rabbyInstalled: walletStore.rabbyInstalled,

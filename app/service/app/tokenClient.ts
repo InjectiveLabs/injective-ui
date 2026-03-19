@@ -116,7 +116,7 @@ export class SharedTokenClient {
       tokenType: TokenType.Cw20,
       decimals: tokenInfo.decimals,
       coinGeckoId: unknownToken.coinGeckoId,
-      tokenVerification: TokenVerification.Internal,
+      tokenVerification: TokenVerification.Unverified,
       symbol: tokenInfo?.symbol || unknownToken.symbol,
       denom: `factory/${contractInfo.creator}/${address}`,
       externalLogo: marketingInfo?.logo?.url || unknownToken.logo
@@ -196,7 +196,7 @@ export class SharedTokenClient {
       symbol: metadata.symbol || unknownToken.symbol,
       externalLogo: metadata.uri || unknownToken.logo,
       tokenType: TokenType.TokenFactory,
-      tokenVerification: TokenVerification.Internal,
+      tokenVerification: TokenVerification.Unverified,
       decimals: metadata.denomUnits.pop()?.exponent || unknownToken.decimals
     }
 

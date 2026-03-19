@@ -137,6 +137,19 @@ describe('Amount/Index.vue', () => {
       )
     })
 
+    it('does not use subscript when there are no leading zeros in decimal part', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          decimals: 0,
+          useSubscript: true,
+          amount: '0.5'
+        }
+      })
+
+      expect(component.html()).not.toContain('<sub>')
+      expect(component.text()).toBe('0')
+    })
+
     it('uses a subscript for small numbers when useSubscript is true and decimals is smaller than subscriptThresholdDecimals', async () => {
       const component = await mountSuspended(Index, {
         props: {
@@ -146,7 +159,9 @@ describe('Amount/Index.vue', () => {
         }
       })
 
-      expect(component.html()).toMatchInlineSnapshot(`"<span><!--v-if--><span>0.0<sub>2</sub>1234</span></span>"`)
+      expect(component.html()).toMatchInlineSnapshot(
+        `"<span><!--v-if--><span>0.0<sub>2</sub>1234</span></span>"`
+      )
     })
   })
 
