@@ -198,7 +198,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    network?: "devnet" | "testnet" | "mainnet";
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                 };
                 header?: never;
                 path: {
@@ -540,6 +540,73 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/app-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get app configuration
+         * @description Fetches the combined network and app-specific configuration for a given FE product
+         */
+        get: {
+            parameters: {
+                query: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                    /** @description FE product app identifier */
+                    app: "helix" | "tc" | "hub" | "explorer" | "bridge" | "tradingUi" | "mito" | "vmWebsite" | "doUi";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Combined network and app configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: components["schemas"]["BffAppConfig"];
+                        };
+                    };
+                };
+                /** @description Config not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1141,7 +1208,7 @@ export interface paths {
             parameters: {
                 query?: {
                     /** @description Network to fetch tokens for */
-                    network?: "devnet" | "testnet" | "mainnet";
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     /** @description Page number (1-based) */
                     page?: number;
                     /** @description Tokens per page (max 1000) */
@@ -2175,6 +2242,8 @@ export interface components {
             quantityTensMultiplier: number;
             isVerified: boolean;
             banner?: {
+                /** Format: uuid */
+                id: string;
                 content: string;
                 /** Format: uri */
                 link?: string | null;
@@ -2225,6 +2294,8 @@ export interface components {
             };
             info?: {
                 helixBanner?: {
+                    /** Format: uuid */
+                    id: string;
                     content: string;
                     /** Format: uri */
                     link?: string | null;
@@ -2232,6 +2303,8 @@ export interface components {
                     endDate?: number | null;
                 } | null;
                 tcBanner?: {
+                    /** Format: uuid */
+                    id: string;
                     content: string;
                     /** Format: uri */
                     link?: string | null;
@@ -2241,11 +2314,13 @@ export interface components {
                 helixCategories?: ("newMarkets" | "rwa" | "stocks" | "trending" | "injective" | "layer1" | "defi" | "ai" | "seda")[];
                 tcCategories?: ("recent" | "crypto" | "stocks" | "macro" | "meme" | "rwa" | "seda")[];
                 isVerified: boolean;
+                hideOnHelix: boolean;
                 symbolToken?: {
                     symbol: string;
                     name: string;
                     imageUrl?: string | null;
                     description?: string | null;
+                    coinGeckoId?: string | null;
                 } | null;
             };
             /** @enum {string} */
@@ -2262,6 +2337,8 @@ export interface components {
             quantityTensMultiplier: number;
             isVerified: boolean;
             banner?: {
+                /** Format: uuid */
+                id: string;
                 content: string;
                 /** Format: uri */
                 link?: string | null;
@@ -2271,6 +2348,7 @@ export interface components {
             /** @default [] */
             categories: string[];
         };
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -2287,6 +2365,32 @@ export interface components {
 >>>>>>> c7b2b0b (feat: setup bff markets endpoint)
 =======
 >>>>>>> 329269e (chore: sync bff files)
+=======
+        /** @description Combined network and app configuration data including banners, banned countries, and chain upgrade config */
+        BffAppConfig: {
+            banner: components["schemas"]["BffBanner"][];
+            bannedCountries: string[];
+            ofacCountries: string[];
+            chainUpgradeConfig: components["schemas"]["BffChainUpgradeConfig"];
+        };
+        /** @description App banner configuration with content, optional link, and date range */
+        BffBanner: {
+            /** Format: uuid */
+            id: string;
+            content: string;
+            /** Format: uri */
+            link?: string | null;
+            startDate: number;
+            endDate?: number | null;
+        };
+        /** @description Chain upgrade configuration with proposal details */
+        BffChainUpgradeConfig: {
+            proposalId: number;
+            blockHeight: number;
+            proposalMsg: string;
+            disableMaintenance: boolean;
+        } | null;
+>>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
         /** @description Merged token metadata (chain + human combined) */
         BffToken: {
             denom: string;
@@ -2536,6 +2640,8 @@ export interface components {
             quantityTensMultiplier: number;
             isVerified: boolean;
             banner?: {
+                /** Format: uuid */
+                id: string;
                 content: string;
                 /** Format: uri */
                 link?: string | null;
@@ -2624,6 +2730,8 @@ export interface components {
             quantityTensMultiplier: number;
             isVerified: boolean;
             banner?: {
+                /** Format: uuid */
+                id: string;
                 content: string;
                 /** Format: uri */
                 link?: string | null;

@@ -148,6 +148,10 @@ export function createBffClient(client: ApiClient) {
           },
 >>>>>>> 329269e (chore: sync bff files)
         },
+        app_config: {
+          get: ((...init: MethodArgs<'get', '/api/v1/app-config'>) =>
+            client.GET('/api/v1/app-config', ...init)) as LeafMethod<'get', '/api/v1/app-config'>,
+        },
         bridge: {
           deposit: {
             $address: {
