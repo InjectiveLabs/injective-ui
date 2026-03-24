@@ -22,6 +22,17 @@ export interface SharedBanner {
   content?: () => VNode | undefined
 }
 
+export interface NotificationMessage {
+  title: string
+  description: string
+  link?: null | string
+}
+
+export interface NotificationFooterLink {
+  url: string
+  label: string
+}
+
 export interface NotificationOptions {
   key?: string
   title: string
@@ -31,8 +42,11 @@ export interface NotificationOptions {
   context?: string // (longer description)
   timeElapsed?: string
   description?: string
+  onClose?: () => void
   isTelemetry?: boolean
   actions?: NotificationAction[]
+  messages?: NotificationMessage[]
+  footerLink?: NotificationFooterLink
 }
 
 export interface Notification {
@@ -46,8 +60,11 @@ export interface Notification {
   createdAt: number
   description: string
   timeElapsed?: string
+  onClose?: () => void
   isTelemetry?: boolean
   type: NotificationType
+  messages?: NotificationMessage[]
+  footerLink?: NotificationFooterLink
   actions: undefined | NotificationAction[]
 }
 

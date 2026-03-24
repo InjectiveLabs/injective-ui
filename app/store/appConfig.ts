@@ -6,10 +6,14 @@ import type { BffAppConfig } from '../types'
 
 export type AppConfigStoreState = {
   appConfig?: BffAppConfig
+  viewedAnnouncementIds: string[]
 }
 
 export const useSharedAppConfigStore = defineStore('sharedAppConfig', {
-  state: (): AppConfigStoreState => ({}),
+  state: (): AppConfigStoreState => ({
+    appConfig: undefined,
+    viewedAnnouncementIds: []
+  }),
 
   actions: {
     async fetchAppConfig() {
@@ -18,6 +22,15 @@ export const useSharedAppConfigStore = defineStore('sharedAppConfig', {
       })
 
       this.appConfig = data?.data
+    },
+
+    async updateViewedAnnouncementIds(announcementIds: string[]) {
+      this.$patch({
+        viewedAnnouncementIds: [
+          ...announcementIds,
+          ...this.viewedAnnouncementIds
+        ]
+      })
     }
   }
 })

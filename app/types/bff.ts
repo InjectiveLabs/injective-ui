@@ -9,5 +9,5 @@ export type BffSpotMarket = components['schemas']['BffHelixSpotMarket']
 export type BffDerivativeMarket =
   components['schemas']['BffHelixDerivativeMarket']
 
-export type BffBanner = components['schemas']['BffBanner']
 export type BffAppConfig = components['schemas']['BffAppConfig']
+export type BffAnnouncement = components['schemas']['BffAnnouncement']

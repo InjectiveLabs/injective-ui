@@ -2241,15 +2241,6 @@ export interface components {
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
             isVerified: boolean;
-            banner?: {
-                /** Format: uuid */
-                id: string;
-                content: string;
-                /** Format: uri */
-                link?: string | null;
-                startDate: number;
-                endDate?: number | null;
-            } | null;
             /** @default [] */
             categories: string[];
         };
@@ -2293,24 +2284,6 @@ export interface components {
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
             info?: {
-                helixBanner?: {
-                    /** Format: uuid */
-                    id: string;
-                    content: string;
-                    /** Format: uri */
-                    link?: string | null;
-                    startDate: number;
-                    endDate?: number | null;
-                } | null;
-                tcBanner?: {
-                    /** Format: uuid */
-                    id: string;
-                    content: string;
-                    /** Format: uri */
-                    link?: string | null;
-                    startDate: number;
-                    endDate?: number | null;
-                } | null;
                 helixCategories?: ("newMarkets" | "rwa" | "stocks" | "trending" | "injective" | "layer1" | "defi" | "ai" | "seda")[];
                 tcCategories?: ("recent" | "crypto" | "stocks" | "macro" | "meme" | "rwa" | "seda")[];
                 isVerified: boolean;
@@ -2336,18 +2309,10 @@ export interface components {
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
             isVerified: boolean;
-            banner?: {
-                /** Format: uuid */
-                id: string;
-                content: string;
-                /** Format: uri */
-                link?: string | null;
-                startDate: number;
-                endDate?: number | null;
-            } | null;
             /** @default [] */
             categories: string[];
         };
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2367,21 +2332,26 @@ export interface components {
 >>>>>>> 329269e (chore: sync bff files)
 =======
         /** @description Combined network and app configuration data including banners, banned countries, and chain upgrade config */
+=======
+        /** @description Combined network and app configuration data including announcements, banned countries, and chain upgrade config */
+>>>>>>> f932d1e (chore: integrate bff app config)
         BffAppConfig: {
-            banner: components["schemas"]["BffBanner"][];
+            announcements: components["schemas"]["BffAnnouncement"][];
             bannedCountries: string[];
             ofacCountries: string[];
             chainUpgradeConfig: components["schemas"]["BffChainUpgradeConfig"];
         };
-        /** @description App banner configuration with content, optional link, and date range */
-        BffBanner: {
+        /** @description App announcement configuration with title, description, optional link, and date range */
+        BffAnnouncement: {
             /** Format: uuid */
             id: string;
-            content: string;
+            title: string;
+            description: string;
             /** Format: uri */
             link?: string | null;
             startDate: number;
             endDate?: number | null;
+            isLive: boolean;
         };
         /** @description Chain upgrade configuration with proposal details */
         BffChainUpgradeConfig: {
@@ -2639,15 +2609,6 @@ export interface components {
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
             isVerified: boolean;
-            banner?: {
-                /** Format: uuid */
-                id: string;
-                content: string;
-                /** Format: uri */
-                link?: string | null;
-                startDate: number;
-                endDate?: number | null;
-            } | null;
             /** @default [] */
             categories: string[];
         };
@@ -2729,15 +2690,6 @@ export interface components {
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
             isVerified: boolean;
-            banner?: {
-                /** Format: uuid */
-                id: string;
-                content: string;
-                /** Format: uri */
-                link?: string | null;
-                startDate: number;
-                endDate?: number | null;
-            } | null;
             /** @default [] */
             categories: string[];
         };

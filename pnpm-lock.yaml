@@ -21,6 +21,7 @@ importers:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         specifier: 1.18.15
         version: 1.18.15
       '@injectivelabs/networks':
@@ -52,10 +53,18 @@ importers:
         specifier: 1.18.13
         version: 1.18.13
 >>>>>>> 6d0214c (chore: package bump)
+=======
+        specifier: 1.18.14
+        version: 1.18.14
+      '@injectivelabs/networks':
+        specifier: 1.18.14
+        version: 1.18.14
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@injectivelabs/nuxt-bugsnag':
         specifier: 0.0.12
         version: 0.0.12(@bugsnag/core@8.8.0)(magicast@0.5.1)(vue-router@4.6.4(vue@3.5.25(typescript@5.9.3)))
       '@injectivelabs/sdk-ts':
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -110,25 +119,30 @@ importers:
         specifier: 1.18.13
         version: 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+        specifier: 1.18.14
+        version: 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@injectivelabs/ts-types':
-        specifier: 1.18.13
-        version: 1.18.13
+        specifier: 1.18.14
+        version: 1.18.14
       '@injectivelabs/utils':
-        specifier: 1.18.13
-        version: 1.18.13
+        specifier: 1.18.14
+        version: 1.18.14
       '@injectivelabs/wallet-base':
-        specifier: 1.18.13
-        version: 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.14
+        version: 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-core':
-        specifier: 1.18.13
-        version: 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.14
+        version: 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-cosmos':
-        specifier: 1.18.13
-        version: 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.14
+        version: 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-evm':
-        specifier: 1.18.13
-        version: 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+        specifier: 1.18.14
+        version: 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-strategy':
+<<<<<<< HEAD
 <<<<<<< HEAD
         specifier: 1.18.9
 <<<<<<< HEAD
@@ -149,6 +163,13 @@ importers:
         specifier: 1.18.13
         version: 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+        specifier: 1.18.14
+        version: 1.18.14(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+      '@injectivelabs/wallet-turnkey':
+        specifier: 1.18.14
+        version: 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@metamask/eth-sig-util':
         specifier: ^8.2.0
         version: 8.2.0
@@ -1494,6 +1515,7 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/exceptions@1.18.15':
     resolution: {integrity: sha512-MS+nmWYKWmsd1l8meOjUTlry1bLeWcs+MshtpfdSgtaTgRE6ls2CMNa8tdQOhdeoWeMUgSYFdhdgdXgZ2WSI2g==}
 =======
@@ -1512,6 +1534,10 @@ packages:
   '@injectivelabs/exceptions@1.18.13':
     resolution: {integrity: sha512-INWfKsLh9zeL/rCLmHdQrMWJl/NJ9A1v+AGSBR10xZMw5fFJuzi5gnPTSKUhpGnR7utfxgg7yQM/aP+hzhMG2w==}
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/exceptions@1.18.14':
+    resolution: {integrity: sha512-Zhaez1h7+I/CC9MqCHFQgzYwVZnW8Ft4fz4NGgIU2Nk7qVEm7prO0Hlzsw6eRMWzgtVoquYqUf34aeevtTn23Q==}
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@injectivelabs/grpc-web-node-http-transport@0.0.2':
     resolution: {integrity: sha512-rpyhXLiGY/UMs6v6YmgWHJHiO9l0AgDyVNv+jcutNVt4tQrmNvnpvz2wCAGOFtq5LuX/E9ChtTVpk3gWGqXcGA==}
@@ -1538,6 +1564,7 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/networks@1.18.15':
     resolution: {integrity: sha512-q0/o69KD2Dlvf6Y61jaxj8pUqFxVmVZ1C/CAr214rG4DDdWgH2OweDm2pBZgqfZ89FJZvwlTywBXlWizvNP0VA==}
 =======
@@ -1556,6 +1583,10 @@ packages:
   '@injectivelabs/networks@1.18.13':
     resolution: {integrity: sha512-vRYxbEk6Nu3LP67mrl7niebXH2K3LScvRLV8ssaB3kjJ662w2FPizQMpEeJHc/nm6pPjVpcZ4YtH3bNsr6IhLg==}
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/networks@1.18.14':
+    resolution: {integrity: sha512-O42GAmzm+ryYp9ZTsUZ2AZUPgFgnR2YQrrNEQqfJtYZEWHESqzcGDlG9eTiacLJ3C8nAsq5aGP5jMxocGTLI2A==}
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@injectivelabs/nuxt-bugsnag@0.0.12':
     resolution: {integrity: sha512-mI1Jp/dMcAlnptKI8/ERTjN7H+gYMnXNqws2Z+6ur+Za/hjJqehPmWU67PuiHryECDmVkTM7UZ08noMBAmb++g==}
@@ -1563,6 +1594,7 @@ packages:
   '@injectivelabs/olp-proto-ts-v2@1.17.6':
     resolution: {integrity: sha512-3jTAyj342TXVe8qsVcDzAUnH5vAbqoHy5jqTUxHvJtfDaJ+X0uvN6d/yj60CxmrDOyKrn6pFx0prZ6J3Tl8S6g==}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1612,25 +1644,30 @@ packages:
   '@injectivelabs/sdk-ts@1.18.13':
     resolution: {integrity: sha512-U30lv165KE7lqQA1nb75xqgSh/RRhgucS3wbzUG6U/suZihyORsxTlHQlQKp17qVfF/Dg39kOc8xfiZczNSjrQ==}
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/sdk-ts@1.18.14':
+    resolution: {integrity: sha512-Ta4y87MPzdWsKmvU4gXK48khsGyxBZ9EpJ1T497ev+S4J7OmOcT4H4I+FSb8NfIXXzdr6AxQJgrXSJRjpjfhHQ==}
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@injectivelabs/tc-abacus-proto-ts-v2@1.18.1':
     resolution: {integrity: sha512-yyNvxMR45cdtr1XsJvhnf0awLgNaK7PWN5y0LRRwbd+DvBDWWKOqwG3efKIkjV/Z7AzC/jTI5+cpTwFFD/sIFg==}
 
-  '@injectivelabs/ts-types@1.18.13':
-    resolution: {integrity: sha512-ggE5cx/s3SvYIoqcvndPTLC4swpR94RUh2hz0FpXcNfh9JuvPE5lhnVB4UTCZAgRTdT6IOe5fzCLFtVxLscnNg==}
+  '@injectivelabs/ts-types@1.18.14':
+    resolution: {integrity: sha512-KWX1+P7RGzCD9vhbjoyq0+cRnv/77Iue7roCWu3jJ/3kc6LJ4mafcLssBWXTzF+GujPb2Q1lB7uLXwh8Pt9P4g==}
 
-  '@injectivelabs/utils@1.18.13':
-    resolution: {integrity: sha512-7PPMJrQsscPRA3oFQ5c1dH/ph7WWBYRqbRcJlPKYU7N6RmbzzCIgF+l+IKi+Jy3jkwQWvxjGp5PPj2h2Oa+/iw==}
+  '@injectivelabs/utils@1.18.14':
+    resolution: {integrity: sha512-wl0aiS5YN+xS29FhVgcosgkwmjMhnDW5mTGPb2bMCYEuhqRrPty0FOB0/EeM9HrLNcEeuky1dIB1lSXYpY5XOQ==}
 
-  '@injectivelabs/wallet-base@1.18.13':
-    resolution: {integrity: sha512-Ud0/xOfqazWG5iwqjzWdOKWYtxGtrvIijoJCEBw28sIoxswoFrTKdoUZ28magbDn5Mydd5NI3dQ+J3/Z3BAfqw==}
+  '@injectivelabs/wallet-base@1.18.14':
+    resolution: {integrity: sha512-Wl/kF/OewLj+26EUYbGsj2RWU+RY/K7pLymYRXbXyCI+wzTLw6hSSUQK/tK4nuIjHGzlRjBD4+4ZEHREXkGFXw==}
 
-  '@injectivelabs/wallet-core@1.18.13':
-    resolution: {integrity: sha512-xNRcb6WYvUZUwyYGgJWkoP8h1C+RbbGpVj2MhVeXwDPPZQZtzQrQL34nfTOEj5IwhXli+wQwC9wDWAfcP8RIiQ==}
+  '@injectivelabs/wallet-core@1.18.14':
+    resolution: {integrity: sha512-bA2xjbyEYvPIvCke83fH8DQHTSTQZemgfvvk+ERvXR/LjlmJIJOyTRSU5MRmZTnNX5RI/x3QfLpELArMJdArMg==}
 
-  '@injectivelabs/wallet-cosmos@1.18.13':
-    resolution: {integrity: sha512-z5jz2+UQ6pWVm6eFNXNVod0gHKzAmqgWN4u2BsrlINBmKokTHb/3RD2MEGUaN8X0qUKz8+jJn9TU4vYofJlrrQ==}
+  '@injectivelabs/wallet-cosmos@1.18.14':
+    resolution: {integrity: sha512-1isHBaf/6uTE01C7Ko9/Lg05XJgGDnqeg4f0sNGVOtj32AJdjo7ctceVnV3APwVtXvU3JoKeau5dkGYh7nkP6A==}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@injectivelabs/wallet-ledger@1.18.9':
     resolution: {integrity: sha512-IIEi4/maB/uLyR7T5K/yL7viUEyTnLc9+g2iZEZZoBifzYEFTBSIYxG2SkSKYsmxmCUO+UzXF+2q2B7RDuScAw==}
@@ -1644,6 +1681,13 @@ packages:
   '@injectivelabs/wallet-ledger@1.18.13':
     resolution: {integrity: sha512-gEb4gMr/uJPlimiycK5F8cNJChlagBqB8wPmhqYBI0TZMyAOHi2cc55F2VuD4g/QpP48gl/n77Ew2B8hnew90w==}
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-evm@1.18.14':
+    resolution: {integrity: sha512-8thrTK2S4l5XhJyUzq2LIp9/ngbpggn2bbftZ8HCyRYqpTWUTnXDk7gGOCjYcu/jNnKY8BwYWtDo/53GVI+EeQ==}
+
+  '@injectivelabs/wallet-ledger@1.18.14':
+    resolution: {integrity: sha512-KvB5H3/SjN/sHSlIWKtDdxC6JwNmpruPSlssllI65+UOcEP7ThOgmxydJizBrRzDE0saQ9A+C440wAFMZjGUrw==}
+>>>>>>> f932d1e (chore: integrate bff app config)
     peerDependencies:
       '@ethersproject/abi': ^5.7.0
       '@ethersproject/rlp': ^5.7.0
@@ -1651,6 +1695,7 @@ packages:
       axios: ^1.0.0
       bignumber.js: ^9.0.0
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1691,19 +1736,24 @@ packages:
   '@injectivelabs/wallet-magic@1.18.13':
     resolution: {integrity: sha512-43GtgiMGQiiL6mQ2tR3RgrP0wHtbSSWCsOdG6tIpC9DNtUJOOLxlCmkV7QqyuaOYWYc9nBU5E7atF2Zc9N6kEg==}
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-magic@1.18.14':
+    resolution: {integrity: sha512-VFiPRQWfXfa6PO9tiVBO8hAOvJ6u7rCEX8z7vc19tP/iTEYybHrDR6JAi+w/q4pGzvXCxlAXaO4FkWyELkcmpQ==}
+>>>>>>> f932d1e (chore: integrate bff app config)
 
-  '@injectivelabs/wallet-private-key@1.18.13':
-    resolution: {integrity: sha512-0iiVPvHp4EwPGh5AujcJtelrJmnBh2gtYuVW3yLFeQ3jYcpb5lm60uCLiVArCQGPXgd0wlc8/tCJ9j/kBMJNsw==}
+  '@injectivelabs/wallet-private-key@1.18.14':
+    resolution: {integrity: sha512-uxkUuN2u+RSpj7GFNN32dBzHsXpYazaX8Mh5luc8phq/yZCnv0KiBhMx62g/6Rk6G1sBDP/8RphUJ2otmXpdFg==}
 
-  '@injectivelabs/wallet-strategy@1.18.13':
-    resolution: {integrity: sha512-ygT4Vn73Hz8RpGVg36Ikn0kVvRhhYfTiF0Mfzgu7UorbuvGeSt1JOHElnMRVT5QVtLhYYOslQe/YJqEhPlLR7w==}
+  '@injectivelabs/wallet-strategy@1.18.14':
+    resolution: {integrity: sha512-RieGlBsL3LBQ/vFbR3qwNeui/sP7fFaC2xeYf7jwAXHpWw3Bx+vhHsUrneYvLhq4IbYoKz+kYxmVJKNjLpd9jw==}
 
-  '@injectivelabs/wallet-trezor@1.18.13':
-    resolution: {integrity: sha512-8WlvkiuC244pvWVrBraevWiG05zPYTY3IFxPigFxYi17BtlCi53H/5BrT0p84GJGI30ZZqgPeeUIAvR1Rkz4AQ==}
+  '@injectivelabs/wallet-trezor@1.18.14':
+    resolution: {integrity: sha512-rzLs8ybwUN11H/ZXx/JCeCFhT/whP3mAwjiQZZf6sq73IQPfsNSyUlKICaLGPiyZsoo43Nuqwxn2yzQKoNXm2w==}
 
-  '@injectivelabs/wallet-turnkey@1.18.13':
-    resolution: {integrity: sha512-YD/UKbGqXdPzM/VnNrduFuWL37nA59JrknhF9D3jylmdW51lytvp1bbhfHgRLx0sIBDx488FhCW3OJHIyDQLPw==}
+  '@injectivelabs/wallet-turnkey@1.18.14':
+    resolution: {integrity: sha512-JZex1P7eRQDnYg2d2C8WylyJktFzjH2Cbtnb3ejm/PKnevfy8Ji71xJqwFvrHcM6HUHve+HMW7L3J1y6qszsng==}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@injectivelabs/wallet-wallet-connect@1.18.9':
     resolution: {integrity: sha512-Tx7qZ11sFQh7BTgSNJDLs/ZB82C0nIfOtRv9e8oOPW0JAXypRnhfhpES74cdq15WGsDTdmJkx6Cq9k3u1Ezlpw==}
@@ -1714,6 +1764,10 @@ packages:
   '@injectivelabs/wallet-wallet-connect@1.18.13':
     resolution: {integrity: sha512-OOW9ChUEfkIKymnUEutQN5rkFsO4J1i3/flfZFfaIjcHvmyAWRyul4U0aaF0awc+Y45rzlwpotfJSKgxJ9NPUw==}
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-wallet-connect@1.18.14':
+    resolution: {integrity: sha512-+iNhpWnA8WqJAbEqb79gVnTKxWAvP/aOP+9s0T4d/QAa7j8fIigfQxqTe6FffLHSKVcqiTtpQlf1sNsgtBv5ww==}
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@internationalized/date@3.10.0':
     resolution: {integrity: sha512-oxDR/NTEJ1k+UFVQElaNIk65E/Z83HK1z1WI3lQyhTtnNg4R5oVXaPzK3jcpKG8UHKDVuDQHzn+wsxSz8RP3aw==}
@@ -10652,6 +10706,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/exceptions@1.18.15':
 =======
   '@injectivelabs/exceptions@1.18.11':
@@ -10665,6 +10720,9 @@ snapshots:
 =======
   '@injectivelabs/exceptions@1.18.13':
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/exceptions@1.18.14':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       http-status-codes: 2.3.0
 
@@ -10697,6 +10755,7 @@ snapshots:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@injectivelabs/networks@1.18.15':
     dependencies:
       '@injectivelabs/ts-types': 1.18.15
@@ -10720,6 +10779,11 @@ snapshots:
     dependencies:
       '@injectivelabs/ts-types': 1.18.13
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/networks@1.18.14':
+    dependencies:
+      '@injectivelabs/ts-types': 1.18.14
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@injectivelabs/nuxt-bugsnag@0.0.12(@bugsnag/core@8.8.0)(magicast@0.5.1)(vue-router@4.6.4(vue@3.5.25(typescript@5.9.3)))':
     dependencies:
@@ -10745,6 +10809,7 @@ snapshots:
       '@protobuf-ts/runtime': 2.11.1
       '@protobuf-ts/runtime-rpc': 2.11.1
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -10780,19 +10845,27 @@ snapshots:
 >>>>>>> a9b298c (chore: remove bn override)
 =======
   '@injectivelabs/sdk-ts@1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+=======
+  '@injectivelabs/sdk-ts@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@cosmjs/amino': 0.33.0
       '@cosmjs/proto-signing': 0.33.0
       '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       '@injectivelabs/abacus-proto-ts-v2': 1.17.5
       '@injectivelabs/core-proto-ts-v2': 1.18.0
+<<<<<<< HEAD
       '@injectivelabs/exceptions': 1.18.13
 >>>>>>> 6d0214c (chore: package bump)
+=======
+      '@injectivelabs/exceptions': 1.18.14
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
       '@injectivelabs/grpc-web-node-http-transport': 0.0.2(@injectivelabs/grpc-web@0.0.1(google-protobuf@3.21.4))
       '@injectivelabs/grpc-web-react-native-transport': 0.0.2(@injectivelabs/grpc-web@0.0.1(google-protobuf@3.21.4))
       '@injectivelabs/indexer-proto-ts-v2': 1.18.10
       '@injectivelabs/mito-proto-ts-v2': 1.17.3
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -10827,6 +10900,13 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.13
       '@injectivelabs/utils': 1.18.13
 >>>>>>> 6d0214c (chore: package bump)
+=======
+      '@injectivelabs/networks': 1.18.14
+      '@injectivelabs/olp-proto-ts-v2': 1.17.6
+      '@injectivelabs/tc-abacus-proto-ts-v2': 1.18.1
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/utils': 1.18.14
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@protobuf-ts/grpcweb-transport': 2.11.1
@@ -10911,14 +10991,20 @@ snapshots:
       '@protobuf-ts/runtime': 2.11.1
       '@protobuf-ts/runtime-rpc': 2.11.1
 
-  '@injectivelabs/ts-types@1.18.13': {}
+  '@injectivelabs/ts-types@1.18.14': {}
 
-  '@injectivelabs/utils@1.18.13':
+  '@injectivelabs/utils@1.18.14':
     dependencies:
+<<<<<<< HEAD
       '@injectivelabs/exceptions': 1.18.13
       '@injectivelabs/networks': 1.18.13
       '@injectivelabs/ts-types': 1.18.13
 >>>>>>> 6d0214c (chore: package bump)
+=======
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/networks': 1.18.14
+      '@injectivelabs/ts-types': 1.18.14
+>>>>>>> f932d1e (chore: integrate bff app config)
       axios: 1.13.6
       bignumber.js: 9.3.1
 >>>>>>> a9b298c (chore: remove bn override)
@@ -10927,6 +11013,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -10967,6 +11054,13 @@ snapshots:
       '@injectivelabs/sdk-ts': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.13
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-base@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+>>>>>>> f932d1e (chore: integrate bff app config)
       eip1193-provider: 1.0.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -10978,6 +11072,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11025,6 +11120,16 @@ snapshots:
       '@injectivelabs/utils': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-core@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/networks': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/utils': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@keplr-wallet/types': 0.12.313(starknet@8.9.2)
       eventemitter3: 5.0.4
     transitivePeerDependencies:
@@ -11036,6 +11141,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11092,6 +11198,17 @@ snapshots:
       '@injectivelabs/utils': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-cosmos@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@cosmjs/proto-signing': 0.33.0
+      '@cosmjs/stargate': 0.33.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/utils': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@keplr-wallet/types': 0.12.313(starknet@8.9.2)
     transitivePeerDependencies:
       - bufferutil
@@ -11102,6 +11219,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11145,6 +11263,15 @@ snapshots:
       '@injectivelabs/utils': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-evm@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/utils': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11153,6 +11280,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11177,10 +11305,14 @@ snapshots:
 =======
   '@injectivelabs/wallet-ledger@1.18.13(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-ledger@1.18.14(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@ethersproject/abi': 5.8.0
       '@ethersproject/rlp': 5.8.0
       '@ethersproject/transactions': 5.8.0
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11221,6 +11353,12 @@ snapshots:
       '@injectivelabs/sdk-ts': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+=======
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@ledgerhq/hw-app-cosmos': 6.35.0
 >>>>>>> 6d0214c (chore: package bump)
       '@ledgerhq/hw-app-eth': 6.47.1(react@19.0.0)
@@ -11250,6 +11388,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11289,6 +11428,14 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-magic@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@magic-ext/cosmos': 26.2.0
       '@magic-ext/oauth2': 13.2.0
       magic-sdk: 31.2.0
@@ -11300,6 +11447,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11339,6 +11487,14 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-private-key@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11347,6 +11503,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11429,6 +11586,21 @@ snapshots:
       '@injectivelabs/wallet-turnkey': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@injectivelabs/wallet-wallet-connect': 1.18.13(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-strategy@1.18.14(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-core': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-cosmos': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-evm': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-ledger': 1.18.14(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/transactions@5.8.0)(axios@1.13.6)(bignumber.js@9.3.1)(bufferutil@4.1.0)(google-protobuf@3.21.4)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-magic': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-private-key': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-trezor': 1.18.14(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)
+      '@injectivelabs/wallet-turnkey': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/wallet-wallet-connect': 1.18.14(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -11478,6 +11650,7 @@ snapshots:
       - ws
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11534,6 +11707,16 @@ snapshots:
       '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       '@trezor/connect-web': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@injectivelabs/wallet-trezor@1.18.14(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      '@trezor/connect-web': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> f7d79f3 (chore: bump packages)
     transitivePeerDependencies:
@@ -11553,6 +11736,7 @@ snapshots:
       - ws
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11602,6 +11786,15 @@ snapshots:
       '@injectivelabs/utils': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-turnkey@1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/utils': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@turnkey/sdk-browser': 5.2.3(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@turnkey/viem': 0.9.10(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76))(zod@3.25.76)
       viem: 2.41.2(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
@@ -11615,6 +11808,7 @@ snapshots:
       - utf-8-validate
       - zod
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -11659,6 +11853,14 @@ snapshots:
       '@injectivelabs/ts-types': 1.18.13
       '@injectivelabs/wallet-base': 1.18.13(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> 6d0214c (chore: package bump)
+=======
+  '@injectivelabs/wallet-wallet-connect@1.18.14(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.18.14
+      '@injectivelabs/sdk-ts': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+      '@injectivelabs/ts-types': 1.18.14
+      '@injectivelabs/wallet-base': 1.18.14(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@reown/appkit': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
       '@reown/appkit-adapter-ethers': 1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@3.25.76)
 >>>>>>> f7d79f3 (chore: bump packages)
@@ -14566,6 +14768,7 @@ snapshots:
   '@sindresorhus/merge-streams@4.0.0': {}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@solana-program/compute-budget@0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)))':
     dependencies:
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
@@ -14575,19 +14778,27 @@ snapshots:
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
 =======
   '@solana-program/compute-budget@0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
+=======
+  '@solana-program/compute-budget@0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
-      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 
-  '@solana-program/stake@0.2.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
+  '@solana-program/stake@0.2.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
     dependencies:
+<<<<<<< HEAD
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@solana-program/system@0.10.0(@solana/kit@5.5.1(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))':
     dependencies:
       '@solana/kit': 5.5.1(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
     optional: true
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@solana-program/system@0.7.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)))':
     dependencies:
@@ -14603,18 +14814,25 @@ snapshots:
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
 =======
   '@solana-program/system@0.7.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
+=======
+  '@solana-program/system@0.7.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
-      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 
-  '@solana-program/token-2022@0.4.2(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))':
+  '@solana-program/token-2022@0.4.2(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))':
     dependencies:
-      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       '@solana/sysvars': 5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
 
-  '@solana-program/token@0.5.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
+  '@solana-program/token@0.5.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))':
     dependencies:
+<<<<<<< HEAD
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@solana-program/token@0.9.0(@solana/kit@5.5.1(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))':
     dependencies:
@@ -14843,10 +15061,14 @@ snapshots:
     optional: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
 =======
   '@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@solana/accounts': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/addresses': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
@@ -14860,6 +15082,7 @@ snapshots:
       '@solana/rpc-parsed-types': 2.3.0(typescript@5.9.3)
       '@solana/rpc-spec-types': 2.3.0(typescript@5.9.3)
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@solana/rpc-subscriptions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
       '@solana/rpc-types': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/signers': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
@@ -14872,6 +15095,13 @@ snapshots:
       '@solana/sysvars': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/transaction-confirmation': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      '@solana/rpc-subscriptions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      '@solana/rpc-types': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
+      '@solana/signers': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
+      '@solana/sysvars': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
+      '@solana/transaction-confirmation': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@solana/transaction-messages': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/transactions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       typescript: 5.9.3
@@ -15085,10 +15315,14 @@ snapshots:
     optional: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@solana/rpc-subscriptions-channel-websocket@2.3.0(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
 =======
   '@solana/rpc-subscriptions-channel-websocket@2.3.0(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@solana/rpc-subscriptions-channel-websocket@2.3.0(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@solana/errors': 2.3.0(typescript@5.9.3)
       '@solana/functional': 2.3.0(typescript@5.9.3)
@@ -15096,10 +15330,14 @@ snapshots:
       '@solana/subscribable': 2.3.0(typescript@5.9.3)
       typescript: 5.9.3
 <<<<<<< HEAD
+<<<<<<< HEAD
       ws: 8.20.0(bufferutil@4.1.0)
 =======
       ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+>>>>>>> f932d1e (chore: integrate bff app config)
 
   '@solana/rpc-subscriptions-channel-websocket@5.5.1(bufferutil@4.1.0)(typescript@5.9.3)':
     dependencies:
@@ -15138,10 +15376,14 @@ snapshots:
     optional: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@solana/rpc-subscriptions@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
 =======
   '@solana/rpc-subscriptions@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@solana/rpc-subscriptions@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@solana/errors': 2.3.0(typescript@5.9.3)
       '@solana/fast-stable-stringify': 2.3.0(typescript@5.9.3)
@@ -15150,10 +15392,14 @@ snapshots:
       '@solana/rpc-spec-types': 2.3.0(typescript@5.9.3)
       '@solana/rpc-subscriptions-api': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@solana/rpc-subscriptions-channel-websocket': 2.3.0(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
 =======
       '@solana/rpc-subscriptions-channel-websocket': 2.3.0(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      '@solana/rpc-subscriptions-channel-websocket': 2.3.0(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@solana/rpc-subscriptions-spec': 2.3.0(typescript@5.9.3)
       '@solana/rpc-transformers': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/rpc-types': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
@@ -15364,10 +15610,14 @@ snapshots:
       - fastestsmallesttextencoderdecoder
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@solana/transaction-confirmation@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
 =======
   '@solana/transaction-confirmation@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@solana/transaction-confirmation@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@solana/addresses': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/codecs-strings': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
@@ -15376,10 +15626,14 @@ snapshots:
       '@solana/promises': 2.3.0(typescript@5.9.3)
       '@solana/rpc': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@solana/rpc-subscriptions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
 =======
       '@solana/rpc-subscriptions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      '@solana/rpc-subscriptions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@solana/rpc-types': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/transaction-messages': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@solana/transactions': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
@@ -15765,6 +16019,7 @@ snapshots:
       - utf-8-validate
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@trezor/blockchain-link@2.6.1(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
     dependencies:
       '@solana-program/compute-budget': 0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)))
@@ -15781,6 +16036,15 @@ snapshots:
       '@solana-program/token-2022': 0.4.2(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@trezor/blockchain-link@2.6.1(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+    dependencies:
+      '@solana-program/compute-budget': 0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))
+      '@solana-program/stake': 0.2.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))
+      '@solana-program/token': 0.5.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))
+      '@solana-program/token-2022': 0.4.2(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@solana/rpc-types': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@stellar/stellar-sdk': 14.2.0
       '@trezor/blockchain-link-types': 1.5.0(tslib@2.8.1)
@@ -15829,6 +16093,7 @@ snapshots:
       - react-native
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@trezor/connect-web@9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
     dependencies:
       '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))
@@ -15837,6 +16102,11 @@ snapshots:
     dependencies:
       '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@trezor/connect-web@9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+    dependencies:
+      '@trezor/connect': 9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@trezor/connect-common': 0.5.1(tslib@2.8.1)
       '@trezor/utils': 9.5.0(tslib@2.8.1)
       '@trezor/websocket-client': 1.3.0(bufferutil@4.1.0)(tslib@2.8.1)
@@ -15856,10 +16126,14 @@ snapshots:
       - ws
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@trezor/connect@9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0))':
 =======
   '@trezor/connect@9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+  '@trezor/connect@9.7.2(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))':
+>>>>>>> f932d1e (chore: integrate bff app config)
     dependencies:
       '@ethereumjs/common': 10.1.1
       '@ethereumjs/tx': 10.1.1
@@ -15867,6 +16141,7 @@ snapshots:
       '@mobily/ts-belt': 3.13.1
       '@noble/hashes': 1.8.0
       '@scure/bip39': 1.6.0
+<<<<<<< HEAD
 <<<<<<< HEAD
       '@solana-program/compute-budget': 0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)))
       '@solana-program/system': 0.7.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)))
@@ -15882,6 +16157,14 @@ snapshots:
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       '@trezor/blockchain-link': 2.6.1(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))
 >>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
+=======
+      '@solana-program/compute-budget': 0.8.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))
+      '@solana-program/system': 0.7.0(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))
+      '@solana-program/token': 0.5.1(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))
+      '@solana-program/token-2022': 0.4.2(@solana/kit@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)))(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))
+      '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+      '@trezor/blockchain-link': 2.6.1(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(tslib@2.8.1)(typescript@5.9.3)(utf-8-validate@6.0.6)(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
+>>>>>>> f932d1e (chore: integrate bff app config)
       '@trezor/blockchain-link-types': 1.5.1(tslib@2.8.1)
       '@trezor/blockchain-link-utils': 1.5.2(bufferutil@4.1.0)(tslib@2.8.1)
       '@trezor/connect-analytics': 1.4.0(tslib@2.8.1)
