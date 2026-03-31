@@ -143,6 +143,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return state.authZ.address || state.address
     },
 
+    isGoogleAuth: (state) => {
+      return ([Wallet.Magic, Wallet.Turnkey] as Wallet[]).includes(state.wallet)
+    },
+
     isWalletExemptFromGasFee: (state) => {
       return !isCosmosWallet(state.wallet) && !IS_DEVNET
     },
@@ -720,6 +724,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (
         !broadcastOptions ||
         (IS_TRUE_CURRENT &&
+          !walletStore.isGoogleAuth &&
           !isEnableAutosignMessages &&
           !walletStore.isAutoSignEnabled)
       ) {
