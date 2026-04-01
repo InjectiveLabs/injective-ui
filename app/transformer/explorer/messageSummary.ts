@@ -1,5 +1,4 @@
 import { MsgType } from '@injectivelabs/ts-types'
-import { USDT_DENOM } from '../../utils/constant'
 import { eventLogsSummaryMap } from './messageEvents'
 import { toHumanReadable } from '@injectivelabs/utils'
 import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils'
@@ -299,16 +298,10 @@ const exchangeMsgSummaryMap: Partial<
   },
 
   [MsgType.MsgIncreasePositionMargin]: (value: Message, _) => {
-    const {
-      sender,
-      amount,
-      market_id: marketId,
-      source_subaccount_id: sourceSubaccountId,
-      destination_subaccount_id: destinationSubaccountId
-    } = value.message
+    const { sender, amount, market_id: marketId } = value.message
 
     return [
-      `{{account:${sender}}} increased position margin by {{denom:${USDT_DENOM}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
+      `{{account:${sender}}} increased position margin by {{market-quote:${marketId}-${amount}}} for the {{market:${marketId}}} position`
     ]
   },
 
@@ -322,7 +315,7 @@ const exchangeMsgSummaryMap: Partial<
     } = value.message
 
     return [
-      `{{account:${sender}}} decreased position margin by {{denom:${USDT_DENOM}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
+      `{{account:${sender}}} decreased position margin by {{market-quote:${marketId}-${amount}}} for the {{market:${marketId}}} from subaccount {{ellipsis:${sourceSubaccountId}}} to subaccount {{ellipsis:${destinationSubaccountId}}}`
     ]
   },
 
