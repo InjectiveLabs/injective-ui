@@ -208,15 +208,7 @@ function renderBffClient(pathTree: TreeNode): string {
     'type MethodResult<',
     '  TMethod extends HttpMethod,',
     '  TPath extends PathsWithMethod<paths, TMethod>,',
-<<<<<<< HEAD
-<<<<<<< HEAD
     '> = FetchResponse<NonNullable<paths[TPath][TMethod]>, MethodInit<TMethod, TPath>, MediaType>',
-=======
-    '> = FetchResponse<paths[TPath][TMethod], MethodInit<TMethod, TPath>, MediaType>',
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
-    '> = FetchResponse<NonNullable<paths[TPath][TMethod]>, MethodInit<TMethod, TPath>, MediaType>',
->>>>>>> f776d78 (fix: bff typing errors)
     '',
     'export type LeafMethod<',
     '  TMethod extends HttpMethod,',

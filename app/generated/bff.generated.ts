@@ -38,6 +38,7 @@ export interface paths {
                             data: components["schemas"]["BffSpotMarket"][];
                             excluded?: {
                                 marketId: string;
+                                ticker: string;
                                 reason: string;
                             }[];
                         };
@@ -98,6 +99,7 @@ export interface paths {
                             data: components["schemas"]["BffTcSpotMarket"][];
                             excluded?: {
                                 marketId: string;
+                                ticker: string;
                                 reason: string;
                             }[];
                         };
@@ -158,6 +160,7 @@ export interface paths {
                             data: components["schemas"]["BffHelixSpotMarket"][];
                             excluded?: {
                                 marketId: string;
+                                ticker: string;
                                 reason: string;
                             }[];
                         };
@@ -1189,10 +1192,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 329269e (chore: sync bff files)
     "/api/v1/tokens": {
         parameters: {
             query?: never;
@@ -1258,11 +1257,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-<<<<<<< HEAD
-=======
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
->>>>>>> 329269e (chore: sync bff files)
     "/api/v1/account/balances/{address}": {
         parameters: {
             query?: never;
@@ -1406,10 +1400,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 329269e (chore: sync bff files)
     "/api/v1/account/cw20-balances/{address}": {
         parameters: {
             query?: never;
@@ -1475,11 +1465,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-<<<<<<< HEAD
-=======
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
->>>>>>> 329269e (chore: sync bff files)
     "/api/v1/entry-code/verify": {
         parameters: {
             query?: never;
@@ -1487,10 +1472,6 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 329269e (chore: sync bff files)
         /**
          * Check entry code claim status
          * @description Checks whether a wallet address has already claimed any entry code.
@@ -1543,12 +1524,6 @@ export interface paths {
                 };
             };
         };
-<<<<<<< HEAD
-=======
-        get?: never;
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
->>>>>>> 329269e (chore: sync bff files)
         put?: never;
         /**
          * Verify and claim an entry code
@@ -1664,6 +1639,7 @@ export interface paths {
                             data: components["schemas"]["BffDerivativeMarket"][];
                             excluded?: {
                                 marketId: string;
+                                ticker: string;
                                 reason: string;
                             }[];
                         };
@@ -1724,6 +1700,7 @@ export interface paths {
                             data: components["schemas"]["BffTcDerivativeMarket"][];
                             excluded?: {
                                 marketId: string;
+                                ticker: string;
                                 reason: string;
                             }[];
                         };
@@ -1784,6 +1761,7 @@ export interface paths {
                             data: components["schemas"]["BffHelixDerivativeMarket"][];
                             excluded?: {
                                 marketId: string;
+                                ticker: string;
                                 reason: string;
                             }[];
                         };
@@ -2312,29 +2290,7 @@ export interface components {
             /** @default [] */
             categories: string[];
         };
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        /** @description Bank balances response with transformed token metadata */
-        BffAccountBalancesResponse: {
-            data: components["schemas"]["BffBalanceWithToken"][];
-        };
-        /** @description Balance entry with full token metadata */
-        BffBalanceWithToken: {
-            denom: string;
-            amount: string;
-            token: components["schemas"]["BffToken"];
-        };
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
->>>>>>> 329269e (chore: sync bff files)
-=======
-        /** @description Combined network and app configuration data including banners, banned countries, and chain upgrade config */
-=======
         /** @description Combined network and app configuration data including announcements, banned countries, and chain upgrade config */
->>>>>>> f932d1e (chore: integrate bff app config)
         BffAppConfig: {
             announcements: components["schemas"]["BffAnnouncement"][];
             bannedCountries: string[];
@@ -2360,7 +2316,6 @@ export interface components {
             proposalMsg: string;
             disableMaintenance: boolean;
         } | null;
->>>>>>> 1c39704 (chore: integrate bff-api appConfig url query)
         /** @description Merged token metadata (chain + human combined) */
         BffToken: {
             denom: string;
@@ -2389,10 +2344,6 @@ export interface components {
             /** @enum {string} */
             uriStatus: "pending" | "valid" | "invalid" | "unreachable";
         };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 329269e (chore: sync bff files)
         /** @description Bank balances response with transformed token metadata */
         BffAccountBalancesResponse: {
             data: components["schemas"]["BffBalanceWithToken"][];
@@ -2403,11 +2354,6 @@ export interface components {
             amount: string;
             token: components["schemas"]["BffToken"];
         };
-<<<<<<< HEAD
-=======
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
->>>>>>> 329269e (chore: sync bff files)
         /** @description Account portfolio response with bank balances and subaccount balances */
         BffPortfolioResponse: {
             data: {
@@ -2424,10 +2370,6 @@ export interface components {
             availableBalance: string;
             token: components["schemas"]["BffToken"];
         };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 329269e (chore: sync bff files)
         /** @description CW20 balances response with enriched token metadata */
         BffCW20BalancesResponse: {
             data: components["schemas"]["BffCW20BalanceWithToken"][];
@@ -2448,11 +2390,6 @@ export interface components {
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             } | null;
         };
-<<<<<<< HEAD
-=======
->>>>>>> c7b2b0b (feat: setup bff markets endpoint)
-=======
->>>>>>> 329269e (chore: sync bff files)
         /** @description Derivative market with token metadata and UI fields from Injective SDK */
         BffDerivativeMarket: {
             expiryFuturesMarketInfo?: {
