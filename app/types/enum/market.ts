@@ -5,20 +5,26 @@ export enum SharedMarketChange {
   NoChange = 'no-change'
 }
 
-export enum SharedMarketStatus {
-  Active = 'active',
-  Paused = 'paused',
-  Expired = 'expired',
-  Suspended = 'suspended',
-  Demolished = 'demolished',
-  Unspecified = 'unspecified'
-}
+export const SharedMarketStatus = {
+  Active: 'active',
+  Paused: 'paused',
+  Expired: 'expired',
+  Suspended: 'suspended',
+  Demolished: 'demolished',
+  Unspecified: 'unspecified'
+} as const
 
-export enum SharedMarketType {
-  Spot = 'Spot',
-  Futures = 'Futures',
-  Favorite = 'Favorite',
-  Perpetual = 'Perpetual',
-  Derivative = 'Derivative',
-  BinaryOptions = 'BinaryOptions'
-}
+export type SharedMarketStatus =
+  (typeof SharedMarketStatus)[keyof typeof SharedMarketStatus]
+
+export const SharedMarketType = {
+  Spot: 'spot',
+  Futures: 'futures',
+  Favorite: 'favorite',
+  Perpetual: 'perpetual',
+  Derivative: 'derivative',
+  BinaryOptions: 'binaryOptions'
+} as const
+
+export type SharedMarketType =
+  (typeof SharedMarketType)[keyof typeof SharedMarketType]

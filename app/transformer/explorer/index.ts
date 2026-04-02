@@ -40,7 +40,7 @@ export const toUiCw20Balance = (
       symbol: tokenInfo?.symbol || unknownToken.symbol,
       logo: marketingInfo?.logo || unknownToken.logo,
       tokenType: TokenType.Cw20,
-      tokenVerification: TokenVerification.Internal
+      tokenVerification: TokenVerification.Unverified
     }
   }
 }
