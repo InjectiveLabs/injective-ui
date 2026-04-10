@@ -46,7 +46,13 @@ const shouldHaveSmallerThan = computed(() => {
   const amount = absoluteAmount.value
   const nIsLowerThanDecimalThreshold = amount.lt(minDecimalThreshold.value)
 
-  return nIsLowerThanDecimalThreshold && amount.gt(0) && !props.useSubscript
+  if (!nIsLowerThanDecimalThreshold || amount.lte(0) || props.useSubscript) {
+    return false
+  }
+
+  const roundedAmount = amount.dp(props.decimals, props.roundingMode)
+
+  return roundedAmount.lte(0)
 })
 
 const abbreviatedAmount = computed(() => {
