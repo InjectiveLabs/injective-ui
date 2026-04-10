@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { usdcToken } from '../data/token'
 import { MARKET_IDS_TO_HIDE } from '../data/market'
 import { NETWORK, IS_HELIX, IS_TRUE_CURRENT } from '../utils/constant'
 import {
@@ -91,7 +92,17 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
         ...marketsWithoutMarketSummaries.map(({ marketId }) =>
           toZeroUiMarketSummary(marketId)
         )
-      ]
+      ].filter((marketSummary) => {
+        if (!IS_TRUE_CURRENT) {
+          return true
+        }
+
+        const market = this.markets.find(
+          (m) => m.marketId === marketSummary.marketId
+        )
+
+        return market?.quoteDenom === usdcToken.denom
+      })
     }
   }
 })
