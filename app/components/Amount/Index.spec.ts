@@ -283,6 +283,46 @@ describe('Amount/Index.vue', () => {
 
       expect(component.text()).toBe('2.00')
     })
+
+    it('shows rounded value instead of "<" when rounding crosses the threshold', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          amount: '0.99',
+          decimals: 0,
+          shouldAbbreviate: false,
+          roundingMode: BigNumber.ROUND_HALF_UP
+        }
+      })
+
+      expect(component.text()).toBe('1')
+    })
+
+    it('shows "<" when rounding does not cross the threshold', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          amount: '0.49',
+          decimals: 0,
+          shouldAbbreviate: false,
+          roundingMode: BigNumber.ROUND_HALF_UP
+        }
+      })
+
+      expect(component.html()).toMatchInlineSnapshot(
+        `"<span><!--v-if--><span>&lt;1</span></span>"`
+      )
+    })
+
+    it('shows rounded value when ROUND_UP crosses decimal threshold', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          amount: '0.001',
+          decimals: 2,
+          roundingMode: BigNumber.ROUND_UP
+        }
+      })
+
+      expect(component.text()).toBe('0.01')
+    })
   })
 
   describe('prop combinations', () => {
