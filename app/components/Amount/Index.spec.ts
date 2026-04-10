@@ -323,6 +323,44 @@ describe('Amount/Index.vue', () => {
 
       expect(component.text()).toBe('0.01')
     })
+
+    it('ROUND_CEIL on negative amount rounds consistently with sign/magnitude split', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          decimals: 2,
+          amount: '-1.999',
+          noTrailingZeros: false,
+          roundingMode: BigNumber.ROUND_CEIL
+        }
+      })
+
+      expect(component.text()).toBe('-2.00')
+    })
+
+    it('ROUND_FLOOR on negative amount rounds consistently with sign/magnitude split', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          decimals: 2,
+          amount: '-1.111',
+          noTrailingZeros: false,
+          roundingMode: BigNumber.ROUND_FLOOR
+        }
+      })
+
+      expect(component.text()).toBe('-1.11')
+    })
+
+    it('ROUND_CEIL on small negative amount shows "<" consistently', async () => {
+      const component = await mountSuspended(Index, {
+        props: {
+          decimals: 2,
+          amount: '-0.001',
+          roundingMode: BigNumber.ROUND_CEIL
+        }
+      })
+
+      expect(component.text()).toBe('-0.01')
+    })
   })
 
   describe('prop combinations', () => {
