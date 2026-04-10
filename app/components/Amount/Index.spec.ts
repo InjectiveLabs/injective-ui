@@ -79,8 +79,8 @@ describe('Amount/Index.vue', () => {
     it(`when shouldAbbreviate is false, there is no decimals when above ${DEFAULT_ABBREVIATION_THRESHOLD}`, async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: `${DEFAULT_ABBREVIATION_THRESHOLD}.12345678`,
-          shouldAbbreviate: false
+          shouldAbbreviate: false,
+          amount: `${DEFAULT_ABBREVIATION_THRESHOLD}.12345678`
         }
       })
 
@@ -90,8 +90,8 @@ describe('Amount/Index.vue', () => {
     it(`when shouldAbbreviate is false, there is no decimals when below ${DEFAULT_ABBREVIATION_THRESHOLD}`, async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: `100000.12345678`,
-          shouldAbbreviate: false
+          shouldAbbreviate: false,
+          amount: `100000.12345678`
         }
       })
 
@@ -141,8 +141,8 @@ describe('Amount/Index.vue', () => {
       const component = await mountSuspended(Index, {
         props: {
           decimals: 0,
-          useSubscript: true,
-          amount: '0.5'
+          amount: '0.5',
+          useSubscript: true
         }
       })
 
@@ -154,8 +154,8 @@ describe('Amount/Index.vue', () => {
       const component = await mountSuspended(Index, {
         props: {
           decimals: 2,
-          useSubscript: true,
-          amount: '0.001234'
+          amount: '0.001234',
+          useSubscript: true
         }
       })
 
@@ -169,8 +169,8 @@ describe('Amount/Index.vue', () => {
     it('respects custom decimals', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '1.123456789',
-          decimals: 2
+          decimals: 2,
+          amount: '1.123456789'
         }
       })
 
@@ -263,8 +263,8 @@ describe('Amount/Index.vue', () => {
     it('uses ROUND_DOWN by default', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '1.999999',
-          decimals: 2
+          decimals: 2,
+          amount: '1.999999'
         }
       })
 
@@ -274,10 +274,10 @@ describe('Amount/Index.vue', () => {
     it('respects custom rounding mode', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '1.999999',
           decimals: 2,
-          roundingMode: BigNumber.ROUND_UP,
-          noTrailingZeros: false
+          amount: '1.999999',
+          noTrailingZeros: false,
+          roundingMode: BigNumber.ROUND_UP
         }
       })
 
@@ -287,8 +287,8 @@ describe('Amount/Index.vue', () => {
     it('shows rounded value instead of "<" when rounding crosses the threshold', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '0.99',
           decimals: 0,
+          amount: '0.99',
           shouldAbbreviate: false,
           roundingMode: BigNumber.ROUND_HALF_UP
         }
@@ -300,8 +300,8 @@ describe('Amount/Index.vue', () => {
     it('shows "<" when rounding does not cross the threshold', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '0.49',
           decimals: 0,
+          amount: '0.49',
           shouldAbbreviate: false,
           roundingMode: BigNumber.ROUND_HALF_UP
         }
@@ -315,8 +315,8 @@ describe('Amount/Index.vue', () => {
     it('shows rounded value when ROUND_UP crosses decimal threshold', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '0.001',
           decimals: 2,
+          amount: '0.001',
           roundingMode: BigNumber.ROUND_UP
         }
       })
@@ -329,8 +329,8 @@ describe('Amount/Index.vue', () => {
     it('no trailing zeros with custom decimals', async () => {
       const component = await mountSuspended(Index, {
         props: {
-          amount: '1.5',
           decimals: 4,
+          amount: '1.5',
           noTrailingZeros: true
         }
       })
