@@ -10,6 +10,7 @@ export const TRADING_MESSAGES = [
   MsgType.MsgCancelDerivativeOrder,
   MsgType.MsgBatchCancelSpotOrders,
   MsgType.MsgIncreasePositionMargin,
+  MsgType.MsgDecreasePositionMargin,
   MsgType.MsgCreateDerivativeLimitOrder,
   MsgType.MsgBatchCreateSpotLimitOrders,
   MsgType.MsgCreateDerivativeMarketOrder,
