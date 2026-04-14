@@ -124,6 +124,7 @@ export enum NuxtUiIcons {
   Copy2 = 'clarity:copy-line',
   Copy3 = 'ic:baseline-content-copy',
   Copy4 = 'ic:outline-file-copy',
+  Copy5 = 'lucide:copy',
   ContractEdit = 'material-symbols-light:contract-edit-outline',
   Database = 'fa-solid:database',
   DashCircle = 'bi:dash-circle',
@@ -228,5 +229,6 @@ export enum NuxtUiIcons {
   WarningOutline = 'fluent:warning-32-regular',
   WaterDrop = 'bi:droplet',
   Youtube = 'mdi:youtube',
+  Zap = 'lucide:zap',
   LoadingRotateDots = 'svg-spinners:8-dots-rotate'
 }
