@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
+import { IS_HELIX, IS_DEVNET } from '../../utils/constant' // , IS_TRUE_CURRENT
 import { GeneralException } from '@injectivelabs/exceptions'
 import { checkUnauthorizedMessages } from '../../utils/helper'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
-import { IS_HELIX, IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
@@ -718,15 +718,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const msgs = Array.isArray(messages) ? messages : [messages]
 
-      const isEnableAutosignMessages =
-        msgs.length > 1 && msgs.some((msg) => msg instanceof MsgGrant)
+      // const isEnableAutosignMessages =
+      //   msgs.length > 1 && msgs.some((msg) => msg instanceof MsgGrant)
 
       if (
-        !broadcastOptions ||
-        (IS_TRUE_CURRENT &&
-          !walletStore.isGoogleAuth &&
-          !isEnableAutosignMessages &&
-          !walletStore.isAutoSignEnabled)
+        !broadcastOptions
+        // (IS_TRUE_CURRENT &&
+        //   !walletStore.isGoogleAuth &&
+        //   !isEnableAutosignMessages &&
+        //   !walletStore.isAutoSignEnabled)
       ) {
         return
       }
@@ -863,7 +863,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const injectiveAddress = privateKey.toBech32()
 
       const nowInSeconds = Math.floor(Date.now() / 1000)
-      const expirationInSeconds = 60 * 60 * 24 * 30 // 30 days
+      const expirationInSeconds = 60 * 60 * 24 * 30 * 10 // 300 days
 
       const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
         (authorization) =>
@@ -897,9 +897,22 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             )
           : []
 
-      await walletStore.broadcastWithFeeDelegation({
-        messages: [...authZMsgs, ...contractMsgs, ...grantWithAuthorization]
-      })
+      const allMessages = [
+        ...authZMsgs,
+        ...contractMsgs,
+        ...grantWithAuthorization
+      ]
+
+      const broadcastOptions = await walletStore.prepareBroadcastMessages(
+        allMessages
+      )
+
+      if (!broadcastOptions) {
+        return
+      }
+
+      const msgBroadcaster = await getMsgBroadcaster()
+      await msgBroadcaster.broadcastV2(broadcastOptions)
 
       const autoSign = {
         injectiveAddress,
