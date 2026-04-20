@@ -314,6 +314,74 @@ export interface paths {
                             timestamp: string;
                             /** @example connected */
                             database: string;
+                            /** @example connected */
+                            redis: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/health/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Readiness check
+         * @description Returns 200 only when MongoDB and Redis answer a live ping from this pod. Designed for the Kubernetes readinessProbe so traffic is shed from pods that cannot actually serve requests.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Pod is ready to serve traffic */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example ok */
+                            status: string;
+                            /** @example 2024-01-17T00:00:00.000Z */
+                            timestamp: string;
+                            /** @example connected */
+                            database: string;
+                            /** @example connected */
+                            redis: string;
+                        };
+                    };
+                };
+                /** @description Pod cannot serve traffic (Mongo or Redis unreachable) */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example ok */
+                            status: string;
+                            /** @example 2024-01-17T00:00:00.000Z */
+                            timestamp: string;
+                            /** @example connected */
+                            database: string;
+                            /** @example connected */
+                            redis: string;
                         };
                     };
                 };
@@ -404,6 +472,34 @@ export interface paths {
                             /** @example error */
                             status: string;
                             /** @example Chain with id 999 not supported */
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Bad gateway - failed to fetch CCTP fee from upstream */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example error */
+                            status: string;
+                            /** @example Failed to fetch CCTP fee */
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Service unavailable - failed to schedule deposit monitoring */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example error */
+                            status: string;
+                            /** @example Failed to schedule deposit monitoring */
                             message: string;
                         };
                     };
@@ -1605,6 +1701,110 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/faucet": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Request faucet INJ dust
+         * @description Sends a small amount of INJ to the provided Injective address if it passes balance and rate-limit checks.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /**
+                         * @example testnet
+                         * @enum {string}
+                         */
+                        network: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                        /** @example inj1... */
+                        address: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description INJ dust sent successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** @example 0xabc123... */
+                                txHash: string;
+                                /** @example 0.01 */
+                                amount: string;
+                                /** @example inj */
+                                denom: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Address already has sufficient INJ balance */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/derivative/markets": {
         parameters: {
             query?: never;
@@ -2296,6 +2496,8 @@ export interface components {
             bannedCountries: string[];
             ofacCountries: string[];
             chainUpgradeConfig: components["schemas"]["BffChainUpgradeConfig"];
+            /** @description Whether all trading is currently disabled. Only present when app=tc. */
+            disableTrading?: boolean;
         };
         /** @description App announcement configuration with title, description, optional link, and date range */
         BffAnnouncement: {

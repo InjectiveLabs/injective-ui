@@ -96,7 +96,15 @@ export function createBffClient(client: ApiClient) {
               client.POST('/api/v1/entry-code/verify', ...init)) as LeafMethod<'post', '/api/v1/entry-code/verify'>,
           },
         },
+        faucet: {
+          post: ((...init: MethodArgs<'post', '/api/v1/faucet'>) =>
+            client.POST('/api/v1/faucet', ...init)) as LeafMethod<'post', '/api/v1/faucet'>,
+        },
         health: {
+          ready: {
+            get: ((...init: MethodArgs<'get', '/api/v1/health/ready'>) =>
+              client.GET('/api/v1/health/ready', ...init)) as LeafMethod<'get', '/api/v1/health/ready'>,
+          },
           get: ((...init: MethodArgs<'get', '/api/v1/health'>) =>
             client.GET('/api/v1/health', ...init)) as LeafMethod<'get', '/api/v1/health'>,
         },
