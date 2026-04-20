@@ -863,7 +863,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const injectiveAddress = privateKey.toBech32()
 
       const nowInSeconds = Math.floor(Date.now() / 1000)
-      const expirationInSeconds = 60 * 60 * 24 * 30 // 30 days
+      let expirationInSeconds = 60 * 60 * 24 * 30 // 30 days
+      if (IS_TRUE_CURRENT) {
+        // https://linear.app/injectivelabs/issue/IA-1049/auto-sign-expiration-swap-buttons-to-authenticate-instead-of-auto
+        expirationInSeconds = expirationInSeconds * 10 // 300 days
+      }
 
       const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
         (authorization) =>
