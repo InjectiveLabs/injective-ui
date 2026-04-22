@@ -1,3 +1,4 @@
+import { MsgBroadcasterWithPk } from '@injectivelabs/sdk-ts/core/tx'
 import { alchemyRpcEndpoint, getRpcUrlsForChainIds } from './utils/alchemy'
 import { WalletConnectStrategyEventType } from '@injectivelabs/wallet-base'
 import {
@@ -31,6 +32,8 @@ let autoSignWalletStrategyPromise: null | Promise<WalletStrategy> = null
 let msgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
 let autoSignMsgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
 let web3BroadcasterPromise: null | Promise<Web3Broadcaster> = null
+let msgBroadcasterWithPkInstance: null | MsgBroadcasterWithPk = null
+let msgBroadcasterWithPkPrivateKey: null | string = null
 
 export const getWalletStrategy = (): Promise<WalletStrategy> => {
   if (!walletStrategyPromise) {
@@ -137,6 +140,24 @@ export const getAutoSignMsgBroadcaster = (): Promise<MsgBroadcaster> => {
   }
 
   return autoSignMsgBroadcasterPromise
+}
+
+export const getMsgBroadcasterWithPk = (
+  privateKey: string
+): MsgBroadcasterWithPk => {
+  if (
+    !msgBroadcasterWithPkInstance ||
+    msgBroadcasterWithPkPrivateKey !== privateKey
+  ) {
+    msgBroadcasterWithPkPrivateKey = privateKey
+    msgBroadcasterWithPkInstance = new MsgBroadcasterWithPk({
+      privateKey,
+      network: NETWORK,
+      endpoints: ENDPOINTS
+    })
+  }
+
+  return msgBroadcasterWithPkInstance
 }
 
 export const getWeb3Broadcaster = (): Promise<Web3Broadcaster> => {
