@@ -1,18 +1,20 @@
 import { defineStore } from 'pinia'
-import { injToken } from '../data/token'
+import { injToken } from '../../data/token'
 import { toChainFormat } from '@injectivelabs/utils'
-import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
+import { lazyPiniaAction } from '../../utils/pinia'
+import { INJ_SUPPLY_AMOUNT } from '../../utils/constant'
 import {
   tokenCacheApi,
   tokenPriceService,
   sharedTokenClient,
   tokenStaticFactory,
   sharedTokenClientStatic
-} from '../service'
+} from '../../service'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
-import type { SharedTokenUsdPriceMap } from '../types'
+import type { SharedTokenUsdPriceMap } from '../../types'
 
 type SharedTokenStoreState = {
+  usdcUsdPrice: number
   unknownTokens: TokenStatic[]
   supplyMap: Record<string, string>
   tokenUsdPriceMap: SharedTokenUsdPriceMap
@@ -20,6 +22,7 @@ type SharedTokenStoreState = {
 }
 
 const initialStateFactory = (): SharedTokenStoreState => ({
+  usdcUsdPrice: 1,
   supplyMap: {},
   unknownTokens: [],
   tokenUsdPriceMap: {},
@@ -160,6 +163,16 @@ export const useSharedTokenStore = defineStore('sharedToken', {
       sharedTokenStore.tokenUsdPriceMap = tokenUsdPriceMap.prices
       sharedTokenStore.tokenUsdMarketCapMap = tokenUsdPriceMap.marketCap
     },
+
+    streamUsdcUsdPrice: lazyPiniaAction(
+      () => import('./stream'),
+      'streamUsdcUsdPrice'
+    ),
+
+    cancelUsdcUsdPriceStream: lazyPiniaAction(
+      () => import('./stream'),
+      'cancelUsdcUsdPriceStream'
+    ),
 
     /**
      * Used to append unknown token metadata
