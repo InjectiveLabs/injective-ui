@@ -703,9 +703,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async broadcastWithFeeDelegation({
       memo,
-      messages
+      messages,
+      manualSign
     }: {
       memo?: string
+      manualSign?: boolean
       messages: Msgs | Msgs[]
     }) {
       const walletStore = useSharedWalletStore()
@@ -724,6 +726,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (
         !broadcastOptions ||
         (IS_TRUE_CURRENT &&
+          !manualSign &&
           !walletStore.isGoogleAuth &&
           !isEnableAutosignMessages &&
           !walletStore.isAutoSignEnabled)
@@ -734,6 +737,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
 
       if (
+        !manualSign &&
         !walletStore.isEip712 &&
         walletStore.autoSign &&
         !hasUnauthorizedMessages &&
