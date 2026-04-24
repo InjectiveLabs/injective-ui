@@ -136,6 +136,7 @@ export enum NuxtUiIcons {
   ExitOutline = 'ion:exit-outline',
   Edit = 'material-symbols:edit-outline-rounded',
   PencilSquare = 'i-heroicons-pencil-square',
+  EarthLock = 'lucide:earth-lock',
   EmptyData = 'i-heroicons-circle-stack-20-solid',
   Exit = 'bx:exit',
   ExternalLink = 'ooui:link-external-ltr',
