@@ -1,3 +1,3 @@
-export enum StreamKey {
+export enum SharedStreamKey {
   OraclePrices = 'shared-oracle-prices'
 }

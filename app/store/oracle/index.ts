@@ -1,6 +1,15 @@
 import { defineStore } from 'pinia'
-import { lazyPiniaAction } from '../../utils/pinia'
-import { ORACLE_USD_PRICE_TOKENS } from '../../data/oracle'
+import { ENDPOINTS } from '../../utils/constant'
+import { SharedStreamKey } from '../../streams/types'
+import { DEFAULT_RETRY_CONFIG } from '../../streams/config'
+import {
+  ORACLE_USD_PRICE_TOKENS,
+  ORACLE_TYPE_CHAINLINK_DATASTREAMS
+} from '../../data/oracle'
+import {
+  StreamManagerV2,
+  IndexerGrpcOracleStreamV2
+} from '@injectivelabs/sdk-ts/client/indexer'
 import type { OraclePriceMap } from '../../types/oracle'
 
 type SharedOracleStoreState = {
@@ -10,6 +19,10 @@ type SharedOracleStoreState = {
 const initialStateFactory = (): SharedOracleStoreState => ({
   oraclePriceMap: {}
 })
+
+let manager: undefined | StreamManagerV2<any>
+
+const oracleStreamV2 = new IndexerGrpcOracleStreamV2(ENDPOINTS.indexer)
 
 export const useSharedOracleStore = defineStore('sharedOracle', {
   state: (): SharedOracleStoreState => initialStateFactory(),
@@ -31,13 +44,54 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
       }
   },
   actions: {
-    streamOraclePrices: lazyPiniaAction(
-      () => import('./stream'),
-      'streamOraclePrices'
-    ),
-    cancelOraclePrices: lazyPiniaAction(
-      () => import('./stream'),
-      'cancelOraclePrices'
-    )
+    cancelOraclePrices() {
+      manager?.stop()
+      manager = undefined
+    },
+
+    streamOraclePrices(
+      { symbols }: { symbols: string[] } = {
+        symbols: Object.values(ORACLE_USD_PRICE_TOKENS)
+      }
+    ) {
+      const oracleStore = useSharedOracleStore()
+
+      oracleStore.cancelOraclePrices()
+
+      const localManager = new StreamManagerV2({
+        id: SharedStreamKey.OraclePrices,
+        streamFactory: () =>
+          oracleStreamV2.streamOracleList({
+            symbols,
+            oracleType: ORACLE_TYPE_CHAINLINK_DATASTREAMS,
+            callback: (response) => localManager.emit('data', response)
+          }),
+        onData: (oraclePrice: {
+          price?: string
+          symbol?: string
+          oracleType?: string
+          timestamp?: string | number
+        }) => {
+          if (!oraclePrice.price || !oraclePrice.symbol) {
+            return
+          }
+
+          oracleStore.oraclePriceMap = {
+            ...oracleStore.oraclePriceMap,
+            [oraclePrice.symbol]: {
+              price: oraclePrice.price,
+              symbol: oraclePrice.symbol,
+              timestamp: Number(oraclePrice.timestamp ?? 0),
+              oracleType:
+                oraclePrice.oracleType ?? ORACLE_TYPE_CHAINLINK_DATASTREAMS
+            }
+          }
+        },
+        retryConfig: DEFAULT_RETRY_CONFIG
+      })
+
+      manager = localManager
+      manager.start()
+    }
   }
 })
