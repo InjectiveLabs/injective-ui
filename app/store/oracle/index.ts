@@ -2,10 +2,7 @@ import { defineStore } from 'pinia'
 import { ENDPOINTS } from '../../utils/constant'
 import { SharedStreamKey } from '../../streams/types'
 import { DEFAULT_RETRY_CONFIG } from '../../streams/config'
-import {
-  ORACLE_USD_PRICE_TOKENS,
-  ORACLE_TYPE_CHAINLINK_DATASTREAMS
-} from '../../data/oracle'
+import { ORACLE_USD_PRICE_TOKENS, ORACLE_TYPE_CHAINLINK_DATASTREAMS } from '../../data/oracle'
 import {
   StreamManagerV2,
   IndexerGrpcOracleStreamV2
@@ -40,7 +37,7 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
           return 0
         }
 
-        return Number(state.oraclePriceMap[symbol]?.price) || 0
+        return Number(state.oraclePriceMap[symbol]) || 0
       }
   },
   actions: {
@@ -66,25 +63,14 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
             oracleType: ORACLE_TYPE_CHAINLINK_DATASTREAMS,
             callback: (response) => localManager.emit('data', response)
           }),
-        onData: (oraclePrice: {
-          price?: string
-          symbol?: string
-          oracleType?: string
-          timestamp?: string | number
-        }) => {
+        onData: (oraclePrice: { price?: string; symbol?: string }) => {
           if (!oraclePrice.price || !oraclePrice.symbol) {
             return
           }
 
           oracleStore.oraclePriceMap = {
             ...oracleStore.oraclePriceMap,
-            [oraclePrice.symbol]: {
-              price: oraclePrice.price,
-              symbol: oraclePrice.symbol,
-              timestamp: Number(oraclePrice.timestamp ?? 0),
-              oracleType:
-                oraclePrice.oracleType ?? ORACLE_TYPE_CHAINLINK_DATASTREAMS
-            }
+            [oraclePrice.symbol]: oraclePrice.price
           }
         },
         retryConfig: DEFAULT_RETRY_CONFIG
