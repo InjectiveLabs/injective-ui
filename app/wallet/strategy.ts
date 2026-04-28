@@ -59,7 +59,8 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 apiBaseUrl: 'https://api.turnkey.com',
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
-                apiServerEndpoint: 'https://api.ui.injective.network/api/v1'
+                apiServerEndpoint: 'https://api.ui.injective.network/api/v1',
+                expirationSeconds: '86400'
               }
             })
           },
