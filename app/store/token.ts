@@ -58,8 +58,16 @@ export const useSharedTokenStore = defineStore('sharedToken', {
 
     tokenUsdPrice:
       (state) => (token?: { denom: string; coinGeckoId: string }) => {
+        const sharedOracleStore = useSharedOracleStore()
+
         if (!token) {
           return 0
+        }
+
+        const oraclePrice = sharedOracleStore.tokenUsdPrice(token.denom)
+
+        if (oraclePrice > 0) {
+          return oraclePrice
         }
 
         return (
