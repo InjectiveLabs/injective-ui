@@ -1,3 +1,4 @@
+import { StreamKey } from '../../streams/types'
 import { ENDPOINTS } from '../../utils/constant'
 import { DEFAULT_RETRY_CONFIG } from '../../streams/config'
 import {
@@ -28,7 +29,7 @@ export const streamOraclePrices = (
   cancelOraclePrices()
 
   const localManager = new StreamManagerV2({
-    id: 'shared-oracle-prices',
+    id: StreamKey.OraclePrices,
     streamFactory: () =>
       oracleStreamV2.streamOracleList({
         symbols,
