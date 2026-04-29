@@ -180,6 +180,7 @@ export enum NuxtUiIcons {
   Position = 'bi:graph-up-arrow',
   PottedPlant = 'material-symbols:potted-plant-outline-rounded',
   QrCode = 'bx:qr',
+  ScanQrCode = 'lucide:scan-qr-code',
   Refresh = 'el:refresh',
   Reddit = 'fa6-brands:reddit-alien',
   Robot = 'bi:robot',
