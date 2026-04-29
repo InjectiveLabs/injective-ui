@@ -188,7 +188,7 @@ export default defineNuxtModule({
 
         const path = await import('node:path')
         const outputDir =
-          nuxt.options.nitro?.output?.dir ||
+          (nuxt.options as any).nitro?.output?.dir ||
           path.join(nuxt.options.rootDir, '.output')
         await printModulePreloadChunks(outputDir)
       })

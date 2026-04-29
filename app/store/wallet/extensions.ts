@@ -11,6 +11,16 @@ export const checkIsBitGetInstalled = async () => {
   })
 }
 
+export const checkIsKeplrEvmInstalled = async () => {
+  const walletStore = useSharedWalletStore()
+
+  const provider = await getEvmWalletProvider(Wallet.KeplrEvm)
+
+  walletStore.$patch({
+    keplrEvmInstalled: provider && Object.keys(provider).length > 0
+  })
+}
+
 export const checkIsMetamaskInstalled = async () => {
   const walletStore = useSharedWalletStore()
 

@@ -58,6 +58,7 @@ type WalletStoreState = {
   rainbowInstalled: boolean
   phantomInstalled: boolean
   owalletInstalled: boolean
+  keplrEvmInstalled: boolean
   metamaskInstalled: boolean
   addressConfirmation: string
 
@@ -104,6 +105,7 @@ const initialStateFactory = (): WalletStoreState => ({
   rabbyInstalled: false,
   rainbowInstalled: false,
   phantomInstalled: false,
+  keplrEvmInstalled: false,
   metamaskInstalled: false,
   okxWalletInstalled: false,
   trustWalletInstalled: false,
@@ -228,6 +230,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     checkIsMetamaskInstalled: lazyPiniaAction(
       () => import('./extensions'),
       'checkIsMetamaskInstalled'
+    ),
+    checkIsKeplrEvmInstalled: lazyPiniaAction(
+      () => import('./extensions'),
+      'checkIsKeplrEvmInstalled'
     ),
     checkIsOkxWalletInstalled: lazyPiniaAction(
       () => import('./extensions'),
@@ -423,6 +429,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           [
             Wallet.BitGet,
             Wallet.Phantom,
+            Wallet.KeplrEvm,
             Wallet.Metamask,
             Wallet.OkxWallet,
             Wallet.TrustWallet
@@ -529,6 +536,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         owalletInstalled: walletStore.owalletInstalled,
         rainbowInstalled: walletStore.rainbowInstalled,
         phantomInstalled: walletStore.phantomInstalled,
+        keplrEvmInstalled: walletStore.keplrEvmInstalled,
         metamaskInstalled: walletStore.metamaskInstalled,
         okxWalletInstalled: walletStore.okxWalletInstalled,
         walletConnectStatus: WalletConnectStatus.disconnected,
