@@ -136,6 +136,7 @@ export enum NuxtUiIcons {
   Download = 'fa6-solid:download',
   Download2 = 'material-symbols:download',
   ExitOutline = 'ion:exit-outline',
+  ExitOutline2 = 'iconamoon:exit',
   Edit = 'material-symbols:edit-outline-rounded',
   PencilSquare = 'i-heroicons-pencil-square',
   EarthLock = 'lucide:earth-lock',
