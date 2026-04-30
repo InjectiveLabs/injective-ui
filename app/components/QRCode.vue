@@ -6,12 +6,16 @@ const props = withDefaults(
   defineProps<{
     text: string
     logo?: string
+    bgColor?: string
+    cornerColor?: string
     imageOptions?: object
     extraConfigs?: object
     colorSettings?: object
   }>(),
   {
     logo: '',
+    bgColor: '#FFFFFF',
+    cornerColor: '#000000',
     imageOptions: undefined,
     colorSettings: undefined,
     extraConfigs: () => ({})
@@ -26,8 +30,9 @@ onMounted(() => {
     data: props.text,
     image: props.logo || injLogoBase64,
     qrOptions: { errorCorrectionLevel: 'H' },
-    cornersDotOptions: { type: 'dot', color: '#000000' },
-    cornersSquareOptions: { type: 'extra-rounded', color: '#000000' },
+    backgroundOptions: { color: props.bgColor },
+    cornersDotOptions: { type: 'dot', color: props.cornerColor },
+    cornersSquareOptions: { type: 'extra-rounded', color: props.cornerColor },
     imageOptions: props.imageOptions || { margin: 16, imageSize: 0.4 },
     dotsOptions: {
       type: 'dots',
@@ -51,11 +56,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-2 bg-white">
+  <div class="p-2 relative" :style="{ backgroundColor: bgColor }">
     <span
       ref="qrCodeRef"
       class="shared-qr-code"
     />
+    <slot name="overlay" />
   </div>
 </template>
 
