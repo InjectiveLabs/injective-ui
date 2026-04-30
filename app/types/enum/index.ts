@@ -195,6 +195,7 @@ export enum NuxtUiIcons {
   Share2 = 'ion:share-outline',
   Share3 = 'material-symbols-light:share-outline',
   Star = 'material-symbols:star',
+  Star2 = 'iconamoon:star-fill',
   StarOutline = 'iconamoon:star-light',
   Stop = 'ph:prohibit',
   SubAccount = 'bi:grid',
