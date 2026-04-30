@@ -21,6 +21,7 @@ import {
   getBitGetProvider,
   getRainbowProvider,
   getPhantomProvider,
+  getKeplrEvmProvider,
   getMetamaskProvider,
   getOkxWalletProvider,
   getTrustWalletProvider
@@ -56,6 +57,10 @@ export const getEvmWalletProvider = async (wallet: Wallet) => {
 
   if (wallet === Wallet.Rabby) {
     return await getRabbyProvider()
+  }
+
+  if (wallet === Wallet.KeplrEvm) {
+    return await getKeplrEvmProvider()
   }
 }
 

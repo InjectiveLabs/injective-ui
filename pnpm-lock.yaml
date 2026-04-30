@@ -1709,8 +1709,8 @@ packages:
     resolution: {integrity: sha512-KMTLK/dsGaQioZzkYUvgfN9le4grNW54aNcA1jqzgVZLcFVy4jJfrJr5WZio9NT2EMfajdoZ+V28aD7BRr4Zfw==}
     engines: {node: '>=18.12.0'}
 
-  '@nuxt/kit@3.21.2':
-    resolution: {integrity: sha512-Bd6m6mrDrqpBEbX+g0rc66/ALd1sxlgdx5nfK9MAYO0yKLTOSK7McSYz1KcOYn3LQFCXOWfvXwaqih/b+REI1g==}
+  '@nuxt/kit@3.21.4':
+    resolution: {integrity: sha512-XDWhQJsA5hpdFpVSmImQIVXcsANJI07TjT1LZC/AUKJxl/dcM52Rq4uU+b3uqyVl4LZR1fODSDEzLxcdXq4Rmg==}
     engines: {node: '>=18.12.0'}
 
   '@nuxt/kit@4.2.2':
@@ -10210,7 +10210,7 @@ snapshots:
       '@bugsnag/js': 8.9.0
       '@bugsnag/plugin-vue': 8.9.0(@bugsnag/core@8.9.0)
       '@bugsnag/vue-router-performance': 2.14.0(@bugsnag/browser-performance@2.15.0)(vue-router@4.6.4(vue@3.5.26(typescript@5.9.3)))
-      '@nuxt/kit': 3.21.2(magicast@0.5.1)
+      '@nuxt/kit': 3.21.4(magicast@0.5.1)
       bugsnag-source-maps-fork: 2.5.1
       defu: 6.1.7
     transitivePeerDependencies:
@@ -11307,7 +11307,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@nuxt/kit@3.21.2(magicast@0.5.1)':
+  '@nuxt/kit@3.21.4(magicast@0.5.1)':
     dependencies:
       c12: 3.3.4(magicast@0.5.1)
       consola: 3.4.2

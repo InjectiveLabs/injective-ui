@@ -88,6 +88,7 @@ export function useSharedWalletOptions() {
       sharedWalletStore.checkIsBitGetInstalled(),
       sharedWalletStore.checkIsRainbowInstalled(),
       sharedWalletStore.checkIsMetamaskInstalled(),
+      sharedWalletStore.checkIsKeplrEvmInstalled(),
       sharedWalletStore.checkIsOkxWalletInstalled(),
       sharedWalletStore.checkIsRabbyWalletInstalled(),
       sharedWalletStore.checkIsTrustWalletInstalled(),

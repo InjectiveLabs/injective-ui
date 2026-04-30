@@ -69,6 +69,10 @@ const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
     name = 'wallet/turnkey'
   }
 
+  if (name.includes('keplr-evm')) {
+    name = 'wallet/keplr'
+  }
+
   return new Promise((resolve, _reject) => {
     const comps = import.meta.glob('../icons/**/*.vue')
 
