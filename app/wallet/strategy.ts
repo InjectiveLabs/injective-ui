@@ -7,6 +7,7 @@ import {
   ENDPOINTS,
   TURNKEY_ORGID,
   MAGIC_APK_KEY,
+  IS_TRUE_CURRENT,
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY,
   TURNKEY_GOOGLE_CLIENT_ID,
@@ -59,7 +60,9 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 apiBaseUrl: 'https://api.turnkey.com',
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
-                apiServerEndpoint: 'https://api.ui.injective.network/api/v1',
+                apiServerEndpoint: IS_TRUE_CURRENT
+                  ? 'https://api.ui.staging.tc.xyz/api/v1'
+                  : 'https://api.injective.network/api/v1',
                 expirationSeconds: '86400'
               }
             })
