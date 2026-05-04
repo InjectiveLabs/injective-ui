@@ -113,7 +113,7 @@ export const usdtToken: TokenStatic = {
 
 export const usdcToken: TokenStatic = {
   address: IS_MAINNET
-    ? ''
+    ? '0xa00C59fF5a080D2b954d0c75e46E22a0c371235a'
     : IS_TESTNET
       ? '0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d'
       : '0xa00C59fF5a080D2b954d0c75e46E22a0c371235a',
@@ -124,7 +124,7 @@ export const usdcToken: TokenStatic = {
   logo: USDC_LOGO_URL,
   coinGeckoId: 'usd-coin',
   denom: IS_MAINNET
-    ? ''
+    ? 'erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a'
     : IS_TESTNET
       ? 'erc20:0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d'
       : 'erc20:0xa00C59fF5a080D2b954d0c75e46E22a0c371235a',
