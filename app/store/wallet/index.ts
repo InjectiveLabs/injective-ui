@@ -427,6 +427,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (
         (
           [
+            Wallet.Rabby,
             Wallet.BitGet,
             Wallet.Phantom,
             Wallet.KeplrEvm,
