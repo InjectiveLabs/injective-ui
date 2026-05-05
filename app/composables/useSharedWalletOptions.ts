@@ -1,6 +1,11 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { getWalletStrategy } from './../wallet/strategy'
-import { IS_HELIX, IS_DEVNET, IS_MAINNET } from '../utils/constant'
+import {
+  IS_HELIX,
+  IS_DEVNET,
+  IS_MAINNET,
+  IS_TRUE_CURRENT
+} from '../utils/constant'
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {
@@ -47,12 +52,14 @@ export function useSharedWalletOptions() {
               ? 'https://rainbow.me/download'
               : undefined
         },
-        {
-          wallet: Wallet.Leap,
-          downloadLink: !sharedWalletStore.leapInstalled
-            ? 'https://www.leapwallet.io/downloads'
-            : undefined
-        },
+        IS_TRUE_CURRENT
+          ? undefined
+          : {
+              wallet: Wallet.Leap,
+              downloadLink: !sharedWalletStore.leapInstalled
+                ? 'https://www.leapwallet.io/downloads'
+                : undefined
+            },
         IS_DEVNET
           ? undefined
           : {
