@@ -28,9 +28,33 @@ import {
 } from '@injectivelabs/wallet-evm'
 import { getWalletStrategy } from '../strategy'
 import type { AccountAddress } from '@injectivelabs/ts-types'
+import type { EvmWalletStrategy } from '@injectivelabs/wallet-evm'
+import type { BrowserEip1993Provider } from '@injectivelabs/wallet-base'
 import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
 
+export const getEvmProvidersFromWalletStrategy = async (): Promise<
+  Partial<Record<Wallet, BrowserEip1993Provider>>
+> => {
+  const walletStrategy = await getWalletStrategy()
+  const strategies = walletStrategy.strategies
+
+  const evmStrategy =
+    strategies[Wallet.Metamask] ||
+    strategies[Wallet.Rabby] ||
+    strategies[Wallet.Rainbow] ||
+    strategies[Wallet.KeplrEvm] ||
+    strategies[Wallet.OkxWallet]
+
+  return (evmStrategy as EvmWalletStrategy)?.evmProviders || {}
+}
+
 export const getEvmWalletProvider = async (wallet: Wallet) => {
+  const evmProviders = await getEvmProvidersFromWalletStrategy()
+
+  if (evmProviders[wallet]) {
+    return evmProviders[wallet]
+  }
+
   if (wallet === Wallet.Metamask) {
     return await getMetamaskProvider()
   }

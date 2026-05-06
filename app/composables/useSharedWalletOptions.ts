@@ -1,5 +1,5 @@
 import { Wallet } from '@injectivelabs/wallet-base'
-import { getWalletStrategy } from './../wallet/strategy'
+import { getEvmProvidersFromWalletStrategy } from '../wallet/utils/evm'
 import {
   IS_HELIX,
   IS_DEVNET,
@@ -104,19 +104,9 @@ export function useSharedWalletOptions() {
   )
 
   async function validateWalletExtensionInstalled() {
-    const walletStrategy = await getWalletStrategy()
-
     // Get EVM providers from the strategy to determine which wallet extensions are installed on client's browser
-    const strategies = walletStrategy.strategies
-    const evmStrategy =
-      strategies[Wallet.Metamask] ||
-      strategies[Wallet.Rabby] ||
-      strategies[Wallet.Rainbow] ||
-      strategies[Wallet.KeplrEvm] ||
-      strategies[Wallet.OkxWallet]
-
     evmProviders.value = Object.keys(
-      (evmStrategy as any)?.evmProviders || {}
+      await getEvmProvidersFromWalletStrategy()
     ) as Wallet[]
 
     await Promise.all([
