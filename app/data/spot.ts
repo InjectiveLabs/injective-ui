@@ -41,16 +41,6 @@ export const spotDenomMap: Record<string, Function> = {
       slug: slug.replace('usdc', 'usdcet'),
       ticker: ticker.replace('USDC', 'USDCet')
     }),
-  'ibc/2CBC2EA121AE42563B08028466F37B600F2D7D4282342DE938283CC3FB2BC00E': ({
-    slug,
-    ticker
-  }: {
-    slug: string
-    ticker: string
-  }) => ({
-    slug: slug.replace('usdcnb', 'usdc'),
-    ticker: ticker.replace('USDCnb', 'USDC')
-  }),
   'factory/inj1alwxgkns9x7d2sprymwwfvzl5t7teetym02lrj/NONJA': ({
     slug,
     ticker
