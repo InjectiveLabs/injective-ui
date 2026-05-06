@@ -410,7 +410,10 @@ export interface paths {
          */
         post: {
             parameters: {
-                query?: never;
+                query?: {
+                    /** @description Client platform initiating the bridge */
+                    device?: "web_desktop" | "native_app";
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -445,20 +448,20 @@ export interface paths {
                     };
                     content: {
                         "application/json": {
-                            /** @example ok */
-                            status: string;
-                            /** @example 0x0987654321098765432109876543210987654321 */
-                            safeAddress?: string;
-                            /**
-                             * @default false
-                             * @example false
-                             */
-                            isFastTransfer: boolean;
-                            /**
-                             * @description Human readable fee in USDC
-                             * @example 0.000000000000000001
-                             */
-                            fee?: string;
+                            data: {
+                                /** @example 0x0987654321098765432109876543210987654321 */
+                                safeAddress: string;
+                                /**
+                                 * @default false
+                                 * @example false
+                                 */
+                                isFastTransfer: boolean;
+                                /**
+                                 * @description Human readable maximum CCTP fee in USDC, including the fast-transfer safety margin when applicable
+                                 * @example 0.001
+                                 */
+                                fee?: string;
+                            };
                         };
                     };
                 };
@@ -469,10 +472,8 @@ export interface paths {
                     };
                     content: {
                         "application/json": {
-                            /** @example error */
-                            status: string;
                             /** @example Chain with id 999 not supported */
-                            message: string;
+                            error: string;
                         };
                     };
                 };
@@ -483,10 +484,8 @@ export interface paths {
                     };
                     content: {
                         "application/json": {
-                            /** @example error */
-                            status: string;
                             /** @example Failed to fetch CCTP fee */
-                            message: string;
+                            error: string;
                         };
                     };
                 };
@@ -497,10 +496,8 @@ export interface paths {
                     };
                     content: {
                         "application/json": {
-                            /** @example error */
-                            status: string;
                             /** @example Failed to schedule deposit monitoring */
-                            message: string;
+                            error: string;
                         };
                     };
                 };
@@ -553,7 +550,7 @@ export interface paths {
                                 dstChainId: number;
                                 state: number;
                                 /** @enum {string} */
-                                stateName: "funded" | "approve-burn" | "attestation" | "mint" | "completed";
+                                stateName: "funded" | "approve-burn" | "attestation" | "mint" | "completed" | "refunded";
                                 attestationUrl: string | null;
                                 attestationFeeExecuted: string | null;
                                 amount: string;
@@ -563,8 +560,14 @@ export interface paths {
                                 updatedAt: string;
                                 failedAt: string | null;
                                 failureReason: string | null;
+                                isFastTransfer: boolean;
                                 maxFeeQuoted: string | null;
                                 feeQuoteAmountQuoted: string | null;
+                                txHashes: {
+                                    action: string;
+                                    hash: string;
+                                    createdAt: string;
+                                }[];
                             }[];
                             pagination: {
                                 total: number;
@@ -585,7 +588,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/bridge/deposit/notified": {
+    "/api/v1/bridge/notified": {
         parameters: {
             query?: never;
             header?: never;
@@ -595,8 +598,8 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Mark deposits as notified
-         * @description Mark one or more deposits as notified by the client
+         * Mark bridge transfers as notified
+         * @description Mark one or more deposits or withdrawals as notified by the client
          */
         post: {
             parameters: {
@@ -609,18 +612,18 @@ export interface paths {
                 content: {
                     "application/json": {
                         /**
-                         * @description Array of deposit IDs to mark as notified
+                         * @description Array of deposit or withdrawal IDs to mark as notified
                          * @example [
                          *       "abc123",
                          *       "def456"
                          *     ]
                          */
-                        depositIds: string[];
+                        ids: string[];
                     };
                 };
             };
             responses: {
-                /** @description Deposits marked as notified */
+                /** @description Bridge transfers marked as notified */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -629,7 +632,7 @@ export interface paths {
                         "application/json": {
                             data: {
                                 /**
-                                 * @description Number of deposits marked as notified
+                                 * @description Number of transfers marked as notified
                                  * @example 2
                                  */
                                 updated: number;
@@ -639,6 +642,217 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/bridge/withdrawal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Initiate a bridge withdrawal
+         * @description Start watching for a withdrawal from user to safe address on Injective EVM. The server burns the user-funded USDC on Injective and mints it on the destination chain, taking a flat service fee for paying gas on both sides.
+         */
+        post: {
+            parameters: {
+                query?: {
+                    /** @description Client platform initiating the bridge */
+                    device?: "web_desktop" | "native_app";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /** @example 0x1234567890123456789012345678901234567890 */
+                        userAddress: string;
+                        /**
+                         * @description Must be an Injective EVM chain id
+                         * @example 1439
+                         */
+                        srcChainId: number;
+                        /** @example 421614 */
+                        dstChainId: number;
+                        /**
+                         * @description Fast transfer is unverified for Injective-source burns and is forced to false by the server.
+                         * @default false
+                         * @example false
+                         */
+                        isFastTransfer?: boolean;
+                        /**
+                         * @description Human readable amount in USDC
+                         * @example 5
+                         */
+                        amount?: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Withdrawal watch initiated successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** @example 0x0987654321098765432109876543210987654321 */
+                                safeAddress: string;
+                                /**
+                                 * @default false
+                                 * @example false
+                                 */
+                                isFastTransfer: boolean;
+                                /** @description Fee breakdown the user will pay */
+                                fees: {
+                                    /**
+                                     * @description Flat service fee in USDC base units
+                                     * @example 1000000
+                                     */
+                                    serviceFee: string;
+                                    /**
+                                     * @description Maximum Circle CCTP protocol fee in USDC base units, including the fast-transfer safety margin when applicable (null if amount omitted)
+                                     * @example 1000
+                                     */
+                                    circleFee: string | null;
+                                    /**
+                                     * @description serviceFee + circleFee, in USDC base units
+                                     * @example 1001000
+                                     */
+                                    total: string;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Bad request — invalid chain, amount too small, or failed to derive safe */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example srcChainId must be an Injective chain */
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Bad gateway — failed to fetch CCTP fee from upstream */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Failed to fetch CCTP fee */
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Service unavailable — failed to schedule withdrawal monitoring */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Failed to schedule withdrawal monitoring */
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/bridge/withdrawal/{address}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get withdrawal status for an address
+         * @description Get all withdrawals for a user address with pagination. Accepts both EVM (0x...) and Injective (inj1...) addresses.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    skip?: number | null;
+                    limit?: number;
+                    sortOrder?: "asc" | "desc";
+                };
+                header?: never;
+                path: {
+                    address: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Withdrawal status retrieved */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                id: string;
+                                userAddress: string;
+                                safeAddress: string;
+                                srcChainId: number;
+                                dstChainId: number;
+                                state: number;
+                                /** @enum {string} */
+                                stateName: "funded" | "approve-burn" | "attestation" | "mint" | "completed" | "refunded";
+                                attestationUrl: string | null;
+                                attestationFeeExecuted: string | null;
+                                amount: string;
+                                serviceFeeAmount: string | null;
+                                isCompleted: boolean;
+                                isNotified: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                                failedAt: string | null;
+                                failureReason: string | null;
+                                isFastTransfer: boolean;
+                                maxFeeQuoted: string | null;
+                                feeQuoteAmountQuoted: string | null;
+                                txHashes: {
+                                    action: string;
+                                    hash: string;
+                                    createdAt: string;
+                                }[];
+                            }[];
+                            pagination: {
+                                total: number;
+                                skip: number;
+                                limit: number;
+                                hasMore: boolean;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -721,11 +935,13 @@ export interface paths {
         };
         /**
          * List registered devices
-         * @description Returns all registered Expo devices for the authenticated mobile user.
+         * @description Returns registered Expo devices for the authenticated mobile user on the requested network. Defaults to Mainnet when `network` is omitted.
          */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -743,7 +959,7 @@ export interface paths {
                                 id: string;
                                 address: string;
                                 exponentToken: string;
-                                notifications: ("filled" | "liquidated" | "test")[];
+                                notifications: ("filled" | "liquidated" | "margin_warning" | "price_change" | "test")[];
                                 /** Format: date-time */
                                 createdAt: string;
                                 /** Format: date-time */
@@ -799,7 +1015,7 @@ export interface paths {
         head?: never;
         /**
          * Update device notification settings
-         * @description Updates notification preferences for one device. Allowed values are filled, liquidated, or both.
+         * @description Updates notification preferences for one device. Allowed values are filled, liquidated, margin_warning, price_change, or any combination thereof.
          */
         patch: {
             parameters: {
@@ -813,7 +1029,12 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        notifications: ("filled" | "liquidated")[];
+                        notifications: ("filled" | "liquidated" | "margin_warning" | "price_change")[];
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };
@@ -829,7 +1050,7 @@ export interface paths {
                                 id: string;
                                 address: string;
                                 exponentToken: string;
-                                notifications: ("filled" | "liquidated" | "test")[];
+                                notifications: ("filled" | "liquidated" | "margin_warning" | "price_change" | "test")[];
                                 /** Format: date-time */
                                 createdAt: string;
                                 /** Format: date-time */
@@ -899,7 +1120,12 @@ export interface paths {
                 content: {
                     "application/json": {
                         exponentToken: string;
-                        notifications: ("filled" | "liquidated")[];
+                        notifications: ("filled" | "liquidated" | "margin_warning" | "price_change")[];
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };
@@ -915,7 +1141,7 @@ export interface paths {
                                 id: string;
                                 address: string;
                                 exponentToken: string;
-                                notifications: ("filled" | "liquidated" | "test")[];
+                                notifications: ("filled" | "liquidated" | "margin_warning" | "price_change" | "test")[];
                                 /** Format: date-time */
                                 createdAt: string;
                                 /** Format: date-time */
@@ -965,7 +1191,7 @@ export interface paths {
         put?: never;
         /**
          * Unregister Expo device
-         * @description Removes a previously registered Expo device token for the authenticated user.
+         * @description Removes a previously registered Expo device token for the authenticated user on the requested network. Defaults to Mainnet if `network` is omitted.
          */
         post: {
             parameters: {
@@ -978,6 +1204,11 @@ export interface paths {
                 content: {
                     "application/json": {
                         exponentToken: string;
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };
@@ -1042,6 +1273,7 @@ export interface paths {
                     skip?: number | null;
                     limit?: number;
                     status?: "unread" | "read" | "deleted";
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                 };
                 header?: never;
                 path?: never;
@@ -1068,7 +1300,7 @@ export interface paths {
                                 data?: unknown;
                                 badge: number | null;
                                 /** @enum {string} */
-                                type: "filled" | "liquidated" | "test";
+                                type: "filled" | "liquidated" | "margin_warning" | "price_change" | "test";
                                 /** @enum {string} */
                                 status: "unread" | "read" | "deleted";
                                 /** Format: date-time */
@@ -1115,6 +1347,180 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/mobile/notifications/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all notification configs
+         * @description Returns all notification alert configurations for the authenticated mobile user on the requested network. Returns defaults for any configs that have not been explicitly set.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description All notification configurations */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                priceAlerts: {
+                                    isEnabled: boolean;
+                                    symbols: string[];
+                                };
+                                marginAlerts: {
+                                    isEnabled: boolean;
+                                    warningThreshold: number;
+                                    criticalThreshold: number;
+                                    warningCooldownSeconds: number;
+                                    criticalCooldownSeconds: number;
+                                    excludedMarketIds: string[];
+                                };
+                                liquidationAlerts: {
+                                    isEnabled: boolean;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch notification configs */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update notification configs
+         * @description Bulk update notification alert configurations for the authenticated mobile user on the requested network. Any config not included in the request body is left unchanged.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        priceAlerts?: {
+                            isEnabled: boolean;
+                        };
+                        marginAlerts?: {
+                            isEnabled: boolean;
+                        };
+                        liquidationAlerts?: {
+                            isEnabled: boolean;
+                        };
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated notification configurations */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                priceAlerts: {
+                                    isEnabled: boolean;
+                                    symbols: string[];
+                                };
+                                marginAlerts: {
+                                    isEnabled: boolean;
+                                    warningThreshold: number;
+                                    criticalThreshold: number;
+                                    warningCooldownSeconds: number;
+                                    criticalCooldownSeconds: number;
+                                    excludedMarketIds: string[];
+                                };
+                                liquidationAlerts: {
+                                    isEnabled: boolean;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description No registered device */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to update notification configs */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
         trace?: never;
     };
     "/api/v1/mobile/notifications/{identifier}/status": {
@@ -1171,7 +1577,7 @@ export interface paths {
                                 data?: unknown;
                                 badge: number | null;
                                 /** @enum {string} */
-                                type: "filled" | "liquidated" | "test";
+                                type: "filled" | "liquidated" | "margin_warning" | "price_change" | "test";
                                 /** @enum {string} */
                                 status: "unread" | "read" | "deleted";
                                 /** Format: date-time */
@@ -1286,6 +1692,438 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/mobile/notifications/price-alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get price alert config
+         * @description Returns the price alert configuration for the authenticated mobile user.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Price alert configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isEnabled: boolean;
+                                symbols: string[];
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch price alert config */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update price alert config
+         * @description Updates the price alert configuration for the authenticated mobile user.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isEnabled?: boolean;
+                        symbols?: string[];
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated price alert configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isEnabled: boolean;
+                                symbols: string[];
+                            };
+                        };
+                    };
+                };
+                /** @description No registered device */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to update price alert config */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/api/v1/mobile/notifications/margin-alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get margin alert config
+         * @description Returns the margin alert configuration for the authenticated mobile user. Returns defaults if no config exists.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Margin alert configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isEnabled: boolean;
+                                warningThreshold: number;
+                                criticalThreshold: number;
+                                warningCooldownSeconds: number;
+                                criticalCooldownSeconds: number;
+                                excludedMarketIds: string[];
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch margin alert config */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update margin alert config
+         * @description Updates the margin alert configuration for the authenticated mobile user.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isEnabled?: boolean;
+                        warningThreshold?: number;
+                        criticalThreshold?: number;
+                        warningCooldownSeconds?: number;
+                        criticalCooldownSeconds?: number;
+                        excludedMarketIds?: string[];
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated margin alert configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isEnabled: boolean;
+                                warningThreshold: number;
+                                criticalThreshold: number;
+                                warningCooldownSeconds: number;
+                                criticalCooldownSeconds: number;
+                                excludedMarketIds: string[];
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid margin alert configuration */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to update margin alert config */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/api/v1/mobile/notifications/liquidation-alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get liquidation alert config
+         * @description Returns the liquidation alert configuration for the authenticated mobile user. Returns defaults if no config exists.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Liquidation alert configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isEnabled: boolean;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch liquidation alert config */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update liquidation alert config
+         * @description Updates the liquidation alert configuration for the authenticated mobile user.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isEnabled: boolean;
+                        /**
+                         * @default mainnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated liquidation alert configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isEnabled: boolean;
+                            };
+                        };
+                    };
+                };
+                /** @description No registered device */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to update liquidation alert config */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
         trace?: never;
     };
     "/api/v1/tokens": {
@@ -2354,9 +3192,8 @@ export interface components {
                 /** @enum {string} */
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
-            /** @enum {string} */
-            marketType: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             slug: string;
+            aliasSlug?: string | null;
             /** @enum {string} */
             type: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             /** @enum {string} */
@@ -2406,9 +3243,8 @@ export interface components {
                 /** @enum {string} */
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
-            /** @enum {string} */
-            marketType: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             slug: string;
+            aliasSlug?: string | null;
             /** @enum {string} */
             type: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             /** @enum {string} */
@@ -2461,22 +3297,8 @@ export interface components {
                 /** @enum {string} */
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
-            info?: {
-                helixCategories?: ("newMarkets" | "rwa" | "stocks" | "trending" | "injective" | "layer1" | "defi" | "ai" | "seda")[];
-                tcCategories?: ("recent" | "crypto" | "stocks" | "macro" | "meme" | "rwa" | "seda")[];
-                isVerified: boolean;
-                hideOnHelix: boolean;
-                symbolToken?: {
-                    symbol: string;
-                    name: string;
-                    imageUrl?: string | null;
-                    description?: string | null;
-                    coinGeckoId?: string | null;
-                } | null;
-            };
-            /** @enum {string} */
-            marketType: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             slug: string;
+            aliasSlug?: string | null;
             /** @enum {string} */
             type: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             /** @enum {string} */
@@ -2657,9 +3479,8 @@ export interface components {
                 /** @enum {string} */
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
-            /** @enum {string} */
-            marketType: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             slug: string;
+            aliasSlug?: string | null;
             /** @enum {string} */
             type: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             /** @enum {string} */
@@ -2735,9 +3556,8 @@ export interface components {
                 /** @enum {string} */
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
-            /** @enum {string} */
-            marketType: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             slug: string;
+            aliasSlug?: string | null;
             /** @enum {string} */
             type: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             /** @enum {string} */
@@ -2816,9 +3636,8 @@ export interface components {
                 /** @enum {string} */
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             };
-            /** @enum {string} */
-            marketType: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             slug: string;
+            aliasSlug?: string | null;
             /** @enum {string} */
             type: "spot" | "futures" | "perpetual" | "derivative" | "binaryOptions";
             /** @enum {string} */

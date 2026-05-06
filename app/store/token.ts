@@ -101,7 +101,7 @@ export const useSharedTokenStore = defineStore('sharedToken', {
 
       return sharedSpotStore.marketsWithToken.reduce(
         (denomTokenMap, market) => {
-          if (!market.info?.isVerified) {
+          if (!market.isVerified) {
             return denomTokenMap
           }
 

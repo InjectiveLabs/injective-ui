@@ -66,12 +66,20 @@ export function createBffClient(client: ApiClient) {
               get: ((...init: MethodArgs<'get', '/api/v1/bridge/deposit/{address}'>) =>
                 client.GET('/api/v1/bridge/deposit/{address}', ...init)) as LeafMethod<'get', '/api/v1/bridge/deposit/{address}'>,
             },
-            notified: {
-              post: ((...init: MethodArgs<'post', '/api/v1/bridge/deposit/notified'>) =>
-                client.POST('/api/v1/bridge/deposit/notified', ...init)) as LeafMethod<'post', '/api/v1/bridge/deposit/notified'>,
-            },
             post: ((...init: MethodArgs<'post', '/api/v1/bridge/deposit'>) =>
               client.POST('/api/v1/bridge/deposit', ...init)) as LeafMethod<'post', '/api/v1/bridge/deposit'>,
+          },
+          notified: {
+            post: ((...init: MethodArgs<'post', '/api/v1/bridge/notified'>) =>
+              client.POST('/api/v1/bridge/notified', ...init)) as LeafMethod<'post', '/api/v1/bridge/notified'>,
+          },
+          withdrawal: {
+            $address: {
+              get: ((...init: MethodArgs<'get', '/api/v1/bridge/withdrawal/{address}'>) =>
+                client.GET('/api/v1/bridge/withdrawal/{address}', ...init)) as LeafMethod<'get', '/api/v1/bridge/withdrawal/{address}'>,
+            },
+            post: ((...init: MethodArgs<'post', '/api/v1/bridge/withdrawal'>) =>
+              client.POST('/api/v1/bridge/withdrawal', ...init)) as LeafMethod<'post', '/api/v1/bridge/withdrawal'>,
           },
         },
         derivative: {
@@ -153,6 +161,30 @@ export function createBffClient(client: ApiClient) {
                 patch: ((...init: MethodArgs<'patch', '/api/v1/mobile/notifications/{identifier}/status'>) =>
                   client.PATCH('/api/v1/mobile/notifications/{identifier}/status', ...init)) as LeafMethod<'patch', '/api/v1/mobile/notifications/{identifier}/status'>,
               },
+            },
+            config: {
+              get: ((...init: MethodArgs<'get', '/api/v1/mobile/notifications/config'>) =>
+                client.GET('/api/v1/mobile/notifications/config', ...init)) as LeafMethod<'get', '/api/v1/mobile/notifications/config'>,
+              patch: ((...init: MethodArgs<'patch', '/api/v1/mobile/notifications/config'>) =>
+                client.PATCH('/api/v1/mobile/notifications/config', ...init)) as LeafMethod<'patch', '/api/v1/mobile/notifications/config'>,
+            },
+            liquidation_alerts: {
+              get: ((...init: MethodArgs<'get', '/api/v1/mobile/notifications/liquidation-alerts'>) =>
+                client.GET('/api/v1/mobile/notifications/liquidation-alerts', ...init)) as LeafMethod<'get', '/api/v1/mobile/notifications/liquidation-alerts'>,
+              patch: ((...init: MethodArgs<'patch', '/api/v1/mobile/notifications/liquidation-alerts'>) =>
+                client.PATCH('/api/v1/mobile/notifications/liquidation-alerts', ...init)) as LeafMethod<'patch', '/api/v1/mobile/notifications/liquidation-alerts'>,
+            },
+            margin_alerts: {
+              get: ((...init: MethodArgs<'get', '/api/v1/mobile/notifications/margin-alerts'>) =>
+                client.GET('/api/v1/mobile/notifications/margin-alerts', ...init)) as LeafMethod<'get', '/api/v1/mobile/notifications/margin-alerts'>,
+              patch: ((...init: MethodArgs<'patch', '/api/v1/mobile/notifications/margin-alerts'>) =>
+                client.PATCH('/api/v1/mobile/notifications/margin-alerts', ...init)) as LeafMethod<'patch', '/api/v1/mobile/notifications/margin-alerts'>,
+            },
+            price_alerts: {
+              get: ((...init: MethodArgs<'get', '/api/v1/mobile/notifications/price-alerts'>) =>
+                client.GET('/api/v1/mobile/notifications/price-alerts', ...init)) as LeafMethod<'get', '/api/v1/mobile/notifications/price-alerts'>,
+              patch: ((...init: MethodArgs<'patch', '/api/v1/mobile/notifications/price-alerts'>) =>
+                client.PATCH('/api/v1/mobile/notifications/price-alerts', ...init)) as LeafMethod<'patch', '/api/v1/mobile/notifications/price-alerts'>,
             },
             get: ((...init: MethodArgs<'get', '/api/v1/mobile/notifications'>) =>
               client.GET('/api/v1/mobile/notifications', ...init)) as LeafMethod<'get', '/api/v1/mobile/notifications'>,

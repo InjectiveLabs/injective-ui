@@ -295,10 +295,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       'connectTurnkeyGoogle'
     ),
 
-    async validateAndQueue() {
+    async validateAndQueue(options?: { manualSign?: boolean }) {
       const sharedWalletStore = useSharedWalletStore()
 
-      await sharedWalletStore.validate()
+      await sharedWalletStore.validate(options)
 
       sharedWalletStore.queue()
     },
@@ -417,10 +417,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async validate() {
+    async validate(options?: { manualSign?: boolean }) {
       const walletStore = useSharedWalletStore()
 
-      if (walletStore.isAutoSignEnabled) {
+      if (walletStore.isAutoSignEnabled && !options?.manualSign) {
         return
       }
 
