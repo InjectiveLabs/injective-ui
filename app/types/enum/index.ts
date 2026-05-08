@@ -178,6 +178,7 @@ export enum NuxtUiIcons {
   MenuDots = 'solar:menu-dots-bold',
   Notebook = 'lucide:notebook-text',
   Order = 'bi:list-nested',
+  PenLine = 'lucide:pen-line',
   PieChart = 'bi:pie-chart',
   Plus = 'mdi:plus',
   PortfolioHistory = 'bi:clock',
