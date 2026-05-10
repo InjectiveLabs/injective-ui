@@ -62,7 +62,7 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 googleRedirectUri: window.location.origin,
                 apiServerEndpoint: IS_TRUE_CURRENT
                   ? 'https://api.ui.staging.tc.xyz/api/v1'
-                  : 'https://api.injective.network/api/v1',
+                  : 'https://api.ui.injective.network/api/v1',
                 expirationSeconds: '86400'
               }
             })
