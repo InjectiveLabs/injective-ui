@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia'
-import { ENDPOINTS } from '../../utils/constant'
 import { SharedStreamKey } from '../../streams/types'
 import { DEFAULT_RETRY_CONFIG } from '../../streams/config'
-import { ORACLE_USD_PRICE_TOKENS, ORACLE_TYPE_CHAINLINK_DATASTREAMS } from '../../data/oracle'
+import { ENDPOINTS, IS_MAINNET } from '../../utils/constant'
+import {
+  ORACLE_USD_PRICE_TOKENS,
+  ORACLE_TYPE_CHAINLINK_DATASTREAMS
+} from '../../data/oracle'
 import {
   StreamManagerV2,
   IndexerGrpcOracleStreamV2
@@ -19,7 +22,11 @@ const initialStateFactory = (): SharedOracleStoreState => ({
 
 let manager: undefined | StreamManagerV2<any>
 
-const oracleStreamV2 = new IndexerGrpcOracleStreamV2(ENDPOINTS.indexer)
+const oracleStreamV2 = new IndexerGrpcOracleStreamV2(
+  IS_MAINNET
+    ? 'tc-abacus.grpc-web.mainnet.asia.injective.network'
+    : ENDPOINTS.indexer
+)
 
 export const useSharedOracleStore = defineStore('sharedOracle', {
   state: (): SharedOracleStoreState => initialStateFactory(),
