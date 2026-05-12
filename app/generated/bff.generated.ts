@@ -433,7 +433,13 @@ export interface paths {
                          */
                         isFastTransfer?: boolean;
                         /**
-                         * @description Human readable amount in USDC
+                         * @description Whether the caller is a KOL. Used only by the worker + analytics; defaults to false when omitted.
+                         * @default false
+                         * @example false
+                         */
+                        isKol?: boolean;
+                        /**
+                         * @description Optional human readable USDC amount used purely to render an estimated fee in the response. The user-approved fee cap is amount-agnostic (stored as bps).
                          * @example 5
                          */
                         amount?: number;
@@ -441,7 +447,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Deposit watch initiated successfully */
+                /** @description Deposit watch initiated or reused successfully */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -457,10 +463,31 @@ export interface paths {
                                  */
                                 isFastTransfer: boolean;
                                 /**
-                                 * @description Human readable maximum CCTP fee in USDC, including the fast-transfer safety margin when applicable
-                                 * @example 0.001
+                                 * @description User-approved fast-transfer fee cap as a decimal-bps string (Circle minimumFee × 1.2). For standard transfers, equal to Circle minimumFee with no inflation.
+                                 * @example 1.2
+                                 */
+                                maxFeeBps: string;
+                                /**
+                                 * @description Estimated human-readable fee in USDC at the requested amount. Only present when amount is supplied.
+                                 * @example 0.0006
                                  */
                                 fee?: string;
+                                /**
+                                 * @description ID of the existing or newly-tracked deposit row. Returned on idempotent reuse.
+                                 * @example 67890abcdef0123456789abc
+                                 */
+                                depositId?: string;
+                                /**
+                                 * @description `pending` (fresh schedule, no row yet), `in_flight` (existing pre-burn row reused), or `retrying` (previously-failed row re-armed by the user).
+                                 * @example pending
+                                 * @enum {string}
+                                 */
+                                status?: "pending" | "in_flight" | "retrying";
+                                /**
+                                 * @description Human-readable bridge state name for the existing row, when reused.
+                                 * @example funded
+                                 */
+                                stateName?: string;
                             };
                         };
                     };
@@ -474,6 +501,30 @@ export interface paths {
                         "application/json": {
                             /** @example Chain with id 999 not supported */
                             error: string;
+                        };
+                    };
+                };
+                /** @description Conflict — an existing transfer for this safe address blocks scheduling a new one (refund in progress, or admin reconciliation required). */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example A refund is in progress for this transfer. You will receive your funds shortly. */
+                            error: string;
+                            /**
+                             * @example BRIDGE_REFUND_IN_PROGRESS
+                             * @enum {string}
+                             */
+                            code: "BRIDGE_REFUND_IN_PROGRESS" | "BRIDGE_UNRECOVERABLE_AWAITING_ADMIN";
+                            /** @example 67890abcdef0123456789abc */
+                            depositId: string;
+                            /**
+                             * @description Set when code === BRIDGE_UNRECOVERABLE_AWAITING_ADMIN.
+                             * @example Lost pendingAction claim before burn submission
+                             */
+                            failureReason?: string;
                         };
                     };
                 };
@@ -561,8 +612,7 @@ export interface paths {
                                 failedAt: string | null;
                                 failureReason: string | null;
                                 isFastTransfer: boolean;
-                                maxFeeQuoted: string | null;
-                                feeQuoteAmountQuoted: string | null;
+                                maxFeeBpsQuoted: string | null;
                                 txHashes: {
                                     action: string;
                                     hash: string;
@@ -690,6 +740,12 @@ export interface paths {
                          */
                         isFastTransfer?: boolean;
                         /**
+                         * @description Whether the caller is a KOL. Used only by the worker + analytics; defaults to false when omitted.
+                         * @default false
+                         * @example false
+                         */
+                        isKol?: boolean;
+                        /**
                          * @description Human readable amount in USDC
                          * @example 5
                          */
@@ -698,7 +754,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Withdrawal watch initiated successfully */
+                /** @description Withdrawal watch initiated or reused successfully */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -731,6 +787,22 @@ export interface paths {
                                      */
                                     total: string;
                                 };
+                                /**
+                                 * @description ID of the existing or newly-tracked withdrawal row. Returned on idempotent reuse.
+                                 * @example 67890abcdef0123456789abc
+                                 */
+                                depositId?: string;
+                                /**
+                                 * @description `pending` (fresh schedule), `in_flight` (existing pre-burn row reused), or `retrying` (previously-failed row re-armed by the user).
+                                 * @example pending
+                                 * @enum {string}
+                                 */
+                                status?: "pending" | "in_flight" | "retrying";
+                                /**
+                                 * @description Human-readable bridge state name for the existing row, when reused.
+                                 * @example funded
+                                 */
+                                stateName?: string;
                             };
                         };
                     };
@@ -744,6 +816,30 @@ export interface paths {
                         "application/json": {
                             /** @example srcChainId must be an Injective chain */
                             error: string;
+                        };
+                    };
+                };
+                /** @description Conflict — an existing withdrawal for this safe address blocks scheduling a new one (refund in progress, or admin reconciliation required). */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example A refund is in progress for this transfer. You will receive your funds shortly. */
+                            error: string;
+                            /**
+                             * @example BRIDGE_REFUND_IN_PROGRESS
+                             * @enum {string}
+                             */
+                            code: "BRIDGE_REFUND_IN_PROGRESS" | "BRIDGE_UNRECOVERABLE_AWAITING_ADMIN";
+                            /** @example 67890abcdef0123456789abc */
+                            depositId: string;
+                            /**
+                             * @description Set when code === BRIDGE_UNRECOVERABLE_AWAITING_ADMIN.
+                             * @example Lost pendingAction claim before burn submission
+                             */
+                            failureReason?: string;
                         };
                     };
                 };
@@ -832,8 +928,7 @@ export interface paths {
                                 failedAt: string | null;
                                 failureReason: string | null;
                                 isFastTransfer: boolean;
-                                maxFeeQuoted: string | null;
-                                feeQuoteAmountQuoted: string | null;
+                                maxFeeBpsQuoted: string | null;
                                 txHashes: {
                                     action: string;
                                     hash: string;
