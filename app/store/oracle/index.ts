@@ -24,7 +24,7 @@ let manager: undefined | StreamManagerV2<any>
 
 const oracleStreamV2 = new IndexerGrpcOracleStreamV2(
   IS_MAINNET
-    ? 'https://k8s.global.mainnet.exchange.grpc-web.injective.network/'
+    ? 'https://tc-derivatives.grpc-web.mainnet.asia.injective.network/'
     : ENDPOINTS.indexer
 )
 
