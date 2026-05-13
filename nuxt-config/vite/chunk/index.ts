@@ -60,6 +60,9 @@ export enum ChunkName {
   // Serialization
   Protobuf = 'protobuf',
 
+  // Base Injective utilities
+  InjectiveUtils = 'injective-utils',
+
   // UI/visualization
   Charts = 'charts',
   Lottie = 'lottie',
@@ -168,10 +171,14 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
   },
 
   // Ethereum ecosystem
+  // Keep ethers and viem in the same chunk. Splitting them creates a production
+  // circular import where ethers calls viem before viem initializes its CJS exports.
   {
     name: ChunkName.Ethers,
     test: (id: string) =>
-      id.includes('@ethersproject') || id.includes('/ethers/'),
+      id.includes('@ethersproject') ||
+      id.includes('/ethers/') ||
+      id.includes('/viem/'),
     priority: 82
   },
   {
@@ -186,6 +193,19 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
     test: (id: string) =>
       id.includes('protobufjs') || id.includes('google-protobuf'),
     priority: 70
+  },
+
+  // Base utility packages used by SDK/proto/wallet chunks. Keep BigNumber here
+  // so top-level proto helpers do not import it from the cyclic SDK chunk.
+  {
+    name: ChunkName.InjectiveUtils,
+    test: (id: string) =>
+      /\/node_modules\/bignumber\.js\//.test(id) ||
+      /\/node_modules\/@injectivelabs\/utils\//.test(id) ||
+      /\/node_modules\/@injectivelabs\/exceptions\//.test(id) ||
+      /\/node_modules\/@injectivelabs\/ts-types\//.test(id) ||
+      /\/node_modules\/@injectivelabs\/networks\//.test(id),
+    priority: 85
   },
 
   // UI/visualization
