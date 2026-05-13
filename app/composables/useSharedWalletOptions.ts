@@ -98,7 +98,9 @@ export function useSharedWalletOptions() {
             ? 'https://trustwallet.com/browser-extension/'
             : undefined
         },
-        IS_MAINNET ? { wallet: Wallet.WalletConnect } : undefined,
+        IS_MAINNET && !IS_TRUE_CURRENT
+          ? { wallet: Wallet.WalletConnect }
+          : undefined,
         IS_HELIX ? { wallet: Wallet.Magic } : undefined
       ].filter((option) => option) as SharedWalletOption[]
   )
