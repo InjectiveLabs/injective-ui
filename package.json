@@ -12,8 +12,9 @@
     "test:watch": "vitest",
     "prepare": "pnpm nuxt prepare",
     "postinstall": "pnpm upgrade '@injectivelabs/*' --latest",
+    "gen:bff-types": "curl -sSf https://bff-api.injective.network/api/openapi.json -o app/generated/bff-spec.json && openapi-typescript app/generated/bff-spec.json -o app/generated/bff.generated.ts && SPEC_PATH=app/generated/bff-spec.json tsx scripts/gen-bff-client.ts",
     "dev:gen:bff-types": "curl -sSf http://localhost:4000/api/openapi.json -o app/generated/bff-spec.json && openapi-typescript app/generated/bff-spec.json -o app/generated/bff.generated.ts && SPEC_PATH=app/generated/bff-spec.json tsx scripts/gen-bff-client.ts",
-    "gen:bff-types": "curl -sSf https://bff-api.injective.network/api/openapi.json -o app/generated/bff-spec.json && openapi-typescript app/generated/bff-spec.json -o app/generated/bff.generated.ts && SPEC_PATH=app/generated/bff-spec.json tsx scripts/gen-bff-client.ts"
+    "staging:gen:bff-types": "curl -sSf https://staging.bff-api.injective.network/api/openapi.json -o app/generated/bff-spec.json && openapi-typescript app/generated/bff-spec.json -o app/generated/bff.generated.ts && SPEC_PATH=app/generated/bff-spec.json tsx scripts/gen-bff-client.ts"
   },
   "dependencies": {
     "@bangjelkoski/ens-validation": "^0.1.1",

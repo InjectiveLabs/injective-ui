@@ -410,10 +410,7 @@ export interface paths {
          */
         post: {
             parameters: {
-                query: {
-                    /** @description Client platform initiating the bridge */
-                    device: "desktop" | "mobile";
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -437,6 +434,12 @@ export interface paths {
                          * @example 5
                          */
                         amount?: number;
+                        /**
+                         * @description Client platform initiating the bridge
+                         * @example mobile
+                         * @enum {string}
+                         */
+                        device: "desktop" | "mobile";
                     };
                 };
             };
@@ -647,10 +650,7 @@ export interface paths {
          */
         post: {
             parameters: {
-                query: {
-                    /** @description Client platform initiating the bridge */
-                    device: "desktop" | "mobile";
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -666,6 +666,12 @@ export interface paths {
                          *     ]
                          */
                         ids: string[];
+                        /**
+                         * @description Client platform initiating the bridge
+                         * @example mobile
+                         * @enum {string}
+                         */
+                        device: "desktop" | "mobile";
                     };
                 };
             };
@@ -710,10 +716,7 @@ export interface paths {
          */
         post: {
             parameters: {
-                query: {
-                    /** @description Client platform initiating the bridge */
-                    device: "desktop" | "mobile";
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -741,6 +744,12 @@ export interface paths {
                          * @example 5
                          */
                         amount?: number;
+                        /**
+                         * @description Client platform initiating the bridge
+                         * @example mobile
+                         * @enum {string}
+                         */
+                        device: "desktop" | "mobile";
                     };
                 };
             };
