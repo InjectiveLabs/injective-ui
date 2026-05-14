@@ -410,9 +410,9 @@ export interface paths {
          */
         post: {
             parameters: {
-                query?: {
+                query: {
                     /** @description Client platform initiating the bridge */
-                    device?: "web_desktop" | "native_app";
+                    device: "desktop" | "mobile";
                 };
                 header?: never;
                 path?: never;
@@ -432,12 +432,6 @@ export interface paths {
                          * @example false
                          */
                         isFastTransfer?: boolean;
-                        /**
-                         * @description Whether the caller is a KOL. Used only by the worker + analytics; defaults to false when omitted.
-                         * @default false
-                         * @example false
-                         */
-                        isKol?: boolean;
                         /**
                          * @description Optional human readable USDC amount used purely to render an estimated fee in the response. The user-approved fee cap is amount-agnostic (stored as bps).
                          * @example 5
@@ -653,7 +647,10 @@ export interface paths {
          */
         post: {
             parameters: {
-                query?: never;
+                query: {
+                    /** @description Client platform initiating the bridge */
+                    device: "desktop" | "mobile";
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -713,9 +710,9 @@ export interface paths {
          */
         post: {
             parameters: {
-                query?: {
+                query: {
                     /** @description Client platform initiating the bridge */
-                    device?: "web_desktop" | "native_app";
+                    device: "desktop" | "mobile";
                 };
                 header?: never;
                 path?: never;
@@ -739,12 +736,6 @@ export interface paths {
                          * @example false
                          */
                         isFastTransfer?: boolean;
-                        /**
-                         * @description Whether the caller is a KOL. Used only by the worker + analytics; defaults to false when omitted.
-                         * @default false
-                         * @example false
-                         */
-                        isKol?: boolean;
                         /**
                          * @description Human readable amount in USDC
                          * @example 5
