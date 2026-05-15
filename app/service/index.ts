@@ -27,6 +27,7 @@ import {
 import {
   getChainGrpcIbcApi,
   getChainGrpcGovApi,
+  getChainGrpcAuthApi,
   getChainGrpcMintApi,
   getChainGrpcBankApi,
   getChainGrpcWasmApi,
@@ -76,6 +77,8 @@ export const getDistributionApi = () =>
 
 export const getInsuranceFundsApi = () =>
   getChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
+
+export const getAuthApi = () => getChainGrpcAuthApi(ENDPOINTS.grpc)
 
 export const getOracleApi = () => getChainGrpcOracleApi(ENDPOINTS.grpc)
 

@@ -43,6 +43,12 @@ function createApiFactory<T>(
 // Chain gRPC API Factories
 // ============================================================
 
+export const getChainGrpcAuthApi = createApiFactory(
+  'ChainGrpcAuthApi',
+  async () =>
+    (await import('@injectivelabs/sdk-ts/client/chain')).ChainGrpcAuthApi
+)
+
 export const getChainGrpcBankApi = createApiFactory(
   'ChainGrpcBankApi',
   async () =>
