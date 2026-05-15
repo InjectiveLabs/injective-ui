@@ -5,7 +5,12 @@ import { GeneralException } from '@injectivelabs/exceptions'
 import { checkUnauthorizedMessages } from '../../utils/helper'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import { IS_HELIX, IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
-import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
+import {
+  Wallet,
+  isEvmWallet,
+  isCosmosWallet,
+  TurnkeyProvider
+} from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
   getInjectiveAddress,
@@ -65,6 +70,7 @@ type WalletStoreState = {
   okxWalletInstalled: boolean
   trustWalletInstalled: boolean
   turnkeyInjectiveAddress: string
+  turnkeyProvider?: TurnkeyProvider
   walletConnectStatus: WalletConnectStatus
 
   hwAddressesInfo: {
@@ -110,6 +116,7 @@ const initialStateFactory = (): WalletStoreState => ({
   okxWalletInstalled: false,
   trustWalletInstalled: false,
   turnkeyInjectiveAddress: '',
+  turnkeyProvider: undefined,
   queueStatus: StatusType.Idle,
 
   // Cosmos wallets
@@ -146,7 +153,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     isGoogleAuth: (state) => {
-      return ([Wallet.Magic, Wallet.Turnkey] as Wallet[]).includes(state.wallet)
+      return (
+        state.wallet === Wallet.Magic ||
+        (state.wallet === Wallet.Turnkey &&
+          state.turnkeyProvider === TurnkeyProvider.Google)
+      )
+    },
+
+    isTwitterAuth: (state) => {
+      return (
+        state.wallet === Wallet.Turnkey &&
+        state.turnkeyProvider === TurnkeyProvider.Twitter
+      )
     },
 
     isWalletExemptFromGasFee: (state) => {
@@ -293,6 +311,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     connectTurnkeyGoogle: lazyPiniaAction(
       () => import('./turnkey'),
       'connectTurnkeyGoogle'
+    ),
+    connectTurnkeyTwitter: lazyPiniaAction(
+      () => import('./turnkey'),
+      'connectTurnkeyTwitter'
+    ),
+    initTurnkeyTwitter: lazyPiniaAction(
+      () => import('./turnkey'),
+      'initTurnkeyTwitter'
     ),
 
     async validateAndQueue(options?: { manualSign?: boolean }) {

@@ -8,8 +8,10 @@ import {
   TURNKEY_ORGID,
   MAGIC_APK_KEY,
   IS_TRUE_CURRENT,
+  TWITTER_CLIENT_ID,
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY,
+  TWITTER_REDIRECT_URI,
   TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from '../utils/constant'
@@ -61,9 +63,14 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
                 apiServerEndpoint: IS_TRUE_CURRENT
-                  ? 'https://api.ui.staging.tc.xyz/api/v1'
-                  : 'https://api.ui.injective.network/api/v1',
-                expirationSeconds: '86400'
+                  ? 'http://localhost:3001/api/v1'
+                  : // ? 'https://api.ui.staging.tc.xyz/api/v1'
+                    'https://api.ui.injective.network/api/v1',
+                expirationSeconds: '86400',
+                twitterClientId: TWITTER_CLIENT_ID,
+                oauth2ExchangePath: 'turnkey/oauth2',
+                twitterRedirectUri:
+                  TWITTER_REDIRECT_URI || window.location.origin
               }
             })
           },
