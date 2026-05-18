@@ -1,4 +1,5 @@
 import { getWalletStrategy } from '@shared/wallet'
+import { DEFAULT_TWITTER_OAUTH_EXPIRY } from '@/utils/constant'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
 import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
 import {
@@ -58,9 +59,9 @@ export const submitTurnkeyOTP = async (otpCode: string) => {
       session,
       addresses,
       injectiveAddress: address,
-      turnkeyProvider: TurnkeyProvider.Email,
       addressConfirmation: session,
       turnkeyInjectiveAddress: address,
+      turnkeyProvider: TurnkeyProvider.Email,
       address: address ? getEthereumAddress(address) : undefined
     })
 
@@ -85,6 +86,7 @@ export const connectTurnkeyGoogle = async () => {
   const walletStrategy = await getWalletStrategy()
 
   await walletStore.connectWallet(Wallet.Turnkey)
+
   const turnkeyWallet =
     (await walletStrategy.getWalletClient()) as TurnkeyWallet
   const urlOrSession = await turnkeyWallet.initOAuth(TurnkeyProvider.Google)
@@ -102,9 +104,9 @@ export const connectTurnkeyGoogle = async () => {
     addresses,
     session: urlOrSession,
     injectiveAddress: address,
-    turnkeyProvider: TurnkeyProvider.Google,
     turnkeyInjectiveAddress: address,
     addressConfirmation: urlOrSession,
+    turnkeyProvider: TurnkeyProvider.Google,
     address: address ? getEthereumAddress(address) : undefined
   })
 
@@ -134,9 +136,9 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
     session,
     addresses: addresses,
     injectiveAddress: address,
-    turnkeyProvider: TurnkeyProvider.Google,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
+    turnkeyProvider: TurnkeyProvider.Google,
     address: address ? getEthereumAddress(address) : undefined
   })
 
@@ -160,7 +162,15 @@ export const connectTurnkeyTwitter = async () => {
   const turnkeyWallet =
     (await walletStrategy.getWalletClient()) as TurnkeyWallet
 
-  const url = await turnkeyWallet.initOAuth(TurnkeyProvider.Twitter)
+  const { url, pkce } = await turnkeyWallet.initOAuth2(TurnkeyProvider.Twitter)
+
+  localStorage.setItem('twitter_oauth_state', pkce!.state)
+  localStorage.setItem('twitter_oauth_code_verifier', pkce!.codeVerifier)
+  localStorage.setItem('twitter_oauth_target_public_key', pkce!.targetPublicKey)
+  localStorage.setItem(
+    'twitter_oauth_expires_at',
+    String(Date.now() + DEFAULT_TWITTER_OAUTH_EXPIRY)
+  )
 
   window.location.href = url
 }
@@ -224,9 +234,9 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
     session,
     addresses,
     injectiveAddress: address,
-    turnkeyProvider: TurnkeyProvider.Twitter,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
+    turnkeyProvider: TurnkeyProvider.Twitter,
     address: address ? getEthereumAddress(address) : undefined
   })
 

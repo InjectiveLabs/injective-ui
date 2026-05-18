@@ -114,9 +114,9 @@ const initialStateFactory = (): WalletStoreState => ({
   keplrEvmInstalled: false,
   metamaskInstalled: false,
   okxWalletInstalled: false,
+  turnkeyProvider: undefined,
   trustWalletInstalled: false,
   turnkeyInjectiveAddress: '',
-  turnkeyProvider: undefined,
   queueStatus: StatusType.Idle,
 
   // Cosmos wallets
