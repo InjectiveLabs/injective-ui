@@ -61,7 +61,7 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
                 apiServerEndpoint: IS_TRUE_CURRENT
-                  ? 'https://api.ui.staging.tc.xyz/api/v1'
+                  ? 'https://api.ui.tc.xyz/api/v1' //https://api.ui.staging.tc.xyz/api/v1
                   : 'https://api.ui.injective.network/api/v1',
                 expirationSeconds: '86400'
               }
