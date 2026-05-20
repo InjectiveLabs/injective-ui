@@ -82,6 +82,7 @@ export const msgTypeMap = Object.fromEntries(
 
     // Injective Auction
     [MsgType.MsgBid]: 'Bid',
+    [MsgType.MsgAuctionClaimVoucher]: 'Auction Claim Voucher',
     [MsgType.MsgAuctionUpdateParams]: 'Update Auction Params',
 
     // Injective ERC20
@@ -135,17 +136,17 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgCreateDerivativeMarketOrder]: 'Create Derivative Market Order',
 
     // Injective Exchange V1Beta1 - Binary Options
-    [MsgType.MsgCreateBinaryOptionsLimitOrder]:
-    'Create Binary Options Limit Order',
-    [MsgType.MsgBatchCancelBinaryOptionsOrders]:
-    'Batch Cancel Binary Options Orders',
-    [MsgType.MsgCreateBinaryOptionsMarketOrder]:
-    'Create Binary Options Market Order',
-    [MsgType.MsgAdminUpdateBinaryOptionsMarket]:
-    'Admin Update Binary Options Market',
-    [MsgType.MsgInstantBinaryOptionsMarketLaunch]:
-    'Instant Binary Options Market Launch',
     [MsgType.MsgCancelBinaryOptionsOrder]: 'Cancel Binary Options Order',
+    [MsgType.MsgCreateBinaryOptionsLimitOrder]:
+      'Create Binary Options Limit Order',
+    [MsgType.MsgBatchCancelBinaryOptionsOrders]:
+      'Batch Cancel Binary Options Orders',
+    [MsgType.MsgCreateBinaryOptionsMarketOrder]:
+      'Create Binary Options Market Order',
+    [MsgType.MsgAdminUpdateBinaryOptionsMarket]:
+      'Admin Update Binary Options Market',
+    [MsgType.MsgInstantBinaryOptionsMarketLaunch]:
+      'Instant Binary Options Market Launch',
 
     // Injective Exchange V1Beta1 - Order Data & Results
     [MsgType.OrderData]: 'Order Data',
@@ -157,18 +158,30 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgFeeDiscountProposal]: 'Fee Discount Proposal',
     [MsgType.MsgSpotMarketLaunchProposal]: 'Spot Market Launch Proposal',
     [MsgType.MsgUpdateDenomDecimalsProposal]: 'Update Denom Decimals Proposal',
-    [MsgType.MsgPerpetualMarketLaunchProposal]: 'Perpetual Market Launch Proposal',
-    [MsgType.MsgSpotMarketParamUpdateProposal]: 'Spot Market Param Update Proposal',
-    [MsgType.MsgMarketForcedSettlementProposal]: 'Market Forced Settlement Proposal',
-    [MsgType.MsgBatchCommunityPoolSpendProposal]: 'Batch Community Pool Spend Proposal',
-    [MsgType.MsgBatchExchangeModificationProposal]: 'Batch Exchange Modification Proposal',
-    [MsgType.MsgExpiryFuturesMarketLaunchProposal]: 'Expiry Futures Market Launch Proposal',
-    [MsgType.MsgBinaryOptionsMarketLaunchProposal]: 'Binary Options Market Launch Proposal',
-    [MsgType.MsgDerivativeMarketParamUpdateProposal]: 'Derivative Market Param Update Proposal',
-    [MsgType.MsgTradingRewardCampaignLaunchProposal]: 'Trading Reward Campaign Launch Proposal',
-    [MsgType.MsgTradingRewardCampaignUpdateProposal]: 'Trading Reward Campaign Update Proposal',
-    [MsgType.MsgBinaryOptionsMarketParamUpdateProposal]: 'Binary Options Market Param Update Proposal',
-    [MsgType.MsgTradingRewardPendingPointsUpdateProposal]: 'Trading Reward Pending Points Update Proposal',
+    [MsgType.MsgPerpetualMarketLaunchProposal]:
+      'Perpetual Market Launch Proposal',
+    [MsgType.MsgSpotMarketParamUpdateProposal]:
+      'Spot Market Param Update Proposal',
+    [MsgType.MsgMarketForcedSettlementProposal]:
+      'Market Forced Settlement Proposal',
+    [MsgType.MsgBatchCommunityPoolSpendProposal]:
+      'Batch Community Pool Spend Proposal',
+    [MsgType.MsgBatchExchangeModificationProposal]:
+      'Batch Exchange Modification Proposal',
+    [MsgType.MsgExpiryFuturesMarketLaunchProposal]:
+      'Expiry Futures Market Launch Proposal',
+    [MsgType.MsgBinaryOptionsMarketLaunchProposal]:
+      'Binary Options Market Launch Proposal',
+    [MsgType.MsgDerivativeMarketParamUpdateProposal]:
+      'Derivative Market Param Update Proposal',
+    [MsgType.MsgTradingRewardCampaignLaunchProposal]:
+      'Trading Reward Campaign Launch Proposal',
+    [MsgType.MsgTradingRewardCampaignUpdateProposal]:
+      'Trading Reward Campaign Update Proposal',
+    [MsgType.MsgBinaryOptionsMarketParamUpdateProposal]:
+      'Binary Options Market Param Update Proposal',
+    [MsgType.MsgTradingRewardPendingPointsUpdateProposal]:
+      'Trading Reward Pending Points Update Proposal',
 
     // Injective Exchange V1Beta1 - Authz
     [MsgType.MsgCancelSpotOrderAuthz]: 'Cancel Spot Order Authz',
@@ -177,11 +190,16 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgCancelDerivativeOrderAuthz]: 'Cancel Derivative Order Authz',
     [MsgType.MsgCreateSpotMarketOrderAuthz]: 'Create Spot Market Order Authz',
     [MsgType.MsgBatchCancelSpotOrdersAuthz]: 'Batch Cancel Spot Orders Authz',
-    [MsgType.MsgCreateDerivativeLimitOrderAuthz]: 'Create Derivative Limit Order Authz',
-    [MsgType.MsgBatchCreateSpotLimitOrdersAuthz]: 'Batch Create Spot Limit Orders Authz',
-    [MsgType.MsgCreateDerivativeMarketOrderAuthz]: 'Create Derivative Market Order Authz',
-    [MsgType.MsgBatchCancelDerivativeOrdersAuthz]: 'Batch Cancel Derivative Orders Authz',
-    [MsgType.MsgBatchCreateDerivativeLimitOrdersAuthz]: 'Batch Create Derivative Limit Orders Authz',
+    [MsgType.MsgCreateDerivativeLimitOrderAuthz]:
+      'Create Derivative Limit Order Authz',
+    [MsgType.MsgBatchCreateSpotLimitOrdersAuthz]:
+      'Batch Create Spot Limit Orders Authz',
+    [MsgType.MsgCreateDerivativeMarketOrderAuthz]:
+      'Create Derivative Market Order Authz',
+    [MsgType.MsgBatchCancelDerivativeOrdersAuthz]:
+      'Batch Cancel Derivative Orders Authz',
+    [MsgType.MsgBatchCreateDerivativeLimitOrdersAuthz]:
+      'Batch Create Derivative Limit Orders Authz',
 
     // Injective Exchange V2 - Core
     [MsgType.MsgDepositV2]: 'Deposit V2',
@@ -201,7 +219,8 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgAuthorizeStakeGrantsV2]: 'Authorize Stake Grants V2',
     [MsgType.MsgBatchExchangeModificationV2]: 'Batch Exchange Modification V2',
     [MsgType.MsgPrivilegedExecuteContractV2]: 'Privileged Execute Contract V2',
-    [MsgType.MsgSetDelegationTransferReceivers]: 'Set Delegation Transfer Receivers',
+    [MsgType.MsgSetDelegationTransferReceivers]:
+      'Set Delegation Transfer Receivers',
 
     // Injective Exchange V2 - Spot Markets
     [MsgType.MsgCancelSpotOrderV2]: 'Cancel Spot Order V2',
@@ -213,35 +232,52 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgBatchCancelSpotOrdersV2]: 'Batch Cancel Spot Orders V2',
     [MsgType.MsgSpotMarketParamUpdateV2]: 'Spot Market Param Update V2',
     [MsgType.MsgInstantSpotMarketLaunchV2]: 'Instant Spot Market Launch V2',
-    [MsgType.MsgBatchCreateSpotLimitOrdersV2]: 'Batch Create Spot Limit Orders V2',
+    [MsgType.MsgBatchCreateSpotLimitOrdersV2]:
+      'Batch Create Spot Limit Orders V2',
 
     // Injective Exchange V2 - Derivative Markets
     [MsgType.MsgCancelDerivativeOrderV2]: 'Cancel Derivative Order V2',
     [MsgType.MsgPerpetualMarketLaunchV2]: 'Perpetual Market Launch V2',
     [MsgType.MsgUpdateDerivativeMarketV2]: 'Update Derivative Market V2',
     [MsgType.MsgExpiryFuturesMarketLaunchV2]: 'Expiry Futures Market Launch V2',
-    [MsgType.MsgCreateDerivativeLimitOrderV2]: 'Create Derivative Limit Order V2',
-    [MsgType.DerivativeMarketOrderResultsV2]: 'Derivative Market Order Results V2',
-    [MsgType.MsgCreateDerivativeMarketOrderV2]: 'Create Derivative Market Order V2',
-    [MsgType.MsgBatchCancelDerivativeOrdersV2]: 'Batch Cancel Derivative Orders V2',
-    [MsgType.MsgDerivativeMarketParamUpdateV2]: 'Derivative Market Param Update V2',
-    [MsgType.MsgInstantPerpetualMarketLaunchV2]: 'Instant Perpetual Market Launch V2',
-    [MsgType.MsgBatchCreateDerivativeLimitOrdersV2]: 'Batch Create Derivative Limit Orders V2',
-    [MsgType.MsgInstantExpiryFuturesMarketLaunchV2]: 'Instant Expiry Futures Market Launch V2',
+    [MsgType.MsgCreateDerivativeLimitOrderV2]:
+      'Create Derivative Limit Order V2',
+    [MsgType.DerivativeMarketOrderResultsV2]:
+      'Derivative Market Order Results V2',
+    [MsgType.MsgCreateDerivativeMarketOrderV2]:
+      'Create Derivative Market Order V2',
+    [MsgType.MsgBatchCancelDerivativeOrdersV2]:
+      'Batch Cancel Derivative Orders V2',
+    [MsgType.MsgDerivativeMarketParamUpdateV2]:
+      'Derivative Market Param Update V2',
+    [MsgType.MsgInstantPerpetualMarketLaunchV2]:
+      'Instant Perpetual Market Launch V2',
+    [MsgType.MsgBatchCreateDerivativeLimitOrdersV2]:
+      'Batch Create Derivative Limit Orders V2',
+    [MsgType.MsgInstantExpiryFuturesMarketLaunchV2]:
+      'Instant Expiry Futures Market Launch V2',
 
     // Injective Exchange V2 - Binary Options
     [MsgType.MsgCancelBinaryOptionsOrderV2]: 'Cancel Binary Options Order V2',
     [MsgType.MsgBinaryOptionsMarketLaunchV2]: 'Binary Options Market Launch V2',
-    [MsgType.MsgCreateBinaryOptionsLimitOrderV2]: 'Create Binary Options Limit Order V2',
-    [MsgType.MsgCreateBinaryOptionsMarketOrderV2]: 'Create Binary Options Market Order V2',
-    [MsgType.MsgBatchCancelBinaryOptionsOrdersV2]: 'Batch Cancel Binary Options Orders V2',
-    [MsgType.MsgBinaryOptionsMarketParamUpdateV2]: 'Binary Options Market Param Update V2',
-    [MsgType.MsgAdminUpdateBinaryOptionsMarketV2]: 'Admin Update Binary Options Market V2',
-    [MsgType.MsgInstantBinaryOptionsMarketLaunchV2]: 'Instant Binary Options Market Launch V2',
+    [MsgType.MsgCreateBinaryOptionsLimitOrderV2]:
+      'Create Binary Options Limit Order V2',
+    [MsgType.MsgCreateBinaryOptionsMarketOrderV2]:
+      'Create Binary Options Market Order V2',
+    [MsgType.MsgBatchCancelBinaryOptionsOrdersV2]:
+      'Batch Cancel Binary Options Orders V2',
+    [MsgType.MsgBinaryOptionsMarketParamUpdateV2]:
+      'Binary Options Market Param Update V2',
+    [MsgType.MsgAdminUpdateBinaryOptionsMarketV2]:
+      'Admin Update Binary Options Market V2',
+    [MsgType.MsgInstantBinaryOptionsMarketLaunchV2]:
+      'Instant Binary Options Market Launch V2',
 
     // Injective Exchange V2 - Position & Liquidation
+    [MsgType.MsgOffsetPositionV2]: 'Offset Position V2',
     [MsgType.MsgLiquidatePositionV2]: 'Liquidate Position V2',
     [MsgType.MsgCancelPostOnlyModeV2]: 'Cancel Post Only Mode V2',
+    [MsgType.MsgActivatePostOnlyModeV2]: 'Activate Post Only Mode V2',
     [MsgType.MsgEmergencySettleMarketV2]: 'Emergency Settle Market V2',
     [MsgType.MsgIncreasePositionMarginV2]: 'Increase Position Margin V2',
     [MsgType.MsgDecreasePositionMarginV2]: 'Decrease Position Margin V2',
@@ -249,16 +285,21 @@ export const msgTypeMap = Object.fromEntries(
 
     // Injective Exchange V2 - Trading Rewards & Community
     [MsgType.MsgBatchCommunityPoolSpendV2]: 'Batch Community Pool Spend V2',
-    [MsgType.MsgTradingRewardCampaignLaunchV2]: 'Trading Reward Campaign Launch V2',
-    [MsgType.MsgTradingRewardCampaignUpdateV2]: 'Trading Reward Campaign Update V2',
-    [MsgType.MsgTradingRewardPendingPointsUpdateV2]: 'Trading Reward Pending Points Update V2',
-    [MsgType.MsgAtomicMarketOrderFeeMultiplierScheduleV2]: 'Atomic Market Order Fee Multiplier Schedule V2',
+    [MsgType.MsgTradingRewardCampaignLaunchV2]:
+      'Trading Reward Campaign Launch V2',
+    [MsgType.MsgTradingRewardCampaignUpdateV2]:
+      'Trading Reward Campaign Update V2',
+    [MsgType.MsgTradingRewardPendingPointsUpdateV2]:
+      'Trading Reward Pending Points Update V2',
+    [MsgType.MsgAtomicMarketOrderFeeMultiplierScheduleV2]:
+      'Atomic Market Order Fee Multiplier Schedule V2',
 
     // Injective Insurance
     [MsgType.MsgUnderwrite]: 'Underwrite',
     [MsgType.MsgRequestRedemption]: 'Request Redemption',
     [MsgType.MsgCreateInsuranceFund]: 'Create Insurance Fund',
     [MsgType.MsgInsuranceUpdateParams]: 'Update Insurance Params',
+    [MsgType.MsgInsuranceClaimVoucher]: 'Insurance Claim Voucher',
 
     // Injective Oracle
     [MsgType.MsgRelayBandRates]: 'Relay Band Rates',
@@ -268,6 +309,7 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgRelayProviderPrices]: 'Relay Provider Prices',
     [MsgType.MsgRelayPriceFeedPrice]: 'Relay Price Feed Price',
     [MsgType.MsgRequestBandIBCRates]: 'Request Band IBC Rates',
+    [MsgType.MsgRelayChainlinkPrices]: 'Relay Chainlink Prices',
     [MsgType.MsgRelayCoinbaseMessages]: 'Relay Coinbase Messages',
 
     // Injective OCR
@@ -288,30 +330,37 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgRequestBatch]: 'Request Batch',
     [MsgType.MsgValsetConfirm]: 'Valset Confirm',
     [MsgType.MsgWithdrawClaim]: 'Withdraw Claim',
+    [MsgType.MsgCreateRateLimit]: 'Create Rate Limit',
+    [MsgType.MsgUpdateRateLimit]: 'Update Rate Limit',
+    [MsgType.MsgRemoveRateLimit]: 'Remove Rate Limit',
     [MsgType.MsgCancelSendToEth]: 'Cancel Send To Eth',
+    [MsgType.MsgPeggyUpdateParams]: 'Update Peggy Params',
     [MsgType.MsgERC20DeployedClaim]: 'Erc20 Deployed Claim',
     [MsgType.MsgValsetUpdatedClaim]: 'Valset Updated Claim',
     [MsgType.MsgRevokeEthereumBlacklist]: 'Revoke Ethereum Blacklist',
     [MsgType.MsgSetOrchestratorAddresses]: 'Set Orchestrator Addresses',
     [MsgType.MsgBlacklistEthereumAddresses]: 'Blacklist Ethereum Addresses',
     [MsgType.MsgSubmitBadSignatureEvidence]: 'Submit Bad Signature Evidence',
-    [MsgType.MsgBlacklistEthereumAddressesProposal]: 'Blacklist Ethereum Addresses Proposal',
-    [MsgType.MsgRevokeEthereumBlacklistProposal]: 'Revoke Ethereum Blacklist Proposal',
+    [MsgType.MsgBlacklistEthereumAddressesProposal]:
+      'Blacklist Ethereum Addresses Proposal',
+    [MsgType.MsgRevokeEthereumBlacklistProposal]:
+      'Revoke Ethereum Blacklist Proposal',
 
     // Injective Permissions
-    [MsgType.MsgClaimVoucher]: 'Claim Voucher',
+    [MsgType.MsgSetWasmHook]: 'Set Wasm Hook',
     [MsgType.MsgCreateNamespace]: 'Create Namespace',
     [MsgType.MsgDeleteNamespace]: 'Delete Namespace',
     [MsgType.MsgUpdateNamespace]: 'Update Namespace',
     [MsgType.MsgUpdateActorRoles]: 'Update Actor Roles',
+    [MsgType.MsgClaimVoucher]: 'Permissions Claim Voucher',
     [MsgType.MsgUpdateNamespaceRoles]: 'Update Namespace Roles',
     [MsgType.MsgRevokeNamespaceRoles]: 'Revoke Namespace Roles',
-    [MsgType.MsgUpdateNamespaceSetContractHook]: 'Update Namespace Set Contract Hook',
     [MsgType.MsgPermissionsUpdateParams]: 'Update Permissions Params',
-    [MsgType.MsgSetWasmHook]: 'Set Wasm Hook',
     [MsgType.MsgSetMintsPaused]: 'Set Mints Paused',
     [MsgType.MsgSetSendsPaused]: 'Set Sends Paused',
     [MsgType.MsgSetBurnsPaused]: 'Set Burns Paused',
+    [MsgType.MsgUpdateNamespaceSetContractHook]:
+      'Update Namespace Set Contract Hook',
 
     // Injective TokenFactory
     [MsgType.MsgBurn]: 'Burn',
@@ -320,7 +369,8 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgChangeAdmin]: 'Change Admin',
     [MsgType.MsgSetDenomMetadata]: 'Set Denom Metadata',
     [MsgType.MsgTokenFactoryUpdateParams]: 'Update Token Factory Params',
-    [MsgType.MsgSetDenomMetadataAdminBurnDisabled]: 'Set Denom Metadata Admin Burn Disabled',
+    [MsgType.MsgSetDenomMetadataAdminBurnDisabled]:
+      'Set Denom Metadata Admin Burn Disabled',
 
     // Injective Wasmx
     [MsgType.MsgUpdateContract]: 'Update Contract',
@@ -329,14 +379,18 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgWasmxUpdateParams]: 'Update Wasmx Params',
     [MsgType.MsgDeactivateContract]: 'Deactivate Contract',
     [MsgType.MsgExecuteContractCompat]: 'Execute Contract',
-    [MsgType.MsgContractRegistrationRequestProposal]: 'Contract Registration Request Proposal',
-    [MsgType.MsgBatchContractRegistrationRequestProposal]: 'Batch Contract Registration Request Proposal',
+    [MsgType.MsgContractRegistrationRequestProposal]:
+      'Contract Registration Request Proposal',
+    [MsgType.MsgBatchContractRegistrationRequestProposal]:
+      'Batch Contract Registration Request Proposal',
 
     // Injective TxFees
     [MsgType.MsgTxFeesUpdateParams]: 'Update Tx Fees Params',
 
-    'injective.exchange.v1beta1.MsgInstantPerpetualMarketLaunch': 'Instant Perpetual Market Launch',
-    'injective.exchange.v1beta1.MsgInstantExpiryFuturesMarketLaunch': 'Instant Expiry Futures Market Launch',
+    'injective.exchange.v1beta1.MsgInstantPerpetualMarketLaunch':
+      'Instant Perpetual Market Launch',
+    'injective.exchange.v1beta1.MsgInstantExpiryFuturesMarketLaunch':
+      'Instant Expiry Futures Market Launch'
   }).map(([k, v]) => [
     k,
     /^[A-Z][a-z]+(?:[A-Z][a-z]+)+$/.test(v)
