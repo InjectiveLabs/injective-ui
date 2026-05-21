@@ -112,6 +112,7 @@ export enum NuxtUiIcons {
   ChevronUp = 'bi:chevron-up',
   ChevronUp2 = 'fa-solid:chevron-up',
   Circle = 'bi:circle-fill',
+  Circle2 = 'i-lucide-loader-circle',
   CirclePlus = 'ep:circle-plus',
   CirclePlusFilled = 'ant-design:plus-circle-filled',
   Clock = 'mdi:clock-outline',
