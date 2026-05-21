@@ -60,6 +60,22 @@ export function createBffClient(client: ApiClient) {
           get: ((...init: MethodArgs<'get', '/api/v1/app-config'>) =>
             client.GET('/api/v1/app-config', ...init)) as LeafMethod<'get', '/api/v1/app-config'>,
         },
+        authorization: {
+          logout: {
+            post: ((...init: MethodArgs<'post', '/api/v1/authorization/logout'>) =>
+              client.POST('/api/v1/authorization/logout', ...init)) as LeafMethod<'post', '/api/v1/authorization/logout'>,
+          },
+          logout_all: {
+            post: ((...init: MethodArgs<'post', '/api/v1/authorization/logout-all'>) =>
+              client.POST('/api/v1/authorization/logout-all', ...init)) as LeafMethod<'post', '/api/v1/authorization/logout-all'>,
+          },
+          start: {
+            post: ((...init: MethodArgs<'post', '/api/v1/authorization/start'>) =>
+              client.POST('/api/v1/authorization/start', ...init)) as LeafMethod<'post', '/api/v1/authorization/start'>,
+          },
+          post: ((...init: MethodArgs<'post', '/api/v1/authorization'>) =>
+            client.POST('/api/v1/authorization', ...init)) as LeafMethod<'post', '/api/v1/authorization'>,
+        },
         bridge: {
           deposit: {
             $address: {
@@ -190,6 +206,20 @@ export function createBffClient(client: ApiClient) {
               client.GET('/api/v1/mobile/notifications', ...init)) as LeafMethod<'get', '/api/v1/mobile/notifications'>,
           },
         },
+        onramp: {
+          providers: {
+            get: ((...init: MethodArgs<'get', '/api/v1/onramp/providers'>) =>
+              client.GET('/api/v1/onramp/providers', ...init)) as LeafMethod<'get', '/api/v1/onramp/providers'>,
+          },
+          quote: {
+            post: ((...init: MethodArgs<'post', '/api/v1/onramp/quote'>) =>
+              client.POST('/api/v1/onramp/quote', ...init)) as LeafMethod<'post', '/api/v1/onramp/quote'>,
+          },
+        },
+        profile: {
+          post: ((...init: MethodArgs<'post', '/api/v1/profile'>) =>
+            client.POST('/api/v1/profile', ...init)) as LeafMethod<'post', '/api/v1/profile'>,
+        },
         spot: {
           markets: {
             helix: {
@@ -213,6 +243,12 @@ export function createBffClient(client: ApiClient) {
         tokens: {
           get: ((...init: MethodArgs<'get', '/api/v1/tokens'>) =>
             client.GET('/api/v1/tokens', ...init)) as LeafMethod<'get', '/api/v1/tokens'>,
+        },
+        user: {
+          me: {
+            get: ((...init: MethodArgs<'get', '/api/v1/user/me'>) =>
+              client.GET('/api/v1/user/me', ...init)) as LeafMethod<'get', '/api/v1/user/me'>,
+          },
         },
       },
     },
