@@ -39,6 +39,9 @@ const SOLANA_ECOSYSTEM_PATTERNS = [
   // Packages that depend on Solana
   '@reown',
   '@turnkey',
+  // @turnkey transitive deps (via @turnkey/crypto → @peculiar/x509 → tsyringe)
+  '@peculiar',
+  'tsyringe',
   // EventEmitter dependencies - rpc-websockets extends eventemitter3
   'eventemitter3',
   'rpc-websockets',
@@ -54,6 +57,8 @@ const SOLANA_ECOSYSTEM_PATTERNS = [
  * Check if a module belongs to the Solana ecosystem.
  */
 export function isSolanaEcosystem(id: string): boolean {
+  console.log('isSolanaEcosystem', { id })
+
   return SOLANA_ECOSYSTEM_PATTERNS.some((pattern) => id.includes(pattern))
 }
 
@@ -75,7 +80,21 @@ export function getBridgeChunkOverrides(): ChunkGroup[] {
     {
       name: 'wormhole',
       test: (id: string) => id.includes('@wormhole-foundation'),
-      priority: 200 // Higher than EventEmitter (150) to ensure ALL wormhole stays together
+      priority: 200
+    },
+    // Leaf-node packages that MUST be isolated from solana-ecosystem.
+    // The solana-ecosystem mega-chunk has internal circular deps, so Rollup can't
+    // guarantee init order for modules inside it. Packages below have zero reverse
+    // deps on solana-ecosystem, so their own chunks always load first.
+    {
+      name: 'bs58',
+      test: (id: string) => id.includes('/bs58/') || id.includes('/base-x/'),
+      priority: 161
+    },
+    {
+      name: 'tslib',
+      test: (id: string) => id.includes('/tslib/'),
+      priority: 160
     },
     // Turnkey: wallet package only (NOT @turnkey - goes to solana-ecosystem)
     {
