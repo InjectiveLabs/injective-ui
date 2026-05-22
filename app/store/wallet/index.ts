@@ -15,16 +15,17 @@ import {
   getDefaultSubaccountId
 } from '@injectivelabs/sdk-ts/utils'
 import {
-  MsgGrant,
-  MsgGrantWithAuthorization,
-  getGenericAuthorizationFromMessageType
-} from '@injectivelabs/sdk-ts/core/modules'
-import {
   clearAutoSignKey,
   getAutoSignPayload,
   withAutoSignPrivateKey,
   deriveAndStoreAutoSignKey
 } from '../../wallet/autosign'
+import {
+  MsgGrant,
+  msgsOrMsgExecMsgs,
+  MsgGrantWithAuthorization,
+  getGenericAuthorizationFromMessageType
+} from '@injectivelabs/sdk-ts/core/modules'
 import {
   getAutoSignGrantConfig,
   getMissingGrantMessages,
@@ -682,17 +683,29 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async broadcast(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
-      const broadcastOptions = prepareBroadcastOptions({
-        messages,
+
+      if (!walletStore.isUserConnected) {
+        return
+      }
+
+      if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
+        throw new GeneralException(
+          new Error('Authz and auto-sign cannot be used together')
+        )
+      }
+
+      const normalizedMessages = normalizeBroadcastMessages(messages)
+      const actualMessages = walletStore.isAuthzWalletConnected
+        ? msgsOrMsgExecMsgs(normalizedMessages, walletStore.injectiveAddress)
+        : normalizedMessages
+
+      const broadcastOptions = {
         memo,
-        walletState: {
-          isUserConnected: walletStore.isUserConnected,
-          injectiveAddress: walletStore.injectiveAddress,
-          isAutoSignEnabled: walletStore.isAutoSignEnabled,
-          isAuthzWalletConnected: walletStore.isAuthzWalletConnected,
-          authZOrInjectiveAddress: walletStore.authZOrInjectiveAddress
-        }
-      })
+        msgs: actualMessages,
+        injectiveAddress: walletStore.isAuthzWalletConnected
+          ? walletStore.authZOrInjectiveAddress
+          : walletStore.injectiveAddress
+      }
 
       if (!broadcastOptions) {
         throw new GeneralException(new Error('Broadcasting is not available'))
