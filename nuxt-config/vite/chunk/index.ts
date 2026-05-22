@@ -13,13 +13,17 @@
  */
 
 import { getHubChunkOverrides } from './hub'
-import { IS_BRIDGE } from '../../../app/utils/constant/setup'
 import {
   type ChunkGroup,
   isSolanaEcosystem,
   SOLANA_ECOSYSTEM_CHUNK,
   getBridgeChunkOverrides
 } from './bridge'
+
+// Use process.env directly instead of importing IS_BRIDGE from setup.ts.
+// setup.ts relies on import.meta.env which doesn't resolve correctly when
+// the layer is fetched from GitHub (jiti/c12 context vs Vite transform).
+const IS_BRIDGE = process.env.VITE_PRODUCT === 'bridge'
 
 // Re-export ChunkGroup type for external use
 export type { ChunkGroup }
