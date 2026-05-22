@@ -4,8 +4,11 @@ import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
-import { normalizeBroadcastMessages } from '../../wallet/utils/broadcast'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
+import {
+  checkUnauthorizedMessages,
+  normalizeBroadcastMessages
+} from '../../wallet/utils/broadcast'
 import {
   getEthereumAddress,
   getInjectiveAddress,
