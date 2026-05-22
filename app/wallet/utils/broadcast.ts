@@ -1,4 +1,4 @@
-import { tradingMessages } from '@/utils/constant'
+import { tradingMessages } from '../../utils/constant'
 import type { Msgs } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
 

@@ -1,8 +1,8 @@
-import { getAuthZApi } from '@/service'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { MsgGrant } from '@injectivelabs/sdk-ts/core/modules'
 import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
 import { getGenericAuthorizationFromMessageType } from '@injectivelabs/sdk-ts/core/modules'
+import { getAuthZApi } from '../../service'
 import type {
   ContractExecutionCompatAuthz,
   GrantAuthorizationWithDecodedAuthorization
@@ -10,6 +10,7 @@ import type {
 import type { AutoSign } from '../../types'
 
 export const AUTO_SIGN_RENEWAL_THRESHOLD = 60 * 60 * 24 * 14
+export const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
 
 export type ConnectAutoSignOptions = {
   autoSign?: AutoSign
@@ -178,12 +179,43 @@ function getAutoSignGrantConfig({
   }
 }
 
+function hasMissingOrExpiringGrants({
+  grants,
+  grantee,
+  granter,
+  messageTypes
+}: {
+  granter: string
+  grantee?: string
+  messageTypes: string[]
+  grants: GrantAuthorizationWithDecodedAuthorization[]
+}) {
+  if (!grantee) {
+    return true
+  }
+
+  const nowInSeconds = Math.floor(Date.now() / 1000)
+
+  return messageTypes.some((messageType) => {
+    const normalizedMessageType = normalizeMessageType(messageType)
+
+    return !grants.some(
+      (grant) =>
+        grant.granter === granter &&
+        grant.grantee === grantee &&
+        grant.authorization?.msg === normalizedMessageType &&
+        grant.expiration > nowInSeconds + AUTO_SIGN_RENEWAL_THRESHOLD
+    )
+  })
+}
+
 export {
   fetchGranterGrants,
   normalizeMessageType,
   getAutoSignGrantConfig,
   getMissingGrantMessages,
   fetchGranterGrantsNoThrow,
+  hasMissingOrExpiringGrants,
   getAutoSignGrantExpiration,
   getExistingGrantExpirations
 }

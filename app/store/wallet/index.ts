@@ -32,7 +32,7 @@ import {
   fetchGranterGrantsNoThrow,
   getAutoSignGrantExpiration,
   AUTO_SIGN_RENEWAL_THRESHOLD
-} from '@/wallet/utils/authz'
+} from '../../wallet/utils/authz'
 import {
   getAddresses,
   getMsgBroadcaster,
@@ -53,7 +53,7 @@ import type {
   ContractExecutionCompatAuthz,
   GrantAuthorizationWithDecodedAuthorization
 } from '@injectivelabs/sdk-ts'
-import type { ConnectAutoSignOptions } from '@/wallet/utils/authz'
+import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 import type { AutoSign } from '../../types'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
@@ -154,7 +154,7 @@ const initialStateFactory = (): WalletStoreState => ({
     privateKey: '',
     storageKey: '',
     isConfirmed: false,
-    isDeterministic: false,
+    isDeterministic: true,
     injectiveAddress: ''
   },
 
