@@ -48,7 +48,11 @@ import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
-import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
+import type {
+  Msgs,
+  ContractExecutionCompatAuthz,
+  GrantAuthorizationWithDecodedAuthorization
+} from '@injectivelabs/sdk-ts'
 import type { ConnectAutoSignOptions } from '@/wallet/utils/authz'
 import type { AutoSign } from '../../types'
 
@@ -832,11 +836,20 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return response
     },
 
-    async validateAutoSign(
-      msgsType: string[] = [],
-      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[] = []
-    ) {
-      if (msgsType.length === 0 && contractExecutionCompatAuthz.length === 0) {
+    async validateAutoSign({
+      msgsType = [],
+      existingGrants = [],
+      contractExecutionCompatAuthz = []
+    }: {
+      msgsType: string[]
+      existingGrants: GrantAuthorizationWithDecodedAuthorization[]
+      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[]
+    }) {
+      if (
+        msgsType.length === 0 &&
+        contractExecutionCompatAuthz.length === 0 &&
+        existingGrants.length === 0
+      ) {
         throw new GeneralException(new Error('No messages provided'))
       }
 
@@ -855,9 +868,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const expiryInSeconds = autoSign.duration || AUTO_SIGN_GRANT_DURATION
       const renewedExpiration = nowInSeconds + expiryInSeconds
-      const grants = await fetchGranterGrantsNoThrow(
-        walletStore.injectiveAddress
-      )
+      const grants =
+        existingGrants.length > 0
+          ? existingGrants
+          : await fetchGranterGrantsNoThrow(walletStore.injectiveAddress)
 
       const grantWithAuthorization = contractExecutionCompatAuthz.map(
         (authorization) =>
@@ -947,6 +961,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async authorizeDeterministicAutoSign({
       autoSign,
       msgsType,
+      existingGrants = [],
       contractMsgTypeMap,
       contractExecutionCompatAuthz
     }: ConnectAutoSignOptions) {
@@ -967,9 +982,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const duration = AUTO_SIGN_GRANT_DURATION
       const expiration = nowInSeconds + duration
 
-      const grants = await fetchGranterGrantsNoThrow(
-        walletStore.injectiveAddress
-      )
+      const grants =
+        existingGrants.length > 0
+          ? existingGrants
+          : await fetchGranterGrantsNoThrow(walletStore.injectiveAddress)
       const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
         (authorization) =>
           MsgGrantWithAuthorization.fromJSON({
@@ -1047,6 +1063,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return autoSign
     },
 
+    /** for simple autoSign we never have existing grants so we don't need to fetch them or pass them as an argument */
     async authorizeAutoSign({
       autoSign,
       msgsType,

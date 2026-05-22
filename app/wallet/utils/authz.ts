@@ -15,6 +15,7 @@ export type ConnectAutoSignOptions = {
   autoSign?: AutoSign
   msgsType?: string[]
   contractMsgTypeMap?: Record<string, string[]>
+  existingGrants?: GrantAuthorizationWithDecodedAuthorization[]
   contractExecutionCompatAuthz?: ContractExecutionCompatAuthz[]
 }
 
