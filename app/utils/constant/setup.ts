@@ -13,6 +13,7 @@ export const IS_DEVELOPMENT: boolean = process.env.NODE_ENV === 'development'
 export const env = {
   VITE_ENV: import.meta.env.VITE_ENV,
   VITE_NAME: import.meta.env.VITE_NAME,
+  VITE_PRODUCT: import.meta.env.VITE_PRODUCT as string,
   VITE_BASE_URL: import.meta.env.VITE_BASE_URL,
 
   // endpoints
@@ -165,12 +166,13 @@ export const TURNKEY_ORGID = import.meta.env.VITE_TURNKEY_ORGID
 export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
   .VITE_TURNKEY_GOOGLE_CLIENT_ID
 
-export const IS_HUB = import.meta.env.VITE_PRODUCT === 'hub'
-export const IS_MITO = import.meta.env.VITE_PRODUCT === 'mito'
-export const IS_AUTHZ = import.meta.env.VITE_PRODUCT === 'authz'
-export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
-export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
-export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'
-export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
-export const IS_TRADING_UI = import.meta.env.VITE_PRODUCT === 'trading'
-export const IS_TRUE_CURRENT = import.meta.env.VITE_PRODUCT === 'truecurrent'
+export const PRODUCT = env.VITE_PRODUCT || 'injective'
+export const IS_HUB = PRODUCT === 'hub'
+export const IS_MITO = PRODUCT === 'mito'
+export const IS_AUTHZ = PRODUCT === 'authz'
+export const IS_HELIX = PRODUCT === 'helix'
+export const IS_BRIDGE = PRODUCT === 'bridge'
+export const IS_ADMIN_UI = PRODUCT === 'admin'
+export const IS_EXPLORER = PRODUCT === 'explorer'
+export const IS_TRADING_UI = PRODUCT === 'trading'
+export const IS_TRUE_CURRENT = PRODUCT === 'truecurrent'

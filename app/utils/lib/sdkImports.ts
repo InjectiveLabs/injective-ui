@@ -49,6 +49,12 @@ export const getChainGrpcAuthApi = createApiFactory(
     (await import('@injectivelabs/sdk-ts/client/chain')).ChainGrpcAuthApi
 )
 
+export const getChainGrpcAuthZApi = createApiFactory(
+  'ChainGrpcAuthZApi',
+  async () =>
+    (await import('@injectivelabs/sdk-ts/client/chain')).ChainGrpcAuthZApi
+)
+
 export const getChainGrpcBankApi = createApiFactory(
   'ChainGrpcBankApi',
   async () =>
