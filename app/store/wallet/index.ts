@@ -685,6 +685,41 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
+    async broadcastFromMainWallet(messages: Msgs | Msgs[], memo?: string) {
+      const walletStore = useSharedWalletStore()
+
+      if (!walletStore.isUserConnected) {
+        return
+      }
+
+      const actualMessages = normalizeBroadcastMessages(messages)
+
+      const broadcastOptions = {
+        memo,
+        msgs: actualMessages,
+        injectiveAddress: walletStore.injectiveAddress
+      }
+
+      if (walletStore.isFeeDelegationEnabled) {
+        const msgBroadcaster = await getMsgBroadcaster()
+
+        const response =
+          await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
+
+        useEventBus(EventBus.BroadcastResponse).emit(response)
+
+        return response
+      }
+
+      const msgBroadcaster = await getMsgBroadcaster()
+
+      const response = await msgBroadcaster.broadcastV2(broadcastOptions)
+
+      useEventBus(EventBus.BroadcastResponse).emit(response)
+
+      return response
+    },
+
     async broadcast(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
 
@@ -709,10 +744,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress: walletStore.isAuthzWalletConnected
           ? walletStore.authZOrInjectiveAddress
           : walletStore.injectiveAddress
-      }
-
-      if (!broadcastOptions) {
-        throw new GeneralException(new Error('Broadcasting is not available'))
       }
 
       if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
@@ -801,7 +832,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (!isAutoSignEnabled || walletStore.isGoogleAuth) {
         const msgBroadcaster = await getMsgBroadcaster()
 
-        const response = await msgBroadcaster.broadcastV2(broadcastOptions)
+        const response = await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
 
         useEventBus(EventBus.BroadcastResponse).emit(response)
 
@@ -824,7 +855,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const response = await withAutoSignPrivateKey(
         autoSign,
         async () =>
-          await autoSignMsgBroadcaster.broadcastV2({
+          await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
             memo: broadcastOptions.memo,
             msgs: broadcastOptions.msgs,
             injectiveAddress: autoSign.injectiveAddress
@@ -913,14 +944,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(walletStore.wallet)
 
       // we have to submit this transaction from the main wallet
-      const msgBroadcaster = await getMsgBroadcaster()
-
-      const response = await msgBroadcaster.broadcastV2({
-        msgs: messages,
-        injectiveAddress: walletStore.injectiveAddress
-      })
-
-      useEventBus(EventBus.BroadcastResponse).emit(response)
+     await this.broadcastFromMainWallet(messages)
 
       walletStore.$patch({
         autoSign: actualAutoSign
@@ -1031,9 +1055,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       try {
-        await walletStore.broadcastWithFeeDelegation({
-          msgs: messages
-        })
+        // we have to submit this transaction from the main wallet
+        await this.broadcastFromMainWallet(messages)
 
         return {
           ...actualAutoSign,
@@ -1119,9 +1142,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             )
           : []
 
-      await walletStore.broadcastWithFeeDelegation({
-        msgs: [...authZMsgs, ...contractMsgs, ...grantWithAuthorization]
-      })
+      // we have to submit this transaction from the main wallet
+      await this.broadcastFromMainWallet([
+        ...authZMsgs,
+        ...contractMsgs,
+        ...grantWithAuthorization
+      ])
 
       const autoSignWalletStrategy = await getAutoSignWalletStrategy()
 
