@@ -45,7 +45,7 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
         params: { query: { network: NETWORK } }
       })
 
-      this.markets = data?.data.map((market) => ({
+      this.markets = (data?.data || []).map((market) => ({
         ...market,
         ...sharedDerivativeGetSlugAndTicket(market)
       })) as BffDerivativeMarket[]
@@ -73,7 +73,7 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
         }
       })
 
-      this.markets = data?.data.map((market) => ({
+      this.markets = (data?.data || []).map((market) => ({
         ...market,
         ...sharedDerivativeGetSlugAndTicket(market)
       })) as BffDerivativeMarket[]
@@ -88,23 +88,21 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
         }
       )
 
-      this.$patch({
-        marketsSummary: [
-          ...marketSummaries.map(toUiMarketSummary),
-          ...marketsWithoutMarketSummaries.map(({ marketId }) =>
-            toZeroUiMarketSummary(marketId)
-          )
-        ].filter((marketSummary) => {
-          if (!IS_TRUE_CURRENT) {
-            return true
-          }
+      this.marketsSummary = [
+        ...marketSummaries.map(toUiMarketSummary),
+        ...marketsWithoutMarketSummaries.map(({ marketId }) =>
+          toZeroUiMarketSummary(marketId)
+        )
+      ].filter((marketSummary) => {
+        if (!IS_TRUE_CURRENT) {
+          return true
+        }
 
-          const market = this.markets.find(
-            (m) => m.marketId === marketSummary.marketId
-          )
+        const market = this.markets.find(
+          (m) => m.marketId === marketSummary.marketId
+        )
 
-          return market?.quoteDenom === usdcToken.denom
-        })
+        return market?.quoteDenom === usdcToken.denom
       })
     }
   }

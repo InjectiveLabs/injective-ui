@@ -45,7 +45,7 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
         params: { query: { network: NETWORK } }
       })
 
-      this.markets = data?.data.map((market) => ({
+      this.markets = (data?.data || []).map((market) => ({
         ...market,
         ...sharedSpotGetSlugAndTicket(market)
       })) as BffSpotMarket[]
@@ -73,7 +73,7 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
         }
       })
 
-      this.markets = data?.data.map((market) => ({
+      this.markets = (data?.data || []).map((market) => ({
         ...market,
         ...sharedSpotGetSlugAndTicket(market)
       })) as BffSpotMarket[]
