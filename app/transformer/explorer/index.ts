@@ -4,8 +4,11 @@ import { MsgType } from '@injectivelabs/ts-types'
 import { toBigNumber } from '@injectivelabs/utils'
 import { getHumanReadableMessage } from './messageSummary'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
-import { hardCodedContractCopyMap } from './../../utils/explorer'
 import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+import {
+  contractMsgLabelMap,
+  hardCodedContractCopyMap
+} from './../../utils/explorer'
 import type { BigNumber } from '@injectivelabs/utils'
 import type {
   Coin,
@@ -167,15 +170,48 @@ export const getCoins = ({
   }, [] as Coin[])
 }
 
+/**
+ * Returns a human-readable suffix for a raw contract message (the inner object
+ * that contains `contract`, `msg`, etc. for a MsgExecuteContractCompat).
+ *
+ * Detection priority:
+ *   1. contractMsgLabelMap — both the contract address AND msg action must match
+ *   2. hardCodedContractCopyMap — contract address only (e.g. HelixSwap, MitoSwap)
+ */
+const getContractMsgSuffix = (contractMsg: Record<string, any>): string | undefined => {
+  const contract = contractMsg?.contract
+  const msg = contractMsg?.msg
+
+  const labelEntry = contractMsgLabelMap[contract]
+
+  if (labelEntry && msg?.[labelEntry.msgAction] !== undefined) {
+    return labelEntry.label
+  }
+
+  return hardCodedContractCopyMap[contract]
+}
+
 const getMsgTypeSuffix = (message: Message): string | undefined => {
   const type = getMsgType(message)
 
   if (type === MsgType.MsgExec) {
-    return msgTypeMap[getMsgType(message.message.msgs[0])]
+    const innerMsg = message.message.msgs?.[0]
+
+    if (!innerMsg) {
+      return undefined
+    }
+
+    const innerType = getMsgType(innerMsg)
+
+    if (innerType === MsgType.MsgExecuteContractCompat) {
+      return getContractMsgSuffix(innerMsg)
+    }
+
+    return msgTypeMap[innerType]
   }
 
   if (type === MsgType.MsgExecuteContractCompat) {
-    return hardCodedContractCopyMap[message.message.contract]
+    return getContractMsgSuffix(message.message)
   }
 
   return undefined
@@ -207,7 +243,8 @@ const getSenderFromEvents = (events: EventLogEvent[]) => {
 }
 
 const getTypesAndCoins = (
-  transaction: ExplorerTransaction | ContractTransaction
+  transaction: ExplorerTransaction | ContractTransaction,
+  messages: Message[]
 ) => {
   const events = (transaction.logs || []).flatMap(({ events }) => events)
   const sender =
@@ -216,7 +253,7 @@ const getTypesAndCoins = (
 
   try {
     return {
-      types: transaction.messages.map(formatMsgType),
+      types: messages.map(formatMsgType),
       coinReceived: getCoins({
         events,
         sender,
@@ -290,7 +327,7 @@ export const toUiTransaction = (
 
   return {
     ...transaction,
-    ...getTypesAndCoins(transaction),
+    ...getTypesAndCoins(transaction, messages),
     messages,
     templateSummaries: messages.map((message) => ({
       type: message.type,
@@ -306,11 +343,13 @@ export const toUiTransaction = (
 export const toUiContractTransaction = (
   transaction: ContractTransaction
 ): UiContractTransaction => {
+  const messages = transaction.messages.map(parseTransactionMessage)
+
   return {
     ...transaction,
     hash: transaction.txHash,
     blockNumber: transaction.height,
     blockTimestamp: transaction.time,
-    ...getTypesAndCoins(transaction)
+    ...getTypesAndCoins(transaction, messages)
   }
 }

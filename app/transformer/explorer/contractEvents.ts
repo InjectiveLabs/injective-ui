@@ -15,6 +15,39 @@ export const contractEventSummaryMap: Partial<
     }) => string | undefined
   >
 > = {
+  [ContractMsgType.RfqTrade]: ({ logs }) => {
+    try {
+      const event = logs
+        .flatMap(({ events }) => events)
+        .find(
+          ({ type, attributes }) =>
+            type === 'wasm' &&
+            attributes.some(({ key, value }) => key === 'contract' && value === 'rfq')
+        )
+
+      if (!event) {
+        return undefined
+      }
+
+      const attr = (key: string) =>
+        event.attributes.find((a) => a.key === key)?.value
+
+      const taker = attr('taker')
+      const direction = attr('direction')
+      const marketId = attr('market_id')
+      const quantity = attr('quantity')?.replace(/"/g, '')
+      const worstPrice = attr('worst_price')?.replace(/"/g, '')
+
+      if (!taker || !direction || !marketId || !quantity || !worstPrice) {
+        return undefined
+      }
+
+      return `{{account:${taker}}} OPEN ${direction.toUpperCase()} ${quantity} {{derivative:${marketId}}} at ${worstPrice}`
+    } catch {
+      return undefined
+    }
+  },
+
   [ContractMsgType.Swap]: ({ logs, sender }) => {
     try {
       const parsedEvents = logs
