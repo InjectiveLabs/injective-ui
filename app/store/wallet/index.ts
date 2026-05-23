@@ -1,23 +1,39 @@
 import { defineStore } from 'pinia'
+import { IS_DEVNET } from '../../utils/constant'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { checkUnauthorizedMessages } from '../../utils/helper'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
-import { IS_HELIX, IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
+import {
+  checkUnauthorizedMessages,
+  normalizeBroadcastMessages
+} from '../../wallet/utils/broadcast'
 import {
   getEthereumAddress,
   getInjectiveAddress,
-  isCw20ContractAddress,
   getDefaultSubaccountId
 } from '@injectivelabs/sdk-ts/utils'
+import {
+  clearAutoSignKey,
+  getAutoSignPayload,
+  withAutoSignPrivateKey,
+  deriveAndStoreAutoSignKey
+} from '../../wallet/autosign'
 import {
   MsgGrant,
   msgsOrMsgExecMsgs,
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts/core/modules'
+import {
+  getAutoSignGrantConfig,
+  getMissingGrantMessages,
+  fetchGranterGrantsNoThrow,
+  getAutoSignGrantExpiration,
+  hasMissingOrExpiringGrants,
+  AUTO_SIGN_RENEWAL_THRESHOLD
+} from '../../wallet/utils/authz'
 import {
   getAddresses,
   getMsgBroadcaster,
@@ -33,8 +49,15 @@ import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
-import type { Msgs, ContractExecutionCompatAuthz } from '@injectivelabs/sdk-ts'
+import type {
+  Msgs,
+  ContractExecutionCompatAuthz,
+  GrantAuthorizationWithDecodedAuthorization
+} from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
+import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
+
+const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
 
 type WalletStoreState = {
   wallet: Wallet
@@ -42,7 +65,6 @@ type WalletStoreState = {
   isDev: boolean
   address: string
   session: string
-  isEip712: boolean
   privateKey: string
   addresses: string[]
   autoSign?: AutoSign
@@ -50,6 +72,7 @@ type WalletStoreState = {
   leapInstalled: boolean
   queueStatus: StatusType
   rabbyInstalled: boolean
+
   // Cosmos wallets
   keplrInstalled: boolean
   ninjiInstalled: boolean
@@ -61,9 +84,10 @@ type WalletStoreState = {
   keplrEvmInstalled: boolean
   metamaskInstalled: boolean
   addressConfirmation: string
-
   okxWalletInstalled: boolean
+
   trustWalletInstalled: boolean
+  isFeeDelegationEnabled: boolean
   turnkeyInjectiveAddress: string
   walletConnectStatus: WalletConnectStatus
 
@@ -97,7 +121,6 @@ const initialStateFactory = (): WalletStoreState => ({
   addresses: [],
   privateKey: '',
   hwAddresses: [],
-  isEip712: true,
   injectiveAddress: '',
   bitGetInstalled: false,
   addressConfirmation: '',
@@ -109,6 +132,7 @@ const initialStateFactory = (): WalletStoreState => ({
   metamaskInstalled: false,
   okxWalletInstalled: false,
   trustWalletInstalled: false,
+  isFeeDelegationEnabled: true,
   turnkeyInjectiveAddress: '',
   queueStatus: StatusType.Idle,
 
@@ -126,7 +150,12 @@ const initialStateFactory = (): WalletStoreState => ({
   autoSign: {
     duration: 0,
     expiration: 0,
+    version: 0,
+    publicKey: '',
     privateKey: '',
+    storageKey: '',
+    isConfirmed: false,
+    isDeterministic: true,
     injectiveAddress: ''
   },
 
@@ -179,7 +208,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         return false
       }
 
-      if (!state.autoSign.injectiveAddress || !state.autoSign.privateKey) {
+      if (!state.autoSign.injectiveAddress) {
+        return false
+      }
+
+      if (state.autoSign.isDeterministic) {
+        if (!state.autoSign.storageKey || !state.autoSign.isConfirmed) {
+          return false
+        }
+      } else if (!state.autoSign.privateKey) {
         return false
       }
 
@@ -295,10 +332,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       'connectTurnkeyGoogle'
     ),
 
-    async validateAndQueue(options?: { manualSign?: boolean }) {
+    async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()
 
-      await sharedWalletStore.validate(options)
+      await sharedWalletStore.validate()
 
       sharedWalletStore.queue()
     },
@@ -306,6 +343,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async disconnectAutoSign() {
       const walletStore = useSharedWalletStore()
       const autoSignWalletStrategy = await getAutoSignWalletStrategy()
+      const storageKey = walletStore.autoSign?.storageKey
+
+      if (storageKey) {
+        await clearAutoSignKey(storageKey)
+      }
 
       walletStore.$patch({
         autoSign: undefined
@@ -347,11 +389,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (walletStore.queueStatus === StatusType.Loading) {
         throw new GeneralException(new Error('You have a pending transaction.'))
-      } else {
-        walletStore.$patch({
-          queueStatus: StatusType.Loading
-        })
       }
+
+      walletStore.$patch({
+        queueStatus: StatusType.Loading
+      })
     },
 
     connectAuthZ(
@@ -401,8 +443,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         await walletStrategy.getSessionOrConfirm()
       }
 
-      if (walletStore.autoSign) {
+      if (walletStore.autoSign?.privateKey) {
         const autoSignWalletStrategy = await getAutoSignWalletStrategy()
+
         await autoSignWalletStrategy.setMetadata({
           privateKey: {
             privateKey: walletStore.autoSign.privateKey as string
@@ -417,10 +460,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async validate(options?: { manualSign?: boolean }) {
+    async validate() {
       const walletStore = useSharedWalletStore()
 
-      if (walletStore.isAutoSignEnabled && !options?.manualSign) {
+      if (walletStore.isAutoSignEnabled) {
         return
       }
 
@@ -513,10 +556,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async logout() {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
+      const storageKey = walletStore.autoSign?.storageKey
 
       walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
 
       await walletStrategy.disconnect()
+
+      if (storageKey) {
+        await clearAutoSignKey(storageKey)
+      }
 
       walletStrategy.setMetadata({
         ...walletStrategy.metadata,
@@ -528,7 +576,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         autoSign: undefined,
         turnkeyInjectiveAddress: '',
         queueStatus: StatusType.Idle,
-        isEip712: walletStore.isEip712,
         leapInstalled: walletStore.leapInstalled,
         ninjiInstalled: walletStore.ninjiInstalled,
         rabbyInstalled: walletStore.rabbyInstalled,
@@ -542,6 +589,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         okxWalletInstalled: walletStore.okxWalletInstalled,
         walletConnectStatus: WalletConnectStatus.disconnected,
         trustWalletInstalled: walletStore.trustWalletInstalled,
+        isFeeDelegationEnabled: walletStore.isFeeDelegationEnabled,
         authZ: {
           address: '',
           injectiveAddress: '',
@@ -638,163 +686,219 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async broadcastMessages(messages: Msgs | Msgs[], memo?: string) {
+    /**
+     * This method disregards the authz, autosign and broadcasts from the main connected wallet
+     * with or without fee delegation, depending on whether fee delegation is enabled or not
+     */
+    async broadcastFromMainWallet(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
-      const broadcastOptions = await walletStore.prepareBroadcastMessages(
-        messages,
-        memo
-      )
-
-      if (!broadcastOptions) {
-        return
-      }
-
-      const msgs = Array.isArray(messages) ? messages : [messages]
-
-      const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
-
-      if (
-        walletStore.autoSign &&
-        !hasUnauthorizedMessages &&
-        walletStore.isAutoSignEnabled
-      ) {
-        const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
-        const response = await autoSignMsgBroadcaster.broadcastV2({
-          memo,
-          injectiveAddress: walletStore.autoSign.injectiveAddress,
-          msgs: msgsOrMsgExecMsgs(msgs, walletStore.autoSign.injectiveAddress)
-        })
-
-        return response
-      }
-
-      const msgBroadcaster = await getMsgBroadcaster()
-      const response = await msgBroadcaster.broadcast(broadcastOptions)
-
-      return response
-    },
-
-    prepareBroadcastMessages(messages: Msgs | Msgs[], memo?: string) {
-      const walletStore = useSharedWalletStore()
-      const msgs = Array.isArray(messages) ? messages : [messages]
 
       if (!walletStore.isUserConnected) {
         return
       }
 
-      let actualMessage
-
-      if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
-        // error because we don't support authz + auto-sign
-        throw new GeneralException(
-          new Error('Authz and auto-sign cannot be used together')
-        )
-
-        // TODO: uncomment this when we support authz + auto-sign
-        // actualMessage = msgsOrMsgExecMsgs(
-        //   msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress),
-        //   walletStore.autoSign.injectiveAddress
-        // )
-      } else if (walletStore.isAuthzWalletConnected) {
-        actualMessage = msgsOrMsgExecMsgs(msgs, walletStore.injectiveAddress)
-      } else {
-        actualMessage = msgs
-      }
+      const actualMessages = normalizeBroadcastMessages(messages)
 
       const broadcastOptions = {
         memo,
-        msgs: actualMessage,
+        msgs: actualMessages,
         injectiveAddress: walletStore.injectiveAddress
       }
 
-      return broadcastOptions
-    },
+      if (walletStore.isFeeDelegationEnabled) {
+        const msgBroadcaster = await getMsgBroadcaster()
 
-    async broadcastWithFeeDelegation({
-      memo,
-      messages,
-      manualSign
-    }: {
-      memo?: string
-      manualSign?: boolean
-      messages: Msgs | Msgs[]
-    }) {
-      const walletStore = useSharedWalletStore()
-      const notificationStore = useSharedNotificationStore()
-
-      const broadcastOptions = await walletStore.prepareBroadcastMessages(
-        messages,
-        memo
-      )
-
-      const msgs = Array.isArray(messages) ? messages : [messages]
-
-      const isEnableAutosignMessages =
-        msgs.length > 1 && msgs.some((msg) => msg instanceof MsgGrant)
-
-      if (
-        !broadcastOptions ||
-        (IS_TRUE_CURRENT &&
-          !manualSign &&
-          !walletStore.isGoogleAuth &&
-          !isEnableAutosignMessages &&
-          !walletStore.isAutoSignEnabled)
-      ) {
-        throw new GeneralException(new Error('Broadcasting is not available'))
-      }
-
-      const hasUnauthorizedMessages = checkUnauthorizedMessages(msgs)
-
-      if (
-        !manualSign &&
-        !walletStore.isEip712 &&
-        walletStore.autoSign &&
-        !hasUnauthorizedMessages &&
-        walletStore.isAutoSignEnabled
-      ) {
-        const msgExecMsgs = msgsOrMsgExecMsgs(
-          msgs,
-          walletStore.autoSign.injectiveAddress
-        )
-
-        const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
         const response =
-          await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
-            memo,
-            msgs: msgExecMsgs,
-            injectiveAddress: walletStore.autoSign.injectiveAddress
-          })
+          await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
 
-        if (IS_HELIX) {
-          notificationStore.$patch({ txResponse: response })
-          notificationStore.initTelemetry()
-        }
+        useEventBus(EventBus.BroadcastResponse).emit(response)
 
         return response
       }
 
       const msgBroadcaster = await getMsgBroadcaster()
-      const action = walletStore.isEip712
-        ? (params: MsgBroadcasterTxOptions) =>
-            msgBroadcaster.broadcastV2(params)
-        : (params: MsgBroadcasterTxOptions) =>
-            msgBroadcaster.broadcastWithFeeDelegation(params)
 
-      const response = await action(broadcastOptions)
+      const response = await msgBroadcaster.broadcastV2(broadcastOptions)
 
-      if (IS_HELIX) {
-        notificationStore.$patch({ txResponse: response })
-        notificationStore.initTelemetry()
-      }
+      useEventBus(EventBus.BroadcastResponse).emit(response)
 
       return response
     },
 
-    async validateAutoSign(
-      msgsType: string[] = [],
-      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[] = []
+    /**
+     * This is an abstraction method that handles the broadcast of transactions with regards of:
+     * - autoz status
+     * - autosign status,
+     * - fee delegation status
+     */
+    async broadcast(messages: Msgs | Msgs[], memo?: string) {
+      const walletStore = useSharedWalletStore()
+
+      if (!walletStore.isUserConnected) {
+        return
+      }
+
+      if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
+        throw new GeneralException(
+          new Error('Authz and auto-sign cannot be used together')
+        )
+      }
+
+      const normalizedMessages = normalizeBroadcastMessages(messages)
+      const actualMessages =
+        walletStore.isAuthzWalletConnected || walletStore.isAutoSignEnabled
+          ? msgsOrMsgExecMsgs(
+              normalizedMessages,
+              walletStore.isAutoSignEnabled
+                ? walletStore.autoSign?.injectiveAddress
+                : walletStore.injectiveAddress
+            )
+          : normalizedMessages
+
+      const broadcastOptions = {
+        memo,
+        msgs: actualMessages,
+        injectiveAddress: walletStore.isAuthzWalletConnected
+          ? walletStore.authZOrInjectiveAddress
+          : walletStore.injectiveAddress
+      }
+
+      if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
+        throw new GeneralException(
+          new Error('Authz and auto-sign cannot be used together')
+        )
+      }
+
+      if (walletStore.isFeeDelegationEnabled) {
+        return await this.broadcastWithFeeDelegation(broadcastOptions)
+      }
+
+      return await this.broadcastWithoutFeeDelegation(broadcastOptions)
+    },
+
+    async broadcastWithoutFeeDelegation(
+      broadcastOptions: MsgBroadcasterTxOptions
     ) {
-      if (msgsType.length === 0 && contractExecutionCompatAuthz.length === 0) {
+      const walletStore = useSharedWalletStore()
+
+      if (walletStore.isFeeDelegationEnabled) {
+        throw new GeneralException(
+          new Error(
+            'Broadcasting is not available for fee delegation, use broadcastWithFeeDelegation instead'
+          )
+        )
+      }
+
+      const isAutoSignEnabled =
+        walletStore.autoSign && walletStore.isAutoSignEnabled
+
+      if (!isAutoSignEnabled || walletStore.isGoogleAuth) {
+        const msgBroadcaster = await getMsgBroadcaster()
+
+        const response = await msgBroadcaster.broadcastV2(broadcastOptions)
+
+        useEventBus(EventBus.BroadcastResponse).emit(response)
+
+        return response
+      }
+
+      const isUnauthorizedMessages = checkUnauthorizedMessages(
+        normalizeBroadcastMessages(broadcastOptions.msgs)
+      )
+
+      if (isUnauthorizedMessages) {
+        throw new GeneralException(
+          new Error('Broadcasting is not available for auto sign')
+        )
+      }
+
+      const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+      const autoSign = walletStore.autoSign as AutoSign
+
+      const response = await withAutoSignPrivateKey(
+        autoSign,
+        async () =>
+          await autoSignMsgBroadcaster.broadcastV2({
+            memo: broadcastOptions.memo,
+            msgs: broadcastOptions.msgs,
+            injectiveAddress: autoSign.injectiveAddress
+          })
+      )
+
+      useEventBus(EventBus.BroadcastResponse).emit(response)
+
+      return response
+    },
+
+    async broadcastWithFeeDelegation(
+      broadcastOptions: MsgBroadcasterTxOptions
+    ) {
+      const walletStore = useSharedWalletStore()
+
+      if (!walletStore.isFeeDelegationEnabled) {
+        throw new GeneralException(
+          new Error(
+            'Broadcasting is not available for fee delegation, use broadcastWithoutFeeDelegation instead'
+          )
+        )
+      }
+
+      const isAutoSignEnabled =
+        walletStore.autoSign && walletStore.isAutoSignEnabled
+
+      if (!isAutoSignEnabled || walletStore.isGoogleAuth) {
+        const msgBroadcaster = await getMsgBroadcaster()
+
+        const response =
+          await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
+
+        useEventBus(EventBus.BroadcastResponse).emit(response)
+
+        return response
+      }
+
+      const isUnauthorizedMessages = checkUnauthorizedMessages(
+        normalizeBroadcastMessages(broadcastOptions.msgs)
+      )
+
+      if (isUnauthorizedMessages) {
+        throw new GeneralException(
+          new Error('Broadcasting is not available for auto sign')
+        )
+      }
+
+      const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+      const autoSign = walletStore.autoSign as AutoSign
+
+      const response = await withAutoSignPrivateKey(
+        autoSign,
+        async () =>
+          await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
+            memo: broadcastOptions.memo,
+            msgs: broadcastOptions.msgs,
+            injectiveAddress: autoSign.injectiveAddress
+          })
+      )
+
+      useEventBus(EventBus.BroadcastResponse).emit(response)
+
+      return response
+    },
+
+    async validateAutoSign({
+      msgsType = [],
+      existingGrants = [],
+      contractExecutionCompatAuthz = []
+    }: {
+      msgsType: string[]
+      existingGrants: GrantAuthorizationWithDecodedAuthorization[]
+      contractExecutionCompatAuthz: ContractExecutionCompatAuthz[]
+    }) {
+      if (
+        msgsType.length === 0 &&
+        contractExecutionCompatAuthz.length === 0 &&
+        existingGrants.length === 0
+      ) {
         throw new GeneralException(new Error('No messages provided'))
       }
 
@@ -807,11 +911,31 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const autoSign = walletStore.autoSign as AutoSign
       const nowInSeconds = Math.floor(Date.now() / 1000)
 
-      if (autoSign.expiration > nowInSeconds) {
+      const grants =
+        existingGrants.length > 0
+          ? existingGrants
+          : await fetchGranterGrantsNoThrow(walletStore.injectiveAddress)
+
+      const hasValidAutoSignExpiration =
+        autoSign.expiration > nowInSeconds + AUTO_SIGN_RENEWAL_THRESHOLD
+
+      const hasMissingOrExpiringAuthz = hasMissingOrExpiringGrants({
+        grants,
+        messageTypes: msgsType,
+        grantee: autoSign.injectiveAddress,
+        granter: walletStore.injectiveAddress
+      })
+
+      if (
+        hasValidAutoSignExpiration &&
+        !hasMissingOrExpiringAuthz &&
+        contractExecutionCompatAuthz.length === 0
+      ) {
         return
       }
 
-      const expirationInSeconds = autoSign.duration || 3600
+      const expiryInSeconds = autoSign.duration || AUTO_SIGN_GRANT_DURATION
+      const renewedExpiration = nowInSeconds + expiryInSeconds
 
       const grantWithAuthorization = contractExecutionCompatAuthz.map(
         (authorization) =>
@@ -819,74 +943,235 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             authorization,
             grantee: autoSign.injectiveAddress,
             granter: walletStore.injectiveAddress,
-            expiration: nowInSeconds + expirationInSeconds
+            expiryInSeconds
           })
       )
+      const authZMsgs = getMissingGrantMessages({
+        grants,
+        messageTypes: msgsType,
+        expiryInSeconds,
+        grantee: autoSign.injectiveAddress,
+        granter: walletStore.injectiveAddress
+      })
+      const messages = [...authZMsgs, ...grantWithAuthorization]
+      const expiration = getAutoSignGrantExpiration({
+        grants,
+        messageTypes: msgsType,
+        granter: walletStore.injectiveAddress,
+        renewedExpiration: messages.length > 0 ? renewedExpiration : undefined,
+        grantee: autoSign.injectiveAddress
+      })
 
-      const authZMsgs = msgsType.map((messageType) =>
-        MsgGrant.fromJSON({
-          grantee: autoSign.injectiveAddress,
-          granter: walletStore.injectiveAddress,
-          expiration: nowInSeconds + expirationInSeconds,
-          authorization: getGenericAuthorizationFromMessageType(messageType)
+      const actualAutoSign = {
+        ...autoSign,
+        expiration
+      }
+
+      if (messages.length === 0) {
+        walletStore.$patch({
+          autoSign: actualAutoSign
         })
-      )
+
+        return actualAutoSign
+      }
 
       await walletStore.connectWallet(walletStore.wallet)
 
-      await walletStore.broadcastWithFeeDelegation({
-        messages: [...authZMsgs, ...grantWithAuthorization]
+      // we have to submit this transaction from the main wallet
+      await this.broadcastFromMainWallet(messages)
+
+      walletStore.$patch({
+        autoSign: actualAutoSign
       })
 
-      walletStore.$patch((state) => {
-        state.autoSign = {
-          ...autoSign,
-          expiration: expirationInSeconds
-        }
-      })
+      return actualAutoSign
     },
 
-    async connectAutoSign({
-      msgsType,
-      contractMsgTypeMap,
-      contractExecutionCompatAuthz
-    }: {
-      msgsType?: string[]
-      contractMsgTypeMap?: Record<string, string[]>
-      contractExecutionCompatAuthz?: ContractExecutionCompatAuthz[]
-    }) {
-      if (
-        (msgsType?.length || 0) === 0 &&
-        (contractExecutionCompatAuthz?.length || 0) === 0
-      ) {
-        throw new GeneralException(new Error('No messages provided'))
-      }
-
-      // note: supports only 1 contract address for now
-      const contractAddress = Object.keys(contractMsgTypeMap || {})?.[0]
-      const contractMsgsType = Object.values(contractMsgTypeMap || {})[0] || []
-
-      if (contractAddress && !isCw20ContractAddress(contractAddress)) {
-        throw new GeneralException(new Error('Invalid contract addresses'))
-      }
-
+    async connectDeterministicAutoSign() {
       const walletStore = useSharedWalletStore()
 
+      const walletStrategy = await getWalletStrategy()
+
+      const signer = isCosmosWallet(walletStore.wallet)
+        ? walletStore.injectiveAddress
+        : walletStore.address
+      const payload = getAutoSignPayload(walletStore.injectiveAddress)
+      const signature = await walletStrategy.signArbitrary(signer, payload)
+
+      if (!signature) {
+        throw new GeneralException(new Error('Unable to sign autosign payload'))
+      }
+
+      const autoSignKey = await deriveAndStoreAutoSignKey({
+        signature,
+        address: walletStore.address,
+        injectiveAddress: walletStore.injectiveAddress
+      })
+
+      return {
+        ...autoSignKey,
+        duration: 0,
+        expiration: 0,
+        isConfirmed: true
+      }
+    },
+
+    async authorizeDeterministicAutoSign({
+      autoSign,
+      msgsType,
+      existingGrants = [],
+      contractMsgTypeMap,
+      contractExecutionCompatAuthz
+    }: ConnectAutoSignOptions) {
+      const walletStore = useSharedWalletStore()
+
+      if (!autoSign) {
+        throw new GeneralException(new Error('Auto sign is not connected'))
+      }
+
+      const actualAutoSign = { ...autoSign } as AutoSign
+
+      const { contractAddress, contractMsgsType } = getAutoSignGrantConfig({
+        msgsType,
+        contractMsgTypeMap,
+        contractExecutionCompatAuthz
+      })
+      const nowInSeconds = Math.floor(Date.now() / 1000)
+      const duration = AUTO_SIGN_GRANT_DURATION
+      const expiration = nowInSeconds + duration
+
+      const grants =
+        existingGrants.length > 0
+          ? existingGrants
+          : await fetchGranterGrantsNoThrow(walletStore.injectiveAddress)
+      const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
+        (authorization) =>
+          MsgGrantWithAuthorization.fromJSON({
+            authorization,
+            expiryInSeconds: duration,
+            grantee: actualAutoSign.injectiveAddress,
+            granter: walletStore.injectiveAddress
+          })
+      )
+      const authZMsgs = getMissingGrantMessages({
+        grants,
+        messageTypes: msgsType || [],
+        grantee: actualAutoSign.injectiveAddress,
+        expiryInSeconds: duration,
+        granter: walletStore.injectiveAddress
+      })
+      const contractMsgs = getMissingGrantMessages({
+        grants,
+        grantee: contractAddress,
+        messageTypes: contractMsgsType,
+        expiryInSeconds: duration,
+        granter: walletStore.injectiveAddress
+      })
+      const messages = [
+        ...authZMsgs,
+        ...contractMsgs,
+        ...grantWithAuthorization
+      ]
+
+      if (messages.length === 0) {
+        const existingExpiration = getAutoSignGrantExpiration({
+          grants,
+          granter: walletStore.injectiveAddress,
+          grantee: actualAutoSign.injectiveAddress,
+          messageTypes: msgsType || [],
+          contractGrantee: contractAddress,
+          contractMessageTypes: contractMsgsType
+        })
+
+        return {
+          ...actualAutoSign,
+          duration: actualAutoSign.duration || duration,
+          expiration: existingExpiration || expiration
+        }
+      }
+
+      try {
+        // we have to submit this transaction from the main wallet
+        await this.broadcastFromMainWallet(messages)
+
+        const actualExpiration = getAutoSignGrantExpiration({
+          grants,
+          granter: walletStore.injectiveAddress,
+          grantee: actualAutoSign.injectiveAddress,
+          messageTypes: msgsType || [],
+          contractGrantee: contractAddress,
+          renewedExpiration: expiration,
+          contractMessageTypes: contractMsgsType
+        })
+
+        return {
+          ...actualAutoSign,
+          duration,
+          expiration: actualExpiration
+        }
+      } catch (error) {
+        if (actualAutoSign.storageKey) {
+          await clearAutoSignKey(actualAutoSign.storageKey)
+        }
+
+        throw error
+      }
+    },
+
+    /**
+     * @deprecated Legacy simple autoSign flow. Prefer deterministic autoSign.
+     * This creates a fresh private key on each reconnect, so authorization also
+     * grants a fresh grantee address instead of reusing existing grants.
+     */
+    async connectAutoSign() {
       const { privateKey } = PrivateKey.generate()
       const injectiveAddress = privateKey.toBech32()
 
-      const nowInSeconds = Math.floor(Date.now() / 1000)
-      let expirationInSeconds = 60 * 60 * 24 * 30 // 30 days
-      if (IS_TRUE_CURRENT) {
-        // https://linear.app/injectivelabs/issue/IA-1049/auto-sign-expiration-swap-buttons-to-authenticate-instead-of-auto
-        expirationInSeconds = expirationInSeconds * 10 // 300 days
+      const autoSign = {
+        duration: 0,
+        expiration: 0,
+        injectiveAddress,
+        privateKey: privateKey.toPrivateKeyHex()
       }
+
+      return autoSign
+    },
+
+    /**
+     * @deprecated Legacy simple autoSign authorization. Prefer deterministic
+     * autoSign. Since the simple flow grants a newly generated private key on
+     * each reconnect, there are no existing grants to fetch or pass in. In comparison with the
+     * deterministic autoSign flow reuses the same grantee address, so existing
+     * grants can already exist and must be considered there.
+     */
+    async authorizeAutoSign({
+      autoSign,
+      msgsType,
+      contractMsgTypeMap,
+      contractExecutionCompatAuthz
+    }: ConnectAutoSignOptions) {
+      const walletStore = useSharedWalletStore()
+
+      const actualAutoSign = { ...autoSign } as AutoSign
+
+      if (!actualAutoSign) {
+        throw new GeneralException(new Error('Auto sign is not connected'))
+      }
+
+      const { contractAddress, contractMsgsType } = getAutoSignGrantConfig({
+        msgsType,
+        contractMsgTypeMap,
+        contractExecutionCompatAuthz
+      })
+
+      const nowInSeconds = Math.floor(Date.now() / 1000)
+      const expirationInSeconds = 60 * 60 * 24 * 30 // 30 days
 
       const grantWithAuthorization = (contractExecutionCompatAuthz || []).map(
         (authorization) =>
           MsgGrantWithAuthorization.fromJSON({
             authorization,
-            grantee: injectiveAddress,
+            grantee: actualAutoSign.injectiveAddress,
             granter: walletStore.injectiveAddress,
             expiration: nowInSeconds + expirationInSeconds
           })
@@ -894,7 +1179,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const authZMsgs = (msgsType || []).map((messageType) =>
         MsgGrant.fromJSON({
-          grantee: injectiveAddress,
+          grantee: actualAutoSign.injectiveAddress,
           granter: walletStore.injectiveAddress,
           expiration: nowInSeconds + expirationInSeconds,
           authorization: getGenericAuthorizationFromMessageType(messageType)
@@ -914,27 +1199,26 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             )
           : []
 
-      await walletStore.broadcastWithFeeDelegation({
-        messages: [...authZMsgs, ...contractMsgs, ...grantWithAuthorization]
-      })
-
-      const autoSign = {
-        injectiveAddress,
-        duration: expirationInSeconds,
-        privateKey: privateKey.toPrivateKeyHex(),
-        expiration: nowInSeconds + expirationInSeconds
-      }
-
-      walletStore.$patch({
-        autoSign
-      })
+      // we have to submit this transaction from the main wallet
+      await this.broadcastFromMainWallet([
+        ...authZMsgs,
+        ...contractMsgs,
+        ...grantWithAuthorization
+      ])
 
       const autoSignWalletStrategy = await getAutoSignWalletStrategy()
+
       await autoSignWalletStrategy.setMetadata({
         privateKey: {
-          privateKey: autoSign.privateKey
+          privateKey: actualAutoSign.privateKey as string
         }
       })
+
+      return {
+        ...actualAutoSign,
+        duration: expirationInSeconds,
+        expiration: nowInSeconds + expirationInSeconds
+      }
     },
 
     async fetchWeb3GatewayStatus() {
@@ -943,7 +1227,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const status = await web3GatewayService.healthCheck()
 
       walletStore.$patch({
-        isEip712: !status
+        isFeeDelegationEnabled: status
       })
     },
 

@@ -1,4 +1,5 @@
 export * from './strategy'
+export * from './autosign'
 export * from './utils/evm'
 export * from './utils/cosmos'
 export * from './utils/address'

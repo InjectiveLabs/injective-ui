@@ -33,6 +33,7 @@ import {
   getChainGrpcWasmApi,
   getChainRestAuthApi,
   getChainRestWasmApi,
+  getChainGrpcAuthZApi,
   getChainGrpcPeggyApi,
   getChainGrpcOracleApi,
   getIndexerGrpcMitoApi,
@@ -79,6 +80,8 @@ export const getInsuranceFundsApi = () =>
   getChainGrpcInsuranceFundApi(ENDPOINTS.grpc)
 
 export const getAuthApi = () => getChainGrpcAuthApi(ENDPOINTS.grpc)
+
+export const getAuthZApi = () => getChainGrpcAuthZApi(ENDPOINTS.grpc)
 
 export const getOracleApi = () => getChainGrpcOracleApi(ENDPOINTS.grpc)
 

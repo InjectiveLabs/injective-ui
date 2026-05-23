@@ -47,6 +47,7 @@ export enum EventBus {
   HasMagicAccount = 'has-magic-account',
   WalletConnected = 'wallet-connected',
   SubaccountChange = 'subaccount-change',
+  BroadcastResponse = 'broadcast-response',
   WalletDisconnected = 'wallet-disconnected'
 }
 

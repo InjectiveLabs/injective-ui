@@ -13,9 +13,9 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
   getters: {},
   actions: {
     async wrapInj(amount: string) {
-      const walletStore = useSharedWalletStore()
+      const sharedWalletStore = useSharedWalletStore()
 
-      if (!walletStore.isUserConnected) {
+      if (!sharedWalletStore.isUserConnected) {
         return
       }
 
@@ -26,25 +26,25 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
         await (strategy as any)?.addEvmNetwork(INJECTIVE_EVM_CHAIN_ID)
       }
 
-      await walletStore.validateAndQueue()
+      await sharedWalletStore.validateAndQueue()
 
       const tx = await wEth9Contract.deposit(
         amount,
-        walletStore.address as `0x${string}`
+        sharedWalletStore.address as `0x${string}`
       )
 
       const web3Broadcaster = await getWeb3Broadcaster()
       await web3Broadcaster.sendTransaction({
         tx,
-        address: walletStore.address,
+        address: sharedWalletStore.address,
         evmChainId: INJECTIVE_EVM_CHAIN_ID
       })
     },
 
     async unwrapInj(amount: string) {
-      const walletStore = useSharedWalletStore()
+      const sharedWalletStore = useSharedWalletStore()
 
-      if (!walletStore.isUserConnected) {
+      if (!sharedWalletStore.isUserConnected) {
         return
       }
 
@@ -55,17 +55,17 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
         await (strategy as any)?.addEvmNetwork(INJECTIVE_EVM_CHAIN_ID)
       }
 
-      await walletStore.validateAndQueue()
+      await sharedWalletStore.validateAndQueue()
 
       const tx = await wEth9Contract.withdraw(
         parseEther(amount),
-        walletStore.address as `0x${string}`
+        sharedWalletStore.address as `0x${string}`
       )
 
       const web3Broadcaster = await getWeb3Broadcaster()
       await web3Broadcaster.sendTransaction({
         tx,
-        address: walletStore.address,
+        address: sharedWalletStore.address,
         evmChainId: INJECTIVE_EVM_CHAIN_ID
       })
     }
