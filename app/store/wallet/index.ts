@@ -685,6 +685,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
+    /**
+     * This method disregards the authz, autosign and broadcasts from the main connected wallet
+     * with or without fee delegation, depending on whether fee delegation is enabled or not
+     */
     async broadcastFromMainWallet(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
 
@@ -720,6 +724,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return response
     },
 
+    /**
+     * This is an abstraction method that handles the broadcast of transactions with regards of:
+     * - autoz status
+     * - autosign status,
+     * - fee delegation status
+     */
     async broadcast(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
 
@@ -734,9 +744,15 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const normalizedMessages = normalizeBroadcastMessages(messages)
-      const actualMessages = walletStore.isAuthzWalletConnected
-        ? msgsOrMsgExecMsgs(normalizedMessages, walletStore.injectiveAddress)
-        : normalizedMessages
+      const actualMessages =
+        walletStore.isAuthzWalletConnected || walletStore.isAutoSignEnabled
+          ? msgsOrMsgExecMsgs(
+              normalizedMessages,
+              walletStore.isAutoSignEnabled
+                ? walletStore.autoSign?.injectiveAddress
+                : walletStore.injectiveAddress
+            )
+          : normalizedMessages
 
       const broadcastOptions = {
         memo,
