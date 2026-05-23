@@ -53,8 +53,8 @@ import type {
   ContractExecutionCompatAuthz,
   GrantAuthorizationWithDecodedAuthorization
 } from '@injectivelabs/sdk-ts'
-import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 import type { AutoSign } from '../../types'
+import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
 
@@ -832,7 +832,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (!isAutoSignEnabled || walletStore.isGoogleAuth) {
         const msgBroadcaster = await getMsgBroadcaster()
 
-        const response = await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
+        const response =
+          await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
 
         useEventBus(EventBus.BroadcastResponse).emit(response)
 
@@ -944,7 +945,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.connectWallet(walletStore.wallet)
 
       // we have to submit this transaction from the main wallet
-     await this.broadcastFromMainWallet(messages)
+      await this.broadcastFromMainWallet(messages)
 
       walletStore.$patch({
         autoSign: actualAutoSign
