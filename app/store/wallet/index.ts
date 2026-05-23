@@ -1051,6 +1051,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         return {
           ...actualAutoSign,
+          duration: actualAutoSign.duration || duration,
           expiration: existingExpiration || expiration
         }
       }
@@ -1073,6 +1074,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
+    /**
+     * @deprecated Legacy simple autoSign flow. Prefer deterministic autoSign.
+     * This creates a fresh private key on each reconnect, so authorization also
+     * grants a fresh grantee address instead of reusing existing grants.
+     */
     async connectAutoSign() {
       const { privateKey } = PrivateKey.generate()
       const injectiveAddress = privateKey.toBech32()
@@ -1087,7 +1093,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return autoSign
     },
 
-    /** for simple autoSign we never have existing grants so we don't need to fetch them or pass them as an argument */
+    /**
+     * @deprecated Legacy simple autoSign authorization. Prefer deterministic
+     * autoSign. Since the simple flow grants a newly generated private key on
+     * each reconnect, there are no existing grants to fetch or pass in. In comparison with the
+     * deterministic autoSign flow reuses the same grantee address, so existing
+     * grants can already exist and must be considered there.
+     */
     async authorizeAutoSign({
       autoSign,
       msgsType,
