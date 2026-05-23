@@ -241,14 +241,58 @@ const getTypesAndCoins = (
   }
 }
 
+const parseJsonString = (value: any): any => {
+  if (!value || typeof value !== 'string') {
+    return value
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch {
+    return value
+  }
+}
+
+const parseTransactionMessage = (message: Message): Message => {
+  const raw = message.message as any
+
+  if (!raw) {
+    return message
+  }
+
+  return {
+    ...message,
+    message: {
+      ...raw,
+      ...(raw.msg !== undefined && { msg: parseJsonString(raw.msg) }),
+      ...(Array.isArray(raw.msgs) && {
+        msgs: raw.msgs.map((msgItem: any) => {
+          if (
+            typeof msgItem === 'object' &&
+            msgItem !== null &&
+            'msg' in msgItem
+          ) {
+            return { ...msgItem, msg: parseJsonString(msgItem.msg) }
+          }
+
+          return msgItem
+        })
+      })
+    }
+  }
+}
+
 export const toUiTransaction = (
   transaction: ExplorerTransaction,
   injectiveAddress?: string
 ): UiExplorerTransaction => {
+  const messages = transaction.messages.map(parseTransactionMessage)
+
   return {
     ...transaction,
     ...getTypesAndCoins(transaction),
-    templateSummaries: transaction.messages.map((message) => ({
+    messages,
+    templateSummaries: messages.map((message) => ({
       type: message.type,
       summary: getHumanReadableMessage({
         value: message,
