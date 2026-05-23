@@ -91,8 +91,10 @@ function getMissingGrantMessages({
 function getExistingGrantExpirations({
   grants,
   grantee,
+  granter,
   messageTypes
 }: {
+  granter: string
   grantee?: string
   messageTypes: string[]
   grants: GrantAuthorizationWithDecodedAuthorization[]
@@ -102,12 +104,15 @@ function getExistingGrantExpirations({
   }
 
   const normalizedMessageTypes = messageTypes.map(normalizeMessageType)
+  const nowInSeconds = Math.floor(Date.now() / 1000)
 
   return grants
     .filter(
       (grant) =>
+        grant.granter === granter &&
         grant.grantee === grantee &&
-        normalizedMessageTypes.includes(grant.authorization?.msg || '')
+        normalizedMessageTypes.includes(grant.authorization?.msg || '') &&
+        grant.expiration > nowInSeconds + AUTO_SIGN_RENEWAL_THRESHOLD
     )
     .map((grant) => grant.expiration)
 }
@@ -115,11 +120,13 @@ function getExistingGrantExpirations({
 function getAutoSignGrantExpiration({
   grants,
   grantee,
+  granter,
   messageTypes,
   renewedExpiration,
   contractMessageTypes,
   contractGrantee
 }: {
+  granter: string
   grantee: string
   messageTypes: string[]
   contractGrantee?: string
@@ -130,11 +137,13 @@ function getAutoSignGrantExpiration({
   const expirations = [
     ...getExistingGrantExpirations({
       grants,
+      granter,
       grantee,
       messageTypes
     }),
     ...getExistingGrantExpirations({
       grants,
+      granter,
       grantee: contractGrantee,
       messageTypes: contractMessageTypes || []
     })
