@@ -175,8 +175,12 @@ export const getCoins = ({
  * that contains `contract`, `msg`, etc. for a MsgExecuteContractCompat).
  *
  * Detection priority:
- *   1. contractMsgLabelMap — both the contract address AND msg action must match
- *   2. hardCodedContractCopyMap — contract address only (e.g. HelixSwap, MitoSwap)
+ *   1. contractMsgLabelMap — both the contract address AND msg action must match.
+ *      If the contract is known but the action does NOT match, return undefined
+ *      (don't degrade to the copy-map fallback — e.g. cancel_intent_lane on the
+ *      RFQ contract should not show "Execute Contract - RFQ").
+ *   2. hardCodedContractCopyMap — contract address only, for contracts that have
+ *      no msgLabel (any interaction shows the contract name).
  */
 const getContractMsgSuffix = (
   contractMsg: Record<string, any>
@@ -186,8 +190,8 @@ const getContractMsgSuffix = (
 
   const labelEntry = contractMsgLabelMap[contract]
 
-  if (labelEntry && msg?.[labelEntry.msgAction] !== undefined) {
-    return labelEntry.label
+  if (labelEntry) {
+    return msg?.[labelEntry.msgAction] !== undefined ? labelEntry.label : undefined
   }
 
   return hardCodedContractCopyMap[contract]
