@@ -230,8 +230,6 @@ const formatMsgType = (message: Message): string => {
 
   const suffix = getMsgTypeSuffix(message)
 
-  console.log({ suffix })
-
   if (!suffix) {
     return formattedType
   }
