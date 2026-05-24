@@ -1,9 +1,8 @@
 import { MsgType } from '@injectivelabs/ts-types'
 import { eventLogsSummaryMap } from './messageEvents'
 import { toHumanReadable } from '@injectivelabs/utils'
+import { contractSummaryMap } from './contractSummary'
 import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils'
-import { contractEventSummaryMap } from './contractEvents'
-import { contractMsgTypeMap } from './../../utils/explorer'
 import { getNetworkFromAddress } from './../../utils/network'
 import { EventMessageType } from './../../types'
 import type { Coin, Message, EventLog } from '@injectivelabs/sdk-ts'
@@ -64,7 +63,7 @@ const exchangeMsgSummaryMap: Partial<
     const { market_id: marketId } = order
 
     return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} in {{market:${marketId}}}`
+      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
     ]
   },
 
@@ -569,6 +568,22 @@ const govMsgSummaryMap: Partial<
   }
 }
 
+const executeContractSummary = (value: Message, logs: EventLog[]) => {
+  const { sender, contract: contractAddress, msg, funds } = value.message
+
+  const summaryFn = contractSummaryMap[contractAddress]
+
+  if (!summaryFn) {
+    return []
+  }
+
+  // logs are forwarded so swap summaries can use actual amounts from events;
+  // RFQ summaries ignore logs and parse from the message body directly
+  const contractSummary = summaryFn({ sender, msg, funds, logs })
+
+  return contractSummary ? [contractSummary] : []
+}
+
 const msgSummaryMap: Partial<
   Record<
     MsgType,
@@ -733,39 +748,8 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgExecuteContract]: (value: Message, logs: EventLog[]) => {
-    const { sender, contract: contractAddress } = value.message
-
-    const contractType = contractMsgTypeMap[contractAddress]
-
-    if (!contractType) {
-      return []
-    }
-
-    const contractSummary = contractEventSummaryMap[contractType]?.({
-      logs,
-      sender
-    })
-
-    return contractSummary ? [contractSummary] : []
-  },
-
-  [MsgType.MsgExecuteContractCompat]: (value: Message, logs: EventLog[]) => {
-    const { sender, contract: contractAddress } = value.message
-
-    const contractType = contractMsgTypeMap[contractAddress]
-
-    if (!contractType) {
-      return []
-    }
-
-    const contractSummary = contractEventSummaryMap[contractType]?.({
-      logs,
-      sender
-    })
-
-    return contractSummary ? [contractSummary] : []
-  }
+  [MsgType.MsgExecuteContract]: executeContractSummary,
+  [MsgType.MsgExecuteContractCompat]: executeContractSummary
 }
 
 export const getHumanReadableMessage = ({

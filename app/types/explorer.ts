@@ -10,6 +10,11 @@ export type SharedEventAttribute = {
   value: string
 }
 
+export type ContractMsgLabel = {
+  label: string
+  msgAction: string
+}
+
 export interface UIMessageTemplateSummary {
   type: string
   summary: string[]
@@ -33,4 +38,5 @@ export interface UiContractTransaction extends ContractTransaction {
   blockNumber: number
   coinReceived: Coin[]
   blockTimestamp: number
+  templateSummaries: UIMessageTemplateSummary[]
 }

@@ -8,7 +8,7 @@ import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
 import {
   contractMsgLabelMap,
   hardCodedContractCopyMap
-} from './../../utils/explorer'
+} from './contractSummary'
 import type { BigNumber } from '@injectivelabs/utils'
 import type {
   Coin,
@@ -178,7 +178,9 @@ export const getCoins = ({
  *   1. contractMsgLabelMap — both the contract address AND msg action must match
  *   2. hardCodedContractCopyMap — contract address only (e.g. HelixSwap, MitoSwap)
  */
-const getContractMsgSuffix = (contractMsg: Record<string, any>): string | undefined => {
+const getContractMsgSuffix = (
+  contractMsg: Record<string, any>
+): string | undefined => {
   const contract = contractMsg?.contract
   const msg = contractMsg?.msg
 
@@ -350,6 +352,13 @@ export const toUiContractTransaction = (
     hash: transaction.txHash,
     blockNumber: transaction.height,
     blockTimestamp: transaction.time,
-    ...getTypesAndCoins(transaction, messages)
+    ...getTypesAndCoins(transaction, messages),
+    templateSummaries: messages.map((message) => ({
+      type: message.type,
+      summary: getHumanReadableMessage({
+        value: message,
+        logs: transaction.logs || []
+      })
+    }))
   }
 }
