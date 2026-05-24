@@ -221,7 +221,7 @@ const getMsgTypeSuffix = (message: Message): string | undefined => {
     return getContractMsgSuffix(abstractedMessage)
   }
 
-  return msgTypeMap[abstractedType]
+  return undefined
 }
 
 const formatMsgType = (message: Message): string => {
@@ -229,6 +229,8 @@ const formatMsgType = (message: Message): string => {
   const formattedType = msgTypeMap[type] || message.type
 
   const suffix = getMsgTypeSuffix(message)
+
+  console.log({ suffix })
 
   if (!suffix) {
     return formattedType
