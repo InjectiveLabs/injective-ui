@@ -51,6 +51,8 @@ export const toUiCw20Balance = (
 const getMsgType = (msg: Message): MsgType => {
   const type = msg.type || (msg as unknown as { '@type': string })['@type']
 
+  if (!type) return '' as MsgType
+
   if (type.startsWith('/')) {
     return type.split('/')[1] as MsgType
   }
@@ -191,7 +193,9 @@ const getContractMsgSuffix = (
   const labelEntry = contractMsgLabelMap[contract]
 
   if (labelEntry) {
-    return msg?.[labelEntry.msgAction] !== undefined ? labelEntry.label : undefined
+    return msg?.[labelEntry.msgAction] !== undefined
+      ? labelEntry.label
+      : undefined
   }
 
   return hardCodedContractCopyMap[contract]
@@ -245,12 +249,22 @@ const getSenderFromEvents = (events: EventLogEvent[]) => {
     ?.value
 }
 
+/**
+ * For MsgExec (authz), the tx signer is the grantee but coin events are
+ * attributed to the granter (the inner message sender). Return that address
+ * so getCoins can match the right events.
+ */
+const getMsgExecGranter = (messages: Message[]): string | undefined =>
+  messages.find((m) => getMsgType(m) === MsgType.MsgExec)?.message?.msgs?.[0]
+    ?.sender
+
 const getTypesAndCoins = (
   transaction: ExplorerTransaction | ContractTransaction,
   messages: Message[]
 ) => {
   const events = (transaction.logs || []).flatMap(({ events }) => events)
   const sender =
+    getMsgExecGranter(messages) ||
     transaction?.signatures?.[0]?.address ||
     (getSenderFromEvents(events) as string)
 
