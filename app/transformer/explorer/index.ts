@@ -210,10 +210,7 @@ const getMsgTypeSuffix = (message: Message): string | undefined => {
     abstractedType === MsgType.MsgExecuteContract ||
     abstractedType === MsgType.MsgExecuteContractCompat
   ) {
-    const contractPayload =
-      type === MsgType.MsgExec ? abstractedMessage.message : abstractedMessage
-
-    return getContractMsgSuffix(contractPayload)
+    return getContractMsgSuffix(abstractedMessage)
   }
 
   return msgTypeMap[abstractedType]
