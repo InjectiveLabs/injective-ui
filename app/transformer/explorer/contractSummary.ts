@@ -49,7 +49,15 @@ const generateRfqSummary = ({
     }
 
     const { direction, market_id: marketId, quantity } = acceptQuote
-    const side = direction.toUpperCase() === 'LONG' ? 'BUY' : 'SELL'
+    const normalizedDirection = direction?.toUpperCase()
+    const side =
+      normalizedDirection === 'LONG' || normalizedDirection === 'SHORT'
+        ? normalizedDirection
+        : undefined
+
+    if (!side) {
+      return undefined
+    }
 
     return `{{account:${sender}}} created a MARKET ${side} order for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
   } catch {

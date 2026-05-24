@@ -196,27 +196,27 @@ const getContractMsgSuffix = (
 const getMsgTypeSuffix = (message: Message): string | undefined => {
   const type = getMsgType(message)
 
-  if (type === MsgType.MsgExec) {
-    const innerMsg = message.message.msgs?.[0]
+  const abstractedMessage =
+    type === MsgType.MsgExec ? message.message.msgs?.[0] : message.message
 
-    if (!innerMsg) {
-      return undefined
-    }
-
-    const innerType = getMsgType(innerMsg)
-
-    if (innerType === MsgType.MsgExecuteContractCompat) {
-      return getContractMsgSuffix(innerMsg)
-    }
-
-    return msgTypeMap[innerType]
+  if (!abstractedMessage) {
+    return undefined
   }
 
-  if (type === MsgType.MsgExecuteContractCompat) {
-    return getContractMsgSuffix(message.message)
+  const abstractedType =
+    type === MsgType.MsgExec ? getMsgType(abstractedMessage) : type
+
+  if (
+    abstractedType === MsgType.MsgExecuteContract ||
+    abstractedType === MsgType.MsgExecuteContractCompat
+  ) {
+    const contractPayload =
+      type === MsgType.MsgExec ? abstractedMessage.message : abstractedMessage
+
+    return getContractMsgSuffix(contractPayload)
   }
 
-  return undefined
+  return msgTypeMap[abstractedType]
 }
 
 const formatMsgType = (message: Message): string => {
@@ -352,6 +352,7 @@ export const toUiContractTransaction = (
     hash: transaction.txHash,
     blockNumber: transaction.height,
     blockTimestamp: transaction.time,
+    messages,
     ...getTypesAndCoins(transaction, messages),
     templateSummaries: messages.map((message) => ({
       type: message.type,
