@@ -808,7 +808,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (isUnauthorizedMessages) {
         throw new GeneralException(
-          new Error('Broadcasting is not available for auto sign')
+          new Error('Broadcasting is not available for auto sign for some of the included messages in the transaction')
         )
       }
 
