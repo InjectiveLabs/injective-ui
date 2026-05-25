@@ -745,15 +745,48 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const normalizedMessages = normalizeBroadcastMessages(messages)
-      const actualMessages =
-        walletStore.isAuthzWalletConnected || walletStore.isAutoSignEnabled
-          ? msgsOrMsgExecMsgs(
-              normalizedMessages,
-              walletStore.isAutoSignEnabled
-                ? walletStore.autoSign?.injectiveAddress
-                : walletStore.injectiveAddress
-            )
-          : normalizedMessages
+
+      // Check authorization on RAW messages BEFORE MsgExec wrapping.
+      // Authorized (all trading msgs) → wrap in MsgExec + dispatch to autoSign broadcaster directly.
+      // Unauthorized (CW20, mixed, non-trading) → fall through to main wallet with raw messages.
+      const isAutoSignActive = walletStore.autoSign && walletStore.isAutoSignEnabled
+
+      if (isAutoSignActive && !walletStore.isGoogleAuth) {
+        const isUnauthorizedMessages = checkUnauthorizedMessages(normalizedMessages)
+
+        if (!isUnauthorizedMessages) {
+          const autoSign = walletStore.autoSign as AutoSign
+          const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+          const autoSignMessages = msgsOrMsgExecMsgs(
+            normalizedMessages,
+            autoSign.injectiveAddress
+          )
+          const autoSignOptions = {
+            memo,
+            msgs: autoSignMessages,
+            injectiveAddress: autoSign.injectiveAddress
+          }
+
+          const response = await withAutoSignPrivateKey(
+            autoSign,
+            async () =>
+              walletStore.isFeeDelegationEnabled
+                ? await autoSignMsgBroadcaster.broadcastWithFeeDelegation(
+                    autoSignOptions
+                  )
+                : await autoSignMsgBroadcaster.broadcastV2(autoSignOptions)
+          )
+
+          useEventBus(EventBus.BroadcastResponse).emit(response)
+
+          return response
+        }
+      }
+
+      // AuthZ or regular path (autoSign not active, or messages unauthorized for autoSign)
+      const actualMessages = walletStore.isAuthzWalletConnected
+        ? msgsOrMsgExecMsgs(normalizedMessages, walletStore.injectiveAddress)
+        : normalizedMessages
 
       const broadcastOptions = {
         memo,
@@ -761,12 +794,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         injectiveAddress: walletStore.isAuthzWalletConnected
           ? walletStore.authZOrInjectiveAddress
           : walletStore.injectiveAddress
-      }
-
-      if (walletStore.isAutoSignEnabled && walletStore.isAuthzWalletConnected) {
-        throw new GeneralException(
-          new Error('Authz and auto-sign cannot be used together')
-        )
       }
 
       if (walletStore.isFeeDelegationEnabled) {
@@ -792,38 +819,37 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const isAutoSignEnabled =
         walletStore.autoSign && walletStore.isAutoSignEnabled
 
-      if (!isAutoSignEnabled || walletStore.isGoogleAuth) {
-        const msgBroadcaster = await getMsgBroadcaster()
-
-        const response = await msgBroadcaster.broadcastV2(broadcastOptions)
-
-        useEventBus(EventBus.BroadcastResponse).emit(response)
-
-        return response
-      }
-
-      const isUnauthorizedMessages = checkUnauthorizedMessages(
-        normalizeBroadcastMessages(broadcastOptions.msgs)
-      )
-
-      if (isUnauthorizedMessages) {
-        throw new GeneralException(
-          new Error('Broadcasting is not available for auto sign for some of the included messages in the transaction')
+      if (isAutoSignEnabled && !walletStore.isGoogleAuth) {
+        const isUnauthorizedMessages = checkUnauthorizedMessages(
+          normalizeBroadcastMessages(broadcastOptions.msgs)
         )
+
+        if (!isUnauthorizedMessages) {
+          const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+          const autoSign = walletStore.autoSign as AutoSign
+
+          const response = await withAutoSignPrivateKey(
+            autoSign,
+            async () =>
+              await autoSignMsgBroadcaster.broadcastV2({
+                memo: broadcastOptions.memo,
+                msgs: msgsOrMsgExecMsgs(
+                  normalizeBroadcastMessages(broadcastOptions.msgs),
+                  autoSign.injectiveAddress
+                ),
+                injectiveAddress: autoSign.injectiveAddress
+              })
+          )
+
+          useEventBus(EventBus.BroadcastResponse).emit(response)
+
+          return response
+        }
       }
 
-      const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
-      const autoSign = walletStore.autoSign as AutoSign
+      const msgBroadcaster = await getMsgBroadcaster()
 
-      const response = await withAutoSignPrivateKey(
-        autoSign,
-        async () =>
-          await autoSignMsgBroadcaster.broadcastV2({
-            memo: broadcastOptions.memo,
-            msgs: broadcastOptions.msgs,
-            injectiveAddress: autoSign.injectiveAddress
-          })
-      )
+      const response = await msgBroadcaster.broadcastV2(broadcastOptions)
 
       useEventBus(EventBus.BroadcastResponse).emit(response)
 
@@ -846,39 +872,38 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const isAutoSignEnabled =
         walletStore.autoSign && walletStore.isAutoSignEnabled
 
-      if (!isAutoSignEnabled || walletStore.isGoogleAuth) {
-        const msgBroadcaster = await getMsgBroadcaster()
-
-        const response =
-          await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
-
-        useEventBus(EventBus.BroadcastResponse).emit(response)
-
-        return response
-      }
-
-      const isUnauthorizedMessages = checkUnauthorizedMessages(
-        normalizeBroadcastMessages(broadcastOptions.msgs)
-      )
-
-      if (isUnauthorizedMessages) {
-        throw new GeneralException(
-          new Error('Broadcasting is not available for auto sign')
+      if (isAutoSignEnabled && !walletStore.isGoogleAuth) {
+        const isUnauthorizedMessages = checkUnauthorizedMessages(
+          normalizeBroadcastMessages(broadcastOptions.msgs)
         )
+
+        if (!isUnauthorizedMessages) {
+          const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+          const autoSign = walletStore.autoSign as AutoSign
+
+          const response = await withAutoSignPrivateKey(
+            autoSign,
+            async () =>
+              await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
+                memo: broadcastOptions.memo,
+                msgs: msgsOrMsgExecMsgs(
+                  normalizeBroadcastMessages(broadcastOptions.msgs),
+                  autoSign.injectiveAddress
+                ),
+                injectiveAddress: autoSign.injectiveAddress
+              })
+          )
+
+          useEventBus(EventBus.BroadcastResponse).emit(response)
+
+          return response
+        }
       }
 
-      const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
-      const autoSign = walletStore.autoSign as AutoSign
+      const msgBroadcaster = await getMsgBroadcaster()
 
-      const response = await withAutoSignPrivateKey(
-        autoSign,
-        async () =>
-          await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
-            memo: broadcastOptions.memo,
-            msgs: broadcastOptions.msgs,
-            injectiveAddress: autoSign.injectiveAddress
-          })
-      )
+      const response =
+        await msgBroadcaster.broadcastWithFeeDelegation(broadcastOptions)
 
       useEventBus(EventBus.BroadcastResponse).emit(response)
 
