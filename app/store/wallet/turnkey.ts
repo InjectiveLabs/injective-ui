@@ -164,12 +164,15 @@ export const connectTurnkeyTwitter = async () => {
 
   const { url, pkce } = await turnkeyWallet.initOAuth2(TurnkeyProvider.Twitter)
 
-  localStorage.setItem('twitter_oauth_state', pkce!.state)
-  localStorage.setItem('twitter_oauth_code_verifier', pkce!.codeVerifier)
-  localStorage.setItem('twitter_oauth_target_public_key', pkce!.targetPublicKey)
   localStorage.setItem(
-    'twitter_oauth_expires_at',
-    String(Date.now() + DEFAULT_TWITTER_OAUTH_EXPIRY)
+    'tc_twitter_oauth',
+    JSON.stringify({
+      state: pkce!.state,
+      nonce: pkce!.nonce,
+      codeVerifier: pkce!.codeVerifier,
+      targetPublicKey: pkce!.targetPublicKey,
+      expiresAt: Date.now() + DEFAULT_TWITTER_OAUTH_EXPIRY
+    })
   )
 
   window.location.href = url
@@ -179,19 +182,16 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   const walletStore = useSharedWalletStore()
   const walletStrategy = await getWalletStrategy()
 
-  const savedState = localStorage.getItem('twitter_oauth_state')
-  const codeVerifier = localStorage.getItem('twitter_oauth_code_verifier')
-  const targetPublicKey = localStorage.getItem(
-    'twitter_oauth_target_public_key'
-  )
-  const expiresAt = Number(
-    localStorage.getItem('twitter_oauth_expires_at') || '0'
-  )
+  const twitterSession = localStorage.getItem('tc_twitter_oauth')
+  const twitterOAuth = twitterSession ? JSON.parse(twitterSession) : null
 
-  localStorage.removeItem('twitter_oauth_state')
-  localStorage.removeItem('twitter_oauth_expires_at')
-  localStorage.removeItem('twitter_oauth_code_verifier')
-  localStorage.removeItem('twitter_oauth_target_public_key')
+  const nonce = twitterOAuth?.nonce
+  const savedState = twitterOAuth?.state
+  const codeVerifier = twitterOAuth?.codeVerifier
+  const targetPublicKey = twitterOAuth?.targetPublicKey
+  const expiresAt = Number(twitterOAuth?.expiresAt || 0)
+
+  localStorage.removeItem('tc_twitter_oauth')
 
   if (state !== savedState) {
     throw new WalletException(
@@ -200,7 +200,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
     )
   }
 
-  if (!codeVerifier || !targetPublicKey) {
+  if (!nonce || !codeVerifier || !targetPublicKey) {
     throw new WalletException(
       new Error('OAuth session not found — please try signing in again'),
       { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
@@ -222,6 +222,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
 
   const session = await turnkeyWallet.confirmOAuth2({
     authCode,
+    nonce: nonce!,
     codeVerifier: codeVerifier!,
     targetPublicKey: targetPublicKey!,
     providerName: TurnkeyProvider.Twitter
