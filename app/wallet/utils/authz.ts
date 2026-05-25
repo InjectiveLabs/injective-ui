@@ -123,17 +123,28 @@ function getAutoSignGrantExpiration({
   granter,
   messageTypes,
   renewedExpiration,
-  contractMessageTypes,
-  contractGrantee
+  contractEntries
 }: {
   granter: string
   grantee: string
   messageTypes: string[]
-  contractGrantee?: string
   renewedExpiration?: number
-  contractMessageTypes?: string[]
   grants: GrantAuthorizationWithDecodedAuthorization[]
+  contractEntries?: Array<{
+    contractAddress: string
+    contractMsgsType: string[]
+  }>
 }) {
+  const contractExpirations = (contractEntries || []).flatMap(
+    ({ contractAddress, contractMsgsType }) =>
+      getExistingGrantExpirations({
+        grants,
+        granter,
+        grantee: contractAddress,
+        messageTypes: contractMsgsType
+      })
+  )
+
   const expirations = [
     ...getExistingGrantExpirations({
       grants,
@@ -141,12 +152,7 @@ function getAutoSignGrantExpiration({
       grantee,
       messageTypes
     }),
-    ...getExistingGrantExpirations({
-      grants,
-      granter,
-      grantee: contractGrantee,
-      messageTypes: contractMessageTypes || []
-    })
+    ...contractExpirations
   ]
 
   if (renewedExpiration) {
@@ -175,17 +181,20 @@ function getAutoSignGrantConfig({
     throw new GeneralException(new Error('No messages provided'))
   }
 
-  const contractAddress = Object.keys(contractMsgTypeMap || {})?.[0]
-  const contractMsgsType = Object.values(contractMsgTypeMap || {})[0] || []
+  const contractEntries = Object.entries(contractMsgTypeMap || {}).map(
+    ([contractAddress, contractMsgsType]) => ({
+      contractAddress,
+      contractMsgsType
+    })
+  )
 
-  if (contractAddress && !isCw20ContractAddress(contractAddress)) {
-    throw new GeneralException(new Error('Invalid contract addresses'))
+  for (const { contractAddress } of contractEntries) {
+    if (!isCw20ContractAddress(contractAddress)) {
+      throw new GeneralException(new Error('Invalid contract addresses'))
+    }
   }
 
-  return {
-    contractAddress,
-    contractMsgsType
-  }
+  return { contractEntries }
 }
 
 function hasMissingOrExpiringGrants({
