@@ -1,15 +1,23 @@
 import { onBroadcastResponse } from './hooks/onBroadcastResponse'
-import { onWalletDisconnected } from './hooks/onWalletDisconnected'
 import {
+  onWalletDisconnected,
+  onWalletDisconnectedOnly
+} from './hooks/onWalletDisconnected'
+import {
+  onWalletReady,
   onWalletConnected,
   onHasMagicAccount,
-  onWalletInitialConnected
+  onWalletInitialConnected,
+  onMountedOrWalletConnected
 } from './hooks/onWalletConnected'
 
 export {
+  onWalletReady,
   onWalletConnected,
   onHasMagicAccount,
   onBroadcastResponse,
   onWalletDisconnected,
-  onWalletInitialConnected
+  onWalletDisconnectedOnly,
+  onWalletInitialConnected,
+  onMountedOrWalletConnected
 }
