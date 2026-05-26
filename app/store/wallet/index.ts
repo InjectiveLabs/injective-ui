@@ -62,12 +62,12 @@ const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
 type WalletStoreState = {
   wallet: Wallet
   email?: string
+  isDev: boolean
   address: string
   session: string
   privateKey: string
-  autoSign?: AutoSign
   addresses: string[]
-  isReadOnly: boolean // used to "impersonate" a wallet in a read-only mode
+  autoSign?: AutoSign
   hwAddresses: string[]
   leapInstalled: boolean
   queueStatus: StatusType
@@ -117,10 +117,10 @@ const initialStateFactory = (): WalletStoreState => ({
   email: '',
   address: '',
   session: '',
+  isDev: false,
   addresses: [],
   privateKey: '',
   hwAddresses: [],
-  isReadOnly: false,
   injectiveAddress: '',
   bitGetInstalled: false,
   addressConfirmation: '',
@@ -968,10 +968,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       // used here because it throws when all three inputs are empty, which is a
       // valid scenario when only existingGrants is provided.
       const contractEntries = Object.entries(contractMsgTypeMap || {}).map(
-        ([contractAddress, contractMsgsType]) => ({
-          contractAddress,
-          contractMsgsType
-        })
+        ([contractAddress, contractMsgsType]) => ({ contractAddress, contractMsgsType })
       )
 
       const hasMissingOrExpiringContractAuthz = contractEntries.some(
@@ -1492,7 +1489,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await walletStore.onConnect()
     },
 
-    async connectReadOnlyAddress(injectiveAddress: string) {
+    async connectAddress(injectiveAddress: string) {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
 
@@ -1506,7 +1503,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         address,
         session,
         addresses,
-        isReadOnly: true,
+        isDev: true,
         injectiveAddress,
         addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
       })
