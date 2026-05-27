@@ -123,6 +123,10 @@ export const useSharedTokenStore = defineStore('sharedToken', {
     }
   },
   actions: {
+    setSupplyMap(supplyMap: SharedTokenStoreState['supplyMap']) {
+      this.supplyMap = supplyMap
+    },
+
     async fetchSupply() {
       const sharedTokenStore = useSharedTokenStore()
 

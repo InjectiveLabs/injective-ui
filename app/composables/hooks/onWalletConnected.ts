@@ -45,7 +45,6 @@ export function onMountedOrWalletConnected(
   registerWalletConnectedCallback(onConnectedCallback || onMountedCallback)
 }
 
-
 export const onWalletConnected = (callback: Function) => {
   onMounted(() => {
     callback()
