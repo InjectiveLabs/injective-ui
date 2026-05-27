@@ -65,7 +65,9 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                   ? IS_MAINNET
                     ? 'https://api.ui.tc.xyz/api/v1'
                     : 'https://api.ui.staging.tc.xyz/api/v1'
-                  : 'https://api.ui.injective.network/api/v1',
+                  : IS_MAINNET
+                    ? 'https://api.ui.injective.network/api/v1'
+                    : 'https://api.ui.staging.injective.network/api/v1',
                 expirationSeconds: '86400'
               }
             })
