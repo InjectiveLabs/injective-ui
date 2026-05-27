@@ -59,6 +59,24 @@ import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
 
+const evmWalletsWithValidation = [
+  Wallet.Rabby,
+  Wallet.BitGet,
+  Wallet.Phantom,
+  Wallet.KeplrEvm,
+  Wallet.Metamask,
+  Wallet.OkxWallet,
+  Wallet.TrustWallet
+] as WalletType[]
+
+const cosmosWalletsWithValidation = [
+  Wallet.Leap,
+  Wallet.Keplr,
+  Wallet.Ninji,
+  Wallet.OWallet,
+  Wallet.Cosmostation
+] as WalletType[]
+
 type WalletStoreState = {
   wallet: Wallet
   email?: string
@@ -341,7 +359,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()
 
-      await sharedWalletStore.validate()
+      await sharedWalletStore.validateBeforeQueue()
 
       sharedWalletStore.queue()
     },
@@ -466,45 +484,29 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async validate(options?: { forceMainWalletValidation?: boolean }) {
+    async validateBeforeQueue() {
       const walletStore = useSharedWalletStore()
-      const shouldSkipValidationForAutoSign =
-        walletStore.isAutoSignEnabled && !options?.forceMainWalletValidation
 
-      if (shouldSkipValidationForAutoSign) {
+      if (walletStore.isAutoSignEnabled) {
         return
       }
 
-      if (
-        (
-          [
-            Wallet.Rabby,
-            Wallet.BitGet,
-            Wallet.Phantom,
-            Wallet.KeplrEvm,
-            Wallet.Metamask,
-            Wallet.OkxWallet,
-            Wallet.TrustWallet
-          ] as WalletType[]
-        ).includes(walletStore.wallet)
-      ) {
+      await walletStore.validateMainWallet()
+    },
+
+    async validateMainWallet() {
+      const walletStore = useSharedWalletStore()
+
+      if (evmWalletsWithValidation.includes(walletStore.wallet)) {
         await validateEvmWallet({
           wallet: walletStore.wallet,
           address: walletStore.address
         })
+
+        return
       }
 
-      if (
-        (
-          [
-            Wallet.Leap,
-            Wallet.Ninji,
-            Wallet.Keplr,
-            Wallet.OWallet,
-            Wallet.Cosmostation
-          ] as WalletType[]
-        ).includes(walletStore.wallet)
-      ) {
+      if (cosmosWalletsWithValidation.includes(walletStore.wallet)) {
         await validateCosmosWallet({
           wallet: walletStore.wallet,
           address: walletStore.injectiveAddress
@@ -705,7 +707,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         throw new GeneralException(new Error('Wallet is not connected'))
       }
 
-      await walletStore.validate({ forceMainWalletValidation: true })
+      await walletStore.validateMainWallet()
 
       const actualMessages = normalizeBroadcastMessages(messages)
 
