@@ -466,10 +466,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async validate() {
+    async validate(options?: { forceMainWalletValidation?: boolean }) {
       const walletStore = useSharedWalletStore()
+      const shouldSkipValidationForAutoSign =
+        walletStore.isAutoSignEnabled && !options?.forceMainWalletValidation
 
-      if (walletStore.isAutoSignEnabled) {
+      if (shouldSkipValidationForAutoSign) {
         return
       }
 
@@ -702,6 +704,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (!walletStore.isUserConnected) {
         throw new GeneralException(new Error('Wallet is not connected'))
       }
+
+      await walletStore.validate({ forceMainWalletValidation: true })
 
       const actualMessages = normalizeBroadcastMessages(messages)
 
