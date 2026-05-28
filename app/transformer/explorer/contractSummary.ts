@@ -68,8 +68,10 @@ const generateRfqSummary = ({
       return undefined
     }
 
+    const reduceOnlySide = side === 'LONG' ? 'SHORT' : 'LONG'
+
     if (isMarginZero) {
-      return `{{account:${sender}}} closed a ${side} for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
+      return `{{account:${sender}}} closed a ${reduceOnlySide} for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
     }
 
     return `{{account:${sender}}} created a MARKET ${side} order for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
