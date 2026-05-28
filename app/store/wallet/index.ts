@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { IS_DEVNET } from '../../utils/constant'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
+import { IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
 import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   checkUnauthorizedMessages,
@@ -1093,7 +1093,21 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         ? walletStore.injectiveAddress
         : walletStore.address
       const payload = getAutoSignPayload(walletStore.injectiveAddress)
-      const signature = await walletStrategy.signArbitrary(signer, payload)
+
+      const signature = walletStore.isGoogleAuth
+        ? await walletStrategy.signEip712TypedData(
+            JSON.stringify({
+              types: {
+                EIP712Domain: [{ name: 'name', type: 'string' }],
+                AutoSign: [{ name: 'message', type: 'string' }]
+              },
+              primaryType: 'AutoSign',
+              message: { message: payload },
+              domain: { name: IS_TRUE_CURRENT ? 'TrueCurrent' : 'Injective' }
+            }),
+            walletStore.address
+          )
+        : await walletStrategy.signArbitrary(signer, payload)
 
       if (!signature) {
         throw new GeneralException(new Error('Unable to sign autosign payload'))
