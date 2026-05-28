@@ -563,7 +563,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
+    /** @deprecated use disconnect instead */
     async logout() {
+      await useSharedWalletStore().disconnect()
+    },
+
+    async disconnect() {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
       const storageKey = walletStore.autoSign?.storageKey
