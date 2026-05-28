@@ -1,3 +1,4 @@
+import { toBigNumber } from '@injectivelabs/utils'
 import {
   rfqContractAddress,
   mitoSwapContractAddress,
@@ -38,9 +39,15 @@ const generateRfqSummary = ({
   try {
     const acceptQuote = msg[MSG_ACTION.ACCEPT_QUOTE] as
       | undefined
-      | { quantity: string; direction: string; market_id: string }
+      | {
+          margin: string
+          quantity: string
+          direction: string
+          market_id: string
+        }
 
     if (
+      !acceptQuote?.margin ||
       !acceptQuote?.direction ||
       !acceptQuote?.market_id ||
       !acceptQuote?.quantity
@@ -48,15 +55,21 @@ const generateRfqSummary = ({
       return undefined
     }
 
-    const { direction, market_id: marketId, quantity } = acceptQuote
+    const { direction, market_id: marketId, quantity, margin } = acceptQuote
     const normalizedDirection = direction?.toUpperCase()
     const side =
       normalizedDirection === 'LONG' || normalizedDirection === 'SHORT'
         ? normalizedDirection
         : undefined
 
+    const isMarginZero = toBigNumber(margin).isZero()
+
     if (!side) {
       return undefined
+    }
+
+    if (isMarginZero) {
+      return `{{account:${sender}}} closed a ${side} for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
     }
 
     return `{{account:${sender}}} created a MARKET ${side} order for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
@@ -93,7 +106,12 @@ const generateSwapSummary = ({
     const swapFinalAmount = attr('swap_final_amount')
     const swapFinalDenom = attr('swap_final_denom')
 
-    if (!swapInputAmount || !swapInputDenom || !swapFinalAmount || !swapFinalDenom) {
+    if (
+      !swapInputAmount ||
+      !swapInputDenom ||
+      !swapFinalAmount ||
+      !swapFinalDenom
+    ) {
       return undefined
     }
 
