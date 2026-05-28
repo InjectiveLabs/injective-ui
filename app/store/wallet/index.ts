@@ -703,6 +703,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async broadcastFromMainWallet(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
 
+      if (walletStore.isReadOnly) {
+        throw new GeneralException(
+          new Error(
+            'Read-only connection cannot sign or submit transactions. Connect a wallet to continue.'
+          )
+        )
+      }
+
       if (!walletStore.isUserConnected) {
         throw new GeneralException(new Error('Wallet is not connected'))
       }
@@ -745,6 +753,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
      */
     async broadcast(messages: Msgs | Msgs[], memo?: string) {
       const walletStore = useSharedWalletStore()
+
+      if (walletStore.isReadOnly) {
+        throw new GeneralException(
+          new Error(
+            'Read-only connection cannot sign or submit transactions. Connect a wallet to continue.'
+          )
+        )
+      }
 
       if (!walletStore.isUserConnected) {
         throw new GeneralException(new Error('Wallet is not connected'))
