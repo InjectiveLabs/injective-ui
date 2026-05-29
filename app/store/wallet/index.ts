@@ -824,6 +824,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         ? msgsOrMsgExecMsgs(normalizedMessages, walletStore.injectiveAddress)
         : normalizedMessages
 
+      await walletStore.validateMainWallet()
+
       const broadcastOptions = {
         memo,
         msgs: actualMessages,

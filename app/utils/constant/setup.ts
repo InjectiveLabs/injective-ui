@@ -59,7 +59,7 @@ export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
 
 export const INJECTIVE_EVM_CHAIN_ID: EvmChainId = IS_MAINNET
   ? EvmChainId.MainnetEvm
-  : IS_TESTNET
+  : IS_TESTNET || IS_DEVNET
     ? EvmChainId.TestnetEvm
     : EvmChainId.MainnetEvm // todo: add EvmChainId.DevnetEvm when devnet chain config is finalized
 
