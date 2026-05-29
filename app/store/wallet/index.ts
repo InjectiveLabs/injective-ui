@@ -404,11 +404,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await autoSignWalletStrategy.disconnect()
     },
 
-    onConnect() {
+    onConnect(bypassCloseModal) {
       const modalStore = useSharedModalStore()
       const walletStore = useSharedWalletStore()
 
-      modalStore.closeAll()
+      if (!bypassCloseModal) {
+        modalStore.closeAll()
+      }
 
       walletStore.$patch({
         walletConnectStatus: WalletConnectStatus.connected

@@ -81,7 +81,7 @@ export const submitTurnkeyOTP = async (
       address: address ? getEthereumAddress(address) : undefined
     })
 
-    await walletStore.onConnect()
+    await walletStore.onConnect(true)
 
     const isExistingMagicUser = await walletStore.queryMagicExistingUser(
       walletStore.email
