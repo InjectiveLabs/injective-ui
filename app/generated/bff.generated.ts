@@ -2691,6 +2691,17 @@ export interface paths {
                         };
                     };
                 };
+                /** @description Too many requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
                 /** @description Internal server error */
                 500: {
                     headers: {
@@ -2757,6 +2768,17 @@ export interface paths {
                 };
                 /** @description Entry code not found */
                 404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many verification attempts */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -3949,6 +3971,116 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/entry-code/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Verify and claim an entry code (authenticated)
+         * @description Verifies an entry code for the authenticated wallet address. If valid and not previously used by this address, it also claims one usage slot.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        code: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Entry code is valid */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isValid: boolean;
+                                alreadyUsed: boolean;
+                                code: string;
+                                usageCap: number;
+                                totalUses: number;
+                                remainingUses: number;
+                                expiresAt: string | null;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Entry code is disabled, expired, or fully used */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Entry code not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many verification attempts */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -4219,7 +4351,7 @@ export interface components {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -4237,7 +4369,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -4247,13 +4379,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -4296,7 +4428,7 @@ export interface components {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -4314,7 +4446,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -4324,13 +4456,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -4376,7 +4508,7 @@ export interface components {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -4394,7 +4526,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -4404,13 +4536,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;

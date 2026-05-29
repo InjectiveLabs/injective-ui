@@ -251,6 +251,14 @@ export function createBffClient(client: ApiClient) {
           },
         },
       },
+      v2: {
+        entry_code: {
+          verify: {
+            post: ((...init: MethodArgs<'post', '/api/v2/entry-code/verify'>) =>
+              client.POST('/api/v2/entry-code/verify', ...init)) as LeafMethod<'post', '/api/v2/entry-code/verify'>,
+          },
+        },
+      },
     },
   }
 }
