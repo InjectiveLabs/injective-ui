@@ -61,7 +61,7 @@ export const INJECTIVE_EVM_CHAIN_ID: EvmChainId = IS_MAINNET
   ? EvmChainId.MainnetEvm
   : IS_TESTNET
     ? EvmChainId.TestnetEvm
-    : EvmChainId.MainnetEvm
+    : EvmChainId.MainnetEvm // todo: add EvmChainId.DevnetEvm when devnet chain config is finalized
 
 const endpoints = getNetworkEndpoints(NETWORK)
 const endpointsNotProvided =
