@@ -41,7 +41,24 @@ export const getEmailTurnkeyOTP = async (email: string) => {
   })
 }
 
-export const submitTurnkeyOTP = async (otpCode: string) => {
+export const getSmsTurnkeyOTP = async (phone: string) => {
+  const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
+
+  await walletStore.connectWallet(Wallet.Turnkey)
+
+  const turnkeyWallet =
+    (await walletStrategy.getWalletClient()) as TurnkeyWallet
+
+  await turnkeyWallet.initSms(phone)
+
+  walletStore.$patch({ phone })
+}
+
+export const submitTurnkeyOTP = async (
+  otpCode: string,
+  channel: TurnkeyProvider
+) => {
   const walletStore = useSharedWalletStore()
   const walletStrategy = await getWalletStrategy()
   const turnkeyWallet =
@@ -57,6 +74,7 @@ export const submitTurnkeyOTP = async (otpCode: string) => {
     walletStore.$patch({
       session,
       addresses,
+      turnkeyProvider: channel,
       injectiveAddress: address,
       addressConfirmation: session,
       turnkeyInjectiveAddress: address,
@@ -64,6 +82,7 @@ export const submitTurnkeyOTP = async (otpCode: string) => {
     })
 
     await walletStore.onConnect()
+
     const isExistingMagicUser = await walletStore.queryMagicExistingUser(
       walletStore.email
     )
@@ -103,6 +122,7 @@ export const connectTurnkeyGoogle = async () => {
     injectiveAddress: address,
     turnkeyInjectiveAddress: address,
     addressConfirmation: urlOrSession,
+    turnkeyProvider: TurnkeyProvider.Google,
     address: address ? getEthereumAddress(address) : undefined
   })
 
@@ -134,6 +154,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
     injectiveAddress: address,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
+    turnkeyProvider: TurnkeyProvider.Google,
     address: address ? getEthereumAddress(address) : undefined
   })
 

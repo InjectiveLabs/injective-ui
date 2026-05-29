@@ -4,11 +4,16 @@ import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
-import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   checkUnauthorizedMessages,
   normalizeBroadcastMessages
 } from '../../wallet/utils/broadcast'
+import {
+  Wallet,
+  isEvmWallet,
+  isCosmosWallet,
+  TurnkeyProvider
+} from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
   getInjectiveAddress,
@@ -80,6 +85,7 @@ const cosmosWalletsWithValidation = [
 type WalletStoreState = {
   wallet: Wallet
   email?: string
+  phone?: string
   address: string
   session: string
   privateKey: string
@@ -103,10 +109,11 @@ type WalletStoreState = {
   metamaskInstalled: boolean
   addressConfirmation: string
   okxWalletInstalled: boolean
-
   trustWalletInstalled: boolean
+
   isFeeDelegationEnabled: boolean
   turnkeyInjectiveAddress: string
+  turnkeyProvider?: TurnkeyProvider
   walletConnectStatus: WalletConnectStatus
 
   hwAddressesInfo: {
@@ -133,6 +140,7 @@ type WalletStoreState = {
 
 const initialStateFactory = (): WalletStoreState => ({
   email: '',
+  phone: '',
   address: '',
   session: '',
   addresses: [],
@@ -149,6 +157,7 @@ const initialStateFactory = (): WalletStoreState => ({
   keplrEvmInstalled: false,
   metamaskInstalled: false,
   okxWalletInstalled: false,
+  turnkeyProvider: undefined,
   trustWalletInstalled: false,
   isFeeDelegationEnabled: true,
   turnkeyInjectiveAddress: '',
@@ -193,7 +202,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     isGoogleAuth: (state) => {
-      return ([Wallet.Magic, Wallet.Turnkey] as Wallet[]).includes(state.wallet)
+      return (
+        state.wallet === Wallet.Magic ||
+        (state.wallet === Wallet.Turnkey &&
+          state.turnkeyProvider === TurnkeyProvider.Google)
+      )
+    },
+
+    isPhoneNumber: (state) => {
+      return (
+        state.wallet === Wallet.Turnkey &&
+        state.turnkeyProvider === TurnkeyProvider.Sms
+      )
     },
 
     isWalletExemptFromGasFee: (state) => {
@@ -350,6 +370,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     getEmailTurnkeyOTP: lazyPiniaAction(
       () => import('./turnkey'),
       'getEmailTurnkeyOTP'
+    ),
+    getSmsTurnkeyOTP: lazyPiniaAction(
+      () => import('./turnkey'),
+      'getSmsTurnkeyOTP'
     ),
     connectTurnkeyGoogle: lazyPiniaAction(
       () => import('./turnkey'),
