@@ -1,6 +1,6 @@
 import { toBigNumber } from '@injectivelabs/utils'
 import {
-  rfqContractAddress,
+  rfqContractAddresses,
   mitoSwapContractAddress,
   helixSwapContractAddress
 } from './../../data/wasmContracts'
@@ -129,13 +129,19 @@ const swapConfig = (copy: string): ContractSummaryConfig => ({
   msgLabel: { label: 'Swap', msgAction: MSG_ACTION.SWAP_MIN_OUTPUT }
 })
 
+const rfqConfig: ContractSummaryConfig = {
+  copy: 'RFQ',
+  summaryFn: generateRfqSummary,
+  msgLabel: { label: 'Create RFQ Trade', msgAction: MSG_ACTION.ACCEPT_QUOTE }
+}
+
+const rfqRegistry = Object.fromEntries(
+  rfqContractAddresses.map((addr) => [addr, rfqConfig])
+) as Record<string, ContractSummaryConfig>
+
 export const contractRegistry: Record<string, ContractSummaryConfig> = {
   [helixSwapContractAddress]: swapConfig('Helix Swap'),
-  [rfqContractAddress]: {
-    copy: 'RFQ',
-    summaryFn: generateRfqSummary,
-    msgLabel: { label: 'Create RFQ Trade', msgAction: MSG_ACTION.ACCEPT_QUOTE }
-  },
+  ...rfqRegistry,
   // mitoSwapContractAddress is undefined on devnet — no devnet deployment exists
   ...(mitoSwapContractAddress && {
     [mitoSwapContractAddress]: swapConfig('Mito Swap')

@@ -11,7 +11,8 @@ export enum TestnetWasmContractAddress {
 }
 
 export enum MainnetWasmContractAddress {
-  Rfq = 'inj1e0u9nl50gzhmrmhwx3v9vf535vkhwzpwku6mtk',
+  Rfq = 'inj12stwq95jet57edcu4a65r48r46s9rzrs938n8k',
+  RfqLegacy = 'inj1e0u9nl50gzhmrmhwx3v9vf535vkhwzpwku6mtk',
   MitoSwap = 'inj1j5mr2hmv7y2z7trazganj75u8km8jvdfuxncsp',
   HelixSwap = 'inj12yj3mtjarujkhcp6lg3klxjjfrx2v7v8yswgp9'
 }
@@ -31,3 +32,7 @@ export const rfqContractAddress = IS_MAINNET
   : IS_TESTNET
     ? TestnetWasmContractAddress.Rfq
     : DevnetWasmContractAddress.Rfq
+
+export const rfqContractAddresses = IS_MAINNET
+  ? [MainnetWasmContractAddress.Rfq, MainnetWasmContractAddress.RfqLegacy]
+  : [rfqContractAddress]
