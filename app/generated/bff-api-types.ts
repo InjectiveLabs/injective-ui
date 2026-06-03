@@ -85,6 +85,10 @@ export function createBffClient(client: ApiClient) {
             post: ((...init: MethodArgs<'post', '/api/v1/bridge/deposit'>) =>
               client.POST('/api/v1/bridge/deposit', ...init)) as LeafMethod<'post', '/api/v1/bridge/deposit'>,
           },
+          mint: {
+            post: ((...init: MethodArgs<'post', '/api/v1/bridge/mint'>) =>
+              client.POST('/api/v1/bridge/mint', ...init)) as LeafMethod<'post', '/api/v1/bridge/mint'>,
+          },
           notified: {
             post: ((...init: MethodArgs<'post', '/api/v1/bridge/notified'>) =>
               client.POST('/api/v1/bridge/notified', ...init)) as LeafMethod<'post', '/api/v1/bridge/notified'>,
@@ -214,6 +218,12 @@ export function createBffClient(client: ApiClient) {
           quote: {
             post: ((...init: MethodArgs<'post', '/api/v1/onramp/quote'>) =>
               client.POST('/api/v1/onramp/quote', ...init)) as LeafMethod<'post', '/api/v1/onramp/quote'>,
+          },
+        },
+        polymarket: {
+          sign: {
+            post: ((...init: MethodArgs<'post', '/api/v1/polymarket/sign'>) =>
+              client.POST('/api/v1/polymarket/sign', ...init)) as LeafMethod<'post', '/api/v1/polymarket/sign'>,
           },
         },
         profile: {

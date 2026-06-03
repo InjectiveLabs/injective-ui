@@ -701,6 +701,121 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/bridge/mint": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Relay a CCTP mint
+         * @description Executes Circle CCTP V2 MessageTransmitter.receiveMessage on the destination chain using the BFF server wallet.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /**
+                         * @description Circle CCTP V2 message bytes
+                         * @example 0x00000001...
+                         */
+                        message: string;
+                        /**
+                         * @description Circle attestation signature bytes
+                         * @example 0xabcdef...
+                         */
+                        attestation: string;
+                        /**
+                         * @description Destination EVM chain id
+                         * @example 8453
+                         */
+                        destinationChainId: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Mint transaction mined successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: true;
+                            /** @example 0x1234567890123456789012345678901234567890123456789012345678901234 */
+                            transactionHash: string;
+                            /** @example 8453 */
+                            chainId: number;
+                            /** @example Base */
+                            chainName: string;
+                        };
+                    };
+                };
+                /** @description Invalid request body or unsupported destination chain */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        } | {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                        };
+                    };
+                };
+                /** @description Message was already processed or is currently being relayed */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                        };
+                    };
+                };
+                /** @description Relayer execution failed */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/bridge/withdrawal": {
         parameters: {
             query?: never;
@@ -2438,73 +2553,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/onramp/providers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List available onramp providers
-         * @description Returns configured onramp providers available in the requested country.
-         */
-        get: {
-            parameters: {
-                query: {
-                    country: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Available providers */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            data: {
-                                providers: ("coinbase" | "moonpay" | "binance-connect")[];
-                            };
-                        };
-                    };
-                };
-                /** @description Invalid country query param */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                        };
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v1/onramp/quote": {
         parameters: {
             query?: never;
@@ -2536,7 +2584,10 @@ export interface paths {
                         walletAddress: string;
                         /** @enum {string} */
                         network: "ethereum" | "arbitrum" | "base";
-                        /** @enum {string} */
+                        /**
+                         * @default card
+                         * @enum {string}
+                         */
                         paymentMethod?: "card" | "apple_pay" | "google_pay" | "ach" | "sepa" | "paypal" | "bank";
                         country: string;
                         clientIp: string;
@@ -2578,6 +2629,10 @@ export interface paths {
                                 };
                                 expiresAt: string;
                                 quoteId?: string;
+                                limits?: {
+                                    minBuyAmount: number;
+                                    maxBuyAmount: number;
+                                };
                             };
                         };
                     };
@@ -2639,6 +2694,70 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/onramp/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List available onramp providers
+         * @description Returns configured onramp providers available in the requested country.
+         */
+        get: {
+            parameters: {
+                query: {
+                    country: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Available providers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                providers: ("coinbase" | "moonpay" | "binance-connect")[];
+                                providersWithStatus: {
+                                    /** @enum {string} */
+                                    provider: "coinbase" | "moonpay" | "binance-connect";
+                                    /** @enum {string} */
+                                    status: "available" | "unavailable";
+                                    /** @enum {string} */
+                                    reason?: "not_configured" | "country_blocked" | "region_unsupported";
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid country query param */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -3104,6 +3223,80 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/polymarket/sign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign Polymarket Builder API request
+         * @description Returns Polymarket Builder authentication headers for the provided request payload.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        method: string;
+                        path: string;
+                        body?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Polymarket Builder authentication headers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            POLY_BUILDER_SIGNATURE: string;
+                            POLY_BUILDER_TIMESTAMP: string;
+                            POLY_BUILDER_API_KEY: string;
+                            POLY_BUILDER_PASSPHRASE: string;
+                        };
+                    };
+                };
+                /** @description Invalid request body */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Signing failed or credentials are not configured */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
