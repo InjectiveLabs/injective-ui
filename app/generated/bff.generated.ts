@@ -4328,6 +4328,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
         };
         /** @description Spot market with required token metadata from Injective SDK */
         BffTcSpotMarket: {
@@ -4379,6 +4380,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
@@ -4433,6 +4435,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
@@ -4615,6 +4618,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
         };
         /** @description Derivative market with required quote token metadata from Injective SDK */
         BffTcDerivativeMarket: {
@@ -4692,6 +4696,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
@@ -4772,6 +4777,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
