@@ -1101,8 +1101,9 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         : walletStore.address
       const payload = getAutoSignPayload(walletStore.injectiveAddress)
 
-      const signature = walletStore.isSSOAuth
-        ? await walletStrategy.signEip712TypedData(
+      const signature = isCosmosWallet(walletStore.wallet)
+        ? await walletStrategy.signArbitrary(signer, payload)
+        : await walletStrategy.signEip712TypedData(
             JSON.stringify({
               types: {
                 EIP712Domain: [{ name: 'name', type: 'string' }],
@@ -1114,7 +1115,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             }),
             walletStore.address
           )
-        : await walletStrategy.signArbitrary(signer, payload)
 
       if (!signature) {
         throw new GeneralException(new Error('Unable to sign autosign payload'))
