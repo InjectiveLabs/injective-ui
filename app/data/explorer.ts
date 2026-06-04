@@ -134,6 +134,9 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgCreateDerivativeLimitOrder]: 'Create Derivative Limit Order',
     [MsgType.MsgBatchCancelDerivativeOrders]: 'Batch Cancel Derivative Orders',
     [MsgType.MsgCreateDerivativeMarketOrder]: 'Create Derivative Market Order',
+    [MsgType.MsgInstantPerpetualMarketLaunch]: 'Instant Perpetual Market Launch',
+    [MsgType.MsgInstantExpiryFuturesMarketLaunch]:
+      'Instant Expiry Futures Market Launch',
 
     // Injective Exchange V1Beta1 - Binary Options
     [MsgType.MsgCancelBinaryOptionsOrder]: 'Cancel Binary Options Order',
@@ -217,6 +220,7 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgActivateStakeGrantV2]: 'Activate Stake Grant V2',
     [MsgType.MsgReclaimLockedFundsV2]: 'Reclaim Locked Funds V2',
     [MsgType.MsgAuthorizeStakeGrantsV2]: 'Authorize Stake Grants V2',
+    [MsgType.MsgUpdateSubaccountRiskProfileV2]: 'Update Subaccount Risk Profile V2',
     [MsgType.MsgBatchExchangeModificationV2]: 'Batch Exchange Modification V2',
     [MsgType.MsgPrivilegedExecuteContractV2]: 'Privileged Execute Contract V2',
     [MsgType.MsgSetDelegationTransferReceivers]:
@@ -244,6 +248,8 @@ export const msgTypeMap = Object.fromEntries(
       'Create Derivative Limit Order V2',
     [MsgType.DerivativeMarketOrderResultsV2]:
       'Derivative Market Order Results V2',
+    [MsgType.LiquidatePositionDataV2]: 'Liquidate Position Data V2',
+    [MsgType.LiquidatePositionResultV2]: 'Liquidate Position Result V2',
     [MsgType.MsgCreateDerivativeMarketOrderV2]:
       'Create Derivative Market Order V2',
     [MsgType.MsgBatchCancelDerivativeOrdersV2]:
@@ -276,6 +282,8 @@ export const msgTypeMap = Object.fromEntries(
     // Injective Exchange V2 - Position & Liquidation
     [MsgType.MsgOffsetPositionV2]: 'Offset Position V2',
     [MsgType.MsgLiquidatePositionV2]: 'Liquidate Position V2',
+    [MsgType.MsgLiquidateCrossMarginPoolV2]: 'Liquidate Cross Margin Pool V2',
+    [MsgType.MsgBatchLiquidatePositionsV2]: 'Batch Liquidate Positions V2',
     [MsgType.MsgCancelPostOnlyModeV2]: 'Cancel Post Only Mode V2',
     [MsgType.MsgActivatePostOnlyModeV2]: 'Activate Post Only Mode V2',
     [MsgType.MsgEmergencySettleMarketV2]: 'Emergency Settle Market V2',
@@ -304,6 +312,8 @@ export const msgTypeMap = Object.fromEntries(
     // Injective Oracle
     [MsgType.MsgRelayBandRates]: 'Relay Band Rates',
     [MsgType.MsgRelayPythPrices]: 'Relay Pyth Prices',
+    [MsgType.MsgRelayPythProPrices]: 'Relay Pyth Pro Prices',
+    [MsgType.MsgRelaySedaFastPrices]: 'Relay Seda Fast Prices',
     [MsgType.MsgRelayStorkPrices]: 'Relay Stork Prices',
     [MsgType.MsgOracleUpdateParams]: 'Update Oracle Params',
     [MsgType.MsgRelayProviderPrices]: 'Relay Provider Prices',
@@ -386,11 +396,6 @@ export const msgTypeMap = Object.fromEntries(
 
     // Injective TxFees
     [MsgType.MsgTxFeesUpdateParams]: 'Update Tx Fees Params',
-
-    'injective.exchange.v1beta1.MsgInstantPerpetualMarketLaunch':
-      'Instant Perpetual Market Launch',
-    'injective.exchange.v1beta1.MsgInstantExpiryFuturesMarketLaunch':
-      'Instant Expiry Futures Market Launch'
   }).map(([k, v]) => [
     k,
     /^[A-Z][a-z]+(?:[A-Z][a-z]+)+$/.test(v)
