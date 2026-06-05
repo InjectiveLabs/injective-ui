@@ -1,22 +1,37 @@
 import { MsgType } from '@injectivelabs/ts-types'
-import { eventLogsSummaryMap } from './messageEvents'
 import { toHumanReadable } from '@injectivelabs/utils'
 import { contractSummaryMap } from './contractSummary'
 import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils'
 import { getNetworkFromAddress } from './../../utils/network'
-import { EventMessageType } from './../../types'
+import {
+  cancelSpotOrderSummary,
+  batchUpdateOrdersSummary,
+  createSpotLimitOrderSummary,
+  createSpotMarketOrderSummary,
+  cancelDerivativeOrderSummary,
+  batchCancelSpotOrdersSummary,
+  instantSpotMarketLaunchSummary,
+  createDerivativeLimitOrderSummary,
+  batchCreateSpotLimitOrdersSummary,
+  createDerivativeMarketOrderSummary,
+  batchCancelDerivativeOrdersSummary,
+  batchCreateDerivativeLimitOrdersSummary
+} from './utils/exchange'
 import type { Coin, Message, EventLog } from '@injectivelabs/sdk-ts'
+
+export type MsgSummaryParams = {
+  value: Message
+  logs: EventLog[]
+  injectiveAddress?: string
+}
+
+export type MsgSummaryHandler = (params: MsgSummaryParams) => string[]
 
 const AUCTION_POOL_SUBACCOUNT_ID =
   '0x1111111111111111111111111111111111111111111111111111111111111111'
 
-const exchangeMsgSummaryMap: Partial<
-  Record<
-    MsgType,
-    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
-  >
-> = {
-  [MsgType.MsgWithdraw]: (value: Message, _) => {
+const exchangeMsgSummaryMap: Partial<Record<MsgType, MsgSummaryHandler>> = {
+  [MsgType.MsgWithdraw]: ({ value }) => {
     const {
       sender,
       amount: { denom, amount },
@@ -28,275 +43,56 @@ const exchangeMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgInstantSpotMarketLaunch]: (value: Message, _) => {
-    const { sender, ticker } = value.message
+  [MsgType.MsgInstantSpotMarketLaunch]: instantSpotMarketLaunchSummary,
+  [MsgType.MsgInstantSpotMarketLaunchV2]: (params) =>
+    instantSpotMarketLaunchSummary({ ...params, isV2: true }),
 
-    return [`{{account:${sender}}} instant launched the ${ticker}`]
-  },
+  [MsgType.MsgCreateSpotMarketOrder]: createSpotMarketOrderSummary,
+  [MsgType.MsgCreateSpotMarketOrderV2]: (params) =>
+    createSpotMarketOrderSummary({ ...params, isV2: true }),
 
-  [MsgType.MsgCreateSpotMarketOrder]: (value: Message, _) => {
-    const { sender, order } = value.message
+  [MsgType.MsgCreateSpotLimitOrder]: createSpotLimitOrderSummary,
+  [MsgType.MsgCreateSpotLimitOrderV2]: (params) =>
+    createSpotLimitOrderSummary({ ...params, isV2: true }),
 
-    const { quantity } = order.order_info
-    const { market_id: marketId } = order
+  [MsgType.MsgCreateDerivativeMarketOrder]: createDerivativeMarketOrderSummary,
+  [MsgType.MsgCreateDerivativeMarketOrderV2]: (params) =>
+    createDerivativeMarketOrderSummary({ ...params, isV2: true }),
 
-    return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} in {{market:${marketId}}}`
-    ]
-  },
+  [MsgType.MsgCreateDerivativeLimitOrder]: createDerivativeLimitOrderSummary,
+  [MsgType.MsgCreateDerivativeLimitOrderV2]: (params) =>
+    createDerivativeLimitOrderSummary({ ...params, isV2: true }),
 
-  [MsgType.MsgCreateSpotLimitOrder]: (value: Message, _) => {
-    const { sender, order } = value.message
+  [MsgType.MsgCancelSpotOrder]: cancelSpotOrderSummary,
+  [MsgType.MsgCancelSpotOrderV2]: (params) =>
+    cancelSpotOrderSummary({ ...params, isV2: true }),
 
-    const { quantity, price } = order.order_info
-    const { market_id: marketId } = order
+  [MsgType.MsgBatchCancelSpotOrders]: batchCancelSpotOrdersSummary,
+  [MsgType.MsgBatchCancelSpotOrdersV2]: (params) =>
+    batchCancelSpotOrdersSummary({ ...params, isV2: true }),
 
-    return [
-      `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in {{market:${marketId}}}`
-    ]
-  },
+  [MsgType.MsgBatchCreateSpotLimitOrders]: batchCreateSpotLimitOrdersSummary,
+  [MsgType.MsgBatchCreateSpotLimitOrdersV2]: (params) =>
+    batchCreateSpotLimitOrdersSummary({ ...params, isV2: true }),
 
-  [MsgType.MsgCreateDerivativeMarketOrder]: (value: Message, _) => {
-    const { sender, order } = value.message
+  [MsgType.MsgCancelDerivativeOrder]: cancelDerivativeOrderSummary,
+  [MsgType.MsgCancelDerivativeOrderV2]: (params) =>
+    cancelDerivativeOrderSummary({ ...params, isV2: true }),
 
-    const { quantity } = order.order_info
-    const { market_id: marketId } = order
+  [MsgType.MsgBatchCancelDerivativeOrders]: batchCancelDerivativeOrdersSummary,
+  [MsgType.MsgBatchCancelDerivativeOrdersV2]: (params) =>
+    batchCancelDerivativeOrdersSummary({ ...params, isV2: true }),
 
-    return [
-      `{{account:${sender}}} created a MARKET ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} {{market:${marketId}}}`
-    ]
-  },
+  [MsgType.MsgBatchCreateDerivativeLimitOrders]:
+    batchCreateDerivativeLimitOrdersSummary,
+  [MsgType.MsgBatchCreateDerivativeLimitOrdersV2]: (params) =>
+    batchCreateDerivativeLimitOrdersSummary({ ...params, isV2: true }),
 
-  [MsgType.MsgCreateDerivativeLimitOrder]: (value: Message, _) => {
-    const { sender, order } = value.message
+  [MsgType.MsgBatchUpdateOrders]: batchUpdateOrdersSummary,
+  [MsgType.MsgBatchUpdateOrdersV2]: (params) =>
+    batchUpdateOrdersSummary({ ...params, isV2: true }),
 
-    const { quantity, price } = order.order_info
-
-    const { market_id: marketId } = order
-
-    return [
-      `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in {{market:${marketId}}}`
-    ]
-  },
-
-  [MsgType.MsgCancelSpotOrder]: (value: Message, logs: EventLog[]) => {
-    const {
-      cid,
-      sender,
-      market_id: marketId,
-      order_hash: orderHash
-    } = value.message
-
-    const eventSummary = eventLogsSummaryMap[
-      EventMessageType.CancelSpotOrder
-    ]?.({
-      logs,
-      sender,
-      args: cid || orderHash
-    })
-
-    if (eventSummary) {
-      return [eventSummary]
-    }
-
-    return [
-      `{{account:${sender}}} cancelled order {{ellipsis:${
-        cid || orderHash
-      }}} in {{market:${marketId}}}`
-    ]
-  },
-
-  [MsgType.MsgBatchCancelSpotOrders]: (value: Message, logs: EventLog[]) => {
-    const { sender, data: orders } = value.message
-
-    return [
-      `{{account:${sender}}} cancelled a batch of spot limit orders:`,
-      ...orders.map((order: any) => {
-        const eventSummary = eventLogsSummaryMap[
-          EventMessageType.BatchCancelSpotOrders
-        ]?.({
-          logs,
-          sender,
-          args: order.order_hash || order.cid
-        })
-
-        return eventSummary
-          ? `• ${eventSummary}`
-          : `• failed to cancel order {{ellipsis:${order.order_hash}}} in {{market:${order.market_id}}}`
-      })
-    ]
-  },
-
-  [MsgType.MsgBatchCreateSpotLimitOrders]: (value: Message, _) => {
-    const { sender, orders } = value.message
-
-    return [
-      `{{account:${sender}}} created a batch of spot limit orders:`,
-      ...orders.map(
-        (order: any) =>
-          `• {{spotQuantity:${order.market_id}-${order.order_info.quantity}}} at {{spotPrice:${order.market_id}-${order.order_info.price}}} in {{market:${order.market_id}}}`
-      )
-    ]
-  },
-
-  [MsgType.MsgCancelDerivativeOrder]: (value: Message, logs: EventLog[]) => {
-    const {
-      cid,
-      sender,
-      order_hash: orderHash,
-      market_id: marketId
-    } = value.message
-
-    const eventSummary = eventLogsSummaryMap[
-      EventMessageType.CancelDerivativeOrder
-    ]?.({
-      logs,
-      sender,
-      args: cid || orderHash
-    })
-
-    if (eventSummary) {
-      return [eventSummary]
-    }
-
-    return [
-      `{{account:${sender}}} failed to cancel order {{ellipsis:${
-        cid || orderHash
-      }}} in {{market:${marketId}}}`
-    ]
-  },
-
-  [MsgType.MsgBatchCancelDerivativeOrders]: (
-    value: Message,
-    logs: EventLog[]
-  ) => {
-    const { sender, data: orders } = value.message
-
-    return [
-      `{{account:${sender}}} cancelled a batch of derivative limit orders:`,
-      ...orders.map((order: any) => {
-        const eventSummary = eventLogsSummaryMap[
-          EventMessageType.BatchCancelDerivativeOrders
-        ]?.({
-          logs,
-          sender,
-          args: order.order_hash || order.cid
-        })
-
-        return eventSummary
-          ? `• ${eventSummary}`
-          : `• failed to cancel order {{ellipsis:${order.order_hash}}} in {{market:${order.market_id}}}`
-      })
-    ]
-  },
-
-  [MsgType.MsgBatchCreateDerivativeLimitOrders]: (value: Message, _) => {
-    const { sender, orders } = value.message
-
-    return [
-      `{{account:${sender}}} created a batch of derivative limit orders:`,
-      ...orders.map(
-        (order: any) =>
-          `• {{derivativeQuantity:${order.market_id}-${order.order_info.quantity}}} at {{derivativePrice:${order.market_id}-${order.order_info.price}}} in {{market:${order.market_id}}}`
-      )
-    ]
-  },
-
-  [MsgType.MsgBatchUpdateOrders]: (value: Message, logs: EventLog[]) => {
-    const {
-      sender,
-      spot_orders_to_cancel: spotOrdersToCancel,
-      spot_orders_to_create: spotOrdersToCreate,
-      derivative_orders_to_cancel: derivativeOrdersToCancel,
-      derivative_orders_to_create: derivativeOrdersToCreate,
-      spot_market_ids_to_cancel_all: spotMarketIdsToCancelAll,
-      derivative_market_ids_to_cancel_all: derivativeMarketIdsToCancelAll
-    } = value.message as Record<string, any>
-
-    // Not Used:
-    // binary_options_orders_to_cancel
-    // binary_options_market_ids_to_cancel_all
-    // binary_options_orders_to_create
-
-    const cancelAllSpotMarketIds = spotMarketIdsToCancelAll.map(
-      (marketId: string) => {
-        return `{{account:${sender}}} cancelled all orders in {{market:${marketId}}}`
-      }
-    )
-
-    const cancelAllDerivativeMarketIds = derivativeMarketIdsToCancelAll.map(
-      (marketId: string) => {
-        return `{{account:${sender}}} cancelled all orders in {{market:${marketId}}}`
-      }
-    )
-
-    const derivativeOrders = derivativeOrdersToCreate.map((order: any) => {
-      const { quantity, price } = order.order_info
-      const { market_id: marketId } = order
-
-      return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{derivativeQuantity:${marketId}-${quantity}}} at {{derivativePrice:${marketId}-${price}}} in {{market:${marketId}}}`
-    })
-
-    const spotOrders = spotOrdersToCreate.map((order: any) => {
-      const { quantity, price } = order.order_info
-      const { market_id: marketId } = order
-
-      return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{spotPrice:${marketId}-${price}}} in {{market:${marketId}}}`
-    })
-
-    const spotCancelOrders = spotOrdersToCancel.map((order: any) => {
-      const { cid, order_hash: orderHash, market_id: marketId } = order
-
-      const eventSummary = eventLogsSummaryMap[
-        EventMessageType.CancelSpotOrder
-      ]?.({
-        logs,
-        sender,
-        args: order.cid || order.order_hash
-      })
-
-      if (eventSummary) {
-        return eventSummary
-      }
-
-      return `{{account:${sender}}} failed to cancel order  {{ellipsis:${
-        cid || orderHash
-      }}} in {{market:${marketId}}}`
-    })
-
-    const derivativeCancelOrders = derivativeOrdersToCancel.map(
-      (order: any) => {
-        const eventSummary = eventLogsSummaryMap[
-          EventMessageType.CancelDerivativeOrder
-        ]?.({
-          logs,
-          sender,
-          args: order.cid || order.order_hash
-        })
-
-        if (eventSummary) {
-          return eventSummary
-        }
-
-        const { cid, order_hash: orderHash, market_id: marketId } = order
-
-        return `{{account:${sender}}} failed to cancel order {{ellipsis:${
-          cid || orderHash
-        }}} in {{market:${marketId}}}`
-      }
-    )
-
-    return [
-      ...derivativeOrders,
-      ...spotOrders,
-      ...spotCancelOrders,
-      ...derivativeCancelOrders,
-      ...cancelAllSpotMarketIds,
-      ...cancelAllDerivativeMarketIds
-    ]
-  },
-
-  [MsgType.MsgIncreasePositionMargin]: (value: Message, _) => {
+  [MsgType.MsgIncreasePositionMargin]: ({ value }) => {
     const { sender, amount, market_id: marketId } = value.message
 
     return [
@@ -304,7 +100,7 @@ const exchangeMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgDecreasePositionMargin]: (value: Message, _) => {
+  [MsgType.MsgDecreasePositionMargin]: ({ value }) => {
     const {
       sender,
       amount,
@@ -318,7 +114,7 @@ const exchangeMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgLiquidatePosition]: (value: Message, _) => {
+  [MsgType.MsgLiquidatePosition]: ({ value }) => {
     const {
       sender,
       market_id: marketId,
@@ -328,16 +124,19 @@ const exchangeMsgSummaryMap: Partial<
     return [
       `{{account:${sender}}} liquidated a position in {{market:${marketId}}} market that belonged to the subaccount {{ellipsis:${subaccountId}}}`
     ]
+  },
+
+  [MsgType.MsgUpdateDerivativeMarketV2]: ({ value }) => {
+    const { admin, market_id: marketId, new_ticker: newTicker } = value.message
+
+    return [
+      `{{account:${admin}}} updated derivative market {{market:${marketId}}} to ${newTicker}`
+    ]
   }
 }
 
-const stakingMsgSummaryMap: Partial<
-  Record<
-    MsgType,
-    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
-  >
-> = {
-  [MsgType.MsgDelegate]: (value: Message, _) => {
+const stakingMsgSummaryMap: Partial<Record<MsgType, MsgSummaryHandler>> = {
+  [MsgType.MsgDelegate]: ({ value }) => {
     const {
       amount: { denom, amount },
       delegator_address: delegator,
@@ -349,13 +148,13 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgUnjail]: (value: Message, _) => {
+  [MsgType.MsgUnjail]: ({ value }) => {
     const { validator_addr: validatorAddress } = value.message
 
     return [`{{validator:${validatorAddress}}} sent an unjail message`]
   },
 
-  [MsgType.MsgCreateValidator]: (value: Message, _) => {
+  [MsgType.MsgCreateValidator]: ({ value }) => {
     const {
       description: { moniker },
       validator_address: validatorAddress
@@ -366,7 +165,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgEditValidator]: (value: Message, _) => {
+  [MsgType.MsgEditValidator]: ({ value }) => {
     const {
       description: { moniker },
       validator_address: validatorAddress
@@ -377,7 +176,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgBeginRedelegate]: (value: Message, _) => {
+  [MsgType.MsgBeginRedelegate]: ({ value }) => {
     const {
       amount: { denom, amount },
       delegator_address: delegator,
@@ -390,7 +189,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgWithdrawDelegatorReward]: (value: Message, _) => {
+  [MsgType.MsgWithdrawDelegatorReward]: ({ value }) => {
     const {
       delegator_address: delegatorAddress,
       validator_address: validatorAddress
@@ -401,7 +200,7 @@ const stakingMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgUndelegate]: (value: Message, _) => {
+  [MsgType.MsgUndelegate]: ({ value }) => {
     const {
       amount: { denom, amount },
       delegator_address: delegator,
@@ -414,13 +213,8 @@ const stakingMsgSummaryMap: Partial<
   }
 }
 
-const insuranceMsgSummaryMap: Partial<
-  Record<
-    MsgType,
-    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
-  >
-> = {
-  [MsgType.MsgCreateInsuranceFund]: (value: Message, _) => {
+const insuranceMsgSummaryMap: Partial<Record<MsgType, MsgSummaryHandler>> = {
+  [MsgType.MsgCreateInsuranceFund]: ({ value }) => {
     const {
       sender,
       ticker,
@@ -432,7 +226,7 @@ const insuranceMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgRequestRedemption]: (value: Message, _) => {
+  [MsgType.MsgRequestRedemption]: ({ value }) => {
     const {
       sender,
       market_id: marketId,
@@ -447,7 +241,7 @@ const insuranceMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgUnderwrite]: (value: Message, _) => {
+  [MsgType.MsgUnderwrite]: ({ value }) => {
     const {
       sender,
       market_id: marketId,
@@ -460,31 +254,26 @@ const insuranceMsgSummaryMap: Partial<
   }
 }
 
-const peggyMsgSummaryMap: Partial<
-  Record<
-    MsgType,
-    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
-  >
-> = {
-  [MsgType.MsgConfirmBatch]: (value: Message, _) => {
+const peggyMsgSummaryMap: Partial<Record<MsgType, MsgSummaryHandler>> = {
+  [MsgType.MsgConfirmBatch]: ({ value }) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} confirmed a batch request`]
   },
 
-  [MsgType.MsgRequestBatch]: (value: Message, _) => {
+  [MsgType.MsgRequestBatch]: ({ value }) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} sent a batch request`]
   },
 
-  [MsgType.MsgValsetConfirm]: (value: Message, _) => {
+  [MsgType.MsgValsetConfirm]: ({ value }) => {
     const { orchestrator } = value.message
 
     return [`${orchestrator} confirmed the Valset`]
   },
 
-  [MsgType.MsgSetOrchestratorAddresses]: (value: Message, _) => {
+  [MsgType.MsgSetOrchestratorAddresses]: ({ value }) => {
     const { sender, orchestrator } = value.message
 
     return [
@@ -492,7 +281,7 @@ const peggyMsgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgSendToEth]: (value: Message, _) => {
+  [MsgType.MsgSendToEth]: ({ value }) => {
     const { amount, sender, eth_dest: receiver } = value.message
 
     return [
@@ -501,10 +290,28 @@ const peggyMsgSummaryMap: Partial<
   }
 }
 
-const govMsgSummaryMap: Partial<
-  Record<string | MsgType, (value: Message, logs: EventLog[]) => string[]>
-> = {
-  [MsgType.MsgDepositCosmos]: (value: Message, _) => {
+const voteSummary: MsgSummaryHandler = ({ value }) => {
+  const { voter, option: optionRaw, proposal_id: proposalId } = value.message
+
+  let option = 'noWithVeto'
+
+  if (optionRaw === 'VOTE_OPTION_YES') {
+    option = 'yes'
+  }
+
+  if (optionRaw === 'VOTE_OPTION_ABSTAIN') {
+    option = 'abstain'
+  }
+
+  if (optionRaw === 'VOTE_OPTION_NO') {
+    option = 'no'
+  }
+
+  return [`{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`]
+}
+
+const govMsgSummaryMap: Partial<Record<string | MsgType, MsgSummaryHandler>> = {
+  [MsgType.MsgDepositCosmos]: ({ value }) => {
     const { amount, depositor, proposal_id: proposalId } = value.message
 
     const [coin] = amount
@@ -513,51 +320,11 @@ const govMsgSummaryMap: Partial<
       `{{account:${depositor}}} deposited {{denom:${coin.denom}-${coin.amount}}} to proposal {{proposal:${proposalId}}}`
     ]
   },
-  'cosmos.gov.v1.MsgVote': (value: Message, _) => {
-    const { voter, option: optionRaw, proposal_id: proposalId } = value.message
 
-    let option = 'noWithVeto'
+  'cosmos.gov.v1.MsgVote': voteSummary,
+  [MsgType.MsgVote]: voteSummary,
 
-    if (optionRaw === 'VOTE_OPTION_YES') {
-      option = 'yes'
-    }
-
-    if (optionRaw === 'VOTE_OPTION_ABSTAIN') {
-      option = 'abstain'
-    }
-
-    if (optionRaw === 'VOTE_OPTION_NO') {
-      option = 'no'
-    }
-
-    return [
-      `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
-    ]
-  },
-
-  [MsgType.MsgVote]: (value: Message, _) => {
-    const { voter, option: optionRaw, proposal_id: proposalId } = value.message
-
-    let option = 'noWithVeto'
-
-    if (optionRaw === 'VOTE_OPTION_YES') {
-      option = 'yes'
-    }
-
-    if (optionRaw === 'VOTE_OPTION_ABSTAIN') {
-      option = 'abstain'
-    }
-
-    if (optionRaw === 'VOTE_OPTION_NO') {
-      option = 'no'
-    }
-
-    return [
-      `{{account:${voter}}} voted ${option} for {{proposal:${proposalId}}}`
-    ]
-  },
-
-  [MsgType.MsgSubmitProposal]: (value: Message, _) => {
+  [MsgType.MsgSubmitProposal]: ({ value }) => {
     const { proposer, initial_deposit: amount } = value.message
 
     const [coin] = amount
@@ -568,7 +335,7 @@ const govMsgSummaryMap: Partial<
   }
 }
 
-const executeContractSummary = (value: Message, logs: EventLog[]) => {
+const executeContractSummary: MsgSummaryHandler = ({ value, logs }) => {
   const { sender, contract: contractAddress, msg, funds } = value.message
 
   const summaryFn = contractSummaryMap[contractAddress]
@@ -584,19 +351,14 @@ const executeContractSummary = (value: Message, logs: EventLog[]) => {
   return contractSummary ? [contractSummary] : []
 }
 
-const msgSummaryMap: Partial<
-  Record<
-    MsgType,
-    (value: Message, logs: EventLog[], injectiveAddress?: string) => string[]
-  >
-> = {
+const msgSummaryMap: Partial<Record<MsgType, MsgSummaryHandler>> = {
   ...govMsgSummaryMap,
   ...peggyMsgSummaryMap,
   ...stakingMsgSummaryMap,
   ...exchangeMsgSummaryMap,
   ...insuranceMsgSummaryMap,
 
-  [MsgType.MsgSend]: (value: Message, _, injectiveAddress) => {
+  [MsgType.MsgSend]: ({ value, injectiveAddress }) => {
     const { amount, from_address: sender, to_address: receiver } = value.message
     const [coin] = amount as { denom: string; amount: string }[]
 
@@ -617,7 +379,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgMultiSend]: (value: Message, _) => {
+  [MsgType.MsgMultiSend]: ({ value }) => {
     const { inputs, outputs } = value.message
 
     return [
@@ -636,7 +398,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgRecvPacket]: (value: Message, _) => {
+  [MsgType.MsgRecvPacket]: ({ value }) => {
     const { packet } = value.message
     const decodedPacketData = JSON.parse(base64ToUtf8(packet.data))
 
@@ -655,7 +417,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgExternalTransfer]: (value: Message, _) => {
+  [MsgType.MsgExternalTransfer]: ({ value }) => {
     const {
       sender,
       amount: { denom, amount },
@@ -673,7 +435,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgDeposit]: (value: Message, _) => {
+  [MsgType.MsgDeposit]: ({ value }) => {
     const {
       amount: { amount, denom },
       subaccount_id: subaccount,
@@ -685,7 +447,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgDepositClaim]: (value: Message, _) => {
+  [MsgType.MsgDepositClaim]: ({ value }) => {
     const {
       amount,
       token_contract: denom,
@@ -698,7 +460,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgExec]: (value: Message, logs: EventLog[]) => {
+  [MsgType.MsgExec]: ({ value, logs }) => {
     const execMsgs = (value.message as any).msgs.map((msg: any) => ({
       type: msg['@type'],
       message: msg
@@ -709,7 +471,7 @@ const msgSummaryMap: Partial<
       .flat()
   },
 
-  [MsgType.MsgBid]: (value: Message, _) => {
+  [MsgType.MsgBid]: ({ value }) => {
     const {
       sender,
       round,
@@ -721,7 +483,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgTransfer]: (value: Message, _) => {
+  [MsgType.MsgTransfer]: ({ value }) => {
     const {
       sender,
       receiver: toAddress,
@@ -735,7 +497,7 @@ const msgSummaryMap: Partial<
     ]
   },
 
-  [MsgType.MsgSubaccountTransfer]: (value: Message, _) => {
+  [MsgType.MsgSubaccountTransfer]: ({ value }) => {
     const {
       sender,
       amount: { denom, amount },
@@ -766,7 +528,7 @@ export const getHumanReadableMessage = ({
   const msgType = (type.startsWith('/') ? type.slice(1) : type) as MsgType
 
   if (msgSummaryMap[msgType]) {
-    return msgSummaryMap[msgType](value, logs, injectiveAddress)
+    return msgSummaryMap[msgType]({ value, logs, injectiveAddress })
   }
 
   return []

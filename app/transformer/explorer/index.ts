@@ -221,6 +221,10 @@ const getMsgTypeSuffix = (message: Message): string | undefined => {
     return getContractMsgSuffix(abstractedMessage)
   }
 
+  if (type === MsgType.MsgExec) {
+    return msgTypeMap[abstractedType] || undefined
+  }
+
   return undefined
 }
 
