@@ -220,7 +220,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   const turnkeyWallet =
     (await walletStrategy.getWalletClient()) as TurnkeyWallet
 
-  const session = await turnkeyWallet.confirmOAuth2({
+  const { session, email } = await turnkeyWallet.confirmOAuth2({
     authCode,
     nonce: nonce!,
     codeVerifier: codeVerifier!,
@@ -232,6 +232,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   const [address] = addresses
 
   walletStore.$patch({
+    email,
     session,
     addresses,
     injectiveAddress: address,
@@ -242,4 +243,12 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   })
 
   await walletStore.onConnect()
+
+  const isExistingMagicUser = await walletStore.queryMagicExistingUser(
+    walletStore.email
+  )
+
+  if (isExistingMagicUser) {
+    useEventBus(EventBus.HasMagicAccount).emit()
+  }
 }
