@@ -207,7 +207,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
     )
   }
 
-  if (expiresAt > 0 && Date.now() > expiresAt) {
+  if (isNaN(expiresAt) || expiresAt <= 0 || Date.now() > expiresAt) {
     throw new WalletException(
       new Error('OAuth session expired — please try signing in again'),
       { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
