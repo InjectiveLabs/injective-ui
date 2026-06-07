@@ -7,8 +7,13 @@ export type SharedWalletOption = {
 }
 
 export interface AutoSign {
+  version?: number
   duration: number
-  privateKey: string
+  publicKey?: string
   expiration: number
+  storageKey?: string
+  privateKey?: string
+  isConfirmed?: boolean
   injectiveAddress: string
+  isDeterministic?: boolean
 }

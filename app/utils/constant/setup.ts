@@ -13,6 +13,7 @@ export const IS_DEVELOPMENT: boolean = process.env.NODE_ENV === 'development'
 export const env = {
   VITE_ENV: import.meta.env.VITE_ENV,
   VITE_NAME: import.meta.env.VITE_NAME,
+  VITE_PRODUCT: import.meta.env.VITE_PRODUCT as string,
   VITE_BASE_URL: import.meta.env.VITE_BASE_URL,
 
   // endpoints
@@ -58,9 +59,9 @@ export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
 
 export const INJECTIVE_EVM_CHAIN_ID: EvmChainId = IS_MAINNET
   ? EvmChainId.MainnetEvm
-  : IS_TESTNET
+  : IS_TESTNET || IS_DEVNET
     ? EvmChainId.TestnetEvm
-    : EvmChainId.DevnetEvm
+    : EvmChainId.MainnetEvm // todo: add EvmChainId.DevnetEvm when devnet chain config is finalized
 
 const endpoints = getNetworkEndpoints(NETWORK)
 const endpointsNotProvided =
@@ -126,7 +127,6 @@ export const ALCHEMY_SEPOLIA_KEY = (import.meta.env.VITE_ALCHEMY_SEPOLIA_KEY ||
   '') as string
 export const SOL_ALCHEMY_KEY = (import.meta.env.VITE_SOL_ALCHEMY_KEY ||
   '') as string
-export const BUGSNAG_KEY = (import.meta.env.VITE_BUGSNAG_KEY || '') as string
 export const FEE_PAYER_PUB_KEY = (import.meta.env.VITE_FEE_PAYER_PUB_KEY ||
   '') as string
 
@@ -135,7 +135,6 @@ export const GOOGLE_ANALYTICS_KEY = import.meta.env
   .VITE_GOOGLE_ANALYTICS_KEY as string
 export const PROXY_DETECTION_API_KEY =
   import.meta.env.VITE_PROXY_DETECTION_API_KEY || ''
-export const HOTJAR_KEY = import.meta.env.VITE_HOTJAR_KEY as string
 export const MIXPANEL_KEY = import.meta.env.VITE_MIXPANEL_KEY || ''
 export const MAGIC_APK_KEY = import.meta.env.VITE_MAGIC_APK_KEY || ''
 export const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || ''
@@ -167,12 +166,13 @@ export const TWITTER_REDIRECT_URI = import.meta.env.VITE_TWITTER_REDIRECT_URI
 export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
   .VITE_TURNKEY_GOOGLE_CLIENT_ID
 
-export const IS_HUB = import.meta.env.VITE_PRODUCT === 'hub'
-export const IS_MITO = import.meta.env.VITE_PRODUCT === 'mito'
-export const IS_AUTHZ = import.meta.env.VITE_PRODUCT === 'authz'
-export const IS_HELIX = import.meta.env.VITE_PRODUCT === 'helix'
-export const IS_BRIDGE = import.meta.env.VITE_PRODUCT === 'bridge'
-export const IS_ADMIN_UI = import.meta.env.VITE_PRODUCT === 'admin'
-export const IS_EXPLORER = import.meta.env.VITE_PRODUCT === 'explorer'
-export const IS_TRADING_UI = import.meta.env.VITE_PRODUCT === 'trading'
-export const IS_TRUE_CURRENT = import.meta.env.VITE_PRODUCT === 'truecurrent'
+export const PRODUCT = env.VITE_PRODUCT || 'injective'
+export const IS_HUB = PRODUCT === 'hub'
+export const IS_MITO = PRODUCT === 'mito'
+export const IS_AUTHZ = PRODUCT === 'authz'
+export const IS_HELIX = PRODUCT === 'helix'
+export const IS_BRIDGE = PRODUCT === 'bridge'
+export const IS_ADMIN_UI = PRODUCT === 'admin'
+export const IS_EXPLORER = PRODUCT === 'explorer'
+export const IS_TRADING_UI = PRODUCT === 'trading'
+export const IS_TRUE_CURRENT = PRODUCT === 'truecurrent'

@@ -37,6 +37,16 @@ const TESTNET_ASSET_PRICE_SERVICE_URL =
 
 const whiteListedCoinGeckoIds: string[] = []
 
+const buildAssetPriceDenomsQuery = (denoms: string[] = []) => {
+  if (denoms.length === 0) {
+    return 'denoms?withPrice=true&onlyActive=true'
+  }
+
+  const denomParams = denoms.map((denom) => 'denoms=' + denom)
+
+  return ['denoms?withPrice=true&onlyActive=true', ...denomParams].join('&')
+}
+
 const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
   if (isTestnet(network)) {
     return TESTNET_ASSET_PRICE_SERVICE_URL
@@ -66,10 +76,14 @@ export class TokenPrice {
     })
   }
 
-  async fetchUsdTokensPrice(coinGeckoIds: string[] = []) {
+  async fetchUsdTokensPrice(
+    denoms: string[] = [],
+    coinGeckoIds: string[] = []
+  ) {
+    const endpoint = buildAssetPriceDenomsQuery(denoms)
     const response = await this.client.retry<{
       data: Record<string, TokenStaticWithPrice>
-    }>(() => this.client.get(`denoms?withPrice=true&onlyActive=true`))
+    }>(() => this.client.get(endpoint))
 
     const tokenPriceMap = Object.values(response.data).reduce(
       (tokenPriceMap: TokenPriceMap, tokenWithPrice) => {

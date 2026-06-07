@@ -1,14 +1,8 @@
 import { toBigNumber } from '@injectivelabs/utils'
-import {
-  IS_MITO,
-  IS_AUTHZ,
-  IS_TRADING_UI,
-  IS_TRUE_CURRENT,
-  tradingMessages
-} from './constant'
+import { IS_MITO, IS_AUTHZ, IS_TRADING_UI, IS_TRUE_CURRENT } from './constant'
 import { sharedTokenClient, tokenStaticFactory } from '../service'
 import type { BigNumber } from '@injectivelabs/utils'
-import type { Msgs, TokenStatic } from '@injectivelabs/sdk-ts'
+import type { TokenStatic } from '@injectivelabs/sdk-ts'
 
 export const sharedGetToken = async (
   denomOrSymbol: string
@@ -58,11 +52,6 @@ export const abbreviateNumber = (number: number) => {
     : `≈${abbreviatedValue}`
 }
 
-export const checkUnauthorizedMessages = (msgs: Msgs[]) =>
-  !msgs.every((msg) =>
-    tradingMessages.includes(JSON.parse(msg.toJSON())['@type'])
-  )
-
 export const getBffProduct = (): any | undefined => {
   if (IS_TRUE_CURRENT) {
     return 'tc'
@@ -73,7 +62,7 @@ export const getBffProduct = (): any | undefined => {
   }
 
   if (IS_MITO) {
-    return 'vmWebsite'
+    return 'mito'
   }
 
   if (IS_AUTHZ) {

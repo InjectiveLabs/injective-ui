@@ -47,6 +47,7 @@ export enum EventBus {
   HasMagicAccount = 'has-magic-account',
   WalletConnected = 'wallet-connected',
   SubaccountChange = 'subaccount-change',
+  BroadcastResponse = 'broadcast-response',
   WalletDisconnected = 'wallet-disconnected'
 }
 
@@ -171,6 +172,7 @@ export enum NuxtUiIcons {
   Injective = 'token:injective',
   LightningBolt = 'heroicons-outline:lightning-bolt',
   Loading = 'eos-icons:loading',
+  Loading2 = 'i-lucide-loader-circle',
   MailOutline = 'lucide:mail',
   Markets = 'bi:bar-chart-steps',
   Menu = 'heroicons-outline:menu-alt-2',

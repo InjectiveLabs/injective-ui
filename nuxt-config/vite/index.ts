@@ -28,7 +28,6 @@ const BASE_OPTIMIZE_DEPS = [
 
   // Vue ecosystem
   'vue-imask',
-  'vue-hotjar',
   'vue-gtag',
   'vee-validate',
   '@vue/devtools-core',

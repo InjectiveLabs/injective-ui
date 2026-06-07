@@ -4,8 +4,11 @@ import { MsgType } from '@injectivelabs/ts-types'
 import { toBigNumber } from '@injectivelabs/utils'
 import { getHumanReadableMessage } from './messageSummary'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
-import { hardCodedContractCopyMap } from './../../utils/explorer'
 import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+import {
+  contractMsgLabelMap,
+  hardCodedContractCopyMap
+} from './contractSummary'
 import type { BigNumber } from '@injectivelabs/utils'
 import type {
   Coin,
@@ -47,6 +50,8 @@ export const toUiCw20Balance = (
 
 const getMsgType = (msg: Message): MsgType => {
   const type = msg.type || (msg as unknown as { '@type': string })['@type']
+
+  if (!type) return '' as MsgType
 
   if (type.startsWith('/')) {
     return type.split('/')[1] as MsgType
@@ -167,15 +172,53 @@ export const getCoins = ({
   }, [] as Coin[])
 }
 
+/**
+ * Returns a human-readable suffix for a raw contract message (the inner object
+ * that contains `contract`, `msg`, etc. for a MsgExecuteContractCompat).
+ *
+ * Detection priority:
+ *   1. contractMsgLabelMap — both the contract address AND msg action must match.
+ *      If the contract is known but the action does NOT match, return undefined
+ *      (don't degrade to the copy-map fallback — e.g. cancel_intent_lane on the
+ *      RFQ contract should not show "Execute Contract - RFQ").
+ *   2. hardCodedContractCopyMap — contract address only, for contracts that have
+ *      no msgLabel (any interaction shows the contract name).
+ */
+const getContractMsgSuffix = (
+  contractMsg: Record<string, any>
+): string | undefined => {
+  const contract = contractMsg?.contract
+  const msg = contractMsg?.msg
+
+  const labelEntry = contractMsgLabelMap[contract]
+
+  if (labelEntry) {
+    return msg?.[labelEntry.msgAction] !== undefined
+      ? labelEntry.label
+      : undefined
+  }
+
+  return hardCodedContractCopyMap[contract]
+}
+
 const getMsgTypeSuffix = (message: Message): string | undefined => {
   const type = getMsgType(message)
 
-  if (type === MsgType.MsgExec) {
-    return msgTypeMap[getMsgType(message.message.msgs[0])]
+  const abstractedMessage =
+    type === MsgType.MsgExec ? message.message.msgs?.[0] : message.message
+
+  if (!abstractedMessage) {
+    return undefined
   }
 
-  if (type === MsgType.MsgExecuteContractCompat) {
-    return hardCodedContractCopyMap[message.message.contract]
+  const abstractedType =
+    type === MsgType.MsgExec ? getMsgType(abstractedMessage) : type
+
+  if (
+    abstractedType === MsgType.MsgExecuteContract ||
+    abstractedType === MsgType.MsgExecuteContractCompat
+  ) {
+    return getContractMsgSuffix(abstractedMessage)
   }
 
   return undefined
@@ -206,17 +249,28 @@ const getSenderFromEvents = (events: EventLogEvent[]) => {
     ?.value
 }
 
+/**
+ * For MsgExec (authz), the tx signer is the grantee but coin events are
+ * attributed to the granter (the inner message sender). Return that address
+ * so getCoins can match the right events.
+ */
+const getMsgExecGranter = (messages: Message[]): string | undefined =>
+  messages.find((m) => getMsgType(m) === MsgType.MsgExec)?.message?.msgs?.[0]
+    ?.sender
+
 const getTypesAndCoins = (
-  transaction: ExplorerTransaction | ContractTransaction
+  transaction: ExplorerTransaction | ContractTransaction,
+  messages: Message[]
 ) => {
   const events = (transaction.logs || []).flatMap(({ events }) => events)
   const sender =
+    getMsgExecGranter(messages) ||
     transaction?.signatures?.[0]?.address ||
     (getSenderFromEvents(events) as string)
 
   try {
     return {
-      types: transaction.messages.map(formatMsgType),
+      types: messages.map(formatMsgType),
       coinReceived: getCoins({
         events,
         sender,
@@ -241,14 +295,58 @@ const getTypesAndCoins = (
   }
 }
 
+const parseJsonString = (value: any): any => {
+  if (!value || typeof value !== 'string') {
+    return value
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch {
+    return value
+  }
+}
+
+const parseTransactionMessage = (message: Message): Message => {
+  const raw = message.message as any
+
+  if (!raw) {
+    return message
+  }
+
+  return {
+    ...message,
+    message: {
+      ...raw,
+      ...(raw.msg !== undefined && { msg: parseJsonString(raw.msg) }),
+      ...(Array.isArray(raw.msgs) && {
+        msgs: raw.msgs.map((msgItem: any) => {
+          if (
+            typeof msgItem === 'object' &&
+            msgItem !== null &&
+            'msg' in msgItem
+          ) {
+            return { ...msgItem, msg: parseJsonString(msgItem.msg) }
+          }
+
+          return msgItem
+        })
+      })
+    }
+  }
+}
+
 export const toUiTransaction = (
   transaction: ExplorerTransaction,
   injectiveAddress?: string
 ): UiExplorerTransaction => {
+  const messages = transaction.messages.map(parseTransactionMessage)
+
   return {
     ...transaction,
-    ...getTypesAndCoins(transaction),
-    templateSummaries: transaction.messages.map((message) => ({
+    ...getTypesAndCoins(transaction, messages),
+    messages,
+    templateSummaries: messages.map((message) => ({
       type: message.type,
       summary: getHumanReadableMessage({
         value: message,
@@ -262,11 +360,21 @@ export const toUiTransaction = (
 export const toUiContractTransaction = (
   transaction: ContractTransaction
 ): UiContractTransaction => {
+  const messages = transaction.messages.map(parseTransactionMessage)
+
   return {
     ...transaction,
     hash: transaction.txHash,
     blockNumber: transaction.height,
     blockTimestamp: transaction.time,
-    ...getTypesAndCoins(transaction)
+    messages,
+    ...getTypesAndCoins(transaction, messages),
+    templateSummaries: messages.map((message) => ({
+      type: message.type,
+      summary: getHumanReadableMessage({
+        value: message,
+        logs: transaction.logs || []
+      })
+    }))
   }
 }

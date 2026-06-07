@@ -701,6 +701,121 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/bridge/mint": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Relay a CCTP mint
+         * @description Executes Circle CCTP V2 MessageTransmitter.receiveMessage on the destination chain using the BFF server wallet.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /**
+                         * @description Circle CCTP V2 message bytes
+                         * @example 0x00000001...
+                         */
+                        message: string;
+                        /**
+                         * @description Circle attestation signature bytes
+                         * @example 0xabcdef...
+                         */
+                        attestation: string;
+                        /**
+                         * @description Destination EVM chain id
+                         * @example 8453
+                         */
+                        destinationChainId: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Mint transaction mined successfully */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: true;
+                            /** @example 0x1234567890123456789012345678901234567890123456789012345678901234 */
+                            transactionHash: string;
+                            /** @example 8453 */
+                            chainId: number;
+                            /** @example Base */
+                            chainName: string;
+                        };
+                    };
+                };
+                /** @description Invalid request body or unsupported destination chain */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        } | {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                        };
+                    };
+                };
+                /** @description Message was already processed or is currently being relayed */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                        };
+                    };
+                };
+                /** @description Relayer execution failed */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/bridge/withdrawal": {
         parameters: {
             query?: never;
@@ -941,73 +1056,6 @@ export interface paths {
                                 limit: number;
                                 hasMore: boolean;
                             };
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/app-config": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get app configuration
-         * @description Fetches the combined network and app-specific configuration for a given FE product
-         */
-        get: {
-            parameters: {
-                query: {
-                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
-                    /** @description FE product app identifier */
-                    app: "helix" | "tc" | "hub" | "explorer" | "bridge" | "tradingUi" | "mito" | "vmWebsite" | "doUi";
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Combined network and app configuration */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            data: components["schemas"]["BffAppConfig"];
-                        };
-                    };
-                };
-                /** @description Config not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                        };
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
                         };
                     };
                 };
@@ -1751,7 +1799,7 @@ export interface paths {
                                 address: string;
                                 createdAt: string;
                                 isActive: boolean;
-                                lastLogin: string;
+                                lastLogin: string | null;
                                 updatedAt: string;
                             };
                         };
@@ -1759,6 +1807,17 @@ export interface paths {
                 };
                 /** @description Unauthorized */
                 401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description User not found */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -2494,6 +2553,217 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/onramp/quote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create onramp quote
+         * @description Returns a signed provider URL and normalized fee breakdown.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        provider: "coinbase" | "moonpay" | "binance-connect";
+                        amount: number;
+                        /** @default USD */
+                        fiatCurrency?: string;
+                        walletAddress: string;
+                        /** @enum {string} */
+                        network: "ethereum" | "arbitrum" | "base";
+                        /**
+                         * @default card
+                         * @enum {string}
+                         */
+                        paymentMethod?: "card" | "apple_pay" | "google_pay" | "ach" | "sepa" | "paypal" | "bank";
+                        country: string;
+                        clientIp: string;
+                        subdivision?: string;
+                        /** Format: uri */
+                        redirectUrl?: string;
+                        /** Format: uri */
+                        failRedirectUrl?: string;
+                        useSandbox?: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Onramp quote and redirect URL */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** @enum {string} */
+                                provider: "coinbase" | "moonpay" | "binance-connect";
+                                /** Format: uri */
+                                url: string;
+                                fiatAmount: number;
+                                fiatCurrency: string;
+                                cryptoAmount: number;
+                                /** @enum {string} */
+                                cryptoCurrency: "USDC";
+                                /** @enum {string} */
+                                network: "ethereum" | "arbitrum" | "base";
+                                fees: {
+                                    networkFee: number;
+                                    providerFee: number;
+                                    partnerFee?: number;
+                                    totalFee: number;
+                                    exchangeRate: number;
+                                };
+                                expiresAt: string;
+                                quoteId?: string;
+                                limits?: {
+                                    minBuyAmount: number;
+                                    maxBuyAmount: number;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error or unavailable provider */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Request body too large */
+                413: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Provider error */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/onramp/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List available onramp providers
+         * @description Returns configured onramp providers available in the requested country.
+         */
+        get: {
+            parameters: {
+                query: {
+                    country: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Available providers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                providers: ("coinbase" | "moonpay" | "binance-connect")[];
+                                providersWithStatus: {
+                                    /** @enum {string} */
+                                    provider: "coinbase" | "moonpay" | "binance-connect";
+                                    /** @enum {string} */
+                                    status: "available" | "unavailable";
+                                    /** @enum {string} */
+                                    reason?: "not_configured" | "country_blocked" | "region_unsupported";
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid country query param */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/entry-code/verify": {
         parameters: {
             query?: never;
@@ -2531,6 +2801,17 @@ export interface paths {
                 };
                 /** @description Invalid request */
                 400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many requests */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -2606,6 +2887,17 @@ export interface paths {
                 };
                 /** @description Entry code not found */
                 404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many verification attempts */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -2720,6 +3012,279 @@ export interface paths {
                     };
                 };
                 /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/user/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get authenticated user
+         * @description Returns the authenticated TC web user.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authenticated user */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                address: string;
+                                createdAt: string;
+                                updatedAt: string;
+                                isActive: boolean;
+                                lastLogin: string | null;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description User not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch user info */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get authenticated address
+         * @description POC endpoint. Returns the caller's injective address. Requires a valid JWT (401 if not authenticated).
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authenticated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/app-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get app configuration
+         * @description Fetches the combined network and app-specific configuration for a given FE product
+         */
+        get: {
+            parameters: {
+                query: {
+                    network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
+                    /** @description FE product app identifier */
+                    app: "helix" | "tc" | "hub" | "explorer" | "bridge" | "tradingUi" | "mito" | "vmWebsite" | "doUi";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Combined network and app configuration */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: components["schemas"]["BffAppConfig"];
+                        };
+                    };
+                };
+                /** @description Config not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/polymarket/sign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign Polymarket Builder API request
+         * @description Returns Polymarket Builder authentication headers for the provided request payload.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        method: string;
+                        path: string;
+                        body?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Polymarket Builder authentication headers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            POLY_BUILDER_SIGNATURE: string;
+                            POLY_BUILDER_TIMESTAMP: string;
+                            POLY_BUILDER_API_KEY: string;
+                            POLY_BUILDER_PASSPHRASE: string;
+                        };
+                    };
+                };
+                /** @description Invalid request body */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Signing failed or credentials are not configured */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -2921,7 +3486,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/mobile/authorization": {
+    "/api/v1/authorization": {
         parameters: {
             query?: never;
             header?: never;
@@ -2932,7 +3497,7 @@ export interface paths {
         put?: never;
         /**
          * Authorize wallet signature
-         * @description Validates wallet signature and issues JWT + refresh token cookie.
+         * @description Validates wallet signature and issues JWT + refresh token cookie. Supports autosign via granterAddress.
          */
         post: {
             parameters: {
@@ -2950,6 +3515,8 @@ export interface paths {
                         data: string;
                         /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
                         sender: string;
+                        /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
+                        granterAddress?: string;
                     };
                 };
             };
@@ -2992,7 +3559,7 @@ export interface paths {
                         };
                     };
                 };
-                /** @description Invalid signature */
+                /** @description Invalid signature or authz grant missing or expired */
                 401: {
                     headers: {
                         [name: string]: unknown;
@@ -3008,6 +3575,359 @@ export interface paths {
                 };
                 /** @description Failed to create auth tokens */
                 500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Authz verification upstream failure */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/authorization/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start authentication flow
+         * @description Generates a nonce used to sign an authentication message.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
+                        userAddress: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Nonce generated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** @example 9a1418fd-efdb-455d-9c61-57fcdadfb2f0 */
+                                nonce: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Failed to store nonce */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/authorization/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Logout current session
+         * @description Revokes the active refresh token and clears auth cookies.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Successfully logged out */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Logged out successfully */
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Failed to revoke refresh token */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/authorization/logout-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Logout all sessions
+         * @description Revokes all refresh tokens for the authenticated address.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
+                        address: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description All sessions revoked */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** @example 3 */
+                                revokedCount?: number;
+                            };
+                            /** @example All sessions logged out successfully */
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Failed to revoke refresh tokens */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/mobile/authorization": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Authorize wallet signature
+         * @description Validates wallet signature and issues JWT + refresh token cookie. Supports autosign via granterAddress.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @example A9lVc2fw+... */
+                        signature: string;
+                        /** @example Sign this message to authenticate with Injective Admin. Nonce: 9a1418fd-efdb-455d-9c61-57fcdadfb2f0 */
+                        data: string;
+                        /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
+                        sender: string;
+                        /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
+                        granterAddress?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Authorization successful */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpbmoxLi4uIiwiZXhwIjoxNzA1NTQwMDAwfQ.signature */
+                                accessToken: string;
+                                /**
+                                 * @description JWT expiration timestamp in seconds
+                                 * @example 1705540000
+                                 */
+                                expiresAt: number;
+                                /**
+                                 * @description Refresh token expiration timestamp in milliseconds
+                                 * @example 1705626400000
+                                 */
+                                refreshTokenExpiresAt: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid auth payload or nonce */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Invalid signature or authz grant missing or expired */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Failed to create auth tokens */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @example Unauthorized */
+                            error: string;
+                            /** @example JWT_ERROR */
+                            code?: string;
+                        };
+                    };
+                };
+                /** @description Authz verification upstream failure */
+                503: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -3244,6 +4164,116 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/entry-code/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Verify and claim an entry code (authenticated)
+         * @description Verifies an entry code for the authenticated wallet address. If valid and not previously used by this address, it also claims one usage slot.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        code: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Entry code is valid */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isValid: boolean;
+                                alreadyUsed: boolean;
+                                code: string;
+                                usageCap: number;
+                                totalUses: number;
+                                remainingUses: number;
+                                expiresAt: string | null;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Entry code is disabled, expired, or fully used */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Entry code not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many verification attempts */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -3298,6 +4328,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
         };
         /** @description Spot market with required token metadata from Injective SDK */
         BffTcSpotMarket: {
@@ -3349,6 +4380,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
@@ -3403,38 +4435,11 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
         };
-        /** @description Combined network and app configuration data including announcements, banned countries, and chain upgrade config */
-        BffAppConfig: {
-            announcements: components["schemas"]["BffAnnouncement"][];
-            bannedCountries: string[];
-            ofacCountries: string[];
-            chainUpgradeConfig: components["schemas"]["BffChainUpgradeConfig"];
-            /** @description Whether all trading is currently disabled. Only present when app=tc. */
-            disableTrading?: boolean;
-        };
-        /** @description App announcement configuration with title, description, optional link, and date range */
-        BffAnnouncement: {
-            /** Format: uuid */
-            id: string;
-            title: string;
-            description: string;
-            /** Format: uri */
-            link?: string | null;
-            startDate: number;
-            endDate?: number | null;
-            isLive: boolean;
-        };
-        /** @description Chain upgrade configuration with proposal details */
-        BffChainUpgradeConfig: {
-            proposalId: number;
-            blockHeight: number;
-            proposalMsg: string;
-            disableMaintenance: boolean;
-        } | null;
         /** @description Merged token metadata (chain + human combined) */
         BffToken: {
             denom: string;
@@ -3509,12 +4514,40 @@ export interface components {
                 tokenType: "ibc" | "cw20" | "spl" | "erc20" | "lp" | "evm" | "native" | "symbol" | "tokenFactory" | "insuranceFund" | "unknown";
             } | null;
         };
+        /** @description Combined network and app configuration data including announcements, banned countries, and chain upgrade config */
+        BffAppConfig: {
+            announcements: components["schemas"]["BffAnnouncement"][];
+            bannedCountries: string[];
+            ofacCountries: string[];
+            chainUpgradeConfig: components["schemas"]["BffChainUpgradeConfig"];
+            /** @description Whether all trading is currently disabled. Only present when app=tc. */
+            disableTrading?: boolean;
+        };
+        /** @description App announcement configuration with title, description, optional link, and date range */
+        BffAnnouncement: {
+            /** Format: uuid */
+            id: string;
+            title: string;
+            description: string;
+            /** Format: uri */
+            link?: string | null;
+            startDate: number;
+            endDate?: number | null;
+            isLive: boolean;
+        };
+        /** @description Chain upgrade configuration with proposal details */
+        BffChainUpgradeConfig: {
+            proposalId: number;
+            blockHeight: number;
+            proposalMsg: string;
+            disableMaintenance: boolean;
+        } | null;
         /** @description Derivative market with token metadata and UI fields from Injective SDK */
         BffDerivativeMarket: {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -3532,7 +4565,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -3542,13 +4575,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -3585,13 +4618,14 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
         };
         /** @description Derivative market with required quote token metadata from Injective SDK */
         BffTcDerivativeMarket: {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -3609,7 +4643,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -3619,13 +4653,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -3662,6 +4696,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
@@ -3671,7 +4706,7 @@ export interface components {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -3689,7 +4724,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -3699,13 +4734,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -3742,6 +4777,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
