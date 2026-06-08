@@ -174,6 +174,20 @@ export const useSharedTokenStore = defineStore('sharedToken', {
       sharedTokenStore.tokenUsdMarketCapMap = tokenUsdPriceMap.marketCap
     },
 
+    async fetchTokensUsdPriceMapNoThrow(denoms: string[] = []) {
+      const sharedTokenStore = useSharedTokenStore()
+
+      try {
+        const tokenUsdPriceMap =
+          await tokenPriceService.fetchUsdTokensPrice(denoms)
+
+        sharedTokenStore.tokenUsdPriceMap = tokenUsdPriceMap.prices
+        sharedTokenStore.tokenUsdMarketCapMap = tokenUsdPriceMap.marketCap
+      } catch {
+        return
+      }
+    },
+
     /**
      * Used to append unknown token metadata
      * from external/internal API sources
