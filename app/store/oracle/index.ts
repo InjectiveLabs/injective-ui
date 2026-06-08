@@ -82,8 +82,6 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
             ...oracleStore.oraclePriceMap,
             [oraclePrice.symbol]: oraclePrice.price
           }
-
-          console.log(oracleStore.oraclePriceMap)
         },
         retryConfig: DEFAULT_RETRY_CONFIG
       })
