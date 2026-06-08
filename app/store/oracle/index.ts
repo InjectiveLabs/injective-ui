@@ -3,13 +3,14 @@ import { SharedStreamKey } from '../../streams/types'
 import { DEFAULT_RETRY_CONFIG } from '../../streams/config'
 import { ENDPOINTS, IS_MAINNET } from '../../utils/constant'
 import {
-  ORACLE_USD_PRICE_TOKENS,
-  ORACLE_TYPE_CHAINLINK_DATASTREAMS
-} from '../../data/oracle'
-import {
   StreamManagerV2,
   IndexerGrpcOracleStreamV2
 } from '@injectivelabs/sdk-ts/client/indexer'
+import {
+  CHAIN_LINK_USDC_SYMBOL,
+  ORACLE_USD_PRICE_TOKENS,
+  ORACLE_TYPE_CHAINLINK_DATASTREAMS
+} from '../../data/oracle'
 import type { OraclePriceMap } from '../../types/oracle'
 
 type SharedOracleStoreState = {
@@ -17,7 +18,9 @@ type SharedOracleStoreState = {
 }
 
 const initialStateFactory = (): SharedOracleStoreState => ({
-  oraclePriceMap: {}
+  oraclePriceMap: {
+    [CHAIN_LINK_USDC_SYMBOL]: '1'
+  }
 })
 
 let manager: undefined | StreamManagerV2<any>
@@ -79,6 +82,8 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
             ...oracleStore.oraclePriceMap,
             [oraclePrice.symbol]: oraclePrice.price
           }
+
+          console.log(oracleStore.oraclePriceMap)
         },
         retryConfig: DEFAULT_RETRY_CONFIG
       })

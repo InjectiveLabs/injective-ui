@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { injToken } from '../data/token'
+import { injToken, usdcToken } from '../data/token'
 import { toChainFormat } from '@injectivelabs/utils'
 import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
 import {
@@ -22,7 +22,9 @@ type SharedTokenStoreState = {
 const initialStateFactory = (): SharedTokenStoreState => ({
   supplyMap: {},
   unknownTokens: [],
-  tokenUsdPriceMap: {},
+  tokenUsdPriceMap: {
+    [usdcToken.denom]: 1
+  },
   tokenUsdMarketCapMap: {}
 })
 
