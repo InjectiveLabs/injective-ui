@@ -7,18 +7,13 @@ import {
   splitArrayToChunks
 } from '@injectivelabs/utils'
 
-interface TokenStaticWithPrice {
+interface TokenStaticLeanWithPrice {
   denom: string
+  symbol: string
   coingecko_id: string
-  price: {
-    price: number
-    market_cap: number
-    metadata: {
-      source: string
-      height: number
-      market_id: string
-      market_price: number
-    }
+  price?: {
+    price?: number
+    market_cap?: number
   }
 }
 
@@ -28,23 +23,36 @@ interface TokenPriceMap {
 }
 
 const ASSET_PRICE_SERVICE_URL =
-  'https://k8s.global.mainnet.asset.injective.network/asset-price/v1'
-// 'https://k8s.mainnet.asset.injective.network/asset-price/v1'
+  'https://k8s.global.mainnet.asset.injective.network/asset-price'
+// 'https://k8s.mainnet.asset.injective.network/asset-price'
 const TESTNET_ASSET_PRICE_SERVICE_URL =
-  'https://k8s.testnet.asset.injective.network/asset-price/v1'
+  'https://k8s.testnet.asset.injective.network/asset-price'
 // const DEVNET_ASSET_PRICE_SERVICE_URL =
-//   'https://devnet.api.injective.dev/asset-price/v1'
+//   'https://devnet.api.injective.dev/asset-price'
 
 const whiteListedCoinGeckoIds: string[] = []
 
 const buildAssetPriceDenomsQuery = (denoms: string[] = []) => {
   if (denoms.length === 0) {
-    return 'denoms?withPrice=true&onlyActive=true'
+    return 'v2/denoms?withPrice=true&onlyActive=true'
   }
 
   const denomParams = denoms.map((denom) => 'denoms=' + denom)
 
-  return ['denoms?withPrice=true&onlyActive=true', ...denomParams].join('&')
+  return ['v2/denoms?withPrice=true&onlyActive=true', ...denomParams].join('&')
+}
+
+const buildAssetPriceDenomsLeanQuery = (denoms: string[] = []) => {
+  if (denoms.length === 0) {
+    return 'v2/denoms?withPrice=true&onlyActive=true&fields=price.price,price.market_cap,coingecko_id,symbol'
+  }
+
+  const denomParams = denoms.map((denom) => 'denoms=' + denom)
+
+  return [
+    'v2/denoms?withPrice=true&onlyActive=true&fields=price.price,price.market_cap,coingecko_id,symbol',
+    ...denomParams
+  ].join('&')
 }
 
 const getAssetMicroserviceEndpoint = (network: Network = Network.Mainnet) => {
@@ -76,25 +84,47 @@ export class TokenPrice {
     })
   }
 
+  async fetchUsdTokenPriceLean(
+    denoms: string[] = [],
+    coinGeckoIds: string[] = []
+  ) {
+    return this.fetchUsdTokensPriceByEndpoint({
+      coinGeckoIds,
+      endpoint: buildAssetPriceDenomsLeanQuery(denoms)
+    })
+  }
+
   async fetchUsdTokensPrice(
     denoms: string[] = [],
     coinGeckoIds: string[] = []
   ) {
-    const endpoint = buildAssetPriceDenomsQuery(denoms)
+    return this.fetchUsdTokensPriceByEndpoint({
+      coinGeckoIds,
+      endpoint: buildAssetPriceDenomsQuery(denoms)
+    })
+  }
+
+  private fetchUsdTokensPriceByEndpoint = async ({
+    endpoint,
+    coinGeckoIds = []
+  }: {
+    endpoint: string
+    coinGeckoIds?: string[]
+  }) => {
     const response = await this.client.retry<{
-      data: Record<string, TokenStaticWithPrice>
+      data: { data: Record<string, TokenStaticLeanWithPrice> }
     }>(() => this.client.get(endpoint))
 
-    const tokenPriceMap = Object.values(response.data).reduce(
+    const tokenPriceMap = Object.values(response.data.data).reduce(
       (tokenPriceMap: TokenPriceMap, tokenWithPrice) => {
         const id = tokenWithPrice.coingecko_id || tokenWithPrice.denom
 
-        if (tokenPriceMap.prices[id]) {
-          return tokenPriceMap
-        }
+        const price = tokenWithPrice.price?.price
+        const marketCap = tokenWithPrice.price?.market_cap
 
-        tokenPriceMap.prices[id] = tokenWithPrice.price.price
-        tokenPriceMap.marketCap[id] = tokenWithPrice.price.market_cap
+        tokenPriceMap.prices[id] = tokenPriceMap.prices[id] || price || 0
+        tokenPriceMap.marketCap[id] =
+          tokenPriceMap.marketCap[id] || marketCap || 0
 
         return tokenPriceMap
       },

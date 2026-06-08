@@ -174,6 +174,16 @@ export const useSharedTokenStore = defineStore('sharedToken', {
       sharedTokenStore.tokenUsdMarketCapMap = tokenUsdPriceMap.marketCap
     },
 
+    async fetchTokensUsdPriceMapLean(denoms: string[] = []) {
+      const sharedTokenStore = useSharedTokenStore()
+
+      const tokenUsdPriceMap =
+        await tokenPriceService.fetchUsdTokenPriceLean(denoms)
+
+      sharedTokenStore.tokenUsdPriceMap = tokenUsdPriceMap.prices
+      sharedTokenStore.tokenUsdMarketCapMap = tokenUsdPriceMap.marketCap
+    },
+
     async fetchTokensUsdPriceMapNoThrow(denoms: string[] = []) {
       const sharedTokenStore = useSharedTokenStore()
 
