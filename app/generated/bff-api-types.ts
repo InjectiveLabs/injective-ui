@@ -85,6 +85,10 @@ export function createBffClient(client: ApiClient) {
             post: ((...init: MethodArgs<'post', '/api/v1/bridge/deposit'>) =>
               client.POST('/api/v1/bridge/deposit', ...init)) as LeafMethod<'post', '/api/v1/bridge/deposit'>,
           },
+          mint: {
+            post: ((...init: MethodArgs<'post', '/api/v1/bridge/mint'>) =>
+              client.POST('/api/v1/bridge/mint', ...init)) as LeafMethod<'post', '/api/v1/bridge/mint'>,
+          },
           notified: {
             post: ((...init: MethodArgs<'post', '/api/v1/bridge/notified'>) =>
               client.POST('/api/v1/bridge/notified', ...init)) as LeafMethod<'post', '/api/v1/bridge/notified'>,
@@ -216,6 +220,12 @@ export function createBffClient(client: ApiClient) {
               client.POST('/api/v1/onramp/quote', ...init)) as LeafMethod<'post', '/api/v1/onramp/quote'>,
           },
         },
+        polymarket: {
+          sign: {
+            post: ((...init: MethodArgs<'post', '/api/v1/polymarket/sign'>) =>
+              client.POST('/api/v1/polymarket/sign', ...init)) as LeafMethod<'post', '/api/v1/polymarket/sign'>,
+          },
+        },
         profile: {
           post: ((...init: MethodArgs<'post', '/api/v1/profile'>) =>
             client.POST('/api/v1/profile', ...init)) as LeafMethod<'post', '/api/v1/profile'>,
@@ -248,6 +258,14 @@ export function createBffClient(client: ApiClient) {
           me: {
             get: ((...init: MethodArgs<'get', '/api/v1/user/me'>) =>
               client.GET('/api/v1/user/me', ...init)) as LeafMethod<'get', '/api/v1/user/me'>,
+          },
+        },
+      },
+      v2: {
+        entry_code: {
+          verify: {
+            post: ((...init: MethodArgs<'post', '/api/v2/entry-code/verify'>) =>
+              client.POST('/api/v2/entry-code/verify', ...init)) as LeafMethod<'post', '/api/v2/entry-code/verify'>,
           },
         },
       },

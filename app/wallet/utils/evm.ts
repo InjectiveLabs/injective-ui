@@ -1,10 +1,11 @@
-import { Wallet } from '@injectivelabs/wallet-base'
 import { EvmChainId } from '@injectivelabs/ts-types'
+import { Wallet, isEvmBrowserWallet } from '@injectivelabs/wallet-base'
 import {
   IS_DEVNET,
   IS_MAINNET,
   IS_TESTNET,
-  ETHEREUM_CHAIN_ID
+  ETHEREUM_CHAIN_ID,
+  INJECTIVE_EVM_CHAIN_ID
 } from '../../utils/constant'
 import {
   ErrorType,
@@ -170,7 +171,7 @@ export const validateEvmWallet = async ({
   ] as EvmChainId[]
   const devnetEvmIds = [
     EvmChainId.Sepolia,
-    EvmChainId.DevnetEvm
+    EvmChainId.TestnetEvm
   ] as EvmChainId[]
 
   const walletChainId = parseInt(
@@ -198,4 +199,24 @@ export const validateEvmWallet = async ({
       }
     )
   }
+}
+
+export const switchToInjectiveEvmNetwork = async (
+  wallet: Wallet
+): Promise<boolean> => {
+  if (!isEvmBrowserWallet(wallet)) {
+    return true
+  }
+
+  const walletStrategy = await getWalletStrategy()
+  const strategy = walletStrategy.strategies[wallet]
+  const provider = await getEvmWalletProvider(wallet)
+
+  if (!strategy || !provider) {
+    return true
+  }
+
+  await (strategy as EvmWalletStrategy).addEvmNetwork(INJECTIVE_EVM_CHAIN_ID)
+
+  return true
 }

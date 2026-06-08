@@ -1,19 +1,14 @@
 import { defineStore } from 'pinia'
-import { IS_DEVNET } from '../../utils/constant'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
+import { IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
+import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   checkUnauthorizedMessages,
   normalizeBroadcastMessages
 } from '../../wallet/utils/broadcast'
-import {
-  Wallet,
-  isEvmWallet,
-  isCosmosWallet,
-  TurnkeyProvider
-} from '@injectivelabs/wallet-base'
 import {
   getEthereumAddress,
   getInjectiveAddress,
@@ -52,8 +47,11 @@ import {
 } from '@shared/wallet'
 import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
-import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
+import type {
+  TurnkeyProvider,
+  Wallet as WalletType
+} from '@injectivelabs/wallet-base'
 import type {
   Msgs,
   ContractExecutionCompatAuthz,
@@ -201,19 +199,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       return state.authZ.address || state.address
     },
 
-    isGoogleAuth: (state) => {
-      return (
-        state.wallet === Wallet.Magic ||
-        (state.wallet === Wallet.Turnkey &&
-          state.turnkeyProvider === TurnkeyProvider.Google)
-      )
-    },
-
-    isPhoneNumber: (state) => {
-      return (
-        state.wallet === Wallet.Turnkey &&
-        state.turnkeyProvider === TurnkeyProvider.Sms
-      )
+    isSSOAuth: (state) => {
+      return ([Wallet.Magic, Wallet.Turnkey] as Wallet[]).includes(state.wallet)
     },
 
     isWalletExemptFromGasFee: (state) => {
@@ -379,6 +366,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       () => import('./turnkey'),
       'connectTurnkeyGoogle'
     ),
+    connectTurnkeyTwitter: lazyPiniaAction(
+      () => import('./turnkey'),
+      'connectTurnkeyTwitter'
+    ),
+    initTurnkeyTwitter: lazyPiniaAction(
+      () => import('./turnkey'),
+      'initTurnkeyTwitter'
+    ),
 
     async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()
@@ -404,7 +399,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await autoSignWalletStrategy.disconnect()
     },
 
-    onConnect(bypassCloseModal) {
+    onConnect(bypassCloseModal?: boolean) {
       const modalStore = useSharedModalStore()
       const walletStore = useSharedWalletStore()
 
@@ -589,7 +584,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
+    /** @deprecated use disconnect instead */
     async logout() {
+      await useSharedWalletStore().disconnect()
+    },
+
+    async disconnect() {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
       const storageKey = walletStore.autoSign?.storageKey
@@ -809,7 +809,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.isAutoSignEnabled &&
         (walletStore.autoSign.expiration || 0) > nowInSeconds
 
-      if (isAutoSignActive && !walletStore.isGoogleAuth) {
+      if (isAutoSignActive && !walletStore.isSSOAuth) {
         const isUnauthorizedMessages =
           checkUnauthorizedMessages(normalizedMessages)
 
@@ -845,6 +845,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         ? msgsOrMsgExecMsgs(normalizedMessages, walletStore.injectiveAddress)
         : normalizedMessages
 
+      await walletStore.validateMainWallet()
+
       const broadcastOptions = {
         memo,
         msgs: actualMessages,
@@ -876,7 +878,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.isAutoSignEnabled &&
         (walletStore.autoSign.expiration || 0) > Math.floor(Date.now() / 1000)
 
-      if (isAutoSignEnabled && !walletStore.isGoogleAuth) {
+      if (isAutoSignEnabled && !walletStore.isSSOAuth) {
         const isUnauthorizedMessages = checkUnauthorizedMessages(
           normalizeBroadcastMessages(broadcastOptions.msgs)
         )
@@ -931,7 +933,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.isAutoSignEnabled &&
         (walletStore.autoSign.expiration || 0) > Math.floor(Date.now() / 1000)
 
-      if (isAutoSignEnabled && !walletStore.isGoogleAuth) {
+      if (isAutoSignEnabled && !walletStore.isSSOAuth) {
         const isUnauthorizedMessages = checkUnauthorizedMessages(
           normalizeBroadcastMessages(broadcastOptions.msgs)
         )
@@ -1119,7 +1121,21 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         ? walletStore.injectiveAddress
         : walletStore.address
       const payload = getAutoSignPayload(walletStore.injectiveAddress)
-      const signature = await walletStrategy.signArbitrary(signer, payload)
+
+      const signature = isCosmosWallet(walletStore.wallet)
+        ? await walletStrategy.signArbitrary(signer, payload)
+        : await walletStrategy.signEip712TypedData(
+            JSON.stringify({
+              types: {
+                EIP712Domain: [{ name: 'name', type: 'string' }],
+                AutoSign: [{ name: 'message', type: 'string' }]
+              },
+              primaryType: 'AutoSign',
+              message: { message: payload },
+              domain: { name: IS_TRUE_CURRENT ? 'TrueCurrent' : 'Injective' }
+            }),
+            walletStore.address
+          )
 
       if (!signature) {
         throw new GeneralException(new Error('Unable to sign autosign payload'))

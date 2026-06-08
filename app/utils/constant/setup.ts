@@ -59,9 +59,9 @@ export const ETHEREUM_CHAIN_ID: EvmChainId = import.meta.env
 
 export const INJECTIVE_EVM_CHAIN_ID: EvmChainId = IS_MAINNET
   ? EvmChainId.MainnetEvm
-  : IS_TESTNET
+  : IS_TESTNET || IS_DEVNET
     ? EvmChainId.TestnetEvm
-    : EvmChainId.MainnetEvm
+    : EvmChainId.MainnetEvm // todo: add EvmChainId.DevnetEvm when devnet chain config is finalized
 
 const endpoints = getNetworkEndpoints(NETWORK)
 const endpointsNotProvided =
@@ -161,6 +161,8 @@ if (VPN_CHECKS_ENABLED && !PROXY_DETECTION_API_KEY) {
 }
 
 export const TURNKEY_ORGID = import.meta.env.VITE_TURNKEY_ORGID
+export const TWITTER_CLIENT_ID = import.meta.env.VITE_TWITTER_CLIENT_ID
+export const TWITTER_REDIRECT_URI = import.meta.env.VITE_TWITTER_REDIRECT_URI
 export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
   .VITE_TURNKEY_GOOGLE_CLIENT_ID
 

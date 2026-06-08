@@ -1,4 +1,5 @@
 import { getWalletStrategy } from '@shared/wallet'
+import { DEFAULT_TWITTER_OAUTH_EXPIRY } from '@/utils/constant'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
 import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
 import {
@@ -103,6 +104,7 @@ export const connectTurnkeyGoogle = async () => {
   const walletStrategy = await getWalletStrategy()
 
   await walletStore.connectWallet(Wallet.Turnkey)
+
   const turnkeyWallet =
     (await walletStrategy.getWalletClient()) as TurnkeyWallet
   const urlOrSession = await turnkeyWallet.initOAuth(TurnkeyProvider.Google)
@@ -155,6 +157,106 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
     turnkeyProvider: TurnkeyProvider.Google,
+    address: address ? getEthereumAddress(address) : undefined
+  })
+
+  await walletStore.onConnect()
+
+  const isExistingMagicUser = await walletStore.queryMagicExistingUser(
+    walletStore.email
+  )
+
+  if (isExistingMagicUser) {
+    useEventBus(EventBus.HasMagicAccount).emit()
+  }
+}
+
+export const connectTurnkeyTwitter = async () => {
+  const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
+
+  await walletStore.connectWallet(Wallet.Turnkey)
+
+  const turnkeyWallet =
+    (await walletStrategy.getWalletClient()) as TurnkeyWallet
+
+  const { url, pkce } = await turnkeyWallet.initOAuth2(TurnkeyProvider.Twitter)
+
+  localStorage.setItem(
+    'tc_twitter_oauth',
+    JSON.stringify({
+      state: pkce!.state,
+      nonce: pkce!.nonce,
+      codeVerifier: pkce!.codeVerifier,
+      targetPublicKey: pkce!.targetPublicKey,
+      expiresAt: Date.now() + DEFAULT_TWITTER_OAUTH_EXPIRY
+    })
+  )
+
+  window.location.href = url
+}
+
+export const initTurnkeyTwitter = async (authCode: string, state: string) => {
+  const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
+
+  const twitterSession = localStorage.getItem('tc_twitter_oauth')
+  const twitterOAuth = twitterSession ? JSON.parse(twitterSession) : null
+
+  const nonce = twitterOAuth?.nonce
+  const savedState = twitterOAuth?.state
+  const codeVerifier = twitterOAuth?.codeVerifier
+  const targetPublicKey = twitterOAuth?.targetPublicKey
+  const expiresAt = Number(twitterOAuth?.expiresAt || 0)
+
+  localStorage.removeItem('tc_twitter_oauth')
+
+  if (state !== savedState) {
+    throw new WalletException(
+      new Error('Twitter sign-in failed — invalid state. Please try again.'),
+      { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+    )
+  }
+
+  if (!nonce || !codeVerifier || !targetPublicKey) {
+    throw new WalletException(
+      new Error('OAuth session not found — please try signing in again'),
+      { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+    )
+  }
+
+  if (isNaN(expiresAt) || expiresAt <= 0 || Date.now() > expiresAt) {
+    throw new WalletException(
+      new Error('OAuth session expired — please try signing in again'),
+      { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+    )
+  }
+
+  await walletStrategy.setWallet(Wallet.Turnkey)
+  await walletStore.connectWallet(Wallet.Turnkey)
+
+  const turnkeyWallet =
+    (await walletStrategy.getWalletClient()) as TurnkeyWallet
+
+  const { session, email } = await turnkeyWallet.confirmOAuth2({
+    authCode,
+    nonce: nonce!,
+    codeVerifier: codeVerifier!,
+    targetPublicKey: targetPublicKey!,
+    providerName: TurnkeyProvider.Twitter
+  })
+
+  const addresses = await walletStrategy.getAddresses()
+  const [address] = addresses
+
+  walletStore.$patch({
+    email,
+    session,
+    addresses,
+    injectiveAddress: address,
+    addressConfirmation: session,
+    turnkeyInjectiveAddress: address,
+    turnkeyProvider: TurnkeyProvider.Twitter,
     address: address ? getEthereumAddress(address) : undefined
   })
 
