@@ -10,8 +10,7 @@ export class BffApi {
 
   constructor(endpoint: string) {
     this.client = createClient<paths>({
-      baseUrl: endpoint,
-      credentials: 'include'
+      baseUrl: endpoint
     })
     this.api = createBffClient(this.client).api
   }
