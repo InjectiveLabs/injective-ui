@@ -6,6 +6,14 @@ export type SharedWalletOption = {
   downloadLink?: string
 }
 
+export type TwitterOAuthSession = {
+  nonce?: string
+  state?: string
+  codeVerifier?: string
+  targetPublicKey?: string
+  expiresAt?: number | string
+}
+
 export interface AutoSign {
   version?: number
   duration: number

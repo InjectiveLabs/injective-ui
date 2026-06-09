@@ -9,6 +9,7 @@ import {
 } from '@injectivelabs/exceptions'
 import { EventBus } from '../../types'
 import type { TurnkeyWallet } from '@injectivelabs/wallet-turnkey'
+import type { TwitterOAuthSession } from '../../types'
 
 function getEmailFromOidcToken(token: string): string {
   try {
@@ -84,12 +85,14 @@ export const submitTurnkeyOTP = async (
 
     await walletStore.onConnect(true)
 
-    const isExistingMagicUser = await walletStore.queryMagicExistingUser(
-      walletStore.email
-    )
+    if (channel === TurnkeyProvider.Email && walletStore.email) {
+      const isExistingMagicUser = await walletStore.queryMagicExistingUser(
+        walletStore.email
+      )
 
-    if (isExistingMagicUser) {
-      useEventBus(EventBus.HasMagicAccount).emit()
+      if (isExistingMagicUser) {
+        useEventBus(EventBus.HasMagicAccount).emit()
+      }
     }
   } catch (e: any) {
     throw new WalletException(new Error(e.message), {
@@ -201,7 +204,20 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   const walletStrategy = await getWalletStrategy()
 
   const twitterSession = localStorage.getItem('tc_twitter_oauth')
-  const twitterOAuth = twitterSession ? JSON.parse(twitterSession) : null
+  let twitterOAuth: null | TwitterOAuthSession = null
+
+  if (twitterSession) {
+    try {
+      twitterOAuth = JSON.parse(twitterSession)
+    } catch {
+      localStorage.removeItem('tc_twitter_oauth')
+
+      throw new WalletException(
+        new Error('OAuth session not found — please try signing in again'),
+        { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+      )
+    }
+  }
 
   const nonce = twitterOAuth?.nonce
   const savedState = twitterOAuth?.state
