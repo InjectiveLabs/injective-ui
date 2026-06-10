@@ -29,62 +29,47 @@ import {
 import { getWalletStrategy } from '../strategy'
 import type { AccountAddress } from '@injectivelabs/ts-types'
 import type { EvmWalletStrategy } from '@injectivelabs/wallet-evm'
-import type { BrowserEip1993Provider } from '@injectivelabs/wallet-base'
 import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
 
-export const getEvmProvidersFromWalletStrategy = async (): Promise<
-  Partial<Record<Wallet, BrowserEip1993Provider>>
-> => {
-  const walletStrategy = await getWalletStrategy()
-  const strategies = walletStrategy.strategies
-
-  const evmStrategy =
-    strategies[Wallet.Metamask] ||
-    strategies[Wallet.Rabby] ||
-    strategies[Wallet.Rainbow] ||
-    strategies[Wallet.KeplrEvm] ||
-    strategies[Wallet.OkxWallet]
-
-  return (evmStrategy as EvmWalletStrategy)?.evmProviders || {}
-}
-
 export const getEvmWalletProvider = async (wallet: Wallet) => {
-  const evmProviders = await getEvmProvidersFromWalletStrategy()
-
-  if (evmProviders[wallet]) {
-    return evmProviders[wallet]
+  if (!isEvmBrowserWallet(wallet)) {
+    return
   }
 
-  if (wallet === Wallet.Metamask) {
-    return await getMetamaskProvider()
-  }
+  try {
+    if (wallet === Wallet.Metamask) {
+      return await getMetamaskProvider()
+    }
 
-  if (wallet === Wallet.BitGet) {
-    return await getBitGetProvider()
-  }
+    if (wallet === Wallet.BitGet) {
+      return await getBitGetProvider()
+    }
 
-  if (wallet === Wallet.OkxWallet) {
-    return await getOkxWalletProvider()
-  }
+    if (wallet === Wallet.OkxWallet) {
+      return await getOkxWalletProvider()
+    }
 
-  if (wallet === Wallet.Phantom) {
-    return await getPhantomProvider()
-  }
+    if (wallet === Wallet.Phantom) {
+      return await getPhantomProvider()
+    }
 
-  if (wallet === Wallet.TrustWallet) {
-    return await getTrustWalletProvider()
-  }
+    if (wallet === Wallet.TrustWallet) {
+      return await getTrustWalletProvider()
+    }
 
-  if (wallet === Wallet.Rainbow) {
-    return await getRainbowProvider()
-  }
+    if (wallet === Wallet.Rainbow) {
+      return await getRainbowProvider()
+    }
 
-  if (wallet === Wallet.Rabby) {
-    return await getRabbyProvider()
-  }
+    if (wallet === Wallet.Rabby) {
+      return await getRabbyProvider()
+    }
 
-  if (wallet === Wallet.KeplrEvm) {
-    return await getKeplrEvmProvider()
+    if (wallet === Wallet.KeplrEvm) {
+      return await getKeplrEvmProvider()
+    }
+  } catch {
+    return
   }
 }
 

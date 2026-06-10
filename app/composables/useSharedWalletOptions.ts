@@ -1,5 +1,4 @@
 import { Wallet } from '@injectivelabs/wallet-base'
-import { getEvmProvidersFromWalletStrategy } from '../wallet/utils/evm'
 import {
   IS_HELIX,
   IS_DEVNET,
@@ -9,7 +8,6 @@ import {
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {
-  const evmProviders = ref<Wallet[]>([])
   const sharedWalletStore = useSharedWalletStore()
 
   const popularOptions = computed(() => {
@@ -17,24 +15,21 @@ export function useSharedWalletOptions() {
       {
         wallet: Wallet.Metamask,
         downloadLink:
-          !sharedWalletStore.metamaskInstalled &&
-          !evmProviders.value.includes(Wallet.Metamask)
+          !sharedWalletStore.metamaskInstalled
             ? 'https://metamask.io/download'
             : undefined
       },
       {
         wallet: Wallet.Keplr,
         downloadLink:
-          !sharedWalletStore.keplrInstalled &&
-          !evmProviders.value.includes(Wallet.Keplr)
+          !sharedWalletStore.keplrInstalled
             ? 'https://www.keplr.app/download'
             : undefined
       },
       {
         wallet: Wallet.Rabby,
         downloadLink:
-          !sharedWalletStore.rabbyInstalled &&
-          !evmProviders.value.includes(Wallet.Rabby)
+          !sharedWalletStore.rabbyInstalled
             ? 'https://rabby.io/'
             : undefined
       }
@@ -47,8 +42,7 @@ export function useSharedWalletOptions() {
         {
           wallet: Wallet.Rainbow,
           downloadLink:
-            !sharedWalletStore.rainbowInstalled &&
-            !evmProviders.value.includes(Wallet.Rainbow)
+            !sharedWalletStore.rainbowInstalled
               ? 'https://rainbow.me/download'
               : undefined
         },
@@ -65,16 +59,14 @@ export function useSharedWalletOptions() {
           : {
               wallet: Wallet.BitGet,
               downloadLink:
-                !sharedWalletStore.bitGetInstalled &&
-                !evmProviders.value.includes(Wallet.BitGet)
+                !sharedWalletStore.bitGetInstalled
                   ? 'https://web3.bitget.com/en/wallet-download'
                   : undefined
             },
         {
           wallet: Wallet.OkxWallet,
           downloadLink:
-            !sharedWalletStore.okxWalletInstalled &&
-            !evmProviders.value.includes(Wallet.OkxWallet)
+            !sharedWalletStore.okxWalletInstalled
               ? 'https://www.okx.com/web3'
               : undefined
         },
@@ -106,11 +98,6 @@ export function useSharedWalletOptions() {
   )
 
   async function validateWalletExtensionInstalled() {
-    // Get EVM providers from the strategy to determine which wallet extensions are installed on client's browser
-    evmProviders.value = Object.keys(
-      await getEvmProvidersFromWalletStrategy()
-    ) as Wallet[]
-
     await Promise.all([
       sharedWalletStore.checkIsBitGetInstalled(),
       sharedWalletStore.checkIsRainbowInstalled(),
