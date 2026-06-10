@@ -7,7 +7,7 @@ export const checkIsBitGetInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.BitGet)
 
   walletStore.$patch({
-    bitGetInstalled: provider && Object.keys(provider).length > 0
+    bitGetInstalled: Boolean(provider)
   })
 }
 
@@ -17,7 +17,7 @@ export const checkIsKeplrEvmInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.KeplrEvm)
 
   walletStore.$patch({
-    keplrEvmInstalled: provider && Object.keys(provider).length > 0
+    keplrEvmInstalled: Boolean(provider)
   })
 }
 
@@ -27,7 +27,7 @@ export const checkIsMetamaskInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.Metamask)
 
   walletStore.$patch({
-    metamaskInstalled: provider && Object.keys(provider).length > 0
+    metamaskInstalled: Boolean(provider)
   })
 }
 
@@ -37,7 +37,7 @@ export const checkIsOkxWalletInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.OkxWallet)
 
   walletStore.$patch({
-    okxWalletInstalled: provider && Object.keys(provider).length > 0
+    okxWalletInstalled: Boolean(provider)
   })
 }
 
@@ -47,7 +47,7 @@ export const checkIsPhantomWalletInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.Phantom)
 
   walletStore.$patch({
-    phantomInstalled: provider && Object.keys(provider).length > 0
+    phantomInstalled: Boolean(provider)
   })
 }
 
@@ -57,7 +57,7 @@ export const checkIsRabbyWalletInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.Rabby)
 
   walletStore.$patch({
-    rabbyInstalled: provider && Object.keys(provider).length > 0
+    rabbyInstalled: Boolean(provider)
   })
 }
 
@@ -67,7 +67,7 @@ export const checkIsTrustWalletInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.TrustWallet)
 
   walletStore.$patch({
-    trustWalletInstalled: provider && Object.keys(provider).length > 0
+    trustWalletInstalled: Boolean(provider)
   })
 }
 
@@ -77,7 +77,7 @@ export const checkIsRainbowInstalled = async () => {
   const provider = await getEvmWalletProvider(Wallet.Rainbow)
 
   walletStore.$patch({
-    rainbowInstalled: provider && Object.keys(provider).length > 0
+    rainbowInstalled: Boolean(provider)
   })
 }
 
