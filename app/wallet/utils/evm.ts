@@ -1,5 +1,6 @@
 import { Wallet } from '@injectivelabs/wallet-base'
 import { EvmChainId } from '@injectivelabs/ts-types'
+import { isEvmBrowserWallet } from '@injectivelabs/wallet-base'
 import {
   IS_DEVNET,
   IS_MAINNET,
@@ -28,7 +29,6 @@ import {
 } from '@injectivelabs/wallet-evm'
 import { getWalletStrategy } from '../strategy'
 import type { AccountAddress } from '@injectivelabs/ts-types'
-import type { EvmWalletStrategy } from '@injectivelabs/wallet-evm'
 import type { ErrorContext, ThrownException } from '@injectivelabs/exceptions'
 
 export const getEvmWalletProvider = async (wallet: Wallet) => {
