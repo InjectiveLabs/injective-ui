@@ -20,9 +20,27 @@ const initialStateFactory = (): NotificationStoreState => ({
   notifications: []
 })
 
+const handledNotificationErrors = new WeakSet<object>()
+
 export const useSharedNotificationStore = defineStore('sharedNotification', {
   state: (): NotificationStoreState => initialStateFactory(),
   actions: {
+    markErrorNotificationHandled(error: unknown) {
+      if (!isObjectLike(error)) {
+        return
+      }
+
+      handledNotificationErrors.add(error)
+    },
+
+    isErrorNotificationHandled(error: unknown) {
+      if (!isObjectLike(error)) {
+        return false
+      }
+
+      return handledNotificationErrors.has(error)
+    },
+
     notify(options: NotificationOptions, type: NotificationType) {
       const notificationStore = useSharedNotificationStore()
 
@@ -178,3 +196,7 @@ export const useSharedNotificationStore = defineStore('sharedNotification', {
     }
   }
 })
+
+function isObjectLike(value: unknown): value is object {
+  return (typeof value === 'object' || typeof value === 'function') && !!value
+}
