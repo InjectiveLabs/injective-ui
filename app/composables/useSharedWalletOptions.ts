@@ -1,10 +1,10 @@
+import { Wallet } from '@injectivelabs/wallet-base'
 import {
   IS_HELIX,
   IS_DEVNET,
   IS_MAINNET,
   IS_TRUE_CURRENT
 } from '../utils/constant'
-import { Wallet } from '../types'
 import type { SharedWalletOption } from '../types'
 
 export function useSharedWalletOptions() {

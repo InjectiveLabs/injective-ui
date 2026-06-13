@@ -1,10 +1,5 @@
-import { Wallet } from '../../types'
-
-async function getEvmWalletProvider(wallet: Wallet) {
-  const walletModule = await import('@shared/wallet')
-
-  return walletModule.getEvmWalletProvider(wallet)
-}
+import { Wallet } from '@injectivelabs/wallet-base'
+import { getEvmWalletProvider } from '@shared/wallet'
 
 export const checkIsBitGetInstalled = async () => {
   const walletStore = useSharedWalletStore()
