@@ -4142,6 +4142,162 @@
         }
       }
     },
+    "/api/v1/bridge/safes": {
+      "get": {
+        "tags": [
+          "Bridge"
+        ],
+        "summary": "Get supported safes for a user address",
+        "description": "Get supported safes for a user address.",
+        "responses": {
+          "200": {
+            "description": "Supported safes retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to derive safe addresses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/bridge/safes/balance": {
+      "get": {
+        "tags": [
+          "Bridge"
+        ],
+        "summary": "Get USDC balances for supported safes for a user address",
+        "description": "Get supported safes and their USDC balances for a user address.",
+        "responses": {
+          "200": {
+            "description": "Supported safe balances retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "safeAddress": {
+                            "type": "string"
+                          },
+                          "usdcAddress": {
+                            "type": "string"
+                          },
+                          "usdcBalance": {
+                            "type": "string"
+                          },
+                          "formattedUsdcBalance": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "safeAddress",
+                          "usdcAddress",
+                          "usdcBalance",
+                          "formattedUsdcBalance"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to fetch safe balances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/mobile/devices": {
       "get": {
         "tags": [
@@ -8556,6 +8712,30 @@
                     "maxLength": 42,
                     "pattern": "^inj1[a-zA-Z0-9]{38}$/i",
                     "example": "inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n"
+                  },
+                  "network": {
+                    "type": "string",
+                    "enum": [
+                      "mainnetK8s",
+                      "mainnetLB",
+                      "mainnet",
+                      "mainnetSentry",
+                      "mainnetOld",
+                      "staging",
+                      "internal",
+                      "testnetK8s",
+                      "testnetOld",
+                      "testnetSentry",
+                      "testnet",
+                      "devnet1",
+                      "devnet2",
+                      "devnet3",
+                      "devnet",
+                      "local"
+                    ],
+                    "default": "mainnet",
+                    "description": "Network to verify authz grants against",
+                    "example": "testnet"
                   }
                 },
                 "required": [
@@ -8995,6 +9175,30 @@
                     "maxLength": 42,
                     "pattern": "^inj1[a-zA-Z0-9]{38}$/i",
                     "example": "inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n"
+                  },
+                  "network": {
+                    "type": "string",
+                    "enum": [
+                      "mainnetK8s",
+                      "mainnetLB",
+                      "mainnet",
+                      "mainnetSentry",
+                      "mainnetOld",
+                      "staging",
+                      "internal",
+                      "testnetK8s",
+                      "testnetOld",
+                      "testnetSentry",
+                      "testnet",
+                      "devnet1",
+                      "devnet2",
+                      "devnet3",
+                      "devnet",
+                      "local"
+                    ],
+                    "default": "mainnet",
+                    "description": "Network to verify authz grants against",
+                    "example": "testnet"
                   }
                 },
                 "required": [

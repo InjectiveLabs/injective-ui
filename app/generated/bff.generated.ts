@@ -1069,6 +1069,141 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/bridge/safes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get supported safes for a user address
+         * @description Get supported safes for a user address.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Supported safes retrieved */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid address */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to derive safe addresses */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/bridge/safes/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get USDC balances for supported safes for a user address
+         * @description Get supported safes and their USDC balances for a user address.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Supported safe balances retrieved */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                [key: string]: {
+                                    safeAddress: string;
+                                    usdcAddress: string;
+                                    usdcBalance: string;
+                                    formattedUsdcBalance: string;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid address */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch safe balances */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/mobile/devices": {
         parameters: {
             query?: never;
@@ -3517,6 +3652,13 @@ export interface paths {
                         sender: string;
                         /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
                         granterAddress?: string;
+                        /**
+                         * @description Network to verify authz grants against
+                         * @default mainnet
+                         * @example testnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };
@@ -3856,6 +3998,13 @@ export interface paths {
                         sender: string;
                         /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
                         granterAddress?: string;
+                        /**
+                         * @description Network to verify authz grants against
+                         * @default mainnet
+                         * @example testnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };

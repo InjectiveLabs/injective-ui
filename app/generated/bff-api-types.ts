@@ -93,6 +93,14 @@ export function createBffClient(client: ApiClient) {
             post: ((...init: MethodArgs<'post', '/api/v1/bridge/notified'>) =>
               client.POST('/api/v1/bridge/notified', ...init)) as LeafMethod<'post', '/api/v1/bridge/notified'>,
           },
+          safes: {
+            balance: {
+              get: ((...init: MethodArgs<'get', '/api/v1/bridge/safes/balance'>) =>
+                client.GET('/api/v1/bridge/safes/balance', ...init)) as LeafMethod<'get', '/api/v1/bridge/safes/balance'>,
+            },
+            get: ((...init: MethodArgs<'get', '/api/v1/bridge/safes'>) =>
+              client.GET('/api/v1/bridge/safes', ...init)) as LeafMethod<'get', '/api/v1/bridge/safes'>,
+          },
           withdrawal: {
             $address: {
               get: ((...init: MethodArgs<'get', '/api/v1/bridge/withdrawal/{address}'>) =>
