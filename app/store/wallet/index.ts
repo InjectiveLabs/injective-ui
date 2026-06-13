@@ -2,9 +2,7 @@ import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import { IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
-import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
 import {
   checkUnauthorizedMessages,
   normalizeBroadcastMessages
@@ -14,40 +12,15 @@ import {
   getInjectiveAddress,
   getDefaultSubaccountId
 } from '@injectivelabs/sdk-ts/utils'
-import {
-  clearAutoSignKey,
-  getAutoSignPayload,
-  withAutoSignPrivateKey,
-  deriveAndStoreAutoSignKey
-} from '../../wallet/autosign'
-import {
-  MsgGrant,
-  msgsOrMsgExecMsgs,
-  MsgGrantWithAuthorization,
-  getGenericAuthorizationFromMessageType
-} from '@injectivelabs/sdk-ts/core/modules'
-import {
-  getAutoSignGrantConfig,
-  getMissingGrantMessages,
-  fetchGranterGrantsNoThrow,
-  getAutoSignGrantExpiration,
-  hasMissingOrExpiringGrants,
-  AUTO_SIGN_RENEWAL_THRESHOLD
-} from '../../wallet/utils/authz'
-import {
-  getAddresses,
-  getMsgBroadcaster,
-  getWalletStrategy,
-  validateEvmWallet,
-  getHwAddressesInfo,
-  validateCosmosWallet,
-  getAutoSignWalletStrategy,
-  getAutoSignMsgBroadcaster,
-  confirmCosmosWalletAddress
-} from '@shared/wallet'
 import { web3GatewayService } from '../../service'
-import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
-import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
+import {
+  Wallet,
+  EventBus,
+  isEvmWallet,
+  GrantDirection,
+  isCosmosWallet,
+  WalletConnectStatus
+} from '../../types'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type {
   Msgs,
@@ -58,6 +31,7 @@ import type { AutoSign } from '../../types'
 import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
+const AUTO_SIGN_RENEWAL_THRESHOLD = 60 * 60 * 24 * 14
 
 const evmWalletsWithValidation = [
   Wallet.Rabby,
@@ -67,7 +41,7 @@ const evmWalletsWithValidation = [
   Wallet.Metamask,
   Wallet.OkxWallet,
   Wallet.TrustWallet
-] as WalletType[]
+] as Wallet[]
 
 const cosmosWalletsWithValidation = [
   Wallet.Leap,
@@ -75,7 +49,133 @@ const cosmosWalletsWithValidation = [
   Wallet.Ninji,
   Wallet.OWallet,
   Wallet.Cosmostation
-] as WalletType[]
+] as Wallet[]
+
+async function getSharedWalletModule() {
+  return await import('@shared/wallet')
+}
+
+async function getAutoSignModule() {
+  return await import('../../wallet/autosign')
+}
+
+async function getAutoSignAuthzModule() {
+  return await import('../../wallet/utils/authz')
+}
+
+async function getSdkCoreAccountsModule() {
+  return await import('@injectivelabs/sdk-ts/core/accounts')
+}
+
+async function getSdkCoreModules() {
+  return await import('@injectivelabs/sdk-ts/core/modules')
+}
+
+async function getWalletStrategy() {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.getWalletStrategy()
+}
+
+async function getAutoSignWalletStrategy() {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.getAutoSignWalletStrategy()
+}
+
+async function getMsgBroadcaster() {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.getMsgBroadcaster()
+}
+
+async function getAutoSignMsgBroadcaster() {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.getAutoSignMsgBroadcaster()
+}
+
+async function getAddresses() {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.getAddresses()
+}
+
+async function getHwAddressesInfo() {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.getHwAddressesInfo()
+}
+
+async function getMsgExecMessages(
+  messages: Msgs[],
+  injectiveAddress: string
+) {
+  const sdkCoreModules = await getSdkCoreModules()
+
+  return sdkCoreModules.msgsOrMsgExecMsgs(messages, injectiveAddress)
+}
+
+async function clearAutoSignKey(storageKey: string) {
+  const autoSignModule = await getAutoSignModule()
+
+  return await autoSignModule.clearAutoSignKey(storageKey)
+}
+
+async function withAutoSignPrivateKey<T>(
+  autoSign: AutoSign,
+  callback: (privateKey: string) => Promise<T>
+) {
+  const autoSignModule = await getAutoSignModule()
+
+  return await autoSignModule.withAutoSignPrivateKey(autoSign, callback)
+}
+
+async function getAutoSignPayload(injectiveAddress: string) {
+  const autoSignModule = await getAutoSignModule()
+
+  return autoSignModule.getAutoSignPayload(injectiveAddress)
+}
+
+async function deriveAndStoreAutoSignKey(params: {
+  address: string
+  signature: string
+  injectiveAddress: string
+}) {
+  const autoSignModule = await getAutoSignModule()
+
+  return await autoSignModule.deriveAndStoreAutoSignKey(params)
+}
+
+async function validateEvmWallet(
+  params: Parameters<
+    typeof import('@shared/wallet')['validateEvmWallet']
+  >[0]
+) {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.validateEvmWallet(params)
+}
+
+async function validateCosmosWallet(
+  params: Parameters<
+    typeof import('@shared/wallet')['validateCosmosWallet']
+  >[0]
+) {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.validateCosmosWallet(params)
+}
+
+async function confirmCosmosWalletAddress(
+  ...params: Parameters<
+    typeof import('@shared/wallet')['confirmCosmosWalletAddress']
+  >
+) {
+  const walletModule = await getSharedWalletModule()
+
+  return walletModule.confirmCosmosWalletAddress(...params)
+}
 
 type WalletStoreState = {
   wallet: Wallet
@@ -795,7 +895,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         if (!isUnauthorizedMessages) {
           const autoSign = walletStore.autoSign as AutoSign
           const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
-          const autoSignMessages = msgsOrMsgExecMsgs(
+          const autoSignMessages = await getMsgExecMessages(
             normalizedMessages,
             autoSign.injectiveAddress
           )
@@ -821,7 +921,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       // AuthZ or regular path (autoSign not active, or messages unauthorized for autoSign)
       const actualMessages = walletStore.isAuthzWalletConnected
-        ? msgsOrMsgExecMsgs(normalizedMessages, walletStore.injectiveAddress)
+        ? await getMsgExecMessages(
+            normalizedMessages,
+            walletStore.injectiveAddress
+          )
         : normalizedMessages
 
       await walletStore.validateMainWallet()
@@ -868,15 +971,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
           const response = await withAutoSignPrivateKey(
             autoSign,
-            async () =>
-              await autoSignMsgBroadcaster.broadcastV2({
+            async () => {
+              const autoSignMessages = await getMsgExecMessages(
+                normalizeBroadcastMessages(broadcastOptions.msgs),
+                autoSign.injectiveAddress
+              )
+
+              return await autoSignMsgBroadcaster.broadcastV2({
                 memo: broadcastOptions.memo,
-                msgs: msgsOrMsgExecMsgs(
-                  normalizeBroadcastMessages(broadcastOptions.msgs),
-                  autoSign.injectiveAddress
-                ),
+                msgs: autoSignMessages,
                 injectiveAddress: autoSign.injectiveAddress
               })
+            }
           )
 
           useEventBus(EventBus.BroadcastResponse).emit(response)
@@ -923,15 +1029,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
           const response = await withAutoSignPrivateKey(
             autoSign,
-            async () =>
-              await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
+            async () => {
+              const autoSignMessages = await getMsgExecMessages(
+                normalizeBroadcastMessages(broadcastOptions.msgs),
+                autoSign.injectiveAddress
+              )
+
+              return await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
                 memo: broadcastOptions.memo,
-                msgs: msgsOrMsgExecMsgs(
-                  normalizeBroadcastMessages(broadcastOptions.msgs),
-                  autoSign.injectiveAddress
-                ),
+                msgs: autoSignMessages,
                 injectiveAddress: autoSign.injectiveAddress
               })
+            }
           )
 
           useEventBus(EventBus.BroadcastResponse).emit(response)
@@ -977,6 +1086,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       const autoSign = walletStore.autoSign as AutoSign
       const nowInSeconds = Math.floor(Date.now() / 1000)
+      const {
+        getMissingGrantMessages,
+        fetchGranterGrantsNoThrow,
+        getAutoSignGrantExpiration,
+        hasMissingOrExpiringGrants
+      } = await getAutoSignAuthzModule()
+      const { MsgGrantWithAuthorization } = await getSdkCoreModules()
 
       const grants =
         existingGrants.length > 0
@@ -1099,7 +1215,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const signer = isCosmosWallet(walletStore.wallet)
         ? walletStore.injectiveAddress
         : walletStore.address
-      const payload = getAutoSignPayload(walletStore.injectiveAddress)
+      const payload = await getAutoSignPayload(walletStore.injectiveAddress)
 
       const signature = isCosmosWallet(walletStore.wallet)
         ? await walletStrategy.signArbitrary(signer, payload)
@@ -1148,6 +1264,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const actualAutoSign = { ...autoSign } as AutoSign
+      const {
+        getAutoSignGrantConfig,
+        getMissingGrantMessages,
+        fetchGranterGrantsNoThrow,
+        getAutoSignGrantExpiration
+      } = await getAutoSignAuthzModule()
+      const { MsgGrantWithAuthorization } = await getSdkCoreModules()
 
       const { contractEntries } = getAutoSignGrantConfig({
         msgsType,
@@ -1243,6 +1366,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
      * grants a fresh grantee address instead of reusing existing grants.
      */
     async connectAutoSign() {
+      const { PrivateKey } = await getSdkCoreAccountsModule()
       const { privateKey } = PrivateKey.generate()
       const injectiveAddress = privateKey.toBech32()
 
@@ -1276,6 +1400,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       if (!actualAutoSign) {
         throw new GeneralException(new Error('Auto sign is not connected'))
       }
+
+      const { getAutoSignGrantConfig } = await getAutoSignAuthzModule()
+      const {
+        MsgGrant,
+        MsgGrantWithAuthorization,
+        getGenericAuthorizationFromMessageType
+      } = await getSdkCoreModules()
 
       const { contractEntries } = getAutoSignGrantConfig({
         msgsType,
@@ -1511,6 +1642,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     async connectPrivateKey(privateKeyHash: string) {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
+      const { PrivateKey } = await getSdkCoreAccountsModule()
 
       const pk = PrivateKey.fromHex(privateKeyHash)
       const injectiveAddress = pk.toBech32()
