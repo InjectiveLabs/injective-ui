@@ -216,7 +216,7 @@ describe('Amount/Usd.vue', () => {
         }
       })
 
-      expect(component.text()).toBe('$<0.01')
+      expect(component.text()).toBe('$0.01')
     })
   })
 
