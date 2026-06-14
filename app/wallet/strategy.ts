@@ -1,6 +1,6 @@
 import { MsgBroadcasterWithPk } from '@injectivelabs/sdk-ts/core/tx'
 import { alchemyRpcEndpoint, getRpcUrlsForChainIds } from './utils/alchemy'
-import { WalletConnectStrategyEventType } from '@injectivelabs/wallet-base'
+import { WalletConnectStrategyEventType } from '@injectivelabs/wallet-base/light'
 import {
   NETWORK,
   CHAIN_ID,
@@ -89,7 +89,7 @@ export const getAutoSignWalletStrategy = (): Promise<WalletStrategy> => {
   if (!autoSignWalletStrategyPromise) {
     autoSignWalletStrategyPromise = Promise.all([
       import('@injectivelabs/wallet-strategy'),
-      import('@injectivelabs/wallet-base')
+      import('@injectivelabs/wallet-base/light')
     ]).then(([{ WalletStrategy }, { Wallet }]) => {
       return new WalletStrategy({
         chainId: CHAIN_ID,

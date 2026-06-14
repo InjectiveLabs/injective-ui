@@ -1,7 +1,7 @@
 import { useSharedWalletStore } from './index'
 import { StatusType } from '@injectivelabs/utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { Wallet } from '@injectivelabs/wallet-base'
+import { Wallet } from '@injectivelabs/wallet-base/light'
 import { it, vi, expect, describe, afterEach, beforeEach } from 'vitest'
 
 const walletMocks = vi.hoisted(() => ({
@@ -27,8 +27,7 @@ vi.mock('../../service', () => ({
 
 const ethereumAddress = '0x0000000000000000000000000000000000000001'
 const injectiveAddress = 'inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe2hm49'
-const autoSignInjectiveAddress =
-  'inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqm5e8h9'
+const autoSignInjectiveAddress = 'inj1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqm5e8h9'
 
 describe('store/wallet validation', () => {
   beforeEach(() => {

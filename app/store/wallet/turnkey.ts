@@ -1,6 +1,6 @@
 import { getWalletStrategy } from '@shared/wallet'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
-import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
+import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base/light'
 import {
   ErrorType,
   WalletException,

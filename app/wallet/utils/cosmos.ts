@@ -5,7 +5,7 @@ import {
   CosmosWalletException
 } from '@injectivelabs/exceptions'
 import { getWalletStrategy } from '../strategy'
-import type { Wallet } from '@injectivelabs/wallet-base'
+import type { Wallet } from '@injectivelabs/wallet-base/light'
 
 export const confirmCosmosWalletAddress = async (
   wallet: Wallet,

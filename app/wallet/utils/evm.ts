@@ -1,5 +1,5 @@
 import { EvmChainId } from '@injectivelabs/ts-types'
-import { Wallet, isEvmBrowserWallet } from '@injectivelabs/wallet-base'
+import { Wallet, isEvmBrowserWallet } from '@injectivelabs/wallet-base/light'
 import {
   IS_DEVNET,
   IS_MAINNET,

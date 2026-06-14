@@ -1,4 +1,4 @@
-import type { Wallet } from '@injectivelabs/wallet-base'
+import type { Wallet } from '@injectivelabs/wallet-base/light'
 
 export type SharedWalletOption = {
   beta?: boolean

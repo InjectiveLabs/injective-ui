@@ -2,9 +2,12 @@ import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
-import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import { IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
-import { Wallet, isEvmWallet, isCosmosWallet } from '@injectivelabs/wallet-base'
+import {
+  Wallet,
+  isEvmWallet,
+  isCosmosWallet
+} from '@injectivelabs/wallet-base/light'
 import {
   checkUnauthorizedMessages,
   normalizeBroadcastMessages
@@ -47,8 +50,8 @@ import {
 } from '@shared/wallet'
 import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
-import type { Wallet as WalletType } from '@injectivelabs/wallet-base'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
+import type { Wallet as WalletType } from '@injectivelabs/wallet-base/light'
 import type {
   Msgs,
   ContractExecutionCompatAuthz,
@@ -1243,6 +1246,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
      * grants a fresh grantee address instead of reusing existing grants.
      */
     async connectAutoSign() {
+      const { PrivateKey } = await import('@injectivelabs/sdk-ts/core/accounts')
       const { privateKey } = PrivateKey.generate()
       const injectiveAddress = privateKey.toBech32()
 
@@ -1509,6 +1513,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     async connectPrivateKey(privateKeyHash: string) {
+      const { PrivateKey } = await import('@injectivelabs/sdk-ts/core/accounts')
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
 

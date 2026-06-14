@@ -1,4 +1,4 @@
-import { Wallet } from '@injectivelabs/wallet-base'
+import { Wallet } from '@injectivelabs/wallet-base/light'
 import {
   IS_HELIX,
   IS_DEVNET,

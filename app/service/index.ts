@@ -10,6 +10,7 @@ import { Web3GatewayService } from './app/Web3Gateway'
 import { CoinGeckoApiService } from './app/CoinGeckoApi'
 import { SpotCacheApi } from './../providers/cacheApi/spot'
 import { TokenCacheApi } from './../providers/cacheApi/token'
+import { alchemyRpcEndpoint } from './../wallet/utils/alchemy'
 import { StrapiCacheApi } from './../providers/cacheApi/strapi'
 import { StakingCacheApi } from './../providers/cacheApi/staking'
 import { TokenStaticFactory } from '@injectivelabs/sdk-ts/service'
@@ -56,7 +57,6 @@ import {
   getIndexerRestSpotChronosApi as getIndexerRestSpotChronosApiFactory,
   getIndexerRestMarketChronosApi as getIndexerRestMarketChronosApiFactory
 } from './../utils/lib/sdkImports'
-import { alchemyRpcEndpoint } from './../wallet'
 
 export const getBankApi = () => getChainGrpcBankApi(ENDPOINTS.grpc)
 
