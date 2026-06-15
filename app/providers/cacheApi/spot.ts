@@ -1,6 +1,9 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from '../../utils/constant'
-import { getIndexerSpotApi, getIndexerRestSpotChronosApi } from '../../service'
+import {
+  getIndexerSpotApi,
+  getIndexerRestSpotChronosApi
+} from '../../service/indexer'
 import type {
   SpotMarket,
   AllChronosSpotMarketSummary
