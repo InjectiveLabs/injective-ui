@@ -1,6 +1,7 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from '../../utils/constant'
-import { getStakingApi, getIndexerRestExplorerApi } from '../../service'
+import { getStakingApi } from '../../service/chain'
+import { getIndexerRestExplorerApi } from '../../service/indexer'
 import type {
   Validator,
   Pagination,

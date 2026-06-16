@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
+import { bffApi } from '../service/bff'
 import { usdcToken } from '../data/token'
 import { MARKET_IDS_TO_HIDE } from '../data/market'
+import { derivativeCacheApi } from '../service/cache'
 import { NETWORK, IS_HELIX, IS_TRUE_CURRENT } from '../utils/constant'
 import {
   toUiMarketSummary,
   toZeroUiMarketSummary,
   sharedDerivativeGetSlugAndTicket
 } from '../transformer/market'
-import { bffApi, derivativeCacheApi } from '../service'
 import { SharedMarketStatus } from '../types'
 import type { BffDerivativeMarket, SharedUiMarketSummary } from '../types'
 

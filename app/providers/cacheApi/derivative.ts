@@ -1,9 +1,7 @@
 import { BaseCacheApi } from './base'
 import { IS_MAINNET } from '../../utils/constant'
-import {
-  getIndexerDerivativesApi,
-  getIndexerRestDerivativeChronosApi
-} from '../../service'
+import { getIndexerDerivativesApi } from '../../service/derivative'
+import { getIndexerRestDerivativeChronosApi } from '../../service/indexer'
 import type {
   PerpetualMarket,
   DerivativeMarket,

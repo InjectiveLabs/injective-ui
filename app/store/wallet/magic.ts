@@ -1,7 +1,7 @@
+import { uiApi } from '../../service/cache'
 import { Wallet } from '@injectivelabs/wallet-base/light'
 import { getEthereumAddress } from '@injectivelabs/sdk-ts/utils'
 import { getAddresses, getWalletStrategy } from '@shared/wallet'
-import { uiApi } from '../../service'
 import { WalletConnectStatus } from '../../types'
 import type { MagicProvider } from '@injectivelabs/wallet-base/light'
 

@@ -1,14 +1,11 @@
 import { defineStore } from 'pinia'
+import { tokenCacheApi } from '../service/cache'
 import { injToken, usdcToken } from '../data/token'
 import { toChainFormat } from '@injectivelabs/utils'
+import { tokenPriceService } from '../service/price'
 import { INJ_SUPPLY_AMOUNT } from '../utils/constant'
-import {
-  tokenCacheApi,
-  tokenPriceService,
-  sharedTokenClient,
-  tokenStaticFactory,
-  sharedTokenClientStatic
-} from '../service'
+import { tokenStaticFactory } from '../service/tokenStaticFactory'
+import { sharedTokenClient, sharedTokenClientStatic } from '../service/token'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
 import type { SharedTokenUsdPriceMap } from '../types'
 

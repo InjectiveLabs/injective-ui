@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
+import { bffApi } from '../service/bff'
 import { NETWORK } from '../utils/constant'
 import { getBffProduct } from '../utils/helper'
-import { bffApi } from '../service'
 import type { BffAppConfig } from '../types'
 
 export type AppConfigStoreState = {
