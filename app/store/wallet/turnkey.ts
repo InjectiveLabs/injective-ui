@@ -8,7 +8,10 @@ import {
   UnspecifiedErrorCode
 } from '@injectivelabs/exceptions'
 import { EventBus } from '../../types'
-import type { TurnkeyWallet } from '@injectivelabs/wallet-turnkey'
+import type {
+  TurnkeyWallet,
+  TurnkeyWalletStrategy
+} from '@injectivelabs/wallet-turnkey'
 import type { TwitterOAuthSession } from '../../types'
 
 function getEmailFromOidcToken(token: string): string {
@@ -27,6 +30,12 @@ function getEmailFromOidcToken(token: string): string {
   } catch {
     return ''
   }
+}
+
+async function getTurnkeyOrganizationId(turnkeyWallet: TurnkeyWallet) {
+  const { organizationId } = await turnkeyWallet.getSession()
+
+  return organizationId
 }
 
 export const getEmailTurnkeyOTP = async (email: string) => {
@@ -69,6 +78,7 @@ export const submitTurnkeyOTP = async (
   try {
     await turnkeyWallet.confirmOTP(otpCode)
     const addresses = await walletStrategy.getAddresses()
+    const organizationId = await getTurnkeyOrganizationId(turnkeyWallet)
 
     const [address] = addresses
     const session = await walletStrategy.getSessionOrConfirm(address)
@@ -80,6 +90,7 @@ export const submitTurnkeyOTP = async (
       injectiveAddress: address,
       addressConfirmation: session,
       turnkeyInjectiveAddress: address,
+      turnkeyOrganizationId: organizationId,
       address: address ? getEthereumAddress(address) : undefined
     })
 
@@ -119,11 +130,13 @@ export const connectTurnkeyGoogle = async () => {
   }
 
   const addresses = await walletStrategy.getAddresses()
+  const organizationId = await getTurnkeyOrganizationId(turnkeyWallet)
   const [address] = addresses
 
   walletStore.$patch({
     addresses,
     session: urlOrSession,
+    turnkeyOrganizationId: organizationId,
     injectiveAddress: address,
     turnkeyInjectiveAddress: address,
     addressConfirmation: urlOrSession,
@@ -150,6 +163,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
 
   const email = getEmailFromOidcToken(oidcToken)
   const addresses = await walletStrategy.getAddresses()
+  const organizationId = await getTurnkeyOrganizationId(turnkeyWallet)
   const [address] = addresses
 
   walletStore.$patch({
@@ -159,6 +173,7 @@ export const initTurnkeyGoogle = async (oidcToken: string) => {
     injectiveAddress: address,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
+    turnkeyOrganizationId: organizationId,
     turnkeyProvider: TurnkeyProvider.Google,
     address: address ? getEthereumAddress(address) : undefined
   })
@@ -263,6 +278,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   })
 
   const addresses = await walletStrategy.getAddresses()
+  const organizationId = await getTurnkeyOrganizationId(turnkeyWallet)
   const [address] = addresses
 
   walletStore.$patch({
@@ -272,6 +288,7 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
     injectiveAddress: address,
     addressConfirmation: session,
     turnkeyInjectiveAddress: address,
+    turnkeyOrganizationId: organizationId,
     turnkeyProvider: TurnkeyProvider.Twitter,
     address: address ? getEthereumAddress(address) : undefined
   })
@@ -285,4 +302,23 @@ export const initTurnkeyTwitter = async (authCode: string, state: string) => {
   if (isExistingMagicUser) {
     useEventBus(EventBus.HasMagicAccount).emit()
   }
+}
+
+export const deleteCurrentTurnkeySubOrganization = async () => {
+  const walletStore = useSharedWalletStore()
+
+  if (walletStore.wallet !== Wallet.Turnkey || !walletStore.session) {
+    throw new WalletException(
+      new Error('Turnkey session not found. Please login again.'),
+      { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+    )
+  }
+
+  const walletStrategy = await getWalletStrategy()
+  const strategy = walletStrategy.getStrategy() as TurnkeyWalletStrategy
+  const result = await strategy.deleteCurrentSubOrganization()
+
+  await walletStore.disconnect()
+
+  return result
 }

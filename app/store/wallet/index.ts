@@ -109,6 +109,7 @@ type WalletStoreState = {
   okxWalletInstalled: boolean
   trustWalletInstalled: boolean
 
+  turnkeyOrganizationId?: string
   isFeeDelegationEnabled: boolean
   turnkeyInjectiveAddress: string
   turnkeyProvider?: TurnkeyProvider
@@ -160,6 +161,7 @@ const initialStateFactory = (): WalletStoreState => ({
   isFeeDelegationEnabled: true,
   turnkeyInjectiveAddress: '',
   queueStatus: StatusType.Idle,
+  turnkeyOrganizationId: undefined,
 
   // Cosmos wallets
   keplrInstalled: false,
@@ -373,6 +375,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     initTurnkeyTwitter: lazyPiniaAction(
       () => import('./turnkey'),
       'initTurnkeyTwitter'
+    ),
+    deleteCurrentTurnkeySubOrganization: lazyPiniaAction(
+      () => import('./turnkey'),
+      'deleteCurrentTurnkeySubOrganization'
     ),
 
     async validateAndQueue() {
