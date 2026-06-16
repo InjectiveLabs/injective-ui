@@ -93,7 +93,7 @@ export const getAutoSignWalletStrategy = (): Promise<WalletStrategy> => {
     ]).then(([{ WalletStrategy }, { Wallet }]) => {
       return new WalletStrategy({
         chainId: CHAIN_ID,
-        wallet: Wallet.PrivateKey,
+        wallet: Wallet.PrivateKeyCosmos,
         evmOptions: {
           evmChainId: ETHEREUM_CHAIN_ID,
           rpcUrl: alchemyRpcEndpoint

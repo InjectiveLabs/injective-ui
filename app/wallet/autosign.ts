@@ -1,5 +1,6 @@
 import { NETWORK, PRODUCT } from '../utils/constant'
 import { getAutoSignWalletStrategy } from './strategy'
+import { Wallet } from '@injectivelabs/wallet-base/light'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
 import type { AutoSign } from '../types'
 
@@ -99,6 +100,7 @@ export async function withAutoSignPrivateKey<T>(
   const privateKey = await getPrivateKey(autoSign)
   const autoSignWalletStrategy = await getAutoSignWalletStrategy()
 
+  await autoSignWalletStrategy.setWallet(Wallet.PrivateKeyCosmos)
   await autoSignWalletStrategy.setMetadata({
     privateKey: {
       privateKey

@@ -481,7 +481,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.privateKey) {
-        walletStore.connectWallet(Wallet.PrivateKey, {
+        walletStore.connectWallet(Wallet.PrivateKeyCosmos, {
           privateKey: walletStore.privateKey
         })
       }
@@ -559,7 +559,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         wallet
       })
 
-      if (wallet !== Wallet.PrivateKey) {
+      if (wallet !== Wallet.PrivateKeyCosmos) {
         walletStore.$patch({
           walletConnectStatus: WalletConnectStatus.connecting
         })
@@ -1520,7 +1520,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const pk = PrivateKey.fromHex(privateKeyHash)
       const injectiveAddress = pk.toBech32()
 
-      await walletStore.connectWallet(Wallet.PrivateKey, {
+      await walletStore.connectWallet(Wallet.PrivateKeyCosmos, {
         privateKey: privateKeyHash
       })
 
@@ -1532,7 +1532,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         session,
         injectiveAddress,
         addresses: [address],
-        wallet: Wallet.PrivateKey,
+        wallet: Wallet.PrivateKeyCosmos,
         privateKey: privateKeyHash,
         addressConfirmation: await walletStrategy.getSessionOrConfirm(address)
       })
