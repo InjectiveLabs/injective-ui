@@ -810,21 +810,18 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           }
 
           const response = walletStore.isFeeDelegationEnabled
-            ? await withAutoSignPrivateKeyWithDirectSign(
-                autoSign,
-                async () => {
-                  const autoSignMsgBroadcaster =
-                    await getAutoSignMsgBroadcasterWithDirectSign()
+            ? await withAutoSignPrivateKeyWithDirectSign(autoSign, async () => {
+                const broadcaster =
+                  await getAutoSignMsgBroadcasterWithDirectSign()
 
-                  return await autoSignMsgBroadcaster.broadcastWithFeeDelegation(
-                    autoSignOptions
-                  )
-                }
-              )
+                return await broadcaster.broadcastWithFeeDelegation(
+                  autoSignOptions
+                )
+              })
             : await withAutoSignPrivateKey(autoSign, async () => {
-                const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+                const broadcaster = await getAutoSignMsgBroadcaster()
 
-                return await autoSignMsgBroadcaster.broadcastV2(autoSignOptions)
+                return await broadcaster.broadcastV2(autoSignOptions)
               })
 
           useEventBus(EventBus.BroadcastResponse).emit(response)
