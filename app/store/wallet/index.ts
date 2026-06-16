@@ -19,17 +19,18 @@ import {
   getDefaultSubaccountId
 } from '@injectivelabs/sdk-ts/utils'
 import {
-  clearAutoSignKey,
-  getAutoSignPayload,
-  withAutoSignPrivateKey,
-  deriveAndStoreAutoSignKey
-} from '../../wallet/autosign'
-import {
   MsgGrant,
   msgsOrMsgExecMsgs,
   MsgGrantWithAuthorization,
   getGenericAuthorizationFromMessageType
 } from '@injectivelabs/sdk-ts/core/modules'
+import {
+  clearAutoSignKey,
+  getAutoSignPayload,
+  withAutoSignPrivateKey,
+  deriveAndStoreAutoSignKey,
+  withAutoSignPrivateKeyWithDirectSign
+} from '../../wallet/autosign'
 import {
   getAutoSignGrantConfig,
   getMissingGrantMessages,
@@ -47,7 +48,8 @@ import {
   validateCosmosWallet,
   getAutoSignWalletStrategy,
   getAutoSignMsgBroadcaster,
-  confirmCosmosWalletAddress
+  confirmCosmosWalletAddress,
+  getAutoSignMsgBroadcasterWithDirectSign
 } from '@shared/wallet'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
@@ -797,7 +799,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
         if (!isUnauthorizedMessages) {
           const autoSign = walletStore.autoSign as AutoSign
-          const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
           const autoSignMessages = msgsOrMsgExecMsgs(
             normalizedMessages,
             autoSign.injectiveAddress
@@ -808,13 +809,20 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
             injectiveAddress: autoSign.injectiveAddress
           }
 
-          const response = await withAutoSignPrivateKey(autoSign, async () =>
-            walletStore.isFeeDelegationEnabled
-              ? await autoSignMsgBroadcaster.broadcastWithFeeDelegation(
+          const response = walletStore.isFeeDelegationEnabled
+            ? await withAutoSignPrivateKeyWithDirectSign(autoSign, async () => {
+                const broadcaster =
+                  await getAutoSignMsgBroadcasterWithDirectSign()
+
+                return await broadcaster.broadcastWithFeeDelegation(
                   autoSignOptions
                 )
-              : await autoSignMsgBroadcaster.broadcastV2(autoSignOptions)
-          )
+              })
+            : await withAutoSignPrivateKey(autoSign, async () => {
+                const broadcaster = await getAutoSignMsgBroadcaster()
+
+                return await broadcaster.broadcastV2(autoSignOptions)
+              })
 
           useEventBus(EventBus.BroadcastResponse).emit(response)
 
@@ -921,10 +929,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         )
 
         if (!isUnauthorizedMessages) {
-          const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
+          const autoSignMsgBroadcaster =
+            await getAutoSignMsgBroadcasterWithDirectSign()
           const autoSign = walletStore.autoSign as AutoSign
 
-          const response = await withAutoSignPrivateKey(
+          const response = await withAutoSignPrivateKeyWithDirectSign(
             autoSign,
             async () =>
               await autoSignMsgBroadcaster.broadcastWithFeeDelegation({
