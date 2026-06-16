@@ -118,6 +118,38 @@ export async function withAutoSignPrivateKey<T>(
   }
 }
 
+/**
+ * We need to use the `PrivateKeyCosmos` strategy
+ * because `x/feegrant` is not supported by EIP712 on chain yet
+ * so `PrivateKey` strategy can't be used as it signs TypedData
+ * and `PrivateKeyCosmos` signs using DirectSign and broadcasts
+ * a Cosmos transaction
+ */
+export async function withAutoSignPrivateKeyWithDirectSign<T>(
+  autoSign: AutoSign,
+  callback: (privateKey: string) => Promise<T>
+): Promise<T> {
+  const privateKey = await getPrivateKey(autoSign)
+  const autoSignWalletStrategy = await getAutoSignWalletStrategyWithDirectSign()
+
+  await autoSignWalletStrategy.setWallet(Wallet.PrivateKeyCosmos)
+  await autoSignWalletStrategy.setMetadata({
+    privateKey: {
+      privateKey
+    }
+  })
+
+  try {
+    return await callback(privateKey)
+  } finally {
+    await autoSignWalletStrategy.setMetadata({
+      privateKey: {
+        privateKey: ''
+      }
+    })
+  }
+}
+
 async function derivePrivateKey({
   payload,
   signature

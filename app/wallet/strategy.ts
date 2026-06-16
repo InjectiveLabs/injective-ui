@@ -32,8 +32,12 @@ const registerDefaultEventListeners = (walletStrategy: WalletStrategy) => {
 
 let walletStrategyPromise: null | Promise<WalletStrategy> = null
 let autoSignWalletStrategyPromise: null | Promise<WalletStrategy> = null
+let autoSignWalletStrategyWithDirectSignPromise: null | Promise<WalletStrategy> =
+  null
 let msgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
 let autoSignMsgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
+let autoSignMsgBroadcasterWithDirectSignPromise: null | Promise<MsgBroadcaster> =
+  null
 let web3BroadcasterPromise: null | Promise<Web3Broadcaster> = null
 let msgBroadcasterWithPkInstance: null | MsgBroadcasterWithPk = null
 
@@ -93,7 +97,7 @@ export const getAutoSignWalletStrategy = (): Promise<WalletStrategy> => {
     ]).then(([{ WalletStrategy }, { Wallet }]) => {
       return new WalletStrategy({
         chainId: CHAIN_ID,
-        wallet: Wallet.PrivateKeyCosmos,
+        wallet: Wallet.PrivateKey,
         evmOptions: {
           evmChainId: ETHEREUM_CHAIN_ID,
           rpcUrl: alchemyRpcEndpoint
@@ -110,6 +114,40 @@ export const getAutoSignWalletStrategy = (): Promise<WalletStrategy> => {
 
   return autoSignWalletStrategyPromise
 }
+
+/**
+ * We need to use the `PrivateKeyCosmos` strategy
+ * because `x/feegrant` is not supported by EIP712 on chain yet
+ * so `PrivateKey` strategy can't be used as it signs TypedData
+ * and `PrivateKeyCosmos` signs using DirectSign and broadcasts
+ * a Cosmos transaction
+ */
+export const getAutoSignWalletStrategyWithDirectSign =
+  (): Promise<WalletStrategy> => {
+    if (!autoSignWalletStrategyWithDirectSignPromise) {
+      autoSignWalletStrategyWithDirectSignPromise = Promise.all([
+        import('@injectivelabs/wallet-strategy'),
+        import('@injectivelabs/wallet-base/light')
+      ]).then(([{ WalletStrategy }, { Wallet }]) => {
+        return new WalletStrategy({
+          chainId: CHAIN_ID,
+          wallet: Wallet.PrivateKeyCosmos,
+          evmOptions: {
+            evmChainId: ETHEREUM_CHAIN_ID,
+            rpcUrl: alchemyRpcEndpoint
+          },
+          metadata: {
+            privateKey: {
+              privateKey: ''
+            }
+          },
+          strategies: {}
+        })
+      })
+    }
+
+    return autoSignWalletStrategyWithDirectSignPromise
+  }
 
 export const getMsgBroadcaster = (): Promise<MsgBroadcaster> => {
   if (!msgBroadcasterPromise) {
@@ -152,6 +190,29 @@ export const getAutoSignMsgBroadcaster = (
   }
 
   return autoSignMsgBroadcasterPromise
+}
+
+export const getAutoSignMsgBroadcasterWithDirectSign = (
+  options?: Partial<MsgBroadcasterOptions>
+): Promise<MsgBroadcaster> => {
+  if (!autoSignMsgBroadcasterWithDirectSignPromise) {
+    autoSignMsgBroadcasterWithDirectSignPromise = Promise.all([
+      import('@injectivelabs/wallet-core'),
+      getAutoSignWalletStrategyWithDirectSign()
+    ]).then(([{ MsgBroadcaster }, walletStrategy]) => {
+      return new MsgBroadcaster({
+        simulateTx: true,
+        network: NETWORK,
+        endpoints: ENDPOINTS,
+        gasBufferCoefficient: 1.2,
+        feePayerPubKey: FEE_PAYER_PUB_KEY,
+        walletStrategy,
+        ...options
+      })
+    })
+  }
+
+  return autoSignMsgBroadcasterWithDirectSignPromise
 }
 
 export const getMsgBroadcasterWithPk = (
