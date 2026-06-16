@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { HttpClient, toBigNumber } from '@injectivelabs/utils'
+import { getIndexerRestExplorerApi } from '../service/indexer'
+import { tokenStaticFactory } from '../service/tokenStaticFactory'
 import {
   IS_DEVNET,
   IS_MAINNET,
   IS_TESTNET,
   MAINTENANCE_DISABLED
 } from '../utils/constant'
-import { tokenStaticFactory, getIndexerRestExplorerApi } from '../service'
 import type {
   SpotMarket,
   TokenStatic,

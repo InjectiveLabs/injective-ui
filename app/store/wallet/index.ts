@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
+import { web3GatewayService } from '../../service/web3'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
 import {
@@ -48,7 +49,6 @@ import {
   getAutoSignMsgBroadcaster,
   confirmCosmosWalletAddress
 } from '@shared/wallet'
-import { web3GatewayService } from '../../service'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Wallet as WalletType } from '@injectivelabs/wallet-base/light'

@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
+import { bffApi } from '../service/bff'
 import { usdcToken } from '../data/token'
+import { spotCacheApi } from '../service/cache'
 import { MARKET_IDS_TO_HIDE } from '../data/market'
 import { NETWORK, IS_HELIX, IS_TRUE_CURRENT } from '../utils/constant'
 import {
@@ -7,7 +9,6 @@ import {
   toZeroUiMarketSummary,
   sharedSpotGetSlugAndTicket
 } from '../transformer/market'
-import { bffApi, spotCacheApi } from '../service'
 import { SharedMarketStatus } from '../types'
 import type { BffSpotMarket, SharedUiMarketSummary } from '../types'
 

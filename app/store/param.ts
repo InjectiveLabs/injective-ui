@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { injToken } from './../data/token'
 import { ZERO_IN_BIG_NUMBER } from './../utils/constant'
+import { getMintApi, getBankApi, getStakingApi } from './../service/chain'
 import { HttpClient, toBigNumber, toHumanReadable } from '@injectivelabs/utils'
-import { getMintApi, getBankApi, getStakingApi } from './../service'
 import type {
   Pool,
   DistributionModuleParams,

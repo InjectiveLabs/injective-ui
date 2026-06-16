@@ -1,6 +1,7 @@
 import { toBigNumber } from '@injectivelabs/utils'
+import { sharedTokenClient } from '../service/token'
+import { tokenStaticFactory } from '../service/tokenStaticFactory'
 import { IS_MITO, IS_AUTHZ, IS_TRADING_UI, IS_TRUE_CURRENT } from './constant'
-import { sharedTokenClient, tokenStaticFactory } from '../service'
 import type { BigNumber } from '@injectivelabs/utils'
 import type { TokenStatic } from '@injectivelabs/sdk-ts'
 

@@ -1,7 +1,10 @@
 import { NETWORK, PRODUCT } from '../utils/constant'
-import { getAutoSignWalletStrategy } from './strategy'
 import { Wallet } from '@injectivelabs/wallet-base/light'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
+import {
+  getAutoSignWalletStrategy,
+  getAutoSignWalletStrategyWithDirectSign
+} from './strategy'
 import type { AutoSign } from '../types'
 
 const textEncoder = new TextEncoder()
