@@ -1,3 +1,3 @@
-import { TokenStaticFactory } from '@injectivelabs/sdk-ts/service'
+import { TokenStaticFactory } from '../classes/TokenFactoryStatic'
 
 export const tokenStaticFactory = new TokenStaticFactory([])

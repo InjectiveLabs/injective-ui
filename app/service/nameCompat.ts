@@ -34,7 +34,7 @@ export const injNameService = {
 
 export const injBonfidaNameService = {
   fetchInjName: (_address: string) => {
-    throw new GeneralException(new Error(`Not suported for this name service`))
+    throw new GeneralException(new Error(`Not supported for this name service`))
   },
   fetchInjAddress: (name: string) =>
     getInjBonfidaNameService().then((service) => service.fetchInjAddress(name))
