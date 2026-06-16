@@ -9,8 +9,15 @@ import {
   toZeroUiMarketSummary,
   sharedSpotGetSlugAndTicket
 } from '../transformer/market'
-import { SharedMarketStatus } from '../types'
+import {
+  ALL_MARKET_STATUSES,
+  marketDefinitionsCache,
+  getMarketDefinitionsCacheKey,
+  shouldCacheMarketDefinitions,
+  MARKET_DEFINITIONS_CACHE_TTL_MS
+} from '../providers/marketDefinitionsCache'
 import type { BffSpotMarket, SharedUiMarketSummary } from '../types'
+import type { BffMarketStatus } from '../providers/marketDefinitionsCache'
 
 export type SpotStoreState = {
   markets: BffSpotMarket[]
@@ -36,48 +43,11 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
 
   actions: {
     async fetchMarkets() {
-      const endpoint = IS_HELIX
-        ? bffApi.api.v1.spot.markets.helix
-        : IS_TRUE_CURRENT
-          ? bffApi.api.v1.spot.markets.tc
-          : bffApi.api.v1.spot.markets
-
-      const { data } = await endpoint.get({
-        params: { query: { network: NETWORK } }
-      })
-
-      this.markets = (data?.data || []).map((market) => ({
-        ...market,
-        ...sharedSpotGetSlugAndTicket(market)
-      })) as BffSpotMarket[]
+      this.markets = await getSpotMarkets()
     },
 
     async fetchAllMarkets() {
-      const endpoint = IS_HELIX
-        ? bffApi.api.v1.spot.markets.helix
-        : IS_TRUE_CURRENT
-          ? bffApi.api.v1.spot.markets.tc
-          : bffApi.api.v1.spot.markets
-
-      const { data } = await endpoint.get({
-        params: {
-          query: {
-            network: NETWORK,
-            marketStatus: [
-              SharedMarketStatus.Active,
-              SharedMarketStatus.Paused,
-              SharedMarketStatus.Expired,
-              SharedMarketStatus.Suspended,
-              SharedMarketStatus.Demolished
-            ]
-          }
-        }
-      })
-
-      this.markets = (data?.data || []).map((market) => ({
-        ...market,
-        ...sharedSpotGetSlugAndTicket(market)
-      })) as BffSpotMarket[]
+      this.markets = await getSpotMarkets(ALL_MARKET_STATUSES)
     },
 
     async fetchMarketsSummary() {
@@ -107,3 +77,45 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
     }
   }
 })
+
+function getSpotMarkets(marketStatuses?: BffMarketStatus[]) {
+  return marketDefinitionsCache.cached({
+    ttlMs: MARKET_DEFINITIONS_CACHE_TTL_MS,
+    allowStaleOnError: true,
+    shouldCacheValue: shouldCacheMarketDefinitions,
+    key: getMarketDefinitionsCacheKey({
+      marketStatuses,
+      marketType: 'spot'
+    }),
+    request: () => fetchSpotMarketsFromBff(marketStatuses)
+  })
+}
+
+async function fetchSpotMarketsFromBff(marketStatuses?: BffMarketStatus[]) {
+  const endpoint = getSpotMarketsEndpoint()
+  const { data } = marketStatuses
+    ? await endpoint.get({
+        params: {
+          query: {
+            network: NETWORK,
+            marketStatus: marketStatuses
+          }
+        }
+      })
+    : await endpoint.get({
+        params: { query: { network: NETWORK } }
+      })
+
+  return (data?.data || []).map((market) => ({
+    ...market,
+    ...sharedSpotGetSlugAndTicket(market)
+  })) as BffSpotMarket[]
+}
+
+function getSpotMarketsEndpoint() {
+  return IS_HELIX
+    ? bffApi.api.v1.spot.markets.helix
+    : IS_TRUE_CURRENT
+      ? bffApi.api.v1.spot.markets.tc
+      : bffApi.api.v1.spot.markets
+}

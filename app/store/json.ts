@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { fetchCachedJson } from '../providers/jsonCache'
 import { HttpClient, toBigNumber } from '@injectivelabs/utils'
 import { getIndexerRestExplorerApi } from '../service/indexer'
 import { tokenStaticFactory } from '../service/tokenStaticFactory'
@@ -30,6 +31,13 @@ const client = new HttpClient(STAGING_CLOUD_FRONT_URL, {
     'Cache-Control': 'max-age=0'
   }
 })
+
+const fetchJson = <T>(path: string) => {
+  return fetchCachedJson<T>({
+    path,
+    request: () => client.get(path) as Promise<{ data: T }>
+  })
+}
 
 export type JsonStoreState = {
   verifiedDenoms: string[]
@@ -187,79 +195,65 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
   actions: {
     async fetchToken() {
-      const data = (await client.get(
+      const data = await fetchJson<TokenStatic[]>(
         `json/tokens/verified/${getNetworkName()}`
-      )) as {
-        data: TokenStatic[]
-      }
+      )
 
-      tokenStaticFactory.mapRegistry(data.data)
+      tokenStaticFactory.mapRegistry(data)
     },
 
     async fetchFullTokenList() {
-      const data = (await client.get(`json/tokens/${getNetworkName()}`)) as {
-        data: TokenStatic[]
-      }
+      const data = await fetchJson<TokenStatic[]>(`json/tokens/${getNetworkName()}`)
 
-      tokenStaticFactory.mapRegistry(data.data)
+      tokenStaticFactory.mapRegistry(data)
     },
 
     async fetchRestrictedCountries() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(`json/geo/countries.json`)) as {
-        data: string[]
-      }
+      const data = await fetchJson<string[]>('json/geo/countries.json')
 
-      jsonStore.restrictedCountries = data.data
+      jsonStore.restrictedCountries = data
     },
 
     async fetchSpotMarkets() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<SpotMarket[]>(
         `json/market/spot/${getNetworkName()}`
-      )) as {
-        data: SpotMarket[]
-      }
+      )
 
-      jsonStore.spotMarkets = data.data
+      jsonStore.spotMarkets = data
     },
 
     async fetchValidators() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<JsonValidator[]>(
         `json/validators/${getNetworkName()}`
-      )) as {
-        data: JsonValidator[]
-      }
+      )
 
-      jsonStore.validators = data.data
+      jsonStore.validators = data
     },
 
     async fetchWasmQuery() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<Record<string, string[]>>(
         `json/wasm/query/${getNetworkName()}`
-      )) as {
-        data: Record<string, string[]>
-      }
+      )
 
-      jsonStore.wasmQuery = data.data
+      jsonStore.wasmQuery = data
     },
 
     async fetchSwapRoutes() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<JsonSwapRouteRaw[]>(
         `json/helix/trading/swap/${getNetworkName()}`
-      )) as {
-        data: JsonSwapRouteRaw[]
-      }
+      )
 
-      jsonStore.swapRoutes = data.data.map((route) => {
+      jsonStore.swapRoutes = data.map((route) => {
         return {
           ...route,
           sourceDenom: route.source_denom,
@@ -271,62 +265,50 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     async fetchWasmExecute() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<Record<string, string[]>>(
         `json/wasm/execute/${getNetworkName()}`
-      )) as {
-        data: Record<string, string[]>
-      }
+      )
 
-      jsonStore.wasmExecute = data.data
+      jsonStore.wasmExecute = data
     },
 
     async fetchBlacklistedAddresses() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
-        `json/wallets/ofacAndRestricted.json`
-      )) as {
-        data: string[]
-      }
+      const data = await fetchJson<string[]>('json/wallets/ofacAndRestricted.json')
 
-      jsonStore.blacklistedAddresses = data.data
+      jsonStore.blacklistedAddresses = data
     },
 
     async fetchDerivativeMarkets() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<DerivativeMarket[]>(
         `json/market/derivative/${getNetworkName()}`
-      )) as {
-        data: DerivativeMarket[]
-      }
+      )
 
-      jsonStore.derivativeMarkets = data.data
+      jsonStore.derivativeMarkets = data
     },
 
     async fetchExpiryMarketMap() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<Record<string, string>>(
         `json/helix/trading/expiryMap/${getNetworkName()}`
-      )) as {
-        data: Record<string, string>
-      }
+      )
 
-      jsonStore.expiryMarketMap = data.data
+      jsonStore.expiryMarketMap = data
     },
 
     async fetchSpotGridMarkets() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<JsonGridMarket[]>(
         `json/helix/trading/gridMarkets/spot/${getNetworkName()}`
-      )) as {
-        data: JsonGridMarket[]
-      }
+      )
 
       if (IS_DEVNET) {
-        jsonStore.spotGridMarkets = data.data.map((item) => {
+        jsonStore.spotGridMarkets = data.map((item) => {
           const shouldOverride = item.slug === 'inj-usdt'
 
           if (!shouldOverride) {
@@ -339,56 +321,48 @@ export const useSharedJsonStore = defineStore('sharedJson', {
           }
         })
       } else {
-        jsonStore.spotGridMarkets = data.data
+        jsonStore.spotGridMarkets = data
       }
     },
 
     async fetchVerifiedDenoms() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<Record<string, any[]>>(
         `json/helix/trading/denoms/${getNetworkName()}`
-      )) as {
-        data: Record<string, any[]>
-      }
+      )
 
-      jsonStore.verifiedDenoms = Object.keys(data.data)
+      jsonStore.verifiedDenoms = Object.keys(data)
     },
 
     async fetchVerifiedSpotMarketMap() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<Record<string, string>>(
         `json/helix/trading/spotMap/${getNetworkName()}`
-      )) as {
-        data: Record<string, string>
-      }
+      )
 
-      jsonStore.verifiedSpotMarketMap = data.data
+      jsonStore.verifiedSpotMarketMap = data
     },
 
     async fetchMarketCategoryMap() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<JsonHelixCategory>(
         `json/helix/trading/market/categoryMap/${getNetworkName()}`
-      )) as {
-        data: JsonHelixCategory
-      }
+      )
 
-      jsonStore.helixMarketCategory = data.data
+      jsonStore.helixMarketCategory = data
     },
 
     async fetchVerifiedDerivativeMarketMap() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<Record<string, string>>(
         `json/helix/trading/derivativeMap/${getNetworkName()}`
-      )) as {
-        data: Record<string, string>
-      }
+      )
 
-      jsonStore.verifiedDerivativeMarketMap = data.data
+      jsonStore.verifiedDerivativeMarketMap = data
     },
 
     pollBlockHeight(heightToPoll: number) {
@@ -425,11 +399,9 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     async fetchDerivativeGridMarkets() {
       const jsonStore = useSharedJsonStore()
 
-      const data = (await client.get(
+      const data = await fetchJson<JsonGridMarket[]>(
         `json/helix/trading/gridMarkets/derivative/${getNetworkName()}`
-      )) as {
-        data: JsonGridMarket[]
-      }
+      )
 
       const itslaGridMarket = {
         slug: 'itsla-usdt-perp',
@@ -446,29 +418,23 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         contractAddress: 'inj1nm4ajyrlyqqhgzf32dvywgvshewyaw53rlwdfg'
       }
 
-      if (IS_MAINNET) {
-        data.data.push(itslaGridMarket, imcdGridMarket, opGridMarket)
-      }
-
-      jsonStore.derivativeGridMarkets = data.data
+      jsonStore.derivativeGridMarkets = IS_MAINNET
+        ? [...data, itslaGridMarket, imcdGridMarket, opGridMarket]
+        : data
     },
 
     async fetchEvmTokens() {
       const jsonStore = useSharedJsonStore()
 
-      const mainnetTokens = (await client.get(
-        `json/tokens/evm/mainnet.json`
-      )) as {
-        data: JsonEvmToken[]
-      }
-      const testnetTokens = (await client.get(
-        `json/tokens/evm/mainnet.json`
-      )) as {
-        data: JsonEvmToken[]
-      }
+      const mainnetTokens = await fetchJson<JsonEvmToken[]>(
+        'json/tokens/evm/mainnet.json'
+      )
+      const testnetTokens = await fetchJson<JsonEvmToken[]>(
+        'json/tokens/evm/mainnet.json'
+      )
 
-      jsonStore.mainnetEvmTokens = mainnetTokens.data
-      jsonStore.testnetEvmTokens = testnetTokens.data
+      jsonStore.mainnetEvmTokens = mainnetTokens
+      jsonStore.testnetEvmTokens = testnetTokens
     },
 
     async fetchChainUpgradeConfig() {
@@ -482,11 +448,9 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       const jsonStore = useSharedJsonStore()
 
-      const { data: config } = (await client.get(
+      const config = await fetchJson<JsonChainUpgrade>(
         'json/config/chainUpgrade.json'
-      )) as {
-        data: JsonChainUpgrade
-      }
+      )
 
       try {
         const {
@@ -502,6 +466,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       const isValidChainUpgradeConfig =
+        !!config &&
         typeof config === 'object' &&
         typeof config.proposalId === 'number' &&
         config.proposalId > 0 &&

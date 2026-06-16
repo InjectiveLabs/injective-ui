@@ -128,7 +128,7 @@ export default defineConfig({
 
   resolve: {
     // Dedupe packages that MUST be singletons (shared global state)
-    dedupe: ['vee-validate', 'vue', 'viem', 'ox', 'abitype']
+    dedupe: ['vue', 'pinia', 'viem', 'ox', 'abitype', 'vee-validate']
   },
 
   server: {

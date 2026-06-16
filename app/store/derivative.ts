@@ -9,8 +9,18 @@ import {
   toZeroUiMarketSummary,
   sharedDerivativeGetSlugAndTicket
 } from '../transformer/market'
-import { SharedMarketStatus } from '../types'
-import type { BffDerivativeMarket, SharedUiMarketSummary } from '../types'
+import {
+  ALL_MARKET_STATUSES,
+  marketDefinitionsCache,
+  getMarketDefinitionsCacheKey,
+  shouldCacheMarketDefinitions,
+  MARKET_DEFINITIONS_CACHE_TTL_MS
+} from '../providers/marketDefinitionsCache'
+import type { BffMarketStatus } from '../providers/marketDefinitionsCache'
+import type {
+  BffDerivativeMarket,
+  SharedUiMarketSummary
+} from '../types'
 
 type derivativeStore = {
   markets: BffDerivativeMarket[]
@@ -36,48 +46,11 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
 
   actions: {
     async fetchMarkets() {
-      const endpoint = IS_HELIX
-        ? bffApi.api.v1.derivative.markets.helix
-        : IS_TRUE_CURRENT
-          ? bffApi.api.v1.derivative.markets.tc
-          : bffApi.api.v1.derivative.markets
-
-      const { data } = await endpoint.get({
-        params: { query: { network: NETWORK } }
-      })
-
-      this.markets = (data?.data || []).map((market) => ({
-        ...market,
-        ...sharedDerivativeGetSlugAndTicket(market)
-      })) as BffDerivativeMarket[]
+      this.markets = await getDerivativeMarkets()
     },
 
     async fetchAllMarkets() {
-      const endpoint = IS_HELIX
-        ? bffApi.api.v1.derivative.markets.helix
-        : IS_TRUE_CURRENT
-          ? bffApi.api.v1.derivative.markets.tc
-          : bffApi.api.v1.derivative.markets
-
-      const { data } = await endpoint.get({
-        params: {
-          query: {
-            network: NETWORK,
-            marketStatus: [
-              SharedMarketStatus.Active,
-              SharedMarketStatus.Paused,
-              SharedMarketStatus.Expired,
-              SharedMarketStatus.Suspended,
-              SharedMarketStatus.Demolished
-            ]
-          }
-        }
-      })
-
-      this.markets = (data?.data || []).map((market) => ({
-        ...market,
-        ...sharedDerivativeGetSlugAndTicket(market)
-      })) as BffDerivativeMarket[]
+      this.markets = await getDerivativeMarkets(ALL_MARKET_STATUSES)
     },
 
     async fetchMarketsSummary() {
@@ -108,3 +81,47 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
     }
   }
 })
+
+function getDerivativeMarkets(marketStatuses?: BffMarketStatus[]) {
+  return marketDefinitionsCache.cached({
+    ttlMs: MARKET_DEFINITIONS_CACHE_TTL_MS,
+    allowStaleOnError: true,
+    shouldCacheValue: shouldCacheMarketDefinitions,
+    key: getMarketDefinitionsCacheKey({
+      marketStatuses,
+      marketType: 'derivative'
+    }),
+    request: () => fetchDerivativeMarketsFromBff(marketStatuses)
+  })
+}
+
+async function fetchDerivativeMarketsFromBff(
+  marketStatuses?: BffMarketStatus[]
+) {
+  const endpoint = getDerivativeMarketsEndpoint()
+  const { data } = marketStatuses
+    ? await endpoint.get({
+        params: {
+          query: {
+            network: NETWORK,
+            marketStatus: marketStatuses
+          }
+        }
+      })
+    : await endpoint.get({
+        params: { query: { network: NETWORK } }
+      })
+
+  return (data?.data || []).map((market) => ({
+    ...market,
+    ...sharedDerivativeGetSlugAndTicket(market)
+  })) as BffDerivativeMarket[]
+}
+
+function getDerivativeMarketsEndpoint() {
+  return IS_HELIX
+    ? bffApi.api.v1.derivative.markets.helix
+    : IS_TRUE_CURRENT
+      ? bffApi.api.v1.derivative.markets.tc
+      : bffApi.api.v1.derivative.markets
+}
