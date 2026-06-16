@@ -15,6 +15,7 @@ import {
   WALLET_CONNECT_PROJECT_ID
 } from '../utils/constant'
 import type { WalletStrategy } from '@injectivelabs/wallet-strategy'
+import type { MsgBroadcasterOptions } from '@injectivelabs/wallet-core'
 import type {
   MsgBroadcaster,
   Web3Broadcaster
@@ -35,7 +36,6 @@ let msgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
 let autoSignMsgBroadcasterPromise: null | Promise<MsgBroadcaster> = null
 let web3BroadcasterPromise: null | Promise<Web3Broadcaster> = null
 let msgBroadcasterWithPkInstance: null | MsgBroadcasterWithPk = null
-let msgBroadcasterWithPkPrivateKey: null | string = null
 
 export const getWalletStrategy = (): Promise<WalletStrategy> => {
   if (!walletStrategyPromise) {
@@ -131,7 +131,9 @@ export const getMsgBroadcaster = (): Promise<MsgBroadcaster> => {
   return msgBroadcasterPromise
 }
 
-export const getAutoSignMsgBroadcaster = (): Promise<MsgBroadcaster> => {
+export const getAutoSignMsgBroadcaster = (
+  options?: Partial<MsgBroadcasterOptions>
+): Promise<MsgBroadcaster> => {
   if (!autoSignMsgBroadcasterPromise) {
     autoSignMsgBroadcasterPromise = Promise.all([
       import('@injectivelabs/wallet-core'),
@@ -143,7 +145,8 @@ export const getAutoSignMsgBroadcaster = (): Promise<MsgBroadcaster> => {
         endpoints: ENDPOINTS,
         gasBufferCoefficient: 1.2,
         feePayerPubKey: FEE_PAYER_PUB_KEY,
-        walletStrategy
+        walletStrategy,
+        ...options
       })
     })
   }
@@ -152,17 +155,15 @@ export const getAutoSignMsgBroadcaster = (): Promise<MsgBroadcaster> => {
 }
 
 export const getMsgBroadcasterWithPk = (
-  privateKey: string
+  privateKey: string,
+  options?: Partial<MsgBroadcasterOptions>
 ): MsgBroadcasterWithPk => {
-  if (
-    !msgBroadcasterWithPkInstance ||
-    msgBroadcasterWithPkPrivateKey !== privateKey
-  ) {
-    msgBroadcasterWithPkPrivateKey = privateKey
+  if (!msgBroadcasterWithPkInstance) {
     msgBroadcasterWithPkInstance = new MsgBroadcasterWithPk({
       privateKey,
       network: NETWORK,
-      endpoints: ENDPOINTS
+      endpoints: ENDPOINTS,
+      ...options
     })
   }
 
