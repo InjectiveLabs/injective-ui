@@ -1,5 +1,5 @@
-import { OracleTypeMap } from '@injectivelabs/sdk-ts/client/chain'
-import type { OracleType } from '@injectivelabs/sdk-ts'
+import { OracleTypeMap } from '@injectivelabs/sdk-ts/types/light'
+import type { OracleType } from '@injectivelabs/sdk-ts/types/light'
 
 export class UiOracleTransformer {
   static grpcOracleTypeToUiOracleType(grpcOracleType: string): OracleType {

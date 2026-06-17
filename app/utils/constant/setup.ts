@@ -89,6 +89,12 @@ export const ENDPOINTS = {
   // 'http://localhost:4000'
 }
 
+export const EXPLORER_REST_ENDPOINT = `${
+  IS_MAINNET
+    ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network'
+    : ENDPOINTS.explorer
+}/api/explorer/v1`
+
 const MITO_DEVNET_API_ENDPOINT = 'https://devnet.api.ninja.injective.dev'
 const MITO_TESTNET_API_ENDPOINT =
   'https://k8s.testnet.mito.grpc-web.injective.network'

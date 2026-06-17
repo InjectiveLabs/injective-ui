@@ -1,7 +1,7 @@
 import { GeneralException } from '@injectivelabs/exceptions'
 import { ENDPOINTS, IS_MAINNET } from '../../utils/constant'
-import { toUtf8, toBase64 } from '@injectivelabs/sdk-ts/utils'
 import { getChainGrpcWasmApi } from '../../utils/lib/sdkImports'
+import { toUtf8, toBase64 } from '@injectivelabs/sdk-ts/utils/encoding'
 
 const BONFIDA_TESTNET_CONTRACT_ADDRESS =
   'inj1q79ujqyh72p43mhr2ldaly3x6d50rzp3354at3'

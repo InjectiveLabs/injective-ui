@@ -1,8 +1,8 @@
-import { toBigNumber } from '@injectivelabs/utils'
 import { EvmChainId } from '@injectivelabs/ts-types'
 import { peggyDenomToContractAddress } from './utils'
 import { Web3Exception } from '@injectivelabs/exceptions'
 import { isTestnetOrDevnet } from '@injectivelabs/networks'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 import { Erc20Contract } from '../../utils/evm/Erc20Contract'
 import {
   injToken,

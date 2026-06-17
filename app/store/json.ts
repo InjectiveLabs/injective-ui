@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
-import { HttpClient, toBigNumber } from '@injectivelabs/utils'
-import { getIndexerRestExplorerApi } from '../service/indexer'
+import { HttpClient } from '@injectivelabs/utils/http'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 import { tokenStaticFactory } from '../service/tokenStaticFactory'
 import {
   IS_DEVNET,
   IS_MAINNET,
   IS_TESTNET,
-  MAINTENANCE_DISABLED
+  MAINTENANCE_DISABLED,
+  EXPLORER_REST_ENDPOINT
 } from '../utils/constant'
 import type {
   SpotMarket,
@@ -30,6 +31,15 @@ const client = new HttpClient(STAGING_CLOUD_FRONT_URL, {
     'Cache-Control': 'max-age=0'
   }
 })
+const explorerRestClient = new HttpClient(EXPLORER_REST_ENDPOINT)
+
+type ExplorerBlocksResponse = {
+  data: {
+    paging: {
+      total: number | string
+    }
+  }
+}
 
 export type JsonStoreState = {
   verifiedDenoms: string[]
@@ -64,6 +74,21 @@ const getNetworkName = () => {
   }
 
   return 'devnet.json'
+}
+
+async function fetchLatestBlockHeight() {
+  const response = (await explorerRestClient.get('blocks', {
+    limit: 1
+  })) as null | undefined | Partial<ExplorerBlocksResponse>
+
+  const total = response?.data?.paging?.total
+  const blockHeight = Number(total)
+
+  if (!Number.isFinite(blockHeight) || blockHeight <= 0) {
+    throw new Error('Invalid latest block height response')
+  }
+
+  return blockHeight
 }
 
 export const useSharedJsonStore = defineStore('sharedJson', {
@@ -403,16 +428,19 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       const poll = async () => {
-        const indexerRestExplorerApi = await getIndexerRestExplorerApi()
+        try {
+          const latestBlockHeight = await fetchLatestBlockHeight()
 
-        const {
-          paging: { total: latestBlockHeight }
-        } = await indexerRestExplorerApi.fetchBlocks({ limit: 1 })
+          jsonStore.latestBlockHeight = latestBlockHeight
 
-        jsonStore.latestBlockHeight = latestBlockHeight
-
-        if (latestBlockHeight >= heightToPoll) {
-          stopPolling()
+          if (latestBlockHeight >= heightToPoll) {
+            stopPolling()
+          }
+        } catch (error) {
+          console.error('Failed to poll latest block height', {
+            error,
+            heightToPoll
+          })
         }
       }
 
@@ -472,15 +500,12 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     },
 
     async fetchChainUpgradeConfig() {
-      let latestBlockHeight = 0
-
       if (!IS_MAINNET) {
         return
       }
 
-      const indexerRestExplorerApi = await getIndexerRestExplorerApi()
-
       const jsonStore = useSharedJsonStore()
+      let latestBlockHeight = jsonStore.latestBlockHeight
 
       const { data: config } = (await client.get(
         'json/config/chainUpgrade.json'
@@ -489,16 +514,10 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       }
 
       try {
-        const {
-          paging: { total }
-        } = await indexerRestExplorerApi.fetchBlocks({
-          limit: 1
-        })
-
-        latestBlockHeight = total
+        latestBlockHeight = await fetchLatestBlockHeight()
         jsonStore.latestBlockHeight = latestBlockHeight
       } catch {
-        // silently throw
+        // silently catch
       }
 
       const isValidChainUpgradeConfig =

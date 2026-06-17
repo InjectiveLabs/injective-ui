@@ -57,8 +57,6 @@ const SOLANA_ECOSYSTEM_PATTERNS = [
  * Check if a module belongs to the Solana ecosystem.
  */
 export function isSolanaEcosystem(id: string): boolean {
-  console.log('isSolanaEcosystem', { id })
-
   return SOLANA_ECOSYSTEM_PATTERNS.some((pattern) => id.includes(pattern))
 }
 

@@ -1,7 +1,8 @@
 import { fetchEstimatorGasPrice } from './estimator'
 import { EvmChainId } from '@injectivelabs/ts-types'
-import { HttpClient, toBigNumber } from '@injectivelabs/utils'
-import { getViemPublicClient } from '@injectivelabs/wallet-base'
+import { HttpClient } from '@injectivelabs/utils/http'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
+import { alchemyRpcEndpoint } from '../../../wallet/utils/alchemy'
 import {
   GeneralException,
   HttpRequestException
@@ -11,7 +12,6 @@ import {
   GWEI_IN_WEI,
   DEFAULT_MAINNET_GAS_PRICE
 } from '../../../utils/constant'
-import { alchemyRpcEndpoint } from './../../../wallet'
 
 export interface GasInfo {
   gasPrice: string
@@ -44,6 +44,7 @@ export interface EthGasStationResult {
 const fetchGasPriceFromEthereum = async (): Promise<string> => {
   try {
     const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+    const { getViemPublicClient } = await import('@injectivelabs/wallet-base')
     const publicClient = getViemPublicClient(chainId, alchemyRpcEndpoint)
     const response = await publicClient.estimateFeesPerGas()
 

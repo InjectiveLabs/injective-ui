@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import { StatusType } from '@injectivelabs/utils'
 import { lazyPiniaAction } from '../../utils/pinia'
-import { web3GatewayService } from '../../service/web3'
+import { StatusType } from '@injectivelabs/utils/status'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { IS_DEVNET, IS_TRUE_CURRENT } from '../../utils/constant'
 import {
@@ -17,43 +16,10 @@ import {
   getEthereumAddress,
   getInjectiveAddress,
   getDefaultSubaccountId
-} from '@injectivelabs/sdk-ts/utils'
-import {
-  MsgGrant,
-  msgsOrMsgExecMsgs,
-  MsgGrantWithAuthorization,
-  getGenericAuthorizationFromMessageType
-} from '@injectivelabs/sdk-ts/core/modules'
-import {
-  clearAutoSignKey,
-  getAutoSignPayload,
-  withAutoSignPrivateKey,
-  deriveAndStoreAutoSignKey,
-  withAutoSignPrivateKeyWithDirectSign
-} from '../../wallet/autosign'
-import {
-  getAutoSignGrantConfig,
-  getMissingGrantMessages,
-  fetchGranterGrantsNoThrow,
-  getAutoSignGrantExpiration,
-  hasMissingOrExpiringGrants,
-  AUTO_SIGN_RENEWAL_THRESHOLD
-} from '../../wallet/utils/authz'
-import {
-  getAddresses,
-  getMsgBroadcaster,
-  getWalletStrategy,
-  validateEvmWallet,
-  getHwAddressesInfo,
-  validateCosmosWallet,
-  getAutoSignWalletStrategy,
-  getAutoSignMsgBroadcaster,
-  confirmCosmosWalletAddress,
-  getAutoSignMsgBroadcasterWithDirectSign
-} from '@shared/wallet'
+} from '@injectivelabs/sdk-ts/utils/address'
 import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
+import type { WalletStrategy } from '@injectivelabs/wallet-strategy'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
-import type { Wallet as WalletType } from '@injectivelabs/wallet-base/light'
 import type {
   Msgs,
   ContractExecutionCompatAuthz,
@@ -63,6 +29,111 @@ import type { AutoSign } from '../../types'
 import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
+const AUTO_SIGN_RENEWAL_THRESHOLD = 60 * 60 * 24 * 14
+
+async function getWalletStrategy() {
+  const { getWalletStrategy } = await import('../../wallet/strategy')
+
+  return await getWalletStrategy()
+}
+
+async function getAutoSignWalletStrategy() {
+  const { getAutoSignWalletStrategy } = await import('../../wallet/strategy')
+
+  return await getAutoSignWalletStrategy()
+}
+
+async function getMsgBroadcaster() {
+  const { getMsgBroadcaster } = await import('../../wallet/strategy')
+
+  return await getMsgBroadcaster()
+}
+
+async function getAutoSignMsgBroadcaster() {
+  const { getAutoSignMsgBroadcaster } = await import('../../wallet/strategy')
+
+  return await getAutoSignMsgBroadcaster()
+}
+
+async function getAutoSignMsgBroadcasterWithDirectSign() {
+  const { getAutoSignMsgBroadcasterWithDirectSign } =
+    await import('../../wallet/strategy')
+
+  return await getAutoSignMsgBroadcasterWithDirectSign()
+}
+
+async function getAddresses() {
+  const { getAddresses } = await import('../../wallet/utils/address')
+
+  return await getAddresses()
+}
+
+async function getHwAddressesInfo() {
+  const { getHwAddressesInfo } = await import('../../wallet/utils/address')
+
+  return await getHwAddressesInfo()
+}
+
+async function validateEvmWallet(
+  input: Parameters<
+    (typeof import('../../wallet/utils/evm'))['validateEvmWallet']
+  >[0]
+) {
+  const { validateEvmWallet } = await import('../../wallet/utils/evm')
+
+  return await validateEvmWallet(input)
+}
+
+async function validateCosmosWallet(
+  input: Parameters<
+    (typeof import('../../wallet/utils/cosmos'))['validateCosmosWallet']
+  >[0]
+) {
+  const { validateCosmosWallet } = await import('../../wallet/utils/cosmos')
+
+  return await validateCosmosWallet(input)
+}
+
+async function confirmCosmosWalletAddress(wallet: Wallet, address: string) {
+  const { confirmCosmosWalletAddress } =
+    await import('../../wallet/utils/cosmos')
+
+  return await confirmCosmosWalletAddress(wallet, address)
+}
+
+async function clearAutoSignKey(storageKey: string) {
+  const { clearAutoSignKey } = await import('../../wallet/autosign')
+
+  return await clearAutoSignKey(storageKey)
+}
+
+async function withAutoSignPrivateKey<T>(
+  autoSign: AutoSign,
+  callback: (privateKey: string) => Promise<T>
+) {
+  const { withAutoSignPrivateKey } = await import('../../wallet/autosign')
+
+  return await withAutoSignPrivateKey(autoSign, callback)
+}
+
+async function withAutoSignPrivateKeyWithDirectSign<T>(
+  autoSign: AutoSign,
+  callback: (privateKey: string) => Promise<T>
+) {
+  const { withAutoSignPrivateKeyWithDirectSign } =
+    await import('../../wallet/autosign')
+
+  return await withAutoSignPrivateKeyWithDirectSign(autoSign, callback)
+}
+
+async function disconnectLoadedWalletStrategy(
+  walletStrategy: WalletStrategy,
+  wallet: Wallet
+) {
+  await walletStrategy.setWallet(wallet)
+
+  return await walletStrategy.disconnect()
+}
 
 const evmWalletsWithValidation = [
   Wallet.Rabby,
@@ -72,7 +143,7 @@ const evmWalletsWithValidation = [
   Wallet.Metamask,
   Wallet.OkxWallet,
   Wallet.TrustWallet
-] as WalletType[]
+] as Wallet[]
 
 const cosmosWalletsWithValidation = [
   Wallet.Leap,
@@ -80,7 +151,7 @@ const cosmosWalletsWithValidation = [
   Wallet.Ninji,
   Wallet.OWallet,
   Wallet.Cosmostation
-] as WalletType[]
+] as Wallet[]
 
 type WalletStoreState = {
   wallet: Wallet
@@ -284,57 +355,77 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     }
   },
   actions: {
-    // Lazy-loaded extension checks
-    checkIsBitGetInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsBitGetInstalled'
-    ),
-    checkIsRainbowInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsRainbowInstalled'
-    ),
-    checkIsMetamaskInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsMetamaskInstalled'
-    ),
-    checkIsKeplrEvmInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsKeplrEvmInstalled'
-    ),
-    checkIsOkxWalletInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsOkxWalletInstalled'
-    ),
-    checkIsTrustWalletInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsTrustWalletInstalled'
-    ),
-    checkIsRabbyWalletInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsRabbyWalletInstalled'
-    ),
-    checkIsPhantomWalletInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsPhantomWalletInstalled'
-    ),
+    async checkIsBitGetInstalled() {
+      const { checkIsBitGetInstalled } = await import('./extensions')
 
-    // Lazy-loaded cosmos wallet extension checks
-    checkIsKeplrInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsKeplrInstalled'
-    ),
-    checkIsLeapInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsLeapInstalled'
-    ),
-    checkIsNinjiInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsNinjiInstalled'
-    ),
-    checkIsOwalletInstalled: lazyPiniaAction(
-      () => import('./extensions'),
-      'checkIsOwalletInstalled'
-    ),
+      this.bitGetInstalled = await checkIsBitGetInstalled()
+    },
+
+    async checkIsRainbowInstalled() {
+      const { checkIsRainbowInstalled } = await import('./extensions')
+
+      this.rainbowInstalled = await checkIsRainbowInstalled()
+    },
+
+    async checkIsMetamaskInstalled() {
+      const { checkIsMetamaskInstalled } = await import('./extensions')
+
+      this.metamaskInstalled = await checkIsMetamaskInstalled()
+    },
+
+    async checkIsKeplrEvmInstalled() {
+      const { checkIsKeplrEvmInstalled } = await import('./extensions')
+
+      this.keplrEvmInstalled = await checkIsKeplrEvmInstalled()
+    },
+
+    async checkIsOkxWalletInstalled() {
+      const { checkIsOkxWalletInstalled } = await import('./extensions')
+
+      this.okxWalletInstalled = await checkIsOkxWalletInstalled()
+    },
+
+    async checkIsTrustWalletInstalled() {
+      const { checkIsTrustWalletInstalled } = await import('./extensions')
+
+      this.trustWalletInstalled = await checkIsTrustWalletInstalled()
+    },
+
+    async checkIsRabbyWalletInstalled() {
+      const { checkIsRabbyWalletInstalled } = await import('./extensions')
+
+      this.rabbyInstalled = await checkIsRabbyWalletInstalled()
+    },
+
+    async checkIsPhantomWalletInstalled() {
+      const { checkIsPhantomWalletInstalled } = await import('./extensions')
+
+      this.phantomInstalled = await checkIsPhantomWalletInstalled()
+    },
+
+    async checkIsKeplrInstalled() {
+      const { checkIsKeplrInstalled } = await import('./extensions')
+
+      this.keplrInstalled = await checkIsKeplrInstalled()
+    },
+
+    async checkIsLeapInstalled() {
+      const { checkIsLeapInstalled } = await import('./extensions')
+
+      this.leapInstalled = await checkIsLeapInstalled()
+    },
+
+    async checkIsNinjiInstalled() {
+      const { checkIsNinjiInstalled } = await import('./extensions')
+
+      this.ninjiInstalled = await checkIsNinjiInstalled()
+    },
+
+    async checkIsOwalletInstalled() {
+      const { checkIsOwalletInstalled } = await import('./extensions')
+
+      this.owalletInstalled = await checkIsOwalletInstalled()
+    },
 
     // Lazy-loaded magic wallet actions
     connectMagic: lazyPiniaAction(() => import('./magic'), 'connectMagic'),
@@ -445,9 +536,21 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async init() {
       const walletStore = useSharedWalletStore()
-      const walletStrategy = await getWalletStrategy()
 
       walletStore.walletConnectStatus = WalletConnectStatus.idle
+
+      const shouldInitializeWalletStrategy =
+        walletStore.isUserConnected ||
+        !!walletStore.hwAddressInfo ||
+        walletStore.wallet === Wallet.Magic ||
+        !!walletStore.autoSign?.privateKey ||
+        !!walletStore.privateKey
+
+      if (!shouldInitializeWalletStrategy) {
+        return
+      }
+
+      const walletStrategy = await getWalletStrategy()
 
       await walletStrategy.setWallet(walletStore.wallet)
 
@@ -529,7 +632,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
        * so there is no need to disconnect
        */
       if (walletStore.hwAddresses.length === 0) {
-        await walletStrategy.disconnect()
+        await disconnectLoadedWalletStrategy(walletStrategy, wallet)
       }
 
       if (
@@ -580,6 +683,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
 
+      await walletStrategy.setWallet(walletStore.wallet)
       await walletStrategy.disconnect()
 
       if (storageKey) {
@@ -632,7 +736,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.hwAddresses.length === 0 ||
         walletStore.wallet !== wallet
       ) {
-        await walletStrategy.disconnect()
+        await disconnectLoadedWalletStrategy(walletStrategy, walletStore.wallet)
         await walletStrategy.setWallet(wallet)
 
         walletStore.$patch({
@@ -668,7 +772,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         walletStore.hwAddressesInfo.length === 0 ||
         walletStore.wallet !== wallet
       ) {
-        await walletStrategy.disconnect()
+        await disconnectLoadedWalletStrategy(walletStrategy, walletStore.wallet)
         await walletStrategy.setWallet(wallet)
 
         walletStore.$patch({
@@ -783,6 +887,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const normalizedMessages = normalizeBroadcastMessages(messages)
+      const { msgsOrMsgExecMsgs } =
+        await import('@injectivelabs/sdk-ts/core/modules')
 
       // Check authorization on RAW messages BEFORE MsgExec wrapping.
       // Authorized (all trading msgs) → wrap in MsgExec + dispatch to autoSign broadcaster directly.
@@ -874,6 +980,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         )
 
         if (!isUnauthorizedMessages) {
+          const { msgsOrMsgExecMsgs } =
+            await import('@injectivelabs/sdk-ts/core/modules')
           const autoSignMsgBroadcaster = await getAutoSignMsgBroadcaster()
           const autoSign = walletStore.autoSign as AutoSign
 
@@ -929,6 +1037,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         )
 
         if (!isUnauthorizedMessages) {
+          const { msgsOrMsgExecMsgs } =
+            await import('@injectivelabs/sdk-ts/core/modules')
           const autoSignMsgBroadcaster =
             await getAutoSignMsgBroadcasterWithDirectSign()
           const autoSign = walletStore.autoSign as AutoSign
@@ -988,6 +1098,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const autoSign = walletStore.autoSign as AutoSign
+      const {
+        getMissingGrantMessages,
+        fetchGranterGrantsNoThrow,
+        getAutoSignGrantExpiration,
+        hasMissingOrExpiringGrants
+      } = await import('../../wallet/utils/authz')
+      const { MsgGrantWithAuthorization } =
+        await import('@injectivelabs/sdk-ts/core/modules')
       const nowInSeconds = Math.floor(Date.now() / 1000)
 
       const grants =
@@ -1107,6 +1225,8 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
 
       const walletStrategy = await getWalletStrategy()
+      const { getAutoSignPayload, deriveAndStoreAutoSignKey } =
+        await import('../../wallet/autosign')
 
       const signer = isCosmosWallet(walletStore.wallet)
         ? walletStore.injectiveAddress
@@ -1160,6 +1280,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       const actualAutoSign = { ...autoSign } as AutoSign
+      const {
+        getAutoSignGrantConfig,
+        getMissingGrantMessages,
+        fetchGranterGrantsNoThrow,
+        getAutoSignGrantExpiration
+      } = await import('../../wallet/utils/authz')
+      const { MsgGrantWithAuthorization } =
+        await import('@injectivelabs/sdk-ts/core/modules')
 
       const { contractEntries } = getAutoSignGrantConfig({
         msgsType,
@@ -1290,6 +1418,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         throw new GeneralException(new Error('Auto sign is not connected'))
       }
 
+      const { getAutoSignGrantConfig } =
+        await import('../../wallet/utils/authz')
+      const {
+        MsgGrant,
+        MsgGrantWithAuthorization,
+        getGenericAuthorizationFromMessageType
+      } = await import('@injectivelabs/sdk-ts/core/modules')
+
       const { contractEntries } = getAutoSignGrantConfig({
         msgsType,
         contractMsgTypeMap,
@@ -1354,6 +1490,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
     async fetchWeb3GatewayStatus() {
       const walletStore = useSharedWalletStore()
+      const { web3GatewayService } = await import('../../service/web3')
 
       const status = await web3GatewayService.healthCheck()
 

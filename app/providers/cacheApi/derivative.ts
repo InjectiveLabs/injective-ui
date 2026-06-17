@@ -12,9 +12,9 @@ import type { SharedMarketStatus } from '../../types'
 
 export class DerivativeCacheApi extends BaseCacheApi {
   async fetchMarkets(marketStatuses?: SharedMarketStatus[]) {
-    const indexerDerivativesApi = await getIndexerDerivativesApi()
-
     const fetchFromExchange = async () => {
+      const indexerDerivativesApi = await getIndexerDerivativesApi()
+
       const markets = (await indexerDerivativesApi.fetchMarkets(
         marketStatuses ? { marketStatuses } : undefined
       )) as Array<PerpetualMarket | ExpiryFuturesMarket>
@@ -39,10 +39,9 @@ export class DerivativeCacheApi extends BaseCacheApi {
   }
 
   async fetchMarketsSummary() {
-    const indexerRestDerivativeChronosApi =
-      await getIndexerRestDerivativeChronosApi()
-
     const fetchFromExchange = async () => {
+      const indexerRestDerivativeChronosApi =
+        await getIndexerRestDerivativeChronosApi()
       const response =
         await indexerRestDerivativeChronosApi.fetchMarketsSummary()
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BigNumber, toBigNumber } from '@injectivelabs/utils'
+import { BigNumber, toBigNumber } from '@injectivelabs/utils/big-number'
 import {
   DEFAULT_ASSET_DECIMALS,
   DEFAULT_ABBREVIATED_DECIMALS,

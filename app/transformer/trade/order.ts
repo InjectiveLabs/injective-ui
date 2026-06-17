@@ -1,6 +1,8 @@
-import { OrderSide } from '@injectivelabs/sdk-ts/types'
-import { GrpcOrderTypeMap } from '@injectivelabs/sdk-ts/client/chain'
-import type { GrpcOrderType } from '@injectivelabs/sdk-ts'
+import {
+  OrderSide,
+  GrpcOrderTypeMap,
+  type GrpcOrderType
+} from '@injectivelabs/sdk-ts/types/light'
 
 export const orderSideToOrderType = (orderType: OrderSide): GrpcOrderType => {
   switch (orderType) {

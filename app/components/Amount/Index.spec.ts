@@ -1,7 +1,7 @@
 import Index from './Index.vue'
 import { it, expect, describe } from 'vitest'
-import { BigNumber } from '@injectivelabs/utils'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { BigNumber } from '@injectivelabs/utils/big-number'
 import { DEFAULT_ABBREVIATION_THRESHOLD } from '../../utils/constant/index'
 
 describe('Amount/Index.vue', () => {

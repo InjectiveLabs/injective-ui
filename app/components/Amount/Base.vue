@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { abbreviateNumber } from '../../utils/helper'
-import { BigNumber, toBigNumber } from '@injectivelabs/utils'
+import { BigNumber, toBigNumber } from '@injectivelabs/utils/big-number'
 import {
   DEFAULT_DISPLAY_DECIMALS,
   DEFAULT_SUBSCRIPT_DECIMALS,

@@ -45,7 +45,7 @@ importers:
         version: 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
       '@injectivelabs/wallet-strategy':
         specifier: 1.20.17
-        version: 1.20.17(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.18.0)(bignumber.js@10.0.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.21.0(bufferutil@4.1.0))(zod@3.25.76)
+        version: 1.20.17(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.17)(axios@1.18.0)(bignumber.js@10.0.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.21.0(bufferutil@4.1.0))(zod@3.25.76)
       '@injectivelabs/wallet-turnkey':
         specifier: 1.20.17
         version: 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
@@ -3763,8 +3763,8 @@ packages:
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
     deprecated: This is a stub types definition. parse-path provides its own type definitions, so you do not need this installed.
 
-  '@types/react@19.2.7':
-    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
+  '@types/react@19.2.17':
+    resolution: {integrity: sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -9043,7 +9043,7 @@ snapshots:
       '@oozcitak/uts46': 0.0.8
       js-sha3: 0.9.3
 
-  '@base-org/account@2.4.0(@types/react@19.2.7)(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@base-org/account@2.4.0(@types/react@19.2.17)(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@coinbase/cdp-sdk': 1.51.2(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)
       '@noble/hashes': 1.4.0
@@ -9053,7 +9053,7 @@ snapshots:
       ox: 0.6.9(typescript@5.9.3)(zod@3.25.76)
       preact: 10.24.2
       viem: 2.48.11(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      zustand: 5.0.3(@types/react@19.2.7)(immer@11.1.8)(react@19.0.0)
+      zustand: 5.0.3(@types/react@19.2.17)(immer@11.1.8)(react@19.0.0)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -10159,7 +10159,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-strategy@1.20.17(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.7)(axios@1.18.0)(bignumber.js@10.0.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.21.0(bufferutil@4.1.0))(zod@3.25.76)':
+  '@injectivelabs/wallet-strategy@1.20.17(@ethersproject/abi@5.8.0)(@ethersproject/rlp@5.8.0)(@ethersproject/sha2@5.8.0)(@ethersproject/transactions@5.8.0)(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@types/react@19.2.17)(axios@1.18.0)(bignumber.js@10.0.2)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(starknet@8.9.2)(tslib@2.8.1)(typescript@5.9.3)(ws@8.21.0(bufferutil@4.1.0))(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.20.17
       '@injectivelabs/wallet-base': 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
@@ -10171,7 +10171,7 @@ snapshots:
       '@injectivelabs/wallet-private-key': 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
       '@injectivelabs/wallet-trezor': 1.20.17(@solana/sysvars@5.5.1(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(tslib@2.8.1)(typescript@5.9.3)(ws@8.21.0(bufferutil@4.1.0))(zod@3.25.76)
       '@injectivelabs/wallet-turnkey': 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
-      '@injectivelabs/wallet-wallet-connect': 1.20.17(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@injectivelabs/wallet-wallet-connect': 1.20.17(@ethersproject/sha2@5.8.0)(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -10267,14 +10267,14 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@injectivelabs/wallet-wallet-connect@1.20.17(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@injectivelabs/wallet-wallet-connect@1.20.17(@ethersproject/sha2@5.8.0)(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(google-protobuf@3.21.4)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@injectivelabs/exceptions': 1.20.17
       '@injectivelabs/sdk-ts': 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
       '@injectivelabs/ts-types': 1.20.17
       '@injectivelabs/wallet-base': 1.20.17(bufferutil@4.1.0)(google-protobuf@3.21.4)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-adapter-ethers': 1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-adapter-ethers': 1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -10600,9 +10600,9 @@ snapshots:
 
   '@lit-labs/ssr-dom-shim@1.6.0': {}
 
-  '@lit/react@1.0.8(@types/react@19.2.7)':
+  '@lit/react@1.0.8(@types/react@19.2.17)':
     dependencies:
-      '@types/react': 19.2.7
+      '@types/react': 19.2.17
     optional: true
 
   '@lit/reactive-element@2.1.2':
@@ -11916,19 +11916,19 @@ snapshots:
     optionalDependencies:
       react: 19.0.0
 
-  '@reown/appkit-adapter-ethers@1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@reown/appkit-adapter-ethers@1.8.15(@ethersproject/sha2@5.8.0)(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ethers@6.16.0(bufferutil@4.1.0))(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@ethersproject/sha2': 5.8.0
-      '@reown/appkit': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.8.15
-      '@reown/appkit-scaffold-ui': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)
+      '@reown/appkit-scaffold-ui': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)
       '@walletconnect/universal-provider': 2.23.0(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.9.3)(zod@3.25.76)
       ethers: 6.16.0(bufferutil@4.1.0)
-      valtio: 2.1.7(@types/react@19.2.7)(react@19.0.0)
+      valtio: 2.1.7(@types/react@19.2.17)(react@19.0.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -11983,12 +11983,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@reown/appkit-controllers@1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@reown/appkit-controllers@1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)
       '@walletconnect/universal-provider': 2.23.0(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.9.3)(zod@3.25.76)
-      valtio: 2.1.7(@types/react@19.2.7)(react@19.0.0)
+      valtio: 2.1.7(@types/react@19.2.17)(react@19.0.0)
       viem: 2.48.11(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -12018,14 +12018,14 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@reown/appkit-pay@1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@reown/appkit-pay@1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-ui': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-ui': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)
       lit: 3.3.0
-      valtio: 2.1.7(@types/react@19.2.7)(react@19.0.0)
+      valtio: 2.1.7(@types/react@19.2.17)(react@19.0.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -12062,12 +12062,12 @@ snapshots:
     dependencies:
       buffer: 6.0.3
 
-  '@reown/appkit-scaffold-ui@1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)':
+  '@reown/appkit-scaffold-ui@1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-ui': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-ui': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)
       lit: 3.3.0
     transitivePeerDependencies:
@@ -12103,11 +12103,11 @@ snapshots:
       - valtio
       - zod
 
-  '@reown/appkit-ui@1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@reown/appkit-ui@1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@phosphor-icons/webcomponents': 2.1.5
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)
       lit: 3.3.0
       qrcode: 1.5.3
@@ -12139,19 +12139,19 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@reown/appkit-utils@1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)':
+  '@reown/appkit-utils@1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.8.15
       '@reown/appkit-wallet': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)
       '@wallet-standard/wallet': 1.1.0
       '@walletconnect/logger': 3.0.0
       '@walletconnect/universal-provider': 2.23.0(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.9.3)(zod@3.25.76)
-      valtio: 2.1.7(@types/react@19.2.7)(react@19.0.0)
+      valtio: 2.1.7(@types/react@19.2.17)(react@19.0.0)
       viem: 2.48.11(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
     optionalDependencies:
-      '@base-org/account': 2.4.0(@types/react@19.2.7)(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@base-org/account': 2.4.0(@types/react@19.2.17)(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@safe-global/safe-apps-provider': 0.18.6(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
       '@safe-global/safe-apps-sdk': 9.1.0(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
@@ -12197,23 +12197,23 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@reown/appkit@1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
+  '@reown/appkit@1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)':
     dependencies:
       '@reown/appkit-common': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-pay': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-pay': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.8.15
-      '@reown/appkit-scaffold-ui': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)
-      '@reown/appkit-ui': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-utils': 1.8.15(@types/react@19.2.7)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.7)(react@19.0.0))(zod@3.25.76)
+      '@reown/appkit-scaffold-ui': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)
+      '@reown/appkit-ui': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-utils': 1.8.15(@types/react@19.2.17)(bufferutil@4.1.0)(db0@0.3.4)(fastestsmallesttextencoderdecoder@1.0.22)(immer@11.1.8)(ioredis@5.8.2)(react@19.0.0)(typescript@5.9.3)(valtio@2.1.7(@types/react@19.2.17)(react@19.0.0))(zod@3.25.76)
       '@reown/appkit-wallet': 1.8.15(bufferutil@4.1.0)(typescript@5.9.3)
       '@walletconnect/universal-provider': 2.23.0(bufferutil@4.1.0)(db0@0.3.4)(ioredis@5.8.2)(typescript@5.9.3)(zod@3.25.76)
       bs58: 6.0.0
       semver: 7.7.2
-      valtio: 2.1.7(@types/react@19.2.7)(react@19.0.0)
+      valtio: 2.1.7(@types/react@19.2.17)(react@19.0.0)
       viem: 2.48.11(bufferutil@4.1.0)(typescript@5.9.3)(zod@3.25.76)
     optionalDependencies:
-      '@lit/react': 1.0.8(@types/react@19.2.7)
+      '@lit/react': 1.0.8(@types/react@19.2.17)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -13912,7 +13912,7 @@ snapshots:
     dependencies:
       parse-path: 7.1.0
 
-  '@types/react@19.2.7':
+  '@types/react@19.2.17':
     dependencies:
       csstype: 3.2.3
     optional: true
@@ -19217,11 +19217,11 @@ snapshots:
 
   uuid@9.0.1: {}
 
-  valtio@2.1.7(@types/react@19.2.7)(react@19.0.0):
+  valtio@2.1.7(@types/react@19.2.17)(react@19.0.0):
     dependencies:
       proxy-compare: 3.0.1
     optionalDependencies:
-      '@types/react': 19.2.7
+      '@types/react': 19.2.17
       react: 19.0.0
 
   varuint-bitcoin@2.0.0:
@@ -19749,9 +19749,9 @@ snapshots:
   zod@3.25.76:
     optional: true
 
-  zustand@5.0.3(@types/react@19.2.7)(immer@11.1.8)(react@19.0.0):
+  zustand@5.0.3(@types/react@19.2.17)(immer@11.1.8)(react@19.0.0):
     optionalDependencies:
-      '@types/react': 19.2.7
+      '@types/react': 19.2.17
       immer: 11.1.8
       react: 19.0.0
     optional: true

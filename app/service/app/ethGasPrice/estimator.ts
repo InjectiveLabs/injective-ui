@@ -1,8 +1,7 @@
-import { HttpClient } from '@injectivelabs/utils'
 import { EvmChainId } from '@injectivelabs/ts-types'
+import { HttpClient } from '@injectivelabs/utils/http'
 import { IS_MAINNET } from './../../../utils/constant'
-import { getViemPublicClient } from '@injectivelabs/wallet-base'
-import { alchemyRpcEndpoint } from './../../../wallet'
+import { alchemyRpcEndpoint } from '../../../wallet/utils/alchemy'
 
 const HISTORICAL_BLOCKS = 4
 
@@ -36,6 +35,7 @@ const formatFeeHistory = (result: any) => {
 
 export const fetchEstimatorGasPrice = async () => {
   const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+  const { getViemPublicClient } = await import('@injectivelabs/wallet-base')
   const publicClient = getViemPublicClient(chainId, alchemyRpcEndpoint)
   const httpClient = new HttpClient(alchemyRpcEndpoint)
 

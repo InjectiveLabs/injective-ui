@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { HttpClient } from '@injectivelabs/utils'
+import { HttpClient } from '@injectivelabs/utils/http'
 import { HttpRequestException } from '@injectivelabs/exceptions'
 import {
   GOOGLE_MAPS_KEY,

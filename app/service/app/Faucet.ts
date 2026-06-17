@@ -1,4 +1,4 @@
-import { HttpRestClient } from '@injectivelabs/utils'
+import { HttpRestClient } from '@injectivelabs/utils/http'
 import { CHAIN_ID, ENDPOINTS } from '../../utils/constant'
 
 export class FaucetService {

@@ -34,6 +34,12 @@ export default defineNuxtConfig({
 
   components: [{ prefix: 'Shared', path: resolve('./app/components') }],
 
+  ui: {
+    experimental: {
+      componentDetection: true
+    }
+  },
+
   pinia: {
     storesDirs: ['store/**']
   },

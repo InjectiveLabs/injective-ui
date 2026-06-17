@@ -1,4 +1,4 @@
-import { HttpRestClient } from '@injectivelabs/utils'
+import { HttpRestClient } from '@injectivelabs/utils/http'
 import { HttpRequestException } from '@injectivelabs/exceptions'
 import type {
   CoinGeckoCoin,

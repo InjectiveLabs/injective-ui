@@ -1,9 +1,7 @@
-import { parseAbi } from 'viem'
-import { getViemPublicClient } from '@injectivelabs/wallet-base'
 import type { Address, PublicClient } from 'viem'
 import type { EvmChainId } from '@injectivelabs/ts-types'
 
-export const ERC20_ABI = parseAbi([
+const ERC20_ABI_MESSAGES = [
   'function name() view returns (string)',
   'function symbol() view returns (string)',
   'function decimals() view returns (uint8)',
@@ -13,13 +11,32 @@ export const ERC20_ABI = parseAbi([
   'function approve(address spender, uint256 amount) returns (bool)',
   'function transfer(address to, uint256 amount) returns (bool)',
   'function transferFrom(address from, address to, uint256 amount) returns (bool)'
-])
+] as const
+
+type ParseAbi = typeof import('viem')['parseAbi']
+
+let erc20Abi: undefined | ReturnType<ParseAbi>
+
+const getErc20Abi = async () => {
+  if (erc20Abi) {
+    return erc20Abi
+  }
+
+  const { parseAbi } = await import('viem')
+
+  erc20Abi = parseAbi(ERC20_ABI_MESSAGES)
+
+  return erc20Abi
+}
 
 export class Erc20Contract {
-  private publicClient: PublicClient
+  private publicClientPromise?: Promise<PublicClient>
+  private chainId: EvmChainId
+  private rpcUrl?: string
 
   constructor(chainId: EvmChainId, rpcUrl?: string) {
-    this.publicClient = getViemPublicClient(chainId, rpcUrl)
+    this.rpcUrl = rpcUrl
+    this.chainId = chainId
   }
 
   /**
@@ -30,21 +47,23 @@ export class Erc20Contract {
     symbol: string
     decimals: number
   }> {
-    const results = await this.publicClient.multicall({
+    const publicClient = await this.#getPublicClient()
+    const abi = await getErc20Abi()
+    const results = await publicClient.multicall({
       contracts: [
         {
           address: tokenAddress,
-          abi: ERC20_ABI,
+          abi,
           functionName: 'name'
         },
         {
           address: tokenAddress,
-          abi: ERC20_ABI,
+          abi,
           functionName: 'symbol'
         },
         {
           address: tokenAddress,
-          abi: ERC20_ABI,
+          abi,
           functionName: 'decimals'
         }
       ]
@@ -53,9 +72,15 @@ export class Erc20Contract {
     const [nameResult, symbolResult, decimalsResult] = results
 
     return {
-      name: nameResult.status === 'success' ? nameResult.result : '',
-      symbol: symbolResult.status === 'success' ? symbolResult.result : '',
-      decimals: decimalsResult.status === 'success' ? decimalsResult.result : 18
+      name: nameResult.status === 'success' ? (nameResult.result as string) : '',
+      symbol:
+        symbolResult.status === 'success'
+          ? (symbolResult.result as string)
+          : '',
+      decimals:
+        decimalsResult.status === 'success'
+          ? (decimalsResult.result as number)
+          : 18
     }
   }
 
@@ -71,17 +96,19 @@ export class Erc20Contract {
     spender: Address
     tokenAddress: Address
   }): Promise<{ balance: bigint; allowance: bigint }> {
-    const results = await this.publicClient.multicall({
+    const publicClient = await this.#getPublicClient()
+    const abi = await getErc20Abi()
+    const results = await publicClient.multicall({
       contracts: [
         {
           address: tokenAddress,
-          abi: ERC20_ABI,
+          abi,
           functionName: 'balanceOf',
           args: [owner]
         },
         {
           address: tokenAddress,
-          abi: ERC20_ABI,
+          abi,
           functionName: 'allowance',
           args: [owner, spender]
         }
@@ -91,9 +118,14 @@ export class Erc20Contract {
     const [balanceResult, allowanceResult] = results
 
     return {
-      balance: balanceResult.status === 'success' ? balanceResult.result : 0n,
+      balance:
+        balanceResult.status === 'success'
+          ? (balanceResult.result as bigint)
+          : 0n,
       allowance:
-        allowanceResult.status === 'success' ? allowanceResult.result : 0n
+        allowanceResult.status === 'success'
+          ? (allowanceResult.result as bigint)
+          : 0n
     }
   }
 
@@ -102,24 +134,45 @@ export class Erc20Contract {
     owner: Address,
     spender: Address
   ): Promise<bigint> {
-    return await this.publicClient.readContract({
+    const publicClient = await this.#getPublicClient()
+    const abi = await getErc20Abi()
+
+    return (await publicClient.readContract({
       address: tokenAddress,
-      abi: ERC20_ABI,
+      abi,
       functionName: 'allowance',
       args: [owner, spender]
-    })
+    })) as bigint
   }
 
   async balanceOf(tokenAddress: Address, account: Address): Promise<bigint> {
-    return await this.publicClient.readContract({
+    const publicClient = await this.#getPublicClient()
+    const abi = await getErc20Abi()
+
+    return (await publicClient.readContract({
       address: tokenAddress,
-      abi: ERC20_ABI,
+      abi,
       functionName: 'balanceOf',
       args: [account]
-    })
+    })) as bigint
   }
 
   async getBalance(address: Address): Promise<bigint> {
-    return await this.publicClient.getBalance({ address })
+    const publicClient = await this.#getPublicClient()
+
+    return await publicClient.getBalance({ address })
+  }
+
+  async #getPublicClient() {
+    if (this.publicClientPromise) {
+      return await this.publicClientPromise
+    }
+
+    this.publicClientPromise = import('@injectivelabs/wallet-base').then(
+      ({ getViemPublicClient }) =>
+        getViemPublicClient(this.chainId, this.rpcUrl) as PublicClient
+    )
+
+    return await this.publicClientPromise
   }
 }

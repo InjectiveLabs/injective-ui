@@ -3,10 +3,6 @@ import { SharedStreamKey } from '../../streams/types'
 import { DEFAULT_RETRY_CONFIG } from '../../streams/config'
 import { ENDPOINTS, IS_MAINNET } from '../../utils/constant'
 import {
-  StreamManagerV2,
-  IndexerGrpcOracleStreamV2
-} from '@injectivelabs/sdk-ts/client/indexer'
-import {
   CHAIN_LINK_USDC_SYMBOL,
   ORACLE_USD_PRICE_TOKENS,
   ORACLE_TYPE_CHAINLINK_DATASTREAMS
@@ -17,19 +13,19 @@ type SharedOracleStoreState = {
   oraclePriceMap: OraclePriceMap
 }
 
+type StreamManagerLike = {
+  stop: () => void
+  start: () => void
+}
+
 const initialStateFactory = (): SharedOracleStoreState => ({
   oraclePriceMap: {
     [CHAIN_LINK_USDC_SYMBOL]: '1'
   }
 })
 
-let manager: undefined | StreamManagerV2<any>
-
-const oracleStreamV2 = new IndexerGrpcOracleStreamV2(
-  IS_MAINNET
-    ? 'https://tc-derivatives.grpc-web.mainnet.asia.injective.network/'
-    : ENDPOINTS.indexer
-)
+let streamId = 0
+let manager: undefined | StreamManagerLike
 
 export const useSharedOracleStore = defineStore('sharedOracle', {
   state: (): SharedOracleStoreState => initialStateFactory(),
@@ -52,18 +48,36 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
   },
   actions: {
     cancelOraclePrices() {
+      streamId += 1
       manager?.stop()
       manager = undefined
     },
 
-    streamOraclePrices(
+    async streamOraclePrices(
       { symbols }: { symbols: string[] } = {
         symbols: Object.values(ORACLE_USD_PRICE_TOKENS)
       }
     ) {
       const oracleStore = useSharedOracleStore()
+      const localStreamId = streamId + 1
 
-      oracleStore.cancelOraclePrices()
+      streamId = localStreamId
+      manager?.stop()
+      manager = undefined
+
+      const { StreamManagerV2, IndexerGrpcOracleStreamV2 } = await import(
+        '@injectivelabs/sdk-ts/client/indexer'
+      )
+
+      if (localStreamId !== streamId) {
+        return
+      }
+
+      const oracleStreamV2 = new IndexerGrpcOracleStreamV2(
+        IS_MAINNET
+          ? 'https://tc-derivatives.grpc-web.mainnet.asia.injective.network/'
+          : ENDPOINTS.indexer
+      )
 
       const localManager = new StreamManagerV2({
         id: SharedStreamKey.OraclePrices,
@@ -87,7 +101,7 @@ export const useSharedOracleStore = defineStore('sharedOracle', {
       })
 
       manager = localManager
-      manager.start()
+      localManager.start()
     }
   }
 })

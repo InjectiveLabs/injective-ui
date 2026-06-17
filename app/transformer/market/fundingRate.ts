@@ -1,5 +1,5 @@
-import { toBigNumber } from '@injectivelabs/utils'
 import { ZERO_IN_BIG_NUMBER } from './../../utils/constant'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 import type {
   PerpetualMarketInfo,
   PerpetualMarketFunding

@@ -39,7 +39,9 @@ export type { ChunkGroup }
  */
 export enum ChunkName {
   // Core dependencies (must load first)
+  Vue = 'vue',
   EventEmitter = 'eventemitter',
+  SharedVendor = 'shared-vendor',
 
   // Wallet-specific packages (bundled with their SDKs)
   Keplr = 'keplr',
@@ -47,6 +49,7 @@ export enum ChunkName {
   WalletTrezor = 'wallet-trezor',
   WalletMagic = 'wallet-magic',
   WalletTurnkey = 'wallet-turnkey',
+  WalletBaseLight = 'wallet-base-light',
   WalletWalletConnect = 'wallet-wallet-connect',
   InjectiveWallet = 'injective-wallet',
 
@@ -76,6 +79,7 @@ export enum ChunkName {
   InjectiveProto = 'injective-proto',
 
   // Injective SDK
+  InjectiveSdkLight = 'injective-sdk-light',
   InjectiveSdk = 'injective-sdk',
 
   // Crypto primitives
@@ -88,6 +92,24 @@ export enum ChunkName {
  * App-specific overrides are merged on top of these.
  */
 const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
+  {
+    name: ChunkName.Vue,
+    test: (id: string) =>
+      id.includes('/node_modules/vue/') ||
+      id.includes('/node_modules/@vue/'),
+    priority: 160
+  },
+
+  {
+    name: ChunkName.SharedVendor,
+    test: (id: string) =>
+      id.includes('/node_modules/@scure/base/') ||
+      id.includes('/node_modules/destr/') ||
+      id.includes('/node_modules/ufo/') ||
+      id.includes('/node_modules/ofetch/'),
+    priority: 155
+  },
+
   // Core dependencies (highest priority - must load before everything else)
   // EventEmitter is extended by StreamManagerV2 and other classes in @injectivelabs/sdk-ts
   // If it ends up in a different chunk, we get TDZ (Temporal Dead Zone) errors
@@ -127,6 +149,13 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
     priority: 96
   },
   {
+    name: ChunkName.WalletBaseLight,
+    test: (id: string) =>
+      id.includes('@injectivelabs/wallet-base') &&
+      id.includes('runtime-light'),
+    priority: 96
+  },
+  {
     name: ChunkName.WalletWalletConnect,
     test: (id: string) =>
       id.includes('@injectivelabs/wallet-wallet-connect') ||
@@ -137,6 +166,21 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
     name: ChunkName.InjectiveWallet,
     test: (id: string) => id.includes('@injectivelabs/wallet'),
     priority: 90
+  },
+
+  {
+    name: ChunkName.InjectiveSdkLight,
+    test: (id: string) =>
+      id.includes('@injectivelabs/sdk-ts') &&
+      (id.includes('/types/light') ||
+        id.includes('/utils/light') ||
+        id.includes('/utils/address') ||
+        id.includes('/utils/encoding') ||
+        id.includes('/light-') ||
+        id.includes('/address-light') ||
+        id.includes('/encoding-light') ||
+        id.includes('/hex-utils-light')),
+    priority: 89
   },
 
   // Buffer polyfill
@@ -154,7 +198,17 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
       id.includes('/bn.js/') ||
       id.includes('node_modules/bn.js') ||
       id.includes('/elliptic/') ||
-      id.includes('node_modules/elliptic'),
+      id.includes('/brorand/') ||
+      id.includes('/hash.js/') ||
+      id.includes('/hmac-drbg/') ||
+      id.includes('/minimalistic-assert/') ||
+      id.includes('node_modules/elliptic') ||
+      id.includes('node_modules/brorand') ||
+      id.includes('node_modules/hash.js') ||
+      id.includes('node_modules/hmac-drbg') ||
+      id.includes('/minimalistic-crypto-utils/') ||
+      id.includes('node_modules/minimalistic-assert') ||
+      id.includes('node_modules/minimalistic-crypto-utils'),
     priority: 86
   },
 
@@ -175,19 +229,22 @@ const SHARED_CHUNK_GROUPS: ChunkGroup[] = [
   },
 
   // Ethereum ecosystem
-  // Keep ethers and viem in the same chunk. Splitting them creates a production
-  // circular import where ethers calls viem before viem initializes its CJS exports.
+  // Keep this narrow. Grouping sdk-ts, proto, viem, or protobuf into ethers
+  // caused trade startup to load the heavy SDK/proto graph.
   {
     name: ChunkName.Ethers,
     test: (id: string) =>
-      id.includes('@ethersproject') ||
-      id.includes('/ethers/') ||
-      id.includes('/viem/'),
+      id.includes('/ethers/') || id.includes('@ethersproject'),
     priority: 82
   },
   {
     name: ChunkName.Viem,
-    test: (id: string) => id.includes('/viem/'),
+    test: (id: string) =>
+      id.includes('/viem/') ||
+      id.includes('/node_modules/@scure/bip39/') ||
+      id.includes('/node_modules/@protobufjs/') ||
+      id.includes('/node_modules/protobufjs/') ||
+      id.includes('/node_modules/@protobuf-ts/grpcweb-transport/'),
     priority: 81
   },
 
@@ -305,6 +362,10 @@ const chunkCache = new Map<string, string | undefined>()
  * @returns The chunk name to assign, or undefined to let Rollup decide
  */
 export function manualChunks(id: string): string | undefined {
+  if (id.includes('vite/preload-helper')) {
+    return ChunkName.SharedVendor
+  }
+
   if (!id.includes('node_modules')) {
     return undefined
   }

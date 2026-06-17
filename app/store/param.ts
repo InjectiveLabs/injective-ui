@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { injToken } from './../data/token'
+import { HttpClient } from '@injectivelabs/utils/http'
 import { ZERO_IN_BIG_NUMBER } from './../utils/constant'
 import { getMintApi, getBankApi, getStakingApi } from './../service/chain'
-import { HttpClient, toBigNumber, toHumanReadable } from '@injectivelabs/utils'
+import { toBigNumber, toHumanReadable } from '@injectivelabs/utils/big-number'
 import type {
   Pool,
   DistributionModuleParams,

@@ -1,4 +1,5 @@
-import { toBigNumber, type BigNumber } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
+import type { BigNumber } from '@injectivelabs/utils/big-number'
 
 export * from './setup'
 export * from './trade'

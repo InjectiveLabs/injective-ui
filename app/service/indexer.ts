@@ -1,4 +1,8 @@
-import { ENDPOINTS, IS_MAINNET, MITO_API_ENDPOINT } from '../utils/constant'
+import {
+  ENDPOINTS,
+  MITO_API_ENDPOINT,
+  EXPLORER_REST_ENDPOINT
+} from '../utils/constant'
 import {
   getIndexerGrpcMitoApi,
   getIndexerGrpcSpotApi,
@@ -21,9 +25,7 @@ export const getIndexerExplorerApi = () =>
   getIndexerGrpcExplorerApi(ENDPOINTS.indexer)
 
 export const getIndexerRestExplorerApi = () =>
-  getIndexerRestExplorerApiFactory(
-    `${IS_MAINNET ? 'https://k8s.global.mainnet.explorer.grpc-web.injective.network' : ENDPOINTS.explorer}/api/explorer/v1`
-  )
+  getIndexerRestExplorerApiFactory(EXPLORER_REST_ENDPOINT)
 
 export const getIndexerRestDerivativeChronosApi = () =>
   getIndexerRestDerivativesChronosApi(

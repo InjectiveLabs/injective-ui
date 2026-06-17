@@ -1,11 +1,8 @@
 import { CoinGeckoApiService } from './CoinGeckoApi'
+import { HttpRestClient } from '@injectivelabs/utils/http'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 import { Network, isDevnet, isTestnet } from '@injectivelabs/networks'
-import {
-  sleep,
-  toBigNumber,
-  HttpRestClient,
-  splitArrayToChunks
-} from '@injectivelabs/utils'
+import { sleep, splitArrayToChunks } from '@injectivelabs/utils/helpers'
 
 interface TokenStaticLeanWithPrice {
   denom: string

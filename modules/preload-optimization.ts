@@ -11,17 +11,29 @@ const EXCLUDED_PRELOAD_CHUNKS: readonly string[] = [
   // Wallet packages (lazy-loaded when user connects wallet)
   // Each includes its third-party SDK (e.g., wallet-ledger includes @ledgerhq/*)
   ChunkName.WalletWalletConnect, // ~1.1MB (includes @walletconnect, @web3modal, @reown)
+  ChunkName.InjectiveWallet,
   ChunkName.WalletTrezor,
   ChunkName.WalletLedger,
   ChunkName.WalletTurnkey,
   ChunkName.WalletMagic,
 
+  // Injective SDK/proto packages (loaded by wallet, stream, and transaction flows)
+  ChunkName.InjectiveProto,
+  ChunkName.InjectiveSdk,
+  ChunkName.Protobuf,
+
   // Large ecosystem dependencies
   ChunkName.CosmJs,
 
   // Ethereum libraries (only needed for specific wallet types)
+  ChunkName.AbiType,
   ChunkName.Ethers,
   ChunkName.Viem,
+
+  // Crypto primitives and polyfills pulled in by wallet/SDK flows
+  ChunkName.NobleCrypto,
+  ChunkName.BnJsElliptic,
+  ChunkName.BufferPolyfill,
 
   // UI libraries (lazy-loaded on specific pages)
   ChunkName.AceEditor,
@@ -36,6 +48,10 @@ function shouldExcludeFromPreload(chunkPath: string): boolean {
   return EXCLUDED_PRELOAD_CHUNKS.some((excluded) =>
     chunkPath.includes(excluded)
   )
+}
+
+function filterPreloadDependencies(deps: string[]): string[] {
+  return deps.filter((dep) => !shouldExcludeFromPreload(dep))
 }
 
 /**
@@ -160,6 +176,40 @@ export default defineNuxtModule({
     // Modify the build manifest to exclude heavy chunks from modulepreload
     // The manifest entry's `preload` property is a boolean that controls
     // whether the chunk is included in modulepreload links in the HTML
+    nuxt.hook('vite:extendConfig', (config, { isClient }) => {
+      if (!isClient) {
+        return
+      }
+
+      const mutableConfig = config as {
+        build?: NonNullable<typeof config.build>
+      }
+
+      mutableConfig.build ||= {}
+
+      if (mutableConfig.build.modulePreload === false) {
+        return
+      }
+
+      const existingModulePreload =
+        typeof mutableConfig.build.modulePreload === 'object'
+          ? mutableConfig.build.modulePreload
+          : {}
+      const existingResolveDependencies =
+        existingModulePreload.resolveDependencies
+
+      mutableConfig.build.modulePreload = {
+        ...existingModulePreload,
+        resolveDependencies: (url, deps, context) => {
+          const resolvedDeps = existingResolveDependencies
+            ? existingResolveDependencies(url, deps, context)
+            : deps
+
+          return filterPreloadDependencies(resolvedDeps)
+        }
+      }
+    })
+
     nuxt.hook('build:manifest', (manifest) => {
       for (const key in manifest) {
         const entry = manifest[key] as any
