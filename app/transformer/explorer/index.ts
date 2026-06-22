@@ -1,15 +1,15 @@
 import { unknownToken } from '../../data/token'
 import { msgTypeMap } from '../../data/explorer'
 import { MsgType } from '@injectivelabs/ts-types'
-import { toBigNumber } from '@injectivelabs/utils'
 import { getHumanReadableMessage } from './messageSummary'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 import { sharedCoinStringToCoins } from './../../utils/formatter'
-import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types/light'
 import {
   contractMsgLabelMap,
   hardCodedContractCopyMap
 } from './contractSummary'
-import type { BigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils/big-number'
 import type {
   Coin,
   Message,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask'
-import { toBigNumber } from '@injectivelabs/utils'
 import { createIMaskConfig } from '@shared/utils/iMask'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 
 const props = withDefaults(
   defineProps<{

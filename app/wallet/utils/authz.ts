@@ -1,7 +1,7 @@
 import { getAuthZApi } from '../../service/chain'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { MsgGrant } from '@injectivelabs/sdk-ts/core/modules'
-import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
+import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils/address'
 import { getGenericAuthorizationFromMessageType } from '@injectivelabs/sdk-ts/core/modules'
 import type {
   ContractExecutionCompatAuthz,

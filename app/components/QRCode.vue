@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import QRCodeStyling from 'qr-code-styling'
-import { injLogoBase64 } from '../data/token'
+import { injLogoBase64 } from '../data/tokenLogo'
 
 const props = withDefaults(
   defineProps<{

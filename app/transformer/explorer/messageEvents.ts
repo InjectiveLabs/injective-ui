@@ -1,4 +1,4 @@
-import { hexToBase64 } from '@injectivelabs/sdk-ts/utils'
+import { hexToBase64 } from '@injectivelabs/sdk-ts/utils/encoding'
 import { EventMessageType } from './../../types'
 import type { EventLog } from '@injectivelabs/sdk-ts'
 

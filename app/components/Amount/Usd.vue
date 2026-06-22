@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BigNumber } from '@injectivelabs/utils'
+import { BigNumber } from '@injectivelabs/utils/big-number'
 import { DEFAULT_USD_DECIMALS } from '../../utils/constant'
 
 withDefaults(

@@ -1,4 +1,4 @@
-import type { BigNumber } from '@injectivelabs/utils'
+import type { BigNumber } from '@injectivelabs/utils/big-number'
 import type {
   Orderbook,
   SpotTrade,

@@ -3,7 +3,7 @@ import {
   toBigNumber,
   toChainFormat,
   toHumanReadable
-} from '@injectivelabs/utils'
+} from '@injectivelabs/utils/big-number'
 import { TimeDuration } from '../types'
 import type { Coin } from '@injectivelabs/sdk-ts'
 

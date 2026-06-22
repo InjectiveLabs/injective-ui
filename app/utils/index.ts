@@ -12,4 +12,4 @@ export {
   toBigNumber,
   toChainFormat,
   toHumanReadable
-} from '@injectivelabs/utils'
+} from '@injectivelabs/utils/big-number'

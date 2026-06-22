@@ -1,5 +1,5 @@
 import { intervalToDuration } from 'date-fns'
-import { toBigNumber } from '@injectivelabs/utils'
+import { toBigNumber } from '@injectivelabs/utils/big-number'
 
 export const todayInSeconds = (): number => {
   return Math.floor(Date.now() / 1000)

@@ -12,9 +12,8 @@ import type { SharedMarketStatus } from '../../types'
 
 export class SpotCacheApi extends BaseCacheApi {
   async fetchMarkets(marketStatuses?: SharedMarketStatus[]) {
-    const indexerSpotApi = await getIndexerSpotApi()
-
     const fetchFromExchange = async () => {
+      const indexerSpotApi = await getIndexerSpotApi()
       const response = await indexerSpotApi.fetchMarkets(
         marketStatuses ? { marketStatuses } : undefined
       )
@@ -39,9 +38,8 @@ export class SpotCacheApi extends BaseCacheApi {
   }
 
   async fetchMarketsSummary() {
-    const indexerRestSpotChronosApi = await getIndexerRestSpotChronosApi()
-
     const fetchFromExchange = async () => {
+      const indexerRestSpotChronosApi = await getIndexerRestSpotChronosApi()
       const response = await indexerRestSpotChronosApi.fetchMarketsSummary()
 
       return response

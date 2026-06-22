@@ -1,6 +1,6 @@
 import { useSharedWalletStore } from './index'
-import { StatusType } from '@injectivelabs/utils'
 import { createPinia, setActivePinia } from 'pinia'
+import { StatusType } from '@injectivelabs/utils/status'
 import { Wallet } from '@injectivelabs/wallet-base/light'
 import { it, vi, expect, describe, afterEach, beforeEach } from 'vitest'
 
@@ -18,6 +18,17 @@ const walletMocks = vi.hoisted(() => ({
 }))
 
 vi.mock('@shared/wallet', () => walletMocks)
+vi.mock('../../wallet/strategy', () => walletMocks)
+vi.mock('../../wallet/utils/evm', () => ({
+  validateEvmWallet: walletMocks.validateEvmWallet
+}))
+vi.mock('../../wallet/utils/cosmos', () => ({
+  validateCosmosWallet: walletMocks.validateCosmosWallet
+}))
+vi.mock('../../wallet/utils/address', () => ({
+  getAddresses: walletMocks.getAddresses,
+  getHwAddressesInfo: walletMocks.getHwAddressesInfo
+}))
 
 const autoSignMocks = vi.hoisted(() => ({
   clearAutoSignKey: vi.fn(),
@@ -235,6 +246,51 @@ describe('store/wallet validation', () => {
       msgs: expect.any(Array)
     })
     expect(actualResponse).toBe(response)
+  })
+
+  it('loads the active wallet strategy before disconnecting', async () => {
+    const disconnect = vi.fn()
+    const setMetadata = vi.fn()
+    const setWallet = vi.fn()
+
+    walletMocks.getWalletStrategy.mockResolvedValue({
+      disconnect,
+      setMetadata,
+      setWallet
+    })
+    vi.stubGlobal('useEventBus', () => ({ emit: vi.fn() }))
+
+    const walletStore = useSharedWalletStore()
+
+    setConnectedMainWallet(walletStore)
+
+    await walletStore.disconnect()
+
+    expect(setWallet).toHaveBeenCalledWith(Wallet.Metamask)
+    expect(disconnect).toHaveBeenCalled()
+  })
+
+  it('loads the selected wallet strategy before the first connect cleanup', async () => {
+    const disconnect = vi.fn()
+    const setWallet = vi.fn()
+
+    walletMocks.getWalletStrategy.mockResolvedValue({
+      disconnect,
+      setWallet,
+      setMetadata: vi.fn()
+    })
+
+    const walletStore = useSharedWalletStore()
+
+    walletStore.$patch({
+      wallet: Wallet.Keplr
+    })
+
+    await walletStore.connectWallet(Wallet.Metamask)
+
+    expect(setWallet).toHaveBeenNthCalledWith(1, Wallet.Metamask)
+    expect(disconnect).toHaveBeenCalled()
+    expect(setWallet).toHaveBeenNthCalledWith(2, Wallet.Metamask)
   })
 })
 

@@ -1,6 +1,6 @@
 import { NETWORK } from '../../utils/constant'
 import { Network } from '@injectivelabs/networks'
-import { HttpRestClient } from '@injectivelabs/utils'
+import { HttpRestClient } from '@injectivelabs/utils/http'
 
 export class Web3GatewayService {
   private restClient: HttpRestClient

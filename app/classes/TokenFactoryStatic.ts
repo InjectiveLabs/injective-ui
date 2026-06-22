@@ -1,5 +1,5 @@
-import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
-import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils/address'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types/light'
 import type { TokenSource, TokenStatic } from '@injectivelabs/sdk-ts'
 
 export class TokenStaticFactory {

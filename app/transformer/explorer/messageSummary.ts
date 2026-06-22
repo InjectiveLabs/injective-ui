@@ -1,9 +1,9 @@
 import { MsgType } from '@injectivelabs/ts-types'
 import { eventLogsSummaryMap } from './messageEvents'
-import { toHumanReadable } from '@injectivelabs/utils'
 import { contractSummaryMap } from './contractSummary'
-import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils'
 import { getNetworkFromAddress } from './../../utils/network'
+import { toHumanReadable } from '@injectivelabs/utils/big-number'
+import { base64ToUtf8 } from '@injectivelabs/sdk-ts/utils/encoding'
 import { EventMessageType } from './../../types'
 import type { Coin, Message, EventLog } from '@injectivelabs/sdk-ts'
 

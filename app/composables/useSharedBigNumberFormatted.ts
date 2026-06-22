@@ -1,10 +1,8 @@
+import { toValue, computed } from 'vue'
 import { abbreviateNumber } from '../utils/helper'
-import { toValue, computed, type Ref, type ComputedRef } from 'vue'
-import {
-  BigNumber,
-  toBigNumber,
-  getExactDecimalsFromNumber
-} from '@injectivelabs/utils'
+import { BigNumber, toBigNumber } from '@injectivelabs/utils/big-number'
+import { getExactDecimalsFromNumber } from '@injectivelabs/utils/numbers'
+import type { Ref, ComputedRef } from 'vue'
 
 const ZERO_IN_BIG_NUMBER = toBigNumber(0)
 const DEFAULT_DECIMAL_PLACES = 2

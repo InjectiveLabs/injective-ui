@@ -1,10 +1,9 @@
-import { Erc20Contract } from '../../utils/evm'
 import { IS_MAINNET } from '../../utils/constant'
-import { alchemyRpcEndpoint } from '@shared/wallet'
 import { EvmChainId } from '@injectivelabs/ts-types'
 import { injToken, unknownToken } from '../../data/token'
-import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils'
-import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types'
+import { Erc20Contract } from '../../utils/evm/Erc20Contract'
+import { isCw20ContractAddress } from '@injectivelabs/sdk-ts/utils/address'
+import { TokenType, TokenVerification } from '@injectivelabs/sdk-ts/types/light'
 import {
   getIbcApi,
   getWasmApi,
@@ -141,6 +140,7 @@ export class SharedTokenClient {
 
     try {
       const chainId = IS_MAINNET ? EvmChainId.Mainnet : EvmChainId.Sepolia
+      const { alchemyRpcEndpoint } = await import('../../wallet/utils/alchemy')
       const erc20Contract = new Erc20Contract(chainId, alchemyRpcEndpoint)
       const tokenMetadata = await erc20Contract.getTokenMetadata(
         address as Address

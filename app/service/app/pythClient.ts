@@ -1,4 +1,4 @@
-import { HttpRestClient } from '@injectivelabs/utils'
+import { HttpRestClient } from '@injectivelabs/utils/http'
 
 const PYTH_SERVICE_URL = 'https://benchmarks.pyth.network/v1/'
 

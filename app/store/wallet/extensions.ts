@@ -1,123 +1,78 @@
-import { getEvmWalletProvider } from '@shared/wallet'
 import { Wallet } from '@injectivelabs/wallet-base/light'
+import { getEvmWalletProvider } from '../../wallet/utils/evm'
 
 export const checkIsBitGetInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.BitGet)
 
-  walletStore.$patch({
-    bitGetInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsKeplrEvmInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.KeplrEvm)
 
-  walletStore.$patch({
-    keplrEvmInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsMetamaskInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.Metamask)
 
-  walletStore.$patch({
-    metamaskInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsOkxWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.OkxWallet)
 
-  walletStore.$patch({
-    okxWalletInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsPhantomWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.Phantom)
 
-  walletStore.$patch({
-    phantomInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsRabbyWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.Rabby)
 
-  walletStore.$patch({
-    rabbyInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsTrustWalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.TrustWallet)
 
-  walletStore.$patch({
-    trustWalletInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
 export const checkIsRainbowInstalled = async () => {
-  const walletStore = useSharedWalletStore()
-
   const provider = await getEvmWalletProvider(Wallet.Rainbow)
 
-  walletStore.$patch({
-    rainbowInstalled: Boolean(provider)
-  })
+  return Boolean(provider)
 }
 
-// Cosmos wallet extension checks
 export const checkIsKeplrInstalled = async () => {
-  const walletStore = useSharedWalletStore()
   const { isCosmosWalletInstalled } =
     await import('@injectivelabs/wallet-cosmos')
 
-  walletStore.$patch({
-    keplrInstalled: isCosmosWalletInstalled(Wallet.Keplr)
-  })
+  return isCosmosWalletInstalled(Wallet.Keplr)
 }
 
 export const checkIsLeapInstalled = async () => {
-  const walletStore = useSharedWalletStore()
   const { isCosmosWalletInstalled } =
     await import('@injectivelabs/wallet-cosmos')
 
-  walletStore.$patch({
-    leapInstalled: isCosmosWalletInstalled(Wallet.Leap)
-  })
+  return isCosmosWalletInstalled(Wallet.Leap)
 }
 
 export const checkIsNinjiInstalled = async () => {
-  const walletStore = useSharedWalletStore()
   const { isCosmosWalletInstalled } =
     await import('@injectivelabs/wallet-cosmos')
 
-  walletStore.$patch({
-    ninjiInstalled: isCosmosWalletInstalled(Wallet.Ninji)
-  })
+  return isCosmosWalletInstalled(Wallet.Ninji)
 }
 
 export const checkIsOwalletInstalled = async () => {
-  const walletStore = useSharedWalletStore()
   const { isCosmosWalletInstalled } =
     await import('@injectivelabs/wallet-cosmos')
 
-  walletStore.$patch({
-    owalletInstalled: isCosmosWalletInstalled(Wallet.OWallet)
-  })
+  return isCosmosWalletInstalled(Wallet.OWallet)
 }

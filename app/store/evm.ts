@@ -1,8 +1,6 @@
-import { parseEther } from 'viem'
 import { defineStore } from 'pinia'
-import { wEth9Contract } from '../utils/evm'
 import { INJECTIVE_EVM_CHAIN_ID } from '../utils/constant'
-import { getWalletStrategy, getWeb3Broadcaster } from '@shared/wallet'
+import { getWalletStrategy, getWeb3Broadcaster } from '../wallet/strategy'
 
 type SharedEvmStoreState = {}
 
@@ -28,6 +26,7 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
 
       await sharedWalletStore.validateAndQueue()
 
+      const { wEth9Contract } = await import('../utils/evm/WETH9Contract')
       const tx = await wEth9Contract.deposit(
         amount,
         sharedWalletStore.address as `0x${string}`
@@ -57,6 +56,8 @@ export const useSharedEvmStore = defineStore('sharedEvm', {
 
       await sharedWalletStore.validateAndQueue()
 
+      const { parseEther } = await import('viem')
+      const { wEth9Contract } = await import('../utils/evm/WETH9Contract')
       const tx = await wEth9Contract.withdraw(
         parseEther(amount),
         sharedWalletStore.address as `0x${string}`
