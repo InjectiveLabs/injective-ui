@@ -55,6 +55,10 @@ import { EventBus, GrantDirection, WalletConnectStatus } from '../../types'
 import type { MsgBroadcasterTxOptions } from '@injectivelabs/wallet-core'
 import type { Wallet as WalletType } from '@injectivelabs/wallet-base/light'
 import type {
+  TurnkeyProvider,
+  Wallet as WalletType
+} from '@injectivelabs/wallet-base'
+import type {
   Msgs,
   ContractExecutionCompatAuthz,
   GrantAuthorizationWithDecodedAuthorization
@@ -85,6 +89,7 @@ const cosmosWalletsWithValidation = [
 type WalletStoreState = {
   wallet: Wallet
   email?: string
+  phone?: string
   address: string
   session: string
   privateKey: string
@@ -108,10 +113,12 @@ type WalletStoreState = {
   metamaskInstalled: boolean
   addressConfirmation: string
   okxWalletInstalled: boolean
-
   trustWalletInstalled: boolean
+
+  turnkeyOrganizationId?: string
   isFeeDelegationEnabled: boolean
   turnkeyInjectiveAddress: string
+  turnkeyProvider?: TurnkeyProvider
   walletConnectStatus: WalletConnectStatus
 
   hwAddressesInfo: {
@@ -138,6 +145,7 @@ type WalletStoreState = {
 
 const initialStateFactory = (): WalletStoreState => ({
   email: '',
+  phone: '',
   address: '',
   session: '',
   addresses: [],
@@ -154,10 +162,12 @@ const initialStateFactory = (): WalletStoreState => ({
   keplrEvmInstalled: false,
   metamaskInstalled: false,
   okxWalletInstalled: false,
+  turnkeyProvider: undefined,
   trustWalletInstalled: false,
   isFeeDelegationEnabled: true,
   turnkeyInjectiveAddress: '',
   queueStatus: StatusType.Idle,
+  turnkeyOrganizationId: undefined,
 
   // Cosmos wallets
   keplrInstalled: false,
@@ -356,9 +366,25 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       () => import('./turnkey'),
       'getEmailTurnkeyOTP'
     ),
+    getSmsTurnkeyOTP: lazyPiniaAction(
+      () => import('./turnkey'),
+      'getSmsTurnkeyOTP'
+    ),
     connectTurnkeyGoogle: lazyPiniaAction(
       () => import('./turnkey'),
       'connectTurnkeyGoogle'
+    ),
+    connectTurnkeyTwitter: lazyPiniaAction(
+      () => import('./turnkey'),
+      'connectTurnkeyTwitter'
+    ),
+    initTurnkeyTwitter: lazyPiniaAction(
+      () => import('./turnkey'),
+      'initTurnkeyTwitter'
+    ),
+    deleteCurrentTurnkeySubOrganization: lazyPiniaAction(
+      () => import('./turnkey'),
+      'deleteCurrentTurnkeySubOrganization'
     ),
 
     async validateAndQueue() {
@@ -385,11 +411,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       await autoSignWalletStrategy.disconnect()
     },
 
-    onConnect() {
+    onConnect(bypassCloseModal?: boolean) {
       const modalStore = useSharedModalStore()
       const walletStore = useSharedWalletStore()
 
-      modalStore.closeAll()
+      if (!bypassCloseModal) {
+        modalStore.closeAll()
+      }
 
       walletStore.$patch({
         walletConnectStatus: WalletConnectStatus.connected
