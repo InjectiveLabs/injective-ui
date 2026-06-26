@@ -701,6 +701,145 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/bridge/mint": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Relay a CCTP mint
+         * @description Executes Circle CCTP V2 MessageTransmitter.receiveMessage on the destination chain using the BFF server wallet. By default the relayer waits for the transaction receipt; with txHashOnly=true it returns as soon as the transaction is submitted and the caller polls the chain for the receipt.
+         */
+        post: {
+            parameters: {
+                query?: {
+                    /** @description When true, return immediately after the mint transaction is submitted (status "submitted") instead of waiting for the receipt */
+                    txHashOnly?: "true" | "false";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        /**
+                         * @description Circle CCTP V2 message bytes
+                         * @example 0x00000001...
+                         */
+                        message: string;
+                        /**
+                         * @description Circle attestation signature bytes
+                         * @example 0xabcdef...
+                         */
+                        attestation: string;
+                        /**
+                         * @description Destination EVM chain id
+                         * @example 8453
+                         */
+                        destinationChainId: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Mint transaction mined (default) or submitted (txHashOnly=true) */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: true;
+                            /** @example 0x1234567890123456789012345678901234567890123456789012345678901234 */
+                            transactionHash: string;
+                            /** @example 8453 */
+                            chainId: number;
+                            /** @example Base */
+                            chainName: string;
+                            /**
+                             * @description "mined" when the relayer waited for the receipt; "submitted" when txHashOnly=true and the transaction is in-flight
+                             * @example mined
+                             * @enum {string}
+                             */
+                            status: "submitted" | "mined";
+                        };
+                    };
+                };
+                /** @description Invalid request body or unsupported destination chain */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        } | {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "MINT_IN_PROGRESS" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                            /**
+                             * @description Hash of the mint transaction tied to this failure when one is known (e.g. submitted but not yet mined), so clients can track or resume it
+                             * @example 0x1234567890123456789012345678901234567890123456789012345678901234
+                             */
+                            transactionHash?: string;
+                        };
+                    };
+                };
+                /** @description Message was already processed or is currently being relayed */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "MINT_IN_PROGRESS" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                            /**
+                             * @description Hash of the mint transaction tied to this failure when one is known (e.g. submitted but not yet mined), so clients can track or resume it
+                             * @example 0x1234567890123456789012345678901234567890123456789012345678901234
+                             */
+                            transactionHash?: string;
+                        };
+                    };
+                };
+                /** @description Relayer execution failed */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            success: false;
+                            error: string;
+                            /** @enum {string} */
+                            code: "INVALID_REQUEST" | "UNSUPPORTED_CHAIN" | "ALREADY_PROCESSED" | "MINT_IN_PROGRESS" | "EXECUTION_FAILED" | "MISSING_CONFIG";
+                            /**
+                             * @description Hash of the mint transaction tied to this failure when one is known (e.g. submitted but not yet mined), so clients can track or resume it
+                             * @example 0x1234567890123456789012345678901234567890123456789012345678901234
+                             */
+                            transactionHash?: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/bridge/withdrawal": {
         parameters: {
             query?: never;
@@ -941,6 +1080,141 @@ export interface paths {
                                 limit: number;
                                 hasMore: boolean;
                             };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/bridge/safes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get supported safes for a user address
+         * @description Get supported safes for a user address.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Supported safes retrieved */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                [key: string]: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid address */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to derive safe addresses */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/bridge/safes/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get USDC balances for supported safes for a user address
+         * @description Get supported safes and their USDC balances for a user address.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Supported safe balances retrieved */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                [key: string]: {
+                                    safeAddress: string;
+                                    usdcAddress: string;
+                                    usdcBalance: string;
+                                    formattedUsdcBalance: string;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid address */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Failed to fetch safe balances */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
                         };
                     };
                 };
@@ -2438,73 +2712,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/onramp/providers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List available onramp providers
-         * @description Returns configured onramp providers available in the requested country.
-         */
-        get: {
-            parameters: {
-                query: {
-                    country: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Available providers */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            data: {
-                                providers: ("coinbase" | "moonpay" | "binance-connect")[];
-                            };
-                        };
-                    };
-                };
-                /** @description Invalid country query param */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                        };
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": {
-                            error: string;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v1/onramp/quote": {
         parameters: {
             query?: never;
@@ -2536,7 +2743,10 @@ export interface paths {
                         walletAddress: string;
                         /** @enum {string} */
                         network: "ethereum" | "arbitrum" | "base";
-                        /** @enum {string} */
+                        /**
+                         * @default card
+                         * @enum {string}
+                         */
                         paymentMethod?: "card" | "apple_pay" | "google_pay" | "ach" | "sepa" | "paypal" | "bank";
                         country: string;
                         clientIp: string;
@@ -2578,6 +2788,10 @@ export interface paths {
                                 };
                                 expiresAt: string;
                                 quoteId?: string;
+                                limits?: {
+                                    minBuyAmount: number;
+                                    maxBuyAmount: number;
+                                };
                             };
                         };
                     };
@@ -2645,6 +2859,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/onramp/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List available onramp providers
+         * @description Returns configured onramp providers available in the requested country.
+         */
+        get: {
+            parameters: {
+                query: {
+                    country: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Available providers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                providers: ("coinbase" | "moonpay" | "binance-connect")[];
+                                providersWithStatus: {
+                                    /** @enum {string} */
+                                    provider: "coinbase" | "moonpay" | "binance-connect";
+                                    /** @enum {string} */
+                                    status: "available" | "unavailable";
+                                    /** @enum {string} */
+                                    reason?: "not_configured" | "country_blocked" | "region_unsupported";
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid country query param */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/entry-code/verify": {
         parameters: {
             query?: never;
@@ -2682,6 +2960,17 @@ export interface paths {
                 };
                 /** @description Invalid request */
                 400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many requests */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -2757,6 +3046,17 @@ export interface paths {
                 };
                 /** @description Entry code not found */
                 404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many verification attempts */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -3088,6 +3388,80 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/polymarket/sign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign Polymarket Builder API request
+         * @description Returns Polymarket Builder authentication headers for the provided request payload.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        method: string;
+                        path: string;
+                        body?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Polymarket Builder authentication headers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            POLY_BUILDER_SIGNATURE: string;
+                            POLY_BUILDER_TIMESTAMP: string;
+                            POLY_BUILDER_API_KEY: string;
+                            POLY_BUILDER_PASSPHRASE: string;
+                        };
+                    };
+                };
+                /** @description Invalid request body */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Signing failed or credentials are not configured */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/derivative/markets": {
         parameters: {
             query?: never;
@@ -3302,6 +3676,13 @@ export interface paths {
                         sender: string;
                         /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
                         granterAddress?: string;
+                        /**
+                         * @description Network to verify authz grants against
+                         * @default mainnet
+                         * @example testnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };
@@ -3641,6 +4022,13 @@ export interface paths {
                         sender: string;
                         /** @example inj1h4he4k6cyysc6yhhf4y7h3w0q6mc4vhh4vqv9n */
                         granterAddress?: string;
+                        /**
+                         * @description Network to verify authz grants against
+                         * @default mainnet
+                         * @example testnet
+                         * @enum {string}
+                         */
+                        network?: "mainnetK8s" | "mainnetLB" | "mainnet" | "mainnetSentry" | "mainnetOld" | "staging" | "internal" | "testnetK8s" | "testnetOld" | "testnetSentry" | "testnet" | "devnet1" | "devnet2" | "devnet3" | "devnet" | "local";
                     };
                 };
             };
@@ -3949,6 +4337,116 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/entry-code/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Verify and claim an entry code (authenticated)
+         * @description Verifies an entry code for the authenticated wallet address. If valid and not previously used by this address, it also claims one usage slot.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": {
+                        code: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Entry code is valid */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                isValid: boolean;
+                                alreadyUsed: boolean;
+                                code: string;
+                                usageCap: number;
+                                totalUses: number;
+                                remainingUses: number;
+                                expiresAt: string | null;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Entry code is disabled, expired, or fully used */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Entry code not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Too many verification attempts */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -4003,6 +4501,7 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
         };
         /** @description Spot market with required token metadata from Injective SDK */
         BffTcSpotMarket: {
@@ -4054,9 +4553,15 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
+            /**
+             * @default null
+             * @enum {string|null}
+             */
+            provider: "seda" | "pythEquity" | null;
         };
         /** @description Helix spot market with required token metadata from Injective SDK */
         BffHelixSpotMarket: {
@@ -4108,9 +4613,15 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
+            /**
+             * @default null
+             * @enum {string|null}
+             */
+            provider: "seda" | "pythEquity" | null;
         };
         /** @description Merged token metadata (chain + human combined) */
         BffToken: {
@@ -4219,7 +4730,7 @@ export interface components {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -4237,7 +4748,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -4247,13 +4758,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -4290,13 +4801,14 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
         };
         /** @description Derivative market with required quote token metadata from Injective SDK */
         BffTcDerivativeMarket: {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -4314,7 +4826,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -4324,13 +4836,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -4367,16 +4879,22 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
+            /**
+             * @default null
+             * @enum {string|null}
+             */
+            provider: "seda" | "pythEquity" | null;
         };
         /** @description Helix derivative market with required quote token metadata from Injective SDK */
         BffHelixDerivativeMarket: {
             expiryFuturesMarketInfo?: {
                 expirationTimestamp: number;
                 settlementPrice?: string;
-            };
+            } | null;
             initialMarginRatio: string;
             isPerpetual: boolean;
             maintenanceMarginRatio: string;
@@ -4394,7 +4912,7 @@ export interface components {
             minQuantityTickSize: string;
             openNotionalCap?: {
                 Cap?: string;
-            };
+            } | null;
             oracleBase: string;
             oracleQuote: string;
             oracleScaleFactor: number;
@@ -4404,13 +4922,13 @@ export interface components {
                 cumulativePrice: string;
                 lastFundingRate: string;
                 lastTimestamp: number;
-            };
+            } | null;
             perpetualMarketInfo?: {
                 fundingInterval: number;
                 hourlyFundingRateCap: string;
                 hourlyInterestRate: string;
                 nextFundingTimestamp: number;
-            };
+            } | null;
             quoteDenom: string;
             reduceMarginRatio: string;
             serviceProviderFee: string;
@@ -4447,9 +4965,15 @@ export interface components {
             minNotionalInToken: string;
             priceTensMultiplier: number;
             quantityTensMultiplier: number;
+            marketCap?: number | null;
             isVerified: boolean;
             /** @default [] */
             categories: string[];
+            /**
+             * @default null
+             * @enum {string|null}
+             */
+            provider: "seda" | "pythEquity" | null;
         };
     };
     responses: never;

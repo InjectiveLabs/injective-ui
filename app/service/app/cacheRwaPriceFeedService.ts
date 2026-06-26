@@ -16,7 +16,7 @@ export class CacheRwaPriceFeedService {
         data: {
           market_hours: { is_open }
         }
-      } = (await this.restClient.get(`price_feeds/${oracle}`)) as {
+      } = (await this.restClient.get(`price_feeds/pyth-pro/${oracle}`)) as {
         data: {
           market_hours: {
             is_open: boolean

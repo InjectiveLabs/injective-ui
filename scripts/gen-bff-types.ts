@@ -75,11 +75,7 @@ function runCommand(command: string, args: Array<string>, env = process.env) {
 }
 
 async function fetchOpenApiSpec(openApiUrl: string, apiKey: string) {
-  const response = await fetch(openApiUrl, {
-    headers: {
-      'x-api-key': apiKey
-    }
-  })
+  const response = await fetch(`${openApiUrl}?x-openapi-api-key=${apiKey}`)
 
   if (!response.ok) {
     throw new Error(
