@@ -12,11 +12,9 @@ export class CacheRwaPriceFeedService {
 
   public fetchPythRwaMarketOpenNoThrow = async (oracle: string) => {
     try {
-      const {
-        data: {
-          market_hours: { is_open }
-        }
-      } = (await this.restClient.get(`price_feeds/pyth-pro/${oracle}`)) as {
+      const { data } = (await this.restClient.get(
+        `price_feeds/pyth-pro/${oracle}`
+      )) as {
         data: {
           market_hours: {
             is_open: boolean
@@ -24,7 +22,7 @@ export class CacheRwaPriceFeedService {
         }
       }
 
-      return is_open
+      return data.market_hours.is_open
     } catch (e: unknown) {
       console.log(e)
 

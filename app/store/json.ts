@@ -104,23 +104,6 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     verifiedDerivativeMarketIds: (state) =>
       Object.values(state.verifiedDerivativeMarketMap),
 
-    isTradeFiMarket: (state) => (marketId: string) => {
-      return (
-        [
-          ...state.helixMarketCategory.rwa,
-          ...state.helixMarketCategory.stocks
-        ].find((market) => market.marketId === marketId) !== undefined
-      )
-    },
-
-    isSedaMarket: (state) => (marketId: string) => {
-      return (
-        state.helixMarketCategory.seda.find(
-          (market) => market.marketId === marketId
-        ) !== undefined
-      )
-    },
-
     helixMarketCategoriesMap: (state) =>
       Object.entries(state.helixMarketCategory).reduce(
         (list, [key, marketIdMap]: [string, { marketId: string }[]]) => {
