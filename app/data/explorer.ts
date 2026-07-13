@@ -134,7 +134,8 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgCreateDerivativeLimitOrder]: 'Create Derivative Limit Order',
     [MsgType.MsgBatchCancelDerivativeOrders]: 'Batch Cancel Derivative Orders',
     [MsgType.MsgCreateDerivativeMarketOrder]: 'Create Derivative Market Order',
-    [MsgType.MsgInstantPerpetualMarketLaunch]: 'Instant Perpetual Market Launch',
+    [MsgType.MsgInstantPerpetualMarketLaunch]:
+      'Instant Perpetual Market Launch',
     [MsgType.MsgInstantExpiryFuturesMarketLaunch]:
       'Instant Expiry Futures Market Launch',
 
@@ -220,11 +221,12 @@ export const msgTypeMap = Object.fromEntries(
     [MsgType.MsgActivateStakeGrantV2]: 'Activate Stake Grant V2',
     [MsgType.MsgReclaimLockedFundsV2]: 'Reclaim Locked Funds V2',
     [MsgType.MsgAuthorizeStakeGrantsV2]: 'Authorize Stake Grants V2',
-    [MsgType.MsgUpdateSubaccountRiskProfileV2]: 'Update Subaccount Risk Profile V2',
+    [MsgType.MsgUpdateSubaccountRiskProfileV2]:
+      'Update Subaccount Risk Profile V2',
     [MsgType.MsgBatchExchangeModificationV2]: 'Batch Exchange Modification V2',
     [MsgType.MsgPrivilegedExecuteContractV2]: 'Privileged Execute Contract V2',
-    [MsgType.MsgSetDelegationTransferReceivers]:
-      'Set Delegation Transfer Receivers',
+    [MsgType.MsgSetDelegationTransferReceiversV2]:
+      'Set Delegation Transfer Receivers V2',
 
     // Injective Exchange V2 - Spot Markets
     [MsgType.MsgCancelSpotOrderV2]: 'Cancel Spot Order V2',
@@ -395,7 +397,7 @@ export const msgTypeMap = Object.fromEntries(
       'Batch Contract Registration Request Proposal',
 
     // Injective TxFees
-    [MsgType.MsgTxFeesUpdateParams]: 'Update Tx Fees Params',
+    [MsgType.MsgTxFeesUpdateParams]: 'Update Tx Fees Params'
   }).map(([k, v]) => [
     k,
     /^[A-Z][a-z]+(?:[A-Z][a-z]+)+$/.test(v)
