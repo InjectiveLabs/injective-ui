@@ -1,4 +1,4 @@
-import type { Address, PublicClient } from 'viem'
+import type { Address } from 'viem'
 
 export const estimateGasAndNonce = async ({
   from,
@@ -11,7 +11,9 @@ export const estimateGasAndNonce = async ({
   from: Address
   value: bigint
   calldata: `0x${string}`
-  publicClient: PublicClient
+  publicClient: ReturnType<
+    typeof import('@injectivelabs/wallet-base').getViemPublicClient
+  >
 }) => {
   const [gas, fees, nonce] = await Promise.all([
     publicClient.estimateGas({

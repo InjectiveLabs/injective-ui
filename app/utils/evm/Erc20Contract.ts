@@ -1,6 +1,6 @@
 import { parseAbi } from 'viem'
 import { getViemPublicClient } from '@injectivelabs/wallet-base'
-import type { Address, PublicClient } from 'viem'
+import type { Address } from 'viem'
 import type { EvmChainId } from '@injectivelabs/ts-types'
 
 export const ERC20_ABI = parseAbi([
@@ -16,7 +16,7 @@ export const ERC20_ABI = parseAbi([
 ])
 
 export class Erc20Contract {
-  private publicClient: PublicClient
+  private publicClient: ReturnType<typeof getViemPublicClient>
 
   constructor(chainId: EvmChainId, rpcUrl?: string) {
     this.publicClient = getViemPublicClient(chainId, rpcUrl)

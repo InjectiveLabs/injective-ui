@@ -8,7 +8,7 @@ import {
   maxUint256,
   encodeFunctionData
 } from 'viem'
-import type { Address, PublicClient } from 'viem'
+import type { Address } from 'viem'
 import type { EvmChainId } from '@injectivelabs/ts-types'
 
 export const WETH9_CONTRACT_ABI = parseAbi([
@@ -38,7 +38,7 @@ export const WETH9_CONTRACT_ABI = parseAbi([
 ])
 
 export class WETH9Contract {
-  private publicClient: PublicClient
+  private publicClient: ReturnType<typeof getViemPublicClient>
   private wethAddress: Address
 
   constructor(chainId: EvmChainId) {
