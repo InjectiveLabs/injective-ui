@@ -51,6 +51,22 @@ export const useSharedSpotStore = defineStore('sharedSpot', {
       })) as BffSpotMarket[]
     },
 
+    async fetchMarketByMarketId(marketId: string) {
+      const endpoint = bffApi.api.v1.spot.markets
+
+      const { data } = await endpoint.get({
+        params: { query: { network: NETWORK } }
+      })
+
+      const market = data?.data?.find((market) => market.marketId === marketId)
+
+      if (!market) {
+        return
+      }
+
+      this.markets = [...this.markets, market] as BffSpotMarket[]
+    },
+
     async fetchAllMarkets() {
       const endpoint = IS_HELIX
         ? bffApi.api.v1.spot.markets.helix

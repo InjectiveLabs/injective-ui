@@ -51,6 +51,22 @@ export const useSharedDerivativeStore = defineStore('sharedDerivative', {
       })) as BffDerivativeMarket[]
     },
 
+    async fetchMarketByMarketId(marketId: string) {
+      const endpoint = bffApi.api.v1.derivative.markets
+
+      const { data } = await endpoint.get({
+        params: { query: { network: NETWORK } }
+      })
+
+      const market = data?.data?.find((market) => market.marketId === marketId)
+
+      if (!market) {
+        return
+      }
+
+      this.markets = [...this.markets, market] as BffDerivativeMarket[]
+    },
+
     async fetchAllMarkets() {
       const endpoint = IS_HELIX
         ? bffApi.api.v1.derivative.markets.helix
