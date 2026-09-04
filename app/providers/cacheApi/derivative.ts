@@ -58,7 +58,7 @@ export class DerivativeCacheApi extends BaseCacheApi {
     try {
       const response = await this.client.get<
         AllChronosDerivativeMarketSummary[]
-      >('cache/derivatives/summary')
+      >('cache/derivatives/tc/summary')
 
       return response.data
     } catch {
