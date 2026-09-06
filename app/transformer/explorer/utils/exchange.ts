@@ -10,15 +10,18 @@ export type ExchangeSummaryParams = {
 }
 
 export const createSpotMarketOrderSummary = ({
-  value
+  value,
+  isV2 = false
 }: ExchangeSummaryParams): string[] => {
   const { sender, order } = value.message
 
   const { quantity } = order.order_info
   const { market_id: marketId } = order
 
+  const spotQuantityToken = isV2 ? 'spotQuantityV2' : 'spotQuantity'
+
   return [
-    `{{account:${sender}}} created a MARKET ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} in {{market:${marketId}}}`
+    `{{account:${sender}}} created a MARKET ${order.order_type} order for {{${spotQuantityToken}:${marketId}-${quantity}}} in {{market:${marketId}}}`
   ]
 }
 
@@ -32,9 +35,10 @@ export const createSpotLimitOrderSummary = ({
   const { market_id: marketId } = order
 
   const spotPriceToken = isV2 ? 'spotPriceV2' : 'spotPrice'
+  const spotQuantityToken = isV2 ? 'spotQuantityV2' : 'spotQuantity'
 
   return [
-    `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{${spotPriceToken}:${marketId}-${price}}} in {{market:${marketId}}}`
+    `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{${spotQuantityToken}:${marketId}-${quantity}}} at {{${spotPriceToken}:${marketId}-${price}}} in {{market:${marketId}}}`
   ]
 }
 
@@ -140,12 +144,13 @@ export const batchCreateSpotLimitOrdersSummary = ({
   const { sender, orders } = value.message
 
   const spotPriceToken = isV2 ? 'spotPriceV2' : 'spotPrice'
+  const spotQuantityToken = isV2 ? 'spotQuantityV2' : 'spotQuantity'
 
   return [
     `{{account:${sender}}} created a batch of spot limit orders:`,
     ...orders.map(
       (order: any) =>
-        `• {{spotQuantity:${order.market_id}-${order.order_info.quantity}}} at {{${spotPriceToken}:${order.market_id}-${order.order_info.price}}} in {{market:${order.market_id}}}`
+        `• {{${spotQuantityToken}:${order.market_id}-${order.order_info.quantity}}} at {{${spotPriceToken}:${order.market_id}-${order.order_info.price}}} in {{market:${order.market_id}}}`
     )
   ]
 }
@@ -232,6 +237,7 @@ export const batchUpdateOrdersSummary = ({
 
   const derivativePriceToken = isV2 ? 'derivativePriceV2' : 'derivativePrice'
   const spotPriceToken = isV2 ? 'spotPriceV2' : 'spotPrice'
+  const spotQuantityToken = isV2 ? 'spotQuantityV2' : 'spotQuantity'
 
   const cancelAllSpotMarketIds = spotMarketIdsToCancelAll.map(
     (marketId: string) => {
@@ -256,7 +262,7 @@ export const batchUpdateOrdersSummary = ({
     const { quantity, price } = order.order_info
     const { market_id: marketId } = order
 
-    return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{spotQuantity:${marketId}-${quantity}}} at {{${spotPriceToken}:${marketId}-${price}}} in {{market:${marketId}}}`
+    return `{{account:${sender}}} created a LIMIT ${order.order_type} order for {{${spotQuantityToken}:${marketId}-${quantity}}} at {{${spotPriceToken}:${marketId}-${price}}} in {{market:${marketId}}}`
   })
 
   const spotCancelOrders = spotOrdersToCancel.map((order: any) => {
