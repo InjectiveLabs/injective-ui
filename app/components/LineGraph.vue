@@ -59,7 +59,12 @@ const polyfillPoints = computed(() => {
   return props.data.reduce((points, point) => {
     const [x, y] = point
 
-    if (!x || !y) {
+    if (
+      x === undefined ||
+      y === undefined ||
+      !Number.isFinite(x) ||
+      !Number.isFinite(y)
+    ) {
       return points
     }
 
