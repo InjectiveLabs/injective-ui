@@ -50,4 +50,22 @@ describe('LineGraph', () => {
       ' 0,100 100,0 200,50'
     )
   })
+
+  it('derives coordinates using only finite points', async () => {
+    const wrapper = mount(LineGraph, {
+      attachTo: document.body,
+      props: {
+        data: [
+          [0, 10],
+          [1, Number.POSITIVE_INFINITY],
+          [2, 20],
+          [Number.NaN, 15]
+        ]
+      }
+    })
+
+    await nextTick()
+
+    expect(wrapper.get('polyline').attributes('points')).toBe(' 0,100 200,0')
+  })
 })

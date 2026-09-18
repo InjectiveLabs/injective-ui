@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 
+type GraphPoint = [number, number, ...number[]]
+
+const isFiniteGraphPoint = (point: number[]): point is GraphPoint =>
+  point.length >= 2 && point.slice(0, 2).every(Number.isFinite)
+
 const props = defineProps({
   color: {
     type: String,
@@ -50,23 +55,16 @@ onBeforeUnmount(() => {
 })
 
 const polyfillPoints = computed(() => {
-  const maxX = Math.max(...props.data.map((p: any) => p[0]))
-  const maxY = Math.max(...props.data.map((p: any) => p[1]))
-  const minY = Math.min(...props.data.map((p: any) => p[1]))
+  const validPoints = props.data.filter(isFiniteGraphPoint)
+
+  const maxX = Math.max(...validPoints.map((p) => p[0]))
+  const maxY = Math.max(...validPoints.map((p) => p[1]))
+  const minY = Math.min(...validPoints.map((p) => p[1]))
 
   const percentageDifferenceY = 100 - (minY / maxY) * 100
 
-  return props.data.reduce((points, point) => {
+  return validPoints.reduce((points, point) => {
     const [x, y] = point
-
-    if (
-      x === undefined ||
-      y === undefined ||
-      !Number.isFinite(x) ||
-      !Number.isFinite(y)
-    ) {
-      return points
-    }
 
     const pointXInWidth = (x / maxX) * width.value
     const yHeight =
