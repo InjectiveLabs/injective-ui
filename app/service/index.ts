@@ -111,7 +111,7 @@ export const getIndexerOracleApi = () =>
   getIndexerGrpcOracleApi(ENDPOINTS.indexer)
 
 export const getIndexerExplorerApi = () =>
-  getIndexerGrpcExplorerApi(ENDPOINTS.indexer)
+  getIndexerGrpcExplorerApi(ENDPOINTS.explorer || ENDPOINTS.indexer)
 
 export const getRestAuthApi = () => getChainRestAuthApi(ENDPOINTS.rest)
 
