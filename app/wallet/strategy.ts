@@ -121,6 +121,7 @@ export const getMsgBroadcaster = (): Promise<MsgBroadcaster> => {
         walletStrategy,
         simulateTx: true,
         network: NETWORK,
+        useFixedGas: true,
         endpoints: ENDPOINTS,
         gasBufferCoefficient: 1.2,
         feePayerPubKey: FEE_PAYER_PUB_KEY
@@ -140,6 +141,7 @@ export const getAutoSignMsgBroadcaster = (): Promise<MsgBroadcaster> => {
       return new MsgBroadcaster({
         simulateTx: true,
         network: NETWORK,
+        useFixedGas: true,
         endpoints: ENDPOINTS,
         gasBufferCoefficient: 1.2,
         feePayerPubKey: FEE_PAYER_PUB_KEY,
