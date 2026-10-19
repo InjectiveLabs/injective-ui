@@ -25,6 +25,7 @@ const props = defineProps({
 
 const timeout = ref()
 const remainingTimeout = ref(6000)
+const lastResumeTime = ref(Date.now())
 
 onMounted(
   () => (timeout.value = setTimeout(onClose, props.notification.timeout))
@@ -35,6 +36,7 @@ function onCopy() {
 }
 
 function onResume() {
+  lastResumeTime.value = Date.now()
   timeout.value = setTimeout(onClose, remainingTimeout.value)
 }
 
@@ -45,7 +47,7 @@ function onClose() {
 
 function onPause() {
   clearTimeout(timeout.value)
-  remainingTimeout.value -= Date.now() - props.notification.id
+  remainingTimeout.value -= Date.now() - lastResumeTime.value
 }
 </script>
 
