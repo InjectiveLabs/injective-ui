@@ -201,7 +201,7 @@ export const connectPrivyGoogle = async () => {
   }
 }
 
-export const initPrivyGoogle = async (code: string, state: string) => {
+const initPrivyGoogle = async (code: string, state: string) => {
   const walletStore = useSharedWalletStore()
   const signInId = getSsoSignInId()
   const privy = await loadPrivy()

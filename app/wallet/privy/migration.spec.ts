@@ -15,7 +15,6 @@ const mocks = vi.hoisted(() => {
     getWalletClient: vi.fn()
   }
   const turnkeyWallet = {
-    initOTP: vi.fn(),
     initSms: vi.fn(),
     confirmOTP: vi.fn(),
     getSession: vi.fn(),

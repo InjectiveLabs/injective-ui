@@ -26,7 +26,7 @@ import type { SignInMethod } from '../../service/app/privyMigration'
 
 // Moves Turnkey keys into Privy. Delete once every account has moved.
 
-export type SignInContact = { email?: string; phone?: string }
+type SignInContact = { email?: string; phone?: string }
 
 export type PendingTurnkeyMove = {
   userId: string
@@ -94,7 +94,7 @@ async function getTurnkeyWallet() {
 }
 
 // Only a key move uses the session; a leftover one blocks a new sign-in
-export async function endTurnkeySession() {
+async function endTurnkeySession() {
   try {
     await (await getTurnkeyWallet()).strategy.disconnect()
   } catch (e) {
