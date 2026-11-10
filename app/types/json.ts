@@ -28,7 +28,7 @@ export type JsonValidator = {
 }
 
 export type JsonChainUpgrade = {
-  proposalId: number
+  proposalId?: number
   proposalMsg: string
   blockHeight: number
   disableMaintenance: boolean
