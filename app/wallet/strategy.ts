@@ -20,6 +20,14 @@ import type {
   Web3Broadcaster
 } from '@injectivelabs/wallet-core'
 
+export const TURNKEY_API_SERVER_ENDPOINT = IS_TRUE_CURRENT
+  ? IS_MAINNET
+    ? 'https://api.ui.tc.xyz/api/v1'
+    : 'https://api.ui.staging.tc.xyz/api/v1'
+  : IS_MAINNET
+    ? 'https://api.ui.injective.network/api/v1'
+    : 'https://api.ui.staging.injective.network/api/v1'
+
 const registerDefaultEventListeners = (walletStrategy: WalletStrategy) => {
   walletStrategy.on(
     WalletConnectStrategyEventType.WalletConnectSigningWithTxTimeout,
@@ -61,13 +69,7 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 apiBaseUrl: 'https://api.turnkey.com',
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
-                apiServerEndpoint: IS_TRUE_CURRENT
-                  ? IS_MAINNET
-                    ? 'https://api.ui.tc.xyz/api/v1'
-                    : 'https://api.ui.staging.tc.xyz/api/v1'
-                  : IS_MAINNET
-                    ? 'https://api.ui.injective.network/api/v1'
-                    : 'https://api.ui.staging.injective.network/api/v1',
+                apiServerEndpoint: TURNKEY_API_SERVER_ENDPOINT,
                 expirationSeconds: '86400'
               }
             })

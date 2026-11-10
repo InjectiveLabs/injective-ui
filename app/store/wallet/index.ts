@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { IS_DEVNET } from '../../utils/constant'
 import { StatusType } from '@injectivelabs/utils'
+import { abandonSsoSignIn } from '../../utils/sso'
 import { lazyPiniaAction } from '../../utils/pinia'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { PrivateKey } from '@injectivelabs/sdk-ts/core/accounts'
@@ -55,6 +56,7 @@ import type {
   GrantAuthorizationWithDecodedAuthorization
 } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
+import type { PendingTurnkeyMove } from '../../wallet/privy'
 import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
@@ -90,6 +92,8 @@ type WalletStoreState = {
   isFeeDelegationEnabled: boolean
   turnkeyInjectiveAddress: string
   walletConnectStatus: WalletConnectStatus
+  // The sign-in is waiting for a second code to the same email (moving to Privy)
+  pendingTurnkeyMove: null | PendingTurnkeyMove
 
   hwAddressesInfo: {
     address: string
@@ -134,6 +138,7 @@ const initialStateFactory = (): WalletStoreState => ({
   trustWalletInstalled: false,
   isFeeDelegationEnabled: true,
   turnkeyInjectiveAddress: '',
+  pendingTurnkeyMove: null,
   queueStatus: StatusType.Idle,
 
   // Cosmos wallets
@@ -175,8 +180,12 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     },
 
     isGoogleAuth: (state) => {
-      return ([Wallet.Magic, Wallet.Turnkey] as Wallet[]).includes(state.wallet)
+      return (
+        [Wallet.Magic, Wallet.Turnkey, Wallet.Privy] as Wallet[]
+      ).includes(state.wallet)
     },
+
+    isSsoCodePending: (state) => !!state.pendingTurnkeyMove,
 
     isWalletExemptFromGasFee: (state) => {
       return !isCosmosWallet(state.wallet) && !IS_DEVNET
@@ -338,6 +347,51 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       'connectTurnkeyGoogle'
     ),
 
+    // Lazy-loaded Privy wallet actions; Turnkey only moves existing keys there
+    restorePrivySession: lazyPiniaAction(
+      () => import('./privy'),
+      'restorePrivySession'
+    ),
+    signOutOfPrivy: lazyPiniaAction(() => import('./privy'), 'signOutOfPrivy'),
+    sendSsoEmailCode: lazyPiniaAction(
+      () => import('./privy'),
+      'getEmailPrivyOTP'
+    ),
+    submitSsoCode: lazyPiniaAction(() => import('./privy'), 'submitPrivyOTP'),
+    startSsoGoogle: lazyPiniaAction(
+      () => import('./privy'),
+      'connectPrivyGoogle'
+    ),
+    finishSsoGoogleRedirect: lazyPiniaAction(
+      () => import('./privy'),
+      'finishPrivyGoogleRedirect'
+    ),
+
+    // The sign-in modal closed: forget the second code, drop a sign-in still running
+    cancelSsoSignIn() {
+      const walletStore = useSharedWalletStore()
+      const { pendingTurnkeyMove } = walletStore
+
+      abandonSsoSignIn()
+      walletStore.$patch({ pendingTurnkeyMove: null })
+
+      if (
+        pendingTurnkeyMove &&
+        !(walletStore.isUserConnected && walletStore.wallet === Wallet.Turnkey)
+      ) {
+        // A code confirmed for the move left a Turnkey session, which blocks a new sign-in
+        import('../../wallet/privy')
+          .then(({ abandonTurnkeyMove }) =>
+            abandonTurnkeyMove(pendingTurnkeyMove)
+          )
+          // After it: recording an imported key needs the Privy session
+          .then(() => walletStore.signOutOfPrivy())
+          .catch((e: unknown) =>
+            console.warn('Ending the Turnkey session failed', e)
+          )
+      }
+    },
+
     async validateAndQueue() {
       const sharedWalletStore = useSharedWalletStore()
 
@@ -449,6 +503,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         await walletStrategy.getSessionOrConfirm()
       }
 
+      if (walletStore.isUserConnected && walletStore.wallet === Wallet.Privy) {
+        // The strategy only gets the Privy wallet back from a live session
+        await walletStore.restorePrivySession()
+      }
+
       if (walletStore.autoSign?.privateKey) {
         const autoSignWalletStrategy = await getAutoSignWalletStrategy()
 
@@ -514,6 +573,11 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
 
+      if (wallet !== Wallet.Privy) {
+        // Another wallet wins over a Privy sign-in still running
+        abandonSsoSignIn()
+      }
+
       /**
        * We should disconnect only if there are no hardware wallets connected
        * and we still haven't fetched any addresses and we've already connected
@@ -565,6 +629,14 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const storageKey = walletStore.autoSign?.storageKey
 
       walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
+      abandonSsoSignIn()
+
+      if (walletStore.wallet === Wallet.Privy) {
+        // The strategy only forgets the wallet; Privy's SDK signs out
+        await walletStore
+          .signOutOfPrivy()
+          .catch((e: unknown) => console.warn('Privy sign-out failed', e))
+      }
 
       await walletStrategy.disconnect()
 
