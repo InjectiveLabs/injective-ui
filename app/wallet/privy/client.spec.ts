@@ -7,7 +7,10 @@ const FRAME_URL = 'https://auth.privy.io/apps/privy-app/embedded-wallets'
 const mocks = vi.hoisted(() => ({
   onMessage: vi.fn(),
   initialize: vi.fn(async () => undefined),
-  setMessagePoster: vi.fn()
+  setMessagePoster: vi.fn(),
+  getAccessToken: vi.fn(async (): Promise<null | string> => null),
+  sendCode: vi.fn(async () => undefined),
+  logout: vi.fn(async () => undefined)
 }))
 
 vi.mock('../../utils/constant', () => ({
@@ -21,7 +24,9 @@ vi.mock('@privy-io/js-sdk-core', () => ({
   getAllUserEmbeddedEthereumWallets: vi.fn(() => []),
   default: class {
     embeddedWallet = { onMessage: mocks.onMessage, getURL: () => FRAME_URL }
+    auth = { email: { sendCode: mocks.sendCode }, logout: mocks.logout }
     setMessagePoster = mocks.setMessagePoster
+    getAccessToken = mocks.getAccessToken
     initialize = mocks.initialize
   }
 }))
@@ -35,7 +40,7 @@ type FakeFrame = {
   style: Record<string, string>
 }
 
-const { getPrivyClient } = await import('./client')
+const { getPrivyClient, sendPrivyEmailCode } = await import('./client')
 
 describe('getPrivyClient', () => {
   let frames: FakeFrame[] = []
@@ -117,5 +122,20 @@ describe('getPrivyClient', () => {
 
     expect(mocks.onMessage).toHaveBeenCalledOnce()
     expect(mocks.onMessage).toHaveBeenCalledWith({ type: 'ready' })
+  })
+
+  it('sends a code when Privy rejects the stored session', async () => {
+    mocks.getAccessToken.mockRejectedValueOnce({
+      code: 'missing_or_invalid_token'
+    })
+
+    const sent = sendPrivyEmailCode('alice@tc.test')
+
+    await vi.advanceTimersByTimeAsync(0)
+    frames[0]?.onload?.()
+    await sent
+
+    expect(mocks.sendCode).toHaveBeenCalledWith('alice@tc.test')
+    expect(mocks.logout).not.toHaveBeenCalled()
   })
 })

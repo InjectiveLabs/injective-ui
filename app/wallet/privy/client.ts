@@ -133,7 +133,8 @@ export async function getPrivyAccessToken(): Promise<string> {
 async function getSignedOutPrivyClient(): Promise<Privy> {
   const privy = await getPrivyClient()
 
-  if (await privy.getAccessToken()) {
+  // A refresh Privy rejects already cleared the session
+  if (await privy.getAccessToken().catch(orNullWithoutSession)) {
     await privy.auth.logout()
   }
 
