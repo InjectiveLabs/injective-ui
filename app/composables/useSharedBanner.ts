@@ -20,17 +20,21 @@ export default function useSharedBanner() {
       id: 'upcoming-chain-upgrade',
       shouldDisplay: (IS_MAINNET && jsonStore.hasUpcomingChainUpgrade) && (!IS_HELIX || sharedWalletStore.isUserConnected),
       content: () => {
-        if (!jsonStore.chainUpgradeConfig.proposalId || !jsonStore.chainUpgradeConfig.proposalMsg) {
+        const config = jsonStore.chainUpgradeConfig
+
+        if (!config) {
           return
         }
 
         return h('div', { class: 'flex items-center gap-1' }, [
-          h('p', jsonStore.chainUpgradeConfig.proposalMsg),
-          h('a', {
-            target: '_blank',
-            class: 'hover:opacity-80 underline cursor-pointer',
-            href: `https://injhub.com/proposal/${jsonStore.chainUpgradeConfig.proposalId}`,
-          }, 'Find out more')
+          h('p', config.proposalMsg),
+          config.proposalId
+            ? h('a', {
+                target: '_blank',
+                class: 'hover:opacity-80 underline cursor-pointer',
+                href: `https://injhub.com/proposal/${config.proposalId}`,
+              }, 'Find out more')
+            : undefined
         ])
       }
     },{
@@ -38,10 +42,6 @@ export default function useSharedBanner() {
       id: 'post-chain-upgrade',
       shouldDisplay: IS_MAINNET && IS_HELIX && jsonStore.isPostUpgradeMode && sharedWalletStore.isUserConnected,
       content: () => {
-        if (!jsonStore.chainUpgradeConfig.proposalId || !jsonStore.chainUpgradeConfig.proposalMsg) {
-          return
-        }
-
         return h('div', { class: 'flex items-center gap-1' }, [
           h('p', 'Post-only mode active: Following the recent chain upgrade, new limit orders can be placed, but market orders and instant matches are unavailable for 2000 blocks.'),
           h('a', {

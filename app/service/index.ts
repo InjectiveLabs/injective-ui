@@ -135,7 +135,7 @@ export const getIndexerRestSpotChronosApi = () =>
 export const getIndexerRestMarketChronosApi = () =>
   getIndexerRestMarketChronosApiFactory(
     IS_MAINNET
-      ? `https://k8s.global.mainnet.chart.grpc-web.injective.network/api/chart/v1/market`
+      ? `https://tc-charts.mainnet.injective.network/api/chart/v1/market`
       : `${ENDPOINTS.chart || ENDPOINTS.chronos}/api/chart/v1/market`
   )
 

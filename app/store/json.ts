@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { HttpClient, toBigNumber } from '@injectivelabs/utils'
+import { HttpClient } from '@injectivelabs/utils'
 import {
   IS_DEVNET,
   IS_MAINNET,
@@ -42,13 +42,13 @@ export type JsonStoreState = {
   testnetEvmTokens: JsonEvmToken[]
   spotGridMarkets: JsonGridMarket[]
   wasmQuery: Record<string, string[]>
-  chainUpgradeConfig: JsonChainUpgrade
   wasmExecute: Record<string, string[]>
   derivativeMarkets: DerivativeMarket[]
   helixMarketCategory: JsonHelixCategory
   derivativeGridMarkets: JsonGridMarket[]
   expiryMarketMap: Record<string, string>
   verifiedSpotMarketMap: Record<string, string>
+  chainUpgradeConfig: undefined | JsonChainUpgrade
   verifiedDerivativeMarketMap: Record<string, string>
   blockHeightPollingMap: Record<number, null | NodeJS.Timeout>
 }
@@ -63,6 +63,35 @@ const getNetworkName = () => {
   }
 
   return 'devnet.json'
+}
+
+const isPositiveInteger = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isInteger(value) && value > 0
+
+export const toChainUpgradeConfig = (
+  raw: unknown
+): undefined | JsonChainUpgrade => {
+  if (!raw || typeof raw !== 'object') {
+    return
+  }
+
+  const { proposalId, proposalMsg, blockHeight, disableMaintenance } =
+    raw as Record<string, unknown>
+
+  if (typeof proposalMsg !== 'string' || !proposalMsg.trim()) {
+    return
+  }
+
+  if (!isPositiveInteger(blockHeight)) {
+    return
+  }
+
+  return {
+    proposalMsg,
+    blockHeight,
+    disableMaintenance: Boolean(disableMaintenance),
+    proposalId: isPositiveInteger(proposalId) ? proposalId : undefined
+  }
 }
 
 export const useSharedJsonStore = defineStore('sharedJson', {
@@ -85,7 +114,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     derivativeGridMarkets: [],
     blockHeightPollingMap: {},
     verifiedDerivativeMarketMap: {},
-    chainUpgradeConfig: {} as JsonChainUpgrade,
+    chainUpgradeConfig: undefined,
     helixMarketCategory: {} as JsonHelixCategory
   }),
 
@@ -115,55 +144,29 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         {} as Record<string, string[]>
       ),
 
-    isPostUpgradeMode: (state) => {
-      const blockHeightInBigNumber = toBigNumber(
-        state.chainUpgradeConfig?.blockHeight || 0
-      )
+    isPostUpgradeMode: ({ chainUpgradeConfig: config, latestBlockHeight }) =>
+      !!config &&
+      config.blockHeight < latestBlockHeight &&
+      config.blockHeight + 2000 >= latestBlockHeight,
 
+    hasUpcomingChainUpgrade: ({
+      chainUpgradeConfig: config,
+      latestBlockHeight
+    }) =>
+      !!config &&
+      !MAINTENANCE_DISABLED &&
+      !config.disableMaintenance &&
+      config.blockHeight > latestBlockHeight,
+
+    isMaintenanceMode: ({ chainUpgradeConfig: config, latestBlockHeight }) => {
+      if (!config || MAINTENANCE_DISABLED || config.disableMaintenance) {
+        return false
+      }
+
+      // 100 * 0.6 seconds per block ~= 1 minute before upgrade
       return (
-        blockHeightInBigNumber.gt(0) &&
-        blockHeightInBigNumber.lt(state.latestBlockHeight) &&
-        blockHeightInBigNumber.plus(2000).gte(state.latestBlockHeight)
+        latestBlockHeight === 0 || config.blockHeight - 100 <= latestBlockHeight
       )
-    },
-    hasUpcomingChainUpgrade: (state) => {
-      const blockHeightInBigNumber = toBigNumber(
-        state.chainUpgradeConfig?.blockHeight || 0
-      )
-
-      if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
-        return false
-      }
-
-      return (
-        blockHeightInBigNumber.gt(0) &&
-        blockHeightInBigNumber.gt(state.latestBlockHeight)
-      )
-    },
-
-    isMaintenanceMode: (state) => {
-      const blockHeightInBigNumber = toBigNumber(
-        state.chainUpgradeConfig?.blockHeight || 0
-      )
-
-      if (blockHeightInBigNumber.isZero()) {
-        return false
-      }
-
-      if (MAINTENANCE_DISABLED || state.chainUpgradeConfig.disableMaintenance) {
-        return false
-      }
-
-      if (
-        state.latestBlockHeight === 0 &&
-        toBigNumber(state.chainUpgradeConfig.blockHeight).gt(0)
-      ) {
-        return true
-      }
-
-      return toBigNumber(state.chainUpgradeConfig.blockHeight)
-        .minus(100) // 100 * 0.6 seconds per block ~= 1 minute before upgrade
-        .lte(state.latestBlockHeight)
     }
   },
 
@@ -377,6 +380,10 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       const jsonStore = useSharedJsonStore()
       const POLL_INTERVAL = 10 * 1000
 
+      if (jsonStore.blockHeightPollingMap[heightToPoll]) {
+        return
+      }
+
       const stopPolling = () => {
         if (jsonStore.blockHeightPollingMap[heightToPoll]) {
           clearInterval(jsonStore.blockHeightPollingMap[heightToPoll])
@@ -464,11 +471,11 @@ export const useSharedJsonStore = defineStore('sharedJson', {
 
       const jsonStore = useSharedJsonStore()
 
-      const { data: config } = (await client.get(
-        'json/config/chainUpgrade.json'
-      )) as {
-        data: JsonChainUpgrade
+      const { data } = (await client.get('json/config/chainUpgrade.json')) as {
+        data: unknown
       }
+
+      const config = toChainUpgradeConfig(data)
 
       try {
         const {
@@ -483,16 +490,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         // silently throw
       }
 
-      const isValidChainUpgradeConfig =
-        typeof config === 'object' &&
-        typeof config.proposalId === 'number' &&
-        config.proposalId > 0 &&
-        typeof config.proposalMsg === 'string' &&
-        config.proposalMsg.trim().length > 0 &&
-        typeof config.blockHeight === 'number' &&
-        config.blockHeight > 0
-
-      if (!isValidChainUpgradeConfig) {
+      if (!config) {
         return
       }
 
