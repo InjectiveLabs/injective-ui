@@ -1,4 +1,5 @@
 import { Wallet } from '@injectivelabs/wallet-base'
+import { SIGN_IN_ERROR } from '../../utils/constant'
 import { getAddresses, getWalletStrategy } from '@shared/wallet'
 import { getInjectiveAddress } from '@injectivelabs/sdk-ts/utils'
 import {
@@ -42,15 +43,24 @@ function cancelSignIn() {
 }
 
 // The app's error handler only shows our exceptions
-function toShownError(e: unknown) {
+function toShownError(e: unknown, context?: string) {
   if (e instanceof Error && isThrownException(e)) {
     return e
   }
 
   return new WalletException(
     new Error(e instanceof Error ? e.message : String(e)),
-    { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+    { code: UnspecifiedErrorCode, type: ErrorType.WalletError, context }
   )
+}
+
+// Privy's and ui-api's text is English: the product words the `reason`
+function toSignInError(e: unknown) {
+  const error = toShownError(e, SIGN_IN_ERROR)
+
+  return error === e
+    ? error
+    : Object.assign(error, { reason: getSsoCodeError(e) })
 }
 
 // Not when another wallet took over the connect
@@ -243,7 +253,7 @@ export const sendSsoEmailCode = async (email: string) => {
       await privy.sendPrivyEmailCode(email)
     }
   } catch (e) {
-    throw toShownError(e)
+    throw toSignInError(e)
   }
 
   walletStore.$patch({ email })
@@ -295,7 +305,7 @@ export const startSsoGoogle = async () => {
       await loadPrivy()
     ).getPrivyGoogleUrl(window.location.origin)
   } catch (e) {
-    throw toShownError(e)
+    throw toSignInError(e)
   }
 }
 
@@ -324,7 +334,7 @@ async function startGoogleSignIn(
     walletStore.$patch({ email: email ?? '' })
 
     return { user, googleIdToken, contact: { email }, isGoogleSignIn: true }
-  }).catch((e: unknown) => Promise.reject(toShownError(e)))
+  }).catch((e: unknown) => Promise.reject(toSignInError(e)))
 }
 
 /**
