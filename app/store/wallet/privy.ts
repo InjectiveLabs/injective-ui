@@ -34,6 +34,7 @@ type SignIn = {
 }
 
 let signInAwaitingSecondCode: Promise<unknown> = Promise.resolve()
+let signInStartCount = 0
 let userIdSignedInByCode: null | string = null
 
 // Ends the sign-in in progress, also before it asks for a second code
@@ -143,6 +144,11 @@ async function connectPrivyAndMigrate(
 
   // Connect: Turnkey only picks up a session already in this browser
   const turnkeySession = await migration.connectTurnkey()
+
+  if (!isCurrent()) {
+    return
+  }
+
   const { user, ...turnkeySignIn } = await signIn()
 
   // Returns once the key is in Privy; every check is in migrate()
@@ -191,12 +197,15 @@ function startSignIn(
 ) {
   cancelSignIn()
 
+  signInStartCount += 1
+
   const signInId = getSsoSignInId()
+  const startCount = signInStartCount
   const isLatest = () => signInId === getSsoSignInId()
   const isCurrent = () => isLatest() && isSameContact()
-  // Never for a sign-in that was replaced or cancelled: that would sign out the next one
+  // Also once cancelled: its Privy session is only wanted by a newer sign-in
   const signOutIfLatest = async () => {
-    if (isLatest()) {
+    if (startCount === signInStartCount) {
       await signOutOfPrivy().catch(() => undefined)
     }
   }
