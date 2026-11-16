@@ -69,7 +69,7 @@ function stopConnecting(signInId: number) {
 
 async function connectPrivy(
   { user, wallet }: { user: PrivyUser; wallet: PrivyEmbeddedWallet },
-  signInId: number
+  { signInId, isCurrent }: { signInId: number; isCurrent: () => boolean }
 ) {
   const walletStore = useSharedWalletStore()
   const walletStrategy = await getWalletStrategy()
@@ -85,6 +85,11 @@ async function connectPrivy(
     const addresses = await getAddresses()
     const [address] = addresses
     const session = await walletStrategy.getSessionOrConfirm(address)
+
+    // The person can leave while the wallet connects too
+    if (!isCurrent()) {
+      return
+    }
 
     walletStore.$patch({
       address,
@@ -164,7 +169,7 @@ async function connectPrivyAndMigrate(
     return
   }
 
-  return connectPrivy(wallet, signInId)
+  return connectPrivy(wallet, { signInId, isCurrent })
 }
 
 /**
@@ -356,6 +361,9 @@ export const restorePrivySession = async () => {
   const walletStore = useSharedWalletStore()
   const walletStrategy = await getWalletStrategy()
   const { address } = walletStore
+  // The person can disconnect or connect another wallet while Privy loads
+  const isSameConnection = () =>
+    walletStore.wallet === Wallet.Privy && walletStore.address === address
   const restore = async () => {
     const privy = await loadPrivy()
     const user = await privy.getPrivySessionUser()
@@ -385,7 +393,7 @@ export const restorePrivySession = async () => {
 
   // Not a lost session (network, wallet frame): the first signature retries
   await restore().catch((e: unknown) => {
-    if (e instanceof PrivyWalletSessionException) {
+    if (e instanceof PrivyWalletSessionException && isSameConnection()) {
       throw e
     }
   })
