@@ -352,16 +352,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     signOutOfPrivy: lazyPiniaAction(() => import('./privy'), 'signOutOfPrivy'),
     sendSsoEmailCode: lazyPiniaAction(
       () => import('./privy'),
-      'getEmailPrivyOTP'
+      'sendSsoEmailCode'
     ),
-    submitSsoCode: lazyPiniaAction(() => import('./privy'), 'submitPrivyOTP'),
-    startSsoGoogle: lazyPiniaAction(
-      () => import('./privy'),
-      'connectPrivyGoogle'
-    ),
+    submitSsoCode: lazyPiniaAction(() => import('./privy'), 'submitSsoCode'),
+    startSsoGoogle: lazyPiniaAction(() => import('./privy'), 'startSsoGoogle'),
     finishSsoGoogleRedirect: lazyPiniaAction(
       () => import('./privy'),
-      'finishGoogleRedirect'
+      'finishSsoGoogleRedirect'
     ),
 
     // The modal closed, a logout, or another wallet: ends a sign-in in progress

@@ -1,31 +1,7 @@
 import { isAxiosError } from 'axios'
 import { UiApiService } from '../../providers/uiApi'
 import { TURNKEY_API_SERVER_ENDPOINT } from '../../wallet/strategy'
-
-export type SignInMethod = 'sms' | 'email' | 'apple' | 'google'
-
-export type PrivyMigrationConflictReason =
-  | 'multiple_sub_orgs'
-  | 'unknown_oauth_issuer'
-  | 'use_existing_sign_in'
-  | 'wallet_in_other_user'
-  | 'privy_wallet_mismatch'
-
-export type PrivyMigrationStatus = {
-  address: null | string
-  status: 'ready' | 'new_user' | 'conflict' | 'needs_migration'
-  conflict: null | {
-    reason: PrivyMigrationConflictReason
-    existingSignIn?: { hint: null | string; method: SignInMethod }
-  }
-  turnkey: null | {
-    address: string
-    subOrgId: string
-    emailHint: null | string
-    phoneHint: null | string
-    reverifyMethods: string[]
-  }
-}
+import type { PrivyMigrationStatus } from '../../types'
 
 // Retrying won't help with these
 const UNAVAILABLE_CODES = [

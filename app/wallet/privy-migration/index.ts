@@ -7,15 +7,22 @@ import {
   getPrivyAccessToken
 } from '../privy/client'
 import {
+  TURNKEY_HPKE_INFO,
+  CONTACT_HINT_MASK,
+  SIGN_IN_ACCOUNT_ERROR
+} from '../../utils/constant'
+import {
   completePrivyMigration,
   fetchPrivyMigrationStatus
 } from '../../service/app/privyMigration'
 import {
-  PRIVY_APP_ID,
-  PRIVY_CLIENT_ID,
-  TURNKEY_HPKE_INFO,
-  PRIVY_AUTH_API_URL
-} from '../../utils/constant'
+  initPrivyWalletImport,
+  submitPrivyWalletImport
+} from '../../service/app/privyWalletImport'
+import {
+  sendTurnkeySignInCode,
+  signInToTurnkeyWithOidcToken
+} from '../../service/app/turnkeySignIn'
 import {
   toUtf8,
   hexToBase64,
@@ -25,68 +32,57 @@ import {
   base64ToUint8Array,
   uint8ArrayToBase64
 } from '@injectivelabs/sdk-ts/utils'
-import { getWalletStrategy, TURNKEY_API_SERVER_ENDPOINT } from '../strategy'
+import { getWalletStrategy } from '../strategy'
 import type {
   TurnkeyWallet,
   TurnkeyWalletStrategy
 } from '@injectivelabs/wallet-turnkey'
 import type { PrivyUser } from '../privy/client'
+import type { PrivyWalletImport } from '../../service/app/privyWalletImport'
 import type {
-  SignInMethod,
-  PrivyMigrationStatus
-} from '../../service/app/privyMigration'
-
-// Moves Turnkey keys into Privy. Only migration: the Privy wallet itself is
-// handled by ../privy. Delete once every account has moved.
-
-export type SignInContact = { email?: string; phone?: string }
-
-/** The contact of a Turnkey account, and whether it signs in with Google */
-export type TurnkeyAccountContact = { isGoogle?: boolean } & SignInContact
-
-/** Which Privy wallet to use: the one with this address, or a new one */
-export type MigrationResult =
-  | { type: 'new_user' }
-  /** No Turnkey account: the Privy user needs a new wallet */
-  | { type: 'ready'; address?: string }
+  AskCode,
+  SignInContact,
+  MigrationResult,
+  PrivyMigrationStatus,
+  TurnkeyAccountContact,
+  SignInAccountErrorReason,
+  SignInAccountErrorDetails
+} from '../../types'
 
 /**
- * Asks the person for the code Turnkey sent, and resolves with what they typed.
- * `error` is why their last code failed; `resend` sends a new one.
+ * Moves Turnkey keys into Privy. The Privy wallet itself is in ../privy.
+ * Delete this module once every account has moved.
  */
-export type AskCode = (request: {
-  error?: unknown
-  resend: () => Promise<void>
-}) => Promise<string>
 
 type KeyMove = { address: string; subOrgId: string; privyUserId: string }
 
-export const SIGN_IN_ACCOUNT_ERROR = 'sign-in-account'
+type TurnkeyAccount = NonNullable<PrivyMigrationStatus['turnkey']>
 
-/** A GeneralException, so the app's error handler shows it. */
+type TurnkeySignIn = {
+  askCode: AskCode
+  contact: SignInContact
+  /** Google's token, back from the second sign-in at Google */
+  googleIdToken?: string
+  isGoogleSignIn?: boolean
+}
+
+const ACCOUNT_MISMATCH_CODE = 'TURNKEY_ACCOUNT_MISMATCH'
+
+const GOOGLE_RETURN_EXPECTED = 'privy-migration:google-return'
+
+/**
+ * A GeneralException, so the app's error handler shows it. The product words
+ * the `reason`.
+ */
 export class SignInAccountError extends GeneralException {
-  constructor(message: string) {
-    super(new Error(message), { context: SIGN_IN_ACCOUNT_ERROR })
+  constructor(
+    readonly reason: SignInAccountErrorReason,
+    readonly details: SignInAccountErrorDetails = {}
+  ) {
+    super(new Error(`Sign-in account error: ${reason}`), {
+      context: SIGN_IN_ACCOUNT_ERROR
+    })
   }
-}
-
-/** Second-code methods this layer signs in with (it has no phone sign-in). */
-const SIGN_IN_CODE_METHODS = ['email']
-const USE_PREVIOUS_SIGN_IN =
-  'Sign in with the email you used before, or contact support.'
-const PHONE_SIGN_IN_UNAVAILABLE =
-  "This account signs in with a phone number, which isn't available here. Please contact support."
-const SIGN_IN_METHOD_LABELS: Record<SignInMethod, string> = {
-  sms: 'phone',
-  email: 'email',
-  apple: 'Apple',
-  google: 'Google'
-}
-const SIGN_IN_METHOD_NOUNS: Record<SignInMethod, string> = {
-  email: 'email',
-  sms: 'phone number',
-  apple: 'Apple account',
-  google: 'Google account'
 }
 
 async function getTurnkeyWallet() {
@@ -148,28 +144,34 @@ export async function connectTurnkey(): Promise<null | string> {
   }
 }
 
-// Same masks as ui-api's hints
-const MASK = '•••'
-const maskEmail = (email: string) => {
+async function endTurnkeySession() {
+  const { strategy } = await getTurnkeyWallet()
+
+  await strategy.disconnect().catch(() => undefined)
+}
+
+function maskEmail(email: string) {
   const at = email.lastIndexOf('@')
   const local = email.slice(0, at)
   const last = local.length > 1 ? local[local.length - 1] : ''
 
-  return at <= 0 ? MASK : `${local[0]}${MASK}${last}@${email.slice(at + 1)}`
+  return at <= 0
+    ? CONTACT_HINT_MASK
+    : `${local[0]}${CONTACT_HINT_MASK}${last}@${email.slice(at + 1)}`
 }
-const maskPhone = (phone: string) => {
+
+function maskPhone(phone: string) {
   const digits = phone.replace(/\D/g, '')
 
   return digits.length >= 4 ? `•••• ${digits.slice(-4)}` : '••••'
 }
 
-// Only the account's own contact: ui-api's code route signs up unknown ones
+/**
+ * The account's own email or phone, or null: ui-api's code route signs up a
+ * contact it doesn't know.
+ */
 function getTurnkeyCodeContact(
-  turnkey: {
-    emailHint: null | string
-    phoneHint: null | string
-    reverifyMethods: string[]
-  },
+  turnkey: TurnkeyAccount,
   contact: SignInContact
 ): null | SignInContact {
   const email = contact.email?.trim().toLowerCase()
@@ -193,60 +195,11 @@ function getTurnkeyCodeContact(
   return null
 }
 
-const DIFFERENT_ACCOUNT =
-  'This sign-in belongs to a different account. Please contact support.'
-
-// ui-api's code for a contact or Google account that isn't the named account's
-const ACCOUNT_MISMATCH_CODE = 'TURNKEY_ACCOUNT_MISMATCH'
-
-/**
- * Posts to ui-api's Turnkey sign-in routes. With a `subOrgId` they only sign in
- * to that account, and refuse any other.
- */
-async function postToTurnkeyRoute<T>(
-  path: string,
-  body: Record<string, unknown>
-): Promise<T> {
-  const response = await fetch(`${TURNKEY_API_SERVER_ENDPOINT}${path}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...body, expirationSeconds: '86400' })
-  })
-  const result = (await response.json().catch(() => ({}))) as {
-    statusMessage?: string
-    data?: { code?: string }
-  } & T
-
-  if (response.ok) {
-    return result
-  }
-
-  throw result.data?.code === ACCOUNT_MISMATCH_CODE
-    ? new SignInAccountError(DIFFERENT_ACCOUNT)
-    : new Error(result.statusMessage || `ui-api ${path} failed`)
-}
-
-async function postToPrivy<T>(
-  path: string,
-  body: unknown,
-  accessToken: string
-): Promise<T> {
-  const response = await fetch(`${PRIVY_AUTH_API_URL}${path}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'privy-app-id': PRIVY_APP_ID,
-      ...(PRIVY_CLIENT_ID ? { 'privy-client-id': PRIVY_CLIENT_ID } : {}),
-      Authorization: `Bearer ${accessToken}`
-    },
-    body: JSON.stringify(body)
-  })
-
-  if (!response.ok) {
-    throw new Error(`Privy ${path} failed with status ${response.status}`)
-  }
-
-  return (await response.json()) as T
+function toAccountMismatchError(reason: SignInAccountErrorReason) {
+  return (e: unknown) =>
+    (e as null | { code?: unknown })?.code === ACCOUNT_MISMATCH_CODE
+      ? new SignInAccountError(reason)
+      : e
 }
 
 // Signed envelope (hex JSON in `data`) or flat bundle
@@ -281,16 +234,17 @@ async function importTurnkeyKey({
   accessToken: string
   strategy: TurnkeyWalletStrategy
 }) {
-  const wallet = {
+  const wallet: PrivyWalletImport = {
     address,
     chain_type: 'ethereum',
-    entropy_type: 'private-key',
-    encryption_type: 'HPKE'
+    encryption_type: 'HPKE',
+    entropy_type: 'private-key'
   }
 
-  const { encryption_public_key } = await postToPrivy<{
-    encryption_public_key: string
-  }>('/wallets/import/init', wallet, accessToken)
+  const { encryption_public_key } = await initPrivyWalletImport(
+    wallet,
+    accessToken
+  )
   const targetPublicKey = uint8ArrayToHex(
     base64ToUint8Array(encryption_public_key)
   )
@@ -307,8 +261,7 @@ async function importTurnkeyKey({
     hexToUint8Array(targetPublicKey)
   ])
 
-  await postToPrivy(
-    '/wallets/import/submit',
+  await submitPrivyWalletImport(
     {
       external_id: subOrgId,
       wallet: {
@@ -336,12 +289,9 @@ async function moveKey({
 
   // Tabs share the Privy session, so another tab can have changed it
   if (user?.id !== privyUserId) {
-    throw new SignInAccountError(
-      'Your sign-in changed in this browser. Please sign in again.'
-    )
+    throw new SignInAccountError('session_changed')
   }
 
-  // One token for the whole move, so every request is this user's
   const accessToken = await getPrivyAccessToken()
 
   // Privy refuses to import the same address twice, e.g. on a retry
@@ -351,7 +301,6 @@ async function moveKey({
 
   await completePrivyMigration(accessToken)
 
-  // Checked before ending the Turnkey session: a retry needs it
   if (!findPrivyWallet(await getPrivySessionUser(), address)) {
     throw new Error('No Privy wallet on this account')
   }
@@ -360,8 +309,6 @@ async function moveKey({
 
   return { type: 'ready', address }
 }
-
-// Signing in to Turnkey with a second code
 
 /**
  * wallet-turnkey's initOTP and initSms send no sub-org (they name it
@@ -375,30 +322,32 @@ async function sendTurnkeyCode(subOrgId: string, contact: SignInContact) {
 
   await indexedDbClient.resetKeyPair()
 
-  const { otpId, organizationId } = await postToTurnkeyRoute<{
-    otpId?: string
-    organizationId?: string
-  }>('/turnkey/otp/init', {
+  const { otpId, organizationId } = await sendTurnkeySignInCode({
     ...contact,
     subOrgId,
-    targetPublicKey: await indexedDbClient.getPublicKey(),
-    isUsingIndexedDB: true
-  })
+    isUsingIndexedDB: true,
+    targetPublicKey: await indexedDbClient.getPublicKey()
+  }).catch((e: unknown) =>
+    Promise.reject(toAccountMismatchError('different_account')(e))
+  )
 
   if (!otpId || organizationId !== subOrgId) {
-    throw new SignInAccountError(DIFFERENT_ACCOUNT)
+    throw new SignInAccountError('different_account')
   }
 
   // confirmOTP reads these; otpId has no setter
   Object.assign(turnkeyWallet, { otpId, userOrganizationId: organizationId })
 }
 
-// Sends the code, then asks for it until one signs in
-async function signInToTurnkeyWithCode(
-  subOrgId: string,
-  contact: SignInContact,
+async function signInToTurnkeyWithCode({
+  askCode,
+  contact,
+  subOrgId
+}: {
   askCode: AskCode
-) {
+  subOrgId: string
+  contact: SignInContact
+}) {
   const { strategy, turnkeyWallet } = await getTurnkeyWallet()
   const resend = () => sendTurnkeyCode(subOrgId, contact)
   let error: unknown
@@ -418,17 +367,12 @@ async function signInToTurnkeyWithCode(
     if (session.organizationId !== subOrgId) {
       await strategy.disconnect().catch(() => undefined)
 
-      throw new SignInAccountError(DIFFERENT_ACCOUNT)
+      throw new SignInAccountError('different_account')
     }
 
     return
   }
 }
-
-// Signing in to Turnkey with Google
-
-// Set while this tab is away at Google for the key move
-const GOOGLE_RETURN_EXPECTED = 'privy-migration:google-return'
 
 /**
  * Whether this tab left for Google for the key move, asked once. A Google
@@ -464,41 +408,21 @@ async function leaveForTurnkeyGoogle(): Promise<never> {
 async function signInToTurnkeyWithGoogle(subOrgId: string, idToken: string) {
   const { turnkeyWallet } = await getTurnkeyWallet()
   const indexedDbClient = await turnkeyWallet.getIndexedDbClient()
-  const result = await postToTurnkeyRoute<{
-    organizationId?: string
-    credentialBundle?: string
-  }>('/turnkey/oauth', {
+  const result = await signInToTurnkeyWithOidcToken({
     subOrgId,
     oidcToken: idToken,
     providerName: TurnkeyProvider.Google,
     targetPublicKey: await indexedDbClient.getPublicKey()
-  }).catch((e: unknown) => {
-    // Another Google account, or an account the app made that the web can't match
-    throw e instanceof SignInAccountError
-      ? new SignInAccountError(
-          'Use the Google account you signed in with. If that fails, open the mobile app and sign in there once.'
-        )
-      : e
-  })
+  }).catch((e: unknown) =>
+    Promise.reject(toAccountMismatchError('use_google')(e))
+  )
 
   if (!result.credentialBundle || result.organizationId !== subOrgId) {
-    throw new SignInAccountError(DIFFERENT_ACCOUNT)
+    throw new SignInAccountError('different_account')
   }
 
   await indexedDbClient.loginWithSession(result.credentialBundle)
   Object.assign(turnkeyWallet, { userOrganizationId: subOrgId })
-}
-
-type TurnkeyAccount = NonNullable<PrivyMigrationStatus['turnkey']>
-
-/** How the person proves the Turnkey account is theirs */
-type TurnkeySignIn = {
-  askCode: AskCode
-  contact: SignInContact
-  /** Google is back from leaveForTurnkeyGoogle() */
-  googleIdToken?: string
-  /** They signed in to Privy with Google */
-  isGoogleSignIn?: boolean
 }
 
 /**
@@ -522,20 +446,18 @@ async function signInToTurnkey(
   }
 
   if (codeContact) {
-    return signInToTurnkeyWithCode(subOrgId, codeContact, askCode)
+    return signInToTurnkeyWithCode({ askCode, subOrgId, contact: codeContact })
   }
 
-  if (reverifyMethods.some((method) => SIGN_IN_CODE_METHODS.includes(method))) {
-    throw new SignInAccountError(USE_PREVIOUS_SIGN_IN)
+  if (reverifyMethods.includes('email')) {
+    throw new SignInAccountError('use_previous_contact')
   }
 
-  // Apple accounts can only be confirmed in the mobile app
-  throw new SignInAccountError(
-    reverifyMethods.includes('sms') &&
-      reverifyMethods.every((method) => method === 'sms')
-      ? PHONE_SIGN_IN_UNAVAILABLE
-      : 'To finish signing in, open the mobile app and sign in there once. After that you can sign in here too.'
-  )
+  // This layer has no phone sign-in; Apple accounts can only be confirmed in the app
+  throw reverifyMethods.length > 0 &&
+    reverifyMethods.every((method) => method === 'sms')
+    ? new SignInAccountError('use_previous_contact', { method: 'sms' })
+    : new SignInAccountError('use_app')
 }
 
 /**
@@ -555,24 +477,22 @@ export async function migrate({
   const status = await fetchPrivyMigrationStatus(await getPrivyAccessToken())
 
   if (status.status === 'ready') {
-    // The tab closed after the import, before the move was recorded
-    if (
-      status.turnkey &&
-      !user.custom_metadata?.migrated_at &&
-      turnkeySession === status.turnkey.subOrgId
-    ) {
-      await completePrivyMigration(await getPrivyAccessToken())
-      await (await getTurnkeyWallet()).strategy.disconnect().catch(() => {})
+    // Only bookkeeping: a failure must not stop the sign-in
+    if (status.turnkey && !user.custom_metadata?.migrated_at) {
+      await completePrivyMigration(await getPrivyAccessToken()).catch(
+        () => undefined
+      )
+    }
+
+    if (turnkeySession) {
+      await endTurnkeySession()
     }
 
     return { type: 'ready', address: status.address ?? undefined }
   }
 
+  // A Turnkey session in this browser can be someone else's: a new contact is a new account
   if (status.status === 'new_user') {
-    if (turnkeySession) {
-      throw new SignInAccountError(USE_PREVIOUS_SIGN_IN)
-    }
-
     return { type: 'new_user' }
   }
 
@@ -586,22 +506,9 @@ export async function migrate({
     return moveKey({ address, subOrgId, privyUserId: user.id })
   }
 
-  const existingSignIn =
-    status.conflict?.reason === 'use_existing_sign_in'
-      ? status.conflict.existingSignIn
-      : undefined
+  const existingSignIn = status.conflict?.existingSignIn
 
-  if (existingSignIn) {
-    const { hint, method } = existingSignIn
-
-    throw new SignInAccountError(
-      method === 'sms'
-        ? PHONE_SIGN_IN_UNAVAILABLE
-        : `You usually sign in with ${hint || SIGN_IN_METHOD_LABELS[method]}. Continue with your ${SIGN_IN_METHOD_NOUNS[method]} to get to your account.`
-    )
-  }
-
-  throw new SignInAccountError(
-    "We couldn't sign you in. Please contact support."
-  )
+  throw existingSignIn
+    ? new SignInAccountError('use_existing_sign_in', existingSignIn)
+    : new SignInAccountError('unavailable')
 }

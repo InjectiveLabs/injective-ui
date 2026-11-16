@@ -1,4 +1,5 @@
 import { createCodePrompt } from './codePrompt'
+import { SIGN_IN_ACCOUNT_ERROR } from './constant'
 
 /**
  * What Google brought back to the site: `privy` is Privy's sign-in, `turnkey`
@@ -69,8 +70,9 @@ export function abandonSsoSignIn() {
 }
 
 export function isSsoAccountError(error: unknown) {
-  // SIGN_IN_ACCOUNT_ERROR; importing it would load the key move
-  return (error as null | { context?: unknown })?.context === 'sign-in-account'
+  return (
+    (error as null | { context?: unknown })?.context === SIGN_IN_ACCOUNT_ERROR
+  )
 }
 
 export type SsoCodeError =

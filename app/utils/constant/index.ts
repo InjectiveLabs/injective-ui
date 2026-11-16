@@ -60,5 +60,11 @@ export const DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS = 3
 
 export const INJ_SUPPLY_AMOUNT = 100_000_000
 
+/** The `context` of a SignInAccountError (wallet/privy-migration) */
+export const SIGN_IN_ACCOUNT_ERROR = 'sign-in-account'
+
+/** The mask of ui-api's email and phone hints */
+export const CONTACT_HINT_MASK = '•••'
+
 /** base64 of "turnkey_hpke": the HPKE info Turnkey uses for export bundles. */
 export const TURNKEY_HPKE_INFO = 'dHVybmtleV9ocGtl'

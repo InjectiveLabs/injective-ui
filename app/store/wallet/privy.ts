@@ -17,8 +17,8 @@ import {
   clearSsoGoogleRedirect
 } from '../../utils/sso'
 import { EventBus, WalletConnectStatus } from '../../types'
+import type { SignInContact } from '../../types'
 import type { SsoGoogleRedirect } from '../../utils/sso'
-import type { SignInContact } from '../../wallet/privy-migration'
 import type { PrivyUser, PrivyEmbeddedWallet } from '../../wallet/privy'
 
 const loadPrivy = () => import('../../wallet/privy')
@@ -32,10 +32,8 @@ type SignIn = {
   isGoogleSignIn?: boolean
 }
 
-// The sign-in in progress, which a second code continues
-let currentSignIn: Promise<unknown> = Promise.resolve()
-// The Privy user this tab signed in with a code, kept for a retry
-let codeSignInUserId: null | string = null
+let signInAwaitingSecondCode: Promise<unknown> = Promise.resolve()
+let userIdSignedInByCode: null | string = null
 
 // Ends the sign-in in progress, also before it asks for a second code
 function cancelSignIn() {
@@ -225,12 +223,12 @@ function startSignIn(
 
   // A failure nobody waits for any more, e.g. the person went back
   result.catch(() => undefined)
-  currentSignIn = result
+  signInAwaitingSecondCode = result
 
   return ssoSecondCode.nextStep(result)
 }
 
-export const getEmailPrivyOTP = async (email: string) => {
+export const sendSsoEmailCode = async (email: string) => {
   const walletStore = useSharedWalletStore()
   const privy = await loadPrivy()
 
@@ -241,7 +239,7 @@ export const getEmailPrivyOTP = async (email: string) => {
     } else {
       // A new code is a new sign-in
       cancelSignIn()
-      codeSignInUserId = null
+      userIdSignedInByCode = null
       await privy.sendPrivyEmailCode(email)
     }
   } catch (e) {
@@ -255,13 +253,13 @@ export const getEmailPrivyOTP = async (email: string) => {
 const toCodeScreenError = (e: unknown) =>
   isSsoAccountError(e) || getSsoCodeError(e) !== 'unknown' ? e : toShownError(e)
 
-export const submitPrivyOTP = async (code: string) => {
+export const submitSsoCode = async (code: string) => {
   // The second code: the waiting sign-in goes on
   if (ssoSecondCode.isWaiting) {
     ssoSecondCode.answer(code)
 
     return ssoSecondCode
-      .nextStep(currentSignIn)
+      .nextStep(signInAwaitingSecondCode)
       .catch((e: unknown) => Promise.reject(toCodeScreenError(e)))
   }
 
@@ -272,13 +270,13 @@ export const submitPrivyOTP = async (code: string) => {
   return startSignIn(
     async () => {
       const sessionUser = await privy.getPrivySessionUser()
-      // On a retry the code is spent, but this tab's session is still there
+      // Privy accepts a code once: a retry reuses the session this tab made with it
       const user =
-        sessionUser && sessionUser.id === codeSignInUserId
+        sessionUser && sessionUser.id === userIdSignedInByCode
           ? sessionUser
           : await privy.loginWithPrivyEmailCode(email ?? '', code)
 
-      codeSignInUserId = user.id
+      userIdSignedInByCode = user.id
 
       return { user, contact: { email } }
     },
@@ -288,7 +286,7 @@ export const submitPrivyOTP = async (code: string) => {
 }
 
 // Privy only allows listed redirect URLs, so Google returns to the site root
-export const connectPrivyGoogle = async () => {
+export const startSsoGoogle = async () => {
   // Privy can take a while to load before the redirect
   useSharedWalletStore().walletConnectStatus = WalletConnectStatus.connecting
 
@@ -334,7 +332,7 @@ async function startGoogleSignIn(
  * From Turnkey's (the key move needed Google once more) the same sign-in runs
  * again, with the Privy session it already has and Google's token.
  */
-export const finishGoogleRedirect = async (redirect: SsoGoogleRedirect) => {
+export const finishSsoGoogleRedirect = async (redirect: SsoGoogleRedirect) => {
   await clearSsoGoogleRedirect()
 
   const privy = await loadPrivy()

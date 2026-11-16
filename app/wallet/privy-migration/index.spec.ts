@@ -1,7 +1,7 @@
 // @vitest-environment node
 
 import { vi, it, expect, describe, beforeEach } from 'vitest'
-import type { PrivyMigrationStatus } from '../../service/app/privyMigration'
+import type { PrivyMigrationStatus } from '../../types'
 
 const TURNKEY_ADDRESS = '0x1111111111111111111111111111111111111111'
 const PRIVY_ADDRESS = '0x2222222222222222222222222222222222222222'
@@ -29,16 +29,19 @@ const mocks = vi.hoisted(() => {
     turnkeyWallet,
     exportWalletAccount: vi.fn(),
     getPrivySessionUser: vi.fn(),
+    initPrivyWalletImport: vi.fn(),
+    sendTurnkeySignInCode: vi.fn(),
     completePrivyMigration: vi.fn(),
-    fetchPrivyMigrationStatus: vi.fn()
+    submitPrivyWalletImport: vi.fn(),
+    fetchPrivyMigrationStatus: vi.fn(),
+    signInToTurnkeyWithOidcToken: vi.fn()
   }
 })
 
 vi.mock('../../utils/constant', () => ({
-  PRIVY_APP_ID: 'privy-app',
-  PRIVY_CLIENT_ID: '',
+  CONTACT_HINT_MASK: '•••',
   TURNKEY_HPKE_INFO: 'dHVybmtleV9ocGtl',
-  PRIVY_AUTH_API_URL: 'https://auth.privy.io/api/v1'
+  SIGN_IN_ACCOUNT_ERROR: 'sign-in-account'
 }))
 
 vi.mock('../../service/app/privyMigration', () => ({
@@ -46,8 +49,17 @@ vi.mock('../../service/app/privyMigration', () => ({
   fetchPrivyMigrationStatus: mocks.fetchPrivyMigrationStatus
 }))
 
+vi.mock('../../service/app/turnkeySignIn', () => ({
+  sendTurnkeySignInCode: mocks.sendTurnkeySignInCode,
+  signInToTurnkeyWithOidcToken: mocks.signInToTurnkeyWithOidcToken
+}))
+
+vi.mock('../../service/app/privyWalletImport', () => ({
+  initPrivyWalletImport: mocks.initPrivyWalletImport,
+  submitPrivyWalletImport: mocks.submitPrivyWalletImport
+}))
+
 vi.mock('../strategy', () => ({
-  TURNKEY_API_SERVER_ENDPOINT: 'https://ui-api.test/api/v1',
   getWalletStrategy: async () => ({
     loadStrategy: async () => mocks.strategy
   })
@@ -106,11 +118,8 @@ const fromBase64 = (value: string) =>
   Buffer.from(value, 'base64').toString('hex')
 
 describe('migrate', () => {
-  const fetchMock = vi.fn()
-
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.stubGlobal('fetch', fetchMock)
     mocks.strategy.getWalletClient.mockResolvedValue(mocks.turnkeyWallet)
     mocks.strategy.getIndexedDbClient.mockResolvedValue({
       exportWalletAccount: mocks.exportWalletAccount
@@ -132,7 +141,7 @@ describe('migrate', () => {
     expect(result).toEqual({ type: 'ready', address: TURNKEY_ADDRESS })
   })
 
-  it('skips the Turnkey session once the move is recorded', async () => {
+  it('ends the Turnkey session once the move is recorded', async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue({
       ...needsMigration(),
       status: 'ready'
@@ -147,7 +156,7 @@ describe('migrate', () => {
       } as never
     })
 
-    expect(mocks.strategy.getWalletClient).not.toHaveBeenCalled()
+    expect(mocks.strategy.disconnect).toHaveBeenCalled()
     expect(mocks.completePrivyMigration).not.toHaveBeenCalled()
   })
 
@@ -164,7 +173,7 @@ describe('migrate', () => {
     expect(result).toEqual({ type: 'new_user' })
   })
 
-  it('refuses a new account while the browser has an older Turnkey session', async () => {
+  it('lets a new contact make a new account despite an older Turnkey session', async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(status({}))
 
     await expect(
@@ -174,7 +183,7 @@ describe('migrate', () => {
         user: userWith(),
         turnkeySession: 'other-sub-org'
       })
-    ).rejects.toBeInstanceOf(SignInAccountError)
+    ).resolves.toEqual({ type: 'new_user' })
   })
 
   it('names the sign-in an account already uses', async () => {
@@ -190,9 +199,10 @@ describe('migrate', () => {
 
     await expect(
       migrate({ askCode, contact: {}, user: userWith(), turnkeySession: null })
-    ).rejects.toThrow(
-      'You usually sign in with Google. Continue with your Google account to get to your account.'
-    )
+    ).rejects.toMatchObject({
+      reason: 'use_existing_sign_in',
+      details: { method: 'google', hint: null }
+    })
   })
 
   it('moves the key with the session of the same account', async () => {
@@ -207,15 +217,11 @@ describe('migrate', () => {
         )
       })
     })
-    fetchMock
-      .mockResolvedValueOnce(
-        Response.json({
-          encryption_public_key: Buffer.from(TARGET_PUBLIC_KEY, 'hex').toString(
-            'base64'
-          )
-        })
+    mocks.initPrivyWalletImport.mockResolvedValue({
+      encryption_public_key: Buffer.from(TARGET_PUBLIC_KEY, 'hex').toString(
+        'base64'
       )
-      .mockResolvedValueOnce(Response.json({}))
+    })
 
     const result = await migrate({
       askCode,
@@ -230,10 +236,10 @@ describe('migrate', () => {
       targetPublicKey: TARGET_PUBLIC_KEY
     })
 
-    const [url, init] = fetchMock.mock.calls[1] ?? []
-    const { wallet, external_id } = JSON.parse(init.body)
+    const [{ wallet, external_id }, accessToken] =
+      mocks.submitPrivyWalletImport.mock.calls[0]!
 
-    expect(url).toMatch(/\/wallets\/import\/submit$/)
+    expect(accessToken).toBe('access-token')
     expect(external_id).toBe(SUB_ORG_ID)
     expect(fromBase64(wallet.ciphertext)).toBe('0b0c')
     expect(fromBase64(wallet.encapsulated_key)).toBe('0a')
@@ -245,11 +251,10 @@ describe('migrate', () => {
 
   it("sends the second code to the account's own email", async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(needsMigration())
-    fetchMock.mockResolvedValue(
-      new Response(
-        JSON.stringify({ otpId: 'otp-id', organizationId: SUB_ORG_ID })
-      )
-    )
+    mocks.sendTurnkeySignInCode.mockResolvedValue({
+      otpId: 'otp-id',
+      organizationId: SUB_ORG_ID
+    })
 
     await expect(
       migrate({
@@ -260,10 +265,7 @@ describe('migrate', () => {
       })
     ).rejects.toThrow('code asked')
 
-    const [url, init] = fetchMock.mock.calls[0]!
-
-    expect(url).toBe('https://ui-api.test/api/v1/turnkey/otp/init')
-    expect(JSON.parse(init.body)).toMatchObject({
+    expect(mocks.sendTurnkeySignInCode).toHaveBeenCalledWith({
       email: 'alice@tc.test',
       subOrgId: SUB_ORG_ID,
       targetPublicKey: 'target-public-key',
@@ -287,19 +289,16 @@ describe('migrate', () => {
         contact: { email: 'bob@tc.test' }
       })
     ).rejects.toBeInstanceOf(SignInAccountError)
-    expect(fetchMock).not.toHaveBeenCalled()
+    expect(mocks.sendTurnkeySignInCode).not.toHaveBeenCalled()
   })
 
   it('refuses when ui-api says the email is on another account', async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(needsMigration())
-    fetchMock.mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          statusMessage: 'This contact does not belong to the account',
-          data: { code: 'TURNKEY_ACCOUNT_MISMATCH' }
-        }),
-        { status: 400 }
-      )
+    mocks.sendTurnkeySignInCode.mockRejectedValue(
+      Object.assign(new Error('This contact does not belong to the account'), {
+        status: 400,
+        code: 'TURNKEY_ACCOUNT_MISMATCH'
+      })
     )
 
     await expect(
@@ -322,7 +321,7 @@ describe('migrate', () => {
         turnkeySession: null,
         contact: { email: 'alice@tc.test' }
       })
-    ).rejects.toThrow(/open the mobile app/)
+    ).rejects.toMatchObject({ reason: 'use_app' })
   })
 
   it("tells phone-only accounts that phone sign-in isn't here", async () => {
@@ -335,27 +334,26 @@ describe('migrate', () => {
         turnkeySession: null,
         contact: { email: 'alice@tc.test' }
       })
-    ).rejects.toThrow(/phone number, which isn't available here/)
+    ).rejects.toMatchObject({
+      reason: 'use_previous_contact',
+      details: { method: 'sms' }
+    })
     expect(mocks.turnkeyWallet.initSms).not.toHaveBeenCalled()
   })
 })
 
 describe('the second code', () => {
-  const fetchMock = vi.fn()
-
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.stubGlobal('fetch', fetchMock)
     mocks.strategy.getWalletClient.mockResolvedValue(mocks.turnkeyWallet)
   })
 
   it('moves nothing when the code signs in to another account', async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(needsMigration())
-    fetchMock.mockResolvedValue(
-      new Response(
-        JSON.stringify({ otpId: 'otp-id', organizationId: SUB_ORG_ID })
-      )
-    )
+    mocks.sendTurnkeySignInCode.mockResolvedValue({
+      otpId: 'otp-id',
+      organizationId: SUB_ORG_ID
+    })
     mocks.turnkeyWallet.confirmOTP.mockResolvedValue({
       organizationId: 'other-sub-org'
     })
