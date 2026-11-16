@@ -56,7 +56,6 @@ import type {
   GrantAuthorizationWithDecodedAuthorization
 } from '@injectivelabs/sdk-ts'
 import type { AutoSign } from '../../types'
-import type { PendingTurnkeyMove } from '../../wallet/privy'
 import type { ConnectAutoSignOptions } from '../../wallet/utils/authz'
 
 const AUTO_SIGN_GRANT_DURATION = 60 * 60 * 24 * 60
@@ -83,17 +82,17 @@ type WalletStoreState = {
   rainbowInstalled: boolean
   phantomInstalled: boolean
   owalletInstalled: boolean
+  // The sign-in is waiting for a second code to the same email (moving to Privy)
+  isSsoCodePending: boolean
   keplrEvmInstalled: boolean
   metamaskInstalled: boolean
   addressConfirmation: string
-  okxWalletInstalled: boolean
 
+  okxWalletInstalled: boolean
   trustWalletInstalled: boolean
   isFeeDelegationEnabled: boolean
   turnkeyInjectiveAddress: string
   walletConnectStatus: WalletConnectStatus
-  // The sign-in is waiting for a second code to the same email (moving to Privy)
-  pendingTurnkeyMove: null | PendingTurnkeyMove
 
   hwAddressesInfo: {
     address: string
@@ -138,7 +137,7 @@ const initialStateFactory = (): WalletStoreState => ({
   trustWalletInstalled: false,
   isFeeDelegationEnabled: true,
   turnkeyInjectiveAddress: '',
-  pendingTurnkeyMove: null,
+  isSsoCodePending: false,
   queueStatus: StatusType.Idle,
 
   // Cosmos wallets
@@ -184,8 +183,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
         [Wallet.Magic, Wallet.Turnkey, Wallet.Privy] as Wallet[]
       ).includes(state.wallet)
     },
-
-    isSsoCodePending: (state) => !!state.pendingTurnkeyMove,
 
     isWalletExemptFromGasFee: (state) => {
       return !isCosmosWallet(state.wallet) && !IS_DEVNET
@@ -364,32 +361,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
     ),
     finishSsoGoogleRedirect: lazyPiniaAction(
       () => import('./privy'),
-      'finishPrivyGoogleRedirect'
+      'finishGoogleRedirect'
     ),
 
-    // The sign-in modal closed: forget the second code, drop a sign-in still running
+    // The modal closed, a logout, or another wallet: ends a sign-in in progress
     cancelSsoSignIn() {
-      const walletStore = useSharedWalletStore()
-      const { pendingTurnkeyMove } = walletStore
-
       abandonSsoSignIn()
-      walletStore.$patch({ pendingTurnkeyMove: null })
-
-      if (
-        pendingTurnkeyMove &&
-        !(walletStore.isUserConnected && walletStore.wallet === Wallet.Turnkey)
-      ) {
-        // A code confirmed for the move left a Turnkey session, which blocks a new sign-in
-        import('../../wallet/privy')
-          .then(({ abandonTurnkeyMove }) =>
-            abandonTurnkeyMove(pendingTurnkeyMove)
-          )
-          // After it: recording an imported key needs the Privy session
-          .then(() => walletStore.signOutOfPrivy())
-          .catch((e: unknown) =>
-            console.warn('Ending the Turnkey session failed', e)
-          )
-      }
+      useSharedWalletStore().$patch({ isSsoCodePending: false })
     },
 
     async validateAndQueue() {
@@ -575,7 +553,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
 
       if (wallet !== Wallet.Privy) {
         // Another wallet wins over a Privy sign-in still running
-        abandonSsoSignIn()
+        walletStore.cancelSsoSignIn()
       }
 
       /**
@@ -629,7 +607,7 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const storageKey = walletStore.autoSign?.storageKey
 
       walletStore.walletConnectStatus = WalletConnectStatus.disconnecting
-      abandonSsoSignIn()
+      walletStore.cancelSsoSignIn()
 
       if (walletStore.wallet === Wallet.Privy) {
         // The strategy only forgets the wallet; Privy's SDK signs out

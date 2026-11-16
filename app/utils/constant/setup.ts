@@ -169,6 +169,7 @@ export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
 export const PRIVY_APP_ID = (import.meta.env.VITE_PRIVY_APP_ID || '') as string
 export const PRIVY_CLIENT_ID = (import.meta.env.VITE_PRIVY_CLIENT_ID ||
   '') as string
+export const PRIVY_AUTH_API_URL = 'https://auth.privy.io/api/v1'
 
 export const PRODUCT = env.VITE_PRODUCT || 'injective'
 export const IS_HUB = PRODUCT === 'hub'

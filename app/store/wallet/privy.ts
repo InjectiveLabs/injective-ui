@@ -2,26 +2,46 @@ import { Wallet } from '@injectivelabs/wallet-base'
 import { getAddresses, getWalletStrategy } from '@shared/wallet'
 import { getInjectiveAddress } from '@injectivelabs/sdk-ts/utils'
 import {
-  getSsoSignInId,
-  getSsoCodeError,
-  isSsoAccountError,
-  getSsoGoogleRedirect,
-  clearSsoGoogleRedirect
-} from '../../utils/sso'
-import {
   ErrorType,
   WalletException,
   isThrownException,
   UnspecifiedErrorCode,
   PrivyWalletSessionException
 } from '@injectivelabs/exceptions'
+import {
+  ssoSecondCode,
+  getSsoSignInId,
+  getSsoCodeError,
+  abandonSsoSignIn,
+  isSsoAccountError,
+  clearSsoGoogleRedirect
+} from '../../utils/sso'
 import { EventBus, WalletConnectStatus } from '../../types'
-import type { PrivySignInResult } from '../../wallet/privy'
+import type { SsoGoogleRedirect } from '../../utils/sso'
+import type { SignInContact } from '../../wallet/privy-migration'
+import type { PrivyUser, PrivyEmbeddedWallet } from '../../wallet/privy'
 
 const loadPrivy = () => import('../../wallet/privy')
+// The one-time Turnkey key move; kept apart so it can be removed on its own
+const loadPrivyMigration = () => import('../../wallet/privy-migration')
 
-// This tab's email sign-in: another tab can sign in to Privy in between
-let emailSignInUserId: null | string = null
+type SignIn = {
+  user: PrivyUser
+  contact: SignInContact
+  googleIdToken?: string
+  isGoogleSignIn?: boolean
+}
+
+// The sign-in in progress, which a second code continues
+let currentSignIn: Promise<unknown> = Promise.resolve()
+// The Privy user this tab signed in with a code, kept for a retry
+let codeSignInUserId: null | string = null
+
+// Ends the sign-in in progress, also before it asks for a second code
+function cancelSignIn() {
+  abandonSsoSignIn()
+  useSharedWalletStore().$patch({ isSsoCodePending: false })
+}
 
 // The app's error handler only shows our exceptions
 function toShownError(e: unknown) {
@@ -47,38 +67,11 @@ function stopConnecting(signInId: number) {
   }
 }
 
-async function signOutOnAccountError(e: unknown) {
-  if (isSsoAccountError(e)) {
-    useSharedWalletStore().$patch({ pendingTurnkeyMove: null })
-    await signOutOfPrivy().catch((error: unknown) =>
-      console.warn('Privy sign-out failed', error)
-    )
-  }
-}
-
-async function connectPrivy(result: PrivySignInResult, signInId: number) {
+async function connectPrivy(
+  { user, wallet }: { user: PrivyUser; wallet: PrivyEmbeddedWallet },
+  signInId: number
+) {
   const walletStore = useSharedWalletStore()
-  // Given up while it ran: don't connect over what the person did since
-  const isAbandoned = () => signInId !== getSsoSignInId()
-  // Its Privy session must not stay behind in the browser
-  const abandon = async () => {
-    await signOutOfPrivy().catch((e: unknown) =>
-      console.warn('Privy sign-out failed', e)
-    )
-
-    return 'abandoned' as const
-  }
-
-  if (isAbandoned()) {
-    return abandon()
-  }
-
-  if (result.type === 'code_sent') {
-    walletStore.$patch({ pendingTurnkeyMove: result.move })
-
-    return 'code_sent' as const
-  }
-
   const walletStrategy = await getWalletStrategy()
   const { toPrivyMetadata } = await loadPrivy()
 
@@ -86,24 +79,17 @@ async function connectPrivy(result: PrivySignInResult, signInId: number) {
 
   try {
     await walletStrategy.setMetadata({
-      privy: toPrivyMetadata(result.user, result.wallet)
+      privy: toPrivyMetadata(user, wallet)
     })
 
     const addresses = await getAddresses()
     const [address] = addresses
     const session = await walletStrategy.getSessionOrConfirm(address)
 
-    if (isAbandoned()) {
-      stopConnecting(signInId)
-
-      return abandon()
-    }
-
     walletStore.$patch({
       address,
       session,
       addresses,
-      pendingTurnkeyMove: null,
       addressConfirmation: session,
       injectiveAddress: getInjectiveAddress(address || ''),
       turnkeyInjectiveAddress: getInjectiveAddress(address || '')
@@ -129,17 +115,128 @@ async function connectPrivy(result: PrivySignInResult, signInId: number) {
   return 'connected' as const
 }
 
+/**
+ * The whole sign-in: Privy sign-in, the key move from Turnkey unless it is
+ * done already, then the Privy wallet.
+ */
+async function connectPrivyAndMigrate(
+  signIn: () => Promise<SignIn>,
+  { signInId, isCurrent }: { signInId: number; isCurrent: () => boolean }
+) {
+  const [privy, migration] = await Promise.all([
+    loadPrivy(),
+    loadPrivyMigration()
+  ])
+
+  // Connect: Turnkey only picks up a session already in this browser
+  const turnkeySession = await migration.connectTurnkey()
+  const { user, ...turnkeySignIn } = await signIn()
+
+  // Returns once the key is in Privy; every check is in migrate()
+  const result = await migration.migrate({
+    user,
+    turnkeySession,
+    ...turnkeySignIn,
+    askCode: async (request) => {
+      // The person left: no code screen for a sign-in nobody waits for
+      if (!isCurrent()) {
+        throw new Error('The sign-in was cancelled')
+      }
+
+      useSharedWalletStore().$patch({ isSsoCodePending: true })
+
+      return ssoSecondCode.ask(request)
+    }
+  })
+
+  // The person went back or closed the modal meanwhile
+  if (!isCurrent()) {
+    return
+  }
+
+  const wallet =
+    result.type === 'new_user'
+      ? await privy.getPrivyWallet(await privy.createPrivyWallet())
+      : await privy.getPrivyWallet(user, result.address)
+
+  // Or while the wallet loaded
+  if (!isCurrent()) {
+    return
+  }
+
+  return connectPrivy(wallet, signInId)
+}
+
+/**
+ * Starts a sign-in and resolves at its next step: `connected`, or `code_sent`
+ * when the screen has to ask for the second code (the sign-in then waits).
+ * It ends any sign-in before it.
+ */
+function startSignIn(
+  signIn: () => Promise<SignIn>,
+  { isSameContact = () => true }: { isSameContact?: () => boolean } = {}
+) {
+  cancelSignIn()
+
+  const signInId = getSsoSignInId()
+  const isLatest = () => signInId === getSsoSignInId()
+  const isCurrent = () => isLatest() && isSameContact()
+  // Never for a sign-in that was replaced or cancelled: that would sign out the next one
+  const signOutIfLatest = async () => {
+    if (isLatest()) {
+      await signOutOfPrivy().catch(() => undefined)
+    }
+  }
+  const run = async () => {
+    let outcome: undefined | 'connected'
+
+    try {
+      outcome = await connectPrivyAndMigrate(signIn, { signInId, isCurrent })
+
+      // The person left: the Privy session must not stay
+      if (!outcome) {
+        await signOutIfLatest()
+      }
+
+      return outcome
+    } catch (e) {
+      // The wrong account must not stay signed in
+      if (isSsoAccountError(e)) {
+        await signOutIfLatest()
+      }
+
+      throw e
+    } finally {
+      if (outcome !== 'connected') {
+        stopConnecting(signInId)
+      }
+
+      if (isLatest()) {
+        useSharedWalletStore().$patch({ isSsoCodePending: false })
+      }
+    }
+  }
+  const result = run()
+
+  // A failure nobody waits for any more, e.g. the person went back
+  result.catch(() => undefined)
+  currentSignIn = result
+
+  return ssoSecondCode.nextStep(result)
+}
+
 export const getEmailPrivyOTP = async (email: string) => {
   const walletStore = useSharedWalletStore()
   const privy = await loadPrivy()
 
   try {
-    // A resend of the second code goes to the same email
-    if (walletStore.pendingTurnkeyMove && email === walletStore.email) {
-      await privy.sendTurnkeyCode(walletStore.pendingTurnkeyMove)
+    // A resend of the second code goes to the same account
+    if (ssoSecondCode.isWaiting && email === walletStore.email) {
+      await ssoSecondCode.resend()
     } else {
-      walletStore.$patch({ pendingTurnkeyMove: null })
-      emailSignInUserId = null
+      // A new code is a new sign-in
+      cancelSignIn()
+      codeSignInUserId = null
       await privy.sendPrivyEmailCode(email)
     }
   } catch (e) {
@@ -149,42 +246,40 @@ export const getEmailPrivyOTP = async (email: string) => {
   walletStore.$patch({ email })
 }
 
+// Code errors stay as they are, so the code screen can tell them apart
+const toCodeScreenError = (e: unknown) =>
+  isSsoAccountError(e) || getSsoCodeError(e) !== 'unknown' ? e : toShownError(e)
+
 export const submitPrivyOTP = async (code: string) => {
+  // The second code: the waiting sign-in goes on
+  if (ssoSecondCode.isWaiting) {
+    ssoSecondCode.answer(code)
+
+    return ssoSecondCode
+      .nextStep(currentSignIn)
+      .catch((e: unknown) => Promise.reject(toCodeScreenError(e)))
+  }
+
   const walletStore = useSharedWalletStore()
-  const { email, pendingTurnkeyMove } = walletStore
-  const signInId = getSsoSignInId()
+  const { email } = walletStore
   const privy = await loadPrivy()
 
-  try {
-    if (pendingTurnkeyMove) {
-      const moved = await privy.finishWithTurnkeyCode(pendingTurnkeyMove, code)
+  return startSignIn(
+    async () => {
+      const sessionUser = await privy.getPrivySessionUser()
+      // On a retry the code is spent, but this tab's session is still there
+      const user =
+        sessionUser && sessionUser.id === codeSignInUserId
+          ? sessionUser
+          : await privy.loginWithPrivyEmailCode(email ?? '', code)
 
-      walletStore.$patch({ pendingTurnkeyMove: null })
+      codeSignInUserId = user.id
 
-      return await connectPrivy(moved, signInId)
-    }
-
-    const sessionUser = await privy.getPrivySessionUser()
-    // On a retry the code is spent, but this tab's session is still there
-    const user =
-      sessionUser && sessionUser.id === emailSignInUserId
-        ? sessionUser
-        : await privy.loginWithPrivyEmailCode(email ?? '', code)
-
-    emailSignInUserId = user.id
-
-    return await connectPrivy(
-      await privy.resolvePrivyWallet({ user, contact: { email } }),
-      signInId
-    )
-  } catch (e) {
-    await signOutOnAccountError(e)
-
-    // Code errors stay as they are, so the code screen can tell them apart
-    throw isSsoAccountError(e) || getSsoCodeError(e) !== 'unknown'
-      ? e
-      : toShownError(e)
-  }
+      return { user, contact: { email } }
+    },
+    // Going back changes the email
+    { isSameContact: () => walletStore.email === email }
+  ).catch((e: unknown) => Promise.reject(toCodeScreenError(e)))
 }
 
 // Privy only allows listed redirect URLs, so Google returns to the site root
@@ -201,96 +296,104 @@ export const connectPrivyGoogle = async () => {
   }
 }
 
-const initPrivyGoogle = async (code: string, state: string) => {
+const getGoogleEmail = (user: PrivyUser) => {
+  const google = user.linked_accounts.find(
+    (account) => account.type === 'google_oauth'
+  )
+
+  return google && 'email' in google ? google.email : undefined
+}
+
+async function startGoogleSignIn(
+  getUser: () => Promise<PrivyUser>,
+  googleIdToken?: string
+) {
   const walletStore = useSharedWalletStore()
-  const signInId = getSsoSignInId()
-  const privy = await loadPrivy()
 
   // After init()'s reset to idle, which also waits for the strategy
   await getWalletStrategy()
   walletStore.walletConnectStatus = WalletConnectStatus.connecting
 
-  try {
-    const user = await privy.loginWithPrivyGoogle(code, state)
-    const google = user.linked_accounts.find(
-      (account) => account.type === 'google_oauth'
-    )
-    const email = google && 'email' in google ? google.email : undefined
+  return startSignIn(async () => {
+    const user = await getUser()
+    const email = getGoogleEmail(user)
 
     walletStore.$patch({ email: email ?? '' })
 
-    const result = await connectPrivy(
-      await privy.resolvePrivyWallet({ user, contact: { email } }),
-      signInId
-    )
-
-    if (result !== 'connected') {
-      stopConnecting(signInId)
-    }
-  } catch (e) {
-    stopConnecting(signInId)
-    await signOutOnAccountError(e)
-
-    throw toShownError(e)
-  }
+    return { user, googleIdToken, contact: { email }, isGoogleSignIn: true }
+  }).catch((e: unknown) => Promise.reject(toShownError(e)))
 }
 
-export const finishPrivyGoogleRedirect = async () => {
-  const redirect = getSsoGoogleRedirect(window.location)
+/**
+ * Google returns to the site root. From Privy's sign-in it starts the sign-in.
+ * From Turnkey's (the key move needed Google once more) the same sign-in runs
+ * again, with the Privy session it already has and Google's token.
+ */
+export const finishGoogleRedirect = async (redirect: SsoGoogleRedirect) => {
+  await clearSsoGoogleRedirect()
 
-  if (!redirect) {
+  const privy = await loadPrivy()
+
+  if (redirect.type === 'privy') {
+    return startGoogleSignIn(() =>
+      privy.loginWithPrivyGoogle(redirect.code, redirect.state)
+    )
+  }
+
+  // A token this tab didn't ask for, e.g. an old link or another window
+  if (!(await loadPrivyMigration()).takeTurnkeyGoogleReturn()) {
     return
   }
 
-  clearSsoGoogleRedirect()
-
-  await initPrivyGoogle(redirect.code, redirect.state)
-}
-
-async function loadPrivySession() {
-  const walletStore = useSharedWalletStore()
-  const privy = await loadPrivy()
   const user = await privy.getPrivySessionUser()
-  const wallet = privy.findPrivyWallet(user, walletStore.address)
 
-  if (!user || !wallet) {
-    throw new PrivyWalletSessionException(
-      new Error('Session expired. Please login again.'),
-      { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
-    )
-  }
-
-  const walletStrategy = await getWalletStrategy()
-  const metadata = privy.toPrivyMetadata(user, wallet)
-
-  await walletStrategy.setMetadata({ privy: metadata })
-
-  return metadata
+  return user
+    ? startGoogleSignIn(async () => user, redirect.idToken)
+    : undefined
 }
 
 export const restorePrivySession = async () => {
-  try {
-    await loadPrivySession()
-  } catch (e) {
-    if (!(e instanceof PrivyWalletSessionException)) {
-      const walletStrategy = await getWalletStrategy()
+  const walletStore = useSharedWalletStore()
+  const walletStrategy = await getWalletStrategy()
+  const { address } = walletStore
+  const restore = async () => {
+    const privy = await loadPrivy()
+    const user = await privy.getPrivySessionUser()
+    const wallet = privy.findPrivyWallet(user, address)
 
-      // A temporary failure (network, wallet frame): the first signature tries again
-      await walletStrategy.setMetadata({
-        privy: {
-          address: useSharedWalletStore().address,
-          getProvider: async () => (await loadPrivySession()).getProvider()
-        }
-      })
+    if (!user || !wallet) {
+      throw new PrivyWalletSessionException(
+        new Error('Session expired. Please login again.'),
+        { code: UnspecifiedErrorCode, type: ErrorType.WalletError }
+      )
     }
 
-    throw e
+    const metadata = privy.toPrivyMetadata(user, wallet)
+
+    await walletStrategy.setMetadata({ privy: metadata })
+
+    return metadata
   }
+
+  // A signature can start before the session is back: it then waits for the restore
+  await walletStrategy.setMetadata({
+    privy: {
+      address,
+      getProvider: async () => (await restore()).getProvider()
+    }
+  })
+
+  // Not a lost session (network, wallet frame): the first signature retries
+  await restore().catch((e: unknown) => {
+    if (e instanceof PrivyWalletSessionException) {
+      throw e
+    }
+  })
 }
 
 export const signOutOfPrivy = async () => {
   const privy = await loadPrivy()
 
-  useSharedWalletStore().$patch({ pendingTurnkeyMove: null })
+  cancelSignIn()
   await privy.logoutPrivy()
 }

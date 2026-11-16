@@ -10,30 +10,35 @@ describe('getSsoGoogleRedirect', () => {
   it('reads the code and state Privy returns from Google', () => {
     expect(
       getSsoGoogleRedirect({
+        hash: '',
         search: '?privy_oauth_code=code&privy_oauth_state=state'
       })
-    ).toEqual({ code: 'code', state: 'state' })
+    ).toEqual({ type: 'privy', code: 'code', state: 'state' })
   })
 
   it('ignores a page without both values', () => {
-    expect(getSsoGoogleRedirect({ search: '?privy_oauth_code=code' })).toBe(
-      null
-    )
-    expect(getSsoGoogleRedirect({ search: '' })).toBe(null)
+    expect(
+      getSsoGoogleRedirect({ hash: '', search: '?privy_oauth_code=code' })
+    ).toBe(null)
+    expect(getSsoGoogleRedirect({ hash: '', search: '' })).toBe(null)
   })
 })
 
 describe('clearSsoGoogleRedirect', () => {
-  it("removes only Privy's values from the URL", () => {
-    window.history.replaceState(
-      null,
-      '',
-      '/?ref=abc&privy_oauth_code=code&privy_oauth_state=state&privy_oauth_provider=google'
+  it("removes only the sign-in's values, for the router too", async () => {
+    const router = useRouter()
+
+    await router.replace(
+      '/?ref=abc&privy_oauth_code=code&privy_oauth_state=state&privy_oauth_provider=google#id_token=token'
     )
 
-    clearSsoGoogleRedirect()
+    await clearSsoGoogleRedirect()
 
+    // A later redirect copies the route's query and hash
+    expect(router.currentRoute.value.query).toEqual({ ref: 'abc' })
+    expect(router.currentRoute.value.hash).toBe('')
     expect(window.location.search).toBe('?ref=abc')
+    expect(window.location.hash).toBe('')
   })
 })
 
