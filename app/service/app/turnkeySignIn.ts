@@ -1,20 +1,11 @@
 import { isAxiosError } from 'axios'
 import { UiApiService } from '../../providers/uiApi'
+import { TURNKEY_SESSION_SECONDS } from '../../utils/constant'
 import { TURNKEY_API_SERVER_ENDPOINT } from '../../wallet/strategy'
 
 const uiApi = new UiApiService(TURNKEY_API_SERVER_ENDPOINT)
 
-const SESSION_SECONDS = '86400'
-
 type UiApiErrorBody = { statusMessage?: string; data?: { code?: string } }
-
-type TurnkeyCodeRequest = {
-  email?: string
-  phone?: string
-  subOrgId: string
-  isUsingIndexedDB: boolean
-  targetPublicKey: null | string
-}
 
 type TurnkeyOidcRequest = {
   subOrgId: string
@@ -40,21 +31,13 @@ async function postToTurnkeyRoute<T>(endpoint: string, body: object) {
   try {
     const { data } = await uiApi.client.post<T>(endpoint, {
       ...body,
-      expirationSeconds: SESSION_SECONDS
+      expirationSeconds: TURNKEY_SESSION_SECONDS
     })
 
     return data
   } catch (e) {
     throw toTurnkeyRouteError(e)
   }
-}
-
-/** With a `subOrgId`, ui-api sends the code for that account only */
-export function sendTurnkeySignInCode(request: TurnkeyCodeRequest) {
-  return postToTurnkeyRoute<{ otpId?: string; organizationId?: string }>(
-    'turnkey/otp/init',
-    request
-  )
 }
 
 /** With a `subOrgId`, ui-api signs in to that account only */

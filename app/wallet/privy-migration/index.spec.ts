@@ -30,7 +30,7 @@ const mocks = vi.hoisted(() => {
     exportWalletAccount: vi.fn(),
     getPrivySessionUser: vi.fn(),
     initPrivyWalletImport: vi.fn(),
-    sendTurnkeySignInCode: vi.fn(),
+    sendTurnkeyMoveCode: vi.fn(),
     completePrivyMigration: vi.fn(),
     submitPrivyWalletImport: vi.fn(),
     fetchPrivyMigrationStatus: vi.fn(),
@@ -45,12 +45,12 @@ vi.mock('../../utils/constant', () => ({
 }))
 
 vi.mock('../../service/app/privyMigration', () => ({
+  sendTurnkeyMoveCode: mocks.sendTurnkeyMoveCode,
   completePrivyMigration: mocks.completePrivyMigration,
   fetchPrivyMigrationStatus: mocks.fetchPrivyMigrationStatus
 }))
 
 vi.mock('../../service/app/turnkeySignIn', () => ({
-  sendTurnkeySignInCode: mocks.sendTurnkeySignInCode,
   signInToTurnkeyWithOidcToken: mocks.signInToTurnkeyWithOidcToken
 }))
 
@@ -251,7 +251,7 @@ describe('migrate', () => {
 
   it("sends the second code to the account's own email", async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(needsMigration())
-    mocks.sendTurnkeySignInCode.mockResolvedValue({
+    mocks.sendTurnkeyMoveCode.mockResolvedValue({
       otpId: 'otp-id',
       organizationId: SUB_ORG_ID
     })
@@ -265,9 +265,9 @@ describe('migrate', () => {
       })
     ).rejects.toThrow('code asked')
 
-    expect(mocks.sendTurnkeySignInCode).toHaveBeenCalledWith({
+    // ui-api picks the account from the Privy user: no sub-org is sent
+    expect(mocks.sendTurnkeyMoveCode).toHaveBeenCalledWith('access-token', {
       email: 'alice@tc.test',
-      subOrgId: SUB_ORG_ID,
       targetPublicKey: 'target-public-key',
       isUsingIndexedDB: true
     })
@@ -289,12 +289,12 @@ describe('migrate', () => {
         contact: { email: 'bob@tc.test' }
       })
     ).rejects.toBeInstanceOf(SignInAccountError)
-    expect(mocks.sendTurnkeySignInCode).not.toHaveBeenCalled()
+    expect(mocks.sendTurnkeyMoveCode).not.toHaveBeenCalled()
   })
 
   it('refuses when ui-api says the email is on another account', async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(needsMigration())
-    mocks.sendTurnkeySignInCode.mockRejectedValue(
+    mocks.sendTurnkeyMoveCode.mockRejectedValue(
       Object.assign(new Error('This contact does not belong to the account'), {
         status: 400,
         code: 'TURNKEY_ACCOUNT_MISMATCH'
@@ -350,7 +350,7 @@ describe('the second code', () => {
 
   it('moves nothing when the code signs in to another account', async () => {
     mocks.fetchPrivyMigrationStatus.mockResolvedValue(needsMigration())
-    mocks.sendTurnkeySignInCode.mockResolvedValue({
+    mocks.sendTurnkeyMoveCode.mockResolvedValue({
       otpId: 'otp-id',
       organizationId: SUB_ORG_ID
     })

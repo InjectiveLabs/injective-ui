@@ -1,5 +1,6 @@
 import { isAxiosError } from 'axios'
 import { UiApiService } from '../../providers/uiApi'
+import { TURNKEY_SESSION_SECONDS } from '../../utils/constant'
 import { TURNKEY_API_SERVER_ENDPOINT } from '../../wallet/strategy'
 import type { PrivyMigrationStatus } from '../../types'
 
@@ -20,6 +21,13 @@ const uiApi = new UiApiService(TURNKEY_API_SERVER_ENDPOINT)
 const bearer = (accessToken: string) => ({
   headers: { Authorization: `Bearer ${accessToken}` }
 })
+
+type TurnkeyMoveCodeRequest = {
+  email?: string
+  phone?: string
+  isUsingIndexedDB: boolean
+  targetPublicKey: null | string
+}
 
 // ui-api answers { error: { code, message } }
 function toMigrationError(e: unknown) {
@@ -63,6 +71,30 @@ export async function completePrivyMigration(accessToken: string) {
     const { data } = await uiApi.client.post<PrivyMigrationStatus>(
       'privy/migration/complete',
       {},
+      bearer(accessToken)
+    )
+
+    return data
+  } catch (e) {
+    throw toMigrationError(e)
+  }
+}
+
+/**
+ * The key move's second code: a Turnkey code to the account's own email or
+ * phone. ui-api picks the account from the Privy user, so it needs no captcha.
+ */
+export async function sendTurnkeyMoveCode(
+  accessToken: string,
+  request: TurnkeyMoveCodeRequest
+) {
+  try {
+    const { data } = await uiApi.client.post<{
+      otpId?: string
+      organizationId?: string
+    }>(
+      'privy/migration/turnkey-code',
+      { ...request, expirationSeconds: TURNKEY_SESSION_SECONDS },
       bearer(accessToken)
     )
 

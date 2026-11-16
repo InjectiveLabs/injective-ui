@@ -1,6 +1,7 @@
 import { concatBytes } from 'viem'
 import { GeneralException } from '@injectivelabs/exceptions'
 import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
+import { signInToTurnkeyWithOidcToken } from '../../service/app/turnkeySignIn'
 import {
   findPrivyWallet,
   getPrivySessionUser,
@@ -12,17 +13,14 @@ import {
   SIGN_IN_ACCOUNT_ERROR
 } from '../../utils/constant'
 import {
-  completePrivyMigration,
-  fetchPrivyMigrationStatus
-} from '../../service/app/privyMigration'
-import {
   initPrivyWalletImport,
   submitPrivyWalletImport
 } from '../../service/app/privyWalletImport'
 import {
-  sendTurnkeySignInCode,
-  signInToTurnkeyWithOidcToken
-} from '../../service/app/turnkeySignIn'
+  sendTurnkeyMoveCode,
+  completePrivyMigration,
+  fetchPrivyMigrationStatus
+} from '../../service/app/privyMigration'
 import {
   toUtf8,
   hexToBase64,
@@ -311,10 +309,10 @@ async function moveKey({
 }
 
 /**
- * wallet-turnkey's initOTP and initSms send no sub-org (they name it
- * `suborgId`), so ui-api would pick the first sub-org with this contact. This
- * sends the code for the expected one, the way they do, then hands it to the
- * wallet's confirmOTP.
+ * Sends the code like wallet-turnkey's initOTP and initSms, but through the
+ * key move's own ui-api route: it sends for the account this Privy user's
+ * move is for, with the Privy session instead of a captcha. Then hands the
+ * code to the wallet's confirmOTP.
  */
 async function sendTurnkeyCode(subOrgId: string, contact: SignInContact) {
   const { turnkeyWallet } = await getTurnkeyWallet()
@@ -322,12 +320,14 @@ async function sendTurnkeyCode(subOrgId: string, contact: SignInContact) {
 
   await indexedDbClient.resetKeyPair()
 
-  const { otpId, organizationId } = await sendTurnkeySignInCode({
-    ...contact,
-    subOrgId,
-    isUsingIndexedDB: true,
-    targetPublicKey: await indexedDbClient.getPublicKey()
-  }).catch((e: unknown) =>
+  const { otpId, organizationId } = await sendTurnkeyMoveCode(
+    await getPrivyAccessToken(),
+    {
+      ...contact,
+      isUsingIndexedDB: true,
+      targetPublicKey: await indexedDbClient.getPublicKey()
+    }
+  ).catch((e: unknown) =>
     Promise.reject(toAccountMismatchError('different_account')(e))
   )
 
@@ -352,7 +352,20 @@ async function signInToTurnkeyWithCode({
   const resend = () => sendTurnkeyCode(subOrgId, contact)
   let error: unknown
 
-  await resend()
+  // Like the app: a code that didn't go out for now (a limit, a server or
+  // network error) is shown on the code step, which can resend it. One that
+  // can never go out (the wrong account, no move pending) ends the sign-in
+  await resend().catch((e: unknown) => {
+    const { status } = (e ?? {}) as { status?: unknown }
+    const isRetryable =
+      typeof status !== 'number' || status === 429 || status >= 500
+
+    if (e instanceof SignInAccountError || !isRetryable) {
+      throw e
+    }
+
+    error = e
+  })
 
   for (;;) {
     const code = await askCode({ error, resend })

@@ -66,5 +66,8 @@ export const SIGN_IN_ACCOUNT_ERROR = 'sign-in-account'
 /** The mask of ui-api's email and phone hints */
 export const CONTACT_HINT_MASK = '•••'
 
+/** The length of a Turnkey session from ui-api's sign-in routes */
+export const TURNKEY_SESSION_SECONDS = '86400'
+
 /** base64 of "turnkey_hpke": the HPKE info Turnkey uses for export bundles. */
 export const TURNKEY_HPKE_INFO = 'dHVybmtleV9ocGtl'
