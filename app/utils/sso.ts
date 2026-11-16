@@ -52,10 +52,8 @@ export async function clearSsoGoogleRedirect() {
   await router.replace({ path, hash: '', query: omitSsoGoogleQuery(query) })
 }
 
-// The second code of a key move: migrate() waits for it, the screen submits it
 export const ssoSecondCode = createCodePrompt()
 
-// Counts sign-ins: a newer one, or a cancel, ends the ones before it
 let ssoSignInId = 0
 
 export const getSsoSignInId = () => ssoSignInId

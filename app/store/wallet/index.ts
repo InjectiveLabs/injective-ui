@@ -82,7 +82,6 @@ type WalletStoreState = {
   rainbowInstalled: boolean
   phantomInstalled: boolean
   owalletInstalled: boolean
-  // The sign-in is waiting for a second code to the same email (moving to Privy)
   isSsoCodePending: boolean
   keplrEvmInstalled: boolean
   metamaskInstalled: boolean
@@ -361,7 +360,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       'finishSsoGoogleRedirect'
     ),
 
-    // The modal closed, a logout, or another wallet: ends a sign-in in progress
     cancelSsoSignIn() {
       abandonSsoSignIn()
       useSharedWalletStore().$patch({ isSsoCodePending: false })
@@ -479,7 +477,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
 
       if (walletStore.isUserConnected && walletStore.wallet === Wallet.Privy) {
-        // The strategy only gets the Privy wallet back from a live session
         await walletStore.restorePrivySession()
       }
 
@@ -549,7 +546,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       const walletStrategy = await getWalletStrategy()
 
       if (wallet !== Wallet.Privy) {
-        // Another wallet wins over a Privy sign-in still running
         walletStore.cancelSsoSignIn()
       }
 

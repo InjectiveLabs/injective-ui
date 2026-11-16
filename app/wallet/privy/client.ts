@@ -46,7 +46,6 @@ function mountWalletFrame(privy: Privy) {
   window.addEventListener('message', onMessage)
 
   return new Promise<void>((resolve, reject) => {
-    // Removed on failure, so a retry mounts one frame and one listener
     const fail = () => {
       clearTimeout(timeout)
       window.removeEventListener('message', onMessage)
@@ -76,7 +75,6 @@ function mountWalletFrame(privy: Privy) {
   })
 }
 
-// Built on first use, so pages without Privy sign-in never load it
 export function getPrivyClient(): Promise<Privy> {
   client ??= (async () => {
     if (!PRIVY_APP_ID) {

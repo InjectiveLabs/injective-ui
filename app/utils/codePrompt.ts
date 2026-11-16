@@ -15,7 +15,6 @@ export function createCodePrompt() {
   let onAsk: (error?: unknown) => void = () => undefined
 
   return {
-    /** A code is being waited for */
     get isWaiting() {
       return !!request
     },
@@ -38,7 +37,6 @@ export function createCodePrompt() {
       await request?.resend()
     },
 
-    /** The person left: the waiting sign-in fails */
     cancel() {
       if (request) {
         request = null
@@ -50,7 +48,6 @@ export function createCodePrompt() {
       const toStep = (error?: unknown) =>
         error ? Promise.reject(error) : Promise.resolve('code_sent' as const)
 
-      // Asked before the screen listened
       if (request) {
         return toStep(request.error)
       }

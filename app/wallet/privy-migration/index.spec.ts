@@ -81,7 +81,6 @@ vi.mock('../privy/client', () => ({
 
 const { migrate, SignInAccountError } = await import('./index')
 
-// A sign-in that stops when it is asked for the second code
 const askCode = vi.fn(async () => Promise.reject(new Error('code asked')))
 
 const userWith = (...addresses: string[]) =>
@@ -265,7 +264,6 @@ describe('migrate', () => {
       })
     ).rejects.toThrow('code asked')
 
-    // ui-api picks the account from the Privy user: no sub-org is sent
     expect(mocks.sendTurnkeyMoveCode).toHaveBeenCalledWith('access-token', {
       email: 'alice@tc.test',
       targetPublicKey: 'target-public-key',

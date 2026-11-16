@@ -47,11 +47,6 @@ import type {
   SignInAccountErrorDetails
 } from '../../types'
 
-/**
- * Moves Turnkey keys into Privy. The Privy wallet itself is in ../privy.
- * Delete this module once every account has moved.
- */
-
 type KeyMove = { address: string; subOrgId: string; privyUserId: string }
 
 type TurnkeyAccount = NonNullable<PrivyMigrationStatus['turnkey']>
@@ -164,10 +159,6 @@ function maskPhone(phone: string) {
   return digits.length >= 4 ? `•••• ${digits.slice(-4)}` : '••••'
 }
 
-/**
- * The account's own email or phone, or null: ui-api's code route signs up a
- * contact it doesn't know.
- */
 function getTurnkeyCodeContact(
   turnkey: TurnkeyAccount,
   contact: SignInContact
@@ -308,12 +299,6 @@ async function moveKey({
   return { type: 'ready', address }
 }
 
-/**
- * Sends the code like wallet-turnkey's initOTP and initSms, but through the
- * key move's own ui-api route: it sends for the account this Privy user's
- * move is for, with the Privy session instead of a captcha. Then hands the
- * code to the wallet's confirmOTP.
- */
 async function sendTurnkeyCode(subOrgId: string, contact: SignInContact) {
   const { turnkeyWallet } = await getTurnkeyWallet()
   const indexedDbClient = await turnkeyWallet.getIndexedDbClient()
@@ -352,9 +337,6 @@ async function signInToTurnkeyWithCode({
   const resend = () => sendTurnkeyCode(subOrgId, contact)
   let error: unknown
 
-  // Like the app: a code that didn't go out for now (a limit, a server or
-  // network error) is shown on the code step, which can resend it. One that
-  // can never go out (the wrong account, no move pending) ends the sign-in
   await resend().catch((e: unknown) => {
     const { status } = (e ?? {}) as { status?: unknown }
     const isRetryable =
@@ -399,11 +381,6 @@ export function takeTurnkeyGoogleReturn() {
   return isExpected
 }
 
-/**
- * Leaves the page for Google, like the old web's sign-in. It never returns:
- * Google comes back to the site with a token, and the sign-in runs again
- * with it (`googleIdToken`).
- */
 async function leaveForTurnkeyGoogle(): Promise<never> {
   const { turnkeyWallet } = await getTurnkeyWallet()
   const url = await turnkeyWallet.initOAuth(TurnkeyProvider.Google)
@@ -438,11 +415,6 @@ async function signInToTurnkeyWithGoogle(subOrgId: string, idToken: string) {
   Object.assign(turnkeyWallet, { userOrganizationId: subOrgId })
 }
 
-/**
- * Signs in to the Turnkey account, which the key move needs. As in the app:
- * with Google when the person signed in with Google or the account has no
- * code to send, otherwise with a code to the account's own email or phone.
- */
 async function signInToTurnkey(
   turnkey: TurnkeyAccount,
   { contact, askCode, isGoogleSignIn, googleIdToken }: TurnkeySignIn
@@ -466,7 +438,7 @@ async function signInToTurnkey(
     throw new SignInAccountError('use_previous_contact')
   }
 
-  // This layer has no phone sign-in; Apple accounts can only be confirmed in the app
+  // This layer has no phone sign-in
   throw reverifyMethods.length > 0 &&
     reverifyMethods.every((method) => method === 'sms')
     ? new SignInAccountError('use_previous_contact', { method: 'sms' })
@@ -490,7 +462,6 @@ export async function migrate({
   const status = await fetchPrivyMigrationStatus(await getPrivyAccessToken())
 
   if (status.status === 'ready') {
-    // Only bookkeeping: a failure must not stop the sign-in
     if (status.turnkey && !user.custom_metadata?.migrated_at) {
       await completePrivyMigration(await getPrivyAccessToken()).catch(
         () => undefined
@@ -504,7 +475,6 @@ export async function migrate({
     return { type: 'ready', address: status.address ?? undefined }
   }
 
-  // A Turnkey session in this browser can be someone else's: a new contact is a new account
   if (status.status === 'new_user') {
     return { type: 'new_user' }
   }

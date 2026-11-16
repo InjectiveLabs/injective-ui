@@ -14,7 +14,6 @@ const UNAVAILABLE_CODES = [
   'turnkey_wallet_not_found'
 ]
 
-// The same ui-api as the Turnkey codes, so both halves of a move use one server.
 // Its own client: the service index would load every service into the sign-in chunk
 const uiApi = new UiApiService(TURNKEY_API_SERVER_ENDPOINT)
 

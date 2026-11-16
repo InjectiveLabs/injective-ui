@@ -34,7 +34,6 @@ describe('clearSsoGoogleRedirect', () => {
 
     await clearSsoGoogleRedirect()
 
-    // A later redirect copies the route's query and hash
     expect(router.currentRoute.value.query).toEqual({ ref: 'abc' })
     expect(router.currentRoute.value.hash).toBe('')
     expect(window.location.search).toBe('?ref=abc')
