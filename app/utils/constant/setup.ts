@@ -20,6 +20,8 @@ export const env = {
   VITE_INDEXER_API_ENDPOINT: import.meta.env
     .VITE_INDEXER_API_ENDPOINT as string,
   VITE_UI_API_ENDPOINT: import.meta.env.VITE_UI_API_ENDPOINT as string,
+  VITE_AUTH_UI_API_ENDPOINT: import.meta.env
+    .VITE_AUTH_UI_API_ENDPOINT as string,
   VITE_CHRONOS_API_ENDPOINT: import.meta.env
     .VITE_CHRONOS_API_ENDPOINT as string,
   VITE_SENTRY_GRPC_ENDPOINT: import.meta.env
