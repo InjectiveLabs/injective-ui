@@ -41,6 +41,9 @@ import type {
 
 export type SignInContact = { email?: string; phone?: string }
 
+/** The contact of a Turnkey account, and whether it signs in with Google */
+export type TurnkeyAccountContact = { isGoogle?: boolean } & SignInContact
+
 /** Which Privy wallet to use: the one with this address, or a new one */
 export type MigrationResult =
   | { type: 'new_user' }
@@ -99,6 +102,37 @@ async function getTurnkeyWallet() {
   return {
     strategy,
     turnkeyWallet: await strategy.getWalletClient<TurnkeyWallet>()
+  }
+}
+
+/** The contact of the Turnkey session in this browser, or null without one */
+export async function getTurnkeySessionContact(): Promise<null | TurnkeyAccountContact> {
+  try {
+    const { turnkeyWallet } = await getTurnkeyWallet()
+    const { session } = await turnkeyWallet.getSession()
+
+    if (!session) {
+      return null
+    }
+
+    const client = await turnkeyWallet.getIndexedDbClient()
+    const { userId, organizationId } = await client.getWhoami()
+    const { user } = await client.getUser({ userId, organizationId })
+    const isGoogle = user.oauthProviders.some(({ issuer }) =>
+      issuer.includes('accounts.google.com')
+    )
+
+    if (user.userEmail) {
+      return { isGoogle, email: user.userEmail }
+    }
+
+    if (user.userPhoneNumber) {
+      return { phone: user.userPhoneNumber }
+    }
+
+    return isGoogle ? { isGoogle } : null
+  } catch {
+    return null
   }
 }
 

@@ -601,7 +601,13 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       }
     },
 
-    async logout() {
+    /**
+     * `keepTurnkeySession` leaves the Turnkey session in the browser: the
+     * Privy sign-in that follows then moves the key without a second code.
+     */
+    async logout({
+      keepTurnkeySession = false
+    }: { keepTurnkeySession?: boolean } = {}) {
       const walletStore = useSharedWalletStore()
       const walletStrategy = await getWalletStrategy()
       const storageKey = walletStore.autoSign?.storageKey
@@ -616,7 +622,10 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
           .catch((e: unknown) => console.warn('Privy sign-out failed', e))
       }
 
-      await walletStrategy.disconnect()
+      // Turnkey's disconnect ends its session
+      if (!(keepTurnkeySession && walletStore.wallet === Wallet.Turnkey)) {
+        await walletStrategy.disconnect()
+      }
 
       if (storageKey) {
         await clearAutoSignKey(storageKey)
