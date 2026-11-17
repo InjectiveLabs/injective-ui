@@ -35,7 +35,6 @@ const SSO_GOOGLE_QUERY = [
   'privy_oauth_provider'
 ]
 
-/** A route's query without the sign-in result, for redirects that copy the query */
 export function omitSsoGoogleQuery<T>(query: Record<string, T>) {
   return Object.fromEntries(
     Object.entries(query).filter(([key]) => !SSO_GOOGLE_QUERY.includes(key))

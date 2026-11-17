@@ -60,7 +60,6 @@ function toSignInError(e: unknown) {
     : new SignInError(getSsoCodeError(e), {}, getMessage(e))
 }
 
-// Not when another wallet took over the connect
 function stopConnecting(signInId: number) {
   const walletStore = useSharedWalletStore()
 
@@ -111,7 +110,6 @@ async function connectPrivy(
 
   walletStore.onConnect()
 
-  // Not awaited: a failed Magic-account check must not fail the finished connect
   walletStore
     .queryMagicExistingUser(walletStore.email)
     .then((isExistingMagicUser) => {
@@ -243,7 +241,6 @@ export const sendSsoEmailCode = async (email: string) => {
   walletStore.$patch({ email })
 }
 
-// Code errors stay as they are, so the code screen can tell them apart
 const toCodeScreenError = (e: unknown) =>
   isSignInAccountError(e) || getSsoCodeError(e) !== 'unknown'
     ? e
@@ -307,7 +304,6 @@ async function startGoogleSignIn(
 ) {
   const walletStore = useSharedWalletStore()
 
-  // After init()'s reset to idle, which also waits for the strategy
   await getWalletStrategy()
   walletStore.walletConnectStatus = WalletConnectStatus.connecting
 

@@ -343,7 +343,6 @@ export const useSharedWalletStore = defineStore('sharedWallet', {
       'connectTurnkeyGoogle'
     ),
 
-    // Lazy-loaded Privy wallet actions; Turnkey only moves existing keys there
     restorePrivySession: lazyPiniaAction(
       () => import('./privy'),
       'restorePrivySession'

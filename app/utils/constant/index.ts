@@ -63,7 +63,6 @@ export const INJ_SUPPLY_AMOUNT = 100_000_000
 /** The mask of ui-api's email and phone hints */
 export const CONTACT_HINT_MASK = '•••'
 
-/** The length of a Turnkey session from ui-api's sign-in routes */
 export const TURNKEY_SESSION_SECONDS = '86400'
 
 /** base64 of "turnkey_hpke": the HPKE info Turnkey uses for export bundles. */

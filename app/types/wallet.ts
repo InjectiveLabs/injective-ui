@@ -20,7 +20,6 @@ export interface AutoSign {
 
 export type SignInContact = { email?: string; phone?: string }
 
-/** The contact of a Turnkey account, and whether it signs in with Google */
 export type TurnkeyAccountContact = { isGoogle?: boolean } & SignInContact
 
 export type SignInMethod = 'sms' | 'email' | 'apple' | 'google'

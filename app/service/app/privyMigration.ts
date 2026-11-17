@@ -4,7 +4,6 @@ import { TURNKEY_SESSION_SECONDS } from '../../utils/constant'
 import { TURNKEY_API_SERVER_ENDPOINT } from '../../wallet/strategy'
 import type { PrivyMigrationStatus } from '../../types'
 
-// Retrying won't help with these
 const UNAVAILABLE_CODES = [
   'missing_token',
   'invalid_token',
@@ -38,7 +37,6 @@ function toMigrationError(e: unknown) {
     error?: { code?: string; message?: string }
   }
   const code = error?.code ?? e.code
-  // not_migrated never succeeds on a retry, so it doesn't say "try again later"
   const message =
     code === 'not_migrated'
       ? "We couldn't sign you in. Please contact support."

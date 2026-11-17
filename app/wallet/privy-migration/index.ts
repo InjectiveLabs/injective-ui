@@ -49,7 +49,6 @@ type TurnkeyAccount = NonNullable<PrivyMigrationStatus['turnkey']>
 type TurnkeySignIn = {
   askCode: AskCode
   contact: SignInContact
-  /** Google's token, back from the second sign-in at Google */
   googleIdToken?: string
   isGoogleSignIn?: boolean
 }
@@ -74,7 +73,6 @@ async function getTurnkeyWallet() {
   }
 }
 
-/** The contact of the Turnkey session in this browser, or null without one */
 export async function getTurnkeySessionContact(): Promise<null | TurnkeyAccountContact> {
   try {
     const { turnkeyWallet } = await getTurnkeyWallet()
@@ -436,7 +434,6 @@ export async function migrate({
   ...turnkeySignIn
 }: {
   user: PrivyUser
-  /** From connectTurnkey() */
   turnkeySession: null | string
 } & TurnkeySignIn): Promise<MigrationResult> {
   const status = await fetchPrivyMigrationStatus(await getPrivyAccessToken())
