@@ -34,7 +34,16 @@ export type SignInAccountErrorReason =
   | 'use_existing_sign_in'
   | 'use_previous_contact'
 
-export type SignInAccountErrorDetails = {
+export type SignInCodeErrorReason =
+  | 'expired'
+  | 'network'
+  | 'unknown'
+  | 'wrong_code'
+  | 'rate_limited'
+
+export type SignInErrorReason = SignInCodeErrorReason | SignInAccountErrorReason
+
+export type SignInErrorDetails = {
   hint?: null | string
   method?: SignInMethod
 }

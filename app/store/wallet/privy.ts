@@ -1,5 +1,5 @@
 import { Wallet } from '@injectivelabs/wallet-base'
-import { SIGN_IN_ERROR } from '../../utils/constant'
+import { SignInError } from '../../wallet/sign-in-error'
 import { getAddresses, getWalletStrategy } from '@shared/wallet'
 import { getInjectiveAddress } from '@injectivelabs/sdk-ts/utils'
 import {
@@ -14,7 +14,7 @@ import {
   getSsoSignInId,
   getSsoCodeError,
   abandonSsoSignIn,
-  isSsoAccountError,
+  isSignInAccountError,
   clearSsoGoogleRedirect
 } from '../../utils/sso'
 import { EventBus, WalletConnectStatus } from '../../types'
@@ -41,23 +41,23 @@ function cancelSignIn() {
   useSharedWalletStore().$patch({ isSsoCodePending: false })
 }
 
-function toShownError(e: unknown, context?: string) {
+const getMessage = (e: unknown) => (e instanceof Error ? e.message : String(e))
+
+function toShownError(e: unknown) {
   if (e instanceof Error && isThrownException(e)) {
     return e
   }
 
-  return new WalletException(
-    new Error(e instanceof Error ? e.message : String(e)),
-    { code: UnspecifiedErrorCode, type: ErrorType.WalletError, context }
-  )
+  return new WalletException(new Error(getMessage(e)), {
+    code: UnspecifiedErrorCode,
+    type: ErrorType.WalletError
+  })
 }
 
 function toSignInError(e: unknown) {
-  const error = toShownError(e, SIGN_IN_ERROR)
-
-  return error === e
-    ? error
-    : Object.assign(error, { reason: getSsoCodeError(e) })
+  return e instanceof Error && isThrownException(e)
+    ? e
+    : new SignInError(getSsoCodeError(e), {}, getMessage(e))
 }
 
 // Not when another wallet took over the connect
@@ -201,7 +201,7 @@ function startSignIn(
 
       return outcome
     } catch (e) {
-      if (isSsoAccountError(e)) {
+      if (isSignInAccountError(e)) {
         await signOutIfLatest()
       }
 
@@ -245,7 +245,9 @@ export const sendSsoEmailCode = async (email: string) => {
 
 // Code errors stay as they are, so the code screen can tell them apart
 const toCodeScreenError = (e: unknown) =>
-  isSsoAccountError(e) || getSsoCodeError(e) !== 'unknown' ? e : toShownError(e)
+  isSignInAccountError(e) || getSsoCodeError(e) !== 'unknown'
+    ? e
+    : toShownError(e)
 
 export const submitSsoCode = async (code: string) => {
   if (ssoSecondCode.isWaiting) {

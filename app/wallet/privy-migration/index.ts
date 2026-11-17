@@ -1,17 +1,12 @@
 import { concatBytes } from 'viem'
-import { GeneralException } from '@injectivelabs/exceptions'
 import { Wallet, TurnkeyProvider } from '@injectivelabs/wallet-base'
+import { TURNKEY_HPKE_INFO, CONTACT_HINT_MASK } from '../../utils/constant'
 import { signInToTurnkeyWithOidcToken } from '../../service/app/turnkeySignIn'
 import {
   findPrivyWallet,
   getPrivySessionUser,
   getPrivyAccessToken
 } from '../privy/client'
-import {
-  TURNKEY_HPKE_INFO,
-  CONTACT_HINT_MASK,
-  SIGN_IN_ACCOUNT_ERROR
-} from '../../utils/constant'
 import {
   initPrivyWalletImport,
   submitPrivyWalletImport
@@ -30,6 +25,7 @@ import {
   base64ToUint8Array,
   uint8ArrayToBase64
 } from '@injectivelabs/sdk-ts/utils'
+import { SignInError } from '../sign-in-error'
 import { getWalletStrategy } from '../strategy'
 import type {
   TurnkeyWallet,
@@ -43,8 +39,7 @@ import type {
   MigrationResult,
   PrivyMigrationStatus,
   TurnkeyAccountContact,
-  SignInAccountErrorReason,
-  SignInAccountErrorDetails
+  SignInAccountErrorReason
 } from '../../types'
 
 type KeyMove = { address: string; subOrgId: string; privyUserId: string }
@@ -62,21 +57,6 @@ type TurnkeySignIn = {
 const ACCOUNT_MISMATCH_CODE = 'TURNKEY_ACCOUNT_MISMATCH'
 
 const GOOGLE_RETURN_EXPECTED = 'privy-migration:google-return'
-
-/**
- * A GeneralException, so the app's error handler shows it. The product words
- * the `reason`.
- */
-export class SignInAccountError extends GeneralException {
-  constructor(
-    readonly reason: SignInAccountErrorReason,
-    readonly details: SignInAccountErrorDetails = {}
-  ) {
-    super(new Error(`Sign-in account error: ${reason}`), {
-      context: SIGN_IN_ACCOUNT_ERROR
-    })
-  }
-}
 
 async function getTurnkeyWallet() {
   const walletStrategy = await getWalletStrategy()
@@ -187,7 +167,7 @@ function getTurnkeyCodeContact(
 function toAccountMismatchError(reason: SignInAccountErrorReason) {
   return (e: unknown) =>
     (e as null | { code?: unknown })?.code === ACCOUNT_MISMATCH_CODE
-      ? new SignInAccountError(reason)
+      ? new SignInError(reason)
       : e
 }
 
@@ -278,7 +258,7 @@ async function moveKey({
 
   // Tabs share the Privy session, so another tab can have changed it
   if (user?.id !== privyUserId) {
-    throw new SignInAccountError('session_changed')
+    throw new SignInError('session_changed')
   }
 
   const accessToken = await getPrivyAccessToken()
@@ -317,7 +297,7 @@ async function sendTurnkeyCode(subOrgId: string, contact: SignInContact) {
   )
 
   if (!otpId || organizationId !== subOrgId) {
-    throw new SignInAccountError('different_account')
+    throw new SignInError('different_account')
   }
 
   // confirmOTP reads these; otpId has no setter
@@ -342,7 +322,7 @@ async function signInToTurnkeyWithCode({
     const isRetryable =
       typeof status !== 'number' || status === 429 || status >= 500
 
-    if (e instanceof SignInAccountError || !isRetryable) {
+    if (e instanceof SignInError || !isRetryable) {
       throw e
     }
 
@@ -362,7 +342,7 @@ async function signInToTurnkeyWithCode({
     if (session.organizationId !== subOrgId) {
       await strategy.disconnect().catch(() => undefined)
 
-      throw new SignInAccountError('different_account')
+      throw new SignInError('different_account')
     }
 
     return
@@ -408,7 +388,7 @@ async function signInToTurnkeyWithGoogle(subOrgId: string, idToken: string) {
   )
 
   if (!result.credentialBundle || result.organizationId !== subOrgId) {
-    throw new SignInAccountError('different_account')
+    throw new SignInError('different_account')
   }
 
   await indexedDbClient.loginWithSession(result.credentialBundle)
@@ -435,14 +415,14 @@ async function signInToTurnkey(
   }
 
   if (reverifyMethods.includes('email')) {
-    throw new SignInAccountError('use_previous_contact')
+    throw new SignInError('use_previous_contact')
   }
 
   // This layer has no phone sign-in
   throw reverifyMethods.length > 0 &&
     reverifyMethods.every((method) => method === 'sms')
-    ? new SignInAccountError('use_previous_contact', { method: 'sms' })
-    : new SignInAccountError('use_app')
+    ? new SignInError('use_previous_contact', { method: 'sms' })
+    : new SignInError('use_app')
 }
 
 /**
@@ -492,6 +472,6 @@ export async function migrate({
   const existingSignIn = status.conflict?.existingSignIn
 
   throw existingSignIn
-    ? new SignInAccountError('use_existing_sign_in', existingSignIn)
-    : new SignInAccountError('unavailable')
+    ? new SignInError('use_existing_sign_in', existingSignIn)
+    : new SignInError('unavailable')
 }

@@ -1,5 +1,6 @@
 import { createCodePrompt } from './codePrompt'
-import { SIGN_IN_ACCOUNT_ERROR } from './constant'
+import { SignInError } from '../wallet/sign-in-error'
+import type { SignInCodeErrorReason } from '../types'
 
 /**
  * What Google brought back to the site: `privy` is Privy's sign-in, `turnkey`
@@ -67,21 +68,12 @@ export function abandonSsoSignIn() {
   ssoSecondCode.cancel()
 }
 
-export function isSsoAccountError(error: unknown) {
-  return (
-    (error as null | { context?: unknown })?.context === SIGN_IN_ACCOUNT_ERROR
-  )
+export function isSignInAccountError(error: unknown): error is SignInError {
+  return error instanceof SignInError && error.isAccountError
 }
 
-export type SsoCodeError =
-  | 'expired'
-  | 'network'
-  | 'unknown'
-  | 'wrong_code'
-  | 'rate_limited'
-
 // Turnkey errors (through ui-api) only have a message, so those are read from the text
-export function getSsoCodeError(error: unknown): SsoCodeError {
+export function getSsoCodeError(error: unknown): SignInCodeErrorReason {
   const { code, status } = (error ?? {}) as { code?: unknown; status?: unknown }
   const message = error instanceof Error ? error.message : String(error)
 

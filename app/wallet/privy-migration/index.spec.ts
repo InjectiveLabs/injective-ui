@@ -1,6 +1,7 @@
 // @vitest-environment node
 
 import { vi, it, expect, describe, beforeEach } from 'vitest'
+import { SignInError } from '../sign-in-error'
 import type { PrivyMigrationStatus } from '../../types'
 
 const TURNKEY_ADDRESS = '0x1111111111111111111111111111111111111111'
@@ -40,8 +41,7 @@ const mocks = vi.hoisted(() => {
 
 vi.mock('../../utils/constant', () => ({
   CONTACT_HINT_MASK: '•••',
-  TURNKEY_HPKE_INFO: 'dHVybmtleV9ocGtl',
-  SIGN_IN_ACCOUNT_ERROR: 'sign-in-account'
+  TURNKEY_HPKE_INFO: 'dHVybmtleV9ocGtl'
 }))
 
 vi.mock('../../service/app/privyMigration', () => ({
@@ -79,7 +79,7 @@ vi.mock('../privy/client', () => ({
       : user?.wallets[0]) ?? null
 }))
 
-const { migrate, SignInAccountError } = await import('./index')
+const { migrate } = await import('./index')
 
 const askCode = vi.fn(async () => Promise.reject(new Error('code asked')))
 
@@ -286,7 +286,7 @@ describe('migrate', () => {
         turnkeySession: null,
         contact: { email: 'bob@tc.test' }
       })
-    ).rejects.toBeInstanceOf(SignInAccountError)
+    ).rejects.toBeInstanceOf(SignInError)
     expect(mocks.sendTurnkeyMoveCode).not.toHaveBeenCalled()
   })
 
@@ -306,7 +306,7 @@ describe('migrate', () => {
         turnkeySession: null,
         contact: { email: 'alice@tc.test' }
       })
-    ).rejects.toBeInstanceOf(SignInAccountError)
+    ).rejects.toBeInstanceOf(SignInError)
   })
 
   it('sends Apple-only accounts to the app', async () => {
@@ -363,7 +363,7 @@ describe('the second code', () => {
         askCode: async () => '123456',
         contact: { email: 'alice@tc.test' }
       })
-    ).rejects.toBeInstanceOf(SignInAccountError)
+    ).rejects.toBeInstanceOf(SignInError)
     expect(mocks.strategy.disconnect).toHaveBeenCalled()
     expect(mocks.strategy.getIndexedDbClient).not.toHaveBeenCalled()
   })

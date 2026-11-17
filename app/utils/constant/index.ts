@@ -60,12 +60,6 @@ export const DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS = 3
 
 export const INJ_SUPPLY_AMOUNT = 100_000_000
 
-/** The `context` of a SignInAccountError (wallet/privy-migration) */
-export const SIGN_IN_ACCOUNT_ERROR = 'sign-in-account'
-
-/** The `context` of a failed sign-in step (store/wallet/privy), worded by its `reason` */
-export const SIGN_IN_ERROR = 'sign-in'
-
 /** The mask of ui-api's email and phone hints */
 export const CONTACT_HINT_MASK = '•••'
 

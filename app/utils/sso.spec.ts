@@ -1,7 +1,8 @@
 import { it, expect, describe } from 'vitest'
+import { SignInError } from '../wallet/sign-in-error'
 import {
   getSsoCodeError,
-  isSsoAccountError,
+  isSignInAccountError,
   getSsoGoogleRedirect,
   clearSsoGoogleRedirect
 } from './sso'
@@ -41,11 +42,12 @@ describe('clearSsoGoogleRedirect', () => {
   })
 })
 
-describe('isSsoAccountError', () => {
+describe('isSignInAccountError', () => {
   it('matches only sign-in account errors', () => {
-    expect(isSsoAccountError({ context: 'sign-in-account' })).toBe(true)
-    expect(isSsoAccountError(new Error('sign-in-account'))).toBe(false)
-    expect(isSsoAccountError(null)).toBe(false)
+    expect(isSignInAccountError(new SignInError('use_app'))).toBe(true)
+    expect(isSignInAccountError(new SignInError('rate_limited'))).toBe(false)
+    expect(isSignInAccountError(new Error('sign-in-account'))).toBe(false)
+    expect(isSignInAccountError(null)).toBe(false)
   })
 })
 
