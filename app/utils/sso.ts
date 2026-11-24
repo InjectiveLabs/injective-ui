@@ -1,19 +1,12 @@
-import { createCodePrompt } from './codePrompt'
 import { SignInError } from '../wallet/sign-in-error'
 import type { SignInCodeErrorReason } from '../types'
 
-/**
- * What Google brought back to the site: `privy` is Privy's sign-in, `turnkey`
- * is Google confirming the Turnkey account of a key move.
- */
+// `turnkey` is Google confirming the Turnkey account of a key move
 export type SsoGoogleRedirect =
   | { type: 'turnkey'; idToken: string }
   | { code: string; type: 'privy'; state: string }
 
-/**
- * The Google sign-in result in the URL. Read once when the app starts: page
- * redirects drop it afterwards. Doesn't load Privy, so it's cheap on every load.
- */
+// Read once at startup: page redirects drop these URL values afterwards
 export function getSsoGoogleRedirect(
   location: Pick<Location, 'hash' | 'search'>
 ): null | SsoGoogleRedirect {
@@ -35,36 +28,18 @@ const SSO_GOOGLE_QUERY = [
   'privy_oauth_provider'
 ]
 
-export function omitSsoGoogleQuery<T>(query: Record<string, T>) {
+function omitSsoGoogleQuery<T>(query: Record<string, T>) {
   return Object.fromEntries(
     Object.entries(query).filter(([key]) => !SSO_GOOGLE_QUERY.includes(key))
   )
 }
 
-/**
- * Removes the sign-in result from the URL, so a reload can't use it twice.
- * Through the router, or its next redirect would bring the values back.
- */
+// Through the router, or its next redirect would bring the values back
 export async function clearSsoGoogleRedirect() {
   const router = useRouter()
   const { path, query } = router.currentRoute.value
 
   await router.replace({ path, hash: '', query: omitSsoGoogleQuery(query) })
-}
-
-export const ssoSecondCode = createCodePrompt()
-
-let ssoSignInId = 0
-
-export const getSsoSignInId = () => ssoSignInId
-
-/**
- * Ends the sign-in in progress, also one waiting for a second code (modal
- * closed, logout, another wallet). Here, so that it works before Privy loads.
- */
-export function abandonSsoSignIn() {
-  ssoSignInId++
-  ssoSecondCode.cancel()
 }
 
 export function isSignInAccountError(error: unknown): error is SignInError {

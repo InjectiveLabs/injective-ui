@@ -18,7 +18,7 @@ export interface AutoSign {
   isDeterministic?: boolean
 }
 
-export type SignInContact = { email?: string; phone?: string }
+export type SignInContact = { email?: string }
 
 export type TurnkeyAccountContact = { isGoogle?: boolean } & SignInContact
 
@@ -47,15 +47,11 @@ export type SignInErrorDetails = {
   method?: SignInMethod
 }
 
-/** Which Privy wallet to use: the one with this address, or a new one */
 export type MigrationResult =
   | { type: 'new_user' }
   | { type: 'ready'; address?: string }
 
-/**
- * Asks the person for the code Turnkey sent, and resolves with what they typed.
- * `error` is why their last code failed; `resend` sends a new one.
- */
+// `error` is why the last code failed
 export type AskCode = (request: {
   error?: unknown
   resend: () => Promise<void>
@@ -72,18 +68,17 @@ export type PrivyMigrationConflictReason =
 export type PrivyMigrationStatus = {
   address: null | string
   status: 'ready' | 'new_user' | 'conflict' | 'needs_migration'
+  turnkey: null | {
+    address: string
+    subOrgId: string
+    emailHint: null | string
+    reverifyMethods: string[]
+  }
   conflict: null | {
     reason: PrivyMigrationConflictReason
     existingSignIn?: {
       hint: null | string
       method: SignInMethod
     }
-  }
-  turnkey: null | {
-    address: string
-    subOrgId: string
-    emailHint: null | string
-    phoneHint: null | string
-    reverifyMethods: string[]
   }
 }

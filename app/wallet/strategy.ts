@@ -2,16 +2,14 @@ import { MsgBroadcasterWithPk } from '@injectivelabs/sdk-ts/core/tx'
 import { alchemyRpcEndpoint, getRpcUrlsForChainIds } from './utils/alchemy'
 import { WalletConnectStrategyEventType } from '@injectivelabs/wallet-base'
 import {
-  env,
   NETWORK,
   CHAIN_ID,
   ENDPOINTS,
-  IS_MAINNET,
   TURNKEY_ORGID,
   MAGIC_APK_KEY,
-  IS_TRUE_CURRENT,
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY,
+  AUTH_UI_API_ENDPOINT,
   TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from '../utils/constant'
@@ -20,17 +18,6 @@ import type {
   MsgBroadcaster,
   Web3Broadcaster
 } from '@injectivelabs/wallet-core'
-
-// VITE_AUTH_UI_API_ENDPOINT points only the sign-in routes at another ui-api
-export const TURNKEY_API_SERVER_ENDPOINT =
-  env.VITE_AUTH_UI_API_ENDPOINT ||
-  (IS_TRUE_CURRENT
-    ? IS_MAINNET
-      ? 'https://api.ui.tc.xyz/api/v1'
-      : 'https://api.ui.staging.tc.xyz/api/v1'
-    : IS_MAINNET
-      ? 'https://api.ui.injective.network/api/v1'
-      : 'https://api.ui.staging.injective.network/api/v1')
 
 const registerDefaultEventListeners = (walletStrategy: WalletStrategy) => {
   walletStrategy.on(
@@ -73,7 +60,7 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 apiBaseUrl: 'https://api.turnkey.com',
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
-                apiServerEndpoint: TURNKEY_API_SERVER_ENDPOINT,
+                apiServerEndpoint: AUTH_UI_API_ENDPOINT,
                 expirationSeconds: '86400'
               }
             })

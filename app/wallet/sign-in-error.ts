@@ -9,7 +9,7 @@ const CODE_ERROR_REASONS = new Set<SignInErrorReason>([
   'unknown'
 ])
 
-/** A failed sign-in. The app's error handler shows it; the product words the `reason` */
+// Each product words the `reason` itself
 export class SignInError extends GeneralException {
   get isAccountError() {
     return !CODE_ERROR_REASONS.has(this.reason)

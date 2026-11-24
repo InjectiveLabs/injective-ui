@@ -1,9 +1,11 @@
 import { isAxiosError } from 'axios'
 import { UiApiService } from '../../providers/uiApi'
-import { TURNKEY_SESSION_SECONDS } from '../../utils/constant'
-import { TURNKEY_API_SERVER_ENDPOINT } from '../../wallet/strategy'
+import {
+  AUTH_UI_API_ENDPOINT,
+  TURNKEY_SESSION_SECONDS
+} from '../../utils/constant'
 
-const uiApi = new UiApiService(TURNKEY_API_SERVER_ENDPOINT)
+const uiApi = new UiApiService(AUTH_UI_API_ENDPOINT)
 
 type UiApiErrorBody = { statusMessage?: string; data?: { code?: string } }
 

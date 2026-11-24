@@ -16,7 +16,6 @@ const mocks = vi.hoisted(() => {
     getWalletClient: vi.fn()
   }
   const turnkeyWallet = {
-    initSms: vi.fn(),
     confirmOTP: vi.fn(),
     getSession: vi.fn(),
     getIndexedDbClient: vi.fn(async () => ({
@@ -104,10 +103,9 @@ function needsMigration(reverifyMethods = ['email']) {
     address: TURNKEY_ADDRESS,
     turnkey: {
       reverifyMethods,
-      phoneHint: null,
       subOrgId: SUB_ORG_ID,
       address: TURNKEY_ADDRESS,
-      emailHint: 'a•••e@tc.test'
+      emailHint: 'a•••e@example.test'
     }
   })
 }
@@ -260,12 +258,12 @@ describe('migrate', () => {
         askCode,
         user: userWith(),
         turnkeySession: null,
-        contact: { email: 'Alice@tc.test' }
+        contact: { email: 'Alice@example.test' }
       })
     ).rejects.toThrow('code asked')
 
     expect(mocks.sendTurnkeyMoveCode).toHaveBeenCalledWith('access-token', {
-      email: 'alice@tc.test',
+      email: 'alice@example.test',
       targetPublicKey: 'target-public-key',
       isUsingIndexedDB: true
     })
@@ -284,7 +282,7 @@ describe('migrate', () => {
         askCode,
         user: userWith(),
         turnkeySession: null,
-        contact: { email: 'bob@tc.test' }
+        contact: { email: 'bob@example.test' }
       })
     ).rejects.toBeInstanceOf(SignInError)
     expect(mocks.sendTurnkeyMoveCode).not.toHaveBeenCalled()
@@ -304,7 +302,7 @@ describe('migrate', () => {
         askCode,
         user: userWith(),
         turnkeySession: null,
-        contact: { email: 'alice@tc.test' }
+        contact: { email: 'alice@example.test' }
       })
     ).rejects.toBeInstanceOf(SignInError)
   })
@@ -317,7 +315,7 @@ describe('migrate', () => {
         askCode,
         user: userWith(),
         turnkeySession: null,
-        contact: { email: 'alice@tc.test' }
+        contact: { email: 'alice@example.test' }
       })
     ).rejects.toMatchObject({ reason: 'use_app' })
   })
@@ -330,13 +328,12 @@ describe('migrate', () => {
         askCode,
         user: userWith(),
         turnkeySession: null,
-        contact: { email: 'alice@tc.test' }
+        contact: { email: 'alice@example.test' }
       })
     ).rejects.toMatchObject({
       reason: 'use_previous_contact',
       details: { method: 'sms' }
     })
-    expect(mocks.turnkeyWallet.initSms).not.toHaveBeenCalled()
   })
 })
 
@@ -361,7 +358,7 @@ describe('the second code', () => {
         user: userWith(),
         turnkeySession: null,
         askCode: async () => '123456',
-        contact: { email: 'alice@tc.test' }
+        contact: { email: 'alice@example.test' }
       })
     ).rejects.toBeInstanceOf(SignInError)
     expect(mocks.strategy.disconnect).toHaveBeenCalled()

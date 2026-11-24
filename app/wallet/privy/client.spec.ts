@@ -129,13 +129,13 @@ describe('getPrivyClient', () => {
       code: 'missing_or_invalid_token'
     })
 
-    const sent = sendPrivyEmailCode('alice@tc.test')
+    const sent = sendPrivyEmailCode('alice@example.test')
 
     await vi.advanceTimersByTimeAsync(0)
     frames[0]?.onload?.()
     await sent
 
-    expect(mocks.sendCode).toHaveBeenCalledWith('alice@tc.test')
+    expect(mocks.sendCode).toHaveBeenCalledWith('alice@example.test')
     expect(mocks.logout).not.toHaveBeenCalled()
   })
 })

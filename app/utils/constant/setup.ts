@@ -20,8 +20,6 @@ export const env = {
   VITE_INDEXER_API_ENDPOINT: import.meta.env
     .VITE_INDEXER_API_ENDPOINT as string,
   VITE_UI_API_ENDPOINT: import.meta.env.VITE_UI_API_ENDPOINT as string,
-  VITE_AUTH_UI_API_ENDPOINT: import.meta.env
-    .VITE_AUTH_UI_API_ENDPOINT as string,
   VITE_CHRONOS_API_ENDPOINT: import.meta.env
     .VITE_CHRONOS_API_ENDPOINT as string,
   VITE_SENTRY_GRPC_ENDPOINT: import.meta.env
@@ -183,3 +181,15 @@ export const IS_ADMIN_UI = PRODUCT === 'admin'
 export const IS_EXPLORER = PRODUCT === 'explorer'
 export const IS_TRADING_UI = PRODUCT === 'trading'
 export const IS_TRUE_CURRENT = PRODUCT === 'truecurrent'
+
+// Sign-in routes (Turnkey and the key move) use staging ui-api off mainnet.
+// VITE_UI_API_ENDPOINT moves them only in apps with Privy; the others keep their Turnkey host
+export const AUTH_UI_API_ENDPOINT =
+  (PRIVY_APP_ID && env.VITE_UI_API_ENDPOINT) ||
+  (IS_TRUE_CURRENT
+    ? IS_MAINNET
+      ? 'https://api.ui.tc.xyz/api/v1'
+      : 'https://api.ui.staging.tc.xyz/api/v1'
+    : IS_MAINNET
+      ? 'https://api.ui.injective.network/api/v1'
+      : 'https://api.ui.staging.injective.network/api/v1')

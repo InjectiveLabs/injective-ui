@@ -202,10 +202,7 @@ export function findPrivyWallet(
   return wallets[0] ?? null
 }
 
-/**
- * The user's embedded wallet with this address. Reads the user again when the
- * copy given lacks it, e.g. right after a key was imported.
- */
+// Reads the user again when the copy given lacks the wallet, e.g. right after a key was imported
 export async function getPrivyWallet(
   user: null | PrivyUser,
   address?: string

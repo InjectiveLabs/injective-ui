@@ -60,7 +60,6 @@ export const DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS = 3
 
 export const INJ_SUPPLY_AMOUNT = 100_000_000
 
-/** The mask of ui-api's email and phone hints */
 export const CONTACT_HINT_MASK = '•••'
 
 export const TURNKEY_SESSION_SECONDS = '86400'

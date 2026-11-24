@@ -65,7 +65,7 @@ const dynamicComponent = defineAsyncComponent<Record<string, unknown>>(() => {
     name = 'wallet/ledger'
   }
 
-  if (name.includes('turnkey')) {
+  if (name.includes('turnkey') || name.includes('privy')) {
     name = 'wallet/turnkey'
   }
 

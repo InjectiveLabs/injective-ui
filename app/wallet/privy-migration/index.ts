@@ -42,7 +42,12 @@ import type {
   SignInAccountErrorReason
 } from '../../types'
 
-type KeyMove = { address: string; subOrgId: string; privyUserId: string }
+type KeyMove = {
+  address: string
+  subOrgId: string
+  privyUserId: string
+  onKeyMove?: () => void
+}
 
 type TurnkeyAccount = NonNullable<PrivyMigrationStatus['turnkey']>
 
@@ -51,6 +56,7 @@ type TurnkeySignIn = {
   contact: SignInContact
   googleIdToken?: string
   isGoogleSignIn?: boolean
+  onLeaveForGoogle?: () => void
 }
 
 const ACCOUNT_MISMATCH_CODE = 'TURNKEY_ACCOUNT_MISMATCH'
@@ -93,10 +99,6 @@ export async function getTurnkeySessionContact(): Promise<null | TurnkeyAccountC
       return { isGoogle, email: user.userEmail }
     }
 
-    if (user.userPhoneNumber) {
-      return { phone: user.userPhoneNumber }
-    }
-
     return isGoogle ? { isGoogle } : null
   } catch {
     return null
@@ -131,12 +133,6 @@ function maskEmail(email: string) {
     : `${local[0]}${CONTACT_HINT_MASK}${last}@${email.slice(at + 1)}`
 }
 
-function maskPhone(phone: string) {
-  const digits = phone.replace(/\D/g, '')
-
-  return digits.length >= 4 ? `•••• ${digits.slice(-4)}` : '••••'
-}
-
 function getTurnkeyCodeContact(
   turnkey: TurnkeyAccount,
   contact: SignInContact
@@ -149,14 +145,6 @@ function getTurnkeyCodeContact(
     maskEmail(email) === turnkey.emailHint?.toLowerCase()
   ) {
     return { email }
-  }
-
-  if (
-    contact.phone &&
-    turnkey.reverifyMethods.includes('sms') &&
-    maskPhone(contact.phone) === turnkey.phoneHint
-  ) {
-    return { phone: contact.phone }
   }
 
   return null
@@ -246,20 +234,37 @@ async function importTurnkeyKey({
   )
 }
 
+// Unverified: ui-api verifies the token
+function getTokenUserId(accessToken: string) {
+  try {
+    const payload = accessToken.split('.')[1] ?? ''
+
+    return (
+      JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/'))) as {
+        sub?: unknown
+      }
+    ).sub
+  } catch {
+    return undefined
+  }
+}
+
 async function moveKey({
   address,
   subOrgId,
-  privyUserId
+  privyUserId,
+  onKeyMove
 }: KeyMove): Promise<MigrationResult> {
   const { strategy } = await getTurnkeyWallet()
+  // Tabs share the Privy session: one token, checked to be this user's
+  const accessToken = await getPrivyAccessToken()
   const user = await getPrivySessionUser()
 
-  // Tabs share the Privy session, so another tab can have changed it
-  if (user?.id !== privyUserId) {
+  if (getTokenUserId(accessToken) !== privyUserId || user?.id !== privyUserId) {
     throw new SignInError('session_changed')
   }
 
-  const accessToken = await getPrivyAccessToken()
+  onKeyMove?.()
 
   // Privy refuses to import the same address twice, e.g. on a retry
   if (!findPrivyWallet(user, address)) {
@@ -359,20 +364,20 @@ export function takeTurnkeyGoogleReturn() {
   return isExpected
 }
 
-async function leaveForTurnkeyGoogle(): Promise<never> {
+async function leaveForTurnkeyGoogle(
+  onLeaveForGoogle?: () => void
+): Promise<never> {
   const { turnkeyWallet } = await getTurnkeyWallet()
   const url = await turnkeyWallet.initOAuth(TurnkeyProvider.Google)
 
+  // Last, so a sign-in cancelled while the URL was built doesn't leave
+  onLeaveForGoogle?.()
   sessionStorage.setItem(GOOGLE_RETURN_EXPECTED, '1')
   window.location.assign(url)
 
   return new Promise<never>(() => undefined)
 }
 
-/**
- * Like the old web's Google sign-in (wallet-turnkey's confirmOAuth), but for
- * the expected account only. Google bound the token to this browser's key.
- */
 async function signInToTurnkeyWithGoogle(subOrgId: string, idToken: string) {
   const { turnkeyWallet } = await getTurnkeyWallet()
   const indexedDbClient = await turnkeyWallet.getIndexedDbClient()
@@ -395,7 +400,13 @@ async function signInToTurnkeyWithGoogle(subOrgId: string, idToken: string) {
 
 async function signInToTurnkey(
   turnkey: TurnkeyAccount,
-  { contact, askCode, isGoogleSignIn, googleIdToken }: TurnkeySignIn
+  {
+    contact,
+    askCode,
+    isGoogleSignIn,
+    googleIdToken,
+    onLeaveForGoogle
+  }: TurnkeySignIn
 ) {
   const { subOrgId, reverifyMethods } = turnkey
   const codeContact = getTurnkeyCodeContact(turnkey, contact)
@@ -405,7 +416,7 @@ async function signInToTurnkey(
   }
 
   if (reverifyMethods.includes('google') && (isGoogleSignIn || !codeContact)) {
-    return leaveForTurnkeyGoogle()
+    return leaveForTurnkeyGoogle(onLeaveForGoogle)
   }
 
   if (codeContact) {
@@ -423,17 +434,14 @@ async function signInToTurnkey(
     : new SignInError('use_app')
 }
 
-/**
- * Moves the Turnkey key into the signed-in Privy user unless it is moved
- * already, and returns which Privy wallet to use. Every check is here.
- * Without a Turnkey session for the account, the person signs in to it first.
- */
 export async function migrate({
   user,
+  onKeyMove,
   turnkeySession,
   ...turnkeySignIn
 }: {
   user: PrivyUser
+  onKeyMove?: () => void
   turnkeySession: null | string
 } & TurnkeySignIn): Promise<MigrationResult> {
   const status = await fetchPrivyMigrationStatus(await getPrivyAccessToken())
@@ -463,7 +471,7 @@ export async function migrate({
       await signInToTurnkey(status.turnkey, turnkeySignIn)
     }
 
-    return moveKey({ address, subOrgId, privyUserId: user.id })
+    return moveKey({ address, subOrgId, onKeyMove, privyUserId: user.id })
   }
 
   const existingSignIn = status.conflict?.existingSignIn
