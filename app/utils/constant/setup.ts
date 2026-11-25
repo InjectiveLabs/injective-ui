@@ -176,3 +176,20 @@ export const IS_ADMIN_UI = PRODUCT === 'admin'
 export const IS_EXPLORER = PRODUCT === 'explorer'
 export const IS_TRADING_UI = PRODUCT === 'trading'
 export const IS_TRUE_CURRENT = PRODUCT === 'truecurrent'
+
+// PRODUCT → chainUpgrade.json key that forces that product into maintenance
+export const CHAIN_MAINTENANCE_PRODUCT_MAP = {
+  hub: 'hub',
+  helix: 'helix',
+  bridge: 'bridge',
+  explorer: 'explorer',
+  truecurrent: 'trueCurrent'
+} as const
+
+export type ChainMaintenanceProduct =
+  (typeof CHAIN_MAINTENANCE_PRODUCT_MAP)[keyof typeof CHAIN_MAINTENANCE_PRODUCT_MAP]
+
+export const CHAIN_MAINTENANCE_PRODUCT: undefined | ChainMaintenanceProduct =
+  CHAIN_MAINTENANCE_PRODUCT_MAP[
+    PRODUCT as keyof typeof CHAIN_MAINTENANCE_PRODUCT_MAP
+  ]
