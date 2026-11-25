@@ -4,7 +4,9 @@ import {
   IS_DEVNET,
   IS_MAINNET,
   IS_TESTNET,
-  MAINTENANCE_DISABLED
+  MAINTENANCE_DISABLED,
+  CHAIN_MAINTENANCE_PRODUCT,
+  CHAIN_MAINTENANCE_PRODUCT_MAP
 } from '../utils/constant'
 import { tokenStaticFactory, getIndexerRestExplorerApi } from '../service'
 import type {
@@ -19,7 +21,9 @@ import type {
   JsonGridMarket,
   JsonSwapRouteRaw,
   JsonChainUpgrade,
-  JsonHelixCategory
+  JsonHelixCategory,
+  JsonChainUpgradeUpdate,
+  JsonChainMaintenanceOverrides
 } from '../types'
 
 // const CLOUD_FRONT_URL = 'https://d36789lqgasyke.cloudfront.net'
@@ -50,8 +54,14 @@ export type JsonStoreState = {
   verifiedSpotMarketMap: Record<string, string>
   chainUpgradeConfig: undefined | JsonChainUpgrade
   verifiedDerivativeMarketMap: Record<string, string>
+  chainMaintenanceOverrides: JsonChainMaintenanceOverrides
   blockHeightPollingMap: Record<number, null | NodeJS.Timeout>
 }
+
+const POST_UPGRADE_BLOCKS = 2000
+const CHAIN_MAINTENANCE_PRODUCTS = Object.values(CHAIN_MAINTENANCE_PRODUCT_MAP)
+let chainUpgradeRequestId = 0
+let appliedChainUpgradeRequestId = 0
 
 const getNetworkName = () => {
   if (IS_MAINNET) {
@@ -68,30 +78,68 @@ const getNetworkName = () => {
 const isPositiveInteger = (value: unknown): value is number =>
   typeof value === 'number' && Number.isInteger(value) && value > 0
 
-export const toChainUpgradeConfig = (
-  raw: unknown
-): undefined | JsonChainUpgrade => {
-  if (!raw || typeof raw !== 'object') {
-    return
+export const toChainUpgradeConfig = (raw: unknown): JsonChainUpgradeUpdate => {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    return { type: 'invalid' }
   }
 
-  const { proposalId, proposalMsg, blockHeight, disableMaintenance } =
-    raw as Record<string, unknown>
-
-  if (typeof proposalMsg !== 'string' || !proposalMsg.trim()) {
-    return
+  if (Object.keys(raw).length === 0) {
+    return { type: 'removed' }
   }
 
-  if (!isPositiveInteger(blockHeight)) {
-    return
+  const fields = raw as Record<string, unknown>
+  const { proposalId, proposalMsg, blockHeight, disableMaintenance } = fields
+  const overrides: JsonChainMaintenanceOverrides = {}
+
+  for (const product of CHAIN_MAINTENANCE_PRODUCTS) {
+    const value = fields[product]
+
+    if (value === undefined) {
+      continue
+    }
+
+    // A malformed flag rejects the update so an active override is kept.
+    if (typeof value !== 'boolean') {
+      return { type: 'invalid' }
+    }
+
+    overrides[product] = value
   }
 
-  return {
-    proposalMsg,
-    blockHeight,
-    disableMaintenance: Boolean(disableMaintenance),
-    proposalId: isPositiveInteger(proposalId) ? proposalId : undefined
+  if (
+    typeof proposalMsg === 'string' &&
+    proposalMsg.trim() &&
+    isPositiveInteger(blockHeight)
+  ) {
+    return {
+      type: 'config',
+      overrides,
+      schedule: {
+        proposalMsg,
+        blockHeight,
+        disableMaintenance: Boolean(disableMaintenance),
+        proposalId: isPositiveInteger(proposalId) ? proposalId : undefined
+      }
+    }
   }
+
+  const hasSchedule = blockHeight !== undefined || proposalMsg !== undefined
+
+  if (hasSchedule || Object.keys(overrides).length === 0) {
+    return { type: 'invalid' }
+  }
+
+  return { type: 'config', overrides }
+}
+
+const fetchLatestBlockHeight = async () => {
+  const indexerRestExplorerApi = await getIndexerRestExplorerApi()
+
+  const {
+    paging: { total }
+  } = await indexerRestExplorerApi.fetchBlocks({ limit: 1 })
+
+  return total
 }
 
 export const useSharedJsonStore = defineStore('sharedJson', {
@@ -115,6 +163,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     blockHeightPollingMap: {},
     verifiedDerivativeMarketMap: {},
     chainUpgradeConfig: undefined,
+    chainMaintenanceOverrides: {},
     helixMarketCategory: {} as JsonHelixCategory
   }),
 
@@ -147,7 +196,7 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     isPostUpgradeMode: ({ chainUpgradeConfig: config, latestBlockHeight }) =>
       !!config &&
       config.blockHeight < latestBlockHeight &&
-      config.blockHeight + 2000 >= latestBlockHeight,
+      config.blockHeight + POST_UPGRADE_BLOCKS >= latestBlockHeight,
 
     hasUpcomingChainUpgrade: ({
       chainUpgradeConfig: config,
@@ -158,8 +207,20 @@ export const useSharedJsonStore = defineStore('sharedJson', {
       !config.disableMaintenance &&
       config.blockHeight > latestBlockHeight,
 
-    isMaintenanceMode: ({ chainUpgradeConfig: config, latestBlockHeight }) => {
-      if (!config || MAINTENANCE_DISABLED || config.disableMaintenance) {
+    isMaintenanceMode: ({
+      latestBlockHeight,
+      chainUpgradeConfig: config,
+      chainMaintenanceOverrides: overrides
+    }) => {
+      if (MAINTENANCE_DISABLED) {
+        return false
+      }
+
+      if (CHAIN_MAINTENANCE_PRODUCT && overrides[CHAIN_MAINTENANCE_PRODUCT]) {
+        return true
+      }
+
+      if (!config || config.disableMaintenance) {
         return false
       }
 
@@ -384,31 +445,45 @@ export const useSharedJsonStore = defineStore('sharedJson', {
         return
       }
 
-      const stopPolling = () => {
-        if (jsonStore.blockHeightPollingMap[heightToPoll]) {
-          clearInterval(jsonStore.blockHeightPollingMap[heightToPoll])
-          jsonStore.blockHeightPollingMap[heightToPoll] = null
-        }
-      }
+      jsonStore.cancelBlockHeightPolling()
 
       const poll = async () => {
-        const indexerRestExplorerApi = await getIndexerRestExplorerApi()
+        try {
+          const latestBlockHeight = await fetchLatestBlockHeight()
 
-        const {
-          paging: { total: latestBlockHeight }
-        } = await indexerRestExplorerApi.fetchBlocks({ limit: 1 })
+          // Heights only grow, so a slow overlapping tick can't roll state back.
+          jsonStore.latestBlockHeight = Math.max(
+            jsonStore.latestBlockHeight,
+            latestBlockHeight
+          )
 
-        jsonStore.latestBlockHeight = latestBlockHeight
-
-        if (latestBlockHeight >= heightToPoll) {
-          stopPolling()
+          // A late tick from a replaced poll must not cancel its replacement.
+          if (
+            latestBlockHeight >= heightToPoll &&
+            jsonStore.blockHeightPollingMap[heightToPoll]
+          ) {
+            jsonStore.cancelBlockHeightPolling()
+          }
+        } catch {
+          // silently catch, retry on the next interval
         }
       }
 
-      jsonStore.blockHeightPollingMap[heightToPoll] = setInterval(
-        async () => await poll(),
-        POLL_INTERVAL
-      )
+      jsonStore.blockHeightPollingMap[heightToPoll] = setInterval(() => {
+        void poll()
+      }, POLL_INTERVAL)
+    },
+
+    cancelBlockHeightPolling() {
+      const jsonStore = useSharedJsonStore()
+
+      Object.values(jsonStore.blockHeightPollingMap).forEach((interval) => {
+        if (interval) {
+          clearInterval(interval)
+        }
+      })
+
+      jsonStore.blockHeightPollingMap = {}
     },
 
     async fetchDerivativeGridMarkets() {
@@ -461,44 +536,79 @@ export const useSharedJsonStore = defineStore('sharedJson', {
     },
 
     async fetchChainUpgradeConfig() {
-      let latestBlockHeight = 0
-
       if (!IS_MAINNET) {
         return
       }
 
-      const indexerRestExplorerApi = await getIndexerRestExplorerApi()
-
       const jsonStore = useSharedJsonStore()
+      const requestId = ++chainUpgradeRequestId
 
       const { data } = (await client.get('json/config/chainUpgrade.json')) as {
         data: unknown
       }
 
-      const config = toChainUpgradeConfig(data)
+      const update = toChainUpgradeConfig(data)
 
-      try {
-        const {
-          paging: { total }
-        } = await indexerRestExplorerApi.fetchBlocks({
-          limit: 1
-        })
-
-        latestBlockHeight = total
-        jsonStore.latestBlockHeight = latestBlockHeight
-      } catch {
-        // silently throw
-      }
-
-      if (!config) {
+      // Ignore an invalid update or a response older than the applied one.
+      if (
+        update.type === 'invalid' ||
+        requestId < appliedChainUpgradeRequestId
+      ) {
         return
       }
 
-      if (config.blockHeight > latestBlockHeight) {
-        jsonStore.pollBlockHeight(config.blockHeight + 2000)
+      appliedChainUpgradeRequestId = requestId
+
+      const { overrides, schedule } =
+        update.type === 'config'
+          ? update
+          : { overrides: {}, schedule: undefined }
+
+      if (!schedule) {
+        jsonStore.$patch((state) => {
+          state.chainUpgradeConfig = undefined
+          state.chainMaintenanceOverrides = overrides
+        })
+        jsonStore.cancelBlockHeightPolling()
+
+        return
       }
 
-      jsonStore.chainUpgradeConfig = config
+      // Enable overrides now. Clear them with the schedule so that an active
+      // upgrade does not briefly leave maintenance.
+      const enabledOverrides = Object.fromEntries(
+        Object.entries(overrides).filter(([, isEnabled]) => isEnabled)
+      )
+
+      jsonStore.chainMaintenanceOverrides = {
+        ...jsonStore.chainMaintenanceOverrides,
+        ...enabledOverrides
+      }
+
+      // Commit the schedule only together with the block height it is
+      // evaluated against. A failed lookup keeps the last known height.
+      const latestBlockHeight = await fetchLatestBlockHeight().catch(
+        () => jsonStore.latestBlockHeight
+      )
+
+      if (requestId !== appliedChainUpgradeRequestId) {
+        return
+      }
+
+      jsonStore.$patch((state) => {
+        state.latestBlockHeight = latestBlockHeight
+        state.chainUpgradeConfig = schedule
+        state.chainMaintenanceOverrides = overrides
+      })
+
+      // Track the height until the block after the post-upgrade window.
+      const postUpgradeEndHeight = schedule.blockHeight + POST_UPGRADE_BLOCKS + 1
+
+      if (latestBlockHeight < postUpgradeEndHeight) {
+        jsonStore.pollBlockHeight(postUpgradeEndHeight)
+      } else {
+        jsonStore.cancelBlockHeightPolling()
+      }
     }
   }
 })
