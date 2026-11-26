@@ -5,12 +5,11 @@ import {
   NETWORK,
   CHAIN_ID,
   ENDPOINTS,
-  IS_MAINNET,
   TURNKEY_ORGID,
   MAGIC_APK_KEY,
-  IS_TRUE_CURRENT,
   ETHEREUM_CHAIN_ID,
   FEE_PAYER_PUB_KEY,
+  AUTH_UI_API_ENDPOINT,
   TURNKEY_GOOGLE_CLIENT_ID,
   WALLET_CONNECT_PROJECT_ID
 } from '../utils/constant'
@@ -61,13 +60,7 @@ export const getWalletStrategy = (): Promise<WalletStrategy> => {
                 apiBaseUrl: 'https://api.turnkey.com',
                 googleClientId: TURNKEY_GOOGLE_CLIENT_ID,
                 googleRedirectUri: window.location.origin,
-                apiServerEndpoint: IS_TRUE_CURRENT
-                  ? IS_MAINNET
-                    ? 'https://api.ui.tc.xyz/api/v1'
-                    : 'https://api.ui.staging.tc.xyz/api/v1'
-                  : IS_MAINNET
-                    ? 'https://api.ui.injective.network/api/v1'
-                    : 'https://api.ui.staging.injective.network/api/v1',
+                apiServerEndpoint: AUTH_UI_API_ENDPOINT,
                 expirationSeconds: '86400'
               }
             })

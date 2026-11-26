@@ -166,6 +166,11 @@ export const TURNKEY_ORGID = import.meta.env.VITE_TURNKEY_ORGID
 export const TURNKEY_GOOGLE_CLIENT_ID = import.meta.env
   .VITE_TURNKEY_GOOGLE_CLIENT_ID
 
+export const PRIVY_APP_ID = (import.meta.env.VITE_PRIVY_APP_ID || '') as string
+export const PRIVY_CLIENT_ID = (import.meta.env.VITE_PRIVY_CLIENT_ID ||
+  '') as string
+export const PRIVY_AUTH_API_URL = 'https://auth.privy.io/api/v1'
+
 export const PRODUCT = env.VITE_PRODUCT || 'injective'
 export const IS_HUB = PRODUCT === 'hub'
 export const IS_MITO = PRODUCT === 'mito'
@@ -176,6 +181,18 @@ export const IS_ADMIN_UI = PRODUCT === 'admin'
 export const IS_EXPLORER = PRODUCT === 'explorer'
 export const IS_TRADING_UI = PRODUCT === 'trading'
 export const IS_TRUE_CURRENT = PRODUCT === 'truecurrent'
+
+// Sign-in routes (Turnkey and the key move) use staging ui-api off mainnet.
+// VITE_UI_API_ENDPOINT moves them only in apps with Privy; the others keep their Turnkey host
+export const AUTH_UI_API_ENDPOINT =
+  (PRIVY_APP_ID && env.VITE_UI_API_ENDPOINT) ||
+  (IS_TRUE_CURRENT
+    ? IS_MAINNET
+      ? 'https://api.ui.tc.xyz/api/v1'
+      : 'https://api.ui.staging.tc.xyz/api/v1'
+    : IS_MAINNET
+      ? 'https://api.ui.injective.network/api/v1'
+      : 'https://api.ui.staging.injective.network/api/v1')
 
 // PRODUCT → chainUpgrade.json key that forces that product into maintenance
 export const CHAIN_MAINTENANCE_PRODUCT_MAP = {

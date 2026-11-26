@@ -59,3 +59,10 @@ export const DEFAULT_SUBSCRIPT_DECIMALS = 4
 export const DEFAULT_SUBSCRIPT_THRESHOLD_DECIMALS = 3
 
 export const INJ_SUPPLY_AMOUNT = 100_000_000
+
+export const CONTACT_HINT_MASK = '•••'
+
+export const TURNKEY_SESSION_SECONDS = '86400'
+
+/** base64 of "turnkey_hpke": the HPKE info Turnkey uses for export bundles. */
+export const TURNKEY_HPKE_INFO = 'dHVybmtleV9ocGtl'
