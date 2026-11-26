@@ -193,3 +193,20 @@ export const AUTH_UI_API_ENDPOINT =
     : IS_MAINNET
       ? 'https://api.ui.injective.network/api/v1'
       : 'https://api.ui.staging.injective.network/api/v1')
+
+// PRODUCT → chainUpgrade.json key that forces that product into maintenance
+export const CHAIN_MAINTENANCE_PRODUCT_MAP = {
+  hub: 'hub',
+  helix: 'helix',
+  bridge: 'bridge',
+  explorer: 'explorer',
+  truecurrent: 'trueCurrent'
+} as const
+
+export type ChainMaintenanceProduct =
+  (typeof CHAIN_MAINTENANCE_PRODUCT_MAP)[keyof typeof CHAIN_MAINTENANCE_PRODUCT_MAP]
+
+export const CHAIN_MAINTENANCE_PRODUCT: undefined | ChainMaintenanceProduct =
+  CHAIN_MAINTENANCE_PRODUCT_MAP[
+    PRODUCT as keyof typeof CHAIN_MAINTENANCE_PRODUCT_MAP
+  ]

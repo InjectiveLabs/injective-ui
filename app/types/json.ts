@@ -1,3 +1,5 @@
+import type { ChainMaintenanceProduct } from '../utils/constant'
+
 export type JsonSlugMarketId = {
   slug: string
   marketId: string
@@ -33,6 +35,19 @@ export type JsonChainUpgrade = {
   blockHeight: number
   disableMaintenance: boolean
 }
+
+export type JsonChainMaintenanceOverrides = Partial<
+  Record<ChainMaintenanceProduct, boolean>
+>
+
+export type JsonChainUpgradeUpdate =
+  | { type: 'invalid' }
+  | { type: 'removed' }
+  | {
+      type: 'config'
+      schedule?: JsonChainUpgrade
+      overrides: JsonChainMaintenanceOverrides
+    }
 
 export type JsonEvmToken = {
   name: string
